@@ -1,0 +1,16 @@
+# Dependências (instale com npm/pip; ver video/README)
+node_modules/
+video/.venv-tts/
+__pycache__/
+
+# Mídia pesada gerada pelos scripts (recriável com video/scripts/capture.mjs e build_timeline.py)
+video/remotion/public/footage/
+video/remotion/public/voice/
+video/remotion/public/stills/
+video/remotion/out/
+video/out/
+
+# Mídia de terceiros baixada (recriável a partir de catalog.json / music.json)
+video/remotion/public/gifs/*.gif
+video/remotion/public/gifs/*.mp4
+video/remotion/public/music/*.mp3

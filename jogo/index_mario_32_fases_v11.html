@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11191b"><meta name="description" content="IA adaptativa em 32 fases de plataforma. Ensine jogando, treine uma população sem checkpoints e ajuste as recompensas no celular.">
+<title>Mario RL Lab</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2311191b'/%3E%3Cpath d='M7 9h18v6H7zM11 5h10v4H11z' fill='%23f5cf60'/%3E%3Cpath d='M9 17h14v9H9z' fill='%239de3a4'/%3E%3C/svg%3E">
+<style>
+:root{color-scheme:dark;--bg:#11191b;--panel:#1c2526;--line:#354040;--ink:#f0f3df;--muted:#a7b5b0;--lime:#b9ed88;--gold:#f1cf6c;--red:#ff8c80;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button,select{cursor:pointer}button{min-height:44px;border:1px solid var(--line);border-radius:8px;background:#263233;color:var(--ink);padding:10px 16px;font-size:14px;font-weight:650;transition:background .15s}button:hover{background:#344343}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}button:disabled{opacity:.45;cursor:default}button.primary{background:var(--lime);color:#172219;border-color:var(--lime)}button.primary:hover{background:#cef6a8}button.icon{width:44px;padding:9px}button svg{display:block;width:20px;height:20px;margin:auto}a{color:var(--lime)}.shell{max-width:1500px;margin:auto;padding:22px 30px 26px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.brandmark{width:38px;height:38px;background:var(--gold);display:grid;place-items:center;color:#172219;font:800 22px monospace;border-radius:5px}.brand h1{font-size:20px;letter-spacing:-.6px;margin:0}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:2px;letter-spacing:1.5px;text-transform:uppercase}.top-meta{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:12px}.chip{border:1px solid var(--line);padding:6px 10px;border-radius:5px;font:12px ui-monospace,monospace;color:var(--gold)}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px}.main{min-width:0}.gamebox{border:1px solid #455652;border-radius:10px;overflow:hidden;background:#80c9ee;position:relative}.game-head{background:#20312e;display:flex;align-items:center;justify-content:space-between;padding:11px 16px;gap:10px;font-size:13px}.game-head strong{font-family:ui-monospace,monospace;letter-spacing:1.5px}.game-head span{color:#b8cbc2}.game-viewport{height:clamp(290px,35vw,485px);position:relative;touch-action:pan-y}#game{display:block;width:100%;height:100%;image-rendering:pixelated}.world-hud{position:absolute;left:16px;right:16px;top:14px;display:flex;justify-content:space-between;gap:10px;pointer-events:none;color:#fff7da;text-shadow:2px 2px #203a4c;font:700 12px ui-monospace,monospace;letter-spacing:1px}.world-hud b{font-size:16px;display:block;margin-top:3px}.game-toast{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);padding:12px 18px;border:1px solid #637866;border-radius:8px;background:#15271aee;color:#ecffd5;max-width:90%;text-align:center;font-size:14px;pointer-events:none;opacity:0;transition:opacity .2s}.game-toast.show{opacity:1}.game-foot{flex-wrap:wrap;background:#20312e;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:10px;font-size:12px;color:#bacac0}.legend{display:flex;gap:16px}.legend i{display:inline-block;width:8px;height:8px;background:var(--gold);margin-right:6px;border-radius:2px}.legend .other{background:#a8d9d5}.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:16px 0}.buttons{display:flex;gap:8px}.segmented{display:flex;gap:3px;background:#1c2526;border:1px solid var(--line);padding:4px;border-radius:9px}.segmented button{border:0;background:transparent;min-height:36px;padding:8px 14px;font-size:14px}.segmented button.active{background:#354342;color:var(--lime)}.speedline{display:flex;align-items:center;gap:10px;flex:1;max-width:290px}.speedline label{font-size:14px;color:var(--muted);white-space:nowrap}.speedline input{min-width:50px;flex:1}.speedline output{font:700 16px ui-monospace,monospace;color:var(--gold);min-width:60px}.cards{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:16px;background:var(--panel)}.stat{padding:17px 18px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat small{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.stat strong{font:600 27px ui-monospace,monospace;letter-spacing:-1.5px}.stat strong em{font-size:14px;color:var(--muted);font-style:normal;letter-spacing:0}.chart-panel{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:17px 18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h2{font-size:14px;margin:0;font-weight:650}.section-head span{font-size:12px;color:var(--muted)}#chart{width:100%;height:120px;display:block}.chart-legend{font-size:12px;color:var(--muted);display:flex;gap:18px;margin-top:8px}.chart-legend b{font-weight:400}.chart-legend i{display:inline-block;width:15px;height:2px;background:var(--lime);vertical-align:middle;margin-right:6px}.chart-legend .mean{background:#748f89}.side{display:flex;flex-direction:column;gap:16px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:18px}.panel h2{font-size:16px;margin:0 0 16px}.field{margin-bottom:17px}.field:last-child{margin-bottom:0}.field label{font-size:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;color:#d8e1d4}.field label output{font:600 14px ui-monospace,monospace;color:var(--lime)}input[type=range]{accent-color:var(--lime);width:100%;height:20px;cursor:pointer}select{background:#263233;border:1px solid #46534f;border-radius:6px;color:var(--ink);min-height:44px;width:100%;padding:8px 10px;font-size:14px}.helper{font-size:12px;color:var(--muted);line-height:1.5;margin:7px 0 0}.reward-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #303d39;font-size:14px}.reward-row:last-child{border:0}.reward-row input{width:72px;padding:6px 7px;border:1px solid #46534f;border-radius:5px;background:#14211d;color:var(--lime);font:600 14px ui-monospace,monospace;text-align:right}.reward-row.negative input{color:var(--red)}.reward-desc{font-size:12px;color:var(--muted);margin:13px 0 0;line-height:1.55}.leader-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;font-size:13px;border-bottom:1px solid #303d39}.leader-row:last-child{border:0}.leader-row .id{font:12px ui-monospace,monospace;color:var(--muted)}.leader-row .fit{font:600 14px ui-monospace,monospace;color:var(--gold)}.leader-bar{width:65px;height:4px;background:#33453a;border-radius:2px;overflow:hidden}.leader-bar i{height:4px;background:var(--lime);display:block}.side .section-head{margin-bottom:8px}.side .section-head h2{font-size:16px}.explain{margin:16px 0 0;color:var(--muted);font-size:13px;line-height:1.6}.explain summary{color:#d3e0d6;cursor:pointer;padding:7px 0}.explain p{margin:9px 0}.status-footer{display:flex;justify-content:space-between;gap:12px;margin-top:20px;font-size:12px;color:#91a39b}.status-footer strong{color:var(--lime);font-weight:500}.touch-controls{display:none;justify-content:space-between;align-items:center;padding:12px;background:#20312e;border-top:1px solid #42554b;gap:12px;touch-action:none}.touch-left{display:flex;gap:10px}.touch-controls button{width:58px;height:52px;min-height:52px;font-size:22px;border-color:#607062;background:#354940;touch-action:none;user-select:none;-webkit-user-select:none}.touch-controls .jump{width:90px;background:var(--gold);color:#203021;font-size:14px}.touch-controls button.pressed{background:var(--lime);color:#172219}body.manual .touch-controls{display:flex}.screen-reader{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}#liveMessage{color:var(--gold);font-size:12px;margin-top:12px;min-height:18px}.panel-note{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:12px}#network{display:block;width:100%;height:60px}.fullscreen .game-viewport{height:calc(100dvh - 90px)}.fullscreen.manual .game-viewport{height:calc(100dvh - 168px)}.fullscreen .gamebox{border-radius:0;border:0}.gamebox:fullscreen{width:100%;height:100%;border:0;border-radius:0}.gamebox:fullscreen .game-viewport{height:calc(100dvh - 87px)}body.manual .gamebox:fullscreen .game-viewport{height:calc(100dvh - 163px)}
+.exit-full{display:none}body.fullscreen .exit-full,.gamebox:fullscreen .exit-full{display:block;min-height:34px;padding:5px 12px}body.fullscreen .gamebox{position:fixed;inset:0;z-index:1000;width:100%;height:100dvh;border:0;border-radius:0}body.fullscreen .game-viewport{height:calc(100dvh - 93px)}body.fullscreen.manual .game-viewport{height:calc(100dvh - 169px)}
+.speedline{flex:1 0 100%;max-width:100%;display:block}.speedslider{display:flex;align-items:center;gap:10px}.speedslider label{font-size:14px;color:var(--muted);white-space:nowrap}.speedslider input{min-width:50px;flex:1}.speed-presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px}.speed-presets button{font-family:ui-monospace,monospace;min-height:44px;padding:8px 6px}.speed-presets button.active{background:var(--lime);color:#172219;border-color:var(--lime)}
+@media(min-width:1100px){.touch-controls button{width:68px}.topbar{margin-bottom:24px}}
+@media(max-width:1050px){.shell{padding:16px}.workspace{grid-template-columns:minmax(0,1fr) 285px;gap:14px}.panel{padding:15px}.controls{gap:10px}.speedline{max-width:100%;flex-basis:100%;background:var(--panel);padding:8px 12px;border-radius:7px}.game-viewport{height:330px}.stat{padding:14px 12px}.stat strong{font-size:24px}.top-meta .hide-small{display:none}}
+@media(max-width:740px){.shell{padding:12px 12px max(20px,env(safe-area-inset-bottom))}.workspace{display:flex;flex-direction:column;gap:14px}.topbar{margin-bottom:13px}.brand h1{font-size:18px}.brand small{font-size:10px}.brandmark{width:34px;height:34px}.top-meta{gap:6px}.top-meta .chip{font-size:10px}.game-viewport{height:300px}.game-head{padding:10px 12px;font-size:12px}.game-foot{padding:10px 12px}.world-hud{left:12px;right:12px;font-size:10px}.world-hud b{font-size:14px}.cards{margin-bottom:12px}.stat{padding:12px 9px}.stat small{font-size:11px;line-height:1.4}.stat strong{font-size:22px}.stat strong em{font-size:11px}.chart-panel{padding:14px 12px}.controls{margin:12px 0}.controls button{padding:10px 12px}.segmented button{padding:8px 11px}.side{display:grid;grid-template-columns:1fr 1fr;gap:12px}.side .panel{min-width:0}.side .population-panel,.side .leader-panel{grid-column:1 / -1}.side .leader-panel{display:none}.side .reward-panel{grid-column:1 / -1}.panel{padding:16px}.population-fields{display:grid;grid-template-columns:1fr 1fr;gap:15px}.population-fields .field{margin-bottom:0}.status-footer{margin-top:15px;line-height:1.5}.status-footer .hide-small{display:none}.explain{font-size:13px}#liveMessage{margin-top:10px}.game-toast{bottom:15px;font-size:13px;min-width:210px}.legend{gap:10px}.speedline output{min-width:60px}#rewardRows{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}.reward-row{font-size:13px}.reward-row input{width:68px}.reward-row:nth-last-child(2){border:0}}
+@media(max-width:380px){.controls{flex-direction:column;align-items:stretch}.buttons,.segmented{justify-content:center}.stat strong{font-size:20px}.stat{padding:10px 7px}.game-viewport{height:285px}#rewardRows{grid-template-columns:1fr}.reward-row:nth-last-child(2){border-bottom:1px solid #303d39}.population-fields{grid-template-columns:1fr}.population-fields .field{margin-bottom:12px}.top-meta{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><div class="brandmark" aria-hidden="true">M</div><div><h1>Mario <span style="color:var(--lime)">RL Lab</span></h1><small>Planejamento, imitação e RL</small></div></div><div class="top-meta"><span class="hide-small">Aprender. Morrer. Tentar de novo.</span><span class="chip">v11 · Visão da tela inteira</span></div></header>
+<div class="workspace"><main class="main">
+<div class="gamebox" id="gamebox">
+<div class="game-head"><strong id="worldName">MUNDO 1–1</strong><span id="modeLabel">População em treinamento</span><button id="exitFullscreen" class="exit-full" aria-label="Sair da tela cheia">Sair</button></div>
+<div class="game-viewport"><canvas id="game" aria-label="Jogo de plataforma. Os agentes dourados e transparentes atravessam a fase." role="img"></canvas><div class="world-hud"><div id="hudWho">LÍDER<b id="hudID">#001</b></div><div>MOEDAS<b id="hudCoins">00</b></div><div>RECOMPENSA<b id="hudReward">0.00</b></div><div>TEMPO<b id="hudTime">90</b></div></div><div id="toast" class="game-toast" role="status"></div></div>
+<div class="touch-controls" id="touchControls"><div class="touch-left"><button id="left" aria-label="Mover para a esquerda">◀</button><button id="right" aria-label="Mover para a direita">▶</button></div><button id="jump" class="jump" aria-label="Pular">PULAR</button></div>
+<div class="game-foot"><div class="legend"><span><i></i><span id="legendLeader">Melhor agente</span></span><span id="ghostLegend"><i class="other"></i>População</span></div><span id="phaseProgress">Fase: 0%</span><span id="simRate">60 passos/s</span></div>
+</div>
+<div class="controls"><div class="buttons"><button class="primary" id="pause">Pausar</button><button class="icon" id="reset" title="Reiniciar treino" aria-label="Reiniciar treino"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10a8 8 0 1 1 1.8 7.8M4 4v6h6"/></svg></button><button class="icon" id="fullscreen" title="Tela cheia" aria-label="Tela cheia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></div><div class="segmented" aria-label="Modo de jogo"><button id="trainMode" class="active" aria-pressed="true">Treinar IA</button><button id="playMode" aria-pressed="false">Eu jogo</button></div><div class="speedline"><div class="speedslider"><label for="speed">Velocidade</label><input id="speed" type="range" min="1" max="1000000" value="1000" step="1" aria-valuetext="1000 vezes"><output id="speedValue" for="speed">1000×</output></div><div class="speed-presets" role="group" aria-label="Escolher velocidade do treino"><button id="speed1" aria-pressed="false">1×</button><button id="speed10" aria-pressed="false">10×</button><button id="speed100" aria-pressed="false">100×</button><button id="speed1000" class="active" aria-pressed="true">1000×</button><button id="speed1000000" aria-pressed="false">Máx.</button></div></div></div>
+<div class="cards"><div class="stat"><small>Geração</small><strong id="generation">001</strong></div><div class="stat"><small>Agentes vivos</small><strong id="alive">64 <em>/ 64</em></strong></div><div class="stat"><small>Melhor recompensa</small><strong id="bestReward">0.0</strong></div><div class="stat"><small>Avanço na campanha</small><strong id="bestDistance">0<em>%</em></strong></div></div>
+<section class="chart-panel"><div class="section-head"><h2>Aprendizado por geração</h2><span id="chartStatus">Primeira geração em andamento</span></div><canvas id="chart" aria-label="Gráfico da melhor recompensa e da recompensa média por geração" role="img"></canvas><div class="chart-legend"><b><i></i>Melhor da geração</b><b><i class="mean"></i>Média da população</b></div></section>
+<details class="explain"><summary>Como a IA aprende?</summary><p>Na <strong>IA adaptativa</strong>, um planejador simula sequências curtas de ações usando a física e os perigos do jogo. Uma rede de 44 sensores, 32 neurônios e 6 ações aprende a imitar essas decisões. Parte da população pratica a rede; os demais continuam planejando e fornecendo exemplos. O planejador conhece o estado interno do jogo: o resultado mede esse conjunto, e não RL puro ou uma LLM.</p><p>Ative <strong>Aprender comigo</strong> e use “Eu jogo”: movimentos que sobrevivem por 1,5 segundo entram como demonstrações, com maior peso no aprendizado. As ações logo antes de uma morte são descartadas. Volte a “Treinar IA” para ver a rede praticar. Planos são reutilizados somente quando posição, velocidade, perigos e relógio coincidem. Essa memória de ações acelera tentativas futuras. Os exemplos e pesos continuam entre gerações e ficam nesta sessão; reiniciar o treino os apaga.</p><p><strong>Todas as tentativas começam no início da fase escolhida.</strong> A rede conserva o aprendizado entre gerações. Só uma bandeira ou o machado leva o mesmo indivíduo à próxima fase, e só o final de 8–4 encerra a campanha.</p><p>O <strong>Rainbow-IQN</strong> é RL sem planejador: uma rede estima distribuições de retornos, aprende com recompensas reais e explora com camadas NoisyNet. Combina Double Q, heads de valor/vantagem, replay priorizado com correção de importância, retorno de 5 decisões e regressão quantílica. O treino usa um worker quando disponível. A rede usa 400 sensores: conserva os 112 sensores locais e acrescenta uma grade de 12 × 6 células sobre uma janela de 1.250 × 480 px, a largura máxima do jogo. Ela representa terreno sólido, inimigos, perigos e itens de poder; inimigos e perigos incluem posições previstas 8 e 24 frames à frente. A visão é igual no computador e no celular. Os pesos antigos são migrados, mantendo as entradas locais e começando as novas conexões em zero. A memória tem até 32.768 registros, com uma parte protegida por fase realmente alcançada. Os indivíduos exploram com intensidades diferentes, mesmo se o ruído aprendido diminuir; um grupo continua avaliando a política sem aleatoriedade. A grade distingue lava (vermelho) de terreno sólido, e a fase da barra de fogo corresponde ao perigo mais próximo e à sua direção de rotação. É uma implementação compacta com sensores, sem pesos pré-treinados; não reproduz resultados dos artigos de Atari nem é Dreamer 4. O Double DQN e a neuroevolução continuam disponíveis para comparação. Pousar em uma plataforma nova vale +1, superá-la +2, morrer −1 e concluir fase +100. Pouso, travessia e avanço seguro só rendem pontos depois de sobreviver às colisões do frame; recompensas não se repetem. Trocar a fase inicial conserva a rede e a memória, mas inicia uma tentativa nova no começo dessa fase. “Reiniciar treino” apaga o aprendizado. O planejador também considera distância, pouso e dano para escolher seus movimentos.</p><p id="keyboardHint">Para jogar: A/D ou ←/→ para andar, W/↑/espaço para pular. R reinicia a tentativa; P pausa. No celular, use os botões abaixo do jogo.</p><p>Recriação independente das 32 fases, de 1–1 a 8–4, com mapas próprios inspirados nos percursos do jogo de 1985. Inclui subsolo, água com natação, plataformas, pontes, castelos, firebars, Hammer Bros. e Bowser. A bandeira avança a fase; nos castelos, alcance o machado. Não utiliza ROM nem código original da Nintendo.</p></details>
+</main><aside class="side">
+<section class="panel population-panel"><h2>Configurar experimento</h2><div class="population-fields"><div class="field"><label for="algorithm">Método de aprendizado</label><select id="algorithm"><option value="adaptive" selected>Adaptativa · planejar + imitar</option><option value="rainbow">Rainbow-IQN · RL avançada</option><option value="ddqn">Double DQN · experiências</option><option value="evolution">Neuroevolução · mutações</option></select></div><div class="field"><label for="teachPlayer"><span>Aprender comigo</span><input id="teachPlayer" type="checkbox" checked style="width:20px;height:20px"></label><p class="helper" id="teachHelp">Jogue em “Eu jogo” para ensinar ações à rede. Toda tentativa da IA começa no início.</p></div><div class="field"><label for="level">Fase inicial</label><select id="level"><option value="training">Pista de treino → 1–1</option><option value="classic" selected>1–1 · Campo</option><option value="1-2">1–2 · Subsolo</option><option value="1-3">1–3 · Plataformas</option><option value="1-4">1–4 · Castelo</option><option value="2-1">2–1 · Campo</option><option value="2-2">2–2 · Água</option><option value="2-3">2–3 · Ponte</option><option value="2-4">2–4 · Castelo</option><option value="3-1">3–1 · Noite</option><option value="3-2">3–2 · Noite</option><option value="3-3">3–3 · Plataformas</option><option value="3-4">3–4 · Castelo</option><option value="4-1">4–1 · Campo</option><option value="4-2">4–2 · Subsolo</option><option value="4-3">4–3 · Plataformas</option><option value="4-4">4–4 · Castelo</option><option value="5-1">5–1 · Campo</option><option value="5-2">5–2 · Campo</option><option value="5-3">5–3 · Plataformas</option><option value="5-4">5–4 · Castelo</option><option value="6-1">6–1 · Noite</option><option value="6-2">6–2 · Noite</option><option value="6-3">6–3 · Plataformas</option><option value="6-4">6–4 · Castelo</option><option value="7-1">7–1 · Campo</option><option value="7-2">7–2 · Água</option><option value="7-3">7–3 · Ponte</option><option value="7-4">7–4 · Castelo</option><option value="8-1">8–1 · Campo</option><option value="8-2">8–2 · Campo</option><option value="8-3">8–3 · Campo</option><option value="8-4">8–4 · Castelo · Bowser final</option></select></div><div class="field"><label for="population">Indivíduos <output id="populationValue">64</output></label><input id="population" type="range" min="16" max="128" step="16" value="64"><p class="helper">A alteração entra na próxima geração.</p></div><div class="field" id="mutationField"><label for="mutation">Mutação <output id="mutationValue">0.18</output></label><input id="mutation" type="range" min="0.03" max="0.60" step="0.01" value="0.18"><p class="helper">Intensidade das mudanças na rede.</p></div><div class="field"><label for="view">Visualização</label><select id="view"><option value="population">Todos os agentes</option><option value="leader">Só o líder</option><option value="sensors">Líder + sensores</option></select></div></div><div class="panel-note"><span id="learnerStatus" style="line-height:1.6">Planejar + imitar</span><span id="networkShape">44 → 32 → 6</span></div><canvas id="network" aria-label="Ativação da rede neural do líder" role="img"></canvas><div class="buttons" style="margin-top:12px;flex-wrap:wrap"><button id="saveRL">Salvar RL</button><button id="loadRL">Carregar RL</button><button id="recordRL" disabled>Gravar replay</button><input id="rlFile" type="file" accept="application/json,.json" hidden></div><p class="helper">Pesos salvos conservam o aprendizado. Carregar começa no início da fase escolhida. A primeira vitória da RL pausa o treino; grave o replay a 4×. Tentativas parciais ficam identificadas.</p></section>
+<section class="panel reward-panel"><div class="section-head"><h2>Recompensas</h2><span>editáveis</span></div><div id="rewardRows"></div><p class="reward-desc">Avanço é pago após pousar em segurança num trecho novo (32 px). Cada plataforma dá pontos uma vez por tentativa. Mudanças de recompensa reiniciam o treino para manter os resultados comparáveis.</p><div id="liveMessage" role="status" aria-live="polite"></div></section>
+<section class="panel leader-panel"><div class="section-head"><h2>Melhores indivíduos</h2><span>geração atual</span></div><div id="leaderboard"></div></section>
+</aside></div><footer class="status-footer"><span id="bottomStatus"><strong>Treino ativo</strong> · pesos aleatórios na geração 1</span><span class="hide-small">Simulação independente para cada agente · física a 60 Hz</span></footer>
+</div>
+<script>
+'use strict';
+// All game assets, physics and learning code are self-contained. No fetches or dependencies.
+(() => {
+const $=id=>document.getElementById(id), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const TILE=32, GROUND=416, H=480, PHYSICS_HZ=60, INPUTS=44, HIDDEN=12, OUTPUTS=2;
+const MAX_SPEED=1000000;
+const WEIGHTS=HIDDEN*(INPUTS+1)+OUTPUTS*(HIDDEN+1), MAX_TIME=90*PHYSICS_HZ;
+let seed= (Date.now()>>>0)||1;
+function random(){seed ^= seed<<13; seed ^= seed>>>17; seed ^= seed<<5; return (seed>>>0)/4294967296;}
+function gaussian(){return Math.sqrt(-2*Math.log(Math.max(1e-9,random())))*Math.cos(6.2831853*random());}
+const rewardSpec=[['landing','Pousar em nova plataforma',1,0,20,.5],['death','Morrer',-1,-20,0,.5],['platform','Superar plataforma',2,0,20,.5],['coin','Pegar moeda',.5,0,10,.1],['enemy','Derrotar inimigo',1,0,10,.5],['gap','Atravessar buraco',2,0,20,.5],['win','Concluir fase',100,0,500,5],['boss','Derrotar Bowser',10,0,100,1],['progress','Avanço seguro por bloco',.2,0,5,.05],['idle','Parado (por segundo)',-.05,-5,0,.05]];
+const rewards=Object.fromEntries(rewardSpec.map(x=>[x[0],x[2]]));
+const ui={game:$('game'),chart:$('chart'),network:$('network')};
+const ctx=ui.game.getContext('2d'),chartCtx=ui.chart.getContext('2d'),netCtx=ui.network.getContext('2d');
+let mode='train',paused=false,speed=1000,populationSize=64,mutation=.18,view='population',levelKey='classic';
+let selectedStage=0,totalStageClears=0;
+let level,agents=[],human,champion=null,generation=1,history=[],bestEver=0,bestProgress=0,totalWins=0;
+let frame=0,worldTick=0,transition=0,camera=0,sceneWidth=900,accumulator=0,lastTime=0,uiTime=0,renderTime=0,inBatch=false,pendingToast='';
+let toastUntil=0,safetyPause=false,pendingReset=false,realSteps=0,rateTick=0,effectiveRate=60;
+const keys={left:false,right:false,jump:false};
+const particles=[];
+// Small sensor-based Double DQN: online action selection, delayed target
+// evaluation, uniform bounded replay, Huber loss, Adam and gradient clipping.
+// Algorithm: https://arxiv.org/abs/1509.06461 (not a pretrained Mario policy).
+const Q_HIDDEN=32,Q_ACTIONS=6,Q_CAPACITY=10000,Q_BATCH=16,Q_FRAME_GAMMA=Math.pow(.99,1/4);
+const Q_WEIGHTS=Q_HIDDEN*(INPUTS+1)+Q_ACTIONS*(Q_HIDDEN+1);
+const qActions=[{move:-1,jump:false},{move:0,jump:false},{move:1,jump:false},{move:-1,jump:true},{move:0,jump:true},{move:1,jump:true}];
+let algorithm='adaptive',learner=null;
+function qNetwork(copy=null){
+ const w=copy?new Float32Array(copy):new Float32Array(Q_WEIGHTS);
+ if(!copy){let n=0;for(let j=0;j<Q_HIDDEN;j++){w[n++]=0;for(let i=0;i<INPUTS;i++)w[n++]=gaussian()*Math.sqrt(1/INPUTS);}for(let k=0;k<Q_ACTIONS;k++){w[n++]=0;for(let j=0;j<Q_HIDDEN;j++)w[n++]=gaussian()*.08;}}
+ return {w,h:new Float32Array(Q_HIDDEN),q:new Float32Array(Q_ACTIONS)};
+}
+function qForward(net,state){
+ let n=0;for(let j=0;j<Q_HIDDEN;j++){let sum=net.w[n++];for(let i=0;i<INPUTS;i++)sum+=net.w[n++]*state[i];net.h[j]=Math.tanh(sum);}
+ for(let k=0;k<Q_ACTIONS;k++){let sum=net.w[n++];for(let j=0;j<Q_HIDDEN;j++)sum+=net.w[n++]*net.h[j];net.q[k]=sum;}return net.q;
+}
+function qArgmax(values){let best=2;for(let k=0;k<values.length;k++)if(values[k]>values[best])best=k;return best;}
+function resetLearner(){
+ const online=qNetwork();learner={online,target:qNetwork(online.w),size:0,head:0,experiences:0,updates:0,loss:0,episodes:0,
+  states:new Float32Array(Q_CAPACITY*INPUTS),next:new Float32Array(Q_CAPACITY*INPUTS),actions:new Uint8Array(Q_CAPACITY),returns:new Float32Array(Q_CAPACITY),discounts:new Float32Array(Q_CAPACITY),
+  gradient:new Float32Array(Q_WEIGHTS),m:new Float32Array(Q_WEIGHTS),v:new Float32Array(Q_WEIGHTS),sample:new Float32Array(INPUTS),future:new Float32Array(INPUTS),hiddenError:new Float32Array(Q_HIDDEN)};
+}
+function replayPush(state,action,reward,next,discount){
+ const l=learner,i=l.head;l.states.set(state,i*INPUTS);l.next.set(next,i*INPUTS);l.actions[i]=action;l.returns[i]=reward;l.discounts[i]=discount;
+ l.head=(i+1)%Q_CAPACITY;l.size=Math.min(Q_CAPACITY,l.size+1);l.experiences++;
+}
+function trainQ(batch=Q_BATCH){
+ const l=learner;if(!l||l.size<256)return;l.gradient.fill(0);let loss=0;
+ for(let sample=0;sample<batch;sample++){
+  const row=Math.floor(random()*l.size),offset=row*INPUTS;
+  for(let i=0;i<INPUTS;i++){l.sample[i]=l.states[offset+i];l.future[i]=l.next[offset+i];}
+  // Double DQN: online chooses; target evaluates. Terminal discount is zero.
+  const nextAction=qArgmax(qForward(l.online,l.future));const nextQ=qForward(l.target,l.future)[nextAction];
+  const target=l.returns[row]+l.discounts[row]*nextQ,action=l.actions[row],prediction=qForward(l.online,l.sample)[action];
+  const error=prediction-target,derivative=clamp(error,-1,1);loss+=Math.abs(error)<1?.5*error*error:Math.abs(error)-.5;
+  const outputStart=Q_HIDDEN*(INPUTS+1)+action*(Q_HIDDEN+1);l.gradient[outputStart]+=derivative;
+  for(let j=0;j<Q_HIDDEN;j++){
+   l.gradient[outputStart+1+j]+=derivative*l.online.h[j];
+   const delta=derivative*l.online.w[outputStart+1+j]*(1-l.online.h[j]*l.online.h[j]);
+   const hiddenStart=j*(INPUTS+1);l.gradient[hiddenStart]+=delta;
+   for(let i=0;i<INPUTS;i++)l.gradient[hiddenStart+1+i]+=delta*l.sample[i];
+  }
+ }
+ l.updates++;const b1=1-Math.pow(.9,l.updates),b2=1-Math.pow(.999,l.updates);
+ for(let i=0;i<Q_WEIGHTS;i++){
+  const g=clamp(l.gradient[i]/batch,-1,1);l.m[i]=.9*l.m[i]+.1*g;l.v[i]=.999*l.v[i]+.001*g*g;
+  l.online.w[i]-=.0007*(l.m[i]/b1)/(Math.sqrt(l.v[i]/b2)+1e-8);
+  l.target.w[i]+=.01*(l.online.w[i]-l.target.w[i]);
+ }
+ l.loss=.95*l.loss+.05*loss/batch;
+}
+function qEpsilon(a){if(learner.size<256)return 1;if(a.id%8===1)return .02;if(a.id%8===0)return .8;return Math.max(.12,.9*Math.exp(-learner.updates/6000));}
+function qDecide(a){
+ const state=new Float32Array(observe(a));for(let i=0;i<state.length;i++)state[i]=clamp(state[i],-1,1);
+ const values=qForward(learner.online,state);a.qValues=new Float32Array(values);a.qHidden=new Float32Array(learner.online.h);let action=qArgmax(values);
+ if(random()<qEpsilon(a)){const choices=[2,2,2,5,5,5,0,1,3,4];action=choices[Math.floor(random()*choices.length)];}
+ a.action={...qActions[action]};a.brain.hidden.set(learner.online.h.subarray(0,HIDDEN));a.brain.output[0]=a.action.move;a.brain.output[1]=a.action.jump?1:0;
+ a.rl={state,action,reward:0,discount:1,age:0,stageIndex:a.stageIndex};
+}
+function qFinish(a,delta){
+ if(!a.rl)return;const t=a.rl;t.reward+=t.discount*delta*.2;t.discount*=Q_FRAME_GAMMA;t.age++;
+ if(t.age<4&&!a.dead&&!a.done&&a.stageIndex===t.stageIndex)return;
+ const next=new Float32Array(observe(a));for(let i=0;i<next.length;i++)next[i]=clamp(next[i],-1,1);
+ replayPush(t.state,t.action,t.reward,next,a.dead||a.done?0:t.discount);a.rl=null;
+}
+function levelSurfaces(lvl){
+ if(lvl.surfaces)return lvl.surfaces;const rows=new Map();
+ for(const tile of lvl.tiles.values()){if(tile.row<3||lvl.solidRows[tile.row-1]?.has(tile.col))continue;if(!rows.has(tile.row))rows.set(tile.row,[]);rows.get(tile.row).push(tile.col);}
+ const out=[];for(const [row,columns] of rows){columns.sort((a,b)=>a-b);let left=columns[0],right=left;
+  const flush=()=>out.push({left:left*TILE,right:(right+1)*TILE,y:row*TILE});
+  for(const c of columns.slice(1)){if(c===right+1)right=c;else{flush();left=right=c;}}flush();}
+ lvl.surfaces=out.sort((a,b)=>a.left-b.left||a.y-b.y);return lvl.surfaces;
+}
+function observeLanding(a,s){
+ const cx=a.x+a.w/2,foot=a.y+a.h,surfaces=levelSurfaces(a.level);
+ const support=surfaces.filter(p=>cx>=p.left&&cx<p.right&&p.y>=foot-8&&p.y<foot+160&&solid(cx,p.y+1,a)).sort((p,q)=>p.y-q.y)[0];
+ const target=surfaces.find(p=>p.right>cx+32&&(p.left>cx+8||p.y<foot-16)&&p.left<cx+256&&p.y>=foot-136&&p.y<=foot+160);
+ s[38]=target?clamp((target.left-cx)/256,-1,1):1;s[39]=target?clamp((target.right-cx)/256,-1,1):1;
+ s[40]=target?clamp((foot-target.y)/136,-1,1):0;s[41]=support?clamp((support.right-cx)/256,0,1):0;
+ s[42]=support?1:0;s[43]=clamp((a.level.goal-cx)/a.level.length,0,1);
+ // In platform stages the immediate gap ends at the next landing surface,
+ // rather than falsely reporting the entire absence of ground as one hole.
+ if(a.level.theme==='athletic'&&support){s[10]=clamp((support.right-cx)/160,-1,1);s[11]=target?clamp(Math.max(0,target.left-support.right)/256,0,1):0;}
+}
+// Compact sensor-based Rainbow-IQN, trained from real transitions only.
+// Rainbow (Hessel et al.): https://arxiv.org/abs/1710.02298
+// IQN (Dabney et al.): https://proceedings.mlr.press/v80/dabney18a.html
+// No pretrained weights, planning labels, spawn assistance or checkpointing.
+const R_BASE_INPUTS=112,R_VIEW_COLS=12,R_VIEW_ROWS=6,R_VIEW_CHANNELS=4,R_SENSOR_LAYOUT='legacy112+viewport12x6x4-v1';
+const R_INPUTS=R_BASE_INPUTS+R_VIEW_COLS*R_VIEW_ROWS*R_VIEW_CHANNELS,R_HIDDEN=64,R_EMBED=32,R_TAUS=8,R_ACTOR_TAUS=64,R_CAPACITY=32768,R_RECENT=16384,R_STAGE_MEMORY=512,R_BATCH=16,R_NSTEP=5,R_FRAME_GAMMA=Math.pow(.997,1/4);
+const R_TRUNK=R_HIDDEN*(R_INPUTS+1),R_HEAD=R_TRUNK+R_HIDDEN*(R_EMBED+1),R_HEAD_SIZE=7*(R_HIDDEN+1),R_SIGMA=R_HEAD+R_HEAD_SIZE,R_WEIGHTS=R_SIGMA+R_HEAD_SIZE;
+function rViewport(a){return {x:clamp(a.x-1250*.30,0,Math.max(0,a.level.length-1250)),y:0,w:1250,h:H,cols:R_VIEW_COLS,rows:R_VIEW_ROWS,channels:R_VIEW_CHANNELS};}
+function rScreenTerrain(lvl){
+ if(lvl.rScreenRuns)return lvl.rScreenRuns;
+ const runs=[];for(let row=0;row<lvl.solidRows.length;row++){const cols=Array.from(lvl.solidRows[row]?.keys()||[]).sort((a,b)=>a-b);if(!cols.length)continue;let start=cols[0],last=start;for(let i=1;i<=cols.length;i++){const col=cols[i];if(col===last+1){last=col;continue;}runs.push({x:start*TILE,y:row*TILE,w:(last-start+1)*TILE,h:TILE});start=last=col;}}
+ return lvl.rScreenRuns=runs;
+}
+const rScreenGeometryCache=new WeakMap(),rScreenTerrainGridCache=new WeakMap();
+function rScreenGeometry(source,time,kind,lvl){
+ const previous=rScreenGeometryCache.get(source);if(previous&&previous.time===time&&previous.kind===kind)return previous.samples;
+ const samples=[];for(const offset of [0,8,24]){const state={worldSteps:time+offset};
+  if(kind==='enemy'){const body=enemyState(source,state,lvl),projectiles=(source.type==='hammer'||source.type==='hammerbro')?hazardGeometry({id:source.id,type:'hammer',x:source.x,y:source.y,period:120,source},state).parts:[];samples.push({body,projectiles});}
+  else if(kind==='boss'){const b=bossGeometry(state,lvl);samples.push({body:b.body,projectiles:b.fireballs});}
+  else samples.push({parts:hazardGeometry(source,state).parts});
+ }
+ rScreenGeometryCache.set(source,{time,kind,samples});return samples;
+}
+function rScreenObserve(a,s){
+ // Pool actual geometry across the whole 1250x480 viewport. No action rollouts.
+ const v=rViewport(a),cw=v.w/R_VIEW_COLS,ch=v.h/R_VIEW_ROWS,time=stageTime(a),lvl=a.level;
+ const paint=(p,channel,value=1,area=false)=>{
+  const left=Math.max(v.x,p.x),right=Math.min(v.x+v.w,p.x+p.w),top=Math.max(0,p.y),bottom=Math.min(v.h,p.y+p.h);if(right<=left||bottom<=top)return;
+  const x0=Math.max(0,Math.floor((left-v.x)/cw)),x1=Math.min(R_VIEW_COLS-1,Math.ceil((right-v.x)/cw)-1),y0=Math.max(0,Math.floor(top/ch)),y1=Math.min(R_VIEW_ROWS-1,Math.ceil(bottom/ch)-1);
+  for(let row=y0;row<=y1;row++)for(let col=x0;col<=x1;col++){const i=R_BASE_INPUTS+(row*R_VIEW_COLS+col)*R_VIEW_CHANNELS+channel;if(area){const w=Math.min(right,v.x+(col+1)*cw)-Math.max(left,v.x+col*cw),h=Math.min(bottom,(row+1)*ch)-Math.max(top,row*ch);s[i]+=value*w*h/(cw*ch);}else s[i]=Math.max(s[i],value);}
+ };
+ let terrainCache=rScreenTerrainGridCache.get(lvl);if(!terrainCache){terrainCache=new Map();rScreenTerrainGridCache.set(lvl,terrainCache);}const cachedTerrain=terrainCache.get(v.x);if(cachedTerrain){for(let i=0;i<R_VIEW_COLS*R_VIEW_ROWS;i++)s[R_BASE_INPUTS+i*R_VIEW_CHANNELS]=cachedTerrain[i];}else{for(const run of rScreenTerrain(lvl))if(run.x<v.x+v.w&&run.x+run.w>v.x)paint(run,0,1,true);const pooled=new Float32Array(R_VIEW_COLS*R_VIEW_ROWS);for(let i=0;i<pooled.length;i++)pooled[i]=s[R_BASE_INPUTS+i*R_VIEW_CHANNELS];if(terrainCache.size>=128)terrainCache.delete(terrainCache.keys().next().value);terrainCache.set(v.x,pooled);}
+ for(const key of a.broken){const [col,row]=key.split(',').map(Number);paint({x:col*TILE,y:row*TILE,w:TILE,h:TILE},0,-1,true);}
+ if(a.bridgeCollapsed)for(const tile of lvl.tiles.values())if(tile.type==='bridge'&&tile.x<v.x+v.w&&tile.x+tile.w>v.x)paint(tile,0,-1,true);
+ for(const e of lvl.enemies){if(a.defeated.has(e.id)||e.max+e.w<v.x||e.min>v.x+v.w)continue;const samples=rScreenGeometry(e,time,'enemy',lvl);for(let k=0;k<samples.length;k++){const value=k?.5:1;paint(samples[k].body,1,value);for(const p of samples[k].projectiles)paint(p,2,value);}}
+ for(const h of lvl.hazards||[]){const reach=Math.max(h.length||32,/^(hammer|fire|fireball)$/.test(h.type)?750:120);if(h.x+reach<v.x||h.x-reach>v.x+v.w)continue;const samples=rScreenGeometry(h,time,'hazard',lvl);for(let k=0;k<samples.length;k++)for(const p of samples[k].parts)paint(p,2,k?.5:1);}
+ if(lvl.boss&&!a.bossDefeated&&lvl.boss.x+80>=v.x&&lvl.boss.x-850<v.x+v.w){const samples=rScreenGeometry(lvl.boss,time,'boss',lvl);for(let k=0;k<samples.length;k++){paint(samples[k].body,2,k?.5:1);for(const p of samples[k].projectiles)paint(p,2,k?.5:1);}}
+ for(const item of a.items)if(!item.collected)paint(item,3,1);
+ for(let i=0;i<(lvl.blocks||[]).length;i++){const block=lvl.blocks[i];if(block.power&&!a.used.has(i))paint({x:block.x,y:block.y,w:TILE,h:TILE},3,.5);}
+ return s;
+}
+function rObserve(a){
+ // Descriptive geometry only: no simulated action, path or preferred control.
+ const s=new Float32Array(R_INPUTS);s.set(observe(a));const lvl=a.level,cx=a.x+a.w/2,foot=a.y+a.h;
+ let support=null;const candidates=[];
+ for(const p of levelSurfaces(lvl)){
+  if(!solid(Math.max(p.left+1,Math.min(cx,p.right-1)),p.y+1,a))continue;
+  if(cx>=p.left&&cx<p.right&&p.y>=foot-6&&p.y<=foot+256&&(!support||p.y<support.y))support=p;
+  if(p.right<=cx+24||p.left>=cx+384||p.y<foot-160||p.y>foot+192||p.left<=cx+8&&p.y>=foot-12)continue;
+  const distance=Math.max(0,p.left-cx)+Math.abs(p.y-foot)*.15;let at=0;
+  while(at<candidates.length&&candidates[at].distance<=distance)at++;candidates.splice(at,0,{p,distance});if(candidates.length>3)candidates.pop();
+ }
+ for(let k=0;k<3;k++){const p=candidates[k]?.p,o=44+k*6;if(!p)continue;s[o]=1;s[o+1]=clamp((p.left-cx)/384,-1,1);s[o+2]=clamp((p.right-cx)/384,-1,1);s[o+3]=clamp((foot-p.y)/160,-1,1);s[o+4]=Math.min(1,(p.right-p.left)/384);s[o+5]=lvl.platforms.some(q=>q.x<p.right&&q.end>p.left&&q.y===p.y&&!a.landed.has(q.id))?1:0;}
+ s[62]=support?1:0;s[63]=support?clamp((support.left-cx)/384,-1,1):0;s[64]=support?clamp((support.right-cx)/384,-1,1):0;s[65]=support?clamp((support.y-foot)/256,0,1):1;
+ s[66]=a.ground?1:0;s[67]=clamp(a.coyote/5,-1,1);s[68]=a.jumpCooldown/10;s[69]=a.jumpLatch?1:0;s[70]=a.h/46;s[71]=clamp(a.invincible/90,0,1);s[72]=foot/512;s[73]=Math.min(1,a.stalled/300);
+ const lavaParts=(lvl.hazards||[]).filter(h=>h.type==='lava'&&h.x<cx+320&&h.x+(h.length||96)>cx-64).flatMap(h=>hazardGeometry(h,a).parts);
+ let n=74;for(const dx of [-32,32,96,160,224,288])for(const dy of [-112,-48,16,80]){const x=cx+dx,y=foot+dy;s[n++]=lavaParts.some(p=>x>=p.x&&x<p.x+p.w&&y>=p.y&&y<p.y+p.h)?-1:solid(x,y,a)?1:0;}
+ for(const dx of [0,48,96,160,224,320]){let drop=256;for(let dy=0;dy<=256;dy+=16)if(solid(cx+dx,foot+dy+1,a)){drop=dy;break;}s[n++]=drop/256;}
+ s[104]=Math.max(0,a.stageIndex)/31;s[105]=['overworld','underground','athletic','bridge','castle','underwater'].indexOf(lvl.theme)/5;s[106]=a.stageSteps/MAX_TIME;s[107]=cx/lvl.length;s[108]=clamp((a.safeX-cx)/384,-1,1);
+ let rotating=null,clearance=Infinity;for(const h of lvl.hazards||[]){if(h.type!=='firebar'||Math.abs(h.x-cx)>224+(h.length||96))continue;const parts=hazardGeometry(h,a).parts;for(const p of parts){const d=threatClearance(a,p);if(d<clearance){clearance=d;rotating=h;}}}
+ if(rotating){const angle=(stageTime(a)+hazardPhase(rotating.id))/Math.max(30,rotating.period||210)*Math.PI*2*(rotating.direction===-1?-1:1);s[109]=Math.sin(angle);s[110]=Math.cos(angle);}s[111]=lvl.boss?clamp((lvl.boss.axeX-cx)/384,-1,1):1;
+ rScreenObserve(a,s);for(let i=0;i<s.length;i++)s[i]=clamp(s[i],-1,1);return s;
+}
+const R_OUTBOX_LIMIT=1024;let rFrameUpdates=0;
+let rainbow=null,rainbowWorker=null,rainbowURL=null,rainbowBusy=false,rainbowEpoch=0,bestRLTrace=null,firstRLVictory=null,replayActor=null,replayBusy=false;
+function rNetwork(copy=null){
+ const w=copy?new Float32Array(copy):new Float32Array(R_WEIGHTS);
+ if(!copy){
+  for(let j=0;j<R_HIDDEN;j++){for(let i=1;i<=R_INPUTS;i++)w[j*(R_INPUTS+1)+i]=gaussian()*Math.sqrt(2/R_INPUTS);for(let i=1;i<=R_EMBED;i++)w[R_TRUNK+j*(R_EMBED+1)+i]=gaussian()*Math.sqrt(2/R_EMBED);}
+  for(let k=0;k<7;k++){const offset=k*(R_HIDDEN+1);w[R_SIGMA+offset]=.5/Math.sqrt(7);for(let j=1;j<=R_HIDDEN;j++){w[R_HEAD+offset+j]=(random()*2-1)/Math.sqrt(R_HIDDEN);w[R_SIGMA+offset+j]=.5/Math.sqrt(R_HIDDEN);}}
+ }
+ return {w,revision:0,actorRevision:-1,actorEmbedding:new Float32Array(R_HIDDEN),base:new Float32Array(R_HIDDEN),head:new Float32Array(7),q:new Float32Array(6)};
+}
+function rKernel(weights=null){
+ const online=rNetwork(weights);return {online,target:rNetwork(online.w),occupied:new Uint8Array(R_CAPACITY),stageHeads:new Uint16Array(32),stageSeen:new Uint32Array(32),states:new Float32Array(R_CAPACITY*R_BASE_INPUTS),next:new Float32Array(R_CAPACITY*R_BASE_INPUTS),views:new Uint8Array(R_CAPACITY*(R_INPUTS-R_BASE_INPUTS)),nextViews:new Uint8Array(R_CAPACITY*(R_INPUTS-R_BASE_INPUTS)),stateScratch:new Float32Array(R_INPUTS),nextScratch:new Float32Array(R_INPUTS),actions:new Uint8Array(R_CAPACITY),returns:new Float32Array(R_CAPACITY),discounts:new Float32Array(R_CAPACITY),tree:new Float64Array(R_CAPACITY*2),minimum:new Float64Array(R_CAPACITY*2).fill(Infinity),head:0,size:0,experiences:0,updates:0,adamSteps:0,gradientSamples:0,loss:0,maxPriority:1,beta:.4,gradient:new Float32Array(R_WEIGHTS),m:new Float32Array(R_WEIGHTS),v:new Float32Array(R_WEIGHTS),outbox:[],workerReplay:0,workerDropped:0};
+}
+function resetRainbow(){
+ bestRLTrace=null;firstRLVictory=null;
+ rainbowEpoch++;if(rainbowWorker)rainbowWorker.terminate();if(rainbowURL)URL.revokeObjectURL(rainbowURL);rainbowWorker=null;rainbowURL=null;rainbowBusy=false;
+ rainbow=rKernel();if(algorithm==='rainbow')createRainbowWorker();
+}
+function rExport(){return {format:'mario-rainbow-iqn-v11',version:11,algorithm:'rainbow',sensors:R_INPUTS,sensorLayout:R_SENSOR_LAYOUT,weights:Array.from(rainbow.online.w),trainingUpdates:(rainbow.loadedUpdates||0)+rainbow.updates,sessionUpdates:rainbow.updates,checkpoint:false,rewards:{...rewards}};}
+function rMigrateWeights(model){
+ const oldTrunk=R_HIDDEN*(R_BASE_INPUTS+1),oldSize=oldTrunk+R_HIDDEN*(R_EMBED+1)+2*R_HEAD_SIZE;
+ if(!model||model.algorithm!=='rainbow'||!Array.isArray(model.weights)||model.weights.some(v=>!Number.isFinite(v)||Math.abs(v)>10000))throw Error('Pesos Rainbow-IQN inválidos.');
+ if(model.sensors===R_INPUTS&&model.weights.length===R_WEIGHTS&&model.sensorLayout===R_SENSOR_LAYOUT)return new Float32Array(model.weights);
+ if(model.sensors!==R_BASE_INPUTS||model.weights.length!==oldSize)throw Error('Modelo incompatível: use v9/v10 (112 sensores) ou v11 (400 sensores e layout de tela).');
+ const old=new Float32Array(model.weights),migrated=new Float32Array(R_WEIGHTS);
+ for(let j=0;j<R_HIDDEN;j++)migrated.set(old.subarray(j*(R_BASE_INPUTS+1),(j+1)*(R_BASE_INPUTS+1)),j*(R_INPUTS+1));
+ migrated.set(old.subarray(oldTrunk),R_TRUNK);return migrated;
+}
+function rImport(model){
+ if(replayBusy)throw Error('Aguarde a gravação terminar.');
+ const weights=rMigrateWeights(model),loadedUpdates=Number(model.trainingUpdates??model.updates??0);if(!Number.isSafeInteger(loadedUpdates)||loadedUpdates<0)throw Error('Contador de treino inválido no modelo.');
+ let importedRewards=null;if(model.rewards!==undefined){if(!model.rewards||typeof model.rewards!=='object'||Array.isArray(model.rewards))throw Error('Recompensas do modelo inválidas.');importedRewards={};for(const [key,label,value,min,max] of rewardSpec){const v=model.rewards[key];if(!Number.isFinite(v)||v<min||v>max)throw Error('Recompensa '+key+' incompatível: '+min+' a '+max+'.');importedRewards[key]=v;}if(Object.keys(model.rewards).some(key=>!rewardSpec.some(spec=>spec[0]===key)))throw Error('Recompensa desconhecida no modelo.');}
+ if(importedRewards){Object.assign(rewards,importedRewards);for(const [key] of rewardSpec){const input=$('reward-'+key);if(input)input.value=String(rewards[key]);}}
+ algorithm='rainbow';$('algorithm').value=algorithm;resetExperiment();rainbow.online.w.set(weights);rainbow.online.revision++;rainbow.target.w.set(weights);
+ rainbow.loadedUpdates=loadedUpdates;
+ if(rainbowWorker)rainbowWorker.postMessage({type:'init',weights:rainbow.online.w,seed});
+ updateUI();live(importedRewards?'RL e recompensas do modelo carregadas. Nova tentativa, sem checkpoint.':'RL carregada sem recompensas declaradas: mantidas as configurações atuais. Nova tentativa, sem checkpoint.');return getState();
+}
+function rTraceCapture(a){
+ let t=a.rTrace;if(!t){if(a.steps!==0)return;t=a.rTrace={startStage:a.stageIndex,startTick:worldTick,lastTick:worldTick-1,clocks:[],data:new Uint8Array(1024),length:0};}
+ if(t.length>=MAX_TIME*32)return;
+ if(t.length===t.data.length){const data=new Uint8Array(Math.min(MAX_TIME*32,t.data.length*2));data.set(t.data);t.data=data;}
+ if(worldTick!==t.lastTick+1)t.clocks.push({index:t.length,tick:worldTick});t.lastTick=worldTick;t.data[t.length++]=(a.action.jump?3:0)+a.action.move+1;
+}
+function rTraceFinish(a){
+ if(!a.rTrace||!a.dead&&!a.done)return;const t=a.rTrace,score=progress(a),eligible=!firstRLVictory&&a.done&&t.startStage===0&&a.flagsCleared===32;if(!eligible&&bestRLTrace&&score<=bestRLTrace.score)return;
+ const record={startStage:t.startStage,startTick:t.startTick,clocks:t.clocks.slice(),actions:t.data.slice(0,t.length),score,flags:a.flagsCleared,done:a.done,id:a.id,lastStage:a.level.id};bestRLTrace=record;
+ if(!firstRLVictory&&a.done&&t.startStage===0&&a.flagsCleared===32){firstRLVictory=record;setPaused(true);showToast('Primeira vitória da RL! As 32 fases foram registradas. Use “Gravar replay”.');}
+}
+async function rRecordVideo(){
+ const record=firstRLVictory||bestRLTrace;if(!record||replayBusy)return;
+ if(typeof MediaRecorder==='undefined'||!ui.game.captureStream){live('Este navegador não oferece gravação do canvas.');return;}
+ const beforePause=paused,stream=ui.game.captureStream(30),chunks=[];let recorder=null;replayBusy=true;setPaused(true,true);
+ try{
+  const type=['video/webm;codecs=vp8','video/webm','video/mp4'].find(t=>MediaRecorder.isTypeSupported(t));recorder=new MediaRecorder(stream,type?{mimeType:type}:{});
+  const finished=new Promise((resolve,reject)=>{recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.onstop=resolve;recorder.onerror=e=>reject(e.error||Error('Erro ao gravar vídeo.'));});
+  replayActor=newAgent(network(),0,record.startStage);const actor=replayActor;let index=0,clockIndex=0,time=record.startTick,previous=performance.now(),debt=0;recorder.start();
+  await new Promise(resolve=>{const frame=now=>{if(document.hidden){if(recorder.state==='recording')recorder.pause();previous=now;requestAnimationFrame(frame);return;}if(recorder.state==='paused')recorder.resume();debt+=Math.min(.1,(now-previous)/1000)*240;previous=now;
+   while(debt>=1&&index<record.actions.length){if(record.clocks[clockIndex]?.index===index)time=record.clocks[clockIndex++].tick;stepAgent(actor,qActions[record.actions[index++]],time++);debt--;}
+   draw();if(index>=record.actions.length){resolve();return;}requestAnimationFrame(frame);};requestAnimationFrame(frame);});
+  recorder.stop();await finished;const url=URL.createObjectURL(new Blob(chunks,{type:recorder.mimeType})),link=document.createElement('a');link.href=url;link.download=(record.done&&record.startStage===0?'rl_primeira_vitoria':'rl_tentativa_parcial')+(recorder.mimeType.includes('mp4')?'.mp4':'.webm');link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
+  live(record.done&&record.startStage===0?'Vídeo da primeira vitória gerado. Reprodução 4×.':'Vídeo parcial gerado. Reprodução 4×.');
+ }catch(error){live(error.message||'Falha na gravação.');if(recorder?.state==='recording')recorder.stop();}
+ finally{for(const track of stream.getTracks())track.stop();replayActor=null;replayBusy=false;setPaused(beforePause);draw();updateUI();}
+}
+function rNoise(enabled=true){
+ const noise={input:new Float32Array(R_HIDDEN),output:new Float32Array(7)};if(!enabled)return noise;
+ const factor=()=>{const x=gaussian();return Math.sign(x)*Math.sqrt(Math.abs(x));};
+ for(let j=0;j<R_HIDDEN;j++)noise.input[j]=factor();for(let k=0;k<7;k++)noise.output[k]=factor();return noise;
+}
+function rEncode(net,state){
+ for(let j=0;j<R_HIDDEN;j++){const offset=j*(R_INPUTS+1);let sum=net.w[offset];for(let i=0;i<R_INPUTS;i++)sum+=net.w[offset+1+i]*state[i];net.base[j]=Math.max(0,sum);}return net.base;
+}
+function rPrepare(net,taus){
+ return Array.from(taus,tau=>{const cos=new Float32Array(R_EMBED),phi=new Float32Array(R_HIDDEN);for(let i=0;i<R_EMBED;i++)cos[i]=Math.cos(Math.PI*(i+1)*tau);
+  for(let j=0;j<R_HIDDEN;j++){const offset=R_TRUNK+j*(R_EMBED+1);let sum=net.w[offset];for(let i=0;i<R_EMBED;i++)sum+=net.w[offset+1+i]*cos[i];phi[j]=Math.max(0,sum);}return {tau,cos,phi};});
+}
+function rHead(net,base,phi,noise){
+ for(let k=0;k<7;k++){const offset=k*(R_HIDDEN+1),outNoise=noise.output[k];let sum=net.w[R_HEAD+offset]+net.w[R_SIGMA+offset]*outNoise;
+  for(let j=0;j<R_HIDDEN;j++){const epsilon=outNoise*noise.input[j];sum+=(net.w[R_HEAD+offset+1+j]+net.w[R_SIGMA+offset+1+j]*epsilon)*base[j]*phi[j];}net.head[k]=sum;}
+ const mean=(net.head[1]+net.head[2]+net.head[3]+net.head[4]+net.head[5]+net.head[6])/6;
+ for(let k=0;k<6;k++)net.q[k]=net.head[0]+net.head[1+k]-mean;return net.q;
+}
+function rExpectation(net,state,noise){
+ // Linearity of the dueling heads lets us cache the expected quantile embedding.
+ // Actor inference then costs one trunk and one head, rather than 8 forwards.
+ if(net.actorRevision!==net.revision){net.actorEmbedding.fill(0);const prepared=rPrepare(net,Array.from({length:R_ACTOR_TAUS},(_,i)=>(i+.5)/R_ACTOR_TAUS));for(const p of prepared)for(let j=0;j<R_HIDDEN;j++)net.actorEmbedding[j]+=p.phi[j]/R_ACTOR_TAUS;net.actorRevision=net.revision;}
+ return rHead(net,rEncode(net,state),net.actorEmbedding,noise);
+}
+function rQuantiles(net,state,prepared,noise){
+ const base=new Float32Array(rEncode(net,state)),values=new Float32Array(prepared.length*6);
+ for(let t=0;t<prepared.length;t++)values.set(rHead(net,base,prepared[t].phi,noise),t*6);return {base,values};
+}
+function rPriority(row,value){
+ const l=rainbow,p=Math.pow(clamp(value,1e-4,100),.6);let i=R_CAPACITY+row;l.tree[i]=p;l.minimum[i]=p;l.maxPriority=Math.max(l.maxPriority,value);
+ while((i>>=1)>0){l.tree[i]=l.tree[i*2]+l.tree[i*2+1];l.minimum[i]=Math.min(l.minimum[i*2],l.minimum[i*2+1]);}
+}
+// Local features retain Float32 precision; viewport occupancy uses 8-bit replay.
+function rStoreReplayState(l,row,state,future=false){
+ const base=future?l.next:l.states,grid=future?l.nextViews:l.views,extra=R_INPUTS-R_BASE_INPUTS;
+ base.set(state.subarray(0,R_BASE_INPUTS),row*R_BASE_INPUTS);
+ for(let i=0;i<extra;i++)grid[row*extra+i]=Math.round(clamp(state[R_BASE_INPUTS+i],0,1)*255);
+}
+function rReplayState(l,row,future=false,destination=new Float32Array(R_INPUTS)){
+ const base=future?l.next:l.states,grid=future?l.nextViews:l.views,extra=R_INPUTS-R_BASE_INPUTS;
+ destination.set(base.subarray(row*R_BASE_INPUTS,(row+1)*R_BASE_INPUTS));
+ for(let i=0;i<extra;i++)destination[R_BASE_INPUTS+i]=grid[row*extra+i]/255;
+ return destination;
+}
+function rPush(state,action,reward,next,discount,queue=true){
+ const l=rainbow,stage=clamp(Math.round((state[104]||0)*31),0,31),protectedSlot=l.stageSeen[stage]++%4===0;
+ const i=protectedSlot?R_RECENT+stage*R_STAGE_MEMORY+(l.stageHeads[stage]++%R_STAGE_MEMORY):l.head;
+ if(!l.occupied[i]){l.occupied[i]=1;l.size++;}rStoreReplayState(l,i,state);rStoreReplayState(l,i,next,true);l.actions[i]=action;l.returns[i]=reward;l.discounts[i]=discount;rPriority(i,l.maxPriority);
+ if(!protectedSlot)l.head=(l.head+1)%R_RECENT;l.experiences++;
+ if(queue&&rainbowWorker){l.outbox.push({state:new Float32Array(state),action,reward,next:new Float32Array(next),discount});}
+}
+function rSample(mass){
+ const l=rainbow;let i=1;mass=clamp(mass,0,Math.max(0,l.tree[1]-1e-12));while(i<R_CAPACITY){const left=i*2;if(mass<l.tree[left])i=left;else{mass-=l.tree[left];i=left+1;}}return i-R_CAPACITY;
+}
+function trainRainbow(batch=R_BATCH){
+ const l=rainbow;if(!l||l.size<256)return;l.gradient.fill(0);l.beta=Math.min(1,.4+l.updates/50000*.6);
+ const taus=Array.from({length:R_TAUS},()=>random()),futureTaus=Array.from({length:R_TAUS},()=>random()),prepared=rPrepare(l.online,taus),futurePrepared=rPrepare(l.target,futureTaus),onlineNoise=rNoise(),targetNoise=rNoise();
+ const total=l.tree[1],maxWeight=Math.pow(Math.max(1e-12,l.size*l.minimum[1]/total),-l.beta);let loss=0;
+ const samples=Array.from({length:batch},(_,b)=>{const row=rSample((b+random())/batch*total);return {row,importance:Math.pow(l.size*l.tree[R_CAPACITY+row]/total,-l.beta)/maxWeight};}),priorities=[];
+ for(let b=0;b<batch;b++){
+  const {row,importance}=samples[b],state=rReplayState(l,row,false,l.stateScratch),next=rReplayState(l,row,true,l.nextScratch),action=l.actions[row];
+  // Double Q: online expectation selects; target distribution evaluates.
+  const chosen=qArgmax(rExpectation(l.online,next,onlineNoise)),future=rQuantiles(l.target,next,futurePrepared,targetNoise),current=rQuantiles(l.online,state,prepared,onlineNoise);
+  let priority=0;
+  for(let t=0;t<R_TAUS;t++){
+   const prediction=current.values[t*6+action];let derivative=0;
+   for(let n=0;n<R_TAUS;n++){
+    const target=l.returns[row]+l.discounts[row]*future.values[n*6+chosen],delta=target-prediction,weight=Math.abs(taus[t]-(delta<0?1:0));
+    loss+=importance*weight*(Math.abs(delta)<1?.5*delta*delta:Math.abs(delta)-.5)/(R_TAUS*R_TAUS);
+    derivative-=weight*clamp(delta,-1,1)*importance/(R_TAUS*R_TAUS*batch);priority+=Math.abs(delta)/(R_TAUS*R_TAUS);
+   }
+   const p=prepared[t];
+   for(let j=0;j<R_HIDDEN;j++){
+    let featureDelta=0;const feature=current.base[j]*p.phi[j];
+    for(let k=0;k<7;k++){
+     const factor=k===0?1:(k===action+1?1:0)-1/6,d=derivative*factor,offset=k*(R_HIDDEN+1),epsilon=onlineNoise.output[k]*onlineNoise.input[j];
+     l.gradient[R_HEAD+offset+1+j]+=d*feature;l.gradient[R_SIGMA+offset+1+j]+=d*feature*epsilon;
+     featureDelta+=d*(l.online.w[R_HEAD+offset+1+j]+l.online.w[R_SIGMA+offset+1+j]*epsilon);
+    }
+    if(current.base[j]>0){const d=featureDelta*p.phi[j],offset=j*(R_INPUTS+1);l.gradient[offset]+=d;for(let i=0;i<R_INPUTS;i++)l.gradient[offset+1+i]+=d*state[i];}
+    if(p.phi[j]>0){const d=featureDelta*current.base[j],offset=R_TRUNK+j*(R_EMBED+1);l.gradient[offset]+=d;for(let i=0;i<R_EMBED;i++)l.gradient[offset+1+i]+=d*p.cos[i];}
+   }
+   for(let k=0;k<7;k++){const d=derivative*(k===0?1:(k===action+1?1:0)-1/6),offset=k*(R_HIDDEN+1);l.gradient[R_HEAD+offset]+=d;l.gradient[R_SIGMA+offset]+=d*onlineNoise.output[k];}
+  }
+  priorities.push({row,value:priority+1e-4});
+ }
+ for(const p of priorities)rPriority(p.row,p.value);
+ l.updates++;l.adamSteps++;l.gradientSamples+=batch;let norm=0;for(const g of l.gradient)norm+=g*g;const scale=Math.min(1,10/Math.max(1e-8,Math.sqrt(norm))),b1=1-Math.pow(.9,l.adamSteps),b2=1-Math.pow(.999,l.adamSteps);
+ for(let i=0;i<R_WEIGHTS;i++){const g=l.gradient[i]*scale;l.m[i]=.9*l.m[i]+.1*g;l.v[i]=.999*l.v[i]+.001*g*g;l.online.w[i]-=.0003*(l.m[i]/b1)/(Math.sqrt(l.v[i]/b2)+1e-8);}
+ l.online.revision++;if(l.updates%250===0){l.target.w.set(l.online.w);l.target.revision++;}l.loss=.95*l.loss+.05*loss/batch;
+}
+function rExploration(a){
+ if(a.rEvaluate||a.id%8===1)return 0;
+ const fraction=((Math.max(1,a.id)-1)%populationSize)/Math.max(1,populationSize-1);
+ // Distributed epsilon remains useful even when learned NoisyNet sigmas collapse.
+ return Math.max(.02,Math.pow(.15,1+fraction*2));
+}
+function rObservationPose(a){return [a.worldSteps,a.steps,a.stageIndex,a.x,a.y,a.vx,a.vy,a.w,a.h,+a.ground,a.coyote,a.jumpCooldown,+a.jumpLatch,a.invincible,a.stalled,a.safeX,a.stageSteps,+a.big,+a.bossDefeated,+a.bridgeCollapsed,a.collected.size,a.defeated.size,a.used.size,a.broken.size,a.landed.size,a.cleared.size,a.traversed.size].join(':');}
+function rDecide(a){
+ const saved=a.rNextObservation,key=rObservationPose(a),state=saved&&saved.level===a.level&&saved.key===key?saved.state:rObserve(a);a.rNextObservation=null;
+ if(!a.rNoise||a.steps-(a.rNoiseAt||0)>=32){a.rNoise=rNoise(!a.rEvaluate&&a.id%8!==1);a.rNoiseAt=a.steps;}
+ const values=rExpectation(rainbow.online,state,a.rNoise);a.qValues=new Float32Array(values);a.qHidden=new Float32Array(rainbow.online.base);let action=qArgmax(values);
+ a.rEpsilon=rExploration(a);if(random()<a.rEpsilon)action=Math.floor(random()*6);
+ a.action={...qActions[action]};a.brain.hidden.set(rainbow.online.base.subarray(0,HIDDEN));a.brain.output[0]=a.action.move;a.brain.output[1]=a.action.jump?1:0;
+ a.rl={state,action,reward:0,discount:1,age:0,duration:4,stageIndex:a.stageIndex};
+}
+function rFlush(queue,terminal){
+ while(queue.length&&(terminal||queue.length>=R_NSTEP)){
+  let reward=0,discount=1,last=null;for(let i=0;i<Math.min(R_NSTEP,queue.length);i++){const t=queue[i];reward+=discount*t.reward;discount*=t.discount;last=t;if(!discount)break;}
+  const first=queue.shift();rPush(first.state,first.action,reward,last.next,terminal?0:discount);
+ }
+}
+function rFinish(a,delta){
+ if(!a.rl)return;const t=a.rl;t.reward+=t.discount*delta*.2;t.discount*=R_FRAME_GAMMA;t.age++;
+ if(t.age<t.duration&&!a.dead&&!a.done&&a.stageIndex===t.stageIndex)return;
+ const next=rObserve(a);for(let i=0;i<R_INPUTS;i++)next[i]=clamp(next[i],-1,1);const terminal=a.dead||a.done;if(!terminal)a.rNextObservation={state:next,level:a.level,key:rObservationPose(a)};
+ const queue=a.rQueue??(a.rQueue=[]);queue.push({state:t.state,action:t.action,reward:t.reward,next,discount:terminal?0:t.discount});a.rl=null;rFlush(queue,terminal);
+}
+function createRainbowWorker(){
+ if(typeof Worker==='undefined'||typeof Blob==='undefined')return;
+ const core=[random,gaussian,qArgmax,rNetwork,rKernel,rNoise,rEncode,rPrepare,rHead,rExpectation,rQuantiles,rPriority,rStoreReplayState,rReplayState,rPush,rSample,trainRainbow];
+ const constants=`const R_BASE_INPUTS=${R_BASE_INPUTS},R_INPUTS=${R_INPUTS},R_HIDDEN=${R_HIDDEN},R_EMBED=${R_EMBED},R_TAUS=${R_TAUS},R_ACTOR_TAUS=${R_ACTOR_TAUS},R_CAPACITY=${R_CAPACITY},R_RECENT=${R_RECENT},R_STAGE_MEMORY=${R_STAGE_MEMORY},R_BATCH=${R_BATCH},R_NSTEP=${R_NSTEP},R_TRUNK=${R_TRUNK},R_HEAD=${R_HEAD},R_HEAD_SIZE=${R_HEAD_SIZE},R_SIGMA=${R_SIGMA},R_WEIGHTS=${R_WEIGHTS};let seed=1,rainbow=null,rainbowWorker=null;const clamp=${clamp.toString()};`;
+ const source=constants+core.map(fn=>fn.toString()).join('\n')+`\nself.onmessage=e=>{const m=e.data;if(m.type==='init'){seed=m.seed;rainbow=rKernel(m.weights);return;}try{for(const t of m.transitions)rPush(t.state,t.action,t.reward,t.next,t.discount,false);for(let i=0;i<4;i++)trainRainbow();self.postMessage({epoch:m.epoch,weights:rainbow.online.w,updates:rainbow.updates,loss:rainbow.loss,replay:rainbow.size,beta:rainbow.beta,gradientSamples:rainbow.gradientSamples});}catch(error){self.postMessage({epoch:m.epoch,error:String(error)});}};`;
+ try{
+  rainbowURL=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));rainbowWorker=new Worker(rainbowURL);const epoch=rainbowEpoch;
+  rainbowWorker.onmessage=e=>{const m=e.data;if(epoch!==rainbowEpoch||m.epoch!==epoch)return;rainbowBusy=false;if(m.error){disableRainbowWorker();return;}rainbow.online.w.set(m.weights);rainbow.online.revision++;rainbow.updates=m.updates;rainbow.loss=m.loss;rainbow.workerReplay=m.replay;rainbow.beta=m.beta;rainbow.gradientSamples=m.gradientSamples;if(mode==='train'&&!paused&&!replayBusy)rDispatchWorker();};
+  rainbowWorker.onerror=()=>disableRainbowWorker();rainbowWorker.postMessage({type:'init',weights:rainbow.online.w,seed});
+ }catch{disableRainbowWorker();}
+}
+function disableRainbowWorker(){if(rainbowWorker)rainbowWorker.terminate();rainbowWorker=null;rainbowBusy=false;if(rainbowURL)URL.revokeObjectURL(rainbowURL);rainbowURL=null;rainbow.outbox=[];rainbow.target.w.set(rainbow.online.w);rainbow.target.revision++;}
+function rDispatchWorker(force=false){
+ if(!rainbowWorker||rainbowBusy||rainbow.outbox.length<(force?1:32))return false;
+ rainbowBusy=true;const transitions=rainbow.outbox.splice(0,128);
+ try{rainbowWorker.postMessage({type:'train',epoch:rainbowEpoch,transitions});}catch{disableRainbowWorker();}return true;
+}
+function rTrainTick(){
+ if(rainbowWorker){rDispatchWorker();return;}
+ // RAF fallback gets one minibatch; synchronous test/headless APIs keep their ratio.
+ if(inBatch){if(rFrameUpdates)return;trainRainbow(4);rFrameUpdates++;return;}
+ for(let i=0;i<4;i++)trainRainbow();
+}
+
+
+function levelCollisionIndex(lvl){
+ if(lvl.collisionIndex)return lvl.collisionIndex;
+ const index={coins:[],platforms:[],enemies:[],empty:[]};
+ for(const key of ['coins','platforms','enemies'])for(const object of lvl[key]){
+  const left=key==='enemies'?object.min:object.x,right=key==='enemies'?object.max+object.w:key==='platforms'?object.end:object.x+object.w;
+  for(let bin=Math.max(0,Math.floor((left-32)/256));bin<=Math.floor(right/256);bin++)(index[key][bin]??=[]).push(object);
+ }
+ return lvl.collisionIndex=index;
+}
+function indexedObjects(lvl,key,x){const index=levelCollisionIndex(lvl);return index[key][Math.floor(x/256)]||index.empty;}
+class PlanningSet{
+ constructor(source){if(source instanceof PlanningSet){this.data=source.data;source.shared=true;}else this.data=source;this.shared=true;}
+ has(value){return this.data.has(value);}
+ add(value){if(this.data.has(value))return this;if(this.shared){this.data=new Set(this.data);this.shared=false;}this.data.add(value);return this;}
+ get size(){return this.data.size;}
+ [Symbol.iterator](){return this.data[Symbol.iterator]();}
+}
+
+const planningNearbyScratch=[];
+function denseTerrain(lvl){if(lvl.solidDense)return lvl.solidDense;return lvl.solidDense=lvl.solidRows.map(row=>{const cells=[];for(const [col,tile] of row)cells[col]=tile;return cells;});}
+
+const planningGeometryCache=new WeakMap();
+function readPlanningGeometry(descriptor,time){const cache=planningGeometryCache.get(descriptor),slot=cache?.[time&255];return slot?.time===time?slot.value:null;}
+function writePlanningGeometry(descriptor,time,value){let cache=planningGeometryCache.get(descriptor);if(!cache){cache=[];planningGeometryCache.set(descriptor,cache);}cache[time&255]={time,value};return value;}
+
+// Local adaptive game AI: receding-horizon physics search provides labels,
+// and a shared policy learns by imitation. This is not an LLM or model-free RL.
+// Inspired by online dataset aggregation: https://proceedings.mlr.press/v15/ross11a.html
+const A_CAPACITY=4096,A_CHUNK=6;
+let adaptive=null,planningDepth=0,teachPlayer=true,plannerWorker=null,plannerRequest=null,plannerSequence=0,plannerURL=null,plannerSource='',syncStepping=false;
+function resetAdaptive(){
+ if(plannerWorker)plannerWorker.terminate();if(plannerURL)URL.revokeObjectURL(plannerURL);plannerWorker=null;plannerRequest=null;plannerURL=null;
+ adaptive={policy:qNetwork(),states:new Float32Array(A_CAPACITY*INPUTS),labels:new Uint8Array(A_CAPACITY),weights:new Float32Array(A_CAPACITY),human:new Uint8Array(A_CAPACITY),head:0,size:0,examples:0,playerExamples:0,updates:0,loss:0,plans:0,invalidations:0,cache:new Map(),gradient:new Float32Array(Q_WEIGHTS),sample:new Float32Array(INPUTS)};
+ if(algorithm==='adaptive')createPlannerWorker();
+}
+function createPlannerWorker(){
+ // The worker uses the exact same physics functions as the visible simulation.
+ // No fetched model, network service or duplicated hand-coded physics is needed.
+ const functions=[clamp,levelCollisionIndex,indexedObjects,PlanningSet,readPlanningGeometry,writePlanningGeometry,denseTerrain,tileAt,solid,nearby,overlap,enterStage,advanceStage,award,endAgent,enemyPosition,stageTime,hazardPhase,hazardNumber,damageAgent,enemyGeometry,enemyState,hazardGeometry,hazardOverlaps,hammerProjectiles,bowserBodyAt,bossGeometry,stepHazards,tryCastleExit,hitBlock,stepAgent,planningClone,planningScore,planningPose,physicsPlan];
+ const source=`const planningGeometryCache=new WeakMap(),planningNearbyScratch=[];const TILE=${TILE},GROUND=${GROUND},H=${H},MAX_TIME=${MAX_TIME},A_CHUNK=${A_CHUNK};const qActions=${JSON.stringify(qActions)};let mode='train',worldTick=0,planningDepth=0,totalStageClears=0,level=null,campaign=[],trainingLevel=null,rewards={},adaptive={plans:0};\n`+functions.map(fn=>fn===clamp?'const clamp='+fn.toString()+';':fn.toString()).join('\n')+`\nself.onmessage=e=>{const m=e.data;if(m.type==='init'){campaign=m.campaign;trainingLevel=m.trainingLevel;rewards=m.rewards;return;}try{const a=m.agent;a.level=a.stageIndex<0?trainingLevel:campaign[a.stageIndex];worldTick=a.worldSteps;const route=physicsPlan(a);self.postMessage({id:m.id,key:m.key,route});}catch(error){self.postMessage({id:m.id,error:String(error)});}};`;
+ plannerSource=source;if(typeof Worker==='undefined'||typeof Blob==='undefined')return;
+ try{
+  plannerURL=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));plannerWorker=new Worker(plannerURL);
+  plannerWorker.onmessage=e=>{const result=e.data;if(!plannerRequest||result.id!==plannerRequest.id)return;if(result.error){disablePlannerWorker();return;}cachePlan(result.key,result.route);adaptive.plans++;plannerRequest=null;if(plannerURL){URL.revokeObjectURL(plannerURL);plannerURL=null;}};
+  plannerWorker.onerror=()=>disablePlannerWorker();plannerWorker.postMessage({type:'init',campaign,trainingLevel,rewards:{...rewards}});
+ }catch{disablePlannerWorker();}
+}
+function disablePlannerWorker(){if(plannerWorker)plannerWorker.terminate();plannerWorker=null;plannerRequest=null;if(plannerURL)URL.revokeObjectURL(plannerURL);plannerURL=null;}
+function adaptiveKey(a){return [a.stageIndex,a.worldSteps,a.stageSteps,a.stalled,a.x.toFixed(2),a.y.toFixed(2),a.safeX.toFixed(2),a.vx.toFixed(2),a.vy.toFixed(2),+a.jumpLatch,+a.ground,+a.big,a.invincible,a.jumpCooldown,...['broken','defeated','used','collected','landed','cleared','traversed'].map(key=>Array.from(a[key]).join(',')),...a.items.filter(i=>!i.collected).map(i=>[i.x,i.y,i.vx,i.vy].join(','))].join(':');}
+function cachePlan(key,route){const l=adaptive;if(l.cache.size>=4096)l.cache.delete(l.cache.keys().next().value);l.cache.set(key,route);}
+function prepareController(a){
+ if(a.nextController!==undefined)return;
+ const student=a.id%4===0&&adaptive.size>=256;
+ if(!student||a.stalled>=30){a.nextController='planejador';a.practiceRemaining=0;return;}
+ // Keep a practice strategy for 72 frames. Switching on every decision used
+ // to throw away long plans and force serial searches for diverging students.
+ if(!a.practiceRemaining){a.practiceMode=random()<.65?'rede':'planejador';a.practiceRemaining=12;}
+ a.nextController=a.practiceMode;a.practiceRemaining--;
+}
+function prepareAdaptiveStep(){
+ if(!plannerWorker||syncStepping)return true;
+ for(const a of agents){if(a.dead||a.done||a.adaptiveAge<A_CHUNK&&a.adaptiveStage===a.stageIndex)continue;prepareController(a);if(a.nextController==='rede'||a.adaptiveRoute?.length)continue;
+  const key=adaptiveKey(a);if(adaptive.cache.has(key))continue;
+  if(!plannerRequest){const clone=planningClone(a);delete clone.level;delete clone.brain;delete clone.qHidden;delete clone.qValues;const id=++plannerSequence;plannerRequest={id,key};plannerWorker.postMessage({type:'plan',id,key,agent:clone});}
+  return false;
+ }
+ return true;
+}
+function imitationPush(state,label,player=false){
+ const l=adaptive,i=l.head;l.states.set(state,i*INPUTS);l.labels[i]=label;l.weights[i]=player?3:1;l.human[i]=player?1:0;
+ l.head=(i+1)%A_CAPACITY;l.size=Math.min(A_CAPACITY,l.size+1);l.examples++;if(player)l.playerExamples++;
+}
+function trainImitation(batch=16){
+ const l=adaptive;if(!l||l.size<8)return;l.gradient.fill(0);let loss=0,total=0;
+ for(let n=0;n<batch;n++){
+  // Human demonstrations remain useful alongside the automatically generated labels.
+  let row=Math.floor(random()*l.size);if(n%4===0&&l.playerExamples){for(let k=0;k<32&&!l.human[row];k++)row=Math.floor(random()*l.size);}
+  l.sample.set(l.states.subarray(row*INPUTS,(row+1)*INPUTS));const logits=qForward(l.policy,l.sample),max=Math.max(...logits);
+  const probabilities=Array.from(logits,x=>Math.exp(x-max)),sum=probabilities.reduce((a,b)=>a+b,0),weight=l.weights[row];
+  for(let k=0;k<Q_ACTIONS;k++)probabilities[k]/=sum;
+  loss-=weight*Math.log(Math.max(1e-8,probabilities[l.labels[row]]));total+=weight;
+  for(let j=0;j<Q_HIDDEN;j++){
+   let error=0;for(let k=0;k<Q_ACTIONS;k++)error+=(probabilities[k]-(k===l.labels[row]?1:0))*l.policy.w[Q_HIDDEN*(INPUTS+1)+k*(Q_HIDDEN+1)+1+j];
+   error*=weight*(1-l.policy.h[j]*l.policy.h[j]);const offset=j*(INPUTS+1);l.gradient[offset]+=error;
+   for(let i=0;i<INPUTS;i++)l.gradient[offset+1+i]+=error*l.sample[i];
+  }
+  for(let k=0;k<Q_ACTIONS;k++){
+   const delta=weight*(probabilities[k]-(k===l.labels[row]?1:0)),offset=Q_HIDDEN*(INPUTS+1)+k*(Q_HIDDEN+1);l.gradient[offset]+=delta;
+   for(let j=0;j<Q_HIDDEN;j++)l.gradient[offset+1+j]+=delta*l.policy.h[j];
+  }
+ }
+ for(let i=0;i<Q_WEIGHTS;i++)l.policy.w[i]-=.008*clamp(l.gradient[i]/total,-1,1);
+ l.updates++;l.loss=.95*l.loss+.05*loss/total;
+}
+function planningClone(a,light=false){
+ const copy={...a,action:{...a.action},items:a.items.map(x=>({...x})),effects:[],rl:null,adaptiveRoute:null};
+ for(const key of ['collected','defeated','cleared','traversed','used','broken','landed'])copy[key]=light?new PlanningSet(a[key]):new Set(a[key]);
+ return copy;
+}
+function planningScore(a,start){
+ if(a.dead)return -1e9;if(a.done||a.stageIndex>start.stageIndex)return 1e6+a.stagesCleared;
+ const foot=a.y+a.h;
+ return a.x+.08*a.safeX+Math.min(12,(a.reward-start.reward)*2)+(a.ground?8:0)+Math.min(136,GROUND-foot)*.85-Math.max(0,foot-GROUND)*2.5-(start.big&&!a.big?45:0);
+}
+function planningPose(a){return {x:a.x,y:a.y,vx:a.vx,vy:a.vy,worldSteps:a.worldSteps,stageIndex:a.stageIndex,ground:a.ground,big:a.big,jumpLatch:a.jumpLatch,jumpCooldown:a.jumpCooldown};}
+function validateAdaptivePose(a){
+ if(!a.expectedPose||a.adaptiveAge<A_CHUNK||a.adaptiveStage!==a.stageIndex)return;
+ const p=a.expectedPose;let matches=true;for(const key of ['x','y','vx','vy'])if(Math.abs(a[key]-p[key])>1e-5)matches=false;
+ for(const key of ['worldSteps','stageIndex','ground','big','jumpLatch','jumpCooldown'])if(a[key]!==p[key])matches=false;
+ if(!matches){a.adaptiveRoute=null;a.adaptivePredictions=null;adaptive.invalidations++;}a.expectedPose=null;
+}
+function physicsPlan(start){
+ // Search the actual future environment clock. Rollouts have no global effects.
+ // Reuse 72 frames already simulated; verify the actual pose every 6 frames.
+ const width=start.stalled>24?64:48,depths=start.level.underwater?18:20;
+ let beam=[{a:planningClone(start,true),route:[],predictions:[]}],best=beam[0];
+ planningDepth++;adaptive.plans++;
+ try{
+  for(let depth=0;depth<depths;depth++){
+   const buckets=new Map();let exit=null;
+   for(const node of beam){for(const label of [2,5,1,4,0,3]){
+    const a=planningClone(node.a,true);for(let t=0;t<A_CHUNK&&!a.dead&&!a.done&&a.stageIndex===start.stageIndex;t++)stepAgent(a,qActions[label]);
+    if(a.dead)continue;const next={a,route:node.route.concat(label),predictions:node.predictions.concat(planningPose(a))};
+    if(a.done||a.stageIndex>start.stageIndex){exit=next;break;}
+    const key=[Math.floor(a.x/10),Math.floor(a.y/8),Math.round(a.vx),Math.round(a.vy/2),+a.jumpLatch,+a.ground,+a.big,a.jumpCooldown>0].join(',');
+    const old=buckets.get(key);if(!old||planningScore(a,start)>planningScore(old.a,start))buckets.set(key,next);
+   }if(exit)break;}
+   if(exit){best=exit;break;}
+   const ranked=Array.from(buckets.values()).sort((x,y)=>planningScore(y.a,start)-planningScore(x.a,start));
+   // Preserve grounded, ascending and descending routes: one greedy frontier
+   // otherwise prunes the delayed jump needed to reach the next platform.
+   const diversity=new Map();beam=[];
+   for(const node of ranked){const a=node.a,key=[Math.floor(a.y/40),Math.sign(a.vy),+a.ground,+a.jumpLatch,Math.sign(a.vx)].join(':');const count=diversity.get(key)||0;if(count<3){beam.push(node);diversity.set(key,count+1);}if(beam.length>=width)break;}
+   if(!beam.length)break;best=beam[0];
+  }
+ }finally{planningDepth--;}
+ const route=best.route.length?best.route.slice(0,12):[1];route.predictions=best.predictions.slice(0,12);return route;
+}
+function adaptiveDecide(a){
+ const l=adaptive,state=new Float32Array(observe(a));for(let i=0;i<state.length;i++)state[i]=clamp(state[i],-1,1);
+ const values=qForward(l.policy,state);a.qValues=new Float32Array(values);a.qHidden=new Float32Array(l.policy.h);
+ let label;
+ // A quarter of the population practices the learned policy; the other agents
+ // keep gathering labels from planning. Safety fallback can still die honestly.
+ prepareController(a);
+ if(a.nextController==='rede'){label=qArgmax(values);a.adaptiveRoute=null;a.adaptivePredictions=null;a.expectedPose=null;a.controller='rede';}
+ else{
+  if(!a.adaptiveRoute?.length){
+   const key=adaptiveKey(a);
+   let route=l.cache.get(key);if(!route){route=physicsPlan(a);cachePlan(key,route);}
+   a.adaptiveRoute=route.slice();a.adaptivePredictions=route.predictions?.slice()||[];
+  }
+  label=a.adaptiveRoute.shift();a.expectedPose=a.adaptivePredictions?.shift()||null;a.controller='planejador';
+  if(a.id===1)imitationPush(state,label);
+ }
+ a.nextController=undefined;a.action={...qActions[label]};a.adaptiveAge=0;a.adaptiveStage=a.stageIndex;
+ a.brain.hidden.set(l.policy.h.subarray(0,HIDDEN));a.brain.output[0]=a.action.move;a.brain.output[1]=a.action.jump?1:0;
+}
+function capturePlayer(a,action){
+ if(!teachPlayer||a.dead||a.done)return;
+ const pending=a.demonstrations??(a.demonstrations=[]);
+ if(a.steps%6===0&&(action.move||action.jump||Math.abs(a.vx)>.5)){
+  const state=new Float32Array(observe(a));for(let i=0;i<state.length;i++)state[i]=clamp(state[i],-1,1);
+  pending.push({state,label:action.move+1+(action.jump?3:0),step:a.steps});
+ }
+ while(pending.length&&a.steps-pending[0].step>=90){const example=pending.shift();imitationPush(example.state,example.label,true);}
+}
+function finishPlayer(a,previousStage){
+ if(a.dead){a.demonstrations=[];return;}
+ if(a.stageIndex!==previousStage||a.done){for(const example of a.demonstrations||[])imitationPush(example.state,example.label,true);a.demonstrations=[];}
+}
+
+function learningStats(){const r=algorithm==='rainbow';return {algorithm,checkpoint:null,replay:r?(rainbowWorker?rainbow.workerReplay:rainbow.size):learner?.size||0,experiences:r?rainbow.experiences:learner?.experiences||0,updates:r?rainbow.updates:algorithm==='adaptive'?adaptive.updates:learner?.updates||0,loss:r?rainbow.loss:algorithm==='adaptive'?adaptive.loss:learner?.loss||0,demonstrations:adaptive?.size||0,examples:adaptive?.examples||0,playerExamples:adaptive?.playerExamples||0,plans:adaptive?.plans||0,planInvalidations:adaptive?.invalidations||0,teachPlayer,sensors:r?R_INPUTS:INPUTS,quantiles:r?R_TAUS:0,nStep:r?R_NSTEP:0,loadedUpdates:r?rainbow.loadedUpdates||0:0,priorityBeta:r?rainbow.beta:0,firstCampaignWin:!!firstRLVictory,recordedFrames:bestRLTrace?.actions.length||0,rlWorker:!!rainbowWorker,queuedTransitions:r?rainbow.outbox.length:0,gradientSamples:r?rainbow.gradientSamples:0,replayRatio:r&&rainbow.experiences?rainbow.gradientSamples/rainbow.experiences:0};}
+
+function makePracticeLevel(kind){
+ const tiles=new Map(),solidRows=Array.from({length:16},()=>new Map()),platforms=[],gaps=[],coins=[],enemies=[],blocks=[];
+ const length=kind==='classic'?212:94,goal=(length-12)*TILE;
+ const put=(x,y,type,id=-1)=>{const t={x:x*TILE,y:y*TILE,w:TILE,h:TILE,type,id,col:x,row:y};tiles.set(x+','+y,t);solidRows[y]?.set(x,t);return t;};
+ const gapData=kind==='classic'?[[69,2],[86,3],[153,2]]:[[19,2],[42,2],[68,3]];
+ for(const [start,width] of gapData) gaps.push({id:gaps.length,start:start*TILE,end:(start+width)*TILE});
+ for(let x=0;x<length;x++)if(!gaps.some(g=>x*TILE>=g.start&&x*TILE<g.end)){put(x,13,'ground');put(x,14,'ground');}
+ function platform(x,y,w,h=1,type='brick'){
+  const p={id:platforms.length,x:x*TILE,y:y*TILE,w:w*TILE,h:h*TILE,end:(x+w)*TILE};platforms.push(p);
+  for(let i=0;i<w;i++)for(let j=0;j<h;j++) put(x+i,y+j,type,p.id);
+  return p;
+ }
+ function question(x,y,power=false){const t=put(x,y,'question');t.block=blocks.length;blocks.push({x:t.x,y:t.y,power});}
+ function pipe(x,height){const p=platform(x,13-height,2,height,'pipe');p.pipe=true;}
+ function addCoin(x,y){coins.push({id:coins.length,x:x*TILE+10,y:y*TILE+5,w:12,h:22});}
+ function enemy(x,min,max,type='goomba'){enemies.push({id:enemies.length,x:x*TILE,y:GROUND-26,w:26,h:26,min:min*TILE,max:max*TILE,type,speed:type==='koopa'?.9:.65});}
+ if(kind==='classic'){
+  question(16,9);platform(20,9,5);question(21,9,true);question(23,9);question(22,5);
+  pipe(28,2);pipe(38,3);pipe(46,4);pipe(57,4);
+  platform(77,9,3);question(78,9,true);platform(80,5,8);
+  platform(91,5,4);question(94,5);platform(100,9,1);question(106,9);question(109,9,true);question(109,5);question(112,9);
+  platform(118,9,1);platform(121,5,3);platform(128,5,4);question(129,9);question(130,9);
+  for(let i=0;i<4;i++){platform(134+i,12-i,1,i+1,'stone');platform(140+i,9+i,1,4-i,'stone');}
+  for(let i=0;i<4;i++){platform(148+i,12-i,1,i+1,'stone');platform(156+i,9+i,1,4-i,'stone');}
+  pipe(163,2);platform(168,9,4);question(170,9);pipe(179,2);
+  for(let i=0;i<8;i++) platform(182+i,12-i,1,i+1,'stone');platform(190,5,1,8,'stone');
+  [[10,12],[12,12],[31,10],[32,9],[33,10],[64,11],[65,10],[66,11],[73,10],[74,10],[75,10],[82,4],[84,4],[88,9],[89,9],[110,4],[122,4],[124,4],[165,10],[174,10],[175,10],[176,10]].forEach(v=>addCoin(...v));
+  enemy(22,18,27);enemy(41,40,45);enemy(52,49,56);enemy(54,49,56);enemy(82,80,85);enemy(104,98,117,'koopa');enemy(114,98,117);enemy(124,120,132);enemy(127,120,132);enemy(171,166,178);enemy(173,166,178);
+ }else{
+  platform(10,11,2,2,'stone');pipe(28,2);platform(36,10,3);question(37,10,true);pipe(53,3);platform(62,11,2,2,'stone');platform(77,10,2,3,'stone');
+  [[8,10],[12,9],[20,9],[21,9],[32,10],[38,8],[44,9],[55,8],[63,9],[70,9],[78,8]].forEach(v=>addCoin(...v));enemy(35,31,41);enemy(60,57,66);
+ }
+ return {id:'treino',stageId:'treino',name:'PISTA DE TREINO',theme:'overworld',hazards:[],boss:null,kind,tiles,solidRows,platforms,gaps,coins,enemies,blocks,length:length*TILE,goal};
+}
+const CAMPAIGN_SPECS=[{"id":"1-1","theme":"overworld","length":212,"ground":[[0,69],[71,15],[89,64],[155,57]],"platforms":[[20,9,5,1,"brick"],[77,9,3,1,"brick"],[80,5,8,1,"brick"],[91,5,4,1,"brick"],[100,9,1,1,"brick"],[118,9,1,1,"brick"],[121,5,3,1,"brick"],[128,5,4,1,"brick"],[168,9,4,1,"brick"],[44,11,2,2,"stone"],[55,11,2,2,"stone"],[134,12,1,1,"stone"],[135,11,1,2,"stone"],[136,10,1,3,"stone"],[137,9,1,4,"stone"],[140,9,1,4,"stone"],[141,10,1,3,"stone"],[142,11,1,2,"stone"],[143,12,1,1,"stone"],[148,12,1,1,"stone"],[149,11,1,2,"stone"],[150,10,1,3,"stone"],[151,9,1,4,"stone"],[156,9,1,4,"stone"],[157,10,1,3,"stone"],[158,11,1,2,"stone"],[159,12,1,1,"stone"],[182,12,1,1,"stone"],[183,11,1,2,"stone"],[184,10,1,3,"stone"],[185,9,1,4,"stone"],[186,8,1,5,"stone"],[187,7,1,6,"stone"],[188,6,1,7,"stone"],[189,5,1,8,"stone"],[190,5,1,8,"stone"]],"questions":[[16,9,false],[21,9,true],[23,9,false],[22,5,false],[78,9,true],[94,5,false],[106,9,false],[109,9,true],[109,5,false],[112,9,false],[129,9,false],[130,9,false],[170,9,false]],"pipes":[[28,2],[38,3],[46,4],[57,4],[163,2],[179,2]],"coins":[[10,12],[12,12],[31,10],[32,9],[33,10],[64,11],[65,10],[66,11],[73,10],[74,10],[75,10],[82,4],[84,4],[88,9],[89,9],[110,4],[122,4],[124,4],[165,10],[174,10],[175,10],[176,10]],"enemies":[{"x":22,"min":18,"max":27,"type":"goomba"},{"x":41,"min":40,"max":45,"type":"goomba"},{"x":52,"min":49,"max":56,"type":"goomba"},{"x":54,"min":49,"max":56,"type":"goomba"},{"x":82,"min":80,"max":85,"type":"goomba"},{"x":104,"min":98,"max":117,"type":"koopa"},{"x":114,"min":98,"max":117,"type":"goomba"},{"x":124,"min":120,"max":132,"type":"goomba"},{"x":127,"min":120,"max":132,"type":"goomba"},{"x":171,"min":166,"max":178,"type":"goomba"},{"x":173,"min":166,"max":178,"type":"goomba"}],"hazards":[],"boss":null},{"id":"1-2","theme":"underground","length":198,"ground":[[0,54],[57,41],[101,31],[135,63]],"platforms":[[0,1,174,1,"brick"],[8,9,5,1,"brick"],[18,9,4,1,"brick"],[30,8,5,1,"brick"],[38,10,3,3,"stone"],[45,8,6,1,"brick"],[58,11,3,2,"stone"],[67,9,7,1,"brick"],[79,10,4,3,"stone"],[84,7,7,1,"brick"],[104,9,7,1,"brick"],[114,8,6,1,"brick"],[124,11,4,2,"stone"],[137,9,6,1,"brick"],[150,11,2,2,"stone"],[160,8,6,1,"brick"],[173,12,1,1,"stone"],[174,11,1,2,"stone"],[175,10,1,3,"stone"],[176,9,1,4,"stone"],[177,8,1,5,"stone"],[178,7,1,6,"stone"],[179,7,2,6,"stone"]],"questions":[[11,9,true],[20,9,false],[31,8,false],[70,9,true],[108,9,false],[117,8,false],[140,9,false]],"pipes":[[23,3],[63,2],[94,3],[153,3],[185,2]],"coins":[[10,7],[12,7],[32,6],[34,6],[48,6],[50,6],[55,8],[56,8],[69,7],[71,7],[85,5],[87,5],[89,5],[99,8],[100,8],[106,7],[109,7],[115,6],[119,6],[138,7],[141,7],[162,6],[164,6],[166,6]],"enemies":[{"x":15,"min":8,"max":21,"type":"goomba"},{"x":35,"min":27,"max":37,"type":"goomba"},{"x":51,"min":41,"max":53,"type":"goomba"},{"x":73,"min":65,"max":78,"type":"goomba"},{"x":89,"min":84,"max":93,"type":"koopa"},{"x":111,"min":102,"max":123,"type":"goomba"},{"x":123,"min":113,"max":128,"type":"goomba"},{"x":145,"min":136,"max":149,"type":"goomba"},{"x":168,"min":158,"max":172,"type":"koopa"}],"hazards":[],"boss":null},{"id":"1-3","theme":"athletic","length":164,"ground":[[0,10],[142,22]],"platforms":[[8,11,5,1,"stone"],[15,9,6,1,"stone"],[23,10,7,1,"stone"],[32,8,5,1,"stone"],[39,9,7,1,"stone"],[48,7,5,1,"stone"],[56,9,6,1,"stone"],[65,10,7,1,"stone"],[74,8,5,1,"stone"],[82,9,6,1,"stone"],[90,7,7,1,"stone"],[100,8,6,1,"stone"],[109,10,6,1,"stone"],[117,8,5,1,"stone"],[125,9,6,1,"stone"],[134,11,10,1,"stone"]],"questions":[[18,6,true],[43,6,false],[68,7,false],[104,5,false],[137,8,true]],"pipes":[],"coins":[[9,9],[11,9],[16,7],[18,7],[20,7],[25,8],[28,8],[33,6],[35,6],[40,7],[42,7],[44,7],[49,5],[51,5],[58,7],[60,7],[67,8],[70,8],[75,6],[77,6],[83,7],[86,7],[92,5],[94,5],[96,5],[102,6],[104,6],[110,8],[113,8],[118,6],[120,6],[127,7],[129,7],[136,9],[139,9]],"enemies":[{"x":27,"min":24,"max":29,"type":"goomba"},{"x":43,"min":40,"max":45,"type":"koopa"},{"x":69,"min":66,"max":71,"type":"goomba"},{"x":95,"min":91,"max":96,"type":"koopa"},{"x":112,"min":110,"max":114,"type":"goomba"},{"x":138,"min":135,"max":143,"type":"koopa"}],"hazards":[],"boss":null},{"id":"1-4","theme":"castle","length":146,"ground":[[0,28],[31,26],[60,28],[91,33],[135,11]],"platforms":[[0,1,137,2,"stone"],[16,11,4,2,"stone"],[22,10,2,1,"stone"],[35,10,3,3,"stone"],[42,9,6,1,"stone"],[53,11,3,2,"stone"],[63,10,4,3,"stone"],[75,8,4,1,"stone"],[87,11,1,2,"stone"],[97,10,3,3,"stone"],[108,11,3,2,"stone"],[124,13,11,1,"bridge"]],"questions":[[8,9,true]],"pipes":[],"coins":[[18,9],[19,9],[29,9],[30,9],[43,7],[45,7],[47,7],[58,9],[59,9],[65,8],[76,6],[78,6],[89,9],[90,9],[109,9],[111,9]],"enemies":[],"hazards":[{"type":"lava","x":28,"y":13,"length":3},{"type":"lava","x":57,"y":13,"length":3},{"type":"lava","x":88,"y":13,"length":3},{"type":"lava","x":124,"y":14,"length":11},{"type":"firebar","x":23,"y":10,"length":3,"period":210},{"type":"firebar","x":46,"y":9,"length":3,"period":180},{"type":"firebar","x":76,"y":8,"length":4,"period":240},{"type":"firebar","x":110,"y":11,"length":3,"period":200}],"boss":{"x":130,"bridgeStart":124,"bridgeEnd":134,"axeX":134,"final":false}},{"id":"2-1","theme":"overworld","length":214,"ground":[[0,49],[52,38],[93,57],[153,61]],"platforms":[[12,9,6,1,"brick"],[25,8,3,1,"brick"],[36,9,7,1,"brick"],[54,10,4,1,"brick"],[64,7,6,1,"brick"],[78,9,6,1,"brick"],[97,10,3,3,"stone"],[110,9,8,1,"brick"],[127,8,4,1,"brick"],[138,9,6,1,"brick"],[157,11,2,2,"stone"],[166,9,7,1,"brick"],[176,10,3,3,"stone"],[187,12,1,1,"stone"],[188,11,1,2,"stone"],[189,10,1,3,"stone"],[190,9,1,4,"stone"],[191,8,1,5,"stone"],[192,7,1,6,"stone"],[193,6,1,7,"stone"],[194,5,1,8,"stone"],[195,5,1,8,"stone"]],"questions":[[14,9,true],[17,9,false],[27,8,false],[39,9,false],[57,10,false],[66,7,true],[81,9,false],[114,9,false],[118,9,true],[140,9,false],[169,9,false]],"pipes":[[20,2],[31,3],[59,2],[86,3],[103,3],[132,3],[159,4],[180,2]],"coins":[[13,7],[16,7],[26,6],[38,7],[41,7],[49,9],[51,9],[65,5],[67,5],[69,5],[80,7],[83,7],[91,8],[92,8],[112,7],[115,7],[117,7],[128,6],[130,6],[139,7],[142,7],[151,9],[152,9],[168,7],[171,7],[178,8],[185,10]],"enemies":[{"x":17,"min":10,"max":19,"type":"goomba"},{"x":42,"min":35,"max":48,"type":"goomba"},{"x":45,"min":35,"max":48,"type":"goomba"},{"x":70,"min":62,"max":77,"type":"koopa"},{"x":75,"min":62,"max":77,"type":"goomba"},{"x":116,"min":108,"max":126,"type":"goomba"},{"x":122,"min":108,"max":126,"type":"goomba"},{"x":145,"min":137,"max":149,"type":"koopa"},{"x":171,"min":163,"max":175,"type":"goomba"},{"x":174,"min":163,"max":175,"type":"goomba"}],"hazards":[],"boss":null},{"id":"2-2","theme":"underwater","length":178,"ground":[[0,178]],"platforms":[[18,11,3,2,"coral"],[29,8,3,5,"coral"],[41,10,2,3,"coral"],[55,7,4,2,"stone"],[66,10,3,3,"coral"],[75,3,11,2,"stone"],[82,11,4,2,"coral"],[96,8,3,5,"coral"],[111,4,13,2,"stone"],[115,10,3,3,"coral"],[134,7,4,6,"coral"],[147,11,3,2,"coral"],[156,8,2,5,"stone"]],"questions":[],"pipes":[[164,3]],"coins":[[13,9],[15,9],[17,9],[24,6],[26,5],[28,4],[37,8],[39,7],[41,6],[48,9],[50,8],[52,7],[61,6],[63,5],[65,4],[72,9],[74,8],[76,7],[88,8],[90,7],[92,6],[103,5],[105,4],[107,3],[123,8],[125,7],[127,6],[130,4],[132,4],[142,6],[144,5],[146,4],[151,8],[153,7],[155,6],[160,5],[162,5]],"enemies":[{"x":27,"min":19,"max":41,"type":"fish"},{"x":48,"min":36,"max":64,"type":"fish"},{"x":73,"min":62,"max":92,"type":"fish"},{"x":106,"min":90,"max":122,"type":"fish"},{"x":130,"min":118,"max":146,"type":"fish"},{"x":154,"min":143,"max":164,"type":"fish"}],"hazards":[],"boss":null},{"id":"2-3","theme":"bridge","length":174,"ground":[[0,13],[150,24]],"platforms":[[11,11,20,1,"bridge"],[34,11,22,1,"bridge"],[59,10,18,1,"bridge"],[80,11,22,1,"bridge"],[105,10,22,1,"bridge"],[130,11,22,1,"bridge"]],"questions":[[38,8,true],[66,7,false],[93,8,false],[115,7,true]],"pipes":[],"coins":[[18,8],[21,8],[24,8],[30,7],[33,7],[40,8],[44,8],[48,8],[54,7],[58,7],[63,7],[67,7],[72,7],[77,6],[80,6],[86,8],[91,8],[97,8],[102,7],[105,7],[110,7],[114,7],[119,7],[125,6],[129,6],[135,8],[139,8],[144,8]],"enemies":[{"x":24,"min":16,"max":30,"type":"fish"},{"x":47,"min":35,"max":55,"type":"fish"},{"x":73,"min":60,"max":76,"type":"fish"},{"x":96,"min":82,"max":101,"type":"fish"},{"x":119,"min":106,"max":126,"type":"fish"},{"x":145,"min":131,"max":150,"type":"fish"}],"hazards":[],"boss":null},{"id":"2-4","theme":"castle","length":158,"ground":[[0,24],[27,31],[61,35],[99,35],[146,12]],"platforms":[[0,1,149,2,"stone"],[13,10,3,3,"stone"],[21,11,3,2,"stone"],[31,9,7,1,"stone"],[41,11,2,2,"stone"],[46,8,8,1,"stone"],[64,10,3,3,"stone"],[74,8,7,1,"stone"],[84,10,3,3,"stone"],[101,11,3,2,"stone"],[110,9,4,1,"stone"],[122,11,3,2,"stone"],[134,13,12,1,"bridge"]],"questions":[[7,9,true]],"pipes":[],"coins":[[15,8],[25,9],[26,9],[32,7],[35,7],[37,7],[48,6],[51,6],[53,6],[59,9],[60,9],[65,8],[76,6],[79,6],[85,8],[97,9],[98,9],[111,7],[113,7],[124,9],[130,10]],"enemies":[],"hazards":[{"type":"lava","x":24,"y":13,"length":3},{"type":"lava","x":58,"y":13,"length":3},{"type":"lava","x":96,"y":13,"length":3},{"type":"lava","x":134,"y":14,"length":12},{"type":"firebar","x":21,"y":11,"length":3,"period":210},{"type":"firebar","x":35,"y":9,"length":4,"period":240},{"type":"firebar","x":50,"y":8,"length":3,"period":180},{"type":"firebar","x":77,"y":8,"length":4,"period":240},{"type":"firebar","x":112,"y":9,"length":4,"period":230},{"type":"firebar","x":123,"y":11,"length":3,"period":185}],"boss":{"x":140,"bridgeStart":134,"bridgeEnd":145,"axeX":145,"final":false}},{"id":"3-1","theme":"night","length":222,"ground":[[0,62],[65,31],[99,48],[150,72]],"platforms":[[12,9,5,1,"brick"],[23,8,7,1,"brick"],[36,9,4,1,"brick"],[44,11,2,2,"stone"],[53,8,5,1,"brick"],[67,11,4,1,"bridge"],[71,9,4,1,"bridge"],[75,7,5,1,"bridge"],[84,9,5,1,"brick"],[104,9,7,1,"brick"],[119,7,6,1,"brick"],[130,9,7,1,"brick"],[141,11,3,2,"stone"],[154,9,10,1,"brick"],[170,10,4,3,"stone"],[179,9,6,1,"brick"],[195,12,1,1,"stone"],[196,11,1,2,"stone"],[197,10,1,3,"stone"],[198,9,1,4,"stone"],[199,8,1,5,"stone"],[200,7,1,6,"stone"],[201,6,1,7,"stone"],[202,5,1,8,"stone"],[203,5,1,8,"stone"]],"questions":[[14,9,true],[25,8,false],[29,8,false],[55,8,false],[86,9,true],[107,9,false],[122,7,false],[133,9,true],[157,9,false],[161,9,false],[182,9,false]],"pipes":[[19,2],[32,3],[46,4],[91,2],[112,3],[138,2],[165,3],[188,2]],"coins":[[13,7],[16,7],[24,6],[27,6],[29,6],[37,7],[39,7],[54,6],[57,6],[63,8],[64,8],[69,9],[73,7],[77,5],[79,5],[85,7],[88,7],[97,8],[98,8],[106,7],[109,7],[121,5],[124,5],[132,7],[135,7],[148,9],[149,9],[155,7],[158,7],[162,7],[180,7],[183,7]],"enemies":[{"x":26,"min":22,"max":31,"type":"goomba"},{"x":40,"min":35,"max":43,"type":"koopa"},{"x":56,"min":49,"max":61,"type":"goomba"},{"x":83,"min":81,"max":90,"type":"koopa"},{"x":108,"min":103,"max":111,"type":"goomba"},{"x":127,"min":115,"max":137,"type":"hammer"},{"x":161,"min":152,"max":164,"type":"koopa"},{"x":181,"min":176,"max":187,"type":"hammer"}],"hazards":[{"type":"piranha","x":91,"y":11,"period":210},{"type":"piranha","x":165,"y":10,"period":230}],"boss":null},{"id":"3-2","theme":"night","length":214,"ground":[[0,78],[81,41],[125,89]],"platforms":[[21,9,5,1,"brick"],[47,9,5,1,"brick"],[66,9,4,1,"brick"],[85,10,3,3,"stone"],[101,9,7,1,"brick"],[116,10,3,3,"stone"],[133,9,5,1,"brick"],[150,10,3,3,"stone"],[165,9,6,1,"brick"],[187,12,1,1,"stone"],[188,11,1,2,"stone"],[189,10,1,3,"stone"],[190,9,1,4,"stone"],[191,8,1,5,"stone"],[192,7,1,6,"stone"],[193,6,1,7,"stone"],[194,5,1,8,"stone"],[195,5,1,8,"stone"]],"questions":[[23,9,true],[49,9,false],[68,9,false],[103,9,true],[106,9,false],[135,9,false],[168,9,false]],"pipes":[[57,2],[142,3],[178,2]],"coins":[[13,10],[15,10],[17,10],[22,7],[25,7],[35,10],[37,10],[39,10],[48,7],[51,7],[65,10],[67,7],[69,7],[79,8],[80,8],[92,10],[94,10],[96,10],[102,7],[105,7],[108,7],[123,8],[124,8],[134,7],[137,7],[156,10],[158,10],[160,10],[166,7],[169,7],[172,7],[181,10],[183,10]],"enemies":[{"x":15,"min":9,"max":20,"type":"koopa"},{"x":29,"min":27,"max":43,"type":"goomba"},{"x":33,"min":27,"max":43,"type":"goomba"},{"x":37,"min":27,"max":43,"type":"goomba"},{"x":42,"min":27,"max":46,"type":"koopa"},{"x":62,"min":60,"max":77,"type":"goomba"},{"x":69,"min":60,"max":77,"type":"goomba"},{"x":74,"min":60,"max":77,"type":"koopa"},{"x":92,"min":89,"max":100,"type":"goomba"},{"x":97,"min":89,"max":100,"type":"goomba"},{"x":110,"min":108,"max":115,"type":"koopa"},{"x":129,"min":126,"max":141,"type":"goomba"},{"x":135,"min":126,"max":141,"type":"goomba"},{"x":146,"min":144,"max":149,"type":"koopa"},{"x":156,"min":153,"max":164,"type":"goomba"},{"x":160,"min":153,"max":164,"type":"goomba"},{"x":173,"min":171,"max":177,"type":"koopa"},{"x":184,"min":181,"max":186,"type":"goomba"}],"hazards":[],"boss":null},{"id":"3-3","theme":"athletic","length":182,"ground":[[0,10],[159,23]],"platforms":[[8,11,5,1,"stone"],[15,9,6,1,"stone"],[24,7,5,1,"stone"],[31,9,6,1,"stone"],[40,10,7,1,"stone"],[50,8,5,1,"stone"],[58,6,6,1,"stone"],[67,8,5,1,"stone"],[75,10,7,1,"stone"],[84,9,5,1,"stone"],[92,7,6,1,"stone"],[100,9,5,1,"stone"],[108,11,7,1,"stone"],[117,9,6,1,"stone"],[126,7,5,1,"stone"],[134,8,6,1,"stone"],[143,10,5,1,"stone"],[151,11,10,1,"stone"]],"questions":[[18,6,true],[43,7,false],[78,7,false],[112,8,true],[138,5,false]],"pipes":[],"coins":[[9,9],[11,9],[16,7],[19,7],[25,5],[27,5],[32,7],[35,7],[42,8],[45,8],[51,6],[53,6],[59,4],[61,4],[63,4],[68,6],[70,6],[76,8],[79,8],[81,8],[85,7],[87,7],[93,5],[96,5],[101,7],[103,7],[109,9],[112,9],[114,9],[118,7],[121,7],[127,5],[129,5],[135,6],[138,6],[144,8],[146,8],[153,9],[156,9],[159,9]],"enemies":[{"x":20,"min":16,"max":20,"type":"koopa"},{"x":44,"min":41,"max":46,"type":"goomba"},{"x":62,"min":59,"max":63,"type":"koopa"},{"x":79,"min":76,"max":81,"type":"goomba"},{"x":96,"min":93,"max":97,"type":"koopa"},{"x":121,"min":118,"max":122,"type":"goomba"},{"x":138,"min":135,"max":139,"type":"koopa"},{"x":157,"min":152,"max":160,"type":"goomba"}],"hazards":[],"boss":null},{"id":"3-4","theme":"castle","length":170,"ground":[[0,33],[36,29],[68,35],[106,40],[158,12]],"platforms":[[0,1,161,2,"stone"],[16,10,3,3,"stone"],[23,8,6,1,"stone"],[39,11,3,2,"stone"],[46,9,8,1,"stone"],[58,11,3,2,"stone"],[72,10,4,3,"stone"],[82,7,6,1,"stone"],[96,10,4,3,"stone"],[110,11,3,2,"stone"],[121,9,5,1,"stone"],[136,11,4,2,"stone"],[146,13,12,1,"bridge"]],"questions":[[8,9,true],[117,9,false]],"pipes":[],"coins":[[17,8],[18,8],[24,6],[27,6],[34,9],[35,9],[47,7],[50,7],[53,7],[66,9],[67,9],[74,8],[83,5],[85,5],[87,5],[98,8],[104,9],[105,9],[122,7],[125,7],[138,9],[143,10]],"enemies":[],"hazards":[{"type":"lava","x":33,"y":13,"length":3},{"type":"lava","x":65,"y":13,"length":3},{"type":"lava","x":103,"y":13,"length":3},{"type":"lava","x":146,"y":14,"length":12},{"type":"firebar","x":26,"y":8,"length":4,"period":200},{"type":"firebar","x":39,"y":11,"length":3,"period":185},{"type":"firebar","x":50,"y":9,"length":5,"period":260},{"type":"firebar","x":74,"y":10,"length":3,"period":185},{"type":"firebar","x":85,"y":7,"length":4,"period":220},{"type":"firebar","x":110,"y":11,"length":4,"period":245},{"type":"firebar","x":124,"y":9,"length":4,"period":220},{"type":"firebar","x":138,"y":11,"length":3,"period":185}],"boss":{"x":152,"bridgeStart":146,"bridgeEnd":157,"axeX":157,"final":false}},{"id":"4-1","theme":"overworld","length":224,"ground":[[0,60],[63,43],[109,43],[155,69]],"platforms":[[16,9,5,1,"brick"],[35,9,4,1,"brick"],[47,10,3,3,"stone"],[68,9,4,1,"brick"],[82,8,6,1,"brick"],[96,10,3,3,"stone"],[116,9,7,1,"brick"],[134,8,4,1,"brick"],[143,11,2,2,"stone"],[160,10,3,3,"stone"],[174,9,7,1,"brick"],[187,10,3,3,"stone"],[197,12,1,1,"stone"],[198,11,1,2,"stone"],[199,10,1,3,"stone"],[200,9,1,4,"stone"],[201,8,1,5,"stone"],[202,7,1,6,"stone"],[203,6,1,7,"stone"],[204,5,1,8,"stone"],[205,5,1,8,"stone"]],"questions":[[18,9,true],[36,9,false],[70,9,false],[84,8,true],[87,8,false],[119,9,false],[136,8,false],[177,9,true]],"pipes":[[25,2],[41,3],[52,3],[75,3],[90,2],[101,3],[126,3],[145,4],[166,3],[183,2]],"coins":[[17,7],[20,7],[30,10],[32,10],[37,7],[48,8],[61,8],[62,8],[69,7],[71,7],[83,6],[85,6],[87,6],[97,8],[107,8],[108,8],[117,7],[120,7],[123,7],[135,6],[137,6],[153,8],[154,8],[162,8],[175,7],[178,7],[181,7],[191,10],[193,10]],"enemies":[{"x":14,"min":8,"max":24,"type":"koopa"},{"x":34,"min":29,"max":40,"type":"goomba"},{"x":46,"min":43,"max":51,"type":"hammer"},{"x":68,"min":64,"max":74,"type":"koopa"},{"x":96,"min":92,"max":100,"type":"goomba"},{"x":116,"min":110,"max":125,"type":"koopa"},{"x":136,"min":129,"max":142,"type":"hammer"},{"x":162,"min":156,"max":165,"type":"koopa"},{"x":173,"min":169,"max":182,"type":"goomba"},{"x":189,"min":186,"max":196,"type":"hammer"}],"hazards":[{"type":"piranha","x":41,"y":10,"period":200},{"type":"piranha","x":75,"y":10,"period":210},{"type":"piranha","x":126,"y":10,"period":220},{"type":"piranha","x":166,"y":10,"period":210}],"boss":null},{"id":"4-2","theme":"underground","length":224,"ground":[[0,44],[47,36],[86,41],[130,38],[171,53]],"platforms":[[0,1,196,1,"brick"],[9,9,7,1,"brick"],[20,7,5,1,"brick"],[29,10,3,3,"stone"],[35,7,7,1,"brick"],[49,10,3,3,"stone"],[56,8,8,1,"brick"],[68,6,7,1,"brick"],[79,11,3,2,"stone"],[88,9,6,1,"brick"],[98,7,6,1,"brick"],[107,10,3,3,"stone"],[114,8,9,1,"brick"],[134,10,3,3,"stone"],[142,7,8,1,"brick"],[155,10,4,3,"stone"],[174,9,5,1,"brick"],[185,7,7,1,"brick"],[197,12,1,1,"stone"],[198,11,1,2,"stone"],[199,10,1,3,"stone"],[200,9,1,4,"stone"],[201,8,1,5,"stone"],[202,7,1,6,"stone"],[203,7,2,6,"stone"]],"questions":[[12,9,true],[22,7,false],[38,7,false],[59,8,true],[71,6,false],[91,9,false],[100,7,false],[118,8,true],[146,7,false],[177,9,false],[188,7,false]],"pipes":[[16,3],[65,3],[125,3],[160,3],[211,2]],"coins":[[10,7],[13,7],[15,7],[21,5],[24,5],[37,5],[40,5],[45,8],[46,8],[57,6],[60,6],[63,6],[69,4],[72,4],[74,4],[84,8],[85,8],[89,7],[92,7],[99,5],[102,5],[115,6],[118,6],[121,6],[128,8],[129,8],[143,5],[146,5],[149,5],[169,8],[170,8],[175,7],[178,7],[186,5],[189,5],[191,5]],"enemies":[{"x":14,"min":8,"max":15,"type":"goomba"},{"x":32,"min":26,"max":34,"type":"koopa"},{"x":40,"min":34,"max":43,"type":"goomba"},{"x":60,"min":53,"max":64,"type":"goomba"},{"x":76,"min":67,"max":78,"type":"koopa"},{"x":93,"min":87,"max":97,"type":"goomba"},{"x":110,"min":106,"max":113,"type":"goomba"},{"x":120,"min":111,"max":124,"type":"koopa"},{"x":148,"min":139,"max":154,"type":"goomba"},{"x":164,"min":162,"max":167,"type":"koopa"},{"x":178,"min":172,"max":184,"type":"goomba"},{"x":190,"min":181,"max":196,"type":"goomba"}],"hazards":[],"boss":null},{"id":"4-3","theme":"athletic","length":194,"ground":[[0,11],[171,23]],"platforms":[[9,11,6,1,"mushroom"],[18,9,8,1,"mushroom"],[29,7,6,1,"mushroom"],[38,9,7,1,"mushroom"],[48,10,8,1,"mushroom"],[59,8,6,1,"mushroom"],[68,6,7,1,"mushroom"],[78,8,6,1,"mushroom"],[87,10,8,1,"mushroom"],[98,8,6,1,"mushroom"],[107,7,8,1,"mushroom"],[118,9,6,1,"mushroom"],[127,11,7,1,"mushroom"],[137,9,6,1,"mushroom"],[146,7,7,1,"mushroom"],[156,9,6,1,"mushroom"],[165,11,8,1,"mushroom"]],"questions":[[22,6,true],[52,7,false],[92,7,true],[132,8,false],[160,6,false]],"pipes":[],"coins":[[10,9],[13,9],[19,7],[22,7],[25,7],[30,5],[33,5],[39,7],[42,7],[44,7],[49,8],[52,8],[55,8],[60,6],[63,6],[69,4],[72,4],[74,4],[79,6],[82,6],[88,8],[91,8],[94,8],[99,6],[102,6],[108,5],[111,5],[114,5],[119,7],[122,7],[128,9],[131,9],[133,9],[138,7],[141,7],[147,5],[150,5],[152,5],[157,7],[160,7],[166,9],[169,9],[172,9]],"enemies":[{"x":24,"min":19,"max":25,"type":"koopa"},{"x":43,"min":39,"max":44,"type":"goomba"},{"x":53,"min":49,"max":55,"type":"koopa"},{"x":73,"min":69,"max":74,"type":"koopa"},{"x":92,"min":88,"max":94,"type":"goomba"},{"x":113,"min":108,"max":114,"type":"koopa"},{"x":131,"min":128,"max":133,"type":"goomba"},{"x":151,"min":147,"max":152,"type":"koopa"},{"x":169,"min":166,"max":172,"type":"goomba"}],"hazards":[],"boss":null},{"id":"4-4","theme":"castle","length":190,"ground":[[0,30],[33,39],[75,38],[116,49],[177,13]],"platforms":[[0,1,180,2,"stone"],[12,10,4,3,"stone"],[22,7,6,1,"stone"],[35,7,13,2,"stone"],[53,10,3,3,"stone"],[62,7,6,1,"stone"],[77,10,4,3,"stone"],[85,7,16,2,"stone"],[105,10,4,3,"stone"],[118,7,13,2,"stone"],[135,10,3,3,"stone"],[145,8,7,1,"stone"],[157,11,3,2,"stone"],[165,13,12,1,"bridge"]],"questions":[[7,9,true],[140,9,false]],"pipes":[],"coins":[[13,8],[15,8],[23,5],[26,5],[31,9],[32,9],[39,10],[42,10],[45,10],[54,8],[63,5],[66,5],[73,9],[74,9],[78,8],[80,8],[89,10],[93,10],[97,10],[106,8],[108,8],[114,9],[115,9],[120,10],[124,10],[128,10],[136,8],[146,6],[149,6],[151,6],[158,9],[162,10]],"enemies":[],"hazards":[{"type":"lava","x":30,"y":13,"length":3},{"type":"lava","x":72,"y":13,"length":3},{"type":"lava","x":113,"y":13,"length":3},{"type":"lava","x":165,"y":14,"length":12},{"type":"firebar","x":25,"y":7,"length":4,"period":235},{"type":"firebar","x":54,"y":10,"length":3,"period":180},{"type":"firebar","x":65,"y":7,"length":5,"period":270},{"type":"firebar","x":79,"y":10,"length":3,"period":210},{"type":"firebar","x":107,"y":10,"length":4,"period":230},{"type":"firebar","x":136,"y":10,"length":3,"period":180},{"type":"firebar","x":149,"y":8,"length":4,"period":250},{"type":"firebar","x":158,"y":11,"length":3,"period":190}],"boss":{"x":171,"bridgeStart":165,"bridgeEnd":176,"axeX":176,"final":false}},{"id":"5-1","theme":"overworld","length":210,"ground":[[0,60],[63,45],[111,41],[156,54]],"platforms":[[23,10,5,1,"brick"],[48,11,3,2,"stone"],[79,9,6,1,"brick"],[128,10,6,1,"brick"],[172,12,1,1,"stone"],[173,11,1,2,"stone"],[174,10,1,3,"stone"],[180,10,1,3,"stone"],[181,11,1,2,"stone"],[182,12,1,1,"stone"]],"questions":[[25,10,true],[82,9,false],[132,10,true]],"pipes":[[34,2],[69,3],[98,2],[139,3],[164,2]],"coins":[[23,8],[25,8],[27,8],[78,7],[80,7],[82,7],[84,7],[127,8],[129,8],[131,8],[133,8],[59,9],[63,9],[107,9],[111,9],[151,9],[156,9]],"enemies":[{"x":16,"min":12,"max":22,"type":"koopa"},{"x":20,"min":14,"max":25,"type":"goomba"},{"x":42,"min":37,"max":47,"type":"goomba"},{"x":56,"min":50,"max":59,"type":"koopa"},{"x":75,"min":72,"max":79,"type":"goomba"},{"x":92,"min":86,"max":97,"type":"koopa"},{"x":117,"min":114,"max":126,"type":"goomba"},{"x":123,"min":114,"max":127,"type":"goomba"},{"x":146,"min":142,"max":151,"type":"koopa"},{"x":163,"min":158,"max":164,"type":"goomba"},{"x":186,"min":183,"max":192,"type":"koopa"}],"hazards":[{"type":"piranha","x":70,"y":10,"length":1,"period":150},{"type":"piranha","x":140,"y":10,"length":1,"period":180}],"boss":null},{"id":"5-2","theme":"overworld","length":220,"ground":[[0,53],[56,37],[97,47],[147,36],[186,34]],"platforms":[[23,12,1,1,"stone"],[24,11,1,2,"stone"],[25,10,1,3,"stone"],[29,10,8,1,"brick"],[42,8,7,1,"brick"],[42,11,7,1,"brick"],[67,10,5,1,"brick"],[78,9,6,1,"brick"],[103,11,3,2,"stone"],[110,9,6,1,"brick"],[126,8,7,1,"brick"],[126,11,7,1,"brick"],[153,10,7,1,"brick"],[165,12,1,1,"stone"],[166,11,1,2,"stone"],[167,10,1,3,"stone"],[173,10,1,3,"stone"],[174,11,1,2,"stone"],[175,12,1,1,"stone"]],"questions":[[31,10,true],[46,8,false],[69,10,false],[112,9,true],[129,8,false],[157,10,false]],"pipes":[[16,2],[60,3],[87,2],[119,3],[139,2],[191,3]],"coins":[[29,8],[31,8],[33,8],[35,8],[77,7],[79,7],[81,7],[83,7],[109,7],[111,7],[113,7],[115,7],[153,8],[155,8],[157,8],[159,8],[52,9],[57,9],[143,9],[148,9]],"enemies":[{"x":39,"min":37,"max":49,"type":"hammer"},{"x":73,"min":64,"max":78,"type":"koopa"},{"x":82,"min":75,"max":86,"type":"goomba"},{"x":107,"min":99,"max":110,"type":"goomba"},{"x":124,"min":122,"max":137,"type":"hammer"},{"x":135,"min":123,"max":138,"type":"hammer"},{"x":162,"min":157,"max":165,"type":"koopa"},{"x":178,"min":176,"max":182,"type":"goomba"}],"hazards":[{"type":"piranha","x":61,"y":10,"length":1,"period":150},{"type":"piranha","x":120,"y":10,"length":1,"period":160},{"type":"piranha","x":192,"y":10,"length":1,"period":200}],"boss":null},{"id":"5-3","theme":"athletic","length":180,"ground":[[0,18],[151,29]],"platforms":[[14,11,7,1,"platform"],[24,9,7,1,"platform"],[34,8,6,1,"platform"],[43,10,7,1,"platform"],[53,7,7,1,"platform"],[63,9,6,1,"platform"],[72,6,8,1,"platform"],[83,8,6,1,"platform"],[92,9,6,1,"platform"],[101,7,8,1,"platform"],[112,9,7,1,"platform"],[122,8,6,1,"platform"],[131,10,6,1,"platform"],[140,11,7,1,"platform"],[150,12,7,1,"platform"]],"questions":[[27,6,true],[56,4,false],[105,4,true],[124,5,false]],"pipes":[],"coins":[[24,7],[26,7],[28,7],[30,7],[53,5],[55,5],[57,5],[59,5],[73,4],[75,4],[77,4],[79,4],[102,5],[104,5],[106,5],[108,5],[131,8],[133,8],[135,8]],"enemies":[{"x":29,"min":25,"max":30,"type":"koopa"},{"x":57,"min":54,"max":59,"type":"koopa"},{"x":77,"min":73,"max":79,"type":"koopa"},{"x":107,"min":102,"max":108,"type":"goomba"},{"x":126,"min":123,"max":127,"type":"koopa"}],"hazards":[],"boss":null},{"id":"5-4","theme":"castle","length":186,"ground":[[0,29],[32,34],[70,34],[107,28],[138,19],[171,15]],"platforms":[[0,3,23,1,"stone"],[34,4,22,1,"stone"],[77,3,21,1,"stone"],[113,4,19,1,"stone"],[23,11,4,2,"stone"],[41,11,4,2,"stone"],[56,10,4,3,"stone"],[75,11,4,2,"stone"],[90,10,4,3,"stone"],[116,11,4,2,"stone"],[127,10,5,3,"stone"],[144,11,5,2,"stone"],[157,13,14,1,"bridge"]],"questions":[[16,9,true],[81,8,true]],"pipes":[],"coins":[[26,8],[45,8],[60,7],[79,8],[95,7],[119,8],[132,7],[148,8]],"enemies":[],"hazards":[{"type":"lava","x":29,"y":13,"length":3},{"type":"lava","x":66,"y":13,"length":4},{"type":"lava","x":104,"y":13,"length":3},{"type":"lava","x":135,"y":13,"length":3},{"type":"lava","x":157,"y":13,"length":14},{"type":"firebar","x":25,"y":11,"length":2,"period":175},{"type":"firebar","x":47,"y":9,"length":2,"period":160},{"type":"firebar","x":61,"y":10,"length":3,"period":190},{"type":"firebar","x":82,"y":9,"length":2,"period":150},{"type":"firebar","x":98,"y":10,"length":2,"period":165},{"type":"firebar","x":121,"y":9,"length":2,"period":170},{"type":"firebar","x":150,"y":10,"length":3,"period":200}],"boss":{"x":162,"bridgeStart":157,"bridgeEnd":171,"axeX":172,"final":false}},{"id":"6-1","theme":"night","length":208,"ground":[[0,58],[61,57],[122,35],[160,48]],"platforms":[[26,9,7,1,"brick"],[45,11,3,2,"stone"],[74,10,5,1,"brick"],[93,9,7,1,"brick"],[137,10,6,1,"brick"],[177,12,1,1,"stone"],[178,11,1,2,"stone"],[179,10,1,3,"stone"],[184,10,1,3,"stone"],[185,11,1,2,"stone"],[186,12,1,1,"stone"]],"questions":[[29,9,true],[77,10,false],[95,9,false],[141,10,true]],"pipes":[[18,2],[38,3],[65,2],[84,3],[107,2],[128,3],[149,2],[166,3]],"coins":[[26,7],[28,7],[30,7],[32,7],[93,7],[95,7],[97,7],[99,7],[137,8],[139,8],[141,8],[143,8],[57,9],[62,9],[117,9],[123,9],[156,9],[161,9]],"enemies":[{"x":12,"min":9,"max":17,"type":"goomba"},{"x":47,"min":41,"max":55,"type":"koopa"},{"x":71,"min":68,"max":80,"type":"goomba"},{"x":100,"min":96,"max":106,"type":"koopa"},{"x":125,"min":123,"max":128,"type":"goomba"},{"x":145,"min":142,"max":148,"type":"goomba"},{"x":173,"min":169,"max":177,"type":"koopa"},{"x":191,"min":188,"max":197,"type":"goomba"}],"hazards":[{"type":"piranha","x":39,"y":10,"length":1,"period":170},{"type":"piranha","x":85,"y":10,"length":1,"period":180},{"type":"piranha","x":129,"y":10,"length":1,"period":160},{"type":"piranha","x":167,"y":10,"length":1,"period":200}],"boss":null},{"id":"6-2","theme":"night","length":240,"ground":[[0,49],[52,49],[105,57],[165,37],[205,35]],"platforms":[[22,9,9,1,"brick"],[60,8,11,1,"brick"],[85,10,8,1,"brick"],[119,9,12,1,"brick"],[141,8,8,1,"brick"],[171,10,9,1,"brick"],[189,9,8,1,"brick"],[213,12,1,1,"stone"],[214,11,1,2,"stone"],[215,10,1,3,"stone"],[220,10,1,3,"stone"],[221,11,1,2,"stone"],[222,12,1,1,"stone"]],"questions":[[25,9,true],[64,8,false],[88,10,false],[124,9,true],[144,8,false],[175,10,false],[192,9,true]],"pipes":[[14,2],[34,3],[42,2],[55,2],[74,3],[96,2],[110,3],[134,2],[153,3],[167,2],[184,3],[207,2]],"coins":[[22,7],[24,7],[26,7],[28,7],[30,7],[60,6],[62,6],[64,6],[66,6],[68,6],[70,6],[119,7],[121,7],[123,7],[125,7],[127,7],[129,7],[131,7],[141,6],[143,6],[145,6],[147,6],[171,8],[173,8],[175,8],[177,8],[179,8]],"enemies":[{"x":20,"min":17,"max":28,"type":"goomba"},{"x":38,"min":37,"max":41,"type":"koopa"},{"x":68,"min":59,"max":73,"type":"goomba"},{"x":80,"min":77,"max":84,"type":"goomba"},{"x":114,"min":112,"max":119,"type":"koopa"},{"x":137,"min":136,"max":145,"type":"goomba"},{"x":156,"min":155,"max":161,"type":"koopa"},{"x":194,"min":189,"max":201,"type":"goomba"}],"hazards":[{"type":"piranha","x":35,"y":10,"length":1,"period":200},{"type":"piranha","x":75,"y":10,"length":1,"period":165},{"type":"piranha","x":111,"y":10,"length":1,"period":180},{"type":"piranha","x":154,"y":10,"length":1,"period":175},{"type":"piranha","x":185,"y":10,"length":1,"period":160}],"boss":null},{"id":"6-3","theme":"athletic","length":196,"ground":[[0,18],[164,32]],"platforms":[[14,11,6,1,"platform"],[23,8,7,1,"platform"],[33,10,6,1,"platform"],[42,7,7,1,"platform"],[52,6,5,1,"platform"],[60,9,6,1,"platform"],[69,7,8,1,"platform"],[80,10,6,1,"platform"],[89,8,6,1,"platform"],[98,5,6,1,"platform"],[107,7,6,1,"platform"],[116,9,7,1,"platform"],[126,6,8,1,"platform"],[137,8,6,1,"platform"],[146,10,6,1,"platform"],[155,12,7,1,"platform"],[165,12,4,1,"platform"]],"questions":[[26,5,true],[72,4,false],[101,2,false],[129,3,true]],"pipes":[],"coins":[[23,6],[25,6],[27,6],[29,6],[42,5],[44,5],[46,5],[48,5],[69,5],[71,5],[73,5],[75,5],[98,3],[100,3],[102,3],[104,3],[126,4],[128,4],[130,4],[132,4],[134,4],[155,10],[157,10],[159,10]],"enemies":[{"x":28,"min":24,"max":29,"type":"koopa"},{"x":46,"min":43,"max":48,"type":"koopa"},{"x":74,"min":70,"max":76,"type":"goomba"},{"x":111,"min":108,"max":112,"type":"koopa"},{"x":130,"min":127,"max":133,"type":"koopa"}],"hazards":[],"boss":null},{"id":"6-4","theme":"castle","length":210,"ground":[[0,27],[31,21],[56,23],[83,26],[113,28],[145,36],[195,15]],"platforms":[[0,3,22,1,"stone"],[36,3,14,1,"stone"],[59,4,15,1,"stone"],[89,3,16,1,"stone"],[119,4,16,1,"stone"],[149,3,23,1,"stone"],[21,11,5,2,"stone"],[32,10,6,3,"stone"],[48,11,4,2,"stone"],[59,10,6,3,"stone"],[73,11,6,2,"stone"],[84,10,5,3,"stone"],[103,11,5,2,"stone"],[115,10,5,3,"stone"],[133,11,8,2,"stone"],[146,10,6,3,"stone"],[161,11,6,2,"stone"],[173,11,5,2,"stone"],[181,13,14,1,"bridge"]],"questions":[[15,9,true],[94,8,true]],"pipes":[],"coins":[[24,8],[36,7],[51,8],[63,7],[77,8],[87,7],[107,8],[118,7],[138,8],[150,7],[165,8]],"enemies":[],"hazards":[{"type":"lava","x":27,"y":13,"length":4},{"type":"lava","x":52,"y":13,"length":4},{"type":"lava","x":79,"y":13,"length":4},{"type":"lava","x":109,"y":13,"length":4},{"type":"lava","x":141,"y":13,"length":4},{"type":"lava","x":181,"y":13,"length":14},{"type":"firebar","x":41,"y":10,"length":3,"period":210},{"type":"firebar","x":68,"y":9,"length":2,"period":165},{"type":"firebar","x":95,"y":10,"length":3,"period":185},{"type":"firebar","x":124,"y":9,"length":3,"period":160},{"type":"firebar","x":157,"y":10,"length":3,"period":175},{"type":"firebar","x":177,"y":9,"length":2,"period":150}],"boss":{"x":186,"bridgeStart":181,"bridgeEnd":195,"axeX":196,"final":false}},{"id":"7-1","theme":"overworld","length":224,"ground":[[0,63],[66,44],[114,47],[164,60]],"platforms":[[24,11,9,1,"brick"],[24,8,9,1,"brick"],[48,10,6,1,"brick"],[73,10,7,1,"brick"],[93,11,9,1,"brick"],[93,8,9,1,"brick"],[125,9,7,1,"brick"],[147,10,6,1,"brick"],[174,12,1,1,"stone"],[175,11,1,2,"stone"],[176,10,1,3,"stone"],[177,9,1,4,"stone"],[184,9,1,4,"stone"],[185,10,1,3,"stone"],[186,11,1,2,"stone"],[187,12,1,1,"stone"]],"questions":[[28,8,true],[51,10,false],[77,10,false],[97,8,true],[128,9,false],[151,10,true]],"pipes":[[17,2],[38,3],[57,2],[85,3],[119,2],[137,3],[167,2],[195,3]],"coins":[[24,6],[26,6],[28,6],[30,6],[32,6],[73,8],[75,8],[77,8],[79,8],[93,6],[95,6],[97,6],[99,6],[101,6],[125,7],[127,7],[129,7],[131,7],[62,9],[67,9],[109,9],[115,9],[160,9],[165,9]],"enemies":[{"x":22,"min":20,"max":35,"type":"hammer"},{"x":32,"min":21,"max":36,"type":"hammer"},{"x":44,"min":41,"max":48,"type":"koopa"},{"x":82,"min":79,"max":84,"type":"goomba"},{"x":91,"min":89,"max":105,"type":"hammer"},{"x":102,"min":89,"max":105,"type":"hammer"},{"x":143,"min":140,"max":147,"type":"koopa"},{"x":171,"min":170,"max":174,"type":"goomba"}],"hazards":[{"type":"piranha","x":39,"y":10,"length":1,"period":180},{"type":"piranha","x":86,"y":10,"length":1,"period":170},{"type":"piranha","x":138,"y":10,"length":1,"period":160}],"boss":null},{"id":"7-2","theme":"underwater","length":212,"ground":[[0,47],[50,36],[90,36],[129,31],[164,48]],"platforms":[[20,10,5,3,"coral"],[32,4,4,4,"coral"],[53,8,5,5,"coral"],[68,3,6,4,"coral"],[92,10,7,3,"coral"],[110,4,5,4,"coral"],[132,8,6,5,"coral"],[147,2,6,4,"coral"],[170,10,5,3,"coral"],[180,4,4,4,"coral"]],"questions":[],"pipes":[[188,2]],"coins":[[12,9],[14,9],[16,9],[18,9],[26,7],[28,7],[30,7],[38,10],[40,10],[42,10],[44,10],[58,5],[60,5],[62,5],[64,5],[66,5],[76,9],[78,9],[80,9],[82,9],[84,9],[101,7],[103,7],[105,7],[107,7],[117,10],[119,10],[121,10],[123,10],[140,6],[142,6],[144,6],[146,6],[155,9],[157,9],[159,9],[175,7],[177,7],[179,7],[192,10],[194,10],[196,10],[198,10],[200,10],[202,10]],"enemies":[{"x":29,"min":25,"max":40,"type":"fish"},{"x":43,"min":37,"max":53,"type":"fish"},{"x":63,"min":59,"max":74,"type":"fish"},{"x":81,"min":75,"max":91,"type":"fish"},{"x":102,"min":99,"max":112,"type":"fish"},{"x":124,"min":117,"max":132,"type":"fish"},{"x":142,"min":138,"max":154,"type":"fish"},{"x":165,"min":154,"max":175,"type":"fish"},{"x":183,"min":177,"max":188,"type":"fish"}],"hazards":[],"boss":null},{"id":"7-3","theme":"bridge","length":240,"ground":[[0,22],[212,28]],"platforms":[[16,11,18,1,"bridge"],[37,11,21,1,"bridge"],[61,10,18,1,"bridge"],[82,11,22,1,"bridge"],[107,9,15,1,"bridge"],[125,10,18,1,"bridge"],[146,11,21,1,"bridge"],[170,10,17,1,"bridge"],[190,11,20,1,"bridge"],[213,12,8,1,"bridge"]],"questions":[[27,8,true],[71,7,false],[116,6,true],[160,8,false],[202,8,true]],"pipes":[],"coins":[[24,9],[26,9],[28,9],[30,9],[32,9],[42,9],[44,9],[46,9],[48,9],[50,9],[52,9],[54,9],[65,8],[67,8],[69,8],[71,8],[73,8],[75,8],[77,8],[88,9],[90,9],[92,9],[94,9],[96,9],[98,9],[100,9],[102,9],[110,7],[112,7],[114,7],[116,7],[118,7],[120,7],[130,8],[132,8],[134,8],[136,8],[138,8],[140,8],[150,9],[152,9],[154,9],[156,9],[158,9],[160,9],[162,9],[164,9],[176,8],[178,8],[180,8],[182,8],[184,8],[193,9],[195,9],[197,9],[199,9],[201,9],[203,9],[205,9],[207,9],[209,9]],"enemies":[{"x":26,"min":20,"max":33,"type":"fish"},{"x":45,"min":39,"max":57,"type":"fish"},{"x":69,"min":62,"max":78,"type":"fish"},{"x":93,"min":83,"max":103,"type":"fish"},{"x":114,"min":108,"max":121,"type":"fish"},{"x":136,"min":126,"max":142,"type":"fish"},{"x":153,"min":147,"max":166,"type":"fish"},{"x":177,"min":171,"max":186,"type":"fish"},{"x":204,"min":191,"max":209,"type":"fish"}],"hazards":[],"boss":null},{"id":"7-4","theme":"castle","length":248,"ground":[[0,35],[39,36],[79,30],[113,36],[153,32],[189,30],[233,15]],"platforms":[[0,3,28,1,"stone"],[42,3,27,1,"stone"],[84,3,18,1,"stone"],[118,3,25,1,"stone"],[158,3,20,1,"stone"],[194,3,19,1,"stone"],[23,11,7,2,"stone"],[29,9,6,1,"stone"],[40,10,9,1,"stone"],[50,8,10,1,"stone"],[63,10,10,1,"stone"],[80,11,9,2,"stone"],[91,9,10,1,"stone"],[104,11,5,2,"stone"],[114,10,8,1,"stone"],[124,8,12,1,"stone"],[138,10,9,1,"stone"],[154,11,8,2,"stone"],[164,9,12,1,"stone"],[179,11,6,2,"stone"],[190,10,10,1,"stone"],[201,8,10,1,"stone"],[212,11,6,2,"stone"],[219,13,14,1,"bridge"]],"questions":[[15,9,true],[95,6,true],[168,6,true]],"pipes":[],"coins":[[30,7],[32,7],[34,7],[51,6],[53,6],[55,6],[57,6],[59,6],[92,7],[94,7],[96,7],[98,7],[100,7],[125,6],[127,6],[129,6],[131,6],[133,6],[135,6],[165,7],[167,7],[169,7],[171,7],[173,7],[175,7],[202,6],[204,6],[206,6],[208,6],[210,6]],"enemies":[],"hazards":[{"type":"lava","x":35,"y":13,"length":4},{"type":"lava","x":75,"y":13,"length":4},{"type":"lava","x":109,"y":13,"length":4},{"type":"lava","x":149,"y":13,"length":4},{"type":"lava","x":185,"y":13,"length":4},{"type":"lava","x":219,"y":13,"length":14},{"type":"firebar","x":46,"y":10,"length":2,"period":160},{"type":"firebar","x":69,"y":10,"length":2,"period":180},{"type":"firebar","x":96,"y":9,"length":2,"period":175},{"type":"firebar","x":131,"y":8,"length":2,"period":155},{"type":"firebar","x":169,"y":9,"length":2,"period":165},{"type":"firebar","x":206,"y":8,"length":2,"period":190}],"boss":{"x":224,"bridgeStart":219,"bridgeEnd":233,"axeX":234,"final":false}},{"id":"8-1","theme":"overworld","length":340,"ground":[[0,48],[51,32],[87,32],[122,32],[158,33],[194,31],[229,30],[262,32],[298,42]],"platforms":[[28,10,4,1,"brick"],[61,11,3,2,"stone"],[99,10,4,1,"brick"],[137,11,3,2,"stone"],[170,9,5,1,"brick"],[208,11,3,2,"stone"],[243,10,4,1,"brick"],[278,11,3,2,"stone"],[307,12,1,1,"stone"],[308,11,1,2,"stone"],[309,10,1,3,"stone"],[310,9,1,4,"stone"],[315,9,1,4,"stone"],[316,10,1,3,"stone"],[317,11,1,2,"stone"],[318,12,1,1,"stone"]],"questions":[[30,10,true],[172,9,false],[245,10,true]],"pipes":[[19,2],[37,3],[70,2],[94,3],[108,2],[130,3],[146,2],[164,3],[182,2],[201,3],[216,2],[237,3],[251,2],[268,3],[286,2],[302,3]],"coins":[[47,9],[52,9],[82,9],[88,9],[118,9],[123,9],[153,9],[159,9],[190,9],[195,9],[224,9],[230,9],[258,9],[263,9],[293,9],[299,9],[170,7],[172,7],[174,7]],"enemies":[{"x":14,"min":10,"max":18,"type":"goomba"},{"x":25,"min":22,"max":29,"type":"koopa"},{"x":33,"min":28,"max":36,"type":"goomba"},{"x":44,"min":41,"max":47,"type":"koopa"},{"x":58,"min":54,"max":62,"type":"goomba"},{"x":64,"min":54,"max":68,"type":"koopa"},{"x":77,"min":73,"max":82,"type":"goomba"},{"x":90,"min":88,"max":93,"type":"koopa"},{"x":106,"min":99,"max":107,"type":"goomba"},{"x":115,"min":111,"max":118,"type":"goomba"},{"x":126,"min":123,"max":129,"type":"koopa"},{"x":142,"min":140,"max":145,"type":"goomba"},{"x":151,"min":149,"max":153,"type":"koopa"},{"x":177,"min":168,"max":181,"type":"goomba"},{"x":187,"min":185,"max":190,"type":"koopa"},{"x":197,"min":195,"max":200,"type":"goomba"},{"x":213,"min":204,"max":215,"type":"koopa"},{"x":222,"min":219,"max":224,"type":"goomba"},{"x":232,"min":230,"max":236,"type":"koopa"},{"x":250,"min":240,"max":251,"type":"goomba"},{"x":256,"min":253,"max":258,"type":"goomba"},{"x":266,"min":263,"max":267,"type":"koopa"},{"x":283,"min":271,"max":285,"type":"goomba"},{"x":291,"min":289,"max":293,"type":"koopa"}],"hazards":[{"type":"piranha","x":38,"y":10,"length":1,"period":150},{"type":"piranha","x":95,"y":10,"length":1,"period":180},{"type":"piranha","x":165,"y":10,"length":1,"period":165},{"type":"piranha","x":238,"y":10,"length":1,"period":180},{"type":"piranha","x":303,"y":10,"length":1,"period":200}],"boss":null},{"id":"8-2","theme":"overworld","length":252,"ground":[[0,44],[48,32],[84,30],[118,33],[155,32],[191,25],[220,32]],"platforms":[[24,12,1,1,"stone"],[25,11,1,2,"stone"],[26,10,1,3,"stone"],[27,9,1,4,"stone"],[34,9,1,4,"stone"],[35,10,1,3,"stone"],[36,11,1,2,"stone"],[37,12,1,1,"stone"],[63,12,1,1,"stone"],[64,11,1,2,"stone"],[65,10,1,3,"stone"],[73,10,1,3,"stone"],[74,11,1,2,"stone"],[75,12,1,1,"stone"],[97,11,5,2,"stone"],[105,9,6,1,"brick"],[125,11,4,2,"stone"],[133,10,7,1,"brick"],[163,12,1,1,"stone"],[164,11,1,2,"stone"],[165,10,1,3,"stone"],[166,9,1,4,"stone"],[176,9,1,4,"stone"],[177,10,1,3,"stone"],[178,11,1,2,"stone"],[179,12,1,1,"stone"],[198,10,6,1,"brick"],[224,12,1,1,"stone"],[225,11,1,2,"stone"],[226,10,1,3,"stone"],[231,10,1,3,"stone"],[232,11,1,2,"stone"],[233,12,1,1,"stone"]],"questions":[[31,7,true],[107,9,false],[136,10,true],[201,10,false]],"pipes":[[16,2],[54,3],[89,2],[144,3],[159,2],[193,3],[209,2]],"coins":[[24,6],[26,6],[28,6],[30,6],[32,6],[34,6],[36,6],[64,7],[66,7],[68,7],[70,7],[72,7],[74,7],[76,7],[104,7],[106,7],[108,7],[110,7],[163,6],[165,6],[167,6],[169,6],[171,6],[173,6],[175,6],[177,6],[43,8],[49,8],[79,8],[85,8],[113,8],[119,8],[150,8],[156,8],[186,8],[192,8],[215,8],[221,8]],"enemies":[{"x":13,"min":10,"max":16,"type":"koopa"},{"x":22,"min":18,"max":24,"type":"goomba"},{"x":60,"min":57,"max":63,"type":"koopa"},{"x":95,"min":92,"max":100,"type":"goomba"},{"x":129,"min":120,"max":132,"type":"koopa"},{"x":142,"min":137,"max":143,"type":"goomba"},{"x":182,"min":180,"max":186,"type":"koopa"},{"x":207,"min":199,"max":208,"type":"goomba"},{"x":223,"min":221,"max":224,"type":"goomba"}],"hazards":[{"type":"piranha","x":55,"y":10,"length":1,"period":180},{"type":"piranha","x":145,"y":10,"length":1,"period":170},{"type":"piranha","x":194,"y":10,"length":1,"period":180}],"boss":null},{"id":"8-3","theme":"overworld","length":268,"ground":[[0,69],[72,64],[139,64],[207,61]],"platforms":[[25,11,12,1,"brick"],[25,8,12,1,"brick"],[48,11,3,2,"stone"],[51,10,3,3,"stone"],[83,11,13,1,"brick"],[83,8,13,1,"brick"],[108,11,3,2,"stone"],[111,10,3,3,"stone"],[147,11,15,1,"brick"],[147,8,15,1,"brick"],[180,11,3,2,"stone"],[183,10,3,3,"stone"],[215,11,12,1,"brick"],[215,8,12,1,"brick"],[236,12,1,1,"stone"],[237,11,1,2,"stone"],[238,10,1,3,"stone"],[239,9,1,4,"stone"],[246,9,1,4,"stone"],[247,10,1,3,"stone"],[248,11,1,2,"stone"],[249,12,1,1,"stone"]],"questions":[[29,8,true],[89,8,false],[153,8,true],[221,8,false]],"pipes":[[18,2],[61,3],[76,2],[127,3],[141,2],[192,3],[210,2],[232,3]],"coins":[[25,6],[27,6],[29,6],[31,6],[33,6],[35,6],[37,6],[83,6],[85,6],[87,6],[89,6],[91,6],[93,6],[95,6],[147,6],[149,6],[151,6],[153,6],[155,6],[157,6],[159,6],[161,6],[215,6],[217,6],[219,6],[221,6],[223,6],[225,6],[227,6],[68,9],[73,9],[135,9],[140,9],[202,9],[208,9]],"enemies":[{"x":24,"min":22,"max":39,"type":"hammer"},{"x":35,"min":23,"max":39,"type":"hammer"},{"x":55,"min":54,"max":60,"type":"koopa"},{"x":81,"min":79,"max":98,"type":"hammer"},{"x":94,"min":81,"max":99,"type":"hammer"},{"x":117,"min":115,"max":126,"type":"koopa"},{"x":146,"min":143,"max":164,"type":"hammer"},{"x":159,"min":144,"max":165,"type":"hammer"},{"x":188,"min":186,"max":191,"type":"koopa"},{"x":214,"min":212,"max":229,"type":"hammer"},{"x":225,"min":212,"max":230,"type":"hammer"}],"hazards":[{"type":"piranha","x":62,"y":10,"length":1,"period":185},{"type":"piranha","x":128,"y":10,"length":1,"period":180},{"type":"piranha","x":193,"y":10,"length":1,"period":190}],"boss":null},{"id":"8-4","theme":"castle","length":316,"ground":[[0,33],[37,37],[78,33],[115,39],[158,37],[199,42],[245,24],[273,14],[301,15]],"platforms":[[0,3,27,1,"stone"],[42,3,26,1,"stone"],[84,3,21,1,"stone"],[120,3,27,1,"stone"],[164,3,24,1,"stone"],[205,3,29,1,"stone"],[249,3,16,1,"stone"],[274,3,10,1,"stone"],[25,11,7,2,"stone"],[38,10,7,3,"stone"],[56,9,9,1,"brick"],[68,11,6,2,"stone"],[80,10,8,1,"stone"],[91,8,10,1,"stone"],[103,11,7,2,"stone"],[117,10,7,1,"stone"],[128,8,12,1,"stone"],[143,10,9,1,"stone"],[161,11,8,2,"stone"],[173,8,9,1,"coral"],[182,10,9,1,"coral"],[201,11,8,2,"stone"],[213,9,11,1,"stone"],[227,11,10,2,"stone"],[247,11,7,2,"stone"],[257,10,7,3,"stone"],[275,11,7,2,"stone"],[287,13,14,1,"bridge"]],"questions":[[16,9,true],[93,5,true],[215,6,true]],"pipes":[[47,2],[122,2],[165,2],[207,2]],"coins":[[56,7],[58,7],[60,7],[62,7],[64,7],[91,6],[93,6],[95,6],[97,6],[99,6],[101,6],[128,6],[130,6],[132,6],[134,6],[136,6],[138,6],[140,6],[173,6],[175,6],[177,6],[179,6],[181,6],[213,7],[215,7],[217,7],[219,7],[221,7],[223,7],[31,8],[40,7],[71,8],[108,8],[150,7],[190,7],[237,8],[267,7],[280,8]],"enemies":[{"x":21,"min":18,"max":25,"type":"koopa"},{"x":51,"min":50,"max":55,"type":"goomba"},{"x":67,"min":65,"max":73,"type":"koopa"},{"x":145,"min":141,"max":152,"type":"goomba"},{"x":211,"min":210,"max":218,"type":"koopa"},{"x":255,"min":251,"max":266,"type":"hammer"},{"x":281,"min":278,"max":286,"type":"hammer"}],"hazards":[{"type":"lava","x":33,"y":13,"length":4},{"type":"lava","x":74,"y":13,"length":4},{"type":"lava","x":111,"y":13,"length":4},{"type":"lava","x":154,"y":13,"length":4},{"type":"lava","x":195,"y":13,"length":4},{"type":"lava","x":241,"y":13,"length":4},{"type":"lava","x":269,"y":13,"length":4},{"type":"lava","x":287,"y":13,"length":14},{"type":"piranha","x":48,"y":11,"length":1,"period":195},{"type":"piranha","x":123,"y":11,"length":1,"period":160},{"type":"piranha","x":166,"y":11,"length":1,"period":180},{"type":"piranha","x":208,"y":11,"length":1,"period":170},{"type":"firebar","x":58,"y":9,"length":2,"period":180},{"type":"firebar","x":96,"y":8,"length":2,"period":155},{"type":"firebar","x":135,"y":8,"length":2,"period":170},{"type":"firebar","x":177,"y":8,"length":2,"period":165},{"type":"firebar","x":219,"y":9,"length":2,"period":150},{"type":"firebar","x":232,"y":11,"length":2,"period":180},{"type":"firebar","x":263,"y":10,"length":2,"period":160},{"type":"firebar","x":283,"y":9,"length":2,"period":200}],"boss":{"x":292,"bridgeStart":287,"bridgeEnd":301,"axeX":302,"final":true}}];
+function materializeStage(spec){
+ const tiles=new Map(),solidRows=Array.from({length:16},()=>new Map()),platforms=[],gaps=[],coins=[],enemies=[],blocks=[];
+ const put=(x,y,type,id=-1)=>{if(y<0||y>=16)return;const t={x:x*TILE,y:y*TILE,w:TILE,h:TILE,type,id,col:x,row:y};tiles.set(x+','+y,t);solidRows[y].set(x,t);return t;};
+ for(const [start,count] of spec.ground)for(let x=start;x<start+count;x++){put(x,13,'ground');put(x,14,'ground');}
+ let gapStart=null;for(let x=0;x<=spec.length;x++){const empty=x<spec.length&&!solidRows[13].has(x);if(empty&&gapStart===null)gapStart=x;if(!empty&&gapStart!==null){gaps.push({id:gaps.length,start:gapStart*TILE,end:x*TILE});gapStart=null;}}
+ for(const [x,y,w,h,type] of spec.platforms){const id=platforms.length;platforms.push({id,x:x*TILE,y:y*TILE,w:w*TILE,h:h*TILE,end:(x+w)*TILE,type});for(let i=0;i<w;i++)for(let j=0;j<h;j++)put(x+i,y+j,type,id);}
+ for(const [x,y,power] of spec.questions){const t=put(x,y,'question');t.block=blocks.length;blocks.push({x:t.x,y:t.y,power:!!power});}
+ for(const [x,height] of spec.pipes){const id=platforms.length;platforms.push({id,x:x*TILE,y:(13-height)*TILE,w:2*TILE,h:height*TILE,end:(x+2)*TILE,pipe:true});for(let i=0;i<2;i++)for(let j=0;j<height;j++)put(x+i,13-height+j,'pipe',id);}
+ spec.coins.forEach(([x,y])=>coins.push({id:coins.length,x:x*TILE+10,y:y*TILE+5,w:12,h:22}));
+ spec.enemies.forEach(e=>{const h=e.type==='hammer'?38:26;const raised=spec.theme==='athletic'||spec.theme==='bridge';const support=raised?platforms.filter(p=>!p.pipe&&e.x*TILE>=p.x&&e.x*TILE<p.end).sort((a,b)=>a.y-b.y)[0]:null;const surface=support?support.y:GROUND;const enemy={...e,id:enemies.length,x:e.x*TILE,y:e.y!==undefined?e.y*TILE:spec.theme==='underwater'?TILE*8:(raised?surface:GROUND)-h,w:26,h,min:e.min*TILE,max:e.max*TILE,speed:e.type==='koopa'?.9:e.type==='fish'?1.05:.65};if(support){enemy.min=Math.max(enemy.min,support.x);enemy.max=Math.max(enemy.min,Math.min(enemy.max,support.end-enemy.w));enemy.x=clamp(enemy.x,enemy.min,enemy.max);}enemies.push(enemy);});
+ const hazards=spec.hazards.map((h,id)=>({...h,id,x:h.x*TILE,y:h.y*TILE,length:(h.length??3)*TILE}));
+ const boss=spec.boss?{...spec.boss,x:spec.boss.x*TILE,bridgeStart:spec.boss.bridgeStart*TILE,bridgeEnd:spec.boss.bridgeEnd*TILE,axeX:spec.boss.axeX*TILE,y:spec.boss.y===undefined?GROUND-54:spec.boss.y*TILE,bridgeY:spec.boss.bridgeY===undefined?GROUND:spec.boss.bridgeY*TILE}:null;
+ if(boss){for(let x=spec.boss.bridgeStart;x<spec.boss.bridgeEnd;x++)put(x,Math.round(boss.bridgeY/TILE),'bridge');}
+ if(spec.theme==='underwater'||spec.theme==='underground'||spec.theme==='castle')for(let x=0;x<spec.length;x++)put(x,0,spec.theme==='underwater'?'coral':'stone');
+ const [world,stage]=spec.id.split('-').map(Number);
+ return {id:spec.id,stageId:spec.id,name:'MUNDO '+spec.id.replace('-','–'),world,stage,theme:spec.theme,underwater:spec.theme==='underwater',kind:'classic',tiles,solidRows,platforms,gaps,coins,enemies,blocks,hazards,boss,length:spec.length*TILE,goal:boss?boss.axeX:(spec.length-12)*TILE};
+}
+function enterStage(a,index){
+ const lvl=index<0?trainingLevel:campaign[index];if(!lvl)throw Error('Fase inválida');
+ a.stageIndex=index;a.level=lvl;a.safeX=64;a.landed=new Set();a.stageSteps=0;a.worldSteps=worldTick;a.x=64;a.h=a.big?46:30;a.y=GROUND-a.h;a.vx=0;a.vy=0;a.ground=true;a.coyote=5;a.jumpCooldown=0;a.jumpLatch=false;a.maxX=64;a.stalled=0;
+ a.collected=new Set();a.defeated=new Set();a.cleared=new Set();a.traversed=new Set();a.used=new Set();a.broken=new Set();a.items=[];a.effects=[];
+ a.bossDefeated=false;a.bridgeCollapsed=false;a.bossDefeatStep=0;a.adaptiveRoute=null;a.adaptivePredictions=null;a.expectedPose=null;a.adaptiveAge=A_CHUNK;a.event='';a.dead=false;a.done=false;a.reason='';a.action={move:0,jump:false};a.bestStageReached=Math.max(a.bestStageReached??0,index);
+ return a;
+}
+function advanceStage(a){
+ if(a.dead||a.done)return false;
+ const previous=a.level.id||'treino';award(a,'win');a.flagsCleared++;if(a.stageIndex>=0){a.stagesCleared++;if(mode==='train'&&!planningDepth&&!replayActor)totalStageClears++;}a.lastStageCleared=previous;
+ if(a.stageIndex===campaign.length-1){a.done=true;a.reason='campaign-win';if(mode==='play'&&!planningDepth)showToast('Bowser derrotado! Campanha concluída: 8–4.');return true;}
+ const next=a.stageIndex+1;enterStage(a,next);if(mode==='play'&&!planningDepth)showToast(previous+' concluída! Próxima fase: '+a.level.id);return true;
+}
+function makeLevel(kind){if(kind==='training')return trainingLevel;if(typeof kind==='number')return campaign[kind];return campaign.find(l=>l.id===kind)||campaign[0];}
+function stageProgress(a){return clamp((a.maxX-64)/Math.max(TILE,a.level.goal-64),0,1)*100;}
+
+const campaign=CAMPAIGN_SPECS.map(materializeStage);
+const trainingLevel=makePracticeLevel('training');
+function tileAt(col,row,a){const t=(a?.level||level).solidRows[row]?.get(col);if(t&&a?.bridgeCollapsed&&t.type==='bridge'&&a.level.boss&&t.x>=a.level.boss.bridgeStart&&t.x<a.level.boss.bridgeEnd)return null;if(t&&a?.broken?.has(col+','+row))return null;return t;}
+function solid(x,y,a){return !!tileAt(Math.floor(x/TILE),Math.floor(y/TILE),a);}
+function nearby(x,y,w,h,a){const out=[];const x0=Math.floor(x/TILE),x1=Math.floor((x+w-.001)/TILE),y0=Math.floor(y/TILE),y1=Math.floor((y+h-.001)/TILE);for(let j=y0;j<=y1;j++)for(let i=x0;i<=x1;i++){const t=tileAt(i,j,a);if(t)out.push(t);}return out;}
+function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;}
+function network(weights=null){const w=weights?new Float32Array(weights):new Float32Array(WEIGHTS);if(!weights)for(let i=0;i<WEIGHTS;i++) w[i]=gaussian()*.43;return {w,input:new Float32Array(INPUTS),hidden:new Float32Array(HIDDEN),output:new Float32Array(OUTPUTS)};}
+function newAgent(brain,id=0,index=selectedStage){const a={id,brain,x:64,y:GROUND-30,w:24,h:30,vx:0,vy:0,ground:true,coyote:5,jumpCooldown:0,jumpLatch:false,big:false,invincible:0,dead:false,done:false,reason:'',reward:0,maxX:64,lastProgress:0,steps:0,stalled:0,coins:0,kills:0,action:{move:0,jump:false},collected:new Set(),defeated:new Set(),cleared:new Set(),traversed:new Set(),used:new Set(),broken:new Set(),items:[],effects:[],event:'',lastReward:0,direction:1};a.stagesCleared=0;a.flagsCleared=0;a.bestStageReached=0;return enterStage(a,levelKey==='training'&&index===selectedStage?-1:index);}
+function observe(a){
+ const lvl=a.level;const s=a.brain.input;s.fill(0);const cx=a.x+a.w/2,foot=a.y+a.h;
+ s[0]=a.vx/4.1;s[1]=a.vy/12;s[2]=a.ground?1:0;s[3]=clamp((GROUND-foot)/160,-1,2);s[4]=a.big?1:0;s[5]=lvl.underwater?-1:a.jumpCooldown/10;
+ let nearEnemy=null,ed=256;for(const e of lvl.enemies){if(a.defeated.has(e.id))continue;const ep=enemyState(e,a,lvl);const d=ep.x-cx;if(d>-35&&d<ed){ed=d;nearEnemy=ep;}}
+ for(const h of lvl.hazards||[]){if(Math.abs(h.x-cx)>230)continue;for(const part of hazardGeometry(h,a).parts){const d=part.x-cx;if(d>-35&&d<ed&&Math.abs(part.y-foot)<120){ed=d;nearEnemy=part;}}}if(lvl.boss&&!a.bossDefeated&&Math.abs(lvl.boss.x-cx)<600){const bg=bossGeometry(a,lvl);for(const part of [bg.body,...bg.fireballs]){const d=part.x-cx;if(d>-35&&d<ed){ed=d;nearEnemy=part;}}}
+ s[6]=nearEnemy?clamp(ed/160,-1,1):1;s[7]=nearEnemy?clamp((nearEnemy.y-foot)/96,-1,1):0;
+ const nextP=lvl.platforms.find(p=>p.end>cx&&p.x-cx<240&&p.y<foot+40);s[8]=nextP?clamp((nextP.x-cx)/160,-1,1):1;s[9]=nextP?clamp((foot-nextP.y)/128,-1,1):0;
+ const nextG=lvl.gaps.find(g=>g.end>cx&&g.start-cx<256);s[10]=nextG?clamp((nextG.start-cx)/160,-1,1):1;s[11]=nextG?clamp((nextG.end-nextG.start)/256,0,1):0;
+ let cd=192;for(const c of lvl.coins)if(!a.collected.has(c.id)&&c.x>cx&&c.x-cx<cd)cd=c.x-cx;s[12]=cd/192;
+ s[13]=solid(cx,a.y-8,a)?1:0;
+ let n=14;for(const dx of [20,52,90,136])for(const dy of [-65,-33,-1,31])s[n++]=solid(cx+dx,foot+dy,a)?1:0;
+ observeMotion(a,s);observeLanding(a,s);
+ return s;
+}
+function threatClearance(body,part){
+ const dx=Math.max(part.x-body.x-body.w,body.x-part.x-part.w),dy=Math.max(part.y-body.y-body.h,body.y-part.y-part.h);
+ return Math.max(dx,dy);
+}
+function observeMotion(a,s){
+ const lvl=a.level,time=stageTime(a),cx=a.x+a.w/2,cy=a.y+a.h/2;
+ let closest=null,distance=192;
+ const consider=(part,source,type,index=0)=>{const d=threatClearance(a,part);if(d<distance&&Math.abs(part.x+part.w/2-cx)<224&&Math.abs(part.y+part.h/2-cy)<160){distance=d;closest={part,source,type,index};}};
+ for(const h of lvl.hazards||[]){if(h.type==='lava'||Math.abs(h.x-cx)>Math.max(224,h.length||0))continue;hazardGeometry(h,a).parts.forEach((p,i)=>consider(p,h,'hazard',i));}
+ for(const e of lvl.enemies){if(a.defeated.has(e.id)||cx<e.min-192||cx>e.max+192)continue;consider(enemyState(e,a,lvl),e,'enemy');if(/hammer/.test(e.type))hammerProjectiles(e,a).forEach((p,i)=>consider(p,e,'hammer',i));}
+ if(lvl.boss&&!a.bossDefeated&&Math.abs(lvl.boss.x-cx)<820){const b=bossGeometry(a,lvl);consider(b.body,lvl.boss,'boss');b.fireballs.forEach((p,i)=>consider(p,lvl.boss,'bossFire',i));}
+ s[30]=1;s[31]=s[32]=s[33]=0;s[34]=s[35]=s[36]=1;s[37]=a.jumpLatch?1:0;
+ if(!closest)return;
+ const {part,source,type,index}=closest;
+ const future=offset=>{const state={...a,worldSteps:time+offset};if(type==='hazard')return hazardGeometry(source,state).parts;if(type==='enemy')return [enemyState(source,state,lvl)];if(type==='hammer')return hammerProjectiles(source,state);const b=bossGeometry(state,lvl);return type==='boss'?[b.body]:b.fireballs;};
+ const soon=future(8),next=type==='bossFire'?soon.find(p=>p.spawnTime===part.spawnTime):soon[index];
+ s[30]=clamp((part.x+part.w/2-cx)/192,-1,1);s[31]=clamp((part.y+part.h/2-cy)/128,-1,1);
+ if(next){s[32]=clamp((next.x-part.x)/48,-1,1);s[33]=clamp((next.y-part.y)/48,-1,1);}
+ s[34]=clamp(distance/128,-1,1);
+ const clearance=parts=>parts.length?clamp(Math.min(...parts.map(p=>threatClearance(a,p)))/128,-1,1):1;
+ s[35]=clearance(soon);s[36]=clearance(future(24));
+}
+function decide(a){const b=a.brain,ins=observe(a);let offset=0;for(let j=0;j<HIDDEN;j++){let sum=b.w[offset++];for(let i=0;i<INPUTS;i++)sum+=ins[i]*b.w[offset++];b.hidden[j]=Math.tanh(sum);}for(let k=0;k<OUTPUTS;k++){let sum=b.w[offset++];for(let j=0;j<HIDDEN;j++)sum+=b.hidden[j]*b.w[offset++];b.output[k]=Math.tanh(sum);}a.action.move=b.output[0]>.2?1:b.output[0]<-.2?-1:0;a.action.jump=b.output[1]>.12;}
+function award(a,key,custom=0){const value=key==='custom'?custom:rewards[key];a.reward+=value;if(key!=='progress'&&key!=='idle'){a.event=key;a.lastReward=a.steps;}}
+function endAgent(a,reason){if(a.dead||a.done)return;a.dead=true;a.reason=reason;award(a,'death');if(mode==='play'&&!planningDepth)showToast(reason==='enemy'?'Você bateu no inimigo! Toque em reiniciar.':reason==='fall'?'Caiu no buraco! Toque em reiniciar.':'Fim da tentativa. Toque em reiniciar.');}
+function enemyPosition(e,time){const range=e.max-e.min;if(range<=0)return e.x;let v=(e.x-e.min-time*e.speed)%(range*2);if(v<0)v+=range*2;return e.min+(v<=range?v:range*2-v);}
+// Campaign hazards: pure stage-time geometry shared by collision, sensing and rendering.
+// Dependencies supplied by the game: TILE, GROUND, clamp, overlap, enemyPosition,
+// award, endAgent. Descriptors and mutable state always belong to the given agent.
+function stageTime(a) {
+ return Number.isFinite(a.worldSteps) ? a.worldSteps : Number.isFinite(a.stageSteps) ? a.stageSteps : a.steps || 0;
+}
+function hazardPhase(id) {
+ if (Number.isFinite(id)) return Math.abs(id * 53);
+ let hash = 0;
+ for (const c of String(id || '')) hash = (hash * 31 + c.charCodeAt(0)) >>> 0;
+ return hash % 360;
+}
+function hazardNumber(v, fallback) { return Number.isFinite(v) ? v : fallback; }
+function damageAgent(a, reason = 'hazard') {
+ if (a.dead || a.done || a.invincible > 0) return false;
+ if (a.big) {
+  const oldHeight = a.h;
+  a.big = false; a.h = 30; a.y += oldHeight - a.h; a.invincible = 90;
+ } else endAgent(a, reason);
+ return true;
+}
+function enemyGeometry(e, a) {
+ const time = stageTime(a);if(planningDepth){const cached=readPlanningGeometry(e,time);if(cached)return cached;}const phase = hazardPhase(e.id);
+ let y = e.y;
+ if (e.type === 'fish') y += Math.sin(time * .035 + phase) * 30;
+ if (e.type === 'hammer' || e.type === 'hammerbro') {
+  const cycle = ((time + phase) % 170) / 170;
+  if (cycle < .42) y -= Math.sin(cycle / .42 * Math.PI) * 42;
+ }
+ const result={id:e.id, type:e.type, x:enemyPosition(e,time), y, w:e.w, h:e.h};return planningDepth?writePlanningGeometry(e,time,result):result;
+}
+function enemyState(e,a,lvl) { return enemyGeometry(e,a); }
+function hazardGeometry(h, a) {
+ const time = stageTime(a);if(planningDepth){const cached=readPlanningGeometry(h,time);if(cached)return cached;}const type = h.type, parts = [];
+ const phase = hazardPhase(h.id), period = Math.max(30,hazardNumber(h.period,210));
+ const x = hazardNumber(h.x,0), y = hazardNumber(h.y,GROUND);
+ const length = Math.max(12,hazardNumber(h.length,96));
+ const geometry = {type,parts,active:true};
+ if (type === 'firebar') {
+  geometry.pivot = {x,y};
+  const angle = ((time + phase) / period * Math.PI * 2) * (h.direction === -1 ? -1 : 1);
+  const count = clamp(Math.ceil(length / 16),1,16);
+  for (let i = 1; i <= count; i++) {
+   const distance = i * length / count, r = 6;
+   parts.push({x:x+Math.cos(angle)*distance-r,y:y+Math.sin(angle)*distance-r,w:r*2,h:r*2,r,kind:'fire'});
+  }
+ } else if (type === 'lava') {
+  parts.push({x,y,w:length,h:hazardNumber(h.h,TILE*5),kind:'lava'});
+ } else if (type === 'piranha') {
+  const cycle = ((time+phase)%period)/period;
+  const emergence = Math.max(0,Math.sin(cycle*Math.PI*2))*36;
+  geometry.active = emergence > 7;
+  if (geometry.active) parts.push({x:x+4,y:y-emergence,w:24,h:Math.min(32,emergence),kind:'piranha'});
+ } else if (type === 'hammer') {
+  const age = (time+phase)%period;
+  const direction = h.direction === 1 ? 1 : -1;
+  let originX=x, originY=y;
+  if (h.source) {
+   const emitter = enemyGeometry(h.source,{worldSteps:Math.max(0,time-age)});
+   originX=emitter.x+8; originY=emitter.y+5;
+  }
+  if (age < 78) parts.push({x:originX+direction*age*2.35,y:originY-7.5*age+.15*age*age,w:13,h:15,kind:'hammer',angle:age*.26});
+ } else if (type === 'podoboo' || type === 'bubble') {
+  const age = (time+phase)%period;
+  const rise = 9.1*age-.18*age*age;
+  geometry.active = rise > 0;
+  if (geometry.active) parts.push({x,y:y-rise,w:18,h:22,kind:'fire'});
+ } else if (type === 'fire' || type === 'fireball') {
+  const age = (time+phase)%period;
+  parts.push({x:x-age*hazardNumber(h.speed,2.6),y,w:22,h:14,kind:'fire'});
+ }
+ if (!parts.length) geometry.active = false;
+ return planningDepth?writePlanningGeometry(h,time,geometry):geometry;
+}
+function hazardOverlaps(a, part) {
+ if (!overlap(a,part)) return false;
+ if (!part.r) return true;
+ const cx = part.x+part.r, cy = part.y+part.r;
+ const dx = cx-clamp(cx,a.x,a.x+a.w), dy = cy-clamp(cy,a.y,a.y+a.h);
+ return dx*dx+dy*dy < part.r*part.r;
+}
+function hammerProjectiles(e,a) {
+ if (e.type !== 'hammer' && e.type !== 'hammerbro' || a.defeated.has(e.id)) return [];
+ return hazardGeometry(planningDepth?(e.planningHammer||(e.planningHammer={id:e.id,type:'hammer',x:e.x,y:e.y,period:120,source:e})):{id:e.id,type:'hammer',x:e.x,y:e.y,period:120,source:e},a).parts;
+}
+function bowserBodyAt(b, time) {
+ const x = b.x+Math.sin(time*.022)*28;
+ const cycle = ((time+40)%180)/180;
+ const jump = cycle < .35 ? Math.sin(cycle/.35*Math.PI)*64 : 0;
+ return {x,y:hazardNumber(b.y,GROUND-54)-jump,w:52,h:54};
+}
+function bossGeometry(a, lvl) {
+ if (!lvl?.boss) return null;
+ const b = lvl.boss, time = stageTime(a);if(planningDepth&&!a.bossDefeated&&!a.bridgeCollapsed){const cached=readPlanningGeometry(b,time);if(cached)return cached;}const body = bowserBodyAt(b,time);
+ const bridgeY = hazardNumber(b.bridgeY,GROUND);
+ const axe = {x:b.axeX,y:hazardNumber(b.axeY,bridgeY-60),w:24,h:60};
+ const bridge = {x:b.bridgeStart,y:bridgeY,w:Math.max(TILE,b.bridgeEnd-b.bridgeStart),h:16,collapsed:!!a.bridgeCollapsed};
+ const collapseProgress = a.bossDefeated ? clamp((time-hazardNumber(a.bossDefeatStep,time))/45,0,1) : 0;
+ if (a.bossDefeated) body.y += collapseProgress*200;
+ const fireballs = [];
+ if (!a.bossDefeated) {
+  const period = b.final ? 86 : 116;
+  // The last three launches are computed analytically; no projectile state leaks
+  // between agents and no arrays accumulate over long 1000x sessions.
+  for (let i = 0; i < 3; i++) {
+   const age = time%period+i*period, spawnTime = time-age;
+   if (spawnTime < 0 || age > 290) continue;
+   const from = bowserBodyAt(b,spawnTime);
+   const launch = Math.floor(spawnTime/period);
+   fireballs.push({x:from.x-10-age*2.65,y:from.y+18+(launch%2)*14,w:22,h:14,kind:'fire',spawnTime});
+  }
+ }
+ const result={body,fireballs,axe,bridge,defeated:!!a.bossDefeated,collapseProgress};return planningDepth&&!a.bossDefeated&&!a.bridgeCollapsed?writePlanningGeometry(b,time,result):result;
+}
+function stepHazards(a, lvl) {
+ if (a.dead || a.done) return;
+ lvl = lvl || a.level || {};
+ for (const h of lvl.hazards || []) {
+  // Cheap broad-phase filter keeps distant firebars out of the training loop.
+  const reach = Math.max(hazardNumber(h.length,96),h.type==='hammer'||h.type==='fire'||h.type==='fireball'?700:120);
+  if (a.x+a.w < h.x-reach || a.x > h.x+reach) continue;
+  for (const p of hazardGeometry(h,a).parts) {
+   if (!hazardOverlaps(a,p)) continue;
+   if (h.type === 'lava') { endAgent(a,'lava'); return; }
+   damageAgent(a,'hazard');
+   if (a.dead) return;
+  }
+ }
+ for (const e of lvl.enemies || []) {
+  if ((e.type !== 'hammer' && e.type !== 'hammerbro') || a.defeated.has(e.id) || Math.abs(a.x-e.x)>250) continue;
+  for (const p of hammerProjectiles(e,a)) if (hazardOverlaps(a,p)) damageAgent(a,'hammer');
+  if (a.dead) return;
+ }
+ if (lvl.boss && !a.bossDefeated && a.x+a.w > lvl.boss.x-820) {
+  const boss = bossGeometry(a,lvl);
+  if (overlap(a,boss.body)) damageAgent(a,'boss');
+  if (a.dead) return;
+  for (const p of boss.fireballs) if (overlap(a,p)) damageAgent(a,'fire');
+ }
+}
+function tryCastleExit(a, lvl) {
+ if (!lvl?.boss || a.dead || a.done) return false;
+ if (a.bossDefeated) return true;
+ const boss = bossGeometry(a,lvl);
+ // Reaching the numerical goal is insufficient: the axe must be touched.
+ if (!overlap(a,boss.axe)) return false;
+ a.bossDefeated = true;
+ a.bossDefeatStep = stageTime(a);
+ a.bridgeCollapsed = true;
+ a.kills++;
+ award(a,'boss');
+ return true;
+}
+
+function hitBlock(a,t){
+ if(t.type==='question'&&!a.used.has(t.block)){a.used.add(t.block);const block=a.level.blocks[t.block];if(block.power)a.items.push({x:t.x+3,y:t.y-28,w:26,h:26,vx:1.4,vy:0});else{a.coins++;award(a,'coin');}a.effects.push({x:t.x,y:t.y,until:a.steps+16,type:'bump'});}
+ else if(t.type==='brick'&&a.big&&!a.broken.has(t.col+','+t.row)){a.broken.add(t.col+','+t.row);a.effects.push({x:t.x,y:t.y,until:a.steps+25,type:'break'});}
+}
+function stepAgent(a,action,time=null){
+ a.worldSteps=time??stageTime(a)+1;
+ if(a.dead||a.done)return;const lvl=a.level;
+ a.steps++;a.stageSteps++;if(a.invincible>0)a.invincible--;if(a.jumpCooldown>0)a.jumpCooldown--;
+ if(action.move)a.direction=action.move;
+ const swim=lvl.underwater;
+ a.vx=clamp(a.vx+action.move*(swim?.28:.48),swim?-2.8:-4.1,swim?2.8:4.1);if(!action.move)a.vx*=swim?.91:a.ground?.78:.97;
+ if(a.ground)a.coyote=5;else a.coyote--;
+ if(swim){if(action.jump&&a.jumpCooldown<=0){a.vy=-4.9;a.jumpCooldown=10;}a.vy=clamp(a.vy+.12,-5,3.8);}
+ else{if(action.jump&&!a.jumpLatch&&a.coyote>0&&a.jumpCooldown<=0){a.vy=-11.6;a.ground=false;a.coyote=0;a.jumpCooldown=10;}if(!action.jump&&a.vy<-4)a.vy+=.48;a.vy=Math.min(a.vy+.48,12);}
+ a.jumpLatch=action.jump;
+ a.x+=a.vx;for(const t of nearby(a.x,a.y,a.w,a.h,a)){if(a.vx>0)a.x=t.x-a.w;else if(a.vx<0)a.x=t.x+t.w;a.vx=0;}
+ a.x=Math.max(0,a.x);const prevBottom=a.y+a.h;a.y+=a.vy;a.ground=false;
+ for(const t of nearby(a.x,a.y,a.w,a.h,a)){if(a.vy>0){a.y=t.y-a.h;a.ground=true;}else if(a.vy<0){a.y=t.y+t.h;hitBlock(a,t);}a.vy=0;}
+ for(const p of indexedObjects(lvl,'platforms',a.x))if(a.x+a.w>p.x&&a.x<p.end&&a.y+a.h<=p.y+5)a.traversed.add(p.id);
+ for(const c of indexedObjects(lvl,'coins',a.x))if(!a.collected.has(c.id)&&overlap(a,c)){a.collected.add(c.id);a.coins++;award(a,'coin');}
+ for(const item of a.items){if(item.collected)continue;item.vy=Math.min(item.vy+.45,10);item.x+=item.vx;for(const t of nearby(item.x,item.y,item.w,item.h,a)){item.x=item.vx>0?t.x-item.w:t.x+t.w;item.vx*=-1;}item.y+=item.vy;for(const t of nearby(item.x,item.y,item.w,item.h,a)){if(item.vy>0)item.y=t.y-item.h;else item.y=t.y+t.h;item.vy=0;}if(overlap(a,item)){item.collected=true;if(!a.big&&!solid(a.x+a.w/2,a.y-18,a)){a.big=true;a.h=46;a.y-=16;}a.invincible=60;}}
+ for(const e of indexedObjects(lvl,'enemies',a.x)){if(a.defeated.has(e.id)||a.x>=e.max+e.w||a.x+a.w<=e.min)continue;const ep=enemyState(e,a,lvl);if(!overlap(a,ep))continue;if(prevBottom<=ep.y+9&&a.vy>=0&&!swim){a.defeated.add(e.id);a.kills++;a.vy=-7;award(a,'enemy');}else if(!a.invincible){damageAgent(a,'enemy');if(a.dead)return;}}
+ stepHazards(a,lvl);if(a.dead)return;
+ if(a.y>H+32){endAgent(a,'fall');return;}
+ // Landing and crossing bonuses require surviving this physics frame.
+ if(a.ground){for(const p of indexedObjects(lvl,'platforms',a.x))if(!a.landed.has(p.id)&&a.x+a.w>p.x&&a.x<p.end&&Math.abs(a.y+a.h-p.y)<1){a.landed.add(p.id);award(a,'landing');}for(const p of lvl.platforms)if(a.traversed.has(p.id)&&!a.cleared.has('p'+p.id)&&a.x>p.end+2){a.cleared.add('p'+p.id);award(a,'platform');}for(const g of lvl.gaps)if(!a.cleared.has('g'+g.id)&&a.x>g.end+4){a.cleared.add('g'+g.id);award(a,'gap');}}
+ if(a.x>a.maxX+.05){a.maxX=a.x;a.stalled=0;}else{a.stalled++;if(a.stageSteps%60===0)award(a,'idle');}
+ if((a.ground||lvl.underwater)&&a.x>a.safeX+.05){const amount=a.x-a.safeX;a.safeX=a.x;award(a,'custom',amount/TILE*rewards.progress);}
+ if(lvl.boss?tryCastleExit(a,lvl):a.x>=lvl.goal&&a.y+a.h<=GROUND+16){advanceStage(a);return;}
+ if(a.stageSteps>=MAX_TIME||a.stalled>300)endAgent(a,a.stalled>300?'stalled':'time');
+}
+function mutateBrain(parent,scale){const b=network(parent.w);for(let i=0;i<b.w.length;i++)if(random()<.25)b.w[i]=clamp(b.w[i]+gaussian()*scale,-6,6);return b;}
+function beginPopulation(weights=null){worldTick=0;agents=[];for(let i=0;i<populationSize;i++){const brain=weights?(i===0?network(weights):mutateBrain({w:weights},mutation*(.4+random()))):network();agents.push(newAgent(brain,i+1));}frame=0;transition=0;}
+function resetExperiment(preserveLearning=false){if(replayBusy)throw Error('Aguarde a gravação terminar.');if(preserveLearning){disablePlannerWorker();if(algorithm==='adaptive')createPlannerWorker();generation++;}else{resetLearner();resetAdaptive();resetRainbow();generation=1;}level=levelKey==='training'?trainingLevel:campaign[selectedStage];totalStageClears=0;history=[];bestEver=0;bestProgress=0;champion=null;totalWins=0;camera=0;pendingReset=false;beginPopulation();human=newAgent(network(),0);particles.length=0;accumulator=0;updateUI();}
+function nextGeneration(){
+ const ranked=agents.slice().sort((a,b)=>b.reward-a.reward),winner=ranked[0],mean=ranked.reduce((s,a)=>s+a.reward,0)/ranked.length;
+ history.push({generation,best:winner.reward,mean,progress:progress(winner)});if(history.length>300)history.shift();
+ if(!champion||winner.reward>champion.reward){champion={w:new Float32Array(algorithm==='rainbow'?rainbow.online.w:algorithm==='adaptive'?adaptive.policy.w:algorithm==='ddqn'?learner.online.w:winner.brain.w),reward:winner.reward,progress:progress(winner)};}
+ bestEver=Math.max(bestEver,winner.reward);bestProgress=Math.max(bestProgress,...ranked.map(progress));totalWins+=ranked.filter(a=>a.done).length;
+ if(algorithm==='ddqn'||algorithm==='adaptive'||algorithm==='rainbow'){
+  learner.episodes+=ranked.length;worldTick=algorithm==='rainbow'?Math.floor(random()*1440):0;
+  agents=Array.from({length:populationSize},(_,i)=>newAgent(network(),i+1,selectedStage));
+  generation++;frame=0;transition=0;camera=0;if(winner.done)showToast('A IA derrotou Bowser e concluiu a campanha!');updateUI();return;
+ }
+ const eliteN=Math.max(2,Math.ceil(populationSize*.1)),pool=ranked.slice(0,Math.max(eliteN,Math.ceil(ranked.length*.25))),newcomerStart=Math.floor(populationSize*.9);
+ worldTick=0;const next=[];for(let i=0;i<populationSize;i++){
+  let brain;if(i<eliteN)brain=network(ranked[Math.min(i,ranked.length-1)].brain.w);else if(i>=newcomerStart)brain=network();else{let parent=pool[Math.floor(random()*pool.length)];for(let j=0;j<2;j++){const candidate=pool[Math.floor(random()*pool.length)];if(candidate.reward>parent.reward)parent=candidate;}brain=mutateBrain(parent.brain,mutation*(.5+random()));}
+  next.push(newAgent(brain,i+1));
+ }
+ agents=next;generation++;frame=0;transition=0;camera=0;
+ if(winner.done)showToast('A IA derrotou Bowser e concluiu a campanha!');
+ updateUI();
+}
+function progress(a){if(a.done&&a.stageIndex===31)return 100;return clamp((Math.max(0,a.stageIndex)+stageProgress(a)/100)/campaign.length,0,1)*100;}
+function leader(){if(replayActor)return replayActor;if(firstRLVictory){const winner=agents.find(a=>a.id===firstRLVictory.id&&a.done);if(winner)return winner;}let alive=null,best=null;for(const a of agents){if(!best||a.reward>best.reward)best=a;if(!a.dead&&!a.done&&(!alive||a.reward>alive.reward))alive=a;}return alive||best;}
+function simStep(){
+ if(mode==='train'&&algorithm==='adaptive'&&!transition&&!prepareAdaptiveStep())return false;
+ if(mode==='train'&&algorithm==='rainbow'&&rainbowWorker){
+  // A terminal actor flushes its whole n-step tail. Reserve its actual worst case.
+  rDispatchWorker();const burst=transition?0:agents.reduce((n,a)=>n+(!a.dead&&!a.done?Math.min(R_NSTEP,(a.rQueue?.length||0)+1):0),0);
+  if(rainbow.outbox.length+burst>R_OUTBOX_LIMIT){rDispatchWorker(true);if(rainbowWorker&&rainbow.outbox.length+burst>R_OUTBOX_LIMIT)return false;}
+ }
+ worldTick++;
+ if(mode==='play'){const action={move:(keys.right?1:0)-(keys.left?1:0),jump:keys.jump},previousStage=human.stageIndex;if(algorithm==='adaptive')capturePlayer(human,action);stepAgent(human,action,worldTick);if(algorithm==='adaptive'){finishPlayer(human,previousStage);if(worldTick%12===0)trainImitation();}return;}
+ for(const a of agents)a.worldSteps=a.dead||a.done?worldTick:worldTick-1;
+ if(transition>0){if(--transition===0)nextGeneration();return;}
+ let active=0;for(const a of agents){
+  if(a.dead||a.done)continue;
+  if(algorithm==='adaptive'){if(a.adaptiveAge>=A_CHUNK||a.adaptiveStage!==a.stageIndex)adaptiveDecide(a);a.adaptiveAge++;}else if(algorithm==='rainbow'){if(!a.rl)rDecide(a);}else if(algorithm==='ddqn'){if(!a.rl)qDecide(a);}else if(frame%4===0)decide(a);
+  const before=a.reward;if(algorithm==='rainbow')rTraceCapture(a);stepAgent(a,a.action,worldTick);if(algorithm==='adaptive')validateAdaptivePose(a);
+  if(algorithm==='ddqn')qFinish(a,a.reward-before);if(algorithm==='rainbow'){rFinish(a,a.reward-before);rTraceFinish(a);}
+  if(!a.dead&&!a.done)active++;
+ }
+ if(algorithm==='ddqn'&&worldTick%8===0)trainQ();if(algorithm==='rainbow'&&worldTick%8===0)rTrainTick();if(algorithm==='adaptive'&&worldTick%6===0)trainImitation();
+ frame++;if(!active)transition=24;if(firstRLVictory&&paused)return false;
+}
+function showToast(text){if(inBatch){pendingToast=text;return;}$('toast').textContent=text;$('toast').classList.add('show');toastUntil=performance.now()+3500;}
+function live(text){$('liveMessage').textContent=text;}
+function setSpeed(value){if(!Number.isInteger(value)||value<1||value>MAX_SPEED)throw Error('Velocidade entre 1 e 1000000');speed=value;$('speed').value=String(value);$('speed').setAttribute('aria-valuetext',value+' vezes');$('speedValue').textContent=value+'×';for(const v of [1,10,100,1000,1000000]){$('speed'+v).classList.toggle('active',v===value);$('speed'+v).setAttribute('aria-pressed',String(v===value));}accumulator=0;updateUI();}
+function setPaused(value,recording=false){if(replayBusy&&!recording)throw Error('Aguarde a gravação terminar.');paused=value;$('pause').textContent=value?'Continuar':'Pausar';updateUI();}
+function setMode(value){if(replayBusy)throw Error('Aguarde a gravação terminar.');mode=value;keys.left=keys.right=keys.jump=false;document.body.classList.toggle('manual',mode==='play');$('trainMode').classList.toggle('active',mode==='train');$('playMode').classList.toggle('active',mode==='play');$('trainMode').setAttribute('aria-pressed',mode==='train');$('playMode').setAttribute('aria-pressed',mode==='play');$('modeLabel').textContent=mode==='train'?'População em treinamento':'Você nos controles';$('legendLeader').textContent=mode==='train'?'Melhor agente':'Seu personagem';$('ghostLegend').hidden=mode==='play';$('hudWho').firstChild.textContent=mode==='train'?'LÍDER':'JOGADOR';if(mode==='play'){human=newAgent(network(),0,human?.stageIndex??selectedStage);camera=0;showToast('Use os botões ou ← → e espaço.');}else{for(const a of agents){a.worldSteps=worldTick;a.adaptiveRoute=null;a.adaptiveAge=A_CHUNK;a.nextController=undefined;}}accumulator=0;resize();updateUI();}
+function updateUI(){
+ if(inBatch)return;
+ const a=replayActor||(mode==='train'?leader():human);if(!a)return;
+ bestEver=Math.max(bestEver,...agents.map(x=>x.reward));bestProgress=Math.max(bestProgress,...agents.map(progress));
+ $('generation').textContent=String(generation).padStart(3,'0');$('alive').innerHTML=agents.filter(x=>!x.dead&&!x.done).length+' <em>/ '+agents.length+'</em>';
+ $('bestReward').textContent=bestEver>=1000?(bestEver/1000).toFixed(1)+'k':bestEver.toFixed(1);$('bestDistance').innerHTML=Math.floor(bestProgress)+'<em>%</em>';
+ $('hudID').textContent=mode==='train'?'#'+String(a.id).padStart(3,'0'):'VOCÊ';$('hudCoins').textContent=String(a.coins).padStart(2,'0');$('hudReward').textContent=a.reward.toFixed(2);$('hudTime').textContent=Math.max(0,90-Math.floor(a.stageSteps/60));$('worldName').textContent=a.level.name;$('modeLabel').textContent=mode==='train'?'Agente em '+a.level.id+' · '+a.stagesCleared+' fases concluídas':'Você em '+a.level.id+' · '+a.stagesCleared+' fases concluídas';
+ $('chartStatus').textContent=history.length?'Geração '+history[0].generation+'–'+history.at(-1).generation+' · '+totalStageClears+' fases · '+totalWins+' campanhas':'Primeira geração em andamento';
+ $('phaseProgress').textContent='Fase '+a.level.id+': '+Math.floor(stageProgress(a))+'%';
+ $('networkShape').textContent=algorithm==='rainbow'?R_INPUTS+' → 64 → IQN × 6':algorithm==='evolution'?'44 → 12 → 2':'44 → 32 → 6';$('mutation').disabled=algorithm!=='evolution';$('mutationField').hidden=algorithm!=='evolution';$('teachPlayer').disabled=algorithm!=='adaptive';
+ $('teachHelp').textContent=algorithm==='adaptive'?'Jogue em “Eu jogo” para ensinar ações à rede. Toda tentativa começa no início.':algorithm==='rainbow'?R_INPUTS+' sensores: visão de 1.250 × 480 px + detalhes locais. Em Líder + sensores, veja a grade. RL por recompensas, sem checkpoint.':'Demonstrações do jogador estão disponíveis na IA adaptativa.';
+ $('saveRL').disabled=algorithm!=='rainbow'||replayBusy;$('recordRL').disabled=!bestRLTrace||replayBusy;$('loadRL').disabled=replayBusy;$('reset').disabled=replayBusy;$('pause').disabled=replayBusy;$('trainMode').disabled=replayBusy;$('playMode').disabled=replayBusy;$('algorithm').disabled=replayBusy;$('level').disabled=replayBusy;for(const [key] of rewardSpec)if($('reward-'+key))$('reward-'+key).disabled=replayBusy;
+ $('learnerStatus').textContent=algorithm==='rainbow'?'Rainbow-IQN · '+rainbow.updates+' atualizações · '+(rainbowWorker?rainbow.workerReplay:rainbow.size)+' experiências · 5 passos · prioridade β '+rainbow.beta.toFixed(2)+(rainbow.loadedUpdates?' · modelo carregado ('+rainbow.loadedUpdates+' ajustes anteriores)':''):algorithm==='adaptive'?'Adaptativa · '+adaptive.updates+' ajustes · '+adaptive.size+' exemplos · '+adaptive.playerExamples+' seus · início da fase':algorithm==='ddqn'?'Double DQN · '+learner.updates+' atualizações · '+learner.size+' experiências · início da fase':'Neuroevolução · melhores 10% · novos 10%';
+ $('bottomStatus').innerHTML='<strong>'+(paused?'Pausado':mode==='play'?'Modo manual':'Treino ativo')+'</strong> · '+(mode==='play'?(algorithm==='adaptive'&&teachPlayer?'a IA observa seus movimentos':'você nos controles'):algorithm==='adaptive'?'planejamento + aprendizado por imitação':algorithm==='rainbow'?'RL por recompensas · quantis + memória priorizada':algorithm==='ddqn'?'aprendendo com ações e experiências anteriores':generation===1?'pesos aleatórios na geração 1':'melhores preservados + mutações');
+ $('simRate').textContent=mode==='play'?'Física em 1×':(effectiveRate/PHYSICS_HZ).toFixed(effectiveRate<600?1:0)+'× real · alvo '+speed+'×';
+ $('simRate').title=Math.round(effectiveRate)+' passos de simulação por segundo';
+ const top=agents.slice().sort((a,b)=>b.reward-a.reward).slice(0,5);$('leaderboard').innerHTML=top.map((a,i)=>'<div class="leader-row"><span class="id">'+'#'+String(a.id).padStart(3,'0')+' · '+a.level.id+'</span><div class="leader-bar"><i style="width:'+progress(a)+'%"></i></div><span class="fit">'+a.reward.toFixed(2)+'</span></div>').join('');
+ drawChart();drawNetwork(a);
+}
+// Pixel sprites are code-native game assets, drawn on the game's canvas.
+const palette={r:'#c74a36',d:'#713d26',s:'#ffcb92',k:'#202c36',o:'#244f7d',y:'#fff09d',g:'#d4f8ad',t:'#ecbc56',w:'#fff5da'};
+const spriteRows={
+ stand:['....rrrrrr......','...rrrrrrrrrr...','...dddssks......','..dsdsssksss....','..dsddsssks.....','...dssskkkk.....','....ssssss......','...rrorro.......','..rrroorrrr.....','.rrrroooorrrr...','.ssroysyorrss...','.sssoooooosss...','....ooooooo.....','...oooo.oooo....','..dddd...dddd...','.ddddd...ddddd..'],
+ run:['....rrrrrr......','...rrrrrrrrrr...','...dddssks......','..dsdsssksss....','..dsddsssks.....','...dssskkkk.....','....ssssss......','...rroorro......','..rrrooorrrss...','.srrroyyorrsss..','.sssoooooo......','....ooooooo.....','...oooo.oo......','..dddd..oodd....','.ddddd...ddd....','..........ddd...'],
+ jump:['....rrrrrr......','...rrrrrrrrrr...','...dddssks......','..dsdsssksss....','..dsddsssks.....','...dssskkkk.....','....ssssss..ss..','...rroorro.sss..','..rrrooorrrss...','.srrroyyorr.....','.sssoooooo......','...oooooooo.....','..oooo..oodd....','.dddd....ddd....','.dddd...........','................'],
+ goomba:['.....dddddd.....','...dddddddddd...','..dddddddddddd..','.ddwdddddwwdddd.','.ddkwdddkwddddd.','dddkwwwwkwdddddd','ddddkkkkdddddddd','ddssssssssssdddd','.ssssssssssssss.','..ssssssssssss..','...ddddddddd....','..kkkk..kkkk....','.kkkkk..kkkkk...'],
+ mushroom:['.....rrrrrr.....','...rrrrwwrrrr...','..rrrwwwwwwrrr..','.rrrrwwwwwwrrrr.','rrwwrrrrrrrrwwrr','rwwwwrrrrrrwwwwr','rwwwwrrrrrrwwwwr','rrrrrrrrrrrrrrrr','..ssssssssssss..','...ssskskssss...','...ssssssssss...','....ssssssss....'],
+ koopa:['.....gggg.......','....gggggg......','....gwkwgg......','....ggggggss....','...ggggggsss....','...gggggggg.....','..ggddddddgg....','.ggddddddddgg...','.gddggddggddg...','ggddggddggddgg..','ggddddddddddgg..','.gddddddddddg...','..gddddddddg....','...ssssssss.....','..ssss..ssss....','..dddd..dddd....']};
+const spriteCache=new Map();
+function sprite(type,tint=null){const key=type+(tint||'');if(spriteCache.has(key))return spriteCache.get(key);const rows=spriteRows[type],c=document.createElement('canvas');c.width=16;c.height=rows.length;const g=c.getContext('2d');for(let y=0;y<rows.length;y++)for(let x=0;x<rows[y].length;x++){const code=rows[y][x];if(code!=='.'){g.fillStyle=tint&&['r','o'].includes(code)?tint:palette[code];g.fillRect(x,y,1,1);}}spriteCache.set(key,c);return c;}
+function rect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),w,h);}
+
+function drawPipe(p){const x=p.x,y=p.y;rect(x+4,y+13,56,p.h-13,'#3a9660');rect(x+8,y+13,7,p.h-13,'#94d368');rect(x+17,y+13,11,p.h-13,'#5eb767');rect(x+52,y+13,5,p.h-13,'#1d5b44');rect(x,y,64,17,'#26714c');rect(x+2,y+2,60,11,'#62b765');rect(x+4,y+3,9,10,'#b0e17a');rect(x+16,y+3,28,10,'#75c86b');rect(x+55,y+3,5,10,'#265f40');rect(x+2,y+15,60,3,'#1a593e');}
+function drawCoin(c,time){const w=Math.round(4+8*Math.abs(Math.sin(time*.08+c.id)));rect(c.x+(12-w)/2,c.y,w,22,'#bb852e');rect(c.x+(12-w)/2,c.y,w,19,'#ffd76d');rect(c.x+(12-w)/2+2,c.y+3,Math.max(1,w-4),13,'#f6b839');if(w>6)rect(c.x+(12-w)/2+3,c.y+4,2,11,'#fff2a2');}
+function cloud(x,y,scale=1){const c='#f4f6da';rect(x+12*scale,y,44*scale,10*scale,c);rect(x+4*scale,y+10*scale,66*scale,20*scale,c);rect(x,y+22*scale,76*scale,10*scale,c);rect(x+8*scale,y+31*scale,60*scale,4*scale,'#c6e6e8');}
+function hill(x,y,w,h){ctx.fillStyle='#74b981';ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w*.45,y-h);ctx.lineTo(x+w*.55,y-h);ctx.lineTo(x+w,y);ctx.closePath();ctx.fill();ctx.fillStyle='#569c6d';ctx.beginPath();ctx.moveTo(x+w*.45,y-h);ctx.lineTo(x+w*.55,y-h);ctx.lineTo(x+w,y);ctx.lineTo(x+w*.79,y);ctx.closePath();ctx.fill();rect(x+w*.39,y-h*.56,5,11,'#467f60');rect(x+w*.59,y-h*.34,5,10,'#467f60');}
+function drawBackground(){rect(0,0,sceneWidth,H,'#83cdec');rect(0,280,sceneWidth,150,'#94d7ed');const off=camera*.28;for(let i=-1;i<Math.ceil(sceneWidth/300)+2;i++){const x=i*300-(off%300);cloud(x+35,73,1);cloud(x+192,135,.65);hill(x-10,GROUND,190,85);hill(x+160,GROUND,110,52);}ctx.fillStyle='#abd9ba';ctx.fillRect(0,GROUND,sceneWidth,64);}
+function drawCharacter(a,highlight=false){if(a.dead||a.invincible>0&&a.steps%6<3)return;const anim=!a.ground?'jump':Math.abs(a.vx)>.5&&Math.floor(a.steps/7)%2?'run':'stand';const img=sprite(anim,mode==='train'&&!highlight?'#d8fff2':null);ctx.save();ctx.translate(Math.round(a.x+a.w/2),Math.round(a.y+a.h));if(a.direction<0)ctx.scale(-1,1);ctx.drawImage(img,-16,-a.h,32,a.h);if(highlight&&mode==='train'){ctx.strokeStyle='#fff7c9';ctx.lineWidth=1;ctx.strokeRect(-18,-a.h-3,36,a.h+4);ctx.fillStyle='#1e392bec';ctx.fillRect(-24,-a.h-21,48,15);ctx.fillStyle='#fff0a4';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('#'+String(a.id).padStart(3,'0'),0,-a.h-10);}ctx.restore();}
+function drawSensors(a){
+ const s=algorithm==='rainbow'?rObserve(a):observe(a),cx=a.x+a.w/2,foot=a.y+a.h;
+ let n=algorithm==='rainbow'?74:14;const offsets=algorithm==='rainbow'?[-32,32,96,160,224,288]:[20,52,90,136],heights=algorithm==='rainbow'?[-112,-48,16,80]:[-65,-33,-1,31];
+ for(const dx of offsets)for(const dy of heights){const value=s[n++];ctx.strokeStyle=value<0?'#ff6749':value>0?'#b9ed88':'#edfff088';ctx.lineWidth=1;ctx.strokeRect(cx+dx-12,foot+dy-12,24,24);}
+ if(algorithm==='rainbow'){
+  const viewport=rViewport(a),cellW=viewport.w/R_VIEW_COLS,cellH=viewport.h/R_VIEW_ROWS;
+  ctx.save();ctx.lineWidth=.6;
+  for(let row=0;row<R_VIEW_ROWS;row++)for(let col=0;col<R_VIEW_COLS;col++){
+   const offset=R_BASE_INPUTS+(row*R_VIEW_COLS+col)*R_VIEW_CHANNELS,solid=s[offset],enemy=s[offset+1],danger=s[offset+2],item=s[offset+3];
+   const x=viewport.x+col*cellW,y=row*cellH;
+   ctx.fillStyle=danger>0?'#ff684b':enemy>0?'#efa1b7':item>0?'#f1cf6c':solid>0?'#b9ed88':'#a8d9d5';
+   ctx.globalAlpha=danger>0||enemy>0||item>0?.16:.035+solid*.10;ctx.fillRect(x,y,cellW,cellH);
+   ctx.globalAlpha=.36;ctx.strokeStyle=ctx.fillStyle;ctx.strokeRect(x,y,cellW,cellH);
+  }
+  ctx.globalAlpha=1;ctx.strokeStyle='#e6ffbd';ctx.lineWidth=1;ctx.strokeRect(viewport.x,0,viewport.w,viewport.h);
+  const labelX=Math.max(viewport.x,camera)+6;ctx.fillStyle='#15271aee';ctx.fillRect(labelX,42,Math.min(340,sceneWidth-12),22);ctx.fillStyle='#e6ffbd';ctx.font='11px monospace';ctx.textAlign='left';ctx.fillText('VISÃO RL · terreno / inimigos / perigo / poder',labelX+8,57);ctx.restore();
+  for(let k=0;k<3;k++){const o=44+k*6;if(!s[o])continue;const left=cx+s[o+1]*384,right=cx+s[o+2]*384,y=foot-s[o+3]*160;ctx.strokeStyle=['#b9ed88','#f1cf6c','#a8d9d5'][k];ctx.lineWidth=2;ctx.strokeRect(left,y,Math.max(8,right-left),7);ctx.fillStyle=ctx.strokeStyle;ctx.font='12px monospace';ctx.fillText('POUSO '+(k+1),left,y-7);}if(s[62]){ctx.strokeStyle='#fff5da';ctx.beginPath();ctx.moveTo(cx+s[64]*384,foot-35);ctx.lineTo(cx+s[64]*384,foot+10);ctx.stroke();}}
+}
+
+function drawCastle(x){for(let i=0;i<5;i++)for(let j=0;j<3;j++)drawTile({x:x+i*32,y:GROUND-96+j*32,type:'brick',col:-1,row:-1},{broken:new Set()});for(let i=0;i<5;i+=2)drawTile({x:x+i*32,y:GROUND-128,type:'stone',col:-1,row:-1},{broken:new Set()});rect(x+62,GROUND-57,36,57,'#28382f');rect(x+56,GROUND-43,48,43,'#28382f');rect(x+24,GROUND-82,15,22,'#28382f');rect(x+120,GROUND-82,15,22,'#28382f');}
+
+function sizedCanvas(c){const r=c.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);c.width=Math.round(r.width*d);c.height=Math.round(r.height*d);return {w:r.width,h:r.height,d};}
+function resize(){const r=ui.game.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);ui.game.width=Math.round(r.width*d);ui.game.height=Math.round(r.height*d);sceneWidth=clamp(r.width/r.height*H,480,1250);drawChart();const a=replayActor||(mode==='train'?leader():human);if(a)drawNetwork(a);draw();}
+function drawChart(){const c=ui.chart,{w,h,d}=sizedCanvas(c),g=chartCtx;g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);const left=32,right=10,top=10,bottom=21,plotW=w-left-right,plotH=h-top-bottom;
+ const points=history.length?history:[{best:0,mean:0}];let min=Math.min(0,...points.map(p=>p.mean)),max=Math.max(5,...points.map(p=>p.best));const range=max-min||1;g.font='11px monospace';g.textAlign='right';
+ for(let i=0;i<3;i++){const y=top+i*plotH/2;g.strokeStyle='#35433d';g.beginPath();g.moveTo(left,y);g.lineTo(w-right,y);g.stroke();g.fillStyle='#99ada1';g.fillText((max-range*i/2).toFixed(0),left-7,y+4);}
+ function line(key,color){g.strokeStyle=color;g.lineWidth=2;g.beginPath();points.forEach((p,i)=>{const x=left+i/Math.max(1,points.length-1)*plotW,y=top+(max-p[key])/range*plotH;i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();if(points.length===1){g.fillStyle=color;g.fillRect(left-2,top+(max-points[0][key])/range*plotH-2,4,4);}}
+ line('mean','#748f89');line('best','#b9ed88');g.fillStyle='#99ada1';g.textAlign='left';g.fillText('G'+(history[0]?.generation||1),left,h-3);g.textAlign='right';g.fillText(history.length?'G'+history.at(-1).generation:'aguardando gerações',w-right,h-3);
+}
+function drawNetwork(a){const {w,h,d}=sizedCanvas(ui.network),g=netCtx;g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);const q=algorithm!=='evolution'&&a.qValues;const xs=[10,w/2,w-10],sizes=[8,6,q?6:2],values=[a.brain.input,q?a.qHidden:a.brain.hidden,q?a.qValues:a.brain.output];const position=(layer,i)=>({x:xs[layer],y:7+i*(h-14)/(sizes[layer]-1)});
+ g.lineWidth=.6;for(let l=0;l<2;l++)for(let i=0;i<sizes[l];i++)for(let j=0;j<sizes[l+1];j++){const p=position(l,i),q=position(l+1,j);g.strokeStyle=values[l][i]>0?'#77956744':'#66767033';g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke();}
+ for(let l=0;l<3;l++)for(let i=0;i<sizes[l];i++){const p=position(l,i);g.fillStyle=values[l][i]>.1?'#b9ed88':values[l][i]<-.1?'#c68066':'#54685e';g.beginPath();g.arc(p.x,p.y,l===2?4:2.5,0,Math.PI*2);g.fill();}
+}
+// Campaign renderer. Replace the original drawTile and draw functions with these;
+// insert all the other helpers inside the game IIFE after rect()/sprite().
+// Physics uses hazardGeometry(), bossGeometry(), enemyGeometry(): never fake motion.
+const campaignSpriteCache=new Map();
+const campaignColors={g:'#63a84b',G:'#294f36',r:'#d94b39',s:'#ffe0a1',d:'#7f5135',k:'#192b39',w:'#fff5df',y:'#ffc95f',b:'#c99142',o:'#477fab',c:'#6ddacf',p:'#efa1b7'};
+const campaignSpriteRows={
+ fish:['......rrrr......','....rrrrrrrr....','...rrwwwwrrr....','..rrwwkwwrrrr...','.rrrwwkwwrrrr...','rrrrwwwwrrrrr...','..rrrrrrrrrrrww.','...rrrssssrrwww.','....rsssssrwwww.','.....sssssrwww..','....rr...rrww...','...rr.....rr....'],
+ blooper:['.....wwwwww.....','...wwwwwwwwww...','..wwwwwwwwwwww..','.wwwwwwwwwwwwww.','.wwwwkwwkwwwwww.','.wwwwkwwkwwwwww.','..wwwwwwwwwwww..','...wwwwwwwwww...','....wwwwwwww....','...ww.ww.ww.ww..','..ww..ww..ww.ww.','.ww....ww..ww...','..ww...ww...ww..','...ww...ww......'],
+ hammerbro:['.....gggggg.....','....gggggggg....','...ggwwwwggg....','...gwkwggggg....','...gggggssss....','..ggggggssss....','...ggggggg......','..gggddddgg..dd.','.gggddddddgg.dd.','ggggdwddwdggggdd','gggddddddddggg..','.ggddddddddgg...','..ggddddddgg....','...ssssssss.....','..ssss..ssss....','..dddd..dddd....'],
+ piranha:['.....rrrrrr.....','...rrrwwrrrrr...','..rrrwwwwrrrrr..','.rrrrwwwwwwrrrr.','.wwrrrrrrrrrrww.','wwwwrrrrrrrrwwww','rrrrrwwwwwwrrrrr','...rrwwwwwwrr...','.....gggggg.....','......gggg......','..gg..gggg..gg..','.gggg.gggg.gggg.','..gggggggggggg..','...gggggggggg...','......gggg......','......gggg......'],
+ bowser:['........rrr......ww.......','.......rrrrr....ww........','.....gggggggg..www........','....ggggwwggggwwww........','...gggwwkwggggggg.........','..ggggwwkwggggggsss........','.gggggggggggggssssss.......','.gggsssssssssssswww........','..ggssssssssssswwww........','...gsswsswsswsssss.........','....gssssssssssss.........','.....gggggggggg...........','...wwwGGGGGGGGggg.........','..wwwGGGGGGGGGgggg........','...wGGGGwwGGGGGgggg.......','...GGGGwwwwGGGGggggss.....','..wGGGGwwwwGGGGgggsssss...','.wwwGGGGGGGGGGgggsssssss..','..wGGGwwGGGwwGGggsssssss..','...GGwwwwGwwwwGggsssssss..','...GGGwwGGGwwGGggssssss...','....GGGGGGGGGGggsssssss...','.....ggggggggggsssssss....','....gggggssssssssssss.....','...gggggsssssssssss.......','..dddddd......dddddd......','.ddddddd......ddddddd.....'],
+ princess:['......yyyy......','.....yyyyyy.....','.....ypyyyp.....','.....ssssss.....','....skskskss....','.....ssssss.....','......ssss......','.....pppppp.....','....pppppppp....','...pppppppppp...','..pppppppppppp..','.pppppppppppppp.','pppppppppppppppp','..pppppppppppp..','.....dd..dd.....','....ddd..ddd....']
+};
+function campaignSprite(type){
+ const rows=campaignSpriteRows[type];if(!rows)return sprite(spriteRows[type]?type:'goomba');
+ if(campaignSpriteCache.has(type))return campaignSpriteCache.get(type);
+ const c=document.createElement('canvas');c.width=Math.max(...rows.map(r=>r.length));c.height=rows.length;const g=c.getContext('2d');
+ rows.forEach((row,y)=>[...row].forEach((v,x)=>{if(v!=='.'){g.fillStyle=campaignColors[v]||'#fff5df';g.fillRect(x,y,1,1);}}));
+ campaignSpriteCache.set(type,c);return c;
+}
+function campaignTheme(lvl){return lvl.theme||'overworld';}
+function drawCampaignBackground(lvl){
+ const theme=campaignTheme(lvl),off=camera*.22;
+ if(theme==='underground'||theme==='castle'){
+  const castle=theme==='castle';rect(0,0,sceneWidth,H,castle?'#17171e':'#081323');
+  for(let y=0;y<H;y+=32)for(let i=-1;i<sceneWidth/64+2;i++){
+   const x=i*64-off%64+(y%64?32:0);rect(x+1,y+1,62,30,castle?'#25262c':'#11263a');
+   rect(x+2,y+2,59,2,castle?'#35363a':'#1b3952');
+  }
+  if(castle){for(let i=-1;i<sceneWidth/220+2;i++){const x=i*220-(off%220);rect(x+58,115,52,160,'#0e1017');rect(x+66,107,36,8,'#0e1017');rect(x+77,104,14,155,'#171921');rect(x+50,280,68,8,'#333238');rect(x+70,287,7,40,'#7f5f40');rect(x+64,293,20,21,'#a85930');rect(x+69,284,10,24,'#f8b84c');rect(x+72,278,5,20,'#ffe08d');}}
+  else{for(let i=-1;i<sceneWidth/190+2;i++){const x=i*190-(off%190);rect(x+18,0,15,48,'#255074');rect(x+21,45,9,18,'#255074');rect(x+125,0,22,31,'#1f405e');rect(x+130,28,11,19,'#1f405e');}}
+  return;
+ }
+ if(theme==='underwater'){
+  rect(0,0,sceneWidth,H,'#326dba');rect(0,0,sceneWidth,60,'#75c5e1');rect(0,58,sceneWidth,3,'#bbf4e5');rect(0,280,sceneWidth,200,'#245aa0');
+  for(let i=0;i<sceneWidth/70+2;i++){const x=i*70-(camera*.08%70);rect(x,68,8,H-68,'#397bb933');}
+  ctx.strokeStyle='#92d6f4';ctx.lineWidth=2;for(let i=0;i<18;i++){const x=((i*91-camera*.16)%sceneWidth+sceneWidth)%sceneWidth,y=85+(i*61)%300;ctx.strokeRect(x,y,4+(i%3)*2,5+(i%3)*2);}
+  for(let i=-1;i<sceneWidth/240+2;i++){const x=i*240-(off%240);rect(x+20,377,18,39,'#1c477f');rect(x+8,393,42,23,'#1c477f');rect(x+162,361,18,55,'#1b4c88');rect(x+152,381,37,35,'#1b4c88');}
+  return;
+ }
+ const night=theme==='night',bridge=theme==='bridge',athletic=theme==='athletic';
+ rect(0,0,sceneWidth,H,night?'#151e3c':bridge?'#86cfe9':athletic?'#99d8ee':'#83cdec');
+ if(night){for(let i=0;i<24;i++){const x=((i*113+23-camera*.06)%sceneWidth+sceneWidth)%sceneWidth,y=50+(i*47)%175;rect(x,y,i%4?2:3,i%4?2:3,'#e3e2b8');}rect(sceneWidth-90,73,26,26,'#ffe4a3');rect(sceneWidth-82,67,24,26,'#151e3c');}
+ const ground=bridge?H+30:GROUND;
+ for(let i=-1;i<Math.ceil(sceneWidth/300)+2;i++){const x=i*300-(off%300);if(!night){cloud(x+35,73,1);cloud(x+192,135,.65);}hill(x-10,ground,190,athletic?135:85);hill(x+160,ground,110,athletic?82:52);}
+ if(bridge){rect(0,GROUND+9,sceneWidth,H-GROUND-9,'#438fca');rect(0,GROUND+10,sceneWidth,4,'#bcf0e5');for(let i=-1;i<sceneWidth/80+2;i++){const x=i*80-(camera*.3%80);rect(x,GROUND+28,44,3,'#82cbdc');rect(x+30,GROUND+48,20,3,'#82cbdc');}}
+ else if(!athletic)rect(0,GROUND,sceneWidth,H-GROUND,night?'#263d35':'#abd9ba');
+}
+function drawCampaignTile(t,a,lvl){
+ const x=t.x,y=t.y,theme=campaignTheme(lvl);if(a.broken?.has(t.col+','+t.row))return;
+ const underground=theme==='underground',castle=theme==='castle',underwater=theme==='underwater';
+ if(t.type==='pipe')return;
+ if(t.type==='question'){
+  const used=a.used?.has(t.block);rect(x,y,32,32,used?'#936744':'#f6c45b');rect(x,y,32,2,'#ffe5a1');rect(x,y,2,32,'#ffe5a1');rect(x+30,y,2,32,'#906438');rect(x,y+30,32,2,'#906438');
+  for(const dx of [4,26])for(const dy of [4,26])rect(x+dx,y+dy,2,2,'#85612f');if(!used){ctx.fillStyle='#9b6531';ctx.font='bold 24px monospace';ctx.textAlign='center';ctx.fillText('?',x+16,y+25);}return;
+ }
+ if(t.type==='bridge'){rect(x,y,32,8,'#f0b16c');rect(x,y+8,32,8,'#866140');rect(x+2,y+2,4,10,'#634936');rect(x+27,y+2,3,10,'#634936');if(theme==='bridge'){rect(x,y-42,32,3,'#d5b685');rect(x+15,y-42,3,42,'#927758');}return;}
+ if(t.type==='mushroom'){rect(x,y+3,32,11,'#d95849');rect(x,y,32,4,'#f4866a');rect(x+3,y+4,7,6,'#fff0c9');rect(x+22,y+4,7,6,'#fff0c9');rect(x+1,y+13,30,3,'#8e3d32');return;}
+ if(t.type==='platform'){rect(x,y,32,8,'#e09566');rect(x,y,32,2,'#fff2b7');rect(x+1,y+8,30,8,'#764f3e');rect(x+7,y+9,3,5,'#d5a576');rect(x+24,y+9,3,5,'#d5a576');return;}
+ if(t.type==='coral'){rect(x+11,y,10,32,'#e88c8c');rect(x+1,y+8,12,9,'#e88c8c');rect(x+22,y+2,8,18,'#e88c8c');rect(x+3,y,5,15,'#ffb4aa');rect(x+13,y+2,3,26,'#ffb4aa');return;}
+ if(t.type==='ground'){
+  const base=castle?'#66616a':underground?'#2a628b':underwater?'#b09e76':'#995f36';
+  rect(x,y,32,32,base);rect(x,y,32,3,castle?'#a499a2':underground?'#75b4d9':underwater?'#e4d0a0':'#f6b56e');rect(x,y+4,32,2,castle?'#313139':underground?'#0b263d':'#4d4532');
+  const brick=castle?'#7a7379':underground?'#377dab':underwater?'#c7b488':'#c47e47';rect(x+2,y+8,12,10,brick);rect(x+17,y+8,12,10,brick);rect(x+4,y+21,21,8,brick);rect(x+15,y+7,2,14,base);rect(x+1,y+19,30,2,base);return;
+ }
+ if(t.type==='brick'){
+  const base=castle?'#78717a':underground?'#3c82b5':'#bf7145',light=castle?'#a39da5':underground?'#72bbdf':'#f5b37b',dark=castle?'#353239':underground?'#092338':'#573f31';
+  rect(x,y,32,32,base);rect(x,y,32,2,light);rect(x,y+15,32,3,dark);rect(x,y+30,32,2,dark);rect(x+15,y,2,15,dark);rect(x+7,y+17,2,15,dark);rect(x+25,y+17,2,15,dark);return;
+ }
+ const base=castle?'#99909a':underground?'#4b8dad':underwater?'#c7b383':'#bd9164',light=castle?'#d4c7d1':underground?'#a7dbe5':underwater?'#f1deaf':'#f5ca92',dark=castle?'#45434f':underground?'#1c3d59':'#634f3b';
+ rect(x,y,32,32,base);rect(x,y,32,3,light);rect(x,y,3,32,light);rect(x+29,y,3,32,dark);rect(x,y+29,32,3,dark);rect(x+7,y+7,18,18,dark);rect(x+8,y+8,15,15,base);
+}
+function drawTile(t,a){drawCampaignTile(t,a,a.level||level);}
+function drawCampaignLava(x,y,w,h,time){
+ rect(x,y,w,h,'#cc382d');rect(x,y+9,w,Math.max(0,h-9),'#7e272f');
+ for(let px=Math.floor(x/24)*24;px<x+w;px+=24){const left=Math.max(x,px),right=Math.min(x+w,px+22),wave=Math.sin(time*.12+px*.08)*2;if(right>left){rect(left,y+wave,right-left,7,'#ffad45');rect(left+3,y+wave+1,Math.max(0,right-left-7),3,'#ffe283');}}
+}
+function drawCampaignFire(part,time){
+ const x=part.x,y=part.y,w=part.w,h=part.h;rect(x+w*.15,y+h*.15,w*.7,h*.7,'#f26731');rect(x+w*.3,y,w*.4,h,'#ffb84d');rect(x+w*.2,y+h*.33,w*.6,h*.33,'#ffdb70');rect(x+w*.4,y+h*.35,w*.25,h*.32,'#fff4bb');
+ if(Math.floor(time/5)%2){rect(x-4,y+h*.5,4,3,'#f4b543');rect(x+w,y+h*.2,3,3,'#f4b543');}
+}
+function drawCampaignHammer(p){
+ ctx.save();ctx.translate(p.x+p.w/2,p.y+p.h/2);ctx.rotate(p.angle||0);const x=-p.w/2,y=-p.h/2;
+ rect(x,y,p.w,p.h*.48,'#d8e2dd');rect(x+1,y+2,p.w-2,4,'#6d777d');rect(x+p.w*.4,y+p.h*.4,p.w*.25,p.h*.6,'#a27545');ctx.restore();
+}
+function drawCampaignExtras(a,lvl){
+ const time=stageTime(a);
+ if(campaignTheme(lvl)==='athletic')for(const p of lvl.platforms){if(p.y<GROUND-48&&!p.pipe&&p.x+p.w>camera&&p.x<camera+sceneWidth){const type=lvl.solidRows[Math.floor(p.y/TILE)]?.get(Math.floor(p.x/TILE))?.type;rect(p.x+p.w*.5-8,p.y+15,16,GROUND-p.y,type==='mushroom'?'#e9d0a2':'#ba8650');rect(p.x+p.w*.5-4,p.y+18,3,GROUND-p.y,'#f7dfb0');}}
+ if(campaignTheme(lvl)==='underwater'){
+  for(let x=Math.floor(camera/160)*160;x<camera+sceneWidth+160;x+=160){for(let i=0;i<3;i++){const height=30+((x/TILE+i*11)%4)*10,stem=x+i*11+15,sway=Math.round(Math.sin(time*.04+i)*3);rect(stem,GROUND-height,4,height,'#57b36b');rect(stem+sway,GROUND-height-8,4,10,'#87d780');rect(stem-5,GROUND-height+14,6,5,'#87d780');}}
+ }
+ if(campaignTheme(lvl)==='castle'&&!(lvl.hazards||[]).some(h=>h.type==='lava'))for(const gap of lvl.gaps){if(gap.start<camera+sceneWidth&&gap.end>camera)drawCampaignLava(gap.start,GROUND+TILE,gap.end-gap.start,H-GROUND-TILE,time);}
+ for(const h of lvl.hazards||[]){
+  const geom=hazardGeometry(h,a);if(!geom||geom.active===false)continue;
+  if(geom.pivot&&geom.pivot.x>camera-100&&geom.pivot.x<camera+sceneWidth+100){rect(geom.pivot.x-8,geom.pivot.y-8,16,16,'#a97e62');rect(geom.pivot.x-4,geom.pivot.y-4,8,8,'#4c4242');}
+  for(const p of geom.parts||[]){if(p.x+p.w<camera-10||p.x>camera+sceneWidth+10)continue;const type=p.kind||geom.type||h.type;
+   if(type==='lava')drawCampaignLava(p.x,p.y,p.w,p.h,time);
+   else if(type==='piranha')ctx.drawImage(campaignSprite('piranha'),p.x-3,p.y,p.w+6,p.h);
+   else if(type==='hammer')drawCampaignHammer(p);
+   else if(type==='fish'||type==='flyingfish'||type==='cheepcheep')ctx.drawImage(campaignSprite('fish'),p.x,p.y,p.w,p.h);
+   else drawCampaignFire(p,time);
+  }
+ }
+ if(lvl.boss){const b=bossGeometry(a,lvl);if(b){
+  if(!b.defeated&&b.body.x+b.body.w>camera&&b.body.x<camera+sceneWidth){ctx.save();ctx.translate(b.body.x+b.body.w,b.body.y);ctx.scale(-1,1);ctx.drawImage(campaignSprite('bowser'),0,0,b.body.w,b.body.h);ctx.restore();}
+  for(const f of b.fireballs||[])if(f.x+f.w>camera&&f.x<camera+sceneWidth)drawCampaignFire(f,time);
+  if(b.defeated&&b.collapseProgress<1){const falling=b.body;ctx.globalAlpha=1-b.collapseProgress;ctx.drawImage(campaignSprite('bowser'),falling.x,falling.y,falling.w,falling.h);ctx.globalAlpha=1;}
+ }}
+}
+function drawCampaignEnemy(e,a,lvl){
+ if(a.defeated.has(e.id))return;for(const h of hammerProjectiles(e,a))if(h.x+h.w>camera&&h.x<camera+sceneWidth)drawCampaignHammer(h);const p=enemyGeometry(e,a);if(p.x+p.w<camera-30||p.x>camera+sceneWidth+30)return;
+ const raw=e.type||'goomba',type=/hammer/.test(raw)?'hammerbro':/fish|cheep/.test(raw)?'fish':/blooper|squid/.test(raw)?'blooper':raw;
+ const img=campaignSprite(type);ctx.save();ctx.translate(p.x+p.w*.5,p.y+p.h);const t=stageTime(a);if(Math.cos(t*(e.speed||.7)/Math.max(1,(e.max||e.x)-(e.min||e.x)))<0)ctx.scale(-1,1);ctx.drawImage(img,-p.w*.5-3,-p.h-2,p.w+6,p.h+2);ctx.restore();
+}
+function drawCampaignGoal(a,lvl){
+ if(lvl.boss){const b=bossGeometry(a,lvl),axe=b.axe;
+  if(!b.defeated){rect(axe.x+axe.w*.48,axe.y+8,6,axe.h-8,'#a77a46');rect(axe.x+3,axe.y,axe.w-3,16,'#e1ebe3');rect(axe.x+4,axe.y+2,axe.w-5,3,'#fff7cf');rect(axe.x,axe.y+3,5,16,'#b8c8c7');rect(axe.x+2,axe.y+5,3,12,'#57787a');}
+  const far=axe.x+72;rect(far+6,GROUND-96,4,96,'#595969');rect(far+52,GROUND-96,4,96,'#595969');rect(far+6,GROUND-96,50,5,'#595969');
+  if(lvl.boss.final){ctx.drawImage(campaignSprite('princess'),far+14,GROUND-47,32,44);if(!b.defeated){for(let x=far+14;x<far+52;x+=9)rect(x,GROUND-95,2,95,'#595969');}}
+  else{ctx.drawImage(sprite('mushroom'),far+19,GROUND-34,32,30);rect(far+25,GROUND-12,20,12,'#b0824d');}
+  return;
+ }
+ const x=lvl.goal;rect(x+10,GROUND-280,4,280,'#e6eecd');rect(x+7,GROUND-288,10,10,'#ffd978');ctx.fillStyle='#fff3c8';ctx.beginPath();ctx.moveTo(x+10,GROUND-276);ctx.lineTo(x-30,GROUND-257);ctx.lineTo(x+10,GROUND-241);ctx.closePath();ctx.fill();rect(x+1,GROUND-32,24,32,'#b48958');drawCastle(x+100);
+}
+function drawCampaignProgress(a){
+ if(a.level?.kind==='training')return;const stage=clamp(a.stageIndex||0,0,31),x=16,y=H-14,w=sceneWidth-32,gap=2,segment=(w-gap*31)/32;
+ rect(x-4,y-4,w+8,13,'#14251dcc');for(let i=0;i<32;i++)rect(x+i*(segment+gap),y,segment,4,i<stage?'#a9d785':i===stage?'#ffdd70':'#657467');
+}
+let campaignDrawnLevel=null;
+function draw(){
+ const a=replayActor||(mode==='train'?leader():human);if(!a)return;const lvl=a.level||level;if(!lvl)return;level=lvl;
+ const target=clamp(a.x-sceneWidth*.30,0,Math.max(0,lvl.length-sceneWidth));if(campaignDrawnLevel!==lvl){camera=target;campaignDrawnLevel=lvl;}else camera+=(target-camera)*.14;
+ const cw=ui.game.width,ch=ui.game.height;ctx.setTransform(cw/sceneWidth,0,0,ch/H,0,0);ctx.imageSmoothingEnabled=false;drawCampaignBackground(lvl);ctx.save();ctx.translate(-Math.floor(camera),0);
+ const lo=Math.floor(camera/TILE)-1,hi=Math.ceil((camera+sceneWidth)/TILE)+1;
+ for(const t of lvl.tiles.values())if(t.col>=lo&&t.col<=hi&&t.type!=='pipe'){
+  if(t.type==='bridge'&&lvl.boss&&a.bossDefeated){const b=bossGeometry(a,lvl);if(b.collapseProgress>=1||t.x<b.bridge.x+b.bridge.w*b.collapseProgress)continue;}
+  drawCampaignTile(t,a,lvl);
+ }
+ for(const p of lvl.platforms)if(p.pipe&&p.end>camera&&p.x<camera+sceneWidth)drawPipe(p);
+ for(const c of lvl.coins)if(c.x>=camera-20&&c.x<=camera+sceneWidth+20&&!a.collected.has(c.id))drawCoin(c,stageTime(a));
+ drawCampaignExtras(a,lvl);for(const e of lvl.enemies)drawCampaignEnemy(e,a,lvl);
+ for(const item of a.items)if(!item.collected)ctx.drawImage(sprite('mushroom'),item.x-3,item.y,32,28);
+ drawCampaignGoal(a,lvl);
+ if(mode==='train'&&!replayActor&&view==='population'){ctx.globalAlpha=.26;for(const other of agents)if(other!==a&&other.level===lvl&&other.x>camera-40&&other.x<camera+sceneWidth+40)drawCharacter(other);ctx.globalAlpha=1;}
+ drawCharacter(a,true);if(mode==='train'&&view==='sensors')drawSensors(a);
+ const labels={landing:'pouso',platform:'plataforma',coin:'moeda',enemy:'inimigo',gap:'buraco',win:'fase',boss:'boss',death:'morte'};
+ if(a.event&&a.steps-a.lastReward<40){const value=rewards[a.event]??0;ctx.font='bold 12px monospace';ctx.textAlign='center';ctx.fillStyle=value>=0?'#fff8cf':'#ff7569';ctx.fillText((value>0?'+':'')+value+' '+(labels[a.event]||a.event),a.x+12,a.y-30-(a.steps-a.lastReward)*.4);}
+ if(a.dead&&mode==='play'){rect(camera,0,sceneWidth,H,'#153126bb');ctx.fillStyle='#fff4c7';ctx.textAlign='center';ctx.font='bold 22px monospace';ctx.fillText('TENTE DE NOVO',camera+sceneWidth/2,H/2);ctx.font='14px monospace';ctx.fillText('Reinicie esta fase para continuar',camera+sceneWidth/2,H/2+30);}
+ if(a.done&&a.stageIndex===31){rect(camera,0,sceneWidth,H,'#153126cc');ctx.fillStyle='#fff4c7';ctx.textAlign='center';ctx.font='bold 24px monospace';ctx.fillText(a.stagesCleared===32?'CAMPANHA COMPLETA!':'BOWSER DERROTADO!',camera+sceneWidth/2,H/2-10);ctx.font='14px monospace';ctx.fillText(a.stagesCleared+' fases concluídas · Bowser derrotado',camera+sceneWidth/2,H/2+24);}
+ ctx.restore();drawCampaignProgress(a);
+ if(replayActor){ctx.fillStyle='#11191bee';ctx.fillRect(8,8,Math.min(sceneWidth-16,650),48);ctx.fillStyle='#f1cf6c';ctx.font='14px monospace';ctx.textAlign='left';const trace=firstRLVictory||bestRLTrace;ctx.fillText('Rainbow-IQN · replay registrado · 4× · fase '+a.level.id,18,28);ctx.fillText((trace.done&&trace.startStage===0?'VITÓRIA COMPLETA':'TENTATIVA PARCIAL')+' · sem checkpoint · '+a.flagsCleared+' bandeiras',18,48);}
+ if(paused&&!replayActor){rect(0,0,sceneWidth,H,'#15271a77');ctx.fillStyle='#f7f5d5';ctx.textAlign='center';ctx.font='bold 23px monospace';ctx.fillText('PAUSADO',sceneWidth/2,H/2);}
+}
+
+function tick(time){
+ const delta=lastTime?Math.min((time-lastTime)/1000,.12):0;lastTime=time;
+ if(!paused&&!replayBusy&&!document.hidden){const target=mode==='train'?speed:1;accumulator+=delta*PHYSICS_HZ*target;const steps=Math.min(Math.floor(accumulator),PHYSICS_HZ*target*.2);
+  const start=performance.now();let completed=0;rFrameUpdates=0;inBatch=true;
+  try{while(completed<steps){if(simStep()===false)break;realSteps++;completed++;if(performance.now()-start>=12)break;}}finally{inBatch=false;}
+  accumulator=Math.min(Math.max(0,accumulator-completed),PHYSICS_HZ*target*.12);
+ }
+ if(time-rateTick>=1000){effectiveRate=realSteps*1000/Math.max(1,time-rateTick);realSteps=0;rateTick=time;}
+ const fast=mode==='train'&&speed>=100;
+ if(!fast||time-renderTime>=100){draw();renderTime=time;if(pendingToast){const text=pendingToast;pendingToast='';showToast(text);}}
+ if(time-uiTime>(fast?300:180)){updateUI();uiTime=time;}if(toastUntil&&time>toastUntil){$('toast').classList.remove('show');toastUntil=0;}requestAnimationFrame(tick);
+}
+function bindTouch(id,key){const el=$(id),pointers=new Set();el.addEventListener('pointerdown',e=>{e.preventDefault();pointers.add(e.pointerId);el.setPointerCapture(e.pointerId);keys[key]=true;el.classList.add('pressed');});const release=e=>{pointers.delete(e.pointerId);if(!pointers.size){keys[key]=false;el.classList.remove('pressed');}};el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);el.addEventListener('contextmenu',e=>e.preventDefault());const clear=()=>{pointers.clear();keys[key]=false;el.classList.remove('pressed');};window.addEventListener('blur',clear);document.addEventListener('visibilitychange',()=>{if(document.hidden)clear();});}
+const keyMap={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'jump',KeyW:'jump',Space:'jump'};
+window.addEventListener('keydown',e=>{if(replayBusy)return;if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(keyMap[e.code]&&mode==='play'){e.preventDefault();keys[keyMap[e.code]]=true;}if(!e.repeat&&e.code==='KeyP')setPaused(!paused);if(!e.repeat&&e.code==='KeyR'){if(mode==='play'){human=newAgent(network(),0,human?.stageIndex??selectedStage);camera=0;}else resetExperiment();}});
+window.addEventListener('keyup',e=>{if(keyMap[e.code])keys[keyMap[e.code]]=false;});
+window.addEventListener('blur',()=>{keys.left=keys.right=keys.jump=false;document.querySelectorAll('.pressed').forEach(x=>x.classList.remove('pressed'));});
+document.addEventListener('visibilitychange',()=>{lastTime=0;accumulator=0;keys.left=keys.right=keys.jump=false;});
+$('pause').onclick=()=>setPaused(!paused);
+$('reset').onclick=()=>{if(mode==='play'){human=newAgent(network(),0,human?.stageIndex??selectedStage);camera=0;showToast('Nova tentativa.');}else{resetExperiment();showToast('Treino reiniciado. Redes aleatórias.');}setPaused(false);};
+$('trainMode').onclick=()=>setMode('train');$('playMode').onclick=()=>setMode('play');
+$('speed').oninput=e=>{setSpeed(Number(e.target.value));if(mode==='play')live('A velocidade acelera o treino. Você joga em 1×.');};
+for(const value of [1,10,100,1000,1000000])$('speed'+value).onclick=()=>{setSpeed(value);if(mode==='play')live('A velocidade acelera o treino. Você joga em 1×.');};
+$('population').oninput=e=>{populationSize=Number(e.target.value);$('populationValue').textContent=populationSize;live('Próxima geração: '+populationSize+' indivíduos.');};
+$('mutation').oninput=e=>{mutation=Number(e.target.value);$('mutationValue').textContent=mutation.toFixed(2);};
+$('view').onchange=e=>{view=e.target.value;};
+function selectStage(value){if(replayBusy)throw Error('Aguarde a gravação terminar.');if(value==='training'){levelKey='training';selectedStage=-1;}else{levelKey='classic';selectedStage=value==='classic'?0:campaign.findIndex(l=>l.id===value);if(selectedStage<0)throw Error('Fase inválida');}$('level').value=value;resetExperiment(true);showToast('Nova tentativa. Aprendizado preservado; início da fase escolhida.');}
+$('level').onchange=e=>selectStage(e.target.value);
+$('saveRL').onclick=()=>{if(algorithm!=='rainbow')return;const url=URL.createObjectURL(new Blob([JSON.stringify(rExport())],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='rainbow_iqn_v11.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);};
+$('recordRL').onclick=rRecordVideo;
+$('loadRL').onclick=()=>$('rlFile').click();
+$('rlFile').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>2000000)throw Error('Modelo maior que o limite de 2 MB.');rImport(JSON.parse(await file.text()));}catch(error){live(error.message||'Não foi possível carregar a rede.');}e.target.value='';};
+$('algorithm').onchange=e=>{algorithm=e.target.value;resetExperiment();live('Método atualizado. Treino reiniciado.');};
+$('teachPlayer').onchange=e=>{teachPlayer=e.target.checked;human.demonstrations=[];updateUI();};
+$('fullscreen').onclick=async()=>{try{if(document.fullscreenElement){await document.exitFullscreen();}else if($('gamebox').requestFullscreen){await $('gamebox').requestFullscreen();}else{document.body.classList.toggle('fullscreen');resize();}}catch(e){document.body.classList.toggle('fullscreen');resize();}};
+$('exitFullscreen').onclick=async()=>{if(document.fullscreenElement)await document.exitFullscreen();else{document.body.classList.remove('fullscreen');resize();}};
+document.addEventListener('fullscreenchange',()=>{document.body.classList.toggle('fullscreen',!!document.fullscreenElement);resize();});
+rewardSpec.forEach(([key,label,value,min,max,step])=>{const row=document.createElement('label');row.className='reward-row'+(value<0?' negative':'');row.innerHTML='<span>'+label+'</span><input aria-label="Recompensa: '+label+'" type="number" id="reward-'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+value+'">';$('rewardRows').appendChild(row);row.querySelector('input').onchange=e=>{const v=Number(e.target.value);if(e.target.value.trim()===''||!Number.isFinite(v)||v<min||v>max){e.target.value=rewards[key];live('Use um valor entre '+min+' e '+max+'.');return;}rewards[key]=v;resetExperiment();live('Recompensas atualizadas. Treino reiniciado.');};});
+bindTouch('left','left');bindTouch('right','right');bindTouch('jump','jump');
+window.addEventListener('resize',resize);
+resetExperiment();setSpeed(speed);resize();requestAnimationFrame(tick);
+// Shared read/configure actions for debugging and page-scoped agent tools.
+function validateConfig(config){if(!config||typeof config!=='object'||Array.isArray(config))throw Error('Configuração inválida');if(config.algorithm!==undefined&&!['adaptive','rainbow','ddqn','evolution'].includes(config.algorithm))throw Error('Algoritmo inválido');if(config.curriculum!==undefined&&config.curriculum!==false)throw Error('Retomadas removidas: toda tentativa começa no início');if(config.teachPlayer!==undefined&&typeof config.teachPlayer!=='boolean')throw Error('Preferência de demonstração inválida');if(config.speed!==undefined&&(!Number.isInteger(config.speed)||config.speed<1||config.speed>MAX_SPEED))throw Error('Velocidade entre 1 e 1000000');if(config.population!==undefined&&(!Number.isInteger(config.population)||config.population<16||config.population>128||config.population%16))throw Error('População: múltiplos de 16 entre 16 e 128');if(config.level!==undefined&&!['classic','training'].includes(config.level)&&!campaign.some(l=>l.id===config.level))throw Error('Fase inválida');}
+function getState(){const a=replayActor||(mode==='train'?leader():human);return {version:11,learning:learningStats(),worldTick,maxSpeed:MAX_SPEED,campaignStages:campaign.length,totalStageClears,startStage:selectedStage,currentStage:a?.level.id,mode,paused,speed,generation,population:agents.length,nextPopulation:populationSize,level:levelKey,alive:agents.filter(a=>!a.dead&&!a.done).length,bestReward:bestEver,bestProgress,totalWins,leader:a?{id:a.id,stage:a.level.id,stageIndex:a.stageIndex,stagesCleared:a.stagesCleared,stageProgress:stageProgress(a),reward:a.reward,progress:progress(a),dead:a.dead,done:a.done}:null,rewards:{...rewards},history:history.map(x=>({...x}))};}
+window.MarioRLLab={getState,reset:resetExperiment,step(n=1){if(replayBusy)throw Error('Aguarde a gravação terminar.');if(!Number.isInteger(n)||n<1||n>1000000)throw Error('n deve ser inteiro entre 1 e 1000000');syncStepping=true;try{for(let i=0;i<n;i++)if(simStep()===false)break;}finally{syncStepping=false;}updateUI();return getState();},setSeed(n){if(replayBusy)throw Error('Aguarde a gravação terminar.');seed=(n>>>0)||1;},setMode,setPaused,configure(config){if(replayBusy)throw Error('Aguarde a gravação terminar.');validateConfig(config);if(config.algorithm!==undefined){algorithm=config.algorithm;$('algorithm').value=algorithm;resetExperiment();}if(config.teachPlayer!==undefined){teachPlayer=config.teachPlayer;$('teachPlayer').checked=teachPlayer;human.demonstrations=[];}if(config.speed!==undefined){if(!Number.isInteger(config.speed)||config.speed<1||config.speed>MAX_SPEED)throw Error('Velocidade entre 1 e 1000000');setSpeed(config.speed);}if(config.population!==undefined){if(!Number.isInteger(config.population)||config.population<16||config.population>128||config.population%16)throw Error('População: múltiplos de 16 entre 16 e 128');populationSize=config.population;$('population').value=populationSize;$('populationValue').textContent=populationSize;}if(config.level!==undefined){if(!['classic','training'].includes(config.level)&&!campaign.some(l=>l.id===config.level))throw Error('Fase inválida');selectStage(config.level);}updateUI();return getState();},importRL:rImport,exportRL:rExport,debug:{rViewport,rScreenObserve,rMigrateWeights,rSensorShape:{inputs:R_INPUTS,baseInputs:R_BASE_INPUTS,columns:R_VIEW_COLS,rows:R_VIEW_ROWS,channels:R_VIEW_CHANNELS,weights:R_WEIGHTS,layout:R_SENSOR_LAYOUT,viewportWidth:1250,viewportHeight:H},rExploration,rRecordVideo,rTraceCapture,rTraceFinish,get bestRLTrace(){return bestRLTrace;},get firstRLVictory(){return firstRLVictory;},simStep,rObserve,rReplayState,rExpectation,rQuantiles,rPrepare,rNoise,rPush,rSample,rPriority,trainRainbow,rDecide,rFinish,rFlush,get rainbow(){return rainbow;},learningStats,qForward,qArgmax,qNetwork,replayPush,trainQ,qDecide,qFinish,physicsPlan,planningClone,validateAdaptivePose,adaptiveDecide,imitationPush,trainImitation,get adaptive(){return adaptive;},get plannerSource(){return plannerSource;},get learner(){return learner;},stepAgent,newAgent,network,decide,observe,makeLevel,campaign,enterStage,advanceStage,bossGeometry,hazardGeometry,tryCastleExit,enemyState,draw,stageProgress,get agents(){return agents;},get level(){return level;},get human(){return human;},rewards,setKeys(k){Object.assign(keys,k);},weights:WEIGHTS}};
+if(document.modelContext?.registerTool){const lifecycle=new AbortController();window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});for(const tool of [{name:'read_training_state',description:'Lê o estado atual do jogo, as recompensas e o histórico de gerações.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>getState()},{name:'configure_training',description:'Altera velocidade ou tamanho da próxima população no experimento visível.',inputSchema:{type:'object',properties:{speed:{type:'integer',minimum:1,maximum:MAX_SPEED},population:{type:'integer',minimum:16,maximum:128,multipleOf:16}},additionalProperties:false},annotations:{readOnlyHint:false},execute:input=>{if(!input||Object.keys(input).some(k=>!['speed','population'].includes(k)))throw Error('Configuração inválida');return window.MarioRLLab.configure(input);}}]){try{Promise.resolve(document.modelContext.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch(e){}}}
+})();
+</script>
+</body>
+</html>
