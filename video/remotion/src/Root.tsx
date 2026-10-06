@@ -1,5 +1,6 @@
-import {CalculateMetadataFunction, Composition, staticFile} from 'remotion';
+import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
 import {Main} from './Main';
+import {Thumbnail} from './Thumbnail';
 import type {Timeline} from './types';
 import {FPS, H, W} from './theme';
 
@@ -24,6 +25,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{timeline: null} as Props}
         calculateMetadata={calculateMetadata}
       />
+      <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
     </>
   );
 };

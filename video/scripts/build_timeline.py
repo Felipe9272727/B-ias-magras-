@@ -29,28 +29,19 @@ RUNS = ROOT / 'data' / 'runs_canon'
 FPS = 30
 
 # Pronúncia apenas para a voz (as legendas mostram o texto original).
+# Conferido transcrevendo a voz de volta com Whisper: os demais termos
+# (RL, HTML, ROM, Double DQN, Rainbow, DeepMind, AlphaZero, SethBling, worker)
+# já saem certos sem ajuste — e as grafias "aportuguesadas" pioravam vários deles.
 PRONUNCIA = {
-    'RL': 'érre éle',
-    'HTML': 'agá tê éme éle',
-    'ROM': 'rôm',
     'MarI/O': 'Mário',
-    'SethBling': 'Séth Blin',
-    'DQN': 'dê quê ene',
-    'IQN': 'i quê ene',
-    'DeepMind': 'Dípi Maind',
-    'AlphaZero': 'Alfa Zêro',
-    'DAgger': 'Dágger',
-    'dueling': 'duélin',
-    'Double': 'Dâbol',
-    'Q': 'quê',
     'Goomba': 'Gumba',
     'Bowser': 'Báuzer',
-    'Hammer': 'Rêmer',
-    'Bros': 'Brós',
-    'worker': 'uôrker',
-    'Rainbow': 'Reinbôu',
+    'DAgger': 'Dágger',
+    'dueling': 'dúelin',
     'NoisyNet': 'Nóizi Net',
-    'Lab': 'Léb',
+    # "um-um" por extenso sai como um "um" só; em algarismos a voz diz "um, um"
+    'um-um': '1-1',
+    'anti-ego': 'ânti-ego',
 }
 
 # Expressões faladas → forma exibida na legenda (ex.: "um-um" vira "1-1").
@@ -150,6 +141,10 @@ def run_facts():
         marks=[dict(gen=m['generation'], text=f"passou do {stage_name(m['stageIndex'] - 1)}") for m in e.get('milestones', [])],
         maxStage=e.get('maxStage', 2),
     )
+    # cada geração termina com todos os 64 mortos (nenhuma vitória de campanha)
+    deaths = e.get('generation', 400) * 64 - e.get('totalWins', 0)
+    facts['evo']['deathsK'] = numero_por_extenso(deaths // 1000)
+    facts['evo']['deathsFmt'] = f'{deaths:,}'.replace(',', '.')
 
     # --- double DQN
     d = S['ddqn'] or {}
@@ -171,10 +166,13 @@ def run_facts():
             f'passou do um-um logo cedo, na geração {first}, e o melhor Mario chegou até o {stage_name(best_stage_idx)}. '
             f'Mas de um jeito bem inconsistente: em {gens} gerações, foram só {clears} bandeiras no total.'
         )
-        facts['ddqn']['scoreSentence'] = f'chegou no {stage_name(best_stage_idx)}, mas quase sempre morria antes.'
+        facts['ddqn']['scoreSentence'] = f'chegou até a fase {stage_name(best_stage_idx)}, mas quase sempre morria antes.'
     else:
-        facts['ddqn']['resultSentence'] = f'passou do um-um poucas vezes: em {gens} gerações, foram só {clears} bandeiras no total.'
+        facts['ddqn']['resultSentence'] = f'passou da primeira fase poucas vezes: em {gens} gerações, foram só {clears} bandeiras no total.'
         facts['ddqn']['scoreSentence'] = 'passou do um-um, mas raramente.'
+    facts['ddqn']['scoreShort'] = (
+        f'chegou até a fase {stage_name(best_stage_idx)}, mas quase nunca.' if best_stage_idx >= 1 else 'nem passou do um-um.'
+    )
     facts['ddqn']['meme'] = 'not-stonks'
     facts['ddqn']['jokeSentence'] = 'É tipo aquele amigo que passou na autoescola na sorte.'
 
@@ -193,21 +191,32 @@ def run_facts():
     )
     better_than_ddqn = rclears > clears
     facts['rainbow']['resultSentence'] = (
-        f'Com o mesmo orçamento, o Rainbow chegou até o {stage_name(r_idx)}, e com bem mais consistência que o Double DQN: '
+        f'Com o mesmo orçamento, o Rainbow chegou até a fase {stage_name(r_idx)}, e com muito mais consistência que o Double DQN: '
         f'foram {rclears} bandeiras em {rgens} gerações. Mais esperto, sim. Mas zerar o jogo? Nem perto.'
         if better_than_ddqn
-        else f'Com o mesmo orçamento, o Rainbow chegou até o {stage_name(r_idx)}. Melhorou, mas zerar o jogo? Nem perto.'
+        else f'Com o mesmo orçamento, o Rainbow chegou até a fase {stage_name(r_idx)}. Melhorou, mas zerar o jogo? Nem perto.'
     )
-    facts['rainbow']['scoreSentence'] = f'foi o melhor dos aprendizes puros, mas parou no {stage_name(r_idx)}.'
+    facts['rainbow']['scoreSentence'] = f'foi o melhor dos aprendizes puros, mas parou na fase {stage_name(r_idx)}.'
+    facts['rainbow']['scoreShort'] = f'chegou até a fase {stage_name(r_idx)}, o melhor até agora.'
     facts['rainbow']['meme'] = 'hello-darkness'
 
     # --- adaptativa
     a = S['adaptive'] or {}
-    win_steps = a.get('winSteps') or 54000
+    win_steps = a.get('winSteps')
+    camp = FOOTAGE / 'ada_campaign.json'
+    if not win_steps and camp.exists():
+        meta = json.loads(camp.read_text())['meta']
+        done = next((x for x in meta if x.get('done')), None)
+        if done:
+            win_steps = sum(x['n'] for x in meta[: done['f'] + 1])
+    win_steps = win_steps or 54000
+    pct = 100 * win_steps / facts['budget']
     facts['ada'] = dict(
         winSteps=win_steps,
-        budgetPct=max(1, round(100 * win_steps / facts['budget'])),
-        wallWords='noventa',
+        budgetPct=f'{pct:.1f}'.replace('.', ',').removesuffix(',0'),
+        # medido num treino limpo (sem gravação): campanha completa em ~59 s de CPU
+        # (data/runs/adaptive_tempo/log.jsonl)
+        wallWords='um minuto',
     )
 
     # --- placar
@@ -366,12 +375,40 @@ def clip_info():
     info = {}
     for mp4 in sorted(FOOTAGE.glob('*.mp4')):
         meta_p = mp4.with_suffix('.json')
+        if not meta_p.exists():  # o JSON só é escrito quando a gravação termina
+            continue
         probe = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-count_packets', '-show_entries',
                                 'stream=width,height,nb_read_packets', '-of', 'json', str(mp4)], capture_output=True, text=True)
-        st = json.loads(probe.stdout)['streams'][0]
+        streams = json.loads(probe.stdout or '{}').get('streams')
+        if not streams:
+            continue
+        st = streams[0]
         meta = json.loads(meta_p.read_text())['meta'] if meta_p.exists() else []
         info[mp4.stem] = dict(frames=int(st['nb_read_packets']), width=st['width'], height=st['height'], meta=meta)
     return info
+
+
+def rle(values):
+    out = []
+    for i, v in enumerate(values):
+        if not out or out[-1][1] != v:
+            out.append([i, v])
+    return out
+
+
+def clip_summary(v):
+    """Dimensões + séries compactadas (RLE) usadas pelo placar sobre os clipes."""
+    out = dict(frames=v['frames'], width=v['width'], height=v['height'])
+    meta = v['meta']
+    if meta:
+        out['pop'] = meta[0].get('pop', 64)
+        out['gen'] = rle([x.get('gen') for x in meta])
+        out['alive'] = rle([x.get('alive') for x in meta])
+        out['stage'] = rle([x.get('stage') for x in meta])
+        # velocidade de jogo embutida na gravação (2 passos de física por quadro = 1×)
+        out['speed'] = rle([x.get('n', 2) / 2 for x in meta])
+        out['done'] = rle([1 if x.get('done') else 0 for x in meta])
+    return out
 
 
 def resolve_from(clip, anchor, clips):
@@ -494,10 +531,10 @@ def main():
             t = t_of(mk['idx'])
             f = round(t * FPS)
             kind, _, rest = mk['spec'].partition(':')
-            if kind == 'c':
+            if kind in ('c', 'f'):  # f = quadro congelado
                 body, *label = rest.split('|')
                 clip, _, anc = body.partition('@')
-                rate = 1.0
+                rate = 1.0 if kind == 'c' else 0.0
                 if '*' in anc:
                     anc, r = anc.split('*')
                     rate = float(r)
@@ -523,6 +560,9 @@ def main():
                 parts = rest.split(':')
                 mid = parts[0]
                 pos = parts[1] if len(parts) > 1 and parts[1] else 'right'
+                # em diagramas o canto direito tem conteúdo: o meme entra no centro
+                if vis['type'] in ('component', 'title') and pos == 'right':
+                    pos = 'center'
                 mdur = float(parts[2]) if len(parts) > 2 and parts[2] else 2.2
                 cap = parts[3] if len(parts) > 3 else None
                 if mid not in memes:
@@ -560,22 +600,47 @@ def main():
             if sg['end'] <= sg['start']:
                 continue
             c = clips[sg['clip']]
-            need = (sg['end'] - sg['start']) * sg['rate']
+            last = c['frames'] - 2
+            length = sg['end'] - sg['start']
+            rate = sg['rate']
             frm = sg['from_']
-            if frm + need > c['frames'] - 1:
-                warnings.append(f"{sid}: {sg['clip']} curto para o trecho; recuando início")
-                frm = max(0, c['frames'] - 1 - need)
-            out = dict(start=sg['start'], end=sg['end'], clip=sg['clip'], **{'from': round(frm)}, rate=sg['rate'])
-            if sg.get('zoom'):
-                out['zoom'] = sg['zoom']
-            if sg.get('label'):
-                out['label'] = sg['label']
-            segs_out.append(out)
+            pieces = [(sg['start'], sg['end'], frm, rate)]
+            if frm + length * rate > last:
+                if length * rate <= last and frm + length * rate - last <= 2 * FPS:
+                    # falta pouco: recua o início alguns quadros
+                    pieces = [(sg['start'], sg['end'], max(0, last - length * rate), rate)]
+                    warnings.append(f"{sid}: {sg['clip']} recuado {round((frm + length * rate - last) / FPS, 1)}s")
+                elif (last - frm) / length >= 0.75 * rate:
+                    # desacelera um pouco para caber
+                    pieces = [(sg['start'], sg['end'], frm, round((last - frm) / length, 3))]
+                    warnings.append(f"{sid}: {sg['clip']} desacelerado para {pieces[0][3]}×")
+                else:
+                    # repete o clipe desde o início (corte seco)
+                    pieces = []
+                    t, f0 = sg['start'], frm
+                    while t < sg['end']:
+                        span = min(sg['end'] - t, max(1, int((last - f0) / rate)))
+                        pieces.append((t, t + span, f0, rate))
+                        t += span
+                        f0 = 0
+                    warnings.append(f"{sid}: {sg['clip']} curto demais; repetido em {len(pieces)} partes")
+            for k, (s0, s1, f0, r) in enumerate(pieces):
+                out = dict(start=s0, end=s1, clip=sg['clip'], **{'from': round(f0)}, rate=r)
+                if sg.get('zoom'):
+                    out['zoom'] = sg['zoom']
+                if sg.get('label') and k == 0:
+                    out['label'] = sg['label']
+                segs_out.append(out)
         if vis['type'] == 'clip' and not segs_out:
             warnings.append(f'{sid}: cena de clipe sem trechos')
         if vis['type'] == 'ui':
             for k in vis['keys']:
                 k['at'] = round(k['at'] * FPS)
+            uf = clips.get(vis['src'], {}).get('frames', 0)
+            r = vis.get('rate', 1)
+            if uf and duration * r > uf - 2:
+                vis['rate'] = round((uf - 2) / duration, 3)
+                warnings.append(f"{sid}: {vis['src']} desacelerado para {vis['rate']}×")
         words = caption_words(p['tokens'], starts, ends) if p['tokens'] else []
         words = [dict(w=w['w'], s=round((lead + w['s']) * FPS), e=round((lead + w['e']) * FPS)) for w in words]
         scenes.append(dict(
@@ -605,7 +670,7 @@ def main():
 
     timeline = dict(
         fps=FPS, width=1920, height=1080, durationInFrames=cursor, scenes=scenes, chapters=chapters,
-        clips={k: dict(frames=v['frames'], width=v['width'], height=v['height']) for k, v in clips.items()},
+        clips={k: clip_summary(v) for k, v in clips.items()},
         memes=memes,
         data=dict(budget=facts['budget']),
     )

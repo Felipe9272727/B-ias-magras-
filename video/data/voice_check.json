@@ -1,0 +1,693 @@
+{
+ "s01": {
+  "ratio": 0.815,
+  "hyp": "Essa é a geração 1. 64 Marius, e nenhum deles faz a menor ideia do que está fazendo. Uns 10 já morreram pro primeiro Goomba. Outros 35 nem saíram do lugar, e o jogo elimina quem passa 5 segundos sem avançar. E o líder da geração passou 5 segundos encarando um cano.",
+  "diffs": [
+   [
+    "um sessenta e quatro marios",
+    "1 64 marius"
+   ],
+   [
+    "dez",
+    "10"
+   ],
+   [
+    "gumba",
+    "goomba"
+   ],
+   [
+    "trinta e cinco",
+    "35"
+   ],
+   [
+    "cinco",
+    "5"
+   ],
+   [
+    "cinco",
+    "5"
+   ]
+  ]
+ },
+ "s02": {
+  "ratio": 0.764,
+  "hyp": "Mas uma dessas inteligências artificiais fez isso aqui. Ela zerou as 32 fases. Do 111 até o Bowser no 8-4, sem eu encostar no controle.",
+  "diffs": [
+   [
+    "trinta e duas",
+    "32"
+   ],
+   [
+    "1 1",
+    "111"
+   ],
+   [
+    "bauzer",
+    "bowser"
+   ],
+   [
+    "oito quatro",
+    "8 4"
+   ]
+  ]
+ },
+ "s03": {
+  "ratio": 0.976,
+  "hyp": "Hoje eu coloquei quatro tipos diferentes de inteligência artificial para jogar um Mario que eu recriei do zero, no navegador. Só uma zerou o jogo. E no final eu vou te contar por que a vitória dela é, meio que trapaça.",
+  "diffs": [
+   [
+    "pra",
+    "para"
+   ]
+  ]
+ },
+ "s04": {
+  "ratio": 1.0,
+  "hyp": "Primeiro, deixa eu te apresentar o laboratório. Isso aqui é o Mario RL Lab, um único arquivo HTML, que roda direto no navegador, até no celular. Sem emulador, sem ROM da Nintendo, sem nada baixado.",
+  "diffs": []
+ },
+ "s05": {
+  "ratio": 0.822,
+  "hyp": "Eu recriei as 32 fases, do 1-1-1 ao 8-4, com mapas próprios inspirados no jogo de 1985. Tem fase de campo, subsolo, plataformas lá no alto, ponte, castelo com barra de fogo, fase de baixo d'água, fase de noite, Hammer Bros, e claro, o Bowser lá no final. A física roda 60 quadros por segundo, e cada gente tem a sua própria simulação, independente das outras.",
+  "diffs": [
+   [
+    "trinta e duas",
+    "32"
+   ],
+   [
+    "",
+    "1"
+   ],
+   [
+    "oito quatro",
+    "8 4"
+   ],
+   [
+    "mil novecentos e oitenta e cinco",
+    "1985"
+   ],
+   [
+    "debaixo",
+    "de baixo"
+   ],
+   [
+    "bauzer",
+    "bowser"
+   ],
+   [
+    "a sessenta",
+    "60"
+   ],
+   [
+    "agente",
+    "gente"
+   ]
+  ]
+ },
+ "s06": {
+  "ratio": 0.969,
+  "hyp": "E o melhor, dá para acelerar o tempo. Uma vez, dez vezes, cem vezes, mil vezes, ou no máximo, que é basicamente o modo treina aí enquanto eu vou pegar um café.",
+  "diffs": [
+   [
+    "pra",
+    "para"
+   ]
+  ]
+ },
+ "s07": {
+  "ratio": 1.0,
+  "hyp": "Agora, o básico. O que é aprendizado por reforço? É o jeito que você ensina um cachorro a sentar. Ele faz alguma coisa, você dá um petisco se foi bom e uma bronca se foi ruim. Repete isso mil vezes e pronto. Aqui é igual. O agente olha o estado do jogo, escolhe uma ação, o jogo responde com uma recompensa, e o ciclo recomeça. O objetivo é um só, juntar o máximo de recompensa possível.",
+  "diffs": []
+ },
+ "s08": {
+  "ratio": 0.98,
+  "hyp": "E quem decide o que é bom ou ruim sou eu, nessa tabela de recompensas. Pousar numa plataforma nova vale mais um. Superar uma plataforma, mais dois. Morrer, menos um. Terminar a fase vale 100 pontos. E ficar parado custa um pouquinho por segundo, pra ninguém ficar de bobeira.",
+  "diffs": [
+   [
+    "cem",
+    "100"
+   ]
+  ]
+ },
+ "s09": {
+  "ratio": 0.948,
+  "hyp": "Parece simples, mas esse é o ponto mais perigoso do projeto inteiro. Se eu pagasse demais por moeda, por exemplo, a inteligência artificial podia largar a bandeira de lado e virar uma caçadora profissional de moedas. Isso tem nome, hackear a recompensa. A inteligência artificial não faz o que você quer. Ela faz exatamente o que você paga pra ela fazer. Por isso, aqui no jogo, o avanço só é pago depois que o Mario pouse em segurança, e cada plataforma só paga uma vez por tentativa. Obrigado.",
+  "diffs": [
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "pousa",
+    "pouse"
+   ],
+   [
+    "",
+    "obrigado"
+   ]
+  ]
+ },
+ "s10": {
+  "ratio": 0.898,
+  "hyp": "Outra pergunta importante, o que a inteligência artificial enxerga? Ela não vê a tela como agente. Ela recebe números. 44 sensores, a própria velocidade, se está no chão, a distância até o inimigo mais próximo, até o próximo buraco, até a próxima plataforma, a moeda mais perto, e uma gradezinha de 16 pontos ao redor do mar e dizendo onde tem chão. Tem até sensor de ameaça em movimento e de onde dá para pousar. Esses quadradinhos verdes são, literalmente, os olhos dela.",
+  "diffs": [
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "a gente",
+    "agente"
+   ],
+   [
+    "quarenta e quatro",
+    "44"
+   ],
+   [
+    "dezesseis",
+    "16"
+   ],
+   [
+    "mario",
+    "mar e"
+   ],
+   [
+    "pra",
+    "para"
+   ]
+  ]
+ },
+ "s11": {
+  "ratio": 0.938,
+  "hyp": "Esses números entram numa rede neural, passam por uma camada de neurônios, e saem como uma decisão, esquerda, parada ou direita, com ou sem pulo. Cada linha dessas é um peso, um número que a inteligência artificial pode ajustar. A pergunta de um milhão de reais é, como ajustar esses pesos para a rede jogar bem? E é aqui que entram os quatro competidores de hoje.",
+  "diffs": [
+   [
+    "parado",
+    "parada"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "pra",
+    "para a"
+   ]
+  ]
+ },
+ "s12": {
+  "ratio": 0.75,
+  "hyp": "Competidor número 1 – Neuroevolução",
+  "diffs": [
+   [
+    "um",
+    "1"
+   ]
+  ]
+ },
+ "s13": {
+  "ratio": 0.911,
+  "hyp": "Essa é a ideia mais antiga e mais preguiçosa de todas, e eu digo isso com carinho. Você cria 64 cérebros completamente aleatórios e solta todo mundo na fase. Quem vai mais longe, ganha mais pontos. No fim da geração, os 10% melhores sobrevivem intactos. A maior parte da população vira cópia dos melhores, com pequenas mutações nos pesos. E 10% são novatos aleatórios, só para manter a diversidade. Seleção Natural, versão Mario. É a mesma família de ideia do Mario, do 7 Blin, um dos vídeos mais famosos de inteligência artificial jogando Mario. A diferença é que lá a estrutura da rede também evoluía. Aqui, só os pesos mudam.",
+  "diffs": [
+   [
+    "sessenta e quatro",
+    "64"
+   ],
+   [
+    "dez por cento",
+    "10"
+   ],
+   [
+    "dez por cento",
+    "10"
+   ],
+   [
+    "pra",
+    "para"
+   ],
+   [
+    "sethbling",
+    "7 blin"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ]
+  ]
+ },
+ "s14": {
+  "ratio": 0.972,
+  "hyp": "Na primeira geração, foi aquele show de horrores que você viu no começo. Na geração 10, alguns já aprendem a passar dos canos. Ainda morrem de jeitos bem criativos, mas a gente comemora as pequenas vitórias.",
+  "diffs": [
+   [
+    "dez",
+    "10"
+   ]
+  ]
+ },
+ "s15": {
+  "ratio": 0.9,
+  "hyp": "E aí, na geração 70, aconteceu. Um indivíduo atravessou um, um inteiro e tocou a bandeira. E como o melhor sobrevive intacto para a próxima geração, ele repete exatamente a mesma corrida. Essa aqui é a reprise, na geração 71.",
+  "diffs": [
+   [
+    "o 1 1",
+    "um um"
+   ],
+   [
+    "pra",
+    "para a"
+   ]
+  ]
+ },
+ "s16": {
+  "ratio": 0.811,
+  "hyp": "Com o tempo, ela aprendeu também o 1-2, e aí chegou na fase 1-3, a das plataformas lá no alto. E travou. Geração após geração, os melhores Marius morrem logo no começo do 1-3.",
+  "diffs": [
+   [
+    "um dois",
+    "1 2"
+   ],
+   [
+    "um tres",
+    "1 3"
+   ],
+   [
+    "marios",
+    "marius"
+   ],
+   [
+    "um tres",
+    "1 3"
+   ]
+  ]
+ },
+ "s17": {
+  "ratio": 0.937,
+  "hyp": "Olha a curva! No orçamento total, foram 1 milhão e 200 mil passos de física, 402 gerações e mais de 25 mil marios mortos. O melhor resultado foi passar de duas fases e cair no começo da terceira. O problema é que mutação aleatória é tipo consertar relógio na martelada, às vezes funciona, mas quanto mais complicado o relógio, mais difícil acertar.",
+  "diffs": [
+   [
+    "um",
+    "1"
+   ],
+   [
+    "duzentos",
+    "200"
+   ],
+   [
+    "vinte e cinco",
+    "25"
+   ]
+  ]
+ },
+ "s17b": {
+  "ratio": 0.75,
+  "hyp": "Placar parcial, neuroevolução, duas fases de 32.",
+  "diffs": [
+   [
+    "trinta e duas",
+    "32"
+   ]
+  ]
+ },
+ "s18": {
+  "ratio": 0.917,
+  "hyp": "Competidor número 2, Double DQN. Agora sim, aprendizado por reforço de verdade.",
+  "diffs": [
+   [
+    "dois",
+    "2"
+   ]
+  ]
+ },
+ "s19": {
+  "ratio": 0.969,
+  "hyp": "Em vez de evoluir cérebros às cegas, aqui uma única rede aprende a responder uma pergunta. Se eu estiver nessa situação e apertar esse botão, quantos pontos eu vou ganhar daqui pra frente? Esse número se chama valor que... São seis ações, esquerda, parado, direita, cada uma com ou sem puro. E a inteligência artificial escolhe a de maior valor. Só que tem um dilema clássico aqui. Se ela sempre fizer o que já sabe que funciona, nunca descobre nada novo. Se só fizer coisa aleatória, nunca aproveita o que aprendeu. É o famoso explorar versus aproveitar. A solução, no começo, quase tudo é aleatório. Com o tempo, a aleatoriedade vai diminuindo.",
+  "diffs": [
+   [
+    "q",
+    "que"
+   ],
+   [
+    "pulo",
+    "puro"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ]
+  ]
+ },
+ "s20": {
+  "ratio": 0.952,
+  "hyp": "Cada coisa que acontece vira uma memória, o que eu vi, o que eu fiz, quanto eu ganhei e o que veio depois. Ela guarda até 10 mil memórias e vai estudando lotes aleatórios delas, tipo revisar a matéria antes da prova. E o double do nome? São duas redes. Uma escolhe a melhor ação, e a outra confere quanto ela realmente vale. Isso impede que a inteligência artificial fique super confiante e se ache melhor do que é literalmente um mecanismo anti-ego.",
+  "diffs": [
+   [
+    "dez",
+    "10"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "superconfiante",
+    "super confiante"
+   ]
+  ]
+ },
+ "s21": {
+  "ratio": 0.962,
+  "hyp": "No começo, como quase tudo é aleatório, parece um bando de marios perdidos. Com o mesmo orçamento de 1 milhão e 200 mil passos, o Double DQN passou da primeira fase poucas vezes, em 528 gerações, foram só 10 bandeiras no total. É tipo aquele amigo que passou na autoescola na sorte.",
+  "diffs": [
+   [
+    "um",
+    "1"
+   ],
+   [
+    "duzentos",
+    "200"
+   ]
+  ]
+ },
+ "s21b": {
+  "ratio": 1.0,
+  "hyp": "Placar parcial, o Double DQN chegou até a fase 1-2, mas quase nunca.",
+  "diffs": []
+ },
+ "s22": {
+  "ratio": 0.769,
+  "hyp": "Competidor número 3, o chefão do aprendizado por reforço clássico. Rainbow I.Q.N.",
+  "diffs": [
+   [
+    "tres",
+    "3"
+   ],
+   [
+    "iqn",
+    "i q n"
+   ]
+  ]
+ },
+ "s23": {
+  "ratio": 0.951,
+  "hyp": "Em 2017, pesquisadores da DeepMind pegaram seis melhorias diferentes do DQN e juntaram tudo num algoritmo só, chamado Rainbow. Basicamente, os vingadores do aprendizado por reforço. Primeiro, o Double Q, que você já conhece. Depois, a arquitetura Dueling, que separa duas perguntas, o quanto essa situação é boa, e o quanto cada ação é melhor que as outras. A memória priorizada, que revisa mais vezes as memórias que mais surpreenderam, tipo estudar mais as questões que você errou. O retorno de 5 passos, que olha 5 decisões para frente antes de aprender. As redes ruidosas, que colocam um ruído treinável nos pesos, então a própria rede aprende o quanto deve explorar. E por último, a parte distribucional, em vez de prever só a média de pontos, ela prevê a distribuição inteira, do cenário pessimista a otimista. Aqui eu usei a versão IQN, com regressão de quantis. Junta tudo, e temos o arco-íris.",
+  "diffs": [
+   [
+    "dois mil e dezessete",
+    "2017"
+   ],
+   [
+    "duelin",
+    "dueling"
+   ],
+   [
+    "cinco",
+    "5"
+   ],
+   [
+    "cinco",
+    "5"
+   ],
+   [
+    "pra",
+    "para"
+   ],
+   [
+    "ao",
+    "a"
+   ]
+  ]
+ },
+ "s24": {
+  "ratio": 0.761,
+  "hyp": "E ela ganhou olhos melhores, 400 sensores. Os 112 sensores locais, mais uma grade de 12 por 6 cobrindo 1.250 pixels da fase, com 4 canais, terreno, inimigos, perigos e itens. E os inimigos aparecem também onde vão estar daqui a 8 e 24 quadros. É a inteligência artificial com visão do futuro.",
+  "diffs": [
+   [
+    "quatrocentos",
+    "400"
+   ],
+   [
+    "cento e doze",
+    "112"
+   ],
+   [
+    "doze",
+    "12"
+   ],
+   [
+    "seis",
+    "6"
+   ],
+   [
+    "mil duzentos e cinquenta",
+    "1 250"
+   ],
+   [
+    "quatro",
+    "4"
+   ],
+   [
+    "oito",
+    "8"
+   ],
+   [
+    "vinte e quatro",
+    "24"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ]
+  ]
+ },
+ "s25": {
+  "ratio": 0.926,
+  "hyp": "E o resultado? Com o mesmo orçamento, o Rainbow chegou até a fase 1-3, e com muito mais consistência que o Double DQN, foram 8.881 bandeiras em 283 gerações. Mais esperto, sim. Mas zerar o jogo? Nem perto. Isso é uma coisa que os vídeos de inteligência artificial nem sempre contam, algoritmo poderoso não é mágica. O Rainbow original foi avaliado com 200 milhões de quadros de Atari. A minha versão roda num vorquer do navegador, com uma rede pequenininha e 1 milhão e 200 mil passos. É o Rainbow no modo econômico.",
+  "diffs": [
+   [
+    "8881",
+    "8 881"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "duzentos",
+    "200"
+   ],
+   [
+    "worker",
+    "vorquer"
+   ],
+   [
+    "um",
+    "1"
+   ],
+   [
+    "duzentos",
+    "200"
+   ]
+  ]
+ },
+ "s25b": {
+  "ratio": 1.0,
+  "hyp": "Placar parcial. O Rainbow chegou até a fase 1-3, o melhor até agora.",
+  "diffs": []
+ },
+ "s26": {
+  "ratio": 0.828,
+  "hyp": "E finalmente, competidor número 4, a inteligência artificial adaptativa. A única que zerou o jogo.",
+  "diffs": [
+   [
+    "quatro",
+    "4"
+   ],
+   [
+    "ia",
+    "inteligencia artificial"
+   ]
+  ]
+ },
+ "s27": {
+  "ratio": 0.896,
+  "hyp": "Ela funciona de um jeito completamente diferente. Antes de se mexer, ela usa a própria física do jogo para simular o futuro. Testa as 6 ações em blocos de 6 quadros, uns 2 segundos pra frente, guarda os 48 futuros mais promissores, descarta o resto, e segue o melhor caminho. É o doutor estranho olhando milhares de futuros para achar aquele em que a gente vence.",
+  "diffs": [
+   [
+    "pra",
+    "para"
+   ],
+   [
+    "seis",
+    "6"
+   ],
+   [
+    "seis",
+    "6"
+   ],
+   [
+    "dois",
+    "2"
+   ],
+   [
+    "quarenta e oito",
+    "48"
+   ],
+   [
+    "pra",
+    "para"
+   ]
+  ]
+ },
+ "s28": {
+  "ratio": 0.945,
+  "hyp": "E deu muito certo. Logo na primeira tentativa, sem nenhum treino antes, ela atravessou o 1-1, o subsolo, a água, os castelos com barras de fogo, as plataformas, os castelos do Mundo 7, os Hammerbroys. Tudo em mais ou menos um minuto de processamento.",
+  "diffs": [
+   [
+    "sete",
+    "7"
+   ],
+   [
+    "hammer bros",
+    "hammerbroys"
+   ]
+  ]
+ },
+ "s29": {
+  "ratio": 0.75,
+  "hyp": "E no 8-4, o Bowser. Bola de fogo, pulo por cima, Machado. Campanha completa. E não foi só um, 48 dos 64 Marios zeraram juntos.",
+  "diffs": [
+   [
+    "oito quatro",
+    "8 4"
+   ],
+   [
+    "bauzer",
+    "bowser"
+   ],
+   [
+    "quarenta e oito",
+    "48"
+   ],
+   [
+    "sessenta e quatro",
+    "64"
+   ]
+  ]
+ },
+ "s30": {
+  "ratio": 0.952,
+  "hyp": "Agora, a parte honesta. O planejador conhece o estado interno do jogo, a física exata e onde cada inimigo vai estar. Isso não é aprendizado por reforço puro. É busca com um simulador perfeito. É tipo fazer a prova com o gabarito do lado. A parte que aprende de verdade é uma rede neural pequena, que fica imitando as decisões do planejador. Um quarto da população pratica usando essa rede, e o resto continua planejando e gerando exemplos. Isso se chama aprendizado por imitação, inspirado num algoritmo chamado Dager. E sabe quem eram os 16 Marios que não zeraram? Exatamente os alunos. Todos caíram ainda na fase 1-2, metade para o primeiro Gumba.",
+  "diffs": [
+   [
+    "dagger",
+    "dager"
+   ],
+   [
+    "dezesseis",
+    "16"
+   ],
+   [
+    "um dois",
+    "1 2"
+   ],
+   [
+    "pro",
+    "para o"
+   ]
+  ]
+ },
+ "s31": {
+  "ratio": 0.964,
+  "hyp": "E tem um detalhe que eu acho genial, o modo aprender comigo. Eu jogo, e os meus movimentos viram exemplos com peso três vezes maior para a rede. Mas só os movimentos que sobrevivem um segundo e meio. As ações logo antes de uma morte são descartadas. Ou seja, ela aprende com os meus acertos e ignora as minhas burradas. E olha, eu dei bastante burrada para ela ignorar.",
+  "diffs": [
+   [
+    "pra",
+    "para a"
+   ],
+   [
+    "pra",
+    "para"
+   ]
+  ]
+ },
+ "s32": {
+  "ratio": 0.87,
+  "hyp": "Então, o placar final, todo mundo com o mesmo orçamento de 1 milhão e 200 mil passos de física, que dá umas 5 horas e meia de jogo pra cada um dos 64 Marios. A neuroevolução passou do 1-1 e do 1-2, e travou na fase 1-3. O Double DQN passou do 1-1, mas raramente. O Rainbow foi o melhor dos aprendizes puros, mas parou na fase 1-3. E a adaptativa zerou tudo, 32 fases, na primeira tentativa, usando só 4,3% do orçamento.",
+  "diffs": [
+   [
+    "um",
+    "1"
+   ],
+   [
+    "duzentos",
+    "200"
+   ],
+   [
+    "cinco",
+    "5"
+   ],
+   [
+    "sessenta e quatro",
+    "64"
+   ],
+   [
+    "um dois",
+    "1 2"
+   ],
+   [
+    "um tres",
+    "1 3"
+   ],
+   [
+    "trinta e duas",
+    "32"
+   ],
+   [
+    "por cento",
+    ""
+   ]
+  ]
+ },
+ "s33": {
+  "ratio": 0.952,
+  "hyp": "E o que eu aprendi com tudo isso? Primeiro, a recompensa é tudo. A inteligência artificial otimiza exatamente o que você mede, nem mais, nem menos. Segundo, conhecer as regras do mundo é um superpoder. É por isso que o alfa-zero, que planeja usando as regras do xadrez, é tão absurdamente forte. E terceiro, o aprendizado por reforço puro aprende do zero, sem gabarito, e isso é lindo. Mas custa caro. Muito caro. Obrigado.",
+  "diffs": [
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "alphazero",
+    "alfa zero"
+   ],
+   [
+    "",
+    "obrigado"
+   ]
+  ]
+ },
+ "s34": {
+  "ratio": 1.0,
+  "hyp": "No fim, o lema do laboratório resume tudo. Aprender, morrer, tentar de novo. Que, sinceramente, também é o meu jeito de programar.",
+  "diffs": []
+ },
+ "s35": {
+  "ratio": 0.941,
+  "hyp": "Se você curtiu, deixa o like, se inscreve, e comenta qual fase você quer ver a inteligência artificial sofrendo no próximo vídeo. E fica o desafio, será que você consegue passar do 8-4 mais rápido que ela? Ah, e sim, essa voz que você ouviu o vídeo inteiro também é uma inteligência artificial. Valeu, e até a próxima geração!",
+  "diffs": [
+   [
+    "ia",
+    "inteligencia artificial"
+   ],
+   [
+    "oito quatro",
+    "8 4"
+   ]
+  ]
+ }
+}

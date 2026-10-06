@@ -78,7 +78,7 @@ export const RewardTable: React.FC<{highlights: HL; hack?: boolean}> = ({highlig
       </Panel>
       {cur && cur !== 'hack' ? (
         <div style={{position: 'absolute', left: 150, top: 150 + REWARDS.findIndex((r) => r[0] === cur) * 62, transform: `translateX(${Math.sin(frame / 4) * 10}px)`}}>
-          <Sprite name="run" size={110} flip />
+          <Sprite name="run" size={110} />
         </div>
       ) : null}
     </AbsoluteFill>

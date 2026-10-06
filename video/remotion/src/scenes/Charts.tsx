@@ -20,7 +20,7 @@ export const Scoreboard: React.FC<{highlights: HL; rows: RunRow[]; title?: strin
       {subtitle ? (
         <div style={{position: 'absolute', top: 104, width: '100%', textAlign: 'center', fontFamily: FONT.display, fontWeight: 600, fontSize: 30, color: C.muted}}>{subtitle}</div>
       ) : null}
-      <div style={{position: 'absolute', left: 110, top: 170, width: 1700, display: 'flex', flexDirection: 'column', gap: 26}}>
+      <div style={{position: 'absolute', left: 110, top: 160, width: 1700, display: 'flex', flexDirection: 'column', gap: 16}}>
         {rows.map((r) => {
           const alg = ALG[r.key];
           const on = h.on(r.key);
@@ -28,22 +28,22 @@ export const Scoreboard: React.FC<{highlights: HL; rows: RunRow[]; title?: strin
           const p = on ? spring({frame: since, fps, config: {damping: 16}}) : 0;
           const fillCount = on ? interpolate(since, [6, 6 + Math.max(10, r.cleared * 1.6)], [0, r.cleared + r.partial], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
           return (
-            <Panel key={r.key} style={{padding: '18px 28px', opacity: 0.25 + 0.75 * p, transform: `scale(${0.96 + 0.04 * p})`, borderColor: on ? alg.color : C.line}}>
+            <Panel key={r.key} style={{padding: '12px 28px', opacity: 0.25 + 0.75 * p, transform: `scale(${0.97 + 0.03 * p})`, borderColor: on ? alg.color : C.line}}>
               <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between'}}>
-                <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 38, color: alg.color}}>{alg.name}</div>
-                <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: C.ink}}>{on ? r.label : ''}</div>
+                <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: alg.color}}>{alg.name}</div>
+                <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 30, color: C.ink}}>{on ? r.label : '?'}</div>
               </div>
-              <div style={{display: 'flex', gap: 6, marginTop: 12}}>
+              <div style={{display: 'flex', gap: 6, marginTop: 8}}>
                 {new Array(32).fill(0).map((_, i) => {
                   const f = Math.max(0, Math.min(1, fillCount - i));
                   return (
-                    <div key={i} style={{width: 46, height: 30, borderRadius: 5, background: C.bg2, border: `2px solid ${C.line}`, overflow: 'hidden'}}>
+                    <div key={i} style={{width: 46, height: 26, borderRadius: 5, background: C.bg2, border: `2px solid ${C.line}`, overflow: 'hidden'}}>
                       <div style={{width: `${f * 100}%`, height: '100%', background: alg.color}} />
                     </div>
                   );
                 })}
               </div>
-              <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 24, color: C.muted, marginTop: 8, opacity: p}}>{r.detail}</div>
+              <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 22, color: C.muted, marginTop: 6, opacity: p}}>{r.detail}</div>
             </Panel>
           );
         })}
@@ -68,7 +68,7 @@ export const LearningCurve: React.FC<{
     Y0 = 760,
     Y1 = 190;
   const maxG = Math.max(...series.map((s) => s.gen), 1);
-  const minG = Math.min(...series.map((s) => s.gen), 0);
+  const minG = Math.min(...series.map((s) => s.gen));
   const maxY = Math.max(...series.map((s) => s.best), 1) * 1.08;
   const sx = (g: number) => X0 + ((g - minG) / Math.max(1, maxG - minG)) * (X1 - X0);
   const sy = (v: number) => Y0 - (Math.max(0, v) / maxY) * (Y0 - Y1);

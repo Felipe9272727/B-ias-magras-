@@ -48,7 +48,7 @@ export const NeuralNet: React.FC<{highlights: HL; inputs?: number; hidden?: numb
     <AbsoluteFill>
       <GridBackground accent={C.teal} />
       <div style={{position: 'absolute', top: 48, width: '100%', textAlign: 'center', fontFamily: FONT.pixel, fontSize: 34, color: C.gold, letterSpacing: 3}}>
-        {title ?? `REDE NEURAL · ${inputs} → ${hidden} → ${outN}`}
+        {title ?? `REDE NEURAL: ${inputs} > ${hidden} > ${outN}`}
       </div>
       <svg width={1920} height={1080} style={{position: 'absolute', opacity: pin}}>
         {edges}

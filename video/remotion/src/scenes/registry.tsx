@@ -18,7 +18,7 @@ type Props = {scene: Scene; timeline: Timeline; highlights: HL};
 export const SceneVisual: React.FC<Props> = ({scene, timeline, highlights}) => {
   const v = scene.visual;
   if (v.type === 'title') return <TitleCard kicker={v.kicker} title={v.title} subtitle={v.subtitle} color={v.color} />;
-  if (v.type === 'ui') return <UIPan src={v.src} keys={v.keys} srcW={timeline.clips[v.src]?.width ?? 1925} />;
+  if (v.type === 'ui') return <UIPan src={v.src} keys={v.keys} srcW={timeline.clips[v.src]?.width ?? 1925} speed={v.rate ?? 1} />;
   if (v.type !== 'component') return null;
   const p = (v.props ?? {}) as Record<string, any>;
   switch (v.name) {

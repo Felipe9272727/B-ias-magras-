@@ -33,12 +33,13 @@ export const TitleCard: React.FC<{kicker?: string; title: string; subtitle?: str
         <div
           style={{
             fontFamily: FONT.pixel,
-            fontSize: title.length > 14 ? 74 : 96,
+            fontSize: Math.max(...title.split('\n').map((l) => l.length)) > 14 ? 74 : 96,
             color: C.ink,
             letterSpacing: 4,
             textAlign: 'center',
             maxWidth: 1700,
-            lineHeight: 1.25,
+            lineHeight: 1.35,
+            whiteSpace: 'pre-line',
             transform: `scale(${0.6 + 0.4 * pIn})`,
             opacity: pIn,
             textShadow: `8px 8px 0 ${color}66`,

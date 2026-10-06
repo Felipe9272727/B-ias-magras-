@@ -3,7 +3,7 @@ import {AbsoluteFill, Audio, continueRender, delayRender, Sequence, staticFile} 
 import {fontsReady} from './fonts';
 import type {Scene, Timeline} from './types';
 import {C} from './theme';
-import {Captions, ClipView, MemeCard, TextPop} from './components/overlays';
+import {Captions, ClipInfo, ClipView, MemeCard, TextPop} from './components/overlays';
 import {SceneVisual} from './scenes/registry';
 
 const useFonts = () => {
@@ -19,7 +19,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline}> = ({scene, 
     <AbsoluteFill style={{background: C.bg}}>
       {scene.segments.map((sg, i) => (
         <Sequence key={i} from={sg.start} durationInFrames={Math.max(1, sg.end - sg.start)} name={`${sg.clip}@${sg.from}`}>
-          <ClipView seg={sg} />
+          <ClipView seg={sg} info={timeline.clips[sg.clip] as ClipInfo | undefined} />
         </Sequence>
       ))}
       {scene.visual.type !== 'clip' ? <SceneVisual scene={scene} timeline={timeline} highlights={hl} /> : null}

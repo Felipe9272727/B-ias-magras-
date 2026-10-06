@@ -80,7 +80,7 @@ export const ReplayBuffer: React.FC<{highlights: HL}> = ({highlights}) => {
       <div style={{position: 'absolute', top: 48, width: '100%', textAlign: 'center', fontFamily: FONT.pixel, fontSize: 34, color: C.gold, letterSpacing: 3}}>
         MEMÓRIA DE REPLAY
       </div>
-      <div style={{opacity: 1 - doubleP * 0.85}}>
+      <div style={{opacity: 1 - doubleP * 0.97}}>
         {cards}
         <Panel style={{position: 'absolute', left: 820, top: 220, width: 400, height: 420, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16}} color={C.orange}>
           <div style={{fontSize: 90}}>🧠</div>
