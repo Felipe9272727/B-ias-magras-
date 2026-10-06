@@ -6,11 +6,15 @@ disparam eventos no instante em que a PRÓXIMA palavra começa a ser falada:
 
   [[c:clipe@início*velocidade|RÓTULO|subtítulo]]  troca o trecho de gameplay
         início: segundos (12.5), quadro (f512), stage:2-2+3, clear, clear2, done-4, end-4
-  [[z:1.5]]                  zoom no trecho atual (foco no líder)
+  [[f:clipe@início]]         quadro congelado
+  [[z:1.5:30:78]]            zoom no trecho atual (escala, foco x%, foco y%)
+  [[p]]                      "soco" de câmera (zoom rápido + flash)
   [[m:meme:pos:dur:legenda]] GIF de meme (pos: right/left/center/full/top; dur em s)
   [[s:efeito:volume]]        efeito sonoro de public/sfx
   [[h:chave]]                destaca parte de um diagrama
   [[t:TEXTO:dur:cor]]        texto grande na tela
+  [[cc]]                     força legenda na frase seguinte (por padrão a legenda só
+                             aparece em frases com termo técnico ou número grande)
 
 Números entre chaves, como {evo.firstClearGen}, vêm dos logs reais de treino
 (video/data/runs_canon/*/summary.json) e são preenchidos por build_timeline.py.
@@ -35,23 +39,27 @@ SCORE = dict(type='component', name='Scoreboard', props=dict(rows='@scoreboard',
 
 SCENES = [
     # ------------------------------------------------------------------ ABERTURA
+    # Abertura "payoff primeiro": a vitória nos primeiros segundos, depois o caos da geração 1.
     dict(
-        id='s01', chapter='abertura', visual=dict(type='clip'),
-        text="""[[c:evo_g1@0.3]] Essa é a geração um. [[s:boom]] Sessenta e quatro Marios, e nenhum deles faz a menor ideia do que está fazendo.
-        [[c:evo_g1@1.9]] Uns dez já morreram pro primeiro Goomba. [[m:surprised-pikachu:right:2]]
-        [[c:evo_g1@4.3]] Outros trinta e cinco nem saíram do lugar, e o jogo elimina quem passa cinco segundos sem avançar. [[s:death:0.4]]
-        [[c:evo_g1@6.4]] E o líder da geração... passou cinco segundos encarando um cano. [[m:mr-bean-waiting:right:2.6]]""",
+        id='s00', chapter='abertura', visual=dict(type='clip'), lead=0.05,
+        text="""[[c:ada_campaign@stage:2-2+6*2]] [[s:whoosh:0.4]] Essa inteligência artificial [[c:ada_campaign@stage:4-4+15*2]] [[p]] acabou de atravessar
+        [[c:ada_campaign@stage:8-3+14*2]] [[p]] as trinta e duas fases do Mario, [[c:ada_campaign@done-3.3]] passar por cima do Bowser...
+        [[f:ada_campaign@done+0.1]] [[s:tada]] [[p]] e zerar o jogo. Sem eu encostar no controle. [[m:dicaprio-toast:right:2]]""",
+        pad=0.2,
     ),
     dict(
-        id='s02', chapter='abertura', visual=dict(type='clip'),
-        text="""[[c:ada_campaign@done-4.5|8–4|última fase]] Mas uma dessas inteligências artificiais fez isso aqui. [[s:drumroll:0.5]]
-        Ela zerou as trinta e duas fases. [[f:ada_campaign@done+0.1]] [[s:tada]] Do um-um até o Bowser no oito-quatro, sem eu encostar no controle. [[m:dicaprio-toast:right:2.2]]""",
+        id='s01', chapter='abertura', visual=dict(type='clip'), lead=0.05,
+        text="""[[f:ada_campaign@done+0.1]] [[s:record-scratch:0.7]] Mas calma. A história começa bem antes.
+        [[c:evo_g1@0.3]] [[s:boom]] [[p]] Essa é a geração um da neuroevolução. Sessenta e quatro Marios, e nenhum deles faz a menor ideia do que está fazendo.
+        [[c:evo_g1@1.9]] Uns dez já [[t:💀 11:1.3:#ff8c80]] [[s:death:0.3]] morreram pro primeiro Goomba. [[m:surprised-pikachu:right:2]]
+        [[c:evo_g1@4.3]] Outros trinta e cinco [[t:💀 35:1.4:#ff8c80]] [[s:death:0.3]] nem saíram do lugar, e o jogo elimina quem passa cinco segundos sem avançar.
+        [[c:evo_g1@6.4]] E o líder da geração... [[z:1.9:30:78]] passou cinco segundos encarando um cano. [[m:mr-bean-waiting:right:2.6]]""",
     ),
     dict(
         id='s03', chapter='abertura',
         visual=dict(type='title', kicker='MARIO RL LAB', title='4 IAs · 32 FASES\n1 BOWSER', subtitle='quem aprende a zerar o jogo?'),
         text="""Hoje eu coloquei quatro tipos diferentes de inteligência artificial pra jogar um Mario que eu recriei do zero, no navegador.
-        Só uma zerou o jogo. E no final eu vou te contar por que a vitória dela é... meio que trapaça. [[m:monkey-side-eye:right:2.2]]""",
+        Só uma zerou o jogo. E no final eu vou te contar por que a vitória dela é... [[cc]] meio que trapaça. [[m:monkey-side-eye:right:2.2]]""",
     ),
     # ------------------------------------------------------------------ LABORATÓRIO
     dict(
@@ -77,7 +85,7 @@ SCENES = [
     # ------------------------------------------------------------------ O QUE É RL
     dict(
         id='s07', chapter='rl', visual=dict(type='component', name='RLLoop'),
-        text="""Agora, o básico. O que é aprendizado por reforço? É o jeito que você ensina um cachorro a sentar.
+        text="""Agora, o básico. [[cc]] O que é aprendizado por reforço? É o jeito que você ensina um cachorro a sentar.
         Ele faz alguma coisa, você dá um petisco se foi bom e uma bronca se foi ruim. Repete isso mil vezes e pronto.
         Aqui é igual. [[h:agente]] O agente [[h:estado]] olha o estado do jogo, [[h:acao]] escolhe uma ação,
         [[h:recompensa]] o jogo responde com uma recompensa, [[h:ciclo]] e o ciclo recomeça.
@@ -93,8 +101,8 @@ SCENES = [
         id='s09', chapter='rl', visual=dict(type='component', name='RewardTable'),
         text="""Parece simples, mas esse é o ponto mais perigoso do projeto inteiro. [[s:record-scratch]]
         [[h:hack]] Se eu pagasse demais por moeda, por exemplo, a IA podia largar a bandeira de lado e virar uma caçadora profissional de moedas.
-        [[m:distracted-boyfriend:center:2.8]] Isso tem nome: hackear a recompensa. A IA não faz o que você quer.
-        Ela faz exatamente o que você paga pra ela fazer. [[h:progress]] Por isso, aqui no jogo, o avanço só é pago depois que o Mario pousa em segurança,
+        [[m:distracted-boyfriend:center:2.8]] Isso tem nome: [[cc]] hackear a recompensa. A IA não faz o que você quer.
+        [[cc]] Ela faz exatamente o que você paga pra ela fazer. [[h:progress]] Por isso, aqui no jogo, o avanço só é pago depois que o Mario pousa em segurança,
         e cada plataforma só paga uma vez por tentativa.""",
     ),
     # ------------------------------------------------------------------ OLHOS DA IA
@@ -300,7 +308,7 @@ SCENES = [
         id='s35', chapter='fim', visual=dict(type='component', name='EndScreen', props=dict(credits='@credits')),
         text="""[[h:like]] Se você curtiu, deixa o like, [[h:inscreva]] se inscreve, e comenta qual fase você quer ver a IA sofrendo no próximo vídeo.
         E fica o desafio: será que você consegue passar do oito-quatro mais rápido que ela?
-        Ah, e sim: essa voz que você ouviu o vídeo inteiro também é uma inteligência artificial. [[m:shocked-patrick:right:2]]
+        Ah, e sim: [[cc]] essa voz que você ouviu o vídeo inteiro também é uma inteligência artificial. [[m:shocked-patrick:right:2]]
         Valeu, e até a próxima geração!""",
         pad=3.5,
     ),

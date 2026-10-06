@@ -350,7 +350,8 @@ def align(tokens, tts_words):
 
 
 def caption_words(tokens, starts, ends):
-    words = [dict(w=t, s=s, e=e) for t, s, e in zip(tokens, starts, ends)]
+    """Palavras para legenda (expressões faladas viram números) + índice do token original."""
+    words = [dict(w=t, s=s, e=e, k=i) for i, (t, s, e) in enumerate(zip(tokens, starts, ends))]
     out = []
     i = 0
     while i < len(words):
@@ -360,13 +361,52 @@ def caption_words(tokens, starts, ends):
             seg = words[i:i + len(parts)]
             if len(seg) == len(parts) and all(norm(a['w']) == norm(b) for a, b in zip(seg, parts)):
                 tail = re.search(r'[.,!?:;…]+$', seg[-1]['w'])
-                out.append(dict(w=display + (tail.group(0) if tail else ''), s=seg[0]['s'], e=seg[-1]['e']))
+                out.append(dict(w=display + (tail.group(0) if tail else ''), s=seg[0]['s'], e=seg[-1]['e'], k=seg[0]['k']))
                 i += len(parts)
                 merged = True
                 break
         if not merged:
             out.append(words[i])
             i += 1
+    return out
+
+
+# Legenda só quando ajuda: termos estrangeiros/técnicos, números "difíceis" e frases marcadas com [[cc]].
+TERMOS = {'DQN', 'Double', 'Rainbow', 'IQN', 'NoisyNet', 'NoisyNets', 'dueling', 'DAgger', 'AlphaZero', 'DeepMind', 'SethBling',
+          'MarI/O', 'HTML', 'ROM', 'RL', 'worker', 'Q', 'quantis', 'Hammer', 'Bros', 'Lab'}
+NUMERO_DIFICIL = re.compile(r'\d[.,]\d|\d{3,}|×|%')
+
+
+def caption_groups(words, forced):
+    """Agrupa as palavras em blocos curtos e devolve só os blocos que merecem legenda."""
+    groups, cur = [], []
+
+    def flush():
+        nonlocal cur
+        if cur:
+            groups.append(cur)
+        cur = []
+
+    for i, w in enumerate(words):
+        if cur and w['s'] - words[i - 1]['e'] > 12:
+            flush()
+        cur.append(i)
+        chars = sum(len(words[j]['w']) + 1 for j in cur)
+        if re.search(r'[.!?…:;]$', w['w']) or len(cur) >= 7 or chars > 38 or (w['w'].endswith(',') and len(cur) >= 3):
+            flush()
+    flush()
+
+    def needed(g):
+        for j in g:
+            core = re.sub(r'^[("“]+|[)"”.,!?:;…]+$', '', words[j]['w'])
+            if j in forced or core in TERMOS or NUMERO_DIFICIL.search(core):
+                return True
+        return False
+
+    out = []
+    for g in groups:
+        if needed(g):
+            out.append(dict(s=words[g[0]]['s'], e=words[g[-1]]['e'], words=[dict(w=words[j]['w'], s=words[j]['s'], e=words[j]['e']) for j in g]))
     return out
 
 
@@ -458,6 +498,7 @@ def main():
     music = json.loads((PUBLIC / 'music' / 'music.json').read_text()) if (PUBLIC / 'music' / 'music.json').exists() else []
     music_credits = [f"{m['title']} — Kevin MacLeod (incompetech.com), CC BY 4.0" for m in music]
     facts['credits'] = credits(music_credits)
+    sfx_files = {x['id']: x['file'] for x in json.loads((PUBLIC / 'sfx' / 'sfx.json').read_text())}
     memes = {x['id']: dict(file=Path(x['file_gif']).name, width=x['width'], height=x['height'], duration=x['duration_sec'])
              for x in json.loads((PUBLIC / 'gifs' / 'catalog.json').read_text())}
 
@@ -527,10 +568,20 @@ def main():
         events, segments = [], []
         min_end = lead + dur + pad
         cur_seg = None
+        forced_tokens = set()
         for mk in p['marks']:
             t = t_of(mk['idx'])
             f = round(t * FPS)
             kind, _, rest = mk['spec'].partition(':')
+            if kind == 'cc':  # legenda forçada até o fim da frase
+                for k in range(mk['idx'], len(p['tokens'])):
+                    forced_tokens.add(k)
+                    if re.search(r'[.!?…]$', p['tokens'][k]):
+                        break
+                continue
+            if kind == 'p':
+                events.append(dict(type='punch', at=f))
+                continue
             if kind in ('c', 'f'):  # f = quadro congelado
                 body, *label = rest.split('|')
                 clip, _, anc = body.partition('@')
@@ -553,7 +604,10 @@ def main():
                     cur_seg['end'] = f
                     nxt = dict(cur_seg)
                     nxt.pop('label', None)
-                    nxt.update(start=f, end=None, from_=cur_seg['from_'] + (f - cur_seg['start']) * cur_seg['rate'], zoom=float(rest))
+                    zparts = rest.split(':')
+                    nxt.update(start=f, end=None, from_=cur_seg['from_'] + (f - cur_seg['start']) * cur_seg['rate'], zoom=float(zparts[0]))
+                    if len(zparts) >= 3:
+                        nxt.update(ox=float(zparts[1]), oy=float(zparts[2]))
                     segments.append(nxt)
                     cur_seg = nxt
             elif kind == 'm':
@@ -576,10 +630,12 @@ def main():
                     min_end = max(min_end, t + mdur)
             elif kind == 's':
                 parts = rest.split(':')
-                ev = dict(type='sfx', at=f, id=parts[0])
-                if len(parts) > 1 and parts[1]:
-                    ev['vol'] = float(parts[1])
-                events.append(ev)
+                if parts[0] not in sfx_files:
+                    warnings.append(f'{sid}: efeito {parts[0]} não existe')
+                    continue
+                # efeitos já vêm normalizados (-24 LUFS); o volume do roteiro é relativo
+                rel = float(parts[1]) / 0.55 if len(parts) > 1 and parts[1] else 1.0
+                events.append(dict(type='sfx', at=f, id=parts[0], file=sfx_files[parts[0]], vol=round(min(1.0, 0.8 * rel), 2)))
             elif kind == 'h':
                 events.append(dict(type='hl', at=f, key=rest))
             elif kind == 't':
@@ -628,6 +684,8 @@ def main():
                 out = dict(start=s0, end=s1, clip=sg['clip'], **{'from': round(f0)}, rate=r)
                 if sg.get('zoom'):
                     out['zoom'] = sg['zoom']
+                    if 'ox' in sg:
+                        out['ox'], out['oy'] = sg['ox'], sg['oy']
                 if sg.get('label') and k == 0:
                     out['label'] = sg['label']
                 segs_out.append(out)
@@ -642,7 +700,9 @@ def main():
                 vis['rate'] = round((uf - 2) / duration, 3)
                 warnings.append(f"{sid}: {vis['src']} desacelerado para {vis['rate']}×")
         words = caption_words(p['tokens'], starts, ends) if p['tokens'] else []
+        forced = {i for i, w in enumerate(words) if w['k'] in forced_tokens}
         words = [dict(w=w['w'], s=round((lead + w['s']) * FPS), e=round((lead + w['e']) * FPS)) for w in words]
+        cap_groups = caption_groups(words, forced) if sc.get('captions', True) else []
         scenes.append(dict(
             id=sid,
             chapter=mod.CHAPTERS.get(sc['chapter'], sc['chapter']),
@@ -656,7 +716,7 @@ def main():
             visual=vis,
             segments=segs_out,
             events=sorted(events, key=lambda e: e['at']),
-            captions=sc.get('captions', True),
+            capGroups=cap_groups,
         ))
         cursor += duration
 

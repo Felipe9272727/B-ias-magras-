@@ -10,14 +10,19 @@ export type Segment = {
   from: number; // quadro do clipe onde o segmento começa
   rate: number;
   zoom?: number;
+  ox?: number;
+  oy?: number;
   label?: string;
 };
 
+export type CapGroup = {s: number; e: number; words: Word[]};
+
 export type SceneEvent =
   | {type: 'meme'; at: number; dur: number; id: string; pos: 'left' | 'right' | 'center' | 'full' | 'top'; caption?: string}
-  | {type: 'sfx'; at: number; id: string; vol?: number}
+  | {type: 'sfx'; at: number; id: string; vol?: number; file?: string}
   | {type: 'hl'; at: number; key: string}
-  | {type: 'txt'; at: number; dur: number; text: string; color?: string};
+  | {type: 'txt'; at: number; dur: number; text: string; color?: string}
+  | {type: 'punch'; at: number};
 
 export type Visual =
   | {type: 'clip'}
@@ -37,7 +42,7 @@ export type Scene = {
   visual: Visual;
   segments: Segment[];
   events: SceneEvent[];
-  captions?: boolean;
+  capGroups: CapGroup[];
 };
 
 export type Chapter = {id: string; title: string; start: number; end: number};

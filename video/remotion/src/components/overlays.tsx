@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import {Gif} from '@remotion/gif';
 import {AbsoluteFill, Freeze, interpolate, OffthreadVideo, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import type {Segment, Word} from '../types';
+import type {CapGroup, Segment} from '../types';
 import {C, FONT} from '../theme';
 import {strokeText} from './basics';
 
@@ -100,8 +100,8 @@ export const ClipView: React.FC<{seg: Segment; info?: ClipInfo}> = ({seg, info})
   const drift = interpolate(frame, [0, Math.max(1, len)], [1, 1.035]);
   const s = zoom * drift;
   // Foco perto do líder: a câmera do jogo o mantém a ~30% da largura.
-  const ox = zoom > 1 ? '34%' : '50%';
-  const oy = zoom > 1 ? '70%' : '50%';
+  const ox = zoom > 1 ? `${seg.ox ?? 34}%` : '50%';
+  const oy = zoom > 1 ? `${seg.oy ?? 70}%` : '50%';
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       <AbsoluteFill style={{transform: `scale(${s})`, transformOrigin: `${ox} ${oy}`}}>
@@ -256,30 +256,10 @@ export const TextPop: React.FC<{text: string; dur: number; color?: string}> = ({
   );
 };
 
-type Group = {words: Word[]; s: number; e: number};
-
-function groupWords(words: Word[]): Group[] {
-  const groups: Group[] = [];
-  let cur: Word[] = [];
-  const flush = () => {
-    if (cur.length) groups.push({words: cur, s: cur[0].s, e: cur[cur.length - 1].e});
-    cur = [];
-  };
-  words.forEach((w, i) => {
-    const prev = words[i - 1];
-    if (cur.length && prev && w.s - prev.e > 12) flush();
-    cur.push(w);
-    const chars = cur.reduce((n, x) => n + x.w.length + 1, 0);
-    if (/[.!?…:;]$/.test(w.w) || cur.length >= 7 || chars > 38 || (/,$/.test(w.w) && cur.length >= 3)) flush();
-  });
-  flush();
-  return groups;
-}
-
-// Legendas palavra a palavra (a palavra falada fica dourada).
-export const Captions: React.FC<{words: Word[]; offset: number}> = ({words, offset}) => {
-  const frame = useCurrentFrame() - offset;
-  const groups = useMemo(() => groupWords(words), [words]);
+// Legendas seletivas: só os blocos escolhidos em build_timeline.py (termos técnicos,
+// números difíceis e frases marcadas com [[cc]]). A palavra falada fica dourada.
+export const Captions: React.FC<{groups: CapGroup[]}> = ({groups}) => {
+  const frame = useCurrentFrame();
   const gi = groups.findIndex((g, i) => frame >= g.s - 2 && frame < (groups[i + 1] ? Math.min(groups[i + 1].s - 2, g.e + 18) : g.e + 18));
   if (gi < 0) return null;
   const g = groups[gi];

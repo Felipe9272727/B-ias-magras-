@@ -6,7 +6,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/../remotion/public/footage"
 for f in *.mp4; do
-  if ffprobe -v error -select_streams v:0 -show_entries stream_tags=comment -of csv=p=0 "$f" | grep -q gop30; then
+  [[ $f == tmp_* ]] && continue
+  if ffprobe -v error -select_streams v:0 -show_entries format_tags=comment -of csv=p=0 "$f" | grep -q gop30; then
     continue
   fi
   ffmpeg -y -loglevel error -i "$f" -c:v libx264 -preset veryfast -crf 17 -g 30 -keyint_min 30 -sc_threshold 0 \
