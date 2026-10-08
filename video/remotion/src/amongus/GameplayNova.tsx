@@ -60,7 +60,7 @@ export function poseNova(p: Partida, cor: string, tf: number, fpt: number, deTiq
   const aparente = fimSala?.aparente ?? salasNoTique(p, t0)[cor]?.aparente ?? cor;
   const reuniao = p.reunioes.some((r) => r.tique === t0) && t0 >= deTique;
   if (p.reunioes.some((r) => r.tique === t0 && r.expulso === cor)) return null;
-  const inicio: Pt = reuniao ? sala('Refeitorio').spots[idx(cor)] : ini.pt;
+  const inicio: Pt = reuniao ? sala('Refeitorio').spots[idx(cor)] : fimDoTique(p, cor, t0, fpt, deTique) ?? ini.pt;
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1 && (e.vitima === cor || e.assassino === cor));
   // vítima: anda normalmente e cai na metade do tique
   if (morte?.vitima === cor && frac >= 0.5) return null;
@@ -102,6 +102,20 @@ export function poseNova(p: Partida, cor: string, tf: number, fpt: number, deTiq
   const r = aoLongo(rota, d);
   const chegou = d >= L - 0.5;
   return {p: r.p, dir: r.dir, andando: !chegou, alpha: 1, escala: 1, tarefa: chegou && tarefa, aparente};
+}
+
+// onde o jogador termina a transição que acaba no tique t (o começo do tique seguinte parte daí, sem teleporte):
+// o impostor fica ao lado do corpo, quem usou duto fica na saída do duto
+function fimDoTique(p: Partida, cor: string, t: number, fpt: number, deTique: number): Pt | null {
+  if (t <= deTique) return null;
+  const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t && e.assassino === cor);
+  if (morte) {
+    const v = posVitima(p, morte.vitima, t, fpt, deTique);
+    return {x: v.x + 70, y: v.y};
+  }
+  const duto = p.eventos.find((e) => e.tipo === 'duto' && e.tique === t && e.cor === cor);
+  if (duto && sala(duto.de).duto && sala(duto.para).duto) return sala(duto.para).duto!;
+  return null;
 }
 
 // onde a vítima estará na hora da morte (metade do tique)
@@ -344,8 +358,9 @@ export const GameplayNova: React.FC<Props> = ({p, numero, deTique, ateTique, dur
   const fala = (cor?: string) => (cor ? p.tiques[t1]?.decisoes.find((d) => d.cor === cor)?.pensamento : undefined);
   // na cena com zoom (duas pessoas na mesma sala), mostra o pensamento de quem age naquele tique
   const atorDo = (e: any) => (e.tipo === 'morte' ? e.assassino : e.tipo === 'duto' ? e.cor : undefined);
-  const evs = p.eventos.filter((e) => e.tique === t1 && atorDo(e) && pensamentos.includes(atorDo(e)));
-  const feito = evs.filter((e) => e.tique - 0.5 <= tf).pop();
+  // morte tem prioridade sobre duto no mesmo tique (é o que a câmera mostra)
+  const evs = p.eventos.filter((e) => e.tique === t1 && atorDo(e) && pensamentos.includes(atorDo(e))).sort((x, y) => (y.tipo === 'morte' ? 1 : 0) - (x.tipo === 'morte' ? 1 : 0));
+  const feito = evs.find((e) => e.tique - 0.5 <= tf);
   const pendente = evs.find((e) => e.tique - 0.5 > tf);
   // antes de cada evento mostra quem vai agir; depois, o próximo a agir no mesmo tique
   const quemFala = zoom ? (pendente ? atorDo(pendente) : feito ? atorDo(feito) : pensamentos[0]) : foco;
