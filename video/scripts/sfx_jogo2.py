@@ -109,10 +109,14 @@ def main():
             p = ps[str(props['partida'])]
             chaves = [e for e in sc['events'] if e['type'] == 'tk']
             mortes = {e['tique'] for e in p['eventos'] if e['tipo'] == 'morte'}
+            tfm = relogio(props['de'], props['ate'], sc['duration'], chaves)
             for c in chaves:
                 if int(c['tick']) in mortes:
-                    por('faca', sc['start'] + c['at'] + 1)
-                    por('sangue', sc['start'] + c['at'] + 6)
+                    # o golpe da animação acontece em frac 0.5 + 0.25*0.25 do tique da morte
+                    alvo = c['tick'] - 0.5 + 0.0625
+                    f = next((f for f in range(c['at'], sc['duration']) if tfm(f) >= alvo), c['at'])
+                    por('faca', sc['start'] + f)
+                    por('sangue', sc['start'] + f + 5)
             foco = (props.get('pensamentos') or [None])[0] if nome == 'AUReplay' else props.get('esquerda')
             if not foco:
                 continue

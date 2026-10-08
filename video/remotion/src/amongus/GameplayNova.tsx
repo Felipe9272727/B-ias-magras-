@@ -142,8 +142,8 @@ export function relogio(de: number, ate: number, dur: number, chaves: ChaveTique
 
 // ---------------------------------------------------------------- animação de morte (estilo do jogo)
 const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: number}> = ({assassino, vitima, k, w}) => {
-  const entra = Math.min(1, k / 0.35);
-  const golpe = k > 0.45;
+  const entra = Math.min(1, k / 0.2);
+  const golpe = k > 0.25;
   const s = w / 1920;
   return (
     <div style={{position: 'absolute', inset: 0, background: `rgba(0,0,0,${0.7 * Math.min(1, k * 4)})`, display: 'grid', placeItems: 'center'}}>
@@ -152,7 +152,7 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: numb
         <div style={{position: 'absolute', left: (120 + entra * 230) * s, top: 80 * s}}>
           <Crewmate cor={assassino} size={220 * s} anim="andando" passo={k * 4} />
         </div>
-        {golpe && <div style={{position: 'absolute', left: 520 * s, top: 120 * s, fontSize: 130 * s, transform: `rotate(${-40 + (k - 0.45) * 160}deg)`}}>🔪</div>}
+        {golpe && <div style={{position: 'absolute', left: 520 * s, top: 120 * s, fontSize: 130 * s, transform: `rotate(${-40 + (k - 0.25) * 140}deg)`}}>🔪</div>}
         <div style={{position: 'absolute', left: 560 * s, top: (golpe ? 150 : 80) * s}}>
           <Crewmate cor={vitima} size={220 * s} morto={golpe} anim={golpe ? undefined : 'susto'} t={k * 30} />
         </div>
@@ -196,8 +196,8 @@ const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, z
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1);
   const salaFoco = foco ? (salasNoTique(p, t1)[foco]?.sala ?? salasNoTique(p, Math.floor(tf))[foco]?.sala) : undefined;
   const veMorte = !!morte && (zoom === morte.sala || salaFoco === morte.sala || foco === morte.assassino || foco === morte.vitima);
-  const kMorte = veMorte ? (frac - 0.38) / 0.3 : -1;
-  const flash = veMorte ? interpolate(frac, [0.68, 0.71, 0.84], [0, 0.45, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
+  const kMorte = veMorte ? (frac - 0.5) / 0.25 : -1; // começa no instante da morte (impostor já chegou)
+  const flash = veMorte ? interpolate(frac, [0.75, 0.78, 0.9], [0, 0.45, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
   const raio = (luzes ? 300 : 820) * (w / 1920);
 
   const mundo: React.CSSProperties = {
