@@ -144,3 +144,168 @@ http://creativecommons.org/licenses/by/4.0/
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 ```
+
+### Pixelland — `pixelland.mp3`
+
+```
+"Pixelland" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Pixelland.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500076
+
+### Voxel Revolution — `voxel-revolution.mp3`
+
+```
+"Voxel Revolution" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Voxel%20Revolution.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2000025
+
+### Bit Shift — `bit-shift.mp3`
+
+```
+"Bit Shift" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bit%20Shift.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600045
+
+### Mega Hyper Ultrastorm — `mega-hyper-ultrastorm.mp3`
+
+```
+"Mega Hyper Ultrastorm" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Mega%20Hyper%20Ultrastorm.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700003
+
+### 8bit Dungeon Level — `8bit-dungeon-level.mp3`
+
+```
+"8bit Dungeon Level" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/8bit%20Dungeon%20Level.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200066
+
+### Decisions — `decisions.mp3`
+
+```
+"Decisions" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Decisions.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100756
+
+### Despair and Triumph — `despair-and-triumph.mp3`
+
+```
+"Despair and Triumph" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Despair%20and%20Triumph.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400012
+
+### Relent — `relent.mp3`
+
+```
+"Relent" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Relent.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100777
+
+### Winner Winner! — `winner-winner.mp3`
+
+```
+"Winner Winner!" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Winner%20Winner.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400036
+
+### Call to Adventure — `call-to-adventure.mp3`
+
+```
+"Call to Adventure" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Call%20to%20Adventure.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300022
+
+### Quirky Dog — `quirky-dog.mp3`
+
+```
+"Quirky Dog" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Quirky%20Dog.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500053
+
+### Thinking Music — `thinking-music.mp3`
+
+```
+"Thinking Music" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Thinking%20Music.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600060
+
+### Chill Wave — `chill-wave.mp3`
+
+```
+"Chill Wave" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Chill%20Wave.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600048
+
+### Local Forecast - Elevator — `local-forecast-elevator.mp3`
+
+```
+"Local Forecast - Elevator" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Local%20Forecast%20-%20Elevator.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300012
+
+### Airship Serenity — `airship-serenity.mp3`
+
+```
+"Airship Serenity" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Airship%20Serenity.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600046
