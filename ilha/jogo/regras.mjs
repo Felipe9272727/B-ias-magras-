@@ -15,10 +15,10 @@ export const TRIBUTOS = [
   { id: 'ds2', nome: 'DeepSeek 2', distrito: 'DeepSeek', provider: 'deepseek', cor: '#81C784' },
   { id: 'ds3', nome: 'DeepSeek 3', distrito: 'DeepSeek', provider: 'deepseek', cor: '#FFD54F' },
   { id: 'ds4', nome: 'DeepSeek 4', distrito: 'DeepSeek', provider: 'deepseek', cor: '#F06292' },
-  { id: 'gpt1', nome: 'GPT 1', distrito: 'OpenAI', provider: 'openai', cor: '#4DB6AC' },
-  { id: 'gpt2', nome: 'GPT 2', distrito: 'OpenAI', provider: 'openai', cor: '#FF8A65' },
-  { id: 'gpt3', nome: 'GPT 3', distrito: 'OpenAI', provider: 'openai', cor: '#9575CD' },
-  { id: 'gpt4', nome: 'GPT 4', distrito: 'OpenAI', provider: 'openai', cor: '#AED581' },
+  { id: 'gpt1', nome: 'GPT-OSS 1', distrito: 'OpenAI', provider: 'groq', cor: '#4DB6AC' },
+  { id: 'gpt2', nome: 'GPT-OSS 2', distrito: 'OpenAI', provider: 'groq', cor: '#FF8A65' },
+  { id: 'gpt3', nome: 'GPT-OSS 3', distrito: 'OpenAI', provider: 'groq', cor: '#9575CD' },
+  { id: 'gpt4', nome: 'GPT-OSS 4', distrito: 'OpenAI', provider: 'groq', cor: '#AED581' },
 ]
 
 export const PERIODOS = ['manhã', 'tarde', 'noite']
