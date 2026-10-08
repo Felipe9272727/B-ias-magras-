@@ -5,6 +5,11 @@ import type {Scene, Timeline} from './types';
 import {C} from './theme';
 import {Captions, ClipInfo, ClipView, MemeCard, TextPop} from './components/overlays';
 import {SceneVisual} from './scenes/registry';
+import {escolherTransicao, TransicaoEntrada} from './amongus/Transicoes';
+
+// Nome do componente visual da cena (só para cenas de componente); usado nas transições.
+const nomeVisual = (s: Scene | undefined): string | undefined =>
+  s && s.visual.type === 'component' ? s.visual.name : undefined;
 
 const useFonts = () => {
   const [handle] = useState(() => delayRender('fontes'));
@@ -13,7 +18,7 @@ const useFonts = () => {
   }, [handle]);
 };
 
-export const SceneView: React.FC<{scene: Scene; timeline: Timeline}> = ({scene, timeline}) => {
+export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: string}> = ({scene, timeline, anterior}) => {
   const hl = scene.events.filter((e) => e.type === 'hl') as {type: 'hl'; at: number; key: string}[];
   const frame = useCurrentFrame();
   // "soco" de câmera: zoom rápido que assenta, com um flash branco curto
@@ -74,6 +79,10 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline}> = ({scene, 
           <Audio src={staticFile(scene.audio)} />
         </Sequence>
       ) : null}
+      {/* Transição de entrada (Among Us): só nas cenas de componente AU, por cima de tudo */}
+      {scene.visual.type === 'component' && scene.visual.name.startsWith('AU') ? (
+        <TransicaoEntrada tipo={escolherTransicao(anterior, scene.visual.name)} />
+      ) : null}
     </AbsoluteFill>
   );
 };
@@ -83,9 +92,9 @@ export const Main: React.FC<{timeline: Timeline | null}> = ({timeline}) => {
   if (!timeline) return <AbsoluteFill style={{background: C.bg}} />;
   return (
     <AbsoluteFill style={{background: C.bg}}>
-      {timeline.scenes.map((scene) => (
+      {timeline.scenes.map((scene, i) => (
         <Sequence key={scene.id} from={scene.start} durationInFrames={scene.duration} name={`${scene.id} · ${scene.chapter}`}>
-          <SceneView scene={scene} timeline={timeline} />
+          <SceneView scene={scene} timeline={timeline} anterior={nomeVisual(timeline.scenes[i - 1])} />
         </Sequence>
       ))}
     </AbsoluteFill>
