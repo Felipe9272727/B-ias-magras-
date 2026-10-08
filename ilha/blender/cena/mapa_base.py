@@ -2,7 +2,7 @@
 
 Câmera ORTOGRÁFICA isométrica (elevação 50°), sul (y negativo) embaixo na imagem, norte em cima, leste à direita.
 Saídas em video/remotion/public/ilha/:
-  mapa.png, mapa_noite.png  (4K, mesma câmera)
+  mapa.png, mapa_noite.png  (1920x1080, mesma câmera)
   mapa.json  {largura, altura, zonas: {id: {nome, centro, pontos, px_por_m}}, plataformas: [[x,y]...]}
 As coordenadas estão em pixels, com origem no canto superior esquerdo.
 
@@ -22,7 +22,7 @@ from mar import ceu_dia  # noqa: E402
 RAIZ = os.path.join(AQUI, '..', '..', '..')
 DADOS = os.path.join(AQUI, '..', '..', 'dados')
 SAIDA = os.path.join(RAIZ, 'video', 'remotion', 'public', 'ilha')
-W, H = 3840, 2160
+W, H = 1920, 1080
 ELEV = 50  # elevação da câmera e do sol (graus)
 SOL_ROT = 35  # azimute do sol (mesma convenção das tomadas)
 MARGEM = 0.035  # folga em cada lado do enquadramento
@@ -32,7 +32,7 @@ PONTOS_POR_ZONA = 8
 def preparar():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
-    montar_ilha(densidade=1.0)
+    montar_ilha(densidade=0.8)
     ceu_dia(sol_elev=ELEV, sol_rot=SOL_ROT)
     sc.render.engine = 'BLENDER_EEVEE_NEXT'
     sc.eevee.taa_render_samples = 32
