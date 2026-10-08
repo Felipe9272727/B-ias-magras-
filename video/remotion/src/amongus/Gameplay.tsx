@@ -76,7 +76,7 @@ function aoLongo(pts: P[], t: number): {p: P; dir: number} {
 // ---------------------------------------------------------------- estado de um jogador num instante contínuo
 type Pose = {p: P; dir: number; andando: boolean; alpha: number; escala: number; tarefa: boolean; aparente: string} | null;
 
-function pose(pt: Partida, cor: string, tf: number, deTique: number): Pose {
+function poseBase(pt: Partida, cor: string, tf: number, deTique: number): Pose {
   const t0 = Math.floor(tf);
   const t1 = t0 + 1;
   const frac = tf - t0;
@@ -121,6 +121,27 @@ function pose(pt: Partida, cor: string, tf: number, deTique: number): Pose {
   const m = lin < 0.5 ? 2 * lin * lin : 1 - Math.pow(-2 * lin + 2, 2) / 2;
   const r = aoLongo(rota, m);
   return {p: r.p, dir: r.dir, andando: m < 1, alpha: 1, escala: 1, tarefa: false, aparente};
+}
+
+const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+const suave = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+
+// Na hora da morte: a vítima para no lugar onde vai cair e o impostor caminha até ela.
+function pose(pt: Partida, cor: string, tf: number, deTique: number): Pose {
+  const t1 = Math.floor(tf) + 1;
+  const frac = tf - Math.floor(tf);
+  const m = pt.eventos.find((e) => e.tipo === 'morte' && e.tique === t1 && (e.assassino === cor || e.vitima === cor));
+  const base = poseBase(pt, cor, tf, deTique);
+  if (!m || !base) return base;
+  if (m.vitima === cor) {
+    const alvo = lugar(m.sala, cor);
+    const k = suave(clamp01((frac - 0.05) / 0.15));
+    return {...base, p: {x: base.p.x + (alvo.x - base.p.x) * k, y: base.p.y + (alvo.y - base.p.y) * k}, andando: base.andando && k < 1, dir: k >= 1 ? 1 : base.dir};
+  }
+  const v = lugar(m.sala, m.vitima);
+  const alvo = {x: v.x + 125, y: v.y + 6};
+  const k = suave(clamp01((frac - 0.1) / 0.24));
+  return {...base, p: {x: base.p.x + (alvo.x - base.p.x) * k, y: base.p.y + (alvo.y - base.p.y) * k}, dir: k > 0 ? -1 : base.dir, andando: k > 0 && k < 1};
 }
 
 // ---------------------------------------------------------------- desenho da nave
@@ -280,6 +301,7 @@ type VistaProps = {
   mostrarPapeis: boolean;
   deTique: number;
   hud?: boolean;
+  aninhada?: boolean; // vista dentro do replay: sem animação de morte, sem congelar, sem novo replay
 };
 
 // Animação de morte no estilo do jogo: impostor avança, faca, vítima cai.
@@ -302,9 +324,14 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number}> = ({as
   );
 };
 
-const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
+const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true, aninhada = false}) => {
   const frame = useCurrentFrame();
-  const tf = tfDe(frame);
+  const tfReal = tfDe(frame);
+  // congelamento: um instante antes da facada, a imagem para e aparecem as etiquetas
+  const mReal = p.eventos.find((e) => e.tipo === 'morte' && e.tique === Math.floor(tfReal) + 1);
+  const fracReal = tfReal - Math.floor(tfReal);
+  const congelado = !aninhada && !!mReal && fracReal >= 0.3 && fracReal < 0.38;
+  const tf = congelado ? Math.floor(tfReal) + 0.3 : tfReal;
   const t1 = Math.floor(tf) + 1;
   const frac = tf - Math.floor(tf);
   const poses: Record<string, Pose> = {};
@@ -327,7 +354,7 @@ const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mos
     const ultimo = salasNoTique(p, Math.floor(tf))[focoPedido];
     cam = ultimo ? centro(ultimo.sala) : centro('Refeitorio');
   } else cam = {x: 2780, y: 1560};
-  const escala = (zoom ? 1.15 : focoPedido ? 1 : 0.34) * (w < 1500 ? 0.8 : 1);
+  const escalaBase = (zoom ? 1.15 : focoPedido ? 1 : 0.34) * (w < 1500 ? 0.8 : 1);
 
   const est = p.tiques[t1]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
   const sab = est?.sabotagem ?? null;
@@ -335,14 +362,27 @@ const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mos
   const tarefas = est ? est.tarefas / est.totalTarefas : 0;
   const corpos = corposNoTique(p, frac > 0.55 ? t1 : Math.floor(tf));
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1);
+  const preCongela = !aninhada && !!morte && fracReal >= 0.3 && fracReal < 0.38;
   // a câmera vê a morte? (mesma sala do foco ou zoom na sala)
   const salaFoco = foco ? salasNoTique(p, t1)[foco]?.sala ?? salasNoTique(p, Math.floor(tf))[foco]?.sala : undefined;
   const veMorte = !!morte && (zoom === morte.sala || salaFoco === morte.sala || foco === morte.assassino || foco === morte.vitima);
-  const kMorte = veMorte ? (frac - 0.38) / 0.3 : -1;
+  const kMorte = veMorte && !aninhada ? (fracReal - 0.38) / 0.3 : -1;
+  const congela = congelado && veMorte;
+  const kCongela = congela ? (fracReal - 0.3) / 0.08 : 0;
+  const replay = !aninhada && veMorte && fracReal >= 0.7;
   const flash = morte && veMorte ? interpolate(frac, [0.68, 0.71, 0.84], [0, 0.5, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
+  const congelaAtivo = preCongela && veMorte;
+  const escala = escalaBase * (congelaAtivo ? 1 + 0.18 * suave(clamp01(((fracReal - 0.3) / 0.08) * 3)) : 1);
+  // durante o congelamento a câmera centraliza no meio dos dois
+  if (congelaAtivo && morte) {
+    const v = lugar(morte.sala, morte.vitima);
+    cam = {x: v.x + 40, y: v.y - 20};
+  }
+  const tela = (q: P) => ({x: w / 2 + (q.x - cam.x) * escala, y: h / 2 + (q.y - cam.y) * escala});
   const mundo: React.CSSProperties = {
     position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0',
     transform: `translate(${w / 2 - cam.x * escala}px, ${h / 2 - cam.y * escala}px) scale(${escala})`,
+    filter: congelaAtivo ? 'saturate(0.35) contrast(1.15)' : undefined,
   };
   const raio = (luzes ? 260 : 620) * (w < 1500 ? 0.8 : 1);
 
@@ -388,8 +428,36 @@ const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mos
         <div style={{position: 'absolute', inset: 0, background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.75}px, rgba(0,0,0,${luzes ? 0.93 : 0.55}) ${raio}px)`}} />
       )}
       {(!foco || zoom) && luzes && <div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,.55)'}} />}
+      {congelaAtivo && morte && poses[morte.assassino] && (() => {
+        const imp = tela(poses[morte.assassino]!.p);
+        const vit = tela(lugar(morte.sala, morte.vitima));
+        const etiqueta = (q: P, txt: string, cor: string, lado: number) => (
+          <div style={{position: 'absolute', left: q.x + lado * 30, top: q.y - 230 * escala, transform: `translateX(${lado < 0 ? '-100%' : '0'})`, display: 'flex', flexDirection: 'column', alignItems: lado < 0 ? 'flex-end' : 'flex-start'}}>
+            <div style={{padding: '6px 18px', background: cor, border: '5px solid #000', borderRadius: 12, fontFamily: FONT.display, fontWeight: 900, fontSize: 40 * Math.min(1, w / 1920), color: '#fff', whiteSpace: 'nowrap'}}>{txt}</div>
+            <div style={{fontSize: 60 * Math.min(1, w / 1920), lineHeight: 1}}>{lado < 0 ? '↘' : '↙'}</div>
+          </div>
+        );
+        return (
+          <>
+            <div style={{position: 'absolute', inset: 0, boxShadow: 'inset 0 0 0 14px #fff', opacity: 0.9}} />
+            {etiqueta(imp, `IMPOSTOR · ${morte.assassino}`, '#d10000', 1)}
+            {etiqueta(vit, `VÍTIMA · ${morte.vitima}`, '#2c6fd6', -1)}
+            <div style={{position: 'absolute', left: 30, bottom: 200, fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#fff', textShadow: '0 0 6px #000'}}>⏸ PAUSA</div>
+          </>
+        );
+      })()}
       {kMorte > 0 && kMorte < 1 && morte && <CenaMorte assassino={morte.aparente ?? morte.assassino} vitima={morte.vitima} k={kMorte} />}
       <div style={{position: 'absolute', inset: 0, background: '#ff1e1e', opacity: flash}} />
+      {replay && morte && (
+        <div style={{position: 'absolute', left: w < 1500 ? 20 : 34, top: w < 1500 ? 150 : 120, width: w < 1500 ? 420 : 620, height: w < 1500 ? 236 : 349, border: '6px solid #fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 10px 0 rgba(0,0,0,.5)',
+          opacity: interpolate(fracReal, [0.7, 0.74, 0.97, 1], [0, 1, 1, 0])}}>
+          <Vista p={p} tfDe={(f) => { const t = tfDe(f); const pr = clamp01((t - Math.floor(t) - 0.7) / 0.3); return Math.floor(t) + 0.06 + 0.56 * pr; }}
+            w={w < 1500 ? 420 : 620} h={w < 1500 ? 236 : 349} foco={morte.vitima} mostrarPapeis={mostrarPapeis} deTique={deTique} hud={false} aninhada />
+          <div style={{position: 'absolute', left: 10, top: 8, padding: '4px 12px', background: '#d10000', borderRadius: 8, fontFamily: FONT.display, fontWeight: 900, fontSize: 22, color: '#fff'}}>
+            ⏪ REPLAY · câmera lenta
+          </div>
+        </div>
+      )}
       {hud && (
         <>
           <div style={{position: 'absolute', left: 32, top: 26, width: Math.min(560, w * 0.4)}}>
