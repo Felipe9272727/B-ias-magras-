@@ -107,7 +107,11 @@ Título: **O impostor mais MEDROSO que já existiu 😂 #shorts**
 
 Descrição:
 ```
-Coloquei 8 IAs pra jogar Among Us. Essa aqui era impostora... e passou a partida inteira com medo de matar.
+Coloquei 8 IAs pra jogar Among Us. Essa aqui era impostora... e passou a partida INTEIRA com medo de matar 😂
+35 tiques, zero mortes, e ainda entrou no duto na frente de 3 pessoas.
+
 Vídeo completo no canal: "Coloquei 8 IAs pra jogar Among Us"
-#shorts #AmongUs #IA #Claude #DeepSeek
+
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)
+#shorts #AmongUs #IA #Claude #DeepSeek #InteligenciaArtificial
 ```
