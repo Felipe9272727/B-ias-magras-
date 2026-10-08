@@ -15,10 +15,10 @@ export const TRIBUTOS = [
   { id: 'ds2', nome: 'DeepSeek 2', distrito: 'DeepSeek', provider: 'deepseek', cor: '#81C784' },
   { id: 'ds3', nome: 'DeepSeek 3', distrito: 'DeepSeek', provider: 'deepseek', cor: '#FFD54F' },
   { id: 'ds4', nome: 'DeepSeek 4', distrito: 'DeepSeek', provider: 'deepseek', cor: '#F06292' },
-  { id: 'gpt1', nome: 'GPT-OSS 1', distrito: 'OpenAI', provider: 'groq', cor: '#4DB6AC' },
-  { id: 'gpt2', nome: 'GPT-OSS 2', distrito: 'OpenAI', provider: 'groq', cor: '#FF8A65' },
-  { id: 'gpt3', nome: 'GPT-OSS 3', distrito: 'OpenAI', provider: 'groq', cor: '#9575CD' },
-  { id: 'gpt4', nome: 'GPT-OSS 4', distrito: 'OpenAI', provider: 'groq', cor: '#AED581' },
+  { id: 'qwen1', nome: 'Qwen 3.8', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-2.4T-A95B', cor: '#4DB6AC' },
+  { id: 'qwen2', nome: 'Qwen 27B-1', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#FF8A65' },
+  { id: 'qwen3', nome: 'Qwen 27B-2', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#9575CD' },
+  { id: 'qwen4', nome: 'Qwen 27B-3', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#AED581' },
 ]
 
 export const PERIODOS = ['manhã', 'tarde', 'noite']
@@ -57,7 +57,7 @@ export function vizinhos() {
 export const ZONA = Object.fromEntries(ILHA.zonas.map((z) => [z.id, z]))
 
 export const SYSTEM = (t) => `Você é ${t.nome}, um tributo do distrito ${t.distrito} nos "Jogos Vorazes das IAs": um jogo de sobrevivência por turnos numa ilha, estilo battle royale de videogame.
-12 tributos (4 do distrito Anthropic, 4 do DeepSeek, 4 do OpenAI) naufragaram e foram deixados na ilha. Só UM pode vencer: o último que restar em jogo.
+12 tributos (4 do distrito Anthropic, 4 do DeepSeek, 4 do Alibaba/Qwen) naufragaram e foram deixados na ilha. Só UM pode vencer: o último que restar em jogo.
 Eliminações acontecem por combate, fome, sede, frio à noite e eventos da arena. Alianças são permitidas e podem ser quebradas a qualquer momento.
 Cada turno você escolhe UMA ação. Pense como um jogador estratégico, com personalidade própria. Você pode mentir para os outros tributos.
 Responda SOMENTE com um JSON válido, sem texto fora dele.`

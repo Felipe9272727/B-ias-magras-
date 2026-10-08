@@ -32,6 +32,7 @@ EMPRESAS = {
     "anthropic": {"main": "#B4532F", "det": "#F0E6D2", "acento": "#F0E6D2"},  # macacao terracota escuro, creme
     "openai": {"main": "#1E1E1E", "det": "#FFFFFF", "acento": "#10A37F"},     # preto, branco, verde-agua
     "deepseek": {"main": "#4D6BFE", "det": "#FFFFFF", "acento": "#FFFFFF"},   # azul com branco
+    "alibaba": {"main": "#6B4EE6", "det": "#FFFFFF", "acento": "#FF6A00"},    # Qwen: roxo, branco, laranja Alibaba
 }
 PELES = ["#F4C7A1", "#E0AC7E", "#C68A5B", "#8D5A3B", "#5A3822", "#FFDDBB"]
 CABELOS = ["#2B1B12", "#111111", "#D9A93B", "#B5532B", "#EDEAE4", "#7B3FA0", "#3FA7C9", "#E24C8A"]
