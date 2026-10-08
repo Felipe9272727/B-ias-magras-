@@ -59,6 +59,7 @@ export function poseNova(p: Partida, cor: string, tf: number, fpt: number, deTiq
   const fimSala = salasNoTique(p, t1)[cor];
   const aparente = fimSala?.aparente ?? salasNoTique(p, t0)[cor]?.aparente ?? cor;
   const reuniao = p.reunioes.some((r) => r.tique === t0) && t0 >= deTique;
+  if (p.reunioes.some((r) => r.tique === t0 && r.expulso === cor)) return null;
   const inicio: Pt = reuniao ? sala('Refeitorio').spots[idx(cor)] : ini.pt;
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1 && (e.vitima === cor || e.assassino === cor));
   // vítima: anda normalmente e cai na metade do tique
@@ -161,9 +162,9 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: numb
 };
 
 // ---------------------------------------------------------------- uma "câmera"
-type VistaProps = {p: Partida; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean};
+type VistaProps = {p: Partida; numero?: number; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean};
 
-const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
+const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
   const frame = useCurrentFrame();
   const tf = tfDe(frame);
   const fpt = 1 / Math.max(1e-4, tfDe(frame + 1) - tf);
@@ -246,13 +247,13 @@ const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mos
       {(!focoPedido || zoom) && luzes && <div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,.6)'}} />}
       {kMorte > 0 && kMorte < 1 && morte && <CenaMorte assassino={morte.aparente ?? morte.assassino} vitima={morte.vitima} k={kMorte} w={w} />}
       <div style={{position: 'absolute', inset: 0, background: '#ff1e1e', opacity: flash}} />
-      {hud && <Hud p={p} tf={tf} frame={frame} />}
+      {hud && <Hud p={p} tf={tf} frame={frame} numero={numero} />}
     </div>
   );
 };
 
 // ---------------------------------------------------------------- HUD: barra de tarefas, sabotagem e "feed" de eventos
-const Hud: React.FC<{p: Partida; tf: number; frame: number}> = ({p, tf, frame}) => {
+const Hud: React.FC<{p: Partida; tf: number; frame: number; numero?: number}> = ({p, tf, frame, numero}) => {
   const t1 = Math.floor(tf) + 1;
   const est = p.tiques[t1]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
   const sab = est?.sabotagem ?? null;
@@ -271,6 +272,14 @@ const Hud: React.FC<{p: Partida; tf: number; frame: number}> = ({p, tf, frame}) 
         <div style={{height: 36, background: '#2b2f3c', border: '5px solid #000', borderRadius: 4, overflow: 'hidden', position: 'relative'}}>
           <div style={{width: `${tarefas * 100}%`, height: '100%', background: 'linear-gradient(#5be35a, #34b233)'}} />
           <div style={{position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 16, color: '#fff', textShadow: '0 0 4px #000'}}>TAREFAS CONCLUÍDAS</div>
+        </div>
+        <div style={{display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap'}}>
+          <span style={{padding: '3px 12px', background: '#000c', color: '#fff', borderRadius: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 18}}>
+            {numero ? `PARTIDA ${numero} · ` : ''}TIQUE {t1}
+          </span>
+          <span style={{padding: '3px 12px', background: '#7a0000dd', color: '#fff', borderRadius: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 18, display: 'flex', gap: 6, alignItems: 'center'}}>
+            🔪 {p.jogadores.filter((j) => j.time === 'impostor').map((j) => `${j.cor} (${siglaModelo(j.modelo)})`).join(' · ')}
+          </span>
         </div>
       </div>
       {sab && (
@@ -305,10 +314,10 @@ const Pensamento: React.FC<{p: Partida; cor: string; texto?: string; mostrarPape
   );
 };
 
-type Props = {p: Partida; deTique: number; ateTique: number; duracao: number; chaves?: ChaveTique[]; pensamentos?: string[]; mostrarPapeis?: boolean; zoom?: string | null};
+type Props = {p: Partida; numero?: number; deTique: number; ateTique: number; duracao: number; chaves?: ChaveTique[]; pensamentos?: string[]; mostrarPapeis?: boolean; zoom?: string | null};
 
 // Cena de gameplay: uma câmera. Com dois "pensantes", a câmera passa do primeiro para o segundo na metade.
-export const GameplayNova: React.FC<Props> = ({p, deTique, ateTique, duracao, chaves, pensamentos = [], mostrarPapeis = true, zoom}) => {
+export const GameplayNova: React.FC<Props> = ({p, numero, deTique, ateTique, duracao, chaves, pensamentos = [], mostrarPapeis = true, zoom}) => {
   const frame = useCurrentFrame();
   const tfDe = React.useMemo(() => relogio(deTique, ateTique, duracao, chaves), [deTique, ateTique, duracao, chaves]);
   const tf = tfDe(frame);
@@ -323,7 +332,7 @@ export const GameplayNova: React.FC<Props> = ({p, deTique, ateTique, duracao, ch
   const corte = Number.isFinite(troca) ? interpolate(frame, [troca - 6, troca, troca + 6], [0, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
   return (
     <AbsoluteFill>
-      <Vista p={p} tfDe={tfDe} w={1920} h={1080} foco={foco} zoom={zoom} mostrarPapeis={mostrarPapeis} deTique={deTique} />
+      <Vista p={p} tfDe={tfDe} w={1920} h={1080} foco={foco} zoom={zoom} mostrarPapeis={mostrarPapeis} deTique={deTique} numero={numero} />
       {papelFoco && (
         <div style={{position: 'absolute', right: 30, bottom: 30, display: 'flex', gap: 14}}>
           {(papelFoco.time === 'impostor' ? ['MATAR', 'SABOTAR', 'DUTO'] : ['USAR', 'DENUNCIAR']).map((b) => (

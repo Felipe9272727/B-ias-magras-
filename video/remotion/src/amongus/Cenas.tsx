@@ -70,7 +70,7 @@ export const AUElenco: React.FC<{p: Partida; revelar?: boolean}> = ({p, revelar}
     <AbsoluteFill style={{...ESPACO, alignItems: 'center'}}>
       <Estrelas />
       <div style={{marginTop: 70, fontFamily: FONT.display, fontWeight: 900, fontSize: 64, color: '#fff', textShadow: '0 6px 0 #000'}}>
-        {revelar ? 'O ELENCO' : '8 IAs · 2 IMPOSTORES ESCONDIDOS'}
+        {revelar ? 'QUEM É QUEM NESTA PARTIDA' : '8 IAs · 2 IMPOSTORES ESCONDIDOS'}
       </div>
       <div style={{display: 'flex', gap: 26, marginTop: 120, alignItems: 'flex-end'}}>
         {ORDEM.map((cor, i) => {
@@ -84,6 +84,11 @@ export const AUElenco: React.FC<{p: Partida; revelar?: boolean}> = ({p, revelar}
               </div>
               <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: imp ? '#ff4d4d' : '#fff'}}>{cor}</div>
               <Badge modelo={j.modelo} size={20} />
+              {revelar && (
+                <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 22, padding: '3px 10px', borderRadius: 8, background: imp ? '#b00000' : '#ffffff22', color: '#fff', border: imp ? '3px solid #000' : '2px solid #ffffff44'}}>
+                  {imp ? `🔪 ${j.papel === 'Impostor' ? 'IMPOSTOR' : 'IMPOSTOR · ' + j.papel}` : j.papel}
+                </div>
+              )}
             </div>
           );
         })}
@@ -137,8 +142,8 @@ export const AURegras: React.FC = () => {
 // ---------------------------------------------------------------- o prompt que a IA recebe
 export const AUPrompt: React.FC<{texto: string; resposta: string}> = ({texto, resposta}) => {
   const frame = useCurrentFrame();
-  const n = Math.floor(interpolate(frame, [10, 10 + texto.length * 0.35], [0, texto.length], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
-  const fimTexto = 10 + texto.length * 0.35;
+  const n = Math.floor(interpolate(frame, [6, 6 + texto.length * 0.12], [0, texto.length], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
+  const fimTexto = 6 + texto.length * 0.12;
   const r = Math.floor(interpolate(frame, [fimTexto + 40, fimTexto + 40 + resposta.length * 0.6], [0, resposta.length], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
   return (
     <AbsoluteFill style={{background: '#0a0d14', padding: '60px 90px', gap: 26}}>
@@ -207,7 +212,8 @@ export const AUPlacar: React.FC<{ps: Record<string, Partida>}> = ({ps}) => {
         return (
           <div key={l.k} style={{display: 'flex', alignItems: 'center', gap: 34, width: 1600, background: '#eef1f8', border: '6px solid #0b0d14', borderRadius: 24, padding: '18px 34px', marginBottom: 24, transform: `translateX(${(1 - s) * 1200}px)`}}>
             <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 44, width: 200}}>Partida {l.k}</div>
-            <div style={{display: 'flex', gap: 14, alignItems: 'center', width: 520}}>
+            <div style={{display: 'flex', gap: 14, alignItems: 'center', width: 620}}>
+              <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 20, color: '#b00000'}}>IMPOSTORES:</span>
               {l.imps.map((j) => (
                 <div key={j.cor} style={{display: 'flex', alignItems: 'center', gap: 8}}>
                   <Crewmate cor={j.cor} size={56} />

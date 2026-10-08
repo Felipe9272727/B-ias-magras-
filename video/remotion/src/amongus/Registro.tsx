@@ -1,7 +1,7 @@
 import React from 'react';
 import type {Scene, Timeline} from '../types';
 import type {Partida} from './dados';
-import {Gameplay, GameplayDividida} from './Gameplay';
+import {GameplayNova as Gameplay, GameplayNovaDividida as GameplayDividida} from './GameplayNova';
 import {Ejecao, RevelaPapel, Reuniao} from './Reuniao';
 import {AUComparativo, AUElenco, AUFim, AUFrase, AUPlacar, AUPrompt, AURegras, AUTitulo} from './Cenas';
 
@@ -15,14 +15,14 @@ export const AmongUsVisual: React.FC<{name: string; props: Record<string, any>; 
     case 'AUReplay':
     case 'AUSplit': {
       const chaves = scene.events.filter((e: any) => e.type === 'tk').map((e: any) => ({at: e.at, tick: e.tick}));
-      const comum = {p: P(p.partida), deTique: p.de, ateTique: p.ate, duracao: scene.duration, chaves, mostrarPapeis: p.papeis ?? true};
+      const comum = {p: P(p.partida), numero: p.partida as number, deTique: p.de, ateTique: p.ate, duracao: scene.duration, chaves, mostrarPapeis: p.papeis ?? true};
       if (name === 'AUSplit') return <GameplayDividida {...comum} esquerda={p.esquerda} direita={p.direita} />;
       return <Gameplay {...comum} pensamentos={p.pensamentos} zoom={p.zoom} />;
     }
     case 'AUReuniao':
-      return <Reuniao p={P(p.partida)} indice={p.indice} chat={p.chat} mostrarPapeis={p.papeis} splash={p.splash} />;
+      return <Reuniao p={P(p.partida)} indice={p.indice} chat={p.chat} mostrarPapeis={p.papeis} splash={p.splash} numero={p.partida} aviso={p.aviso} />;
     case 'AUVotos':
-      return <Reuniao p={P(p.partida)} indice={p.indice} votos mostrarPapeis={false} duracao={scene.duration} />;
+      return <Reuniao p={P(p.partida)} indice={p.indice} votos mostrarPapeis={false} duracao={scene.duration} numero={p.partida} />;
     case 'AUEjecao':
       return <Ejecao p={P(p.partida)} indice={p.indice} />;
     case 'AUPapel':

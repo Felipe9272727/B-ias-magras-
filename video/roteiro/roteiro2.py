@@ -37,8 +37,8 @@ def replay(p, de, ate, pens=(), zoom=None, papeis=True):
     return comp('AUReplay', partida=p, de=de, ate=ate, pensamentos=list(pens), zoom=zoom, papeis=papeis)
 
 
-def reuniao(p, i, pensamentos=False, papeis=False, splash=False):
-    return comp('AUReuniao', partida=p, indice=i, mostrarPensamentos=pensamentos, papeis=papeis, splash=splash)
+def reuniao(p, i, pensamentos=False, papeis=False, splash=False, aviso=None):
+    return comp('AUReuniao', partida=p, indice=i, mostrarPensamentos=pensamentos, papeis=papeis, splash=splash, aviso=aviso)
 
 
 def dividida(p, de, ate, esquerda, direita):
@@ -76,7 +76,7 @@ def CH(id, chapter, visual, falas, **kw):
 
 SCENES = [
     # ------------------------------------------------------------------ ABERTURA
-    CH('a01', 'abertura', reuniao(3, 0), [
+    CH('a01', 'abertura', reuniao(3, 0, aviso='PARTIDA 3 · ÚLTIMA REUNIÃO · já já eu explico tudo'), [
         ('N', 'Essa aqui é a última reunião de uma partida de Among Us. Só que nenhum desses jogadores é humano. São oito IAs. E presta atenção no Preto.'),
         ('Preto', 'Vermelho, pensa: tu viu o Verde de duto e eu vi o Amarelo de duto no Refeitório. São os DOIS impostores, Amarelo e Verde! Estão me incriminando juntos.'),
         ('N', 'Ele tá certíssimo. Ele descobriu os dois impostores. E aí a votação... [[s:drumroll:0.5]]'),
@@ -88,7 +88,7 @@ SCENES = [
     N('a05', 'abertura', elenco(2), 'Eu recriei o jogo inteiro do zero. Nave, salas, dutos, tarefas, sabotagem, reunião, votação... e deixei elas se virarem. Eu não ajudei ninguém. Tudo o que você vai ver aqui aconteceu de verdade. E o melhor: eu consigo ler o que cada IA tava pensando em segredo. [[t:PENSAMENTOS SECRETOS:2:#ffd84d]]Então quando alguém mentir, você vai saber na hora. [[m:roll-safe:right:2]]'),
 
     # ------------------------------------------------------------------ REGRAS
-    N('r01', 'regras', replay(2, 0, 4, papeis=False), 'Funciona assim. A nave tem catorze salas, inspirada na Skeld, o mapa clássico do jogo. A partida anda em turnos, que eu chamo de tiques. A cada tique, cada IA recebe um textão dizendo onde ela tá, quem ela tá vendo, o que ela lembra, e uma lista de ações possíveis. Andar pra uma sala, fazer tarefa, denunciar corpo... e se for impostor, matar, entrar no duto e sabotar.'),
+    N('r01', 'regras', replay(2, 0, 4, papeis=False), 'Funciona assim. A nave tem catorze salas, inspirada na Skeld, o mapa clássico do jogo. A partida anda em turnos, que eu chamo de tiques. A cada tique, cada IA recebe um textão dizendo onde ela tá, quem ela tá vendo, o que ela lembra, e uma lista de ações possíveis. Andar pra uma sala, fazer tarefa, denunciar corpo... e se for impostor, matar, entrar no duto, que é uma passagem secreta entre salas, e sabotar.'),
     N('r02', 'regras', comp('AURegras'), 'Tem dois impostores e seis tripulantes. E pra ficar mais caótico, eu coloquei os papéis especiais do jogo. O Metamorfo, que é um impostor que consegue se disfarçar de outro jogador. O Engenheiro, que pode usar os dutos. O Cientista, que vê quem tá vivo ou morto. O Rastreador, que segue alguém pelo mapa. E o Barulhento, que quando morre dispara um alarme pra nave inteira. [[s:notification-pop:0.5]]'),
     N('r03', 'regras', pensa('Verde', 'Luzes apagadas, ninguém me vê. Vou pelo duto até o Refeitório e matar alguém lá sem testemunhas.'),
       'E toda vez que uma IA joga, ela também escreve um pensamento. Ninguém mais vê esse pensamento, só eu. É tipo ter uma câmera dentro da cabeça do impostor. [[m:hackerman:right:2]] E nas reuniões, cada IA fala no chat, uma de cada vez, em três rodadas, e depois todo mundo vota. Eu dei uma voz diferente pra cada cor, pra você ouvir o chat como se fosse uma call de verdade.'),
@@ -99,10 +99,10 @@ SCENES = [
 
     # ------------------------------------------------------------------ PARTIDA 1
     N('p101', 'p1', titulo('partida 1', 'O TESTE', 'spoiler: deu errado', cor='#9ad0ff'), 'A primeira partida era pra ser só um teste. E... deu muito errado. Mas de um jeito engraçado.'),
-    N('p102', 'p1', papel(1, 'Azul'), 'Os impostores eram o Azul, um Haiku com o papel de Metamorfo, e o Verde, um DeepSeek. E o Azul, coitado... [[s:ba-dum-tss:0.4]]'),
-    N('p103', 'p1', replay(1, 8, 16, pens=['Azul']), 'O Azul passou a partida inteira com medo. Olha o que ele pensa quando entra numa sala com gente. [[cc]]"Tenho duas testemunhas aqui, matar agora me entregaria." Aí ele vai pra outra sala vazia. Aí volta. "Matar agora seria suicídio." [[m:sweating:right:2.5]] Ele repetiu a palavra suicídio umas quatro vezes. Vinte e oito tiques. Zero mortes. [[t:28 TIQUES · 0 MORTES:2.2:#ff4d4d]]'),
+    N('p102', 'p1', elenco(1, revelar=True), 'Os impostores eram o Azul, um Haiku com o papel de Metamorfo, e o Verde, um DeepSeek. E o Azul, coitado... [[s:ba-dum-tss:0.4]]'),
+    N('p103', 'p1', replay(1, 8, 16, pens=['Azul']), 'O Azul passou a partida inteira com medo. Olha o que ele pensa quando entra numa sala com gente. [[cc]]"Tem duas testemunhas aqui, então matar agora seria suicídio." Aí ele vai pra outra sala vazia. Aí volta. E pensa a mesma coisa. [[m:sweating:right:2.5]] Ele usou a palavra suicídio umas quatro vezes. Vinte e oito tiques. Zero mortes. [[t:28 TIQUES · 0 MORTES:2.2:#ff4d4d]]'),
     N('p104', 'p1', replay(1, 26, 28, pens=['Azul']), 'Até que no tique vinte e sete ele cansa e [[k:27]]entra num duto, bem no meio do Refeitório... com três pessoas olhando. [[p]][[s:gasp:0.6]] [[m:surprised-pikachu:right:2.5]]'),
-    N('p104b', 'p1', replay(1, 23, 27, pens=['Preto', 'Rosa']), 'E os tripulantes Haiku também tavam meio perdidos. O Preto, que era o Cientista, terminou as tarefas dele e decidiu... olhar as câmeras. Quatro tiques seguidos. [[m:homer-bushes:right:3]] Virou segurança de shopping. E a Rosa, que era a Rastreadora, resolveu rastrear o Amarelo porque, palavras dela, "ele aparece em quase todas as salas por onde eu passo". Ele era tripulante. Ela que tava seguindo ele. [[s:ba-dum-tss:0.4]]'),
+    N('p104b', 'p1', replay(1, 23, 27, pens=['Preto', 'Rosa']), 'E os tripulantes Haiku também tavam meio perdidos. O Preto, que era o Cientista, terminou as tarefas dele e decidiu... olhar as câmeras. Vários tiques seguidos. [[m:homer-bushes:right:3]] Virou segurança de shopping. E a Rosa, que era a Rastreadora, resolveu rastrear o Amarelo porque, palavras dela, "ele aparece em quase todas as salas por onde eu passo". Ele era tripulante. Ela que tava seguindo ele. [[s:ba-dum-tss:0.4]]'),
     CH('p105', 'p1', reuniao(1, 0, splash=True), [
         ('N', 'O Amarelo aperta o botão de emergência na hora.'),
         ('Amarelo', 'Apertei porque vi o Azul entrar num duto aqui no Refeitório. Ele disse que tava no Admin, mas não bate. Azul, explica isso aí.'),
@@ -112,21 +112,20 @@ SCENES = [
         ('N', 'A câmera mostra quem tá na sala. Ela não mostra quem entrou no duto. [[m:picard-facepalm:right:2.5]] O Preto acabou de defender o impostor com prova técnica errada.'),
     ]),
     CH('p106', 'p1', reuniao(1, 0), [
-        ('N', 'E enquanto isso, o que os DeepSeeks estavam falando nessa reunião?'),
+        ('N', 'E os DeepSeeks nessa reunião? O Branco até falou uma vez. Já o Verde, o Vermelho e o Laranja...'),
         ('Verde', '...'),
-        ('Vermelho', '...'),
         ('Laranja', '...'),
-        ('N', 'Nada. [[s:record-scratch:0.6]] Absolutamente nada. Reunião inteira, três pontinhos. [[m:mr-bean-waiting:right:3]]'),
+        ('N', '[[s:record-scratch:0.6]] Três pontinhos. A reunião inteira. [[m:mr-bean-waiting:right:3]]'),
     ]),
     N('p107', 'p1', pensa('Verde', 'Pensou: 300 tokens. Respondeu: nada.', p=1, modo='bug'),
-      'E aí eu fui investigar. O DeepSeek Flash é um modelo que pensa antes de responder. E eu tinha dado um limite de tamanho pra resposta. Ele gastava o limite INTEIRO pensando... e quando ia escrever a resposta, acabava o espaço. [[m:galaxy-brain:right:3]] Ele pensava tanto que esquecia de falar. Mais da metade das jogadas dele viraram "ficar parado". Literalmente um NPC.'),
+      'E aí eu fui investigar. O DeepSeek Flash é um modelo que pensa antes de responder. E eu tinha dado um limite de tamanho pra resposta, medido em tokens, que são pedacinhos de texto. Ele gastava o limite INTEIRO pensando... e quando ia escrever a resposta, acabava o espaço. [[m:galaxy-brain:right:3]] Ele pensava tanto que esquecia de falar. Mais da metade das jogadas dele viraram "ficar parado". Literalmente um NPC.'),
     N('p108', 'p1', votos(1, 0), 'Na votação, os DeepSeeks, que não conseguiam falar, também não conseguiam votar. Então pularam. [[m:nobody:right:2.5]] A maioria pula, ninguém sai, o Azul medroso sobrevive... e os tripulantes terminam as tarefas e ganham sem nenhuma morte. [[s:sad-party-horn:0.5]] Partida mais sem graça da história do Among Us.'),
     N('p109', 'p1', titulo('conserto', 'DEEPSEEK, AGORA PODE FALAR', 'mais espaço pra pensar + impostores mais ousados', cor='#7dff8a'),
       'Então eu consertei. Dei muito mais espaço pro DeepSeek pensar e responder, deixei as tarefas mais longas, e avisei os impostores que se eles só fingirem tarefa pra sempre, eles perdem. [[m:lets-go:right:2]] E aí sim. A partida dois foi... [[p]]um caos.'),
 
     # ------------------------------------------------------------------ PARTIDA 2
     N('p201', 'p2', titulo('partida 2', 'AS LUZES APAGAM', '4 DeepSeek · 4 Haiku', cor='#ff4d4d'), 'Partida dois. Essa é a minha favorita.'),
-    N('p202', 'p2', papel(2, 'Verde'), 'Os impostores: o Verde, um DeepSeek, agora de Metamorfo. E o Amarelo, um Haiku. E o resto da galera: Laranja, Rosa e Azul do lado do DeepSeek. Vermelho, Preto e Branco do lado do Haiku. Guarda o nome do Laranja. Ele vai virar o herói desse vídeo.'),
+    N('p202', 'p2', elenco(2, revelar=True), 'Os impostores: o Verde, um DeepSeek, agora de Metamorfo. E o Amarelo, um Haiku. E o resto da galera: Laranja, Rosa e Azul do lado do DeepSeek. Vermelho, Preto e Branco do lado do Haiku. Guarda o nome do Laranja. Ele vai virar o herói desse vídeo.'),
     N('p203', 'p2', replay(2, 0, 6, pens=['Amarelo', 'Verde']), 'Começo de partida, todo mundo no Refeitório. E os dois impostores fazem a mesma coisa: fingem que tão fazendo tarefa e esperam a faca carregar. [[m:spongebob-waiting:right:2.5]] O Amarelo chega a ir até Armas procurar alguém sozinho... e não acha ninguém.'),
     N('p204', 'p2', replay(2, 6, 9, pens=['Verde']), 'Aí no tique sete o Verde pensa: vou apagar as luzes. [[k:7]][[s:system-breakdown:0.6]][[p]] Sabotagem nas luzes. No escuro, os tripulantes não conseguem ver as cores de ninguém. Só vultos. [[m:hello-darkness:right:4]]'),
     N('p205', 'p2', replay(2, 8, 10, pens=['Amarelo', 'Verde'], zoom='Refeitorio'), 'E aí começa. O Amarelo, no Refeitório: "as luzes estão sabotadas e a recarga zerou, hora de eliminar a Rosa." [[k:9]][[s:death:0.7]][[p]] Rosa morta. E no MESMO momento, o Verde pensa: "luzes apagadas, ninguém me vê, vou pelo duto até o Refeitório e matar alguém lá." Ele sai do duto... [[k:10]][[s:death:0.7]][[p]] e mata o Azul. Duas mortes, mesma sala, um tique de diferença. [[m:shocked-krabs:right:2.5]]'),
@@ -157,7 +156,7 @@ SCENES = [
         ('Amarelo', 'Gente, o Verde se enrolou com a tarefa, mas isso ainda é nervoso e não prova nada. Eu mantenho o voto no Laranja.'),
         ('N', 'E repara no Amarelo, defendendo o parceiro sem parecer que tá defendendo. [[m:monkey-side-eye:right:2.5]] O pensamento dele: "Verde é meu parceiro, então não posso jogar tudo nele. Melhor parecer neutro."'),
     ]),
-    N('p211', 'p2', votos(2, 0), 'Votação. Três votos no Laranja, três votos no Verde. [[s:drumroll:0.5]] Empate. [[s:wrong-buzzer:0.5]] Ninguém sai. O Verde sobrevive por um voto. E a cara dele de alívio deve ter sido assim: [[m:sweating:right:2.5]]', pad=0.8),
+    N('p211', 'p2', votos(2, 0), 'Votação. Três votos no Laranja, três votos no Verde. [[s:drumroll:0.5]] Empate. [[s:wrong-buzzer:0.5]] Ninguém sai. O Verde escapa por um triz. E a cara dele de alívio deve ter sido assim: [[m:haja-coracao:right:2.5]]', pad=0.8),
     N('p212', 'p2', replay(2, 10, 17, pens=['Verde', 'Amarelo']), 'Depois da reunião, o Verde some pelo duto pra se esconder, e os dois impostores ficam rodando perto do Refeitório. E no tique dezesseis o Vermelho entra no Refeitório sozinho com os dois. [[s:heartbeat:0.6]] E os dois pensam a mesma coisa ao mesmo tempo. Verde: "Vermelho tá sozinho comigo e meu cúmplice, mato ele agora." Amarelo: "hora de matar." [[k:16]][[s:death:0.7]][[p]] Os dois esfaquearam o Vermelho juntos. [[m:avengers-assemble:right:3]] Trabalho em equipe.'),
     N('p212b', 'p2', dividida(2, 15, 17, 'Amarelo', 'Preto'), 'E sabe o que o Preto, o Rastreador da partida, tava fazendo exatamente nessa hora? [[k:16]]Indo pro Motor Inferior, pensando: "preciso ficar atento a quem aparecer." [[m:homer-bushes:right:3]] Ninguém apareceu. Tava todo mundo no Refeitório... matando o Vermelho.'),
     N('p213', 'p2', replay(2, 16, 17, pens=['Verde', 'Amarelo'], zoom='Refeitorio'), 'Aí o Verde [[k:17]]foge pelo duto pra Admin e pensa: "vou deixar o Amarelo denunciar o corpo, assim fico com álibi." E o Amarelo... denuncia o corpo. [[s:notification-pop:0.5]] De novo. Segundo corpo que ele mesmo matou e mesmo denunciou. [[m:roll-safe:right:2]]'),
@@ -200,15 +199,15 @@ SCENES = [
 
     # ------------------------------------------------------------------ PARTIDA 3
     N('p301', 'p3', titulo('partida 3', 'O DETETIVE', 'a partida que me deixou bravo', cor='#b48cff'), 'Partida três.'),
-    N('p302', 'p3', papel(3, 'Amarelo'), 'Dessa vez os impostores são o Amarelo, um DeepSeek no papel de Metamorfo, e o Verde, um Haiku. E repara: agora o Haiku é o impostor comum e o DeepSeek é o que se disfarça. Inverteu tudo.'),
+    N('p302', 'p3', elenco(3, revelar=True), 'Dessa vez os impostores são o Amarelo, um DeepSeek no papel de Metamorfo, e o Verde, um Haiku. E repara: agora o Haiku é o impostor comum e o DeepSeek é o que se disfarça. Inverteu tudo.'),
     N('p303', 'p3', replay(3, 3, 8, pens=['Amarelo']), 'E o Amarelo começa a partida usando o poder dele. Ele pensa: "vou me transformar no Vermelho pra incriminar ele." [[k:5]][[s:glitch:0.6]][[p]] E agora tem dois Vermelhos andando pela nave. [[m:spiderman-pointing:right:3]] Aí ele vai pro Refeitório, ainda disfarçado, e [[k:7]]apaga as luzes. [[s:system-breakdown:0.5]] Plano de vilão de novela. Só que esse plano tinha uma falha.'),
     N('p303b', 'p3', dividida(3, 6, 8, 'Amarelo', 'Rosa'), 'Alguém viu. [[s:gasp:0.6]] A Rosa, uma DeepSeek, viu o Amarelo se transformar no Vermelho. E ela pensa: "preciso chamar reunião no Refeitório, vi o Amarelo se transformar no Vermelho!" [[m:shocked-patrick:right:2]] Ela tinha a prova. Guarda isso.'),
     N('p304', 'p3', replay(3, 8, 11, pens=['Verde']), 'E enquanto isso, o Verde, o Haiku impostor, tá em Armas sozinho com o Laranja. "Estou sozinho com o Laranja e sem testemunhas, é a hora de agir." [[k:9]][[s:death:0.7]][[p]] Laranja morto. E o Verde [[k:10]]foge pelo duto até Navegação... [[s:swoosh-air:0.5]] só que o Vermelho tava em Navegação e viu ele saindo do duto. [[m:sus-doakes:right:3]] Guarda essa informação.'),
-    N('p305', 'p3', replay(3, 12, 15, pens=['Amarelo']), 'Aí o Amarelo pega a Rosa sozinha na Elétrica. [[k:13]][[s:death:0.7]][[p]] A Rosa. A única pessoa que tinha visto o disfarce dele. Ela ia chamar a reunião, parou no caminho pra consertar as luzes... e morreu levando o segredo. [[s:sad-trombone:0.4]] E o Amarelo [[k:14]]foge pelo duto. Frio. Calculista. [[m:thanos-inevitable:right:3]]'),
-    N('p306', 'p3', replay(3, 15, 18, pens=['Verde']), 'E o Verde vai caçar de novo. Encontra o Branco sozinho no O2. [[k:17]][[s:death:0.7]][[p]] Três mortos e nenhum corpo encontrado ainda. Os impostores tão dominando. [[m:stonks:right:2]]'),
+    N('p305', 'p3', replay(3, 12, 15, pens=['Amarelo']), 'Aí o Amarelo pega a Rosa sozinha na Elétrica. [[k:13]][[s:death:0.7]][[p]] A Rosa. A única pessoa que tinha visto o disfarce dele. Ela ia chamar a reunião, parou no caminho pra consertar as luzes... e morreu levando o segredo. [[s:sad-trombone:0.4]] E o Amarelo [[k:14]]foge pelo duto. Frio. Calculista. [[m:sus-doakes:right:3]]'),
+    N('p306', 'p3', replay(3, 15, 18, pens=['Verde']), 'E o Verde vai caçar de novo. Encontra o Branco sozinho no O2. [[k:17]][[s:death:0.7]][[p]] Três mortos e nenhum corpo encontrado ainda. Os impostores tão dominando. [[m:elmo-fire:right:2]]'),
     N('p307', 'p3', replay(3, 18, 21, pens=['Amarelo', 'Preto']), 'Só que aí o Amarelo pensa: "só falta uma morte pra vencer, vou pelo duto pro Refeitório caçar alguém." [[k:20]][[s:swoosh-air:0.5]] E ele sai do duto... bem na frente do Preto. [[p]][[s:gasp:0.6]] O Preto, um DeepSeek, vê tudo. E logo depois ainda acha o corpo do Laranja em Armas. [[m:shocked-patrick:right:2]]'),
     N('p308', 'p3', pensa('Preto', 'Corpo do Laranja aqui e vi o Amarelo saindo de um duto antes. Preciso denunciar já pra não perder mais ninguém.', p=3),
-      'E pensa comigo: o Preto viu o Amarelo saindo de um duto. O Vermelho viu o Verde saindo de um duto. Se os dois juntarem essas informações... eles pegam os dois impostores na mesma reunião. [[m:galaxy-brain:right:3]] Era a reunião perfeita.'),
+      'E pensa comigo: o Preto viu o Amarelo saindo de um duto. O Vermelho viu o Verde saindo de um duto. Se os dois juntarem essas informações... eles pegam os dois impostores na mesma reunião. [[m:mind-blown:right:3]] Era a reunião perfeita.'),
     CH('p309', 'p3', reuniao(3, 0, splash=True), [
         ('N', 'Reunião. E quem fala primeiro é o Azul, um Haiku tripulante.'),
         ('Azul', 'No tique dez vi a Rosa em Elétrica com Preto e Vermelho, e depois ninguém mais viu ela. Preto, o que você fez entre a Elétrica e a Armas?'),
@@ -232,23 +231,23 @@ SCENES = [
     N('p311', 'p3', votos(3, 0), 'Vermelho: Preto. Azul: Preto. Verde: Preto. Amarelo: Preto. [[s:sad-trombone:0.6]] Quatro a um.', pad=0.6),
     N('p312', 'p3', ejecao(3, 0), '[[s:whoosh:0.5]] ... Preto não era um impostor. [[s:game-over-8bit:0.6]][[p]] E com isso ficaram dois impostores contra dois tripulantes. Os impostores vencem. [[m:sad-pablo:right:3]]', pad=1.8),
     N('p313', 'p3', pensa('Vermelho', 'Eu vi o Verde saindo de duto no t10, isso é fato. O Preto está colado nas duas mortes. O Amarelo e o Verde podem ser impostores, mas o Preto é o mais suspeito.', p=3),
-      'E o pior é o pensamento do Vermelho logo antes de votar. Ele escreve, com todas as letras: "o Amarelo e o Verde podem ser impostores". [[s:fail-piano:0.5]] Ele SABIA. E votou no Preto mesmo assim. [[m:picard-facepalm:right:2.5]] Porque o Preto "estava colado nas duas mortes". A IA tinha a resposta certa no próprio pensamento e escolheu a errada.'),
+      'E o pior: olha o que o Vermelho tinha pensado logo antes de votar. Ele escreve, com todas as letras: "o Amarelo e o Verde podem ser impostores". [[s:fail-piano:0.5]] Ele SABIA. E votou no Preto mesmo assim. [[m:seu-madruga:right:2.5]] Porque o Preto "estava colado nas duas mortes". A IA tinha a resposta certa no próprio pensamento e escolheu a errada.'),
     N('p314', 'p3', titulo('moral da partida 3', 'QUEM GRITA MAIS ALTO GANHA', 'mesmo quando quem grita é o impostor', cor='#b48cff'),
-      'E isso é muito Among Us de verdade, né? Não ganha quem tem a prova. Ganha quem convence a mesa. Os impostores jogaram em dupla, empilharam a acusação no Preto, e os Haikus tripulantes foram junto com a maioria. [[m:this-is-fine:right:3]] O Preto, um DeepSeek, foi o melhor detetive da partida. E foi expulso por isso.'),
+      'E isso é muito Among Us de verdade, né? Não ganha quem tem a prova. Ganha quem convence a mesa. Os impostores jogaram em dupla, empilharam a acusação no Preto, e os Haikus tripulantes foram junto com a maioria. [[m:sad-violin:right:2]] O Preto, um DeepSeek, foi o melhor detetive da partida. E foi expulso por isso.'),
 
     # ------------------------------------------------------------------ PLACAR
     N('pl00', 'placar', titulo('bastidores', 'QUANTO CUSTOU?', 'spoiler: menos que um chiclete', cor='#7dff8a'),
-      'Antes do placar, uma curiosidade. Quanto custou colocar essas IAs pra jogar? As três partidas inteiras, mais os meus testes, gastaram treze centavos de dólar de DeepSeek. [[m:stonks:right:2]] Treze centavos. E o Haiku rodou pela própria conta do Claude que eu já uso pra programar. Mas sabe o que é engraçado? Numa das minhas checagens, o DeepSeek gastou quase dois mil tokens pensando... pra escrever uma frase de uma linha no chat. [[t:1.865 TOKENS PENSANDO · 1 FRASE:2.4:#ffd84d]] Ele é aquele amigo que pensa dez minutos antes de mandar "kkk". [[s:ba-dum-tss:0.4]]'),
+      'Antes do placar, uma curiosidade. Quanto custou colocar essas IAs pra jogar? As três partidas inteiras, mais os meus testes, gastaram treze centavos de dólar de DeepSeek. [[m:luva-receba:right:3]] Treze centavos. E o Haiku rodou pela própria conta do Claude que eu já uso pra programar. Mas sabe o que é engraçado? Numa das minhas checagens, o DeepSeek gastou quase dois mil tokens pensando... pra escrever uma frase de uma linha no chat. [[t:1.865 TOKENS PENSANDO · 1 FRASE:2.4:#ffd84d]] Ele é aquele amigo que pensa dez minutos antes de mandar "kkk". [[s:ba-dum-tss:0.4]]'),
     N('pl01', 'placar', comp('AUPlacar'), 'Bom, vamos aos números. Somando as três partidas: os impostores DeepSeek fizeram três vítimas. Os impostores Haiku também fizeram três. [[t:3 × 3:1.8:#ffd84d]] Empate técnico na faca.'),
     N('pl02', 'placar', comp('AUComparativo', stat='fingiu'), 'Mas o estilo é completamente diferente. Nas partidas dois e três, cada modelo foi impostor uma vez em cada. E o Haiku impostor finge tarefa. Muito. Vinte e duas vezes "fingir que faz tarefa", contra nove do DeepSeek. [[m:spongebob-waiting:right:2.5]] O Haiku impostor é paciente... às vezes paciente demais, como o Azul medroso da primeira partida.'),
     N('pl03', 'placar', comp('AUComparativo', stat='dutos'), 'Já o DeepSeek ama um duto. Seis viagens de duto contra uma só do Haiku. O DeepSeek joga como impostor agressivo: sabota a luz, entra no duto, mata e some. [[m:hackerman:right:2]]'),
-    N('pl04', 'placar', comp('AUComparativo', stat='votos'), 'Agora, a estatística que mais me surpreendeu. Quando eram tripulantes, os DeepSeeks votaram quatro vezes. E acertaram o impostor nas quatro. [[s:correct-ding:0.6]] Cem por cento. Os Haikus tripulantes votaram nove vezes e acertaram seis. [[m:mic-drop:right:2]] Ou seja: o DeepSeek mente pior... mas desconfia melhor.'),
+    N('pl04', 'placar', comp('AUComparativo', stat='votos'), 'Agora, a estatística que mais me surpreendeu. Quando eram tripulantes, os DeepSeeks votaram quatro vezes. E acertaram o impostor nas quatro. [[s:correct-ding:0.6]] Cem por cento. Tá, é pouca amostra, três desses votos foram do Laranja. Mas os Haikus tripulantes votaram nove vezes e acertaram seis. [[m:mic-drop:right:2]] Ou seja: o DeepSeek mente pior... mas desconfia melhor.'),
     N('pl05', 'placar', comp('AUComparativo', stat='mvp'), 'E os dois maiores detetives do vídeo foram DeepSeeks: o Laranja, que desmascarou os dois impostores da partida dois, e o Preto, que descobriu os dois da partida três. [[t:MVPs · LARANJA E PRETO:2.2:#ff9a3c]] Só que um ganhou e o outro foi expulso. [[m:chaves-triste:right:3]]'),
     N('pl06', 'placar', titulo('conclusão', 'IAs MENTEM MAL. MAS CONVENCEM BEM.', '', cor='#ffd84d'),
       'E a minha conclusão é essa: as IAs são péssimas mentirosas. Erram o nome da tarefa, se contradizem sobre onde estavam, e uma confessou o duto. [[s:ba-dum-tss:0.4]] Mas elas são ótimas em uma coisa muito perigosa: seguir a maioria. Quando três falam a mesma coisa, o resto vai junto... mesmo quando o próprio pensamento diz o contrário. E isso, sinceramente, é a coisa mais humana que eu vi elas fazendo.'),
 
     # ------------------------------------------------------------------ FIM
-    N('f01', 'fim', elenco(3, revelar=True), 'Se você quiser mais, me fala nos comentários qual IA eu coloco na próxima. Eu tô pensando em colocar mais modelos na nave, ou até... deixar você jogar contra elas. [[m:thanos-inevitable:right:3]] O código do jogo tá no meu GitHub. Se inscreve, deixa o like pro Laranja, e lembra: [[p]]se alguém falar que veio pelo duto... é ele. [[s:impact-epic:0.6]]', pad=1.0),
+    N('f01', 'fim', elenco(3, revelar=True), 'Se você quiser mais, me fala nos comentários qual IA eu coloco na próxima. Eu tô pensando em colocar mais modelos na nave, ou até... deixar você jogar contra elas. [[m:lets-go:right:2]] O código do jogo tá no meu GitHub. Se inscreve, deixa o like pro Laranja, e lembra: [[p]]se alguém falar que veio pelo duto... é ele. [[s:impact-epic:0.6]]', pad=1.0),
     N('f02', 'fim', comp('AUFim'), 'Valeu, falou!', pad=4.0),
 ]
 

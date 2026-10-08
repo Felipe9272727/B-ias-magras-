@@ -73,7 +73,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
           );
         return null;
       })}
-      {scene.capGroups?.length ? <Captions groups={scene.capGroups} /> : null}
+      {scene.capGroups?.length ? <Captions groups={scene.capGroups} topo={scene.visual.type === 'component' && ['AUReplay', 'AUSplit', 'AUReuniao', 'AUFrase'].includes(scene.visual.name)} /> : null}
       {scene.audio ? (
         <Sequence from={scene.audioOffset} name="voz">
           <Audio src={staticFile(scene.audio)} />

@@ -32,9 +32,11 @@ type Props = {
   chat?: {cor: string; texto: string; at: number; pensamento?: string}[]; // falas na ordem do roteiro, com o quadro em que aparecem
   duracao?: number; // na votação: espalha os votos pela cena
   splash?: boolean; // abre com a tela de "corpo encontrado"/"reunião de emergência"
+  numero?: number; // número da partida (para o cabeçalho)
+  aviso?: string; // faixa de contexto embaixo (ex.: abertura do vídeo)
 };
 
-export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis, chat, duracao, splash}) => {
+export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis, chat, duracao, splash, numero, aviso}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const r = p.reunioes[indice];
@@ -67,6 +69,11 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
         <div style={{width: 760, display: 'flex', flexDirection: 'column', gap: 12}}>
           <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#0b0d14', textAlign: 'center'}}>
             {votos ? 'QUEM É O IMPOSTOR?' : r.tipo === 'corpo' ? '☠️ CORPO ENCONTRADO' : '🚨 REUNIÃO DE EMERGÊNCIA'}
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center', gap: 10, marginTop: -6}}>
+            {[numero ? `PARTIDA ${numero}` : null, `REUNIÃO ${indice + 1}`, `TIQUE ${r.tique}`].filter(Boolean).map((t) => (
+              <span key={t!} style={{padding: '3px 12px', background: '#0b0d14', color: '#fff', borderRadius: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 18, letterSpacing: 1}}>{t}</span>
+            ))}
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12}}>
             {ORDEM.map((cor) => {
@@ -138,7 +145,10 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
                   </div>
                   <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 25, color: '#111', lineHeight: 1.25}}>{f.texto}</div>
                   {(pensamentoDe === f.cor || pensamentoDe === '*') && f.pensamento && (
-                    <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 600, fontStyle: 'italic', fontSize: 21, color: '#b00000'}}>💭 (pensando: {f.pensamento})</div>
+                    <div style={{marginTop: 10, padding: '8px 12px', background: '#2a0f14', border: '3px dashed #ff6b6b', borderRadius: 12}}>
+                      <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 15, color: '#ff8a8a', letterSpacing: 1}}>💭 PENSAMENTO SECRETO · só a gente vê</div>
+                      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 21, color: '#ffe3e3', lineHeight: 1.25}}>{f.pensamento}</div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -146,6 +156,12 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
           })}
         </div>
       </div>
+      {aviso && (
+        <div style={{position: 'absolute', left: '50%', bottom: 26, transform: 'translateX(-50%)', padding: '10px 26px', background: '#ffd84d', border: '5px solid #000', borderRadius: 14,
+          fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#000', whiteSpace: 'nowrap', boxShadow: '0 6px 0 rgba(0,0,0,.4)'}}>
+          {aviso}
+        </div>
+      )}
       {splash && frame < 55 && (
         <AbsoluteFill style={{background: r.tipo === 'corpo' ? '#5c0000' : '#002a5c', opacity: interpolate(frame, [0, 4, 42, 55], [0, 1, 1, 0]), alignItems: 'center', justifyContent: 'center'}}>
           <div style={{position: 'absolute', inset: 0, background: 'repeating-conic-gradient(from 0deg at 50% 50%, #ffffff10 0deg 10deg, transparent 10deg 20deg)', transform: `rotate(${frame * 1.5}deg) scale(2)`}} />
