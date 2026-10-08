@@ -4,6 +4,41 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'assets'))
 from util import mat_cor
 
 
+def criar_mar_calmo(nome='MarCalmo', tamanho=3000):
+    """Mar de dia até o horizonte: grade facetada com ondulação leve perto da ilha."""
+    bpy.ops.mesh.primitive_grid_add(x_subdivisions=160, y_subdivisions=160, size=tamanho)
+    ob = bpy.context.object
+    ob.name = nome
+    tex = bpy.data.textures.new('ondas_calmas', 'CLOUDS')
+    tex.noise_scale = 6
+    d = ob.modifiers.new('ondas', 'DISPLACE')
+    d.texture = tex
+    d.strength = 0.9
+    d.mid_level = 0.5
+    ob.location.z = -0.15
+    ob.data.materials.append(mat_cor('mar_dia', (0.13, 0.55, 0.78), rough=0.15))
+    bpy.ops.object.shade_flat()
+    return ob
+
+
+def ceu_dia(sol_elev=35, sol_rot=35, forca=0.35):
+    """Céu físico (Nishita) com gradiente e sol."""
+    sc = bpy.context.scene
+    w = bpy.data.worlds.new('ceu_dia')
+    sc.world = w
+    w.use_nodes = True
+    nt = w.node_tree
+    sky = nt.nodes.new('ShaderNodeTexSky')
+    sky.sky_type = 'NISHITA'
+    sky.sun_elevation = math.radians(sol_elev)
+    sky.sun_rotation = math.radians(sol_rot)
+    sky.altitude = 200
+    bg = nt.nodes['Background']
+    bg.inputs[1].default_value = forca
+    nt.links.new(sky.outputs[0], bg.inputs[0])
+    return w
+
+
 def criar_mar(nome='Mar', tamanho=240, tempestade=True, resolucao=14):
     bpy.ops.mesh.primitive_plane_add(size=2)
     ob = bpy.context.object

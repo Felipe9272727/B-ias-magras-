@@ -347,7 +347,7 @@ def criar_cornucopia(nome, seed=0, **opcoes):
         xy.append((x + ds * math.cos(phi), y + ds * math.sin(phi)))
     raios = [0.07 + 0.95 * (i / N) ** 2.0 for i in range(N + 1)]
     # a boca sobe um pouco para aparecer de cima
-    linha = [Vector((x, y, r + 6.0 * max(0.0, i / N - 0.6) ** 2))
+    linha = [Vector((x, y, r + 1.5 * max(0.0, i / N - 0.6) ** 2))
              for i, ((x, y), r) in enumerate(zip(xy, raios))]
     fr = _frames(linha)
     m = _Malha()

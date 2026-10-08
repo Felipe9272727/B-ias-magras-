@@ -70,10 +70,11 @@ def altura(x, y):
     if dl < 1:
         h = min(h, -1.2 + dl * dl * 3.5)
     # clareira plana da Cornucópia
-    dc = math.hypot(x, y) / 18
+    # clareira da Cornucópia: platô largo e plano, com transição suave (as plataformas ficam a 24 m)
+    dc = math.hypot(x, y) / 40
     if dc < 1:
-        alvo = 3.2
-        k = (1 - dc) ** 0.6
+        alvo = 4.0
+        k = 1.0 if dc < 0.75 else (1 - (dc - 0.75) / 0.25) ** 1.5
         h = h * (1 - k) + alvo * k
     # praias: suaviza perto do mar
     if 0 < h < 1.2:
@@ -146,6 +147,8 @@ def criar_ilha(nome='Ilha', passo=4.0, extensao=150.0):
             a, b, c, d = grade[j][i], grade[j][i + 1], grade[j + 1][i + 1], grade[j + 1][i]
             tris = [(a, b, c), (a, c, d)] if (i + j) % 2 == 0 else [(a, b, d), (b, c, d)]
             for t in tris:
+                if max(v.co.z for v in t) < -3.5:
+                    continue  # fundo do mar profundo: não precisa de face
                 f = bm.faces.new(t)
                 cx = sum(v.co.x for v in t) / 3
                 cy = sum(v.co.y for v in t) / 3
@@ -173,6 +176,8 @@ def criar_ilha(nome='Ilha', passo=4.0, extensao=150.0):
                 else:
                     k = 'grama' if rnd.random() < 0.85 else 'grama_escura'
                 f.material_index = ordem.index(k)
+    for v in [v for v in bm.verts if not v.link_faces]:
+        bm.verts.remove(v)
     bm.to_mesh(me)
     bm.free()
     for p in me.polygons:
