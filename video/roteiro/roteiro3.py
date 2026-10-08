@@ -353,18 +353,20 @@ SCENES = [
 
 # Trilha por bloco de cenas: (primeira cena, música, início na faixa em s[, ganho, corte seco])
 CUES = [
-    ('a01', '8bit-dungeon-level', 0, 1.0),
-    ('a05', 'mega-hyper-ultrastorm', 0, 1.1, True),
-    ('pr01', 'chill-wave', 0, 0.9),
-    ('p101', 'quirky-dog', 0, 1.0),
-    ('p102', 'thinking-music', 0, 1.0),
-    ('p202', 'sneaky-snitch', 0, 1.0),
-    ('p208', 'decisions', 0, 0.9),
-    ('p214', '8bit-dungeon-boss', 0, 1.1, True),
-    ('p221', 'mega-hyper-ultrastorm', 30, 1.0),
-    ('p225', 'thinking-music', 40, 1.0),
-    ('p229', 'winner-winner', 0, 1.0),
-    ('pl01', 'bit-shift', 0, 0.9),
-    ('pl03', 'relent', 0, 1.0),
-    ('f01', 'pixelland', 0, 1.0),
+    ('a01', '8bit-dungeon-level', 0, 1.0),            # navio afundando: tensão
+    ('a05', 'mega-hyper-ultrastorm', 0, 1.1, True),   # spoiler: corte seco, impacto
+    ('pr01', 'call-to-adventure', 0, 1.0),            # praia: aventura
+    ('r01', 'chill-wave', 0, 0.9),                    # regras: leve
+    ('p101', 'monkeys-spinning-monkeys', 0, 1.0),     # partida teste: cômico
+    ('c01', 'quirky-dog', 0, 1.0),                    # conserto do bug
+    ('p201', '8bit-dungeon-level', 0, 1.0),           # partida pra valer: tensão crescente
+    ('p208', 'decisions', 0, 0.9),                    # alianças e regra nova
+    ('p214', '8bit-dungeon-boss', 0, 1.1, True),      # primeiras mortes e ataques: corte seco
+    ('p221', 'mega-hyper-ultrastorm', 30, 1.0),       # dia nove: o Opus ataca
+    ('p225', 'thinking-music', 40, 1.0),              # Haiku 2 pensa na dupla
+    ('p227', 'heartbreaking', 0, 1.0, True),          # traição do Opus: drama, corte seco
+    ('p229', 'winner-winner', 0, 1.0, True),          # vitória do Haiku 2
+    ('pl01', 'bit-shift', 0, 0.9),                    # placar
+    ('pl03', 'airship-serenity', 0, 1.0),             # reflexão final
+    ('f01', 'pixelland', 0, 1.0),                     # encerramento: leve
 ]

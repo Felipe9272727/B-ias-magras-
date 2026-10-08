@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Renderiza uma composição em pedaços (retomável): cada pedaço pronto fica salvo em out/pedacos/<comp>/
 # e é pulado na próxima execução. No fim, junta tudo sem recodificar.
-# Uso: render_pedacos.sh AmongUsIA out/v2_sem_mix.mp4 [quadros_por_pedaço]
+# Uso: [TL=timeline3.json] render_pedacos.sh Video3 out/v3_sem_mix.mp4 [quadros_por_pedaço]
+# TL: timeline em remotion/public (padrão timeline2.json).
 set -euo pipefail
 cd "$(dirname "$0")/../remotion"
-COMP=$1; SAIDA=$2; PASSO=${3:-3600}
+COMP=$1; SAIDA=$2; PASSO=${3:-3600}; TL=${TL:-timeline2.json}
 BROWSER=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell
 DIR=out/pedacos/$COMP; mkdir -p "$DIR"
-TOTAL=$(node -e "const t=require('./public/timeline2.json');console.log(t.durationInFrames)")
+TOTAL=$(node -e "const t=require('./public/$TL');console.log(t.durationInFrames)")
 i=0
 for ((ini=0; ini<TOTAL; ini+=PASSO)); do
   fim=$((ini+PASSO-1)); ((fim>=TOTAL)) && fim=$((TOTAL-1))
