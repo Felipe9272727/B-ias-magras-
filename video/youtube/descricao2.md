@@ -97,3 +97,17 @@ Vídeo completo no canal: "Coloquei 8 IAs pra jogar Among Us"
 ```
 
 Dica: no YouTube, ligue o Short ao vídeo longo pelo campo "Vídeo relacionado".
+
+## Short 2 (editado): "O impostor mais medroso que já existiu"
+
+Arquivo: `remotion/out/short_azul2.mp4` (1080×1920, 50 s, composição `ShortAzul2`; narração própria em `scripts/short2.py`).
+Gameplay desenhada direto na vertical, seguindo o Azul; selos, contador de tiques, pensamento secreto com contador ×1…×4, freeze no duto.
+
+Título: **O impostor mais MEDROSO que já existiu 😂 #shorts**
+
+Descrição:
+```
+Coloquei 8 IAs pra jogar Among Us. Essa aqui era impostora... e passou a partida inteira com medo de matar.
+Vídeo completo no canal: "Coloquei 8 IAs pra jogar Among Us"
+#shorts #AmongUs #IA #Claude #DeepSeek
+```

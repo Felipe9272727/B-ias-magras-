@@ -193,12 +193,13 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: numb
 };
 
 // ---------------------------------------------------------------- uma "câmera"
-type VistaProps = {p: Partida; numero?: number; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean};
+type VistaProps = {p: Partida; numero?: number; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean; escalaFixa?: number; fptFixo?: number};
 
-export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
+export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true, escalaFixa, fptFixo}) => {
   const frame = useCurrentFrame();
   const tf = tfDe(frame);
-  const fpt = 1 / Math.max(1e-4, tfDe(frame + 1) - tf);
+  // quadros por tique (define a velocidade de caminhada); fixo quando o relógio é congelado ou em câmera lenta
+  const fpt = fptFixo ?? 1 / Math.max(1e-4, tfDe(frame + 1) - tf);
   const t1 = Math.floor(tf) + 1;
   const frac = tf - Math.floor(tf);
   const poses: Record<string, Pose | null> = {};
@@ -212,13 +213,13 @@ export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPe
     let sx = 0, sy = 0, n = 0;
     for (let d = 0; d <= 16; d += 4) {
       const tfd = tfDe(frame - d);
-      const fp = 1 / Math.max(1e-4, tfDe(frame - d + 1) - tfd);
+      const fp = fptFixo ?? 1 / Math.max(1e-4, tfDe(frame - d + 1) - tfd);
       const q = poseNova(p, focoPedido, tfd, fp, deTique);
       if (q) { sx += q.p.x; sy += q.p.y; n++ }
     }
     cam = n ? {x: sx / n, y: sy / n} : corposEm(p, tf, fpt, deTique).find((c) => c.cor === focoPedido)?.pt ?? centroSala('Refeitorio');
   } else cam = {x: MUNDO.w / 2, y: MUNDO.h / 2};
-  const escala = zoom ? 1.05 : focoPedido ? 1.3 * (w / 1920) : Math.min(w / MUNDO.w, h / MUNDO.h) * 0.98;
+  const escala = escalaFixa ?? (zoom ? 1.05 : focoPedido ? 1.3 * (w / 1920) : Math.min(w / MUNDO.w, h / MUNDO.h) * 0.98);
 
   const sab = sabotagemEm(p, tf);
   const luzes = sab?.tipo === 'Luzes';
@@ -228,7 +229,7 @@ export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPe
   const veMorte = !!morte && (zoom === morte.sala || salaFoco === morte.sala || foco === morte.assassino || foco === morte.vitima);
   const kMorte = veMorte ? (frac - 0.5) / 0.25 : -1; // começa no instante da morte (impostor já chegou)
   const flash = veMorte ? interpolate(frac, [0.75, 0.78, 0.9], [0, 0.45, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
-  const raio = (luzes ? 300 : 820) * (w / 1920);
+  const raio = (luzes ? 300 : 820) * (escalaFixa ? escalaFixa / 1.3 : w / 1920);
 
   const mundo: React.CSSProperties = {
     position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0',

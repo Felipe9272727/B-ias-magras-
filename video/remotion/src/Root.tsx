@@ -3,6 +3,7 @@ import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
+import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {Vitrine} from './amongus/Vitrine';
 import {ArtePreview} from './amongus/nave/ArtePreview';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
@@ -26,6 +27,14 @@ const calculateMetadata2: CalculateMetadataFunction<Props> = async ({props}) => 
 const calcShort: CalculateMetadataFunction<{dados: DadosShort | null}> = async () => {
   const dados = (await (await fetch(staticFile('short/legendas.json'))).json()) as DadosShort;
   return {durationInFrames: dados.intro + dados.base, props: {dados}};
+};
+
+const calcShort2: CalculateMetadataFunction<{dados: DadosShort2 | null}> = async () => {
+  const s2 = await (await fetch(staticFile('short2/short2.json'))).json();
+  const tl = (await (await fetch(staticFile('timeline2.json'))).json()) as Timeline;
+  const partida = (tl as any).data.partidas['1'];
+  const total = s2.blocos.reduce((a: number, b: {dur: number}) => a + b.dur, 0);
+  return {durationInFrames: total, props: {dados: {blocos: s2.blocos, partida}}};
 };
 
 export const RemotionRoot: React.FC = () => {
@@ -64,6 +73,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
       <Composition id="ShortAzul" component={ShortAzul} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort} />
+      <Composition id="ShortAzul2" component={ShortAzul2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort2} />
       <Still id="Thumb2" component={Thumb2} width={1280} height={720} />
       <Still id="ArtePreview" component={ArtePreview} width={1920} height={1080} />
       <Still id="ArteZoom" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 2712, cy: 576, escala: 1.3}} />
