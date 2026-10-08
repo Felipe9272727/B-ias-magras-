@@ -27,6 +27,8 @@ export type ZonaMapa = {nome: string; centro: [number, number]; pontos: [number,
 
 export const MAPA_W: number = mapa.largura;
 export const MAPA_H: number = mapa.altura;
+// Escala base: o mapa inteiro ocupa a largura do quadro (1920 px) com zoom 1.
+export const BASE = 1920 / MAPA_W;
 export const ZONAS = (mapa as unknown as {zonas: Record<string, ZonaMapa>}).zonas;
 export const ZONA_INICIAL = 'cornucopia';
 
@@ -58,7 +60,7 @@ export function posicoes(estado: Map<string, EstadoTrib>): Record<string, [numbe
   for (const [z, ids] of Object.entries(grupos)) {
     const [cx, cy] = centroDe(z);
     const n = ids.length;
-    const r = n === 1 ? 0 : 60 + 22 * n;
+    const r = n === 1 ? 0 : (60 + 22 * n) / BASE; // espaçamento fixo na tela
     ids.forEach((id, i) => {
       const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
       out[id] = [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
@@ -68,7 +70,7 @@ export function posicoes(estado: Map<string, EstadoTrib>): Record<string, [numbe
 }
 
 // Eventos de combate do turno, na ordem em que aparecem (ataque/revide/morte).
-export const efeitosDo = (t: Turno | null) =>
+export const efeitosDo = (t: Turno | null): Evento[] =>
   (t?.eventos ?? []).filter((e) => e.tipo === 'ataque' || e.tipo === 'revide' || e.tipo === 'morte');
 
 // Último pensamento secreto do tributo, em qualquer turno.

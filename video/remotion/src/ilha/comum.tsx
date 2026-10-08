@@ -43,7 +43,7 @@ export const Caveira: React.FC<{size: number}> = ({size}) => (
 );
 
 // Fundo low-poly: grade de triângulos com cores escuras e tons de destaque, determinística (remotion random).
-export const FundoBaixoPoli: React.FC<{destaque?: string; passo?: number}> = ({destaque = '#f1cf6c', passo = 160}) => {
+export const FundoBaixoPoli: React.FC<{destaque?: string; passo?: number; children?: React.ReactNode}> = ({destaque = '#f1cf6c', passo = 160, children}) => {
   const tris = useMemo(() => {
     const cols = Math.ceil(1920 / passo) + 2;
     const rows = Math.ceil(1080 / passo) + 2;
@@ -70,6 +70,7 @@ export const FundoBaixoPoli: React.FC<{destaque?: string; passo?: number}> = ({d
       <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{position: 'absolute', left: 0, top: 0}}>
         {tris}
       </svg>
+      {children}
     </AbsoluteFill>
   );
 };

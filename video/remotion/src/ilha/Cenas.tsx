@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FONT} from '../theme';
 import {DISTRITOS, PERIODOS, TRIBUTOS, tributo} from './regras';
-import {mortePorId, nomeZona, Partida, ultimoPensamento, ZONAS} from './dados';
+import {BASE, mortePorId, nomeZona, Partida, ultimoPensamento, ZONAS} from './dados';
 import {Personagem, Retrato, FundoBaixoPoli, Caveira} from './comum';
 
 const pop = (frame: number, fps: number, atraso = 0, damping = 14) => spring({frame: frame - atraso, fps, config: {damping}});
@@ -306,7 +306,7 @@ const Mapa: React.FC = () => {
         const o = pop(frame, fps, 10 + i * 9, 12);
         const tag = MAPA_ZONAS_BIOMA[id];
         return (
-          <div key={id} style={{position: 'absolute', left: z.centro[0] / 2, top: z.centro[1] / 2, transform: `translate(-50%, -50%) scale(${o})`, textAlign: 'center', opacity: clamp01(o)}}>
+          <div key={id} style={{position: 'absolute', left: z.centro[0] * BASE, top: z.centro[1] * BASE, transform: `translate(-50%, -50%) scale(${o})`, textAlign: 'center', opacity: clamp01(o)}}>
             <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 26, color: '#fff', background: 'rgba(8,12,20,.85)', padding: '4px 12px', borderRadius: 10, whiteSpace: 'nowrap'}}>{z.nome}</div>
             {tag && <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 800, fontSize: 18, color: '#0b0d14', background: '#f1cf6c', padding: '2px 8px', borderRadius: 8, whiteSpace: 'nowrap'}}>{tag}</div>}
           </div>

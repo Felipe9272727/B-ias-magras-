@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FONT} from '../theme';
 import {tributo, TRIBUTOS, DISTRITOS} from './regras';
-import {efeitosDo, estadoDe, MAPA_H, MAPA_W, Partida, posicoes, turnoDe, ZONAS, centroDe, EstadoTrib} from './dados';
+import {BASE, efeitosDo, estadoDe, Evento, MAPA_H, MAPA_W, Partida, posicoes, turnoDe, ZONAS, centroDe, EstadoTrib} from './dados';
 import {Caveira, Personagem, Retrato} from './comum';
 
 export type ItemChat = {cor: string; texto: string; at: number; pensamento?: string};
@@ -54,7 +54,7 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
   const [cxF, cyF] = alvoZona ? centroDe(alvoZona) : [MAPA_W / 2, MAPA_H / 2];
   const fx = lerp(MAPA_W / 2, cxF, m);
   const fy = lerp(MAPA_H / 2, cyF, m);
-  const k = 0.5 * zoom; // escala do mundo (3840 px) para a tela
+  const k = BASE * zoom; // escala do mundo (px do mapa) para a tela
   const tx = clamp(960 - fx * k, 1920 - MAPA_W * k, 0);
   const ty = clamp(540 - fy * k, 1080 - MAPA_H * k, 0);
   const paraTela = (x: number, y: number): [number, number] => [tx + x * k, ty + y * k];
@@ -65,7 +65,7 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
   const noite = lerp(noiteAntes, noiteAgora, m);
 
   // efeitos de combate do turno (ataques, revides, mortes), em sequência
-  const efeitos = efeitosDo(t).map((e, i) => ({...e, at: INICIO_EFEITO + i * PASSO_EFEITO}));
+  const efeitos: (Evento & {at: number})[] = efeitosDo(t).map((e, i) => ({...e, at: INICIO_EFEITO + i * PASSO_EFEITO}));
   const quandoMorreu = (id: string) => efeitos.find((e) => e.tipo === 'morte' && e.vitima === id)?.at;
   const atacando = (id: string) => efeitos.find((e) => (e.tipo === 'ataque' || e.tipo === 'revide') && e.id === id && frame >= e.at - 6 && frame < e.at + 10);
 
@@ -106,7 +106,7 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
         <svg width={MAPA_W} height={MAPA_H} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
           <defs>
             <filter id="ilhaBlur" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="40" />
+              <feGaussianBlur stdDeviation={40 / BASE} />
             </filter>
           </defs>
           {Object.entries(ZONAS).map(([id, z]) => {
@@ -120,9 +120,9 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
                     points={z.pontos.map(([x, y]) => `${x},${y}`).join(' ')}
                     fill="rgba(40,140,255,0.55)"
                     stroke={`rgba(160,220,255,${0.5 + 0.3 * Math.sin(frame / 10)})`}
-                    strokeWidth={10}
-                    strokeDasharray="30 18"
-                    strokeDashoffset={-frame * 2}
+                    strokeWidth={10 / BASE}
+                    strokeDasharray={`${30 / BASE} ${18 / BASE}`}
+                    strokeDashoffset={-frame * 2 / BASE}
                   />
                 )}
                 {nev &&
@@ -132,9 +132,9 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
                     return (
                       <circle
                         key={j}
-                        cx={cx + Math.cos(a) * 90 + Math.sin(frame / 25 + j) * 25}
-                        cy={cy + Math.sin(a) * 70}
-                        r={150 + 30 * Math.sin(frame / 20 + j)}
+                        cx={cx + (Math.cos(a) * 90 + Math.sin(frame / 25 + j) * 25) / BASE}
+                        cy={cy + (Math.sin(a) * 70) / BASE}
+                        r={(150 + 30 * Math.sin(frame / 20 + j)) / BASE}
                         fill="rgba(150,60,230,0.5)"
                         filter="url(#ilhaBlur)"
                       />
