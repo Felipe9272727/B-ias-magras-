@@ -12,6 +12,7 @@ import {LearningCurve, Scoreboard} from './Charts';
 import {BigText, EndScreen, Lessons, PlannerVsNet, SensorPanel, UIPan} from './Misc';
 import type {HL} from './hl';
 import {AmongUsVisual} from '../amongus/Registro';
+import {IlhaVisual} from '../ilha/Registro';
 
 type Props = {scene: Scene; timeline: Timeline; highlights: HL};
 
@@ -55,6 +56,7 @@ export const SceneVisual: React.FC<Props> = ({scene, timeline, highlights}) => {
       return <BigText text={p.text} sub={p.sub} color={p.color} />;
     default:
       if (v.name.startsWith('AU')) return <AmongUsVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
+      if (v.name.startsWith('IL')) return <IlhaVisual name={v.name} props={p} timeline={timeline} />;
       return null;
   }
 };

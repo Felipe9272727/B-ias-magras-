@@ -19,11 +19,15 @@ const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
   return {durationInFrames: timeline.durationInFrames, fps: timeline.fps, props: {timeline}};
 };
 
-const calculateMetadata2: CalculateMetadataFunction<Props> = async ({props}) => {
-  const res = await fetch(staticFile('timeline2.json'));
+// Lê um timeline de public/ (vídeos 2 e 3 usam o mesmo formato).
+const calcTimeline = (arquivo: string): CalculateMetadataFunction<Props> => async ({props}) => {
+  const res = await fetch(staticFile(arquivo));
   const timeline = (await res.json()) as Timeline;
   return {durationInFrames: timeline.durationInFrames, fps: timeline.fps, props: {...props, timeline}};
 };
+
+const calculateMetadata2 = calcTimeline('timeline2.json');
+const calculateMetadata3 = calcTimeline('timeline3.json');
 
 const calcShort: CalculateMetadataFunction<{dados: DadosShort | null}> = async () => {
   const dados = (await (await fetch(staticFile('short/legendas.json'))).json()) as DadosShort;
@@ -75,6 +79,16 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={600}
         defaultProps={{arquivo: 'partida2.json', cena: 'replay', partida: null} as PreviewProps}
         calculateMetadata={calcPreview}
+      />
+      <Composition
+        id="Video3"
+        component={Main}
+        width={W}
+        height={H}
+        fps={FPS}
+        durationInFrames={300}
+        defaultProps={{timeline: null} as Props}
+        calculateMetadata={calculateMetadata3}
       />
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
