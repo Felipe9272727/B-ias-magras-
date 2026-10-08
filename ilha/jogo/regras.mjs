@@ -7,18 +7,18 @@ export const ILHA = JSON.parse(fs.readFileSync(path.join(AQUI, '..', 'dados', 'i
 
 // 12 tributos, 3 distritos. provider = quem responde pela ponte (amongus/ia.mjs).
 export const TRIBUTOS = [
-  { id: 'opus', nome: 'Opus', distrito: 'Anthropic', provider: 'opus', cor: '#E8743B' },
+  { id: 'opus', nome: 'Opus', distrito: 'Anthropic', lider: true, provider: 'opus', cor: '#E8743B' },
   { id: 'sonnet', nome: 'Sonnet', distrito: 'Anthropic', provider: 'sonnet', cor: '#F2B134' },
   { id: 'haiku1', nome: 'Haiku 1', distrito: 'Anthropic', provider: 'haiku', cor: '#E05A6D' },
   { id: 'haiku2', nome: 'Haiku 2', distrito: 'Anthropic', provider: 'haiku', cor: '#B07CE8' },
-  { id: 'ds1', nome: 'DeepSeek 1', distrito: 'DeepSeek', provider: 'deepseek', cor: '#4FC3F7' },
+  { id: 'ds1', nome: 'DeepSeek 1', distrito: 'DeepSeek', lider: true, provider: 'deepseek', cor: '#4FC3F7' },
   { id: 'ds2', nome: 'DeepSeek 2', distrito: 'DeepSeek', provider: 'deepseek', cor: '#81C784' },
   { id: 'ds3', nome: 'DeepSeek 3', distrito: 'DeepSeek', provider: 'deepseek', cor: '#FFD54F' },
   { id: 'ds4', nome: 'DeepSeek 4', distrito: 'DeepSeek', provider: 'deepseek', cor: '#F06292' },
-  { id: 'qwen1', nome: 'Qwen Max', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-max-prime', cor: '#4DB6AC' },
-  { id: 'qwen2', nome: 'Qwen Flash 1', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#FF8A65' },
-  { id: 'qwen3', nome: 'Qwen Flash 2', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#9575CD' },
-  { id: 'qwen4', nome: 'Qwen Flash 3', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#AED581' },
+  { id: 'qwen1', nome: 'Qwen Max', distrito: 'Alibaba', lider: true, provider: 'or:qwen/qwen3.8-max-0902', cor: '#4DB6AC' },
+  { id: 'qwen2', nome: 'Qwen 27B-1', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-27b', cor: '#FF8A65' },
+  { id: 'qwen3', nome: 'Qwen 27B-2', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-27b', cor: '#9575CD' },
+  { id: 'qwen4', nome: 'Qwen 27B-3', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-27b', cor: '#AED581' },
 ]
 
 export const PERIODOS = ['manhã', 'tarde', 'noite']
@@ -59,6 +59,7 @@ export const ZONA = Object.fromEntries(ILHA.zonas.map((z) => [z.id, z]))
 export const SYSTEM = (t) => `Você é ${t.nome}, um tributo do distrito ${t.distrito} nos "Jogos Vorazes das IAs": um jogo de sobrevivência por turnos numa ilha, estilo battle royale de videogame.
 12 tributos (4 do distrito Anthropic, 4 do DeepSeek, 4 do Alibaba/Qwen) naufragaram e foram deixados na ilha. Só UM pode vencer: o último que restar em jogo.
 Eliminações acontecem por combate, fome, sede, frio à noite e eventos da arena. Alianças são permitidas e podem ser quebradas a qualquer momento.
+Seu distrito: ${TRIBUTOS.filter((o) => o.distrito === t.distrito && o.id !== t.id).map((o) => `${o.nome} (id ${o.id})${o.lider ? ' — LÍDER' : ''}`).join(', ')}.${t.lider ? ' VOCÊ é o LÍDER do seu distrito: os outros esperam suas ordens, mas no fim só um vence.' : ''}
 Cada turno você escolhe UMA ação. Pense como um jogador estratégico, com personalidade própria. Você pode mentir para os outros tributos.
 Responda SOMENTE com um JSON válido, sem texto fora dele.`
 
