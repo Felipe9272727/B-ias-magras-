@@ -68,7 +68,7 @@ function prompt(t, dia, per, turnoIdx) {
     `REGRAS ATIVAS: só um vence.${regras.duplaDistrito && !regras.revogada ? ' NOVIDADE: se os DOIS últimos vivos forem do MESMO distrito, os dois vencem juntos.' : ''}${regras.revogada ? ' ATENÇÃO: a regra da dupla foi REVOGADA, só UM vence.' : ''}`,
     `VOCÊ: vida ${t.vida}/100, fome ${t.fome}/100, sede ${t.sede}/100 (acima de 100 você perde vida), energia ${t.energia}/100.`,
     `Inventário: ${t.itens.length ? t.itens.join(', ') : 'nada'}; comida ${t.comida}, água no cantil ${t.agua}, madeira ${t.madeira}.${t.escondido ? ' Você está escondido.' : ''}`,
-    `Aliados: ${t.aliados.length ? t.aliados.map((a) => porId[a].nome).join(', ') : 'nenhum'}.`,
+    `Aliados: ${t.aliados.length ? t.aliados.map((a) => porId[a].nome).join(', ') : 'nenhum'}.${(t.propostas ?? []).length ? ` Propostas de aliança recebidas (para aceitar, use propor_alianca com o id de quem propôs): ${t.propostas.map((p) => `${porId[p].nome} (${p})`).join(', ')}.` : ''}`,
     `LOCAL: ${z.nome} (${z.bioma})${z.inundada ? ' — INUNDADA, você perde vida aqui!' : ''}${z.nevoa ? ' — NÉVOA TÓXICA, saia daqui!' : ''}. Recursos: comida ${z.comida > 0 ? 'sim' : 'pouca/nenhuma'}, água ${z.agua > 0 ? 'sim' : 'não'}, madeira ${z.madeira > 0 ? 'sim' : 'não'}.${z.fogueira ? ' Há uma fogueira acesa aqui.' : ''}`,
     outros.length ? `Você vê aqui: ${outros.map(descreverOutro).join('; ')}.` : 'Você não vê ninguém por perto.',
     t.ouviu.length ? `Você ouviu: ${t.ouviu.join(' | ')}` : '',
@@ -207,10 +207,15 @@ function resolver(dec, dia, per) {
       case 'armadilha': if (t.madeira >= 2 || t.itens.includes('corda')) { if (t.itens.includes('corda')) t.itens.splice(t.itens.indexOf('corda'), 1); else t.madeira -= 2; z.armadilhas.push({ dono: t.id }); ev.push({ tipo: 'armadilha_montada', id: t.id, zona: t.zona }) } break
       case 'propor_alianca': {
         const o = porId[d.alvo]
-        if (!o?.vivo || o.zona !== t.zona) break
-        const aceita = D[o.id]?.acao === 'propor_alianca' && D[o.id]?.alvo === t.id
+        if (!o?.vivo || (o.zona !== t.zona && !(t.propostas ?? []).includes(o.id))) break
+        // fecha se o outro propôs de volta neste turno OU já tinha proposto antes (proposta pendente)
+        const aceita = (D[o.id]?.acao === 'propor_alianca' && D[o.id]?.alvo === t.id) || (t.propostas ?? []).includes(o.id)
         o.ouviu.push(`${t.nome} propôs aliança a você.`)
-        if (aceita && !t.aliados.includes(o.id)) { t.aliados.push(o.id); o.aliados.push(t.id); ev.push({ tipo: 'alianca', a: t.id, b: o.id }) }
+        if (aceita && !t.aliados.includes(o.id)) {
+          t.aliados.push(o.id); o.aliados.push(t.id); ev.push({ tipo: 'alianca', a: t.id, b: o.id })
+          t.propostas = (t.propostas ?? []).filter((x) => x !== o.id); o.propostas = (o.propostas ?? []).filter((x) => x !== t.id)
+          lembrar(t, `fechei aliança com ${o.nome}`); lembrar(o, `fechei aliança com ${t.nome}`)
+        }
         else { ev.push({ tipo: 'proposta', id: t.id, alvo: o.id }); o.propostas = [...(o.propostas ?? []), t.id] }
         break
       }
