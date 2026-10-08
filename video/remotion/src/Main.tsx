@@ -54,6 +54,12 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline}> = ({scene, 
               <TextPop text={e.text} dur={e.dur} color={e.color} />
             </Sequence>
           );
+        if (e.type === 'voz')
+          return (
+            <Sequence key={i} from={e.at} name={`voz ${e.src}`}>
+              <Audio src={staticFile(e.src)} />
+            </Sequence>
+          );
         if (e.type === 'sfx')
           return (
             <Sequence key={i} from={e.at} name={`sfx ${e.id}`}>

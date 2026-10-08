@@ -13,6 +13,12 @@ const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
   return {durationInFrames: timeline.durationInFrames, fps: timeline.fps, props: {timeline}};
 };
 
+const calculateMetadata2: CalculateMetadataFunction<Props> = async () => {
+  const res = await fetch(staticFile('timeline2.json'));
+  const timeline = (await res.json()) as Timeline;
+  return {durationInFrames: timeline.durationInFrames, fps: timeline.fps, props: {timeline}};
+};
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -25,6 +31,16 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={300}
         defaultProps={{timeline: null} as Props}
         calculateMetadata={calculateMetadata}
+      />
+      <Composition
+        id="AmongUsIA"
+        component={Main}
+        width={W}
+        height={H}
+        fps={FPS}
+        durationInFrames={300}
+        defaultProps={{timeline: null} as Props}
+        calculateMetadata={calculateMetadata2}
       />
       <Composition
         id="AmongUsPreview"

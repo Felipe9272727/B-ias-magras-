@@ -43,7 +43,15 @@ def main():
     ap.add_argument('out')
     ap.add_argument('--timeline', default=str(PUBLIC / 'timeline.json'))
     ap.add_argument('--start', type=float, default=0.0, help='início do trecho (s), para testes parciais')
+    ap.add_argument('--roteiro', default='', help='usa a lista CUES de roteiro/<nome>.py (ex.: roteiro2)')
     args = ap.parse_args()
+    global CUES
+    if args.roteiro:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(args.roteiro, ROOT / 'roteiro' / f'{args.roteiro}.py')
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        CUES = mod.CUES
 
     tl = json.loads(Path(args.timeline).read_text())
     fps = tl['fps']

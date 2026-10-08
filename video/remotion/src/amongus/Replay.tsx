@@ -87,9 +87,10 @@ type ReplayProps = {
   pensamentos?: string[]; // cores cujos pensamentos aparecem em balões
   mostrarPapeis?: boolean; // revela impostores (nome em vermelho)
   destaque?: string[];
+  zoom?: string | null; // sala para aproximar a câmera
 };
 
-export const Replay: React.FC<ReplayProps> = ({p, deTique, ateTique, framesPorTique = 30, pensamentos = [], mostrarPapeis = true, destaque}) => {
+export const Replay: React.FC<ReplayProps> = ({p, deTique, ateTique, framesPorTique = 30, pensamentos = [], mostrarPapeis = true, destaque, zoom}) => {
   const frame = useCurrentFrame();
   const total = ateTique - deTique;
   const tf = Math.min(total, frame / framesPorTique);
@@ -111,8 +112,13 @@ export const Replay: React.FC<ReplayProps> = ({p, deTique, ateTique, framesPorTi
   const flash = mortesAgora.length ? interpolate(frac, [0.45, 0.55, 0.9], [0, 0.55, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
   const dutos = p.eventos.filter((e) => e.tipo === 'duto' && e.tique === t1);
 
+  // câmera: aproxima suavemente na sala escolhida
+  const z = zoom ? interpolate(frame, [0, 25], [1, 1.9], {extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic)}) : 1;
+  const foco = zoom ? pt(zoom) : {x: 960, y: 540};
+  const camera: React.CSSProperties = {transformOrigin: `${foco.x}px ${foco.y}px`, transform: `translate(${(960 - foco.x) * (z - 1) / 0.9}px, ${(540 - foco.y) * (z - 1) / 0.9}px) scale(${z})`};
   return (
     <AbsoluteFill>
+      <AbsoluteFill style={camera}>
       <MapaNave
         p={p}
         destaque={destaque}
@@ -166,6 +172,15 @@ export const Replay: React.FC<ReplayProps> = ({p, deTique, ateTique, framesPorTi
           </div>
         );
       })}
+      {mortesAgora.map((m) => {
+        const P = pt(m.sala);
+        return (
+          <div key={'k' + m.vitima} style={{position: 'absolute', left: P.x - 40, top: P.y - 130, fontSize: 70, opacity: interpolate(frac, [0.45, 0.55, 1], [0, 1, 0.6], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}>
+            🔪
+          </div>
+        );
+      })}
+      </AbsoluteFill>
       <AbsoluteFill style={{background: '#ff1e1e', opacity: flash, pointerEvents: 'none'}} />
       {/* pensamentos secretos */}
       <div style={{position: 'absolute', left: 40, right: 40, bottom: 34, display: 'flex', gap: 18, justifyContent: 'center'}}>
@@ -209,14 +224,6 @@ export const Replay: React.FC<ReplayProps> = ({p, deTique, ateTique, framesPorTi
           🚨 SABOTAGEM: {sab.tipo.toUpperCase()}
         </div>
       )}
-      {mortesAgora.map((m) => {
-        const P = pt(m.sala);
-        return (
-          <div key={'k' + m.vitima} style={{position: 'absolute', left: P.x - 40, top: P.y - 130, fontSize: 70, opacity: interpolate(frac, [0.45, 0.55, 1], [0, 1, 0.6], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}>
-            🔪
-          </div>
-        );
-      })}
       <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 1, background: COR.Branco.body, opacity: 0}} />
     </AbsoluteFill>
   );

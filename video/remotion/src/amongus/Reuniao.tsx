@@ -29,15 +29,20 @@ type Props = {
   votos?: boolean; // fase de votação
   pensamentoDe?: string; // mostra o pensamento secreto de quem fala, se for essa cor
   mostrarPapeis?: boolean;
+  chat?: {cor: string; texto: string; at: number; pensamento?: string}[]; // falas na ordem do roteiro, com o quadro em que aparecem
+  duracao?: number; // na votação: espalha os votos pela cena
 };
 
-export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis}) => {
+export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis, chat, duracao}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const r = p.reunioes[indice];
   const ate = falaAte ?? r.falas.length;
-  const falas = r.falas.slice(falaDe, ate);
-  const quando = (i: number) => (inicioFalas ? inicioFalas[i] : i * framesPorFala);
+  const falas = chat
+    ? chat.map((c) => ({cor: c.cor, rodada: 0, texto: c.texto, pensamento: c.pensamento ?? ''}))
+    : r.falas.slice(falaDe, ate);
+  const quando = (i: number) => (chat ? chat[i].at : inicioFalas ? inicioFalas[i] : i * framesPorFala);
+  if (chat) pensamentoDe = '*';
   const visiveis = falas.filter((_, i) => frame >= quando(i));
   const mortos = new Set(p.eventos.filter((e) => e.tipo === 'morte' && e.tique <= r.tique).map((e) => e.vitima));
   for (const q of p.reunioes) if (q.expulso && q.tique < r.tique) mortos.add(q.expulso);
@@ -46,7 +51,8 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
 
   // votação: cada voto aparece em sequência
   const ordemVotos = Object.entries(r.votos);
-  const votoVisivel = (i: number) => votos && frame >= 20 + i * 14;
+  const passo = duracao ? Math.max(8, Math.min(24, (duracao * 0.6) / Math.max(1, Object.keys(r.votos).length))) : 14;
+  const votoVisivel = (i: number) => votos && frame >= 15 + i * passo;
 
   return (
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #1d2b52 0%, #070a16 80%)', alignItems: 'center', justifyContent: 'center'}}>
@@ -103,7 +109,21 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
         </div>
         {/* direita: chat */}
         <div style={{flex: 1, background: '#f4f6fb', border: '6px solid #0b0d14', borderRadius: 20, padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 12, overflow: 'hidden'}}>
-          {visiveis.slice(-5).map((f) => {
+          {votos && (
+            <div style={{display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center', height: '100%'}}>
+              {ordemVotos.map(([de, para], i) =>
+                votoVisivel(i) ? (
+                  <div key={de} style={{display: 'flex', alignItems: 'center', gap: 18, fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#0b0d14'}}>
+                    <Cabeca cor={de} size={64} />
+                    <span>{de}</span>
+                    <span style={{color: '#888'}}>➜</span>
+                    {para === 'pular' ? <span style={{color: '#666'}}>pulou</span> : (<><Cabeca cor={para} size={64} /><span style={{color: COR[para].shade}}>{para}</span></>)}
+                  </div>
+                ) : null,
+              )}
+            </div>
+          )}
+          {!votos && visiveis.slice(-5).map((f) => {
             const i = falas.indexOf(f);
             const t = frame - quando(i);
             const o = interpolate(t, [0, 8], [0, 1], {extrapolateRight: 'clamp'});
@@ -116,7 +136,7 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
                     {f.cor} <Badge modelo={info.modelo} size={12} />
                   </div>
                   <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 25, color: '#111', lineHeight: 1.25}}>{f.texto}</div>
-                  {pensamentoDe === f.cor && f.pensamento && (
+                  {(pensamentoDe === f.cor || pensamentoDe === '*') && f.pensamento && (
                     <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 600, fontStyle: 'italic', fontSize: 21, color: '#b00000'}}>💭 (pensando: {f.pensamento})</div>
                   )}
                 </div>
