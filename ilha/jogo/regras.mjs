@@ -15,10 +15,10 @@ export const TRIBUTOS = [
   { id: 'ds2', nome: 'DeepSeek 2', distrito: 'DeepSeek', provider: 'deepseek', cor: '#81C784' },
   { id: 'ds3', nome: 'DeepSeek 3', distrito: 'DeepSeek', provider: 'deepseek', cor: '#FFD54F' },
   { id: 'ds4', nome: 'DeepSeek 4', distrito: 'DeepSeek', provider: 'deepseek', cor: '#F06292' },
-  { id: 'qwen1', nome: 'Qwen 3.8', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-2.4T-A95B', cor: '#4DB6AC' },
-  { id: 'qwen2', nome: 'Qwen 27B-1', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#FF8A65' },
-  { id: 'qwen3', nome: 'Qwen 27B-2', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#9575CD' },
-  { id: 'qwen4', nome: 'Qwen 27B-3', distrito: 'Alibaba', provider: 'hf:Qwen/Qwen3.8-27B', cor: '#AED581' },
+  { id: 'qwen1', nome: 'Qwen Max', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-max-prime', cor: '#4DB6AC' },
+  { id: 'qwen2', nome: 'Qwen Flash 1', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#FF8A65' },
+  { id: 'qwen3', nome: 'Qwen Flash 2', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#9575CD' },
+  { id: 'qwen4', nome: 'Qwen Flash 3', distrito: 'Alibaba', provider: 'or:qwen/qwen3.8-flash', cor: '#AED581' },
 ]
 
 export const PERIODOS = ['manhã', 'tarde', 'noite']
