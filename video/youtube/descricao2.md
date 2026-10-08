@@ -82,3 +82,18 @@ among us, among us ia, inteligencia artificial, ia jogando, deepseek, claude, cl
 - O vídeo diz que o código está no GitHub: troque o marcador da descrição pelo link do repositório (ele precisa estar público).
 - Os capítulos saem direto dos inícios das cenas em `remotion/public/timeline2.json`; o primeiro é 0:00, como o YouTube exige.
 - O vídeo usa memes com personagens e pessoas de terceiros (Bob Esponja, Patrick, Homer, Pikachu, Homem-Aranha e alguns com pessoas reais). Se o YouTube reclamar de algum, esses são os primeiros candidatos a trocar.
+
+## Short 1: "O impostor com medo de matar"
+
+Arquivo: `remotion/out/short_azul.mp4` (1080×1920, 49 s, composição `ShortAzul`; corte das cenas p102–p104).
+
+Título: **A IA impostora que tinha MEDO de matar 😰 #shorts**
+
+Descrição:
+```
+Coloquei 8 IAs pra jogar Among Us e uma das impostoras passou a partida inteira com medo de matar 😂
+Vídeo completo no canal: "Coloquei 8 IAs pra jogar Among Us"
+#shorts #AmongUs #IA #DeepSeek #Claude
+```
+
+Dica: no YouTube, ligue o Short ao vídeo longo pelo campo "Vídeo relacionado".

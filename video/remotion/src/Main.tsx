@@ -3,7 +3,7 @@ import {AbsoluteFill, Audio, continueRender, delayRender, Sequence, staticFile, 
 import {fontsReady} from './fonts';
 import type {Scene, Timeline} from './types';
 import {C} from './theme';
-import {Captions, ClipInfo, ClipView, MemeCard, TextPop} from './components/overlays';
+import {Captions, ClipInfo, ClipView, MemeCard, ModoShort, TextPop} from './components/overlays';
 import {SceneVisual} from './scenes/registry';
 import {escolherTransicao, TransicaoEntrada} from './amongus/Transicoes';
 
@@ -21,6 +21,7 @@ const useFonts = () => {
 export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: string}> = ({scene, timeline, anterior}) => {
   const hl = scene.events.filter((e) => e.type === 'hl') as {type: 'hl'; at: number; key: string}[];
   const frame = useCurrentFrame();
+  const short = React.useContext(ModoShort);
   // "soco" de câmera: zoom rápido que assenta, com um flash branco curto
   let bump = 0;
   let flash = 0;
@@ -73,7 +74,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
           );
         return null;
       })}
-      {scene.capGroups?.length ? <Captions groups={scene.capGroups} topo={scene.visual.type === 'component' && ['AUReplay', 'AUSplit', 'AUReuniao', 'AUFrase'].includes(scene.visual.name)} /> : null}
+      {scene.capGroups?.length && !short ? <Captions groups={scene.capGroups} topo={scene.visual.type === 'component' && ['AUReplay', 'AUSplit', 'AUReuniao', 'AUFrase'].includes(scene.visual.name)} /> : null}
       {scene.audio ? (
         <Sequence from={scene.audioOffset} name="voz">
           <Audio src={staticFile(scene.audio)} />
@@ -87,10 +88,11 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
   );
 };
 
-export const Main: React.FC<{timeline: Timeline | null}> = ({timeline}) => {
+export const Main: React.FC<{timeline: Timeline | null; short?: boolean}> = ({timeline, short}) => {
   useFonts();
   if (!timeline) return <AbsoluteFill style={{background: C.bg}} />;
   return (
+    <ModoShort.Provider value={!!short}>
     <AbsoluteFill style={{background: C.bg}}>
       {timeline.scenes.map((scene, i) => (
         <Sequence key={scene.id} from={scene.start} durationInFrames={scene.duration} name={`${scene.id} · ${scene.chapter}`}>
@@ -98,5 +100,6 @@ export const Main: React.FC<{timeline: Timeline | null}> = ({timeline}) => {
         </Sequence>
       ))}
     </AbsoluteFill>
+    </ModoShort.Provider>
   );
 };

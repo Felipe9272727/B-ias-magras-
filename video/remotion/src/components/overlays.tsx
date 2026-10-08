@@ -152,12 +152,17 @@ const ClipLabel: React.FC<{text: string}> = ({text}) => {
   );
 };
 
+// Modo "corte vertical": o Short mostra só os 1440 px da esquerda do quadro 16:9, então os memes laterais
+// entram mais para o centro e as legendas antigas somem (o Short tem as dele).
+export const ModoShort = React.createContext(false);
+
 export type MemeInfo = {file: string; width: number; height: number; duration: number};
 
 // Meme (GIF) que entra com mola, fica um tempo e sai.
 export const MemeCard: React.FC<{info: MemeInfo; dur: number; pos: string; caption?: string}> = ({info, dur, pos, caption}) => {
   const frame = useCurrentFrame();
   const {fps, width: W, height: H} = useVideoConfig();
+  const short = React.useContext(ModoShort);
   const inP = spring({frame, fps, config: {damping: 11, stiffness: 200, mass: 0.6}});
   const outP = interpolate(frame, [dur - 7, dur], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const ar = info.width / info.height;
@@ -193,7 +198,7 @@ export const MemeCard: React.FC<{info: MemeInfo; dur: number; pos: string; capti
     overflow: 'hidden',
     background: '#000',
   };
-  if (pos === 'right') Object.assign(style, {right: 70, top: (H - boxH) / 2 - 70});
+  if (pos === 'right') Object.assign(style, {right: short ? 520 : 70, top: (H - boxH) / 2 - 70});
   if (pos === 'left') Object.assign(style, {left: 70, top: (H - boxH) / 2 - 70});
   if (pos === 'top') Object.assign(style, {left: (W - boxW) / 2, top: 70});
   if (pos === 'center') Object.assign(style, {left: (W - boxW) / 2, top: (H - boxH) / 2 - 50});
