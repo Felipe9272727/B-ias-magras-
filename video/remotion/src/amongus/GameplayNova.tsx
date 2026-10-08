@@ -97,7 +97,7 @@ export function poseNova(p: Partida, cor: string, tf: number, fpt: number, deTiq
   const rota = caminho(inicio, destino);
   const L = comprimento(rota);
   // velocidade constante; se o caminho não couber em 85% do tique, acelera só o necessário
-  const vel = Math.max(VEL, L / Math.max(1, fpt * (morte?.assassino === cor ? 0.42 : 0.85)));
+  const vel = Math.max(VEL, L / Math.max(1, fpt * (morte?.assassino === cor ? 0.42 : 0.45)));
   const d = Math.min(L, vel * fpt * frac);
   const r = aoLongo(rota, d);
   const chegou = d >= L - 0.5;
@@ -121,6 +121,23 @@ function corposEm(p: Partida, tf: number, fpt: number, deTique: number) {
     if (visivel && !limpo) out.push({cor: e.vitima, pt: posVitima(p, e.vitima, e.tique, fpt, deTique)});
   }
   return out;
+}
+
+// Sabotagem ativa no instante tf, a partir dos eventos (o estado gravado no log é o de DEPOIS de uma
+// eventual reunião, então não serve para o meio do tique): começa no evento e termina no conserto ou na reunião.
+export function sabotagemEm(p: Partida, tf: number): {tipo: string} | null {
+  let ativa: {tipo: string} | null = null;
+  const evs = [...p.eventos].sort((a, b) => a.tique - b.tique);
+  for (const e of evs) {
+    if (e.tique - 0.5 > tf) break;
+    if (['Luzes', 'Reator', 'Comunicações'].includes(e.tipo) && e.cor) ativa = {tipo: e.tipo};
+    if (['Luzes', 'Reator', 'Comunicações'].includes(e.tipo) && e.por) ativa = null; // conserto
+  }
+  if (ativa) {
+    const inicio = evs.filter((e) => e.tipo === ativa!.tipo && e.cor && e.tique - 0.5 <= tf).pop()!.tique;
+    if (p.reunioes.some((r) => r.tique >= inicio && r.tique <= tf)) ativa = null;
+  }
+  return ativa;
 }
 
 // ---------------------------------------------------------------- relógio (quadro → tique)
@@ -189,12 +206,11 @@ const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, z
   } else cam = {x: MUNDO.w / 2, y: MUNDO.h / 2};
   const escala = zoom ? 1.05 : focoPedido ? 1.3 * (w / 1920) : Math.min(w / MUNDO.w, h / MUNDO.h) * 0.98;
 
-  const est = p.tiques[t1]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
-  const sab = est?.sabotagem ?? null;
+  const sab = sabotagemEm(p, tf);
   const luzes = sab?.tipo === 'Luzes';
   const corpos = corposEm(p, tf, fpt, deTique);
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1);
-  const salaFoco = foco ? (salasNoTique(p, t1)[foco]?.sala ?? salasNoTique(p, Math.floor(tf))[foco]?.sala) : undefined;
+  const salaFoco = foco ? (salasNoTique(p, Math.round(tf))[foco]?.sala ?? salasNoTique(p, Math.floor(tf))[foco]?.sala) : undefined;
   const veMorte = !!morte && (zoom === morte.sala || salaFoco === morte.sala || foco === morte.assassino || foco === morte.vitima);
   const kMorte = veMorte ? (frac - 0.5) / 0.25 : -1; // começa no instante da morte (impostor já chegou)
   const flash = veMorte ? interpolate(frac, [0.75, 0.78, 0.9], [0, 0.45, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
@@ -254,15 +270,15 @@ const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, z
 
 // ---------------------------------------------------------------- HUD: barra de tarefas, sabotagem e "feed" de eventos
 const Hud: React.FC<{p: Partida; tf: number; frame: number; numero?: number}> = ({p, tf, frame, numero}) => {
-  const t1 = Math.floor(tf) + 1;
-  const est = p.tiques[t1]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
-  const sab = est?.sabotagem ?? null;
+  const tk = Math.round(tf); // o tique "atual" muda junto com os eventos (T-0,5)
+  const est = p.tiques[tk]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
+  const sab = sabotagemEm(p, tf);
   const tarefas = est ? est.tarefas / est.totalTarefas : 0;
   // eventos recentes (aparecem quando acontecem e somem depois de ~1,5 tique)
   const feed = p.eventos
     .filter((e) => ['morte', 'duto', 'Luzes', 'Reator', 'Comunicações', 'transformacao'].includes(e.tipo))
     .map((e) => ({e, quando: e.tique - 0.5}))
-    .filter(({quando}) => tf >= quando && tf < quando + 1.6)
+    .filter(({quando}) => tf >= quando && tf < quando + 0.6)
     .slice(-3);
   const texto = (e: any) =>
     e.tipo === 'morte' ? `🔪 ${e.assassino} eliminou ${e.vitima}` : e.tipo === 'duto' ? `🕳️ ${e.cor} entrou no duto` : e.tipo === 'transformacao' ? `🎭 ${e.cor} virou ${e.em}` : `⚡ ${e.cor ?? ''} sabotou: ${e.tipo}`;
@@ -275,7 +291,7 @@ const Hud: React.FC<{p: Partida; tf: number; frame: number; numero?: number}> = 
         </div>
         <div style={{display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap'}}>
           <span style={{padding: '3px 12px', background: '#000c', color: '#fff', borderRadius: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 18}}>
-            {numero ? `PARTIDA ${numero} · ` : ''}TIQUE {t1}
+            {numero ? `PARTIDA ${numero} · ` : ''}TIQUE {tk}
           </span>
           <span style={{padding: '3px 12px', background: '#7a0000dd', color: '#fff', borderRadius: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 18, display: 'flex', gap: 6, alignItems: 'center'}}>
             🔪 {p.jogadores.filter((j) => j.time === 'impostor').map((j) => `${j.cor} (${siglaModelo(j.modelo)})`).join(' · ')}
@@ -291,7 +307,7 @@ const Hud: React.FC<{p: Partida; tf: number; frame: number; numero?: number}> = 
       <div style={{position: 'absolute', right: 30, top: 24, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end'}}>
         {feed.map(({e, quando}) => (
           <div key={e.tipo + e.tique + (e.cor ?? e.vitima)} style={{padding: '6px 14px', background: '#000b', border: '3px solid #fff4', borderRadius: 10, fontFamily: FONT.display, fontWeight: 800, fontSize: 22, color: '#fff',
-            opacity: interpolate(tf - quando, [0, 0.08, 1.4, 1.6], [0, 1, 1, 0])}}>
+            opacity: interpolate(tf - quando, [0, 0.04, 0.5, 0.6], [0, 1, 1, 0])}}>
             {texto(e)}
           </div>
         ))}
@@ -327,7 +343,12 @@ export const GameplayNova: React.FC<Props> = ({p, numero, deTique, ateTique, dur
   const foco = frame < troca ? pensamentos[0] : pensamentos[1];
   const fala = (cor?: string) => (cor ? p.tiques[t1]?.decisoes.find((d) => d.cor === cor)?.pensamento : undefined);
   // na cena com zoom (duas pessoas na mesma sala), mostra o pensamento de quem age naquele tique
-  const quemFala = zoom ? pensamentos.find((c) => /matar|duto|sabotar|denunciar/.test(p.tiques[t1]?.decisoes.find((d) => d.cor === c)?.acao ?? '')) ?? pensamentos[0] : foco;
+  const atorDo = (e: any) => (e.tipo === 'morte' ? e.assassino : e.tipo === 'duto' ? e.cor : undefined);
+  const evs = p.eventos.filter((e) => e.tique === t1 && atorDo(e) && pensamentos.includes(atorDo(e)));
+  const feito = evs.filter((e) => e.tique - 0.5 <= tf).pop();
+  const pendente = evs.find((e) => e.tique - 0.5 > tf);
+  // antes de cada evento mostra quem vai agir; depois, o próximo a agir no mesmo tique
+  const quemFala = zoom ? (pendente ? atorDo(pendente) : feito ? atorDo(feito) : pensamentos[0]) : foco;
   const papelFoco = foco ? papelDe(p, foco) : undefined;
   const corte = Number.isFinite(troca) ? interpolate(frame, [troca - 6, troca, troca + 6], [0, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
   return (
