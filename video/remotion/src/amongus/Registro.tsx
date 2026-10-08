@@ -1,7 +1,7 @@
 import React from 'react';
 import type {Scene, Timeline} from '../types';
 import type {Partida} from './dados';
-import {Replay} from './Replay';
+import {Gameplay} from './Gameplay';
 import {Ejecao, RevelaPapel, Reuniao} from './Reuniao';
 import {AUComparativo, AUElenco, AUFim, AUFrase, AUPlacar, AUPrompt, AURegras, AUTitulo} from './Cenas';
 
@@ -14,7 +14,7 @@ export const AmongUsVisual: React.FC<{name: string; props: Record<string, any>; 
       return <AUTitulo kicker={p.kicker} title={p.title} subtitle={p.subtitle} color={p.color} />;
     case 'AUReplay': {
       const ticks = Math.max(1, p.ate - p.de);
-      return <Replay p={P(p.partida)} deTique={p.de} ateTique={p.ate} framesPorTique={scene.duration / ticks} pensamentos={p.pensamentos} mostrarPapeis={p.papeis} zoom={p.zoom} />;
+      return <Gameplay p={P(p.partida)} deTique={p.de} ateTique={p.ate} framesPorTique={scene.duration / ticks} pensamentos={p.pensamentos} mostrarPapeis={p.papeis} zoom={p.zoom} />;
     }
     case 'AUReuniao':
       return <Reuniao p={P(p.partida)} indice={p.indice} chat={p.chat} mostrarPapeis={p.papeis} />;
