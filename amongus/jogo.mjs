@@ -38,7 +38,7 @@ const MODELOS = { deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku' }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
   recargaSabotagem: 12,
-  tarefasPorTripulante: 4,
+  tarefasPorTripulante: 5,
   reatorPrazo: 10,
   metamorfoDuracao: 6,
   metamorfoRecarga: 12,
@@ -105,7 +105,7 @@ function montarPartida() {
       const salas = embaralhar(Object.keys(TAREFAS)).slice(0, CFG.tarefasPorTripulante)
       for (const s of salas) {
         const [nome, dur] = escolher(TAREFAS[s])
-        tarefas.push({ sala: s, nome, dur, feito: 0, ok: false })
+        tarefas.push({ sala: s, nome, dur: dur + 1, feito: 0, ok: false })
       }
       totalTarefas += tarefas.length
     }
@@ -198,6 +198,10 @@ function situacao(j) {
     if (!comsSabotadas()) linhas.push(`Barra de tarefas da nave: ${Math.round((100 * tarefasFeitas()) / totalTarefas)}%.`)
   } else {
     const parc = jogadores.find((o) => o !== j && o.time === 'impostor')
+    const alvos = vivos().filter((o) => o.sala === j.sala && o.time === 'tripulante')
+    const outrosAqui = vivos().filter((o) => o !== j && o.sala === j.sala && o.time === 'impostor')
+    if (alvos.length === 1 && j.recMorte <= 0) linhas.push(`🔪 OPORTUNIDADE: você está sozinho com ${alvos[0].cor}${outrosAqui.length ? ' (e seu parceiro)' : ''} — ninguém mais veria.`)
+    linhas.push(`Dica de impostor: se os tripulantes terminarem as tarefas, vocês PERDEM. Vocês precisam matar, mas sem testemunhas; depois de matar, saia pelo duto ou se afaste, e tenha um álibi pronto para a reunião.`)
     linhas.push(`Seu parceiro impostor: ${parc.cor}${parc.vivo ? '' : ' (morto/expulso)'}. Recarga para matar: ${Math.max(0, j.recMorte)} tique(s). Sabotagem disponível em: ${Math.max(0, recargaSabotagem)} tique(s).`)
   }
   if (j.rastreando && tique < j.rastreioAte) linhas.push(`📡 Rastreio: ${j.rastreando} está em ${SALAS[J(j.rastreando).sala].nome}.`)

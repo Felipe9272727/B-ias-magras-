@@ -38,9 +38,12 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0) + 1
   if (provider === 'mock') return { ok: true, text: mock ? mock() : '{}' }
+  // o DeepSeek Flash raciocina antes de responder e o raciocínio consome o limite de tokens:
+  // damos folga para sobrar espaço para a resposta em si
+  if (provider === 'deepseek') maxTokens += 3000
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs)
-    if (r.ok) return r
+    if (r.ok && r.text.trim()) return r
     if (/sem cota|sem chave/.test(r.text)) throw new Error(r.text)
     await dormir(1500 * (tentativa + 1))
   }
