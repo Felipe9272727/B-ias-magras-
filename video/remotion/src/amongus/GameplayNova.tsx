@@ -195,7 +195,7 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: numb
 // ---------------------------------------------------------------- uma "câmera"
 type VistaProps = {p: Partida; numero?: number; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean};
 
-const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
+export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
   const frame = useCurrentFrame();
   const tf = tfDe(frame);
   const fpt = 1 / Math.max(1e-4, tfDe(frame + 1) - tf);
