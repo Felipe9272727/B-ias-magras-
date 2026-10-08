@@ -4,6 +4,7 @@ import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
+import {DadosShortMario, ShortMario} from './ShortMario';
 import {Vitrine} from './amongus/Vitrine';
 import {ArtePreview} from './amongus/nave/ArtePreview';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
@@ -35,6 +36,11 @@ const calcShort2: CalculateMetadataFunction<{dados: DadosShort2 | null}> = async
   const partida = (tl as any).data.partidas['1'];
   const total = s2.blocos.reduce((a: number, b: {dur: number}) => a + b.dur, 0);
   return {durationInFrames: total, props: {dados: {blocos: s2.blocos, partida}}};
+};
+
+const calcShortMario: CalculateMetadataFunction<{dados: DadosShortMario | null}> = async () => {
+  const dados = (await (await fetch(staticFile('short_mario/short_mario.json'))).json()) as DadosShortMario;
+  return {durationInFrames: dados.blocos.reduce((a, b) => a + b.dur, 0), props: {dados}};
 };
 
 export const RemotionRoot: React.FC = () => {
@@ -74,6 +80,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
       <Composition id="ShortAzul" component={ShortAzul} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort} />
       <Composition id="ShortAzul2" component={ShortAzul2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort2} />
+      <Composition id="ShortMario" component={ShortMario} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortMario} />
       <Still id="Thumb2" component={Thumb2} width={1280} height={720} />
       <Still id="ArtePreview" component={ArtePreview} width={1920} height={1080} />
       <Still id="ArteZoom" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 2712, cy: 576, escala: 1.3}} />

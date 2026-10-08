@@ -75,3 +75,20 @@ Memes/GIFs de reação usados em contexto de comentário e paródia (fontes: Ten
 
 - "GERAÇÃO 1 vs ZEROU": à esquerda, o enxame de Marios morrendo; à direita, a tela "CAMPANHA COMPLETA!".
 - "4 CÉREBROS": quatro cérebros nas cores dos métodos, com o texto "QUAL ZERA?".
+
+## Short: "Só uma IA zerou o Mario... e trapaceou"
+
+Arquivo: `remotion/out/short_mario.mp4` (1080×1920, 59 s, composição `ShortMario`; narração do Gabriel em `scripts/short_mario.py`).
+
+Título: **Só UMA IA zerou o Mario... e ela TRAPACEOU 🤡 #shorts**
+
+Descrição:
+```
+Coloquei 4 IAs pra zerar o Mario. Neuroevolução travou no 1-3, o Double DQN parou no 1-2, o Rainbow chegou a 70% do 1-3... e a quarta zerou as 32 fases na primeira tentativa. Só que ela simula a física do jogo antes de cada pulo 👀
+
+Vídeo completo no canal: "Coloquei 4 IAs pra zerar o Mario"
+
+Jogo recriado do zero (não usa arte nem sons originais). Mario é marca da Nintendo.
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)
+#shorts #Mario #IA #InteligenciaArtificial #MachineLearning
+```
