@@ -112,3 +112,6 @@ Todos baixados do Tenor (GIF de reação). Não têm licença livre: o uso em v�
 | cala-a-boca | Cala a boca! | MÉDIO | https://tenor.com/view/cala-a-boca-gregório-duvivier-porta-dos-fundos-não-fala-isso-para-de-falar-gif-10481418517791633782 |
 
 Detalhes e motivo de cada risco estão no campo `notes` de `remotion/public/gifs/catalog.json`.
+
+## Efeitos de jogo (vídeo 2)
+Mixkit (licença gratuita, sem atribuição obrigatória): Message pop alert (#2354), Retro game emergency alarm (#1000), Dagger woosh (#1487), Video game blood pop (#2361), Footsteps in a tunnel loop (#543).

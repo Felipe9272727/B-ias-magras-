@@ -44,6 +44,7 @@ def main():
     ap.add_argument('--timeline', default=str(PUBLIC / 'timeline.json'))
     ap.add_argument('--start', type=float, default=0.0, help='início do trecho (s), para testes parciais')
     ap.add_argument('--roteiro', default='', help='usa a lista CUES de roteiro/<nome>.py (ex.: roteiro2)')
+    ap.add_argument('--extra', default='', help='WAV com efeitos extras somados à voz (ex.: data/sfx_jogo2.wav)')
     args = ap.parse_args()
     global CUES
     if args.roteiro:
@@ -106,7 +107,14 @@ def main():
     if not labels:
         raise SystemExit('Nenhuma música no intervalo.')
     filters.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:dropout_transition=0[music]")
-    filters.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voice][key]')
+    if args.extra:
+        n += 1
+        inputs += ['-ss', f'{t0:.3f}', '-i', args.extra]
+        filters.append(f'[{n}:a]aformat=sample_rates=48000:channel_layouts=stereo[ex]')
+        filters.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo[v0]')
+        filters.append('[v0][ex]amix=inputs=2:normalize=0:duration=first,asplit=2[voice][key]')
+    else:
+        filters.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voice][key]')
     # música abaixa ~10 dB enquanto há voz/efeitos
     filters.append('[music][key]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=450:makeup=1[ducked]')
     filters.append('[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11[out]')
