@@ -12,6 +12,8 @@ const MOCK = args.includes('--mock')
 let seed = Number(opt('--seed', 7))
 const SAIDA = opt('--saida', path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'logs', MOCK ? 'mock.json' : 'partida.json'))
 const MAX_DIAS = Number(opt('--max-dias', 10))
+const CONTINUAR = opt('--continuar', null) // retoma uma partida salva (prorrogação)
+const FINAL_DESDE = Number(opt('--banquete-desde', 99)) // dia a partir do qual vale o Banquete Final
 const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff }
 const escolha = (a) => a[Math.floor(rnd() * a.length)]
 const VIZ = vizinhos()
@@ -283,6 +285,13 @@ function eventosArena(dia, per) {
     for (const id of fecha) Z[id].nevoa = true
     anunciar(`Uma névoa tóxica cobriu: ${fecha.map(nomeZona).join(', ')}. Vá para o centro.`, { subtipo: 'nevoa', zonas: fecha })
   }
+  if (dia >= FINAL_DESDE && per === 'manhã') {
+    Z.cornucopia.nevoa = false
+    Z.cornucopia.itens.push('mochila', 'garrafa_agua')
+    anunciar(dia === FINAL_DESDE
+      ? 'O BANQUETE FINAL começou. A ilha inteira está tomada pela névoa, menos a Cornucópia. Todo dia cai UMA mochila e UMA garrafa de água lá. E atenção: se terminar um dia sem nenhuma eliminação em combate, a arena elimina o tributo mais fraco.'
+      : 'Mais uma mochila e uma garrafa de água caíram na Cornucópia. Lembrete: dia sem eliminação em combate = a arena elimina o mais fraco.', { subtipo: 'banquete' })
+  }
   if (regras.duplaDistrito && !regras.revogada && vivos().length <= 4) {
     regras.revogada = true
     anunciar('A regra da dupla foi REVOGADA. Só um tributo pode vencer.', { subtipo: 'revogada' })
@@ -299,7 +308,7 @@ function fimDeJogo() {
 }
 
 function foto() {
-  return T.map((t) => ({ id: t.id, vivo: t.vivo, zona: t.zona, vida: t.vida, fome: t.fome, sede: t.sede, itens: [...t.itens], comida: t.comida, madeira: t.madeira, escondido: t.escondido, aliados: [...t.aliados] }))
+  return T.map((t) => ({ id: t.id, vivo: t.vivo, zona: t.zona, vida: t.vida, fome: t.fome, sede: t.sede, itens: [...t.itens], comida: t.comida, agua: t.agua, energia: t.energia, madeira: t.madeira, escondido: t.escondido, aliados: [...t.aliados] }))
 }
 
 function salvar() {
@@ -307,9 +316,35 @@ function salvar() {
   fs.writeFileSync(SAIDA, JSON.stringify(log, null, 1))
 }
 
+function retomar(arq) {
+  const velho = JSON.parse(fs.readFileSync(arq, 'utf8'))
+  Object.assign(log, { meta: { ...velho.meta, retomada: new Date().toISOString() }, turnos: velho.turnos, fim: null })
+  const ult = velho.turnos.at(-1)
+  for (const e of ult.estado) {
+    const t = porId[e.id]
+    Object.assign(t, { vivo: e.vivo, zona: e.zona, vida: e.vida, fome: e.fome, sede: e.sede, itens: [...e.itens], comida: e.comida, agua: e.agua ?? 1, energia: e.energia ?? 70, madeira: e.madeira, aliados: [...e.aliados] })
+    if (!t.vivo) t.vida = 0
+  }
+  for (const [id, z] of Object.entries(ult.zonas)) Object.assign(Z[id], { fogueira: z.fogueira, itens: [...z.itens], inundada: z.inundada, nevoa: z.nevoa, abrigos: [...z.abrigos] })
+  const anuncios = velho.turnos.flatMap((t) => t.arena)
+  regras.duplaDistrito = anuncios.some((a) => a.subtipo === 'regra_dupla')
+  regras.revogada = anuncios.some((a) => a.subtipo === 'revogada')
+  // memória: o que cada um viveu nos últimos turnos (eventos que o envolvem)
+  for (const t of vivos()) {
+    for (const tu of velho.turnos.slice(-6)) for (const e of tu.eventos) {
+      if (e.tipo === 'morte') lembrar(t, `${porId[e.vitima].nome} foi eliminado (${e.causa})`)
+      if (e.tipo === 'alianca' && (e.a === t.id || e.b === t.id)) lembrar(t, `aliança: ${porId[e.a].nome} + ${porId[e.b].nome}`)
+    }
+  }
+  return { k: ult.k, dia: ult.dia }
+}
+
 async function main() {
   let k = 0
-  for (let dia = 1; dia <= MAX_DIAS; dia++) {
+  let dia0 = 1
+  if (CONTINUAR) { const r = retomar(CONTINUAR); k = r.k; dia0 = r.dia + 1; console.log(`retomando do turno ${k}, dia ${dia0}`) }
+  for (let dia = dia0; dia <= MAX_DIAS; dia++) {
+    let eliminouEmCombate = false
     for (const per of PERIODOS) {
       k++
       const arena = eventosArena(dia, per)
@@ -319,6 +354,15 @@ async function main() {
       const ev = resolver(dec, dia, per)
       log.turnos.push({ k, dia, periodo: per, arena, decisoes: dec, eventos: ev, estado: foto(), zonas: Object.fromEntries(Object.values(Z).map((z) => [z.id, { fogueira: z.fogueira, itens: [...z.itens], inundada: z.inundada, nevoa: z.nevoa, abrigos: [...z.abrigos] }])) })
       const mortes = ev.filter((e) => e.tipo === 'morte')
+      if (mortes.some((m) => m.causa === 'combate' || m.causa === 'armadilha')) eliminouEmCombate = true
+      // Banquete Final: dia sem eliminação em combate -> a arena elimina o mais fraco (ao fim da noite)
+      if (dia >= FINAL_DESDE && per === 'noite' && !eliminouEmCombate && vivos().length > 1) {
+        const fraco = [...vivos()].sort((a, b) => a.vida - b.vida || a.sede - b.sede)[0]
+        const m = eliminar(fraco, 'arena')
+        ev.push(m, { tipo: 'anuncio', texto: `Ninguém lutou hoje. A arena eliminou ${fraco.nome}, o mais fraco.`, subtipo: 'cobranca' })
+        mortes.push(m)
+        log.turnos.at(-1).estado = foto()
+      }
       console.log(`dia ${dia} ${per}: ${v.length} vivos, ${dec.length} decisões em ${((Date.now() - t0) / 1000).toFixed(0)}s${mortes.length ? ' | ✝ ' + mortes.map((m) => `${porId[m.vitima].nome} (${m.causa}${m.por ? ' por ' + porId[m.por].nome : ''})`).join(', ') : ''}`)
       salvar()
       const fim = fimDeJogo()
