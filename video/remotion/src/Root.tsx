@@ -1,6 +1,7 @@
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
+import {Thumb2} from './amongus/Thumb2';
 import {Vitrine} from './amongus/Vitrine';
 import {ArtePreview} from './amongus/nave/ArtePreview';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
@@ -56,6 +57,7 @@ export const RemotionRoot: React.FC = () => {
       />
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
+      <Still id="Thumb2" component={Thumb2} width={1280} height={720} />
       <Still id="ArtePreview" component={ArtePreview} width={1920} height={1080} />
       <Still id="ArteZoom" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 2712, cy: 576, escala: 1.3}} />
       <Still id="ArteReatorMotor" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 420, cy: 2100, escala: 0.7}} />
