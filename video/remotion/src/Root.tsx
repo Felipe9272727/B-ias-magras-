@@ -1,6 +1,7 @@
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
+import {Vitrine} from './amongus/Vitrine';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
 import type {Timeline} from './types';
 import {FPS, H, W} from './theme';
@@ -52,6 +53,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{arquivo: 'partida2.json', cena: 'replay', partida: null} as PreviewProps}
         calculateMetadata={calcPreview}
       />
+      <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
     </>
   );
