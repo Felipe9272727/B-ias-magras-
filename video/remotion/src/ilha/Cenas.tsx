@@ -195,11 +195,11 @@ export const ILMorte: React.FC<{dados: Partida | null; id: string}> = ({dados, i
 };
 
 // ---------------------------------------------------------------- infográficos de regras
-const Titulo: React.FC<{texto: string; sub?: string}> = ({texto, sub}) => {
+const Titulo: React.FC<{texto: string; sub?: string; embaixo?: boolean}> = ({texto, sub, embaixo}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <div style={{position: 'absolute', top: 60, left: 0, right: 0, textAlign: 'center', opacity: clamp01(pop(frame, fps))}}>
+    <div style={{position: 'absolute', ...(embaixo ? {bottom: 36} : {top: 60}), left: 0, right: 0, textAlign: 'center', opacity: clamp01(pop(frame, fps))}}>
       <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 72, color: '#f0f3df', textShadow: '0 6px 0 #000'}}>{texto}</div>
       {sub && <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 32, color: '#cfd6f5', marginTop: 10}}>{sub}</div>}
     </div>
@@ -312,7 +312,7 @@ const Mapa: React.FC = () => {
           </div>
         );
       })}
-      <Titulo texto="A ILHA" sub="12 zonas · Cornucópia no centro · água, comida e abrigo são disputados" />
+      <Titulo texto="A ILHA" sub="12 zonas · Cornucópia no centro · água, comida e abrigo são disputados" embaixo />
     </AbsoluteFill>
   );
 };
@@ -330,7 +330,7 @@ const Eventos: React.FC = () => {
   return (
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #1d2b3a 0%, #070b12 80%)'}}>
       <Titulo texto="A ARENA MUDA A ILHA" />
-      <div style={{position: 'absolute', top: 430, left: 140, right: 140, height: 10, background: '#2a3440', borderRadius: 5}}>
+      <div style={{position: 'absolute', top: 348, left: 140, right: 140, height: 10, background: '#2a3440', borderRadius: 5}}>
         <div style={{width: `${interpolate(frame, [0, 180], [0, 100], {extrapolateRight: 'clamp'})}%`, height: '100%', background: '#f1cf6c', borderRadius: 5}} />
       </div>
       {EVENTOS_REGRA.map((e, i) => {

@@ -5,6 +5,7 @@ import {tributo, TRIBUTOS, DISTRITOS} from './regras';
 import {BASE, efeitosDo, estadoDe, Evento, MAPA_H, MAPA_W, Partida, posicoes, turnoDe, ZONAS, centroDe, EstadoTrib} from './dados';
 import {Caveira, Personagem, Retrato} from './comum';
 
+// Fala no balão. `cor` é o id do tributo (o roteiro também escreve `id`, o Registro aceita os dois).
 export type ItemChat = {cor: string; texto: string; at: number; pensamento?: string};
 
 type Props = {
@@ -260,12 +261,14 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
         const [sx, sy] = paraTela(wx, wy);
         const o = spring({frame: age, fps, config: {damping: 14}});
         const left = clamp(sx, 200, 1720);
-        const top = Math.max(120, sy - SPR * 0.92 - 52);
+        // sem espaço em cima (o balão é alto), ele fica embaixo do sprite
+        const abaixo = sy < 560;
+        const top = abaixo ? sy + 40 : sy - SPR * 0.92 - 52;
         return (
           <div
             key={cor}
             style={{
-              position: 'absolute', left, top, transform: `translate(-50%, -100%) scale(${0.6 + 0.4 * o})`, opacity: clamp(o, 0, 1),
+              position: 'absolute', left, top, transform: `translate(-50%, ${abaixo ? '0' : '-100%'}) scale(${0.6 + 0.4 * o})`, opacity: clamp(o, 0, 1),
               width: 380, background: '#fff', border: '4px solid #0b0d14', borderRadius: 16, padding: '10px 14px 12px', boxShadow: '0 6px 0 rgba(0,0,0,.5)',
             }}
           >
@@ -276,19 +279,20 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
                 {c.pensamento}
               </div>
             )}
-            <div style={{position: 'absolute', left: '50%', bottom: -18, width: 0, height: 0, transform: 'translateX(-50%)', borderLeft: '12px solid transparent', borderRight: '12px solid transparent', borderTop: '18px solid #0b0d14'}} />
+            <div style={{position: 'absolute', left: '50%', ...(abaixo ? {top: -22} : {bottom: -22}), width: 0, height: 0, transform: `translateX(-50%) ${abaixo ? 'rotate(180deg)' : ''}`, borderLeft: '12px solid transparent', borderRight: '12px solid transparent', borderTop: '18px solid #0b0d14'}} />
           </div>
         );
       })}
 
       {/* cartões de pensamento secreto */}
+      <div style={{position: 'absolute', right: 24, top: 120, width: 330, display: 'flex', flexDirection: 'column', gap: 14}}>
       {cartoes.map((c, i) => {
         const o = spring({frame: frame - i * 8, fps, config: {damping: 15}});
         return (
           <div
             key={i}
             style={{
-              position: 'absolute', right: 24, top: 130 + i * 250, width: 300, padding: 14, background: 'rgba(12,16,26,.9)', border: `4px solid ${c.tr?.cor ?? '#ff6b6b'}`,
+              padding: 14, background: 'rgba(12,16,26,.9)', border: `4px solid ${c.tr?.cor ?? '#ff6b6b'}`,
               borderRadius: 16, transform: `translateX(${(1 - o) * 120}px)`, opacity: clamp(o, 0, 1),
             }}
           >
@@ -299,10 +303,11 @@ export const ILMapa: React.FC<Props> = ({dados, turno, foco, pensamentos = [], a
                 <div style={{fontSize: 14, color: '#ff8a8a', letterSpacing: 1}}>💭 SÓ A GENTE VÊ</div>
               </div>
             </div>
-            <div style={{marginTop: 8, fontFamily: FONT.display, fontStyle: 'italic', fontWeight: 500, fontSize: 19, color: '#ffe3e3', lineHeight: 1.25}}>{c.texto}</div>
+            <div style={{marginTop: 8, fontFamily: FONT.display, fontStyle: 'italic', fontWeight: 500, fontSize: 18, color: '#ffe3e3', lineHeight: 1.25}}>{c.texto}</div>
           </div>
         );
       })}
+      </div>
 
       {/* HUD */}
       <div

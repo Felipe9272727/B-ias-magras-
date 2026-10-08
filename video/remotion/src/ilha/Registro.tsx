@@ -22,7 +22,7 @@ export const IlhaVisual: React.FC<{name: string; props: Record<string, any>; tim
           foco={p.foco}
           pensamentos={p.pensamentos}
           aviso={p.aviso}
-          chat={p.chat as ItemChat[] | undefined}
+          chat={(p.chat as (ItemChat & {id?: string})[] | undefined)?.map((c) => ({...c, cor: c.cor ?? c.id ?? ''}))}
         />
       );
     case 'ILElenco':
