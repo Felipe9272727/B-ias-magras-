@@ -89,6 +89,6 @@ Coloquei 4 IAs pra zerar o Mario. Neuroevolução travou no 1-3, o Double DQN pa
 Vídeo completo no canal: "Coloquei 4 IAs pra zerar o Mario"
 
 Jogo recriado do zero (não usa arte nem sons originais). Mario é marca da Nintendo.
-Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)
+Música: "Pixelland" Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)
 #shorts #Mario #IA #InteligenciaArtificial #MachineLearning
 ```

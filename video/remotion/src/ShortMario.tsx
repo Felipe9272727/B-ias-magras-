@@ -201,7 +201,7 @@ export const ShortMario: React.FC<{dados: DadosShortMario | null}> = ({dados}) =
           <Audio src={staticFile('sfx/whoosh.mp3')} volume={0.2} />
         </Sequence>
       ))}
-      <Audio src={staticFile('music/sneaky-snitch.mp3')} volume={0.09} />
+      {/* música entra no mix final (ffmpeg, com ducking pela voz): scripts/mix_short.sh */}
       <AbsoluteFill style={{background: '#fff', opacity: flash, pointerEvents: 'none'}} />
       <div style={{position: 'absolute', top: 150, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
         <div style={{fontFamily: FONT.pixel, fontSize: 26, color: '#fff', background: '#000c', padding: '12px 18px', borderRadius: 10, border: '3px solid #ff3b30'}}>4 IAs TENTANDO ZERAR O MARIO</div>
