@@ -6,3 +6,5 @@
    câmera lenta no mapa (zoom/pan), tributos andando, balões entrando, cortes mais curtos, clipes do Blender em loop ou mais tomadas.
 4. Ajustes já anotados pelo vigia: rótulos de nome sobre personagens; texto [[t:...]] cobrindo o selo ELIMINADO / nome no ILMorte.
 5. Depois: re-render completo (scripts/pipeline3.sh, apagar out/pedacos/Video3), mix, thumbnail, título, descrição e Shorts.
+6. Do vigia (detalhes): tag de personagem cobre rótulo de zona ("Campo Aberto", p003); sprites sobre rótulos "DeepSeek 1"/"Floresta Densa" (p003);
+   balão do Qwen Max cobre "Ruínas" (p002); clipe cobre parte do nome no ILMorte (p004). Log completo em ilha/logs/vigia.log.
