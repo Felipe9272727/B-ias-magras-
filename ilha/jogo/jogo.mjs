@@ -27,7 +27,7 @@ const Z = Object.fromEntries(ILHA.zonas.map((z) => {
   const r = RECURSOS[z.bioma] ?? { agua: 0, comida: 1, madeira: 1 }
   return [z.id, { ...z, comida: r.comida, agua: r.agua, madeira: r.madeira, itens: [], fogueira: 0, abrigos: [], armadilhas: [], inundada: false, nevoa: false }]
 }))
-Z.cornucopia.itens = [...ITENS_CORNUCOPIA, 'comida', 'comida', 'comida', 'agua', 'agua']
+Z.cornucopia.itens = [...ITENS_CORNUCOPIA, 'comida', 'comida', 'comida', 'garrafa_agua', 'garrafa_agua']
 const regras = { duplaDistrito: false, revogada: false }
 const log = { meta: { inicio: new Date().toISOString(), mock: MOCK, tributos: TRIBUTOS }, turnos: [], fim: null }
 const vivos = () => T.filter((t) => t.vivo)
@@ -47,7 +47,7 @@ function acoesPossiveis(t, z) {
   if (z.agua > 0 && t.itens.includes('cantil')) a.push('encher_cantil')
   if (z.madeira > 0) a.push('coletar_madeira')
   if (t.comida > 0) a.push('comer')
-  if (t.agua > 0) a.push('beber_cantil')
+  if (t.agua > 0) a.push(`beber_garrafa (você carrega ${t.agua} gole(s) de água — pegar água NÃO mata a sede, só beber)`)
   const outros = vivos().filter((o) => o !== t && o.zona === t.zona && !o.escondido)
   if (outros.length) a.push(`atacar:<id do tributo>`, `propor_alianca:<id>`, `dar:<item>:<id>`)
   if (t.aliados.length) a.push('romper_alianca:<id>')
@@ -67,7 +67,10 @@ function prompt(t, dia, per, turnoIdx) {
     `DIA ${dia}, ${per.toUpperCase()} (turno ${turnoIdx}). Restam ${vivos().length} tributos vivos.${mortos.length ? ` Já eliminados: ${mortos.join(', ')}.` : ''}`,
     `REGRAS ATIVAS: só um vence.${regras.duplaDistrito && !regras.revogada ? ' NOVIDADE: se os DOIS últimos vivos forem do MESMO distrito, os dois vencem juntos.' : ''}${regras.revogada ? ' ATENÇÃO: a regra da dupla foi REVOGADA, só UM vence.' : ''}`,
     `VOCÊ: vida ${t.vida}/100, fome ${t.fome}/100, sede ${t.sede}/100 (acima de 100 você perde vida), energia ${t.energia}/100.`,
-    `Inventário: ${t.itens.length ? t.itens.join(', ') : 'nada'}; comida ${t.comida}, água no cantil ${t.agua}, madeira ${t.madeira}.${t.escondido ? ' Você está escondido.' : ''}`,
+    `Inventário: ${t.itens.length ? t.itens.join(', ') : 'nada'}; comida ${t.comida} porção(ões), água carregada ${t.agua} gole(s), madeira ${t.madeira}.${t.escondido ? ' Você está escondido.' : ''}`,
+    t.sede >= 65 ? `⚠️ SEDE ALTA (${t.sede}): beba já (beber_garrafa, ou vá para Lago/Caverna/Montanha e use beber).` : '',
+    t.fome >= 65 ? `⚠️ FOME ALTA (${t.fome}): coma já.` : '',
+    t.vida <= 35 ? `⚠️ VIDA BAIXA (${t.vida}).` : '',
     `Aliados: ${t.aliados.length ? t.aliados.map((a) => porId[a].nome).join(', ') : 'nenhum'}.${(t.propostas ?? []).length ? ` Propostas de aliança recebidas (para aceitar, use propor_alianca com o id de quem propôs): ${t.propostas.map((p) => `${porId[p].nome} (${p})`).join(', ')}.` : ''}`,
     `LOCAL: ${z.nome} (${z.bioma})${z.inundada ? ' — INUNDADA, você perde vida aqui!' : ''}${z.nevoa ? ' — NÉVOA TÓXICA, saia daqui!' : ''}. Recursos: comida ${z.comida > 0 ? 'sim' : 'pouca/nenhuma'}, água ${z.agua > 0 ? 'sim' : 'não'}, madeira ${z.madeira > 0 ? 'sim' : 'não'}.${z.fogueira ? ' Há uma fogueira acesa aqui.' : ''}`,
     outros.length ? `Você vê aqui: ${outros.map(descreverOutro).join('; ')}.` : 'Você não vê ninguém por perto.',
@@ -183,7 +186,7 @@ function resolver(dec, dia, per) {
         if (i < 0) break
         const it = z.itens.splice(i, 1)[0]
         if (it === 'comida') t.comida += 2
-        else if (it === 'agua') t.agua += 2
+        else if (it === 'agua' || it === 'garrafa_agua') t.agua += 2
         else if (it === 'mochila') { t.comida += 2; t.agua += 1; t.itens.push('mochila') }
         else t.itens.push(it)
         ev.push({ tipo: 'pegar', id: t.id, item: it, zona: t.zona })
@@ -198,6 +201,7 @@ function resolver(dec, dia, per) {
       case 'coletar_madeira': if (z.madeira > 0) { t.madeira += 2; z.madeira-- } ev.push({ tipo: 'coletar', id: t.id, recurso: 'madeira', ok: true }); break
       case 'beber': if (z.agua > 0) { t.sede = Math.max(0, t.sede - 60); z.agua = z.agua > 50 ? z.agua : z.agua - 1; ev.push({ tipo: 'beber', id: t.id }) } break
       case 'encher_cantil': if (z.agua > 0 && t.itens.includes('cantil')) t.agua = 3; break
+      case 'beber_garrafa':
       case 'beber_cantil': if (t.agua > 0) { t.agua--; t.sede = Math.max(0, t.sede - 45); ev.push({ tipo: 'beber', id: t.id }) } break
       case 'comer': if (t.comida > 0) { t.comida--; t.fome = Math.max(0, t.fome - 45); t.vida = Math.min(100, t.vida + 5); ev.push({ tipo: 'comer', id: t.id }) } break
       case 'descansar': t.energia = Math.min(100, t.energia + 35); t.vida = Math.min(100, t.vida + 6); break
@@ -265,7 +269,7 @@ function eventosArena(dia, per) {
   const anunciar = (txt, extra = {}) => { ev.push({ tipo: 'anuncio', texto: txt, ...extra }); for (const t of vivos()) lembrar(t, `ANÚNCIO DA ARENA: ${txt}`) }
   if (dia === 2 && per === 'tarde') {
     const zona = escolha(['campo', 'ruinas', 'praia_leste'])
-    Z[zona].itens.push('kit_medico', 'comida', 'comida', 'agua', escolha(['arco', 'machado']))
+    Z[zona].itens.push('kit_medico', 'comida', 'comida', 'garrafa_agua', escolha(['arco', 'machado']))
     anunciar(`Um paraquedas de suprimentos caiu em ${nomeZona(zona)}.`, { zona, subtipo: 'paraquedas' })
   }
   if (dia === 3 && per === 'manhã') { regras.duplaDistrito = true; anunciar('Nova regra: se os dois últimos tributos vivos forem do mesmo distrito, os DOIS vencem.', { subtipo: 'regra_dupla' }) }
