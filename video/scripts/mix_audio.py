@@ -117,7 +117,7 @@ def main():
         filters.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voice][key]')
     # música abaixa ~10 dB enquanto há voz/efeitos
     filters.append('[music][key]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=450:makeup=1[ducked]')
-    filters.append('[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11[out]')
+    filters.append('[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false,apad[out]')  # limitador: pico real < -1 dBFS após o AAC; apad: o -shortest não corta o vídeo
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', ';'.join(filters),
            '-map', '0:v', '-c:v', 'copy', '-map', '[out]', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
            '-movflags', '+faststart', '-shortest', args.out]
