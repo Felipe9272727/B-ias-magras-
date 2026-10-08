@@ -99,6 +99,16 @@ function pose(pt: Partida, cor: string, tf: number, deTique: number): Pose {
     return {p: v, dir: 0, andando: false, alpha: dentro ? 1 - k : k, escala: dentro ? 1 - 0.5 * k : 0.5 + 0.5 * k, tarefa: false, aparente};
   }
   const pa = tarefa ? consolePos(a) : lugar(a, cor);
+  if (a === b && !tarefa) {
+    // circula pela sala: vai até um ponto próximo e volta, em ritmo diferente para cada jogador
+    const i = ORDEM.indexOf(cor);
+    const base = lugar(a, cor);
+    const fase = tf * 0.9 + i * 1.7;
+    const ox = Math.sin(fase) * 70;
+    const oy = Math.sin(fase * 0.7 + i) * 35;
+    const vx = Math.cos(fase);
+    return {p: {x: base.x + ox, y: base.y + oy}, dir: Math.sign(vx), andando: Math.abs(vx) > 0.25, alpha: 1, escala: 1, tarefa, aparente};
+  }
   if (a === b) {
     const alvo = tarefa ? consolePos(a) : lugar(a, cor);
     // se estava em outro ponto da sala (ex.: vai pro console), anda até lá
@@ -107,7 +117,8 @@ function pose(pt: Partida, cor: string, tf: number, deTique: number): Pose {
     return {p: {x: de.x + (alvo.x - de.x) * m, y: de.y + (alvo.y - de.y) * m}, dir: Math.sign(alvo.x - de.x), andando: m > 0 && m < 1 && (alvo.x !== de.x || alvo.y !== de.y), alpha: 1, escala: 1, tarefa, aparente};
   }
   const rota = vizinhas(a, b) ? [pa, ...cotovelo(a, b), lugar(b, cor)] : [pa, lugar(b, cor)];
-  const m = Math.min(1, frac / 0.8);
+  const lin = Math.min(1, frac / 0.8);
+  const m = lin < 0.5 ? 2 * lin * lin : 1 - Math.pow(-2 * lin + 2, 2) / 2;
   const r = aoLongo(rota, m);
   return {p: r.p, dir: r.dir, andando: m < 1, alpha: 1, escala: 1, tarefa: false, aparente};
 }
@@ -239,28 +250,67 @@ const Minimapa: React.FC<{poses: Record<string, Pose>; foco?: string}> = ({poses
 };
 
 // ---------------------------------------------------------------- componente principal
-type Props = {
+export type ChaveTique = {at: number; tick: number};
+
+// quadro → tique contínuo. Sem chaves: tiques espalhados por igual. Com chaves (marcações [[k:T]]
+// do roteiro), o evento do tique T acontece exatamente na palavra marcada.
+export function relogio(de: number, ate: number, dur: number, chaves: ChaveTique[] = []) {
+  const pts = [{at: 0, tf: de}, ...chaves.map((c) => ({at: c.at, tf: c.tick - 0.5})).filter((c) => c.tf > de && c.tf < ate), {at: Math.max(1, dur), tf: ate - 0.001}]
+    .sort((x, y) => x.at - y.at);
+  return (f: number) => {
+    if (f <= pts[0].at) return pts[0].tf;
+    for (let i = 1; i < pts.length; i++) {
+      if (f <= pts[i].at) {
+        const a = pts[i - 1];
+        const b = pts[i];
+        return a.tf + ((b.tf - a.tf) * (f - a.at)) / Math.max(1, b.at - a.at);
+      }
+    }
+    return pts[pts.length - 1].tf;
+  };
+}
+
+type VistaProps = {
   p: Partida;
+  tfDe: (f: number) => number;
+  w: number;
+  h: number;
+  foco?: string;
+  zoom?: string | null;
+  mostrarPapeis: boolean;
   deTique: number;
-  ateTique: number;
-  framesPorTique: number;
-  pensamentos?: string[];
-  mostrarPapeis?: boolean;
-  zoom?: string | null; // sala para a câmera (cenas de morte)
+  hud?: boolean;
 };
 
-export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, framesPorTique, pensamentos = [], mostrarPapeis = true, zoom}) => {
+// Animação de morte no estilo do jogo: impostor avança, faca, vítima cai.
+const CenaMorte: React.FC<{assassino: string; vitima: string; k: number}> = ({assassino, vitima, k}) => {
+  const entra = Math.min(1, k / 0.35);
+  const golpe = k > 0.45;
+  return (
+    <AbsoluteFill style={{background: `rgba(0,0,0,${0.75 * Math.min(1, k * 4)})`, alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{position: 'relative', width: 900, height: 420, background: '#7a0d0d', border: '8px solid #000', borderRadius: 30, overflow: 'hidden', transform: `scale(${0.85 + 0.15 * Math.min(1, k * 5)})`}}>
+        <div style={{position: 'absolute', inset: 0, background: 'repeating-linear-gradient(90deg, #8f1414 0 40px, #7a0d0d 40px 80px)'}} />
+        <div style={{position: 'absolute', left: 120 + entra * 230, top: 80}}>
+          <Crewmate cor={assassino} size={220} passo={k * 6} />
+        </div>
+        {golpe && <div style={{position: 'absolute', left: 520, top: 120, fontSize: 130, transform: `rotate(${-40 + (k - 0.45) * 160}deg)`}}>🔪</div>}
+        <div style={{position: 'absolute', left: 560, top: golpe ? 150 : 80}}>
+          <Crewmate cor={vitima} size={220} morto={golpe} />
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const Vista: React.FC<VistaProps> = ({p, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true}) => {
   const frame = useCurrentFrame();
-  const tfDe = (f: number) => Math.min(ateTique - 0.001, deTique + Math.max(0, f) / framesPorTique);
   const tf = tfDe(frame);
   const t1 = Math.floor(tf) + 1;
   const frac = tf - Math.floor(tf);
-
   const poses: Record<string, Pose> = {};
   for (const cor of ORDEM) poses[cor] = pose(p, cor, tf, deTique);
+  const foco = focoPedido && poses[focoPedido] ? focoPedido : undefined;
 
-  // câmera: segue o primeiro jogador "pensante" (suavizada), ou a sala da cena, ou o centro da nave
-  const foco = pensamentos.find((c) => poses[c]) ?? undefined;
   let cam: P;
   if (zoom) cam = centro(zoom);
   else if (foco) {
@@ -272,8 +322,12 @@ export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, framesPorTique,
       if (q) { sx += q.p.x; sy += q.p.y; n++ }
     }
     cam = n ? {x: sx / n, y: sy / n} : centro('Refeitorio');
+  } else if (focoPedido) {
+    // foco morreu: a câmera fica onde ele estava
+    const ultimo = salasNoTique(p, Math.floor(tf))[focoPedido];
+    cam = ultimo ? centro(ultimo.sala) : centro('Refeitorio');
   } else cam = {x: 2780, y: 1560};
-  const escala = zoom ? 1.15 : foco ? 1 : 0.34;
+  const escala = (zoom ? 1.15 : focoPedido ? 1 : 0.34) * (w < 1500 ? 0.8 : 1);
 
   const est = p.tiques[t1]?.estado ?? p.tiques[Math.floor(tf)]?.estado;
   const sab = est?.sabotagem ?? null;
@@ -281,17 +335,19 @@ export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, framesPorTique,
   const tarefas = est ? est.tarefas / est.totalTarefas : 0;
   const corpos = corposNoTique(p, frac > 0.55 ? t1 : Math.floor(tf));
   const morte = p.eventos.find((e) => e.tipo === 'morte' && e.tique === t1);
-  const flash = morte ? interpolate(frac, [0.45, 0.55, 0.85], [0, 0.6, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
-  const tq = p.tiques[t1];
-
+  // a câmera vê a morte? (mesma sala do foco ou zoom na sala)
+  const salaFoco = foco ? salasNoTique(p, t1)[foco]?.sala ?? salasNoTique(p, Math.floor(tf))[foco]?.sala : undefined;
+  const veMorte = !!morte && (zoom === morte.sala || salaFoco === morte.sala || foco === morte.assassino || foco === morte.vitima);
+  const kMorte = veMorte ? (frac - 0.38) / 0.3 : -1;
+  const flash = morte && veMorte ? interpolate(frac, [0.68, 0.71, 0.84], [0, 0.5, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
   const mundo: React.CSSProperties = {
     position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0',
-    transform: `translate(${960 - cam.x * escala}px, ${540 - cam.y * escala}px) scale(${escala})`,
+    transform: `translate(${w / 2 - cam.x * escala}px, ${h / 2 - cam.y * escala}px) scale(${escala})`,
   };
-  const raio = luzes ? 260 : 620;
+  const raio = (luzes ? 260 : 620) * (w < 1500 ? 0.8 : 1);
 
   return (
-    <AbsoluteFill style={{background: '#05060c', overflow: 'hidden'}}>
+    <div style={{position: 'absolute', inset: 0, overflow: 'hidden', background: '#05060c'}}>
       <div style={mundo}>
         <Nave alerta={sab?.tipo === 'Reator' ? 0.1 + 0.08 * Math.sin(frame / 4) : 0} />
         {corpos.map((c) => {
@@ -327,33 +383,74 @@ export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, framesPorTique,
             </div>
           );
         })}
-        {morte && frac > 0.45 && frac < 0.95 && (
-          <div style={{position: 'absolute', left: lugar(morte.sala, morte.vitima).x - 40, top: lugar(morte.sala, morte.vitima).y - 200, fontSize: 90}}>🔪</div>
-        )}
       </div>
-      {/* visão: escuro fora do raio (luzes apagadas = raio pequeno) */}
       {foco && !zoom && (
-        <AbsoluteFill style={{background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.75}px, rgba(0,0,0,${luzes ? 0.93 : 0.6}) ${raio}px)`}} />
+        <div style={{position: 'absolute', inset: 0, background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.75}px, rgba(0,0,0,${luzes ? 0.93 : 0.55}) ${raio}px)`}} />
       )}
-      {(!foco || zoom) && luzes && <AbsoluteFill style={{background: 'rgba(0,0,0,.55)'}} />}
-      <AbsoluteFill style={{background: '#ff1e1e', opacity: flash}} />
-      {/* HUD */}
-      <div style={{position: 'absolute', left: 32, top: 26, width: 560}}>
-        <div style={{height: 38, background: '#1b1f2a', border: '5px solid #000', borderRadius: 4, overflow: 'hidden'}}>
-          <div style={{width: `${tarefas * 100}%`, height: '100%', background: '#43d43b'}} />
-        </div>
-        <div style={{fontFamily: FONT.display, fontWeight: 900, color: '#fff', fontSize: 19, marginTop: 4, textShadow: '0 0 5px #000'}}>TAREFAS CONCLUÍDAS · tique {t1}</div>
+      {(!foco || zoom) && luzes && <div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,.55)'}} />}
+      {kMorte > 0 && kMorte < 1 && morte && <CenaMorte assassino={morte.aparente ?? morte.assassino} vitima={morte.vitima} k={kMorte} />}
+      <div style={{position: 'absolute', inset: 0, background: '#ff1e1e', opacity: flash}} />
+      {hud && (
+        <>
+          <div style={{position: 'absolute', left: 32, top: 26, width: Math.min(560, w * 0.4)}}>
+            <div style={{height: 38, background: '#1b1f2a', border: '5px solid #000', borderRadius: 4, overflow: 'hidden'}}>
+              <div style={{width: `${tarefas * 100}%`, height: '100%', background: '#43d43b'}} />
+            </div>
+            <div style={{fontFamily: FONT.display, fontWeight: 900, color: '#fff', fontSize: 19, marginTop: 4, textShadow: '0 0 5px #000'}}>TAREFAS CONCLUÍDAS</div>
+          </div>
+          {sab && (
+            <div style={{position: 'absolute', left: '50%', top: 30, transform: 'translateX(-50%)', padding: '10px 24px', background: '#b80000', border: '5px solid #000', borderRadius: 10,
+              fontFamily: FONT.display, fontWeight: 900, fontSize: 28, color: '#fff', opacity: 0.75 + 0.25 * Math.sin(frame / 3), whiteSpace: 'nowrap'}}>
+              🚨 SABOTAGEM: {sab.tipo.toUpperCase()}
+            </div>
+          )}
+          <Minimapa poses={poses} foco={foco} />
+        </>
+      )}
+    </div>
+  );
+};
+
+const Pensamento: React.FC<{p: Partida; cor: string; texto?: string; mostrarPapeis: boolean; opacidade: number}> = ({p, cor, texto, mostrarPapeis, opacidade}) => {
+  if (!texto) return null;
+  const info = papelDe(p, cor);
+  return (
+    <div style={{flex: '0 1 860px', display: 'flex', gap: 14, alignItems: 'center', padding: '12px 18px', borderRadius: 20, background: '#fffdf2',
+      border: `5px solid ${mostrarPapeis && info.time === 'impostor' ? '#d10000' : '#000'}`, boxShadow: '0 8px 0 rgba(0,0,0,.4)', opacity: opacidade}}>
+      <Crewmate cor={cor} size={58} />
+      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 24, lineHeight: 1.25, color: '#111'}}>
+        <b style={{color: COR[cor].shade}}>{cor} pensa:</b> {texto}
       </div>
-      {sab && (
-        <div style={{position: 'absolute', left: '50%', top: 30, transform: 'translateX(-50%)', padding: '10px 24px', background: '#b80000', border: '5px solid #000', borderRadius: 10,
-          fontFamily: FONT.display, fontWeight: 900, fontSize: 28, color: '#fff', opacity: 0.75 + 0.25 * Math.sin(frame / 3)}}>
-          🚨 SABOTAGEM: {sab.tipo.toUpperCase()}
-        </div>
-      )}
-      <Minimapa poses={poses} foco={foco} />
-      {foco && (
+    </div>
+  );
+};
+
+type Props = {
+  p: Partida;
+  deTique: number;
+  ateTique: number;
+  duracao: number;
+  chaves?: ChaveTique[];
+  pensamentos?: string[];
+  mostrarPapeis?: boolean;
+  zoom?: string | null;
+};
+
+export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, duracao, chaves, pensamentos = [], mostrarPapeis = true, zoom}) => {
+  const frame = useCurrentFrame();
+  const tfDe = React.useMemo(() => relogio(deTique, ateTique, duracao, chaves), [deTique, ateTique, duracao, chaves]);
+  const tf = tfDe(frame);
+  const t1 = Math.floor(tf) + 1;
+  const frac = tf - Math.floor(tf);
+  const tq = p.tiques[t1];
+  const foco = pensamentos[0];
+  const papelFoco = foco ? papelDe(p, foco) : undefined;
+  return (
+    <AbsoluteFill>
+      <Vista p={p} tfDe={tfDe} w={1920} h={1080} foco={foco} zoom={zoom} mostrarPapeis={mostrarPapeis} deTique={deTique} />
+      {foco && papelFoco && (
         <div style={{position: 'absolute', right: 34, bottom: pensamentos.length ? 190 : 36, display: 'flex', gap: 16}}>
-          {(papelDe(p, foco).time === 'impostor' ? ['MATAR', 'SABOTAR', 'DUTO'] : ['USAR', 'DENUNCIAR']).map((b) => (
+          {(papelFoco.time === 'impostor' ? ['MATAR', 'SABOTAR', 'DUTO'] : ['USAR', 'DENUNCIAR']).map((b) => (
             <div key={b} style={{width: 112, height: 112, borderRadius: 18, background: '#ffffff22', border: '4px solid #ffffff99', display: 'grid', placeItems: 'center',
               fontFamily: FONT.display, fontWeight: 900, fontSize: 17, color: '#fff', textShadow: '0 0 4px #000'}}>
               {b}
@@ -361,23 +458,47 @@ export const Gameplay: React.FC<Props> = ({p, deTique, ateTique, framesPorTique,
           ))}
         </div>
       )}
-      {/* pensamentos secretos */}
       <div style={{position: 'absolute', left: 40, right: 40, bottom: 30, display: 'flex', gap: 18, justifyContent: 'center'}}>
-        {pensamentos.map((cor) => {
-          const pens = tq?.decisoes.find((d) => d.cor === cor)?.pensamento;
-          if (!pens) return null;
-          const info = papelDe(p, cor);
-          return (
-            <div key={cor} style={{flex: '0 1 860px', display: 'flex', gap: 14, alignItems: 'center', padding: '12px 18px', borderRadius: 20, background: '#fffdf2',
-              border: `5px solid ${mostrarPapeis && info.time === 'impostor' ? '#d10000' : '#000'}`, boxShadow: '0 8px 0 rgba(0,0,0,.4)',
-              opacity: interpolate(frac, [0, 0.1, 0.9, 1], [0.3, 1, 1, 0.85])}}>
-              <Crewmate cor={cor} size={58} />
-              <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 24, lineHeight: 1.25, color: '#111'}}>
-                <b style={{color: COR[cor].shade}}>{cor} pensa:</b> {pens}
-              </div>
-            </div>
-          );
-        })}
+        {pensamentos.map((cor) => (
+          <Pensamento key={cor} p={p} cor={cor} texto={tq?.decisoes.find((d) => d.cor === cor)?.pensamento} mostrarPapeis={mostrarPapeis}
+            opacidade={interpolate(frac, [0, 0.1, 0.9, 1], [0.3, 1, 1, 0.85])} />
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// Tela dividida "ENQUANTO ISSO…": duas câmeras ao mesmo tempo, cada uma com o pensamento do seu jogador.
+export const GameplayDividida: React.FC<Props & {esquerda: string; direita: string}> = ({p, deTique, ateTique, duracao, chaves, esquerda, direita, mostrarPapeis = true}) => {
+  const frame = useCurrentFrame();
+  const tfDe = React.useMemo(() => relogio(deTique, ateTique, duracao, chaves), [deTique, ateTique, duracao, chaves]);
+  const tf = tfDe(frame);
+  const t1 = Math.floor(tf) + 1;
+  const tq = p.tiques[t1];
+  const entra = interpolate(frame, [0, 14], [0, 1], {extrapolateRight: 'clamp'});
+  const lado = (cor: string, x: number) => {
+    const sala = salasNoTique(p, t1)[cor]?.sala ?? salasNoTique(p, Math.floor(tf))[cor]?.sala;
+    return (
+      <div style={{position: 'absolute', left: x, top: 0, width: 954, height: 1080, overflow: 'hidden'}}>
+        <Vista p={p} tfDe={tfDe} w={954} h={1080} foco={cor} mostrarPapeis={mostrarPapeis} deTique={deTique} hud={false} />
+        <div style={{position: 'absolute', ...(x === 0 ? {left: 24} : {right: 24}), top: 90, padding: '8px 18px', background: '#000c', border: `4px solid ${COR[cor].body}`, borderRadius: 12,
+          fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#fff'}}>
+          {cor}{sala ? ` · ${SALAS[sala].nome}` : ''}
+        </div>
+        <div style={{position: 'absolute', left: 20, right: 20, bottom: 28, display: 'flex'}}>
+          <Pensamento p={p} cor={cor} texto={tq?.decisoes.find((d) => d.cor === cor)?.pensamento} mostrarPapeis={mostrarPapeis} opacidade={1} />
+        </div>
+      </div>
+    );
+  };
+  return (
+    <AbsoluteFill style={{background: '#000'}}>
+      <div style={{position: 'absolute', inset: 0, transform: `translateX(${(1 - entra) * -200}px)`, opacity: entra}}>{lado(esquerda, 0)}</div>
+      <div style={{position: 'absolute', inset: 0, transform: `translateX(${(1 - entra) * 200}px)`, opacity: entra}}>{lado(direita, 966)}</div>
+      <div style={{position: 'absolute', left: 954, top: 0, width: 12, height: 1080, background: '#ffd84d'}} />
+      <div style={{position: 'absolute', left: '50%', top: 22, transform: 'translateX(-50%)', padding: '8px 26px', background: '#ffd84d', border: '5px solid #000', borderRadius: 14,
+        fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#000', whiteSpace: 'nowrap'}}>
+        ENQUANTO ISSO…
       </div>
     </AbsoluteFill>
   );

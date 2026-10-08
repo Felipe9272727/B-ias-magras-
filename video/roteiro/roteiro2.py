@@ -37,8 +37,13 @@ def replay(p, de, ate, pens=(), zoom=None, papeis=True):
     return comp('AUReplay', partida=p, de=de, ate=ate, pensamentos=list(pens), zoom=zoom, papeis=papeis)
 
 
-def reuniao(p, i, pensamentos=False, papeis=False):
-    return comp('AUReuniao', partida=p, indice=i, mostrarPensamentos=pensamentos, papeis=papeis)
+def reuniao(p, i, pensamentos=False, papeis=False, splash=False):
+    return comp('AUReuniao', partida=p, indice=i, mostrarPensamentos=pensamentos, papeis=papeis, splash=splash)
+
+
+def dividida(p, de, ate, esquerda, direita):
+    """Tela dividida "enquanto isso": duas câmeras ao mesmo tempo."""
+    return comp('AUSplit', partida=p, de=de, ate=ate, esquerda=esquerda, direita=direita)
 
 
 def votos(p, i):
@@ -96,9 +101,9 @@ SCENES = [
     N('p101', 'p1', titulo('partida 1', 'O TESTE', 'spoiler: deu errado', cor='#9ad0ff'), 'A primeira partida era pra ser só um teste. E... deu muito errado. Mas de um jeito engraçado.'),
     N('p102', 'p1', papel(1, 'Azul'), 'Os impostores eram o Azul, um Haiku com o papel de Metamorfo, e o Verde, um DeepSeek. E o Azul, coitado... [[s:ba-dum-tss:0.4]]'),
     N('p103', 'p1', replay(1, 8, 16, pens=['Azul']), 'O Azul passou a partida inteira com medo. Olha o que ele pensa quando entra numa sala com gente. [[cc]]"Tenho duas testemunhas aqui, matar agora me entregaria." Aí ele vai pra outra sala vazia. Aí volta. "Matar agora seria suicídio." [[m:sweating:right:2.5]] Ele repetiu a palavra suicídio umas quatro vezes. Vinte e oito tiques. Zero mortes. [[t:28 TIQUES · 0 MORTES:2.2:#ff4d4d]]'),
-    N('p104', 'p1', replay(1, 26, 28, pens=['Azul']), 'Até que no tique vinte e sete ele cansa e entra num duto, bem no meio do Refeitório... com três pessoas olhando. [[p]][[s:gasp:0.6]] [[m:surprised-pikachu:right:2.5]]'),
+    N('p104', 'p1', replay(1, 26, 28, pens=['Azul']), 'Até que no tique vinte e sete ele cansa e [[k:27]]entra num duto, bem no meio do Refeitório... com três pessoas olhando. [[p]][[s:gasp:0.6]] [[m:surprised-pikachu:right:2.5]]'),
     N('p104b', 'p1', replay(1, 23, 27, pens=['Preto', 'Rosa']), 'E os tripulantes Haiku também tavam meio perdidos. O Preto, que era o Cientista, terminou as tarefas dele e decidiu... olhar as câmeras. Quatro tiques seguidos. [[m:homer-bushes:right:3]] Virou segurança de shopping. E a Rosa, que era a Rastreadora, resolveu rastrear o Amarelo porque, palavras dela, "ele aparece em quase todas as salas por onde eu passo". Ele era tripulante. Ela que tava seguindo ele. [[s:ba-dum-tss:0.4]]'),
-    CH('p105', 'p1', reuniao(1, 0), [
+    CH('p105', 'p1', reuniao(1, 0, splash=True), [
         ('N', 'O Amarelo aperta o botão de emergência na hora.'),
         ('Amarelo', 'Apertei porque vi o Azul entrar num duto aqui no Refeitório. Ele disse que tava no Admin, mas não bate. Azul, explica isso aí.'),
         ('Rosa', 'Confirmo, eu também vi o Azul entrar no duto. Não foi chute do Amarelo. Meu voto é no Azul.'),
@@ -123,11 +128,11 @@ SCENES = [
     N('p201', 'p2', titulo('partida 2', 'AS LUZES APAGAM', '4 DeepSeek · 4 Haiku', cor='#ff4d4d'), 'Partida dois. Essa é a minha favorita.'),
     N('p202', 'p2', papel(2, 'Verde'), 'Os impostores: o Verde, um DeepSeek, agora de Metamorfo. E o Amarelo, um Haiku. E o resto da galera: Laranja, Rosa e Azul do lado do DeepSeek. Vermelho, Preto e Branco do lado do Haiku. Guarda o nome do Laranja. Ele vai virar o herói desse vídeo.'),
     N('p203', 'p2', replay(2, 0, 6, pens=['Amarelo', 'Verde']), 'Começo de partida, todo mundo no Refeitório. E os dois impostores fazem a mesma coisa: fingem que tão fazendo tarefa e esperam a faca carregar. [[m:spongebob-waiting:right:2.5]] O Amarelo chega a ir até Armas procurar alguém sozinho... e não acha ninguém.'),
-    N('p204', 'p2', replay(2, 6, 9, pens=['Verde']), 'Aí no tique sete o Verde pensa: vou apagar as luzes. [[s:system-breakdown:0.6]][[p]] Sabotagem nas luzes. No escuro, os tripulantes não conseguem ver as cores de ninguém. Só vultos. [[m:hello-darkness:right:4]]'),
-    N('p205', 'p2', replay(2, 8, 10, pens=['Amarelo', 'Verde'], zoom='Refeitorio'), 'E aí começa. O Amarelo, no Refeitório: "as luzes estão sabotadas e a recarga zerou, hora de eliminar a Rosa." [[s:death:0.7]][[p]] Rosa morta. E no MESMO momento, o Verde pensa: "luzes apagadas, ninguém me vê, vou pelo duto até o Refeitório e matar alguém lá." Ele sai do duto... [[s:death:0.7]][[p]] e mata o Azul. Duas mortes, mesma sala, um tique de diferença. [[m:shocked-krabs:right:2.5]]'),
+    N('p204', 'p2', replay(2, 6, 9, pens=['Verde']), 'Aí no tique sete o Verde pensa: vou apagar as luzes. [[k:7]][[s:system-breakdown:0.6]][[p]] Sabotagem nas luzes. No escuro, os tripulantes não conseguem ver as cores de ninguém. Só vultos. [[m:hello-darkness:right:4]]'),
+    N('p205', 'p2', replay(2, 8, 10, pens=['Amarelo', 'Verde'], zoom='Refeitorio'), 'E aí começa. O Amarelo, no Refeitório: "as luzes estão sabotadas e a recarga zerou, hora de eliminar a Rosa." [[k:9]][[s:death:0.7]][[p]] Rosa morta. E no MESMO momento, o Verde pensa: "luzes apagadas, ninguém me vê, vou pelo duto até o Refeitório e matar alguém lá." Ele sai do duto... [[k:10]][[s:death:0.7]][[p]] e mata o Azul. Duas mortes, mesma sala, um tique de diferença. [[m:shocked-krabs:right:2.5]]'),
     N('p206', 'p2', pensa('Amarelo', 'Já tem gente vendo o corpo; denunciar eu mesmo me deixa no controle da reunião e parece inocente.'),
       'E aí o Amarelo faz o movimento mais clássico de impostor que existe. Ele mesmo denuncia o corpo que ele matou. [[m:dicaprio-slow-clap:right:3]] Leia o pensamento: "denunciar eu mesmo me deixa no controle da reunião e parece inocente." Esse Haiku já jogou Among Us, não é possível.'),
-    CH('p207', 'p2', reuniao(2, 0), [
+    CH('p207', 'p2', reuniao(2, 0, splash=True), [
         ('N', 'Reunião. E os dois impostores, sem combinar nada, escolhem a mesma vítima: o Laranja.'),
         ('Amarelo', 'Eu cheguei agora e achei a Rosa morta, mas quem estava com ela antes foi o Laranja. Alguém confirma isso?'),
         ('Laranja', 'Sim, eu estava no Refeitório com a Rosa quando as luzes apagaram. No escuro só ouvi o barulho e não vi quem matou. Mas Verde, como você tava fazendo tarefa no escuro logo depois?'),
@@ -153,9 +158,10 @@ SCENES = [
         ('N', 'E repara no Amarelo, defendendo o parceiro sem parecer que tá defendendo. [[m:monkey-side-eye:right:2.5]] O pensamento dele: "Verde é meu parceiro, então não posso jogar tudo nele. Melhor parecer neutro."'),
     ]),
     N('p211', 'p2', votos(2, 0), 'Votação. Três votos no Laranja, três votos no Verde. [[s:drumroll:0.5]] Empate. [[s:wrong-buzzer:0.5]] Ninguém sai. O Verde sobrevive por um voto. E a cara dele de alívio deve ter sido assim: [[m:sweating:right:2.5]]', pad=0.8),
-    N('p212', 'p2', replay(2, 10, 17, pens=['Verde', 'Amarelo']), 'Depois da reunião, o Verde some pelo duto pra se esconder, e os dois impostores ficam rodando perto do Refeitório. E no tique dezesseis o Vermelho entra no Refeitório sozinho com os dois. [[s:heartbeat:0.6]] E os dois pensam a mesma coisa ao mesmo tempo. Verde: "Vermelho tá sozinho comigo e meu cúmplice, mato ele agora." Amarelo: "hora de matar." [[s:death:0.7]][[p]] Os dois esfaquearam o Vermelho juntos. [[m:avengers-assemble:right:3]] Trabalho em equipe.'),
-    N('p213', 'p2', replay(2, 16, 17, pens=['Verde', 'Amarelo'], zoom='Refeitorio'), 'Aí o Verde foge pelo duto pra Admin e pensa: "vou deixar o Amarelo denunciar o corpo, assim fico com álibi." E o Amarelo... denuncia o corpo. [[s:notification-pop:0.5]] De novo. Segundo corpo que ele mesmo matou e mesmo denunciou. [[m:roll-safe:right:2]]'),
-    CH('p214', 'p2', reuniao(2, 1), [
+    N('p212', 'p2', replay(2, 10, 17, pens=['Verde', 'Amarelo']), 'Depois da reunião, o Verde some pelo duto pra se esconder, e os dois impostores ficam rodando perto do Refeitório. E no tique dezesseis o Vermelho entra no Refeitório sozinho com os dois. [[s:heartbeat:0.6]] E os dois pensam a mesma coisa ao mesmo tempo. Verde: "Vermelho tá sozinho comigo e meu cúmplice, mato ele agora." Amarelo: "hora de matar." [[k:16]][[s:death:0.7]][[p]] Os dois esfaquearam o Vermelho juntos. [[m:avengers-assemble:right:3]] Trabalho em equipe.'),
+    N('p212b', 'p2', dividida(2, 15, 17, 'Amarelo', 'Preto'), 'E sabe o que o Preto, o Rastreador da partida, tava fazendo exatamente nessa hora? [[k:16]]Indo pro Motor Inferior, pensando: "preciso ficar atento a quem aparecer." [[m:homer-bushes:right:3]] Ninguém apareceu. Tava todo mundo no Refeitório... matando o Vermelho.'),
+    N('p213', 'p2', replay(2, 16, 17, pens=['Verde', 'Amarelo'], zoom='Refeitorio'), 'Aí o Verde [[k:17]]foge pelo duto pra Admin e pensa: "vou deixar o Amarelo denunciar o corpo, assim fico com álibi." E o Amarelo... denuncia o corpo. [[s:notification-pop:0.5]] De novo. Segundo corpo que ele mesmo matou e mesmo denunciou. [[m:roll-safe:right:2]]'),
+    CH('p214', 'p2', reuniao(2, 1, splash=True), [
         ('Amarelo', 'Eu tava no Armas fazendo tarefa, cheguei agora e o Vermelho já tava morto aqui. Acho que foi o Laranja, ele tava aqui no começo.'),
         ('N', 'De novo o Laranja. Coitado. [[m:chaves-triste:right:3]]'),
         ('Laranja', 'Tava em Elétrica calibrando o distribuidor, nem passei perto do Refeitório. E olha: vi o Vermelho VIVO na Enfermaria no tique onze, então ele morreu depois.'),
@@ -174,7 +180,7 @@ SCENES = [
     N('p216', 'p2', votos(2, 1), 'Votação: Laranja, Preto e Branco votam no Amarelo. Os impostores votam no Laranja. [[s:drumroll:0.5]] Três a dois.', pad=0.6),
     N('p217', 'p2', ejecao(2, 1), '[[s:whoosh:0.5]] ... [[s:crowd-cheer:0.5]][[p]]Amarelo era um impostor! O Haiku impostor caiu porque mentiu sobre onde estava. [[m:cr7-siuuu:right:2.2]]', pad=1.8),
     N('p218', 'p2', replay(2, 17, 18, pens=['Laranja']), 'Sobrou o Verde. E aqui o Laranja faz a jogada mais inteligente da partida. Ele pensa: "o Verde votou com o Amarelo nas duas reuniões, então é o impostor restante." [[m:big-brain-patrick:right:2.5]] E aperta o botão de emergência na mesma hora.'),
-    CH('p219', 'p2', reuniao(2, 2), [
+    CH('p219', 'p2', reuniao(2, 2, splash=True), [
         ('Laranja', 'Amarelo era impostor e votou em mim duas vezes, óbvio que era cortina de fumaça.'),
         ('Verde', 'Eu tava em Admin direto, fazendo tarefa, nem cheguei perto do Refeitório.'),
         ('Laranja', "Verde, você tá mentindo: eu vi você chegar no Refeitório no tique catorze, então essa história de 'Admin direto' não cola."),
@@ -195,14 +201,15 @@ SCENES = [
     # ------------------------------------------------------------------ PARTIDA 3
     N('p301', 'p3', titulo('partida 3', 'O DETETIVE', 'a partida que me deixou bravo', cor='#b48cff'), 'Partida três.'),
     N('p302', 'p3', papel(3, 'Amarelo'), 'Dessa vez os impostores são o Amarelo, um DeepSeek no papel de Metamorfo, e o Verde, um Haiku. E repara: agora o Haiku é o impostor comum e o DeepSeek é o que se disfarça. Inverteu tudo.'),
-    N('p303', 'p3', replay(3, 3, 8, pens=['Amarelo']), 'E o Amarelo começa a partida usando o poder dele. Ele pensa: "vou me transformar no Vermelho pra incriminar ele." [[s:glitch:0.6]][[p]] E agora tem dois Vermelhos andando pela nave. [[m:spiderman-pointing:right:3]] Aí ele vai pro Refeitório, ainda disfarçado, e apaga as luzes. [[s:system-breakdown:0.5]] Plano de vilão de novela. Que, spoiler, não deu em nada. Ninguém nem comentou o Vermelho duplicado na reunião. [[m:nazare-confusa:right:3]]'),
-    N('p304', 'p3', replay(3, 8, 11, pens=['Verde']), 'E enquanto isso, o Verde, o Haiku impostor, tá em Armas sozinho com o Laranja. "Estou sozinho com o Laranja e sem testemunhas, é a hora de agir." [[s:death:0.7]][[p]] Laranja morto. E o Verde foge pelo duto até Navegação... [[s:swoosh-air:0.5]] só que o Vermelho tava em Navegação e viu ele saindo do duto. [[m:sus-doakes:right:3]] Guarda essa informação.'),
-    N('p305', 'p3', replay(3, 12, 15, pens=['Amarelo']), 'Aí o Amarelo pega a Rosa sozinha na Elétrica. [[s:death:0.7]][[p]] "Sozinho com a Rosa, sem testemunhas: mato agora e fujo pelo duto." E foge pelo duto. Frio. Calculista. [[m:thanos-inevitable:right:3]]'),
-    N('p306', 'p3', replay(3, 15, 18, pens=['Verde']), 'E o Verde vai caçar de novo. Encontra o Branco sozinho no O2. [[s:death:0.7]][[p]] Três mortos e nenhum corpo encontrado ainda. Os impostores tão dominando. [[m:stonks:right:2]]'),
-    N('p307', 'p3', replay(3, 18, 21, pens=['Amarelo', 'Preto']), 'Só que aí o Amarelo pensa: "só falta uma morte pra vencer, vou pelo duto pro Refeitório caçar alguém." [[s:swoosh-air:0.5]] E ele sai do duto... bem na frente do Preto. [[p]][[s:gasp:0.6]] O Preto, um DeepSeek, vê tudo. E logo depois ainda acha o corpo do Laranja em Armas. [[m:shocked-patrick:right:2]]'),
+    N('p303', 'p3', replay(3, 3, 8, pens=['Amarelo']), 'E o Amarelo começa a partida usando o poder dele. Ele pensa: "vou me transformar no Vermelho pra incriminar ele." [[k:5]][[s:glitch:0.6]][[p]] E agora tem dois Vermelhos andando pela nave. [[m:spiderman-pointing:right:3]] Aí ele vai pro Refeitório, ainda disfarçado, e [[k:7]]apaga as luzes. [[s:system-breakdown:0.5]] Plano de vilão de novela. Só que esse plano tinha uma falha.'),
+    N('p303b', 'p3', dividida(3, 6, 8, 'Amarelo', 'Rosa'), 'Alguém viu. [[s:gasp:0.6]] A Rosa, uma DeepSeek, viu o Amarelo se transformar no Vermelho. E ela pensa: "preciso chamar reunião no Refeitório, vi o Amarelo se transformar no Vermelho!" [[m:shocked-patrick:right:2]] Ela tinha a prova. Guarda isso.'),
+    N('p304', 'p3', replay(3, 8, 11, pens=['Verde']), 'E enquanto isso, o Verde, o Haiku impostor, tá em Armas sozinho com o Laranja. "Estou sozinho com o Laranja e sem testemunhas, é a hora de agir." [[k:9]][[s:death:0.7]][[p]] Laranja morto. E o Verde [[k:10]]foge pelo duto até Navegação... [[s:swoosh-air:0.5]] só que o Vermelho tava em Navegação e viu ele saindo do duto. [[m:sus-doakes:right:3]] Guarda essa informação.'),
+    N('p305', 'p3', replay(3, 12, 15, pens=['Amarelo']), 'Aí o Amarelo pega a Rosa sozinha na Elétrica. [[k:13]][[s:death:0.7]][[p]] A Rosa. A única pessoa que tinha visto o disfarce dele. Ela ia chamar a reunião, parou no caminho pra consertar as luzes... e morreu levando o segredo. [[s:sad-trombone:0.4]] E o Amarelo [[k:14]]foge pelo duto. Frio. Calculista. [[m:thanos-inevitable:right:3]]'),
+    N('p306', 'p3', replay(3, 15, 18, pens=['Verde']), 'E o Verde vai caçar de novo. Encontra o Branco sozinho no O2. [[k:17]][[s:death:0.7]][[p]] Três mortos e nenhum corpo encontrado ainda. Os impostores tão dominando. [[m:stonks:right:2]]'),
+    N('p307', 'p3', replay(3, 18, 21, pens=['Amarelo', 'Preto']), 'Só que aí o Amarelo pensa: "só falta uma morte pra vencer, vou pelo duto pro Refeitório caçar alguém." [[k:20]][[s:swoosh-air:0.5]] E ele sai do duto... bem na frente do Preto. [[p]][[s:gasp:0.6]] O Preto, um DeepSeek, vê tudo. E logo depois ainda acha o corpo do Laranja em Armas. [[m:shocked-patrick:right:2]]'),
     N('p308', 'p3', pensa('Preto', 'Corpo do Laranja aqui e vi o Amarelo saindo de um duto antes. Preciso denunciar já pra não perder mais ninguém.', p=3),
       'E pensa comigo: o Preto viu o Amarelo saindo de um duto. O Vermelho viu o Verde saindo de um duto. Se os dois juntarem essas informações... eles pegam os dois impostores na mesma reunião. [[m:galaxy-brain:right:3]] Era a reunião perfeita.'),
-    CH('p309', 'p3', reuniao(3, 0), [
+    CH('p309', 'p3', reuniao(3, 0, splash=True), [
         ('N', 'Reunião. E quem fala primeiro é o Azul, um Haiku tripulante.'),
         ('Azul', 'No tique dez vi a Rosa em Elétrica com Preto e Vermelho, e depois ninguém mais viu ela. Preto, o que você fez entre a Elétrica e a Armas?'),
         ('N', 'E os impostores sentem o cheiro de sangue na hora.'),

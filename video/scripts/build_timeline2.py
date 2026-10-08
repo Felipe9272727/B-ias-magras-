@@ -163,6 +163,8 @@ def marcas(rest_kind, rest, f, vis, memes, sfx_files, warnings, sid, events):
     kind, rest = rest_kind, rest
     if kind == 'p':
         events.append(dict(type='punch', at=f))
+    elif kind == 'k':  # sincronia: o evento do tique indicado acontece nesta palavra
+        events.append(dict(type='tk', at=f, tick=float(rest)))
     elif kind == 'm':
         parts = rest.split(':')
         mid = parts[0]
@@ -268,6 +270,9 @@ def main():
         sid = sc['id']
         vis = json.loads(json.dumps(sc['visual']))
         lead = sc.get('lead', 0.5 if vis.get('name') == 'AUTitulo' else 0.25)
+        splash = bool(vis.get('props', {}).get('splash'))
+        if splash:
+            lead = max(lead, 1.75)
         pad = sc.get('pad', 0.5)
         events, words, forced, voices = [], [], set(), []
         if 'text' in sc:
@@ -311,6 +316,8 @@ def main():
                 ev['dur'] = max(12, min(ev['dur'], duration - ev['at']))
         cap = bt.caption_groups(words, forced) if words else []
         events += [dict(type='voz', at=v['at'], src=v['src']) for v in voices]
+        if splash:
+            events.append(dict(type='sfx', at=2, id='boom', file=sfx_files['boom'], vol=0.9))
         scenes.append(dict(
             id=sid, chapter=mod.CHAPTERS[sc['chapter']], chapterKey=sc['chapter'], start=cursor, duration=duration,
             audio=None, audioOffset=0, audioDuration=0, words=words, visual=vis, segments=[],

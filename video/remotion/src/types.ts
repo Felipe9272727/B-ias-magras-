@@ -23,7 +23,8 @@ export type SceneEvent =
   | {type: 'hl'; at: number; key: string}
   | {type: 'txt'; at: number; dur: number; text: string; color?: string}
   | {type: 'punch'; at: number}
-  | {type: 'voz'; at: number; src: string};
+  | {type: 'voz'; at: number; src: string}
+  | {type: 'tk'; at: number; tick: number};
 
 export type Visual =
   | {type: 'clip'}

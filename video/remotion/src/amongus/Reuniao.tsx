@@ -31,9 +31,10 @@ type Props = {
   mostrarPapeis?: boolean;
   chat?: {cor: string; texto: string; at: number; pensamento?: string}[]; // falas na ordem do roteiro, com o quadro em que aparecem
   duracao?: number; // na votação: espalha os votos pela cena
+  splash?: boolean; // abre com a tela de "corpo encontrado"/"reunião de emergência"
 };
 
-export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis, chat, duracao}) => {
+export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, framesPorFala = 75, inicioFalas, votos, pensamentoDe, mostrarPapeis, chat, duracao, splash}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const r = p.reunioes[indice];
@@ -145,6 +146,15 @@ export const Reuniao: React.FC<Props> = ({p, indice, falaDe = 0, falaAte, frames
           })}
         </div>
       </div>
+      {splash && frame < 55 && (
+        <AbsoluteFill style={{background: r.tipo === 'corpo' ? '#5c0000' : '#002a5c', opacity: interpolate(frame, [0, 4, 42, 55], [0, 1, 1, 0]), alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{position: 'absolute', inset: 0, background: 'repeating-conic-gradient(from 0deg at 50% 50%, #ffffff10 0deg 10deg, transparent 10deg 20deg)', transform: `rotate(${frame * 1.5}deg) scale(2)`}} />
+          <div style={{fontSize: 200, transform: `scale(${spring({frame, fps, config: {damping: 10}})})`}}>{r.tipo === 'corpo' ? '☠️' : '📣'}</div>
+          <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 110, color: '#fff', WebkitTextStroke: '4px #000', textShadow: '0 8px 0 #000', transform: `scale(${spring({frame: frame - 6, fps, config: {damping: 11}})})`}}>
+            {r.tipo === 'corpo' ? 'CORPO ENCONTRADO!' : 'REUNIÃO DE EMERGÊNCIA!'}
+          </div>
+        </AbsoluteFill>
+      )}
     </AbsoluteFill>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import type {Scene, Timeline} from '../types';
 import type {Partida} from './dados';
-import {Gameplay} from './Gameplay';
+import {Gameplay, GameplayDividida} from './Gameplay';
 import {Ejecao, RevelaPapel, Reuniao} from './Reuniao';
 import {AUComparativo, AUElenco, AUFim, AUFrase, AUPlacar, AUPrompt, AURegras, AUTitulo} from './Cenas';
 
@@ -12,12 +12,15 @@ export const AmongUsVisual: React.FC<{name: string; props: Record<string, any>; 
   switch (name) {
     case 'AUTitulo':
       return <AUTitulo kicker={p.kicker} title={p.title} subtitle={p.subtitle} color={p.color} />;
-    case 'AUReplay': {
-      const ticks = Math.max(1, p.ate - p.de);
-      return <Gameplay p={P(p.partida)} deTique={p.de} ateTique={p.ate} framesPorTique={scene.duration / ticks} pensamentos={p.pensamentos} mostrarPapeis={p.papeis} zoom={p.zoom} />;
+    case 'AUReplay':
+    case 'AUSplit': {
+      const chaves = scene.events.filter((e: any) => e.type === 'tk').map((e: any) => ({at: e.at, tick: e.tick}));
+      const comum = {p: P(p.partida), deTique: p.de, ateTique: p.ate, duracao: scene.duration, chaves, mostrarPapeis: p.papeis ?? true};
+      if (name === 'AUSplit') return <GameplayDividida {...comum} esquerda={p.esquerda} direita={p.direita} />;
+      return <Gameplay {...comum} pensamentos={p.pensamentos} zoom={p.zoom} />;
     }
     case 'AUReuniao':
-      return <Reuniao p={P(p.partida)} indice={p.indice} chat={p.chat} mostrarPapeis={p.papeis} />;
+      return <Reuniao p={P(p.partida)} indice={p.indice} chat={p.chat} mostrarPapeis={p.papeis} splash={p.splash} />;
     case 'AUVotos':
       return <Reuniao p={P(p.partida)} indice={p.indice} votos mostrarPapeis={false} duracao={scene.duration} />;
     case 'AUEjecao':
