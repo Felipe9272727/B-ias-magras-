@@ -1,5 +1,5 @@
-import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import React, {createContext, useContext} from 'react';
+import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {Crewmate, COR} from './Crewmate';
 import {ORDEM, papelDe, Partida, salasNoTique, siglaModelo} from './dados';
 import {FONT} from '../theme';
@@ -13,6 +13,9 @@ import type {Pt, Sala} from './nave/spec';
 
 const VEL = 7; // px de mundo por quadro (~4 ladrilhos/s)
 const MUNDO = {w: NAVE.cols * 48, h: NAVE.rows * 48};
+// Opcional nos Shorts: o cenário estático pode ser rasterizado uma única vez.
+// Personagens, câmera, acontecimentos e luzes continuam no replay original.
+export const NaveBitmapContext = createContext<string | null>(null);
 
 const idx = (cor: string) => ORDEM.indexOf(cor);
 const sala = (k: string) => NAVE.salas[k as Sala];
@@ -196,6 +199,7 @@ const CenaMorte: React.FC<{assassino: string; vitima: string; k: number; w: numb
 type VistaProps = {p: Partida; numero?: number; tfDe: (f: number) => number; w: number; h: number; foco?: string; zoom?: string | null; mostrarPapeis: boolean; deTique: number; hud?: boolean; escalaFixa?: number; fptFixo?: number};
 
 export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPedido, zoom, mostrarPapeis, deTique, hud = true, escalaFixa, fptFixo}) => {
+  const mapFile = useContext(NaveBitmapContext);
   const frame = useCurrentFrame();
   const tf = tfDe(frame);
   // quadros por tique (define a velocidade de caminhada); fixo quando o relógio é congelado ou em câmera lenta
@@ -241,7 +245,7 @@ export const Vista: React.FC<VistaProps> = ({p, numero, tfDe, w, h, foco: focoPe
   return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden', background: '#000'}}>
       <div style={mundo}>
-        <Arte alertaReator={sab?.tipo === 'Reator' ? 0.1 + 0.08 * Math.sin(frame / 4) : 0} />
+        {mapFile && sab?.tipo !== 'Reator' ? <Img src={staticFile(mapFile)} width={MUNDO.w} height={MUNDO.h} /> : <Arte alertaReator={sab?.tipo === 'Reator' ? 0.1 + 0.08 * Math.sin(frame / 4) : 0} />}
         {corpos.map((c) => (
           <div key={'c' + c.cor} style={{position: 'absolute', left: c.pt.x - 40, top: c.pt.y - 78}}>
             <Crewmate cor={c.cor} size={80} morto />

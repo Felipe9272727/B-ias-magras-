@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {ShortAzul2} from '../amongus/ShortAzul2';
+import {NaveBitmapContext} from '../amongus/GameplayNova';
 import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
 import type {Block, DailyProps, Word} from './pack';
@@ -99,13 +100,13 @@ const MarioBlock: React.FC<{b: Block}> = ({b}) => {
   </AbsoluteFill>;
 };
 
-export const DailyShort: React.FC<DailyProps> = ({short, blocks, partida}) => {
+export const DailyShort: React.FC<DailyProps> = ({short, blocks, partida, mapFile}) => {
   const [handle] = useState(() => delayRender('fontes dos Shorts'));
   useEffect(() => {fontsReady.then(() => continueRender(handle));}, [handle]);
   const f = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   if (short === 'flagra' || short === 'parceiro') {
-    return <ShortAzul2 dados={{blocos: blocks, partida}} musicFile={null} title={short === 'flagra' ? 'O IMPOSTOR SE ENTREGOU' : 'ENGANANDO O PRÓPRIO PARCEIRO'} />;
+    return <NaveBitmapContext.Provider value={mapFile}><ShortAzul2 dados={{blocos: blocks, partida}} musicFile={null} title={short === 'flagra' ? 'O IMPOSTOR SE ENTREGOU' : 'ENGANANDO O PRÓPRIO PARCEIRO'} /></NaveBitmapContext.Provider>;
   }
   let from = 0;
   return <AbsoluteFill style={{background: '#101a22', color: INK, overflow: 'hidden'}}>

@@ -47,6 +47,7 @@ Neuroevolução, Double DQN e Rainbow no nosso experimento de Mario: 402 geraç�
 cd video/remotion
 npm ci
 # Ajuste --browser-executable para seu Chromium, se necessário.
+npx remotion still src/index.ts NaveBitmap public/shorts/nave-estatica.png
 npx remotion render src/index.ts ShortDiarioFlagra out/shorts/01-render.mp4
 npx remotion render src/index.ts ShortDiarioSimulador out/shorts/02-render.mp4
 npx remotion render src/index.ts ShortDiarioParceiro out/shorts/03-render.mp4
@@ -55,3 +56,5 @@ python3 ../scripts/finish_daily_shorts.py
 ```
 
 O arquivo `src/shorts/pack.ts` escolhe os blocos de voz e calcula a duração real de cada corte. O render não faz chamadas à ElevenLabs. Para narrativas novas, gere a voz no seu painel e envie somente o MP3, ou use uma conexão que exponha síntese de voz. Nunca inclua a chave no código, nos logs ou em um commit.
+
+O cache opcional `shorts/nave-estatica.png` vem do desenho SVG original da nave, em resolução nativa. Somente o cenário estático é reutilizado: as posições e animações continuam saindo do log. Sem esse arquivo, a composição usa o SVG; em alertas de reator, também usa o SVG para preservar o efeito.

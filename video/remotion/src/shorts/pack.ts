@@ -4,7 +4,7 @@ import type {Partida} from '../amongus/dados';
 export type Word = {w: string; s: number; e: number};
 export type Block = {id: string; dur: number; palavras: Word[]};
 export type ShortKey = 'flagra' | 'simulador' | 'parceiro' | 'tentativas';
-export type DailyProps = {short: ShortKey; blocks: Block[]; partida: Partida | null};
+export type DailyProps = {short: ShortKey; blocks: Block[]; partida: Partida | null; mapFile: string | null};
 
 export const PACK: Record<ShortKey, {composition: string; date: string; file: string; title: string; source: string; blocks: string[]}> = {
   flagra: {
@@ -41,10 +41,13 @@ export const metadataFor = (short: ShortKey): CalculateMetadataFunction<DailyPro
     return block;
   });
   let partida: Partida | null = null;
+  let mapFile: string | null = null;
   if (plan.source === 'short2') {
     const log = await fetch(staticFile('amongus/partida1.json'));
     if (!log.ok) throw new Error('Log da partida 1 ausente');
     partida = await log.json() as Partida;
+    const raster = await fetch(staticFile('shorts/nave-estatica.png'), {method: 'HEAD'});
+    if (raster.ok) mapFile = 'shorts/nave-estatica.png';
   }
-  return {durationInFrames: blocks.reduce((n, b) => n + b.dur, 0), props: {short, blocks, partida}};
+  return {durationInFrames: blocks.reduce((n, b) => n + b.dur, 0), props: {short, blocks, partida, mapFile}};
 };
