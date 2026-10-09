@@ -9,6 +9,8 @@ import {Vitrine} from './amongus/Vitrine';
 import {ArtePreview} from './amongus/nave/ArtePreview';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
 import type {Timeline} from './types';
+import {DailyShort} from './shorts/DailyShort';
+import {metadataFor, PACK, type ShortKey} from './shorts/pack';
 import {FPS, H, W} from './theme';
 
 type Props = {timeline: Timeline | null; from?: number; short?: boolean};
@@ -50,6 +52,7 @@ const calcShortMario: CalculateMetadataFunction<{dados: DadosShortMario | null}>
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {(Object.keys(PACK) as ShortKey[]).map(short => <Composition key={short} id={PACK[short].composition} component={DailyShort} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{short, blocks: [], partida: null}} calculateMetadata={metadataFor(short)} />)}
       <Composition
         id="MarioRL"
         component={Main}

@@ -37,9 +37,10 @@ const Selo: React.FC<{txt: string; cor?: string; at: number; y: number; rot?: nu
   const {fps} = useVideoConfig();
   if (f < at) return null;
   const k = spring({frame: f - at, fps, config: {damping: 9, stiffness: 260, mass: 0.6}});
+  const label = txt.replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '').replace(/\s+/g, ' ').trim();
   return (
     <div style={{position: 'absolute', top: y, left: 0, right: 0, display: 'flex', justifyContent: 'center', transform: `rotate(${rot}deg) scale(${0.3 + 0.7 * k})`, opacity: Math.min(1, k * 2)}}>
-      <div style={{fontFamily: FONT.comic, fontSize: size, color: '#fff', background: cor, padding: '6px 26px', borderRadius: 14, border: '6px solid #fff', boxShadow: '0 12px 0 #0008', letterSpacing: 2, ...strokeText(6)}}>{txt}</div>
+      <div style={{fontFamily: FONT.comic, fontSize: size, color: '#fff', background: cor, padding: '6px 26px', borderRadius: 14, border: '6px solid #fff', boxShadow: '0 12px 0 #0008', letterSpacing: 2, ...strokeText(6)}}>{label}</div>
     </div>
   );
 };
@@ -177,7 +178,7 @@ const Admin: React.FC<{p: Partida; b: Bloco}> = ({p, b}) => {
       <Vista p={p} tfDe={tfDe} w={W} h={H} zoom="Admin" mostrarPapeis deTique={15} hud={false} fptFixo={FPT} escalaFixa={1.3} />
       {f >= tSete && (
         <div style={{position: 'absolute', top: 290, right: 50, fontFamily: FONT.pixel, fontSize: 34, color: '#fff', background: '#000b', padding: '14px 18px', borderRadius: 12, border: '4px solid #ffd84d'}}>
-          ⏱ TIQUE {tique}
+          TIQUE {tique}
         </div>
       )}
       <Selo txt="PARCEIRO DELA 🔪" cor="#1f8f3a" at={tVerde} y={420} rot={3} size={60} />
@@ -249,7 +250,7 @@ const Fim: React.FC<{p: Partida; b: Bloco}> = ({p, b}) => {
 
 const VISUAIS: Record<string, React.FC<{p: Partida; b: Bloco}>> = {gancho: Gancho, quem: Quem, medo: Medo, admin: Admin, duto: Duto, ironia: Ironia, fim: Fim};
 
-export const ShortAzul2: React.FC<{dados: DadosShort2 | null}> = ({dados}) => {
+export const ShortAzul2: React.FC<{dados: DadosShort2 | null; title?: string; musicFile?: string | null}> = ({dados, title = '8 IAs JOGANDO AMONG US', musicFile = 'music/sneaky-snitch.mp3'}) => {
   const [handle] = useState(() => delayRender('fontes'));
   useEffect(() => {
     fontsReady.then(() => continueRender(handle));
@@ -279,11 +280,11 @@ export const ShortAzul2: React.FC<{dados: DadosShort2 | null}> = ({dados}) => {
         );
       })}
       {cortes.map((c, i) => <Sfx key={i} src="whoosh" at={c - 4} vol={0.25} />)}
-      <Audio src={staticFile('music/sneaky-snitch.mp3')} volume={0.09} />
+      {musicFile && <Audio src={staticFile(musicFile)} volume={0.09} />}
       <AbsoluteFill style={{background: '#fff', opacity: flash, pointerEvents: 'none'}} />
       {/* faixa fixa no topo + barra de progresso */}
       <div style={{position: 'absolute', top: 150, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
-        <div style={{fontFamily: FONT.pixel, fontSize: 26, color: '#fff', background: '#000c', padding: '12px 18px', borderRadius: 10, border: '3px solid #ff3b30'}}>8 IAs JOGANDO AMONG US</div>
+        <div style={{fontFamily: FONT.pixel, fontSize: 26, color: '#fff', background: '#000c', padding: '12px 18px', borderRadius: 10, border: '3px solid #ff3b30'}}>{title}</div>
       </div>
       <div style={{position: 'absolute', bottom: 0, left: 0, height: 12, width: `${(100 * f) / durationInFrames}%`, background: '#ff3b30'}} />
     </AbsoluteFill>
