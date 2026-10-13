@@ -376,6 +376,7 @@ const TeclaF: React.FC<{d: number}> = ({d}) => {
         <div style={{width: 220, height: 220, borderRadius: 30, background: 'linear-gradient(180deg, #f4f4f2 0%, #c9c9c4 100%)', boxShadow: aperta ? '0 4px 0 #6d6d68, 0 10px 30px rgba(0,0,0,.5)' : '0 14px 0 #6d6d68, 0 24px 40px rgba(0,0,0,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '4px solid #fff'}}>
           <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 150, color: '#1b1b1b', lineHeight: 1}}>F</span>
         </div>
+        <div style={{marginTop: 26, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#fff', letterSpacing: 1, WebkitTextStroke: '2px #000', textShadow: '0 4px 0 #000', opacity: clamp01((d - 26) / 6)}}>F no chat</div>
       </div>
     </AbsoluteFill>
   );

@@ -326,6 +326,7 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - Cena: p215 (névoa tóxica)
 - Descrição: um cubo branco com a letra "F" aparece no canto direito, sem relação aparente com a narração, e some junto. Pode ser um objeto da cena ou uma tecla de apoio. Como não tem explicação na tela, parece erro.
 - Sugestão: remover o objeto, ou se for intencional (tecla de ação), explicar na narração ou com uma legenda.
+- Atualização (conferido no p007): o cubo "F" aparece em todas as mortes (DeepSeek 2 em 0:18, Opus em 1:30), então é um motivo de luto intencional, no estilo de "aperte F para respeitar". Manter, mas explicar uma vez (legenda ou narração) para o público entender o gesto.
 
 ### MELHORIA — personagem marrom escuro entre 1:24 e 1:45 (verificar se é estado "ferido" intencional)
 - Pedaço: p006 @ 01:24 a 01:45 (Sonnet, que depois tem a fala "também não quero briga")
@@ -342,6 +343,41 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 ### Pontos a conferir
 - Balão do DeepSeek 1 em 1:03 a 1:09 com a frase "Qwen 27B-3 está viva..." (leitura da folha, não confirmada). O Qwen 27B-3 morre em 0:58 (JSON: qwen4, sede). Se a frase disser "viva", é contradição; conferir o texto em tamanho cheio antes de corrigir.
 - Meme com foto de pessoa real em 1:15 (rodada anterior já apontou isso para outros memes).
+
+---
+
+## p007 (novo render, gerado às 21:20; quadros 21000–23999, cenas p220 final a p227)
+
+### BUG leve — falante do balão do Opus é um boneco enorme, cortado e colado na câmera (0:42 a 0:57)
+- Pedaço: p007 @ 00:48 (balão do Opus: "Haiku 2, o DeepSeek 2 estava certo: a dupla foi revogada e só um sai daqui...")
+- Global: 22152 aprox.
+- Cena: p222 ("Haiku 2 e Opus")
+- Descrição: confirmado em tamanho cheio. O balão está no alto à direita, mas a cabeça do Opus é enorme e cortada pela borda inferior direita, bem perto da lente. O Haiku 2, pequeno, fica ao centro ouvindo, e a leitura da cena vira um close de rosto desproporcional.
+- Sugestão: afastar a câmera ou posicionar o Opus no mesmo plano do Haiku 2, para que os dois fiquem inteiros e o balão aponte para o falante.
+
+### MELHORIA — cubo "F" nas mortes (0:18, 0:21, 1:30, 1:33)
+- Pedaço: p007 @ 00:18 a 00:21 e 01:30 a 01:33
+- Global: 21432 a 21504 e 23520 a 23592 aprox.
+- Cena: p222 e p226
+- Descrição: o cubo "F" aparece nas duas mortes deste pedaço (DeepSeek 2 e Opus), como luto. Não é um defeito, mas sem explicação o público não entende o gesto. Ver a nota no p006.
+- Sugestão: explicar uma vez (legenda "F para respeitar" ou narração), depois manter como motivo recorrente.
+
+### MELHORIA — foto de pessoa real como meme em 1:12 a 1:15 (já apontado nas rodadas anteriores)
+- Pedaço: p007 @ 01:12 a 01:15
+- Global: 23088 a 23160 aprox.
+- Cena: p226
+- Descrição: foto de homem real sobre a cena da arena, mesmo tipo de meme apontado nos pedaços anteriores.
+- Sugestão: confirmar direitos de imagem ou trocar por versão ilustrada.
+
+### OK — mortes, HUD e totais batem com o JSON
+- DeepSeek 2 eliminado em combate em 18,5 s (JSON: p222, causa combate). Banner em 0:18 a 0:21, HUD passa de 3 para 2 vivos em 0:24.
+- Opus eliminado de sede em 90,5 s (JSON: p226, causa sede). Banner em 1:30. HUD passa de 2 para 1, e a tela de vencedor "Haiku 2 · Menor modelo da Anthropic" aparece em 1:36.
+- Tela "11 MORTES" em 1:45 a 2:03 mostra névoa 5, fome 2, sede 2, combate 2. O total e as causas batem com as 11 eliminações da partida 2 no JSON.
+- HUD em 0:18 (Dia 10 manhã, 3 vivos) e 0:48 (Dia 10 tarde, 2 vivos) está em ordem.
+- Título "REGRA DA DUPLA REVOGADA" (0:00) e cartões do Haiku 2 (0:24 a 0:30) entram limpos.
+
+### Pontos a conferir
+- Nenhum outro ponto relevante na folha de contato. A tela de vencedor e a de estatísticas estão legíveis.
 
 ---
 
