@@ -233,7 +233,14 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - Meme com pessoa real (0:36, "sweating"): sem mudança. Continua pendente de verificação de direitos.
 - Problema novo: nenhum identificado neste pedaço.
 
-### p001, p002, p003, p004 (novo render)
+### p001 (novo render, gerado às 20:34)
+- Rótulos do mapa em 0:18 ("um pouco d'água" e "Caverna"): PARCIALMENTE RESOLVIDO. O rótulo "um pouco d'água" foi para a esquerda, com duas linhas de chamada até o lago e a caverna, e não encosta mais na caverna. "Caverna" continua encostando na borda do círculo.
+- Legenda "mesmo distrito, os dois vencem." em 0:32: PARCIALMENTE RESOLVIDO. O mapa subiu e a legenda não cobre mais o centro da ilha, mas a palavra "os" ainda cai sobre a ponta de baixo, no contorno da Praia do Naufrágio.
+- Boneco gigante e cortado em r05 (0:42): RESOLVIDO. Não há mais o boneco translúcido ou a cabeça enorme no primeiro plano. Resta só um boneco azul cortado na borda esquerda, o que é um defeito leve e aceitável.
+- Memes com pessoa real (1:24 e 1:58): sem mudança, pendente de verificação de direitos.
+- Problema novo: nenhum identificado neste pedaço.
+
+### p002, p003, p004 (novo render)
 - A verificar quando forem gerados.
 
 ---

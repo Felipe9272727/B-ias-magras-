@@ -39,7 +39,7 @@ export const camPlaca = (f: number, dur: number, id: string) => {
 };
 const naCamera = (x: number, y: number, c: {z: number; dx: number}): [number, number] => [ORIGEM[0] + (x - ORIGEM[0]) * c.z + c.dx, ORIGEM[1] + (y - ORIGEM[1]) * c.z];
 
-const Boneco: React.FC<{id: string; v: [number, number, number, number, number, number]; nomes: string[]; meta: MetaBonecos; filtro: string}> = ({id, v, nomes, meta, filtro}) => {
+const Boneco: React.FC<{id: string; v: [number, number, number, number, number, number]; nomes: string[]; meta: MetaBonecos; filtro: string; ativo?: boolean}> = ({id, v, nomes, meta, filtro, ativo}) => {
   const [x, y, ppm, dir0, ai, ta] = v;
   const espelho = dir0 > 180;  // 225/270/315 = 135/90/45 espelhados
   const dir = espelho ? 360 - dir0 : dir0;
@@ -51,10 +51,10 @@ const Boneco: React.FC<{id: string; v: [number, number, number, number, number, 
   const [QW, QH] = meta.quadro;
   const s = ppm / meta.ppm;
   const px = x * 1920, py = y * 1080;
-  const op = clamp01((740 - ppm) / 40);  // rente à câmera: some (rápido) em vez de tapar a tela
-  if (op <= 0) return null;
+  // rente à câmera: some em vez de tapar a tela (nunca quem está falando/pensando)
+  if (!ativo && ppm > 720) return null;
   return (
-    <div style={{opacity: op}}>
+    <div>
       <div style={{position: 'absolute', left: px - 0.38 * ppm, top: py - 0.1 * ppm, width: 0.76 * ppm, height: 0.2 * ppm, borderRadius: '50%', background: 'radial-gradient(ellipse at center, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 70%)'}} />
       <div style={{position: 'absolute', left: px - (espelho ? 1 - meta.pe[0] : meta.pe[0]) * QW * s, top: py - meta.pe[1] * QH * s, width: QW, height: QH, overflow: 'hidden', transform: `scale(${s})`, transformOrigin: 'top left'}}>
         <div style={{position: 'absolute', inset: 0, overflow: 'hidden', transform: espelho ? 'scaleX(-1)' : undefined}}>
@@ -65,7 +65,7 @@ const Boneco: React.FC<{id: string; v: [number, number, number, number, number, 
   );
 };
 
-const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [string, number, number][]}> = ({id, periodo, dur, falando}) => {
+const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [string, number, number, boolean][]; semNomes?: boolean}> = ({id, periodo, dur, falando, semNomes}) => {
   const f = useCurrentFrame();
   const [pos, setPos] = useState<PosPlaca | null>(null);
   const [meta, setMeta] = useState<MetaBonecos | null>(metaCache);
@@ -94,7 +94,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [strin
     <AbsoluteFill style={{overflow: 'hidden', background: '#000'}}>
       <AbsoluteFill style={{transform: `translateX(${cam.dx}px) scale(${cam.z})`, transformOrigin: '50% 55%'}}>
         <Img src={staticFile(`ilha/3d/${id}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-        {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} />)}
+        {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} ativo={falando.some(([fid, a, b]) => fid === tid && f >= a && f < b)} />)}
         {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
         {pos && atores.map(([tid, v]) => {  // dormindo: "z z z" subindo, pra não parecer morto
           const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
@@ -115,7 +115,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [strin
           const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
           const animTag = pos.anims[v[4]];
           if (!cab || v[2] > 230 || cab[1] < 0.14 || animTag === 'morto' || animTag === 'cair') return null;  // close: dispensa
-          if (falando.some(([fid, a, b]) => fid === tid && f >= a && f < b)) return null;  // o balão já diz o nome
+          if (semNomes || falando.some(([fid, a, b, pensa]) => !pensa && fid === tid && f >= a && f < b)) return null;  // o balão já diz o nome
           const t = tributo(tid);
           const tam = Math.max(18, Math.min(30, v[2] * 0.09));
           return (
@@ -133,7 +133,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [strin
   );
 };
 
-const Tomada: React.FC<{id: string; periodo?: string; dur?: number; falando?: [string, number, number][]}> = ({id, periodo = 'tarde', dur = 100, falando = []}) => {
+const Tomada: React.FC<{id: string; periodo?: string; dur?: number; falando?: [string, number, number, boolean][]; semNomes?: boolean}> = ({id, periodo = 'tarde', dur = 100, falando = [], semNomes}) => {
   const [ok, setOk] = useState<'mp4' | 'placa' | false | null>(null);
   const [h] = useState(() => delayRender(`3d ${id}`));
   useEffect(() => {
@@ -146,7 +146,7 @@ const Tomada: React.FC<{id: string; periodo?: string; dur?: number; falando?: [s
       .catch(() => setOk(false))
       .finally(() => continueRender(h));
   }, [id, h]);
-  if (ok === 'placa') return <Placa id={id} periodo={periodo} dur={dur} falando={falando} />;
+  if (ok === 'placa') return <Placa id={id} periodo={periodo} dur={dur} falando={falando} semNomes={semNomes} />;
   if (ok === 'mp4') return <OffthreadVideo src={staticFile(`ilha/3d/${id}.mp4`)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #1d2b33 0%, #05080b 80%)', alignItems: 'center', justifyContent: 'center'}}>
@@ -429,7 +429,7 @@ export const IL3D: React.FC<{
     <AbsoluteFill style={{background: '#000'}}>
       {tomadas.map((tm) => (
         <Sequence key={tm.id} from={tm.de} durationInFrames={Math.max(1, tm.ate - tm.de)}>
-          <Tomada id={tm.id} dur={tm.ate - tm.de} falando={chat.filter((c) => !c.pensa).map((c) => [c.id, c.at - tm.de, c.at + c.dur + 16 - tm.de] as [string, number, number])} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
+          <Tomada id={tm.id} dur={tm.ate - tm.de} semNomes={!!placar} falando={chat.map((c) => [c.id, c.at - 6 - tm.de, c.at + c.dur + 18 - tm.de, !!c.pensa] as [string, number, number, boolean])} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
         </Sequence>
       ))}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%)'}} />
