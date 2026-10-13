@@ -4,7 +4,7 @@ Legenda de gravidade: **BUG grave** (quebra a leitura ou a história), **BUG lev
 
 Convenção: "pNNN @ mm:ss" = tempo dentro do pedaço; "global" = quadro global (N*3000 + t*24); cena = id em timeline3_completo.json. Tempos das folhas de contato podem variar cerca de ±0,5 s em relação aos quadros de tamanho cheio.
 
-Status: p000 a p004 revisados. p005–p008 pendentes.
+Status: a primeira rodada (p000 a p004) foi revisada e os pedaços foram apagados pelo coordenador para um novo render, que recomeçou às 20:20 do p000. As seções abaixo descrevem a rodada anterior. A seção "Verificação das correções" confere se os itens foram resolvidos no novo render. Pendentes: p000 a p008 do novo render (os de p005 a p008 ainda não foram revisados).
 
 ---
 
