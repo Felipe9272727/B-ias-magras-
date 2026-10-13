@@ -135,9 +135,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--only', default='')
     ap.add_argument('--sem-voz', action='store_true')
+    ap.add_argument('--cenas', default='', help='só estas cenas (pode pegar do RESTO), numa linha do tempo à parte')
+    ap.add_argument('--nome', default='', help='sufixo: timeline3_<nome>.json e tomadas3_<nome>.json')
     args = ap.parse_args()
     VOZ.mkdir(parents=True, exist_ok=True)
     mod = carregar_roteiro()
+    if args.cenas:
+        quero = args.cenas.split(',')
+        todas = {sc['id']: sc for sc in mod.SCENES + getattr(mod, 'RESTO', [])}
+        mod.SCENES = [todas[i] for i in quero]
     memes = {x['id']: dict(file=Path(x['file_gif']).name, width=x['width'], height=x['height'], duration=x['duration_sec'])
              for x in json.loads((PUBLIC / 'gifs' / 'catalog.json').read_text())}
     sfx = {x['id']: x['file'] for x in json.loads((PUBLIC / 'sfx' / 'sfx.json').read_text())}
@@ -243,8 +249,9 @@ def main():
                 'teste': json.loads((LOGS / 'partida_v2_abortada.json').read_text())}
     timeline = dict(fps=FPS, width=1920, height=1080, durationInFrames=cursor, scenes=scenes, chapters=chapters,
                     clips={}, memes=memes, data=dict(partidas=partidas))
-    (PUBLIC / 'timeline3.json').write_text(json.dumps(timeline, ensure_ascii=False))
-    TOMADAS.write_text(json.dumps(specs, ensure_ascii=False, indent=1))
+    suf = f'_{args.nome}' if args.nome else ''
+    (PUBLIC / f'timeline3{suf}.json').write_text(json.dumps(timeline, ensure_ascii=False))
+    TOMADAS.with_name(f'tomadas3{suf}.json').write_text(json.dumps(specs, ensure_ascii=False, indent=1))
     print(f'Linha do tempo: {len(scenes)} cenas, {cursor} quadros ({cursor / FPS / 60:.2f} min); '
           f'{len(specs)} tomadas 3D, {sum(s["quadros"] for s in specs)} quadros de Blender')
     for c in chapters:

@@ -65,9 +65,10 @@ def main():
     so = None
     if '--so' in args:
         so = set(args[args.index('--so') + 1].split(','))
-    nums = [a for a in args if a.isdigit()]
+    nums = [a for i, a in enumerate(args) if a.isdigit() and (i == 0 or args[i - 1] not in ('--lista', '--so'))]
     n = int(nums[0]) if nums else 2
-    specs = json.loads(LISTA.read_text())
+    lista_arq = Path(args[args.index('--lista') + 1]) if '--lista' in args else LISTA
+    specs = json.loads(lista_arq.read_text())
     if so:
         specs = [s for s in specs if s['id'] in so]
     if teste:

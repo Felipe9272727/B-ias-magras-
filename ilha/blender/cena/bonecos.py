@@ -142,9 +142,9 @@ def renderizar(ids, teste=False):
     with open(os.path.join(SAIDA, 'bonecos.json'), 'w') as fj:
         json.dump(meta, fj)
     tributos = json.load(open(G.LOGS['oficial']))['meta']['tributos']
+    if ids:  # na ordem pedida
+        tributos = sorted([t for t in tributos if t['id'] in ids], key=lambda t: ids.index(t['id']))
     for t in tributos:
-        if ids and t['id'] not in ids:
-            continue
         raiz, partes, itens = P.criar_tributo_articulado(f"B_{t['id']}", G.EMPRESA[t['distrito']], G.rgb(t['cor']),
                                                           seed=G.ORDEM_PLAT.index(t['id']) + 3)
         pasta = os.path.join(SAIDA, t['id'])
@@ -201,6 +201,6 @@ if __name__ == '__main__':
     args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
     teste = '--teste' in args
     args = [a for a in args if a != '--teste']
-    ids = set(args[0].split(',')) if args and args[0] else None
+    ids = args[0].split(',') if args and args[0] else None
     renderizar(ids, teste)
     print('FIM')

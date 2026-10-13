@@ -34,6 +34,18 @@ CUES = [
     ('a04', 'call-to-adventure', 0, 0.9, True),
     ('a06', 'monkeys-spinning-monkeys', 0, 0.9, True),
     ('a07', 'call-to-adventure', 34, 0.9, True),
+    ('t01', 'voxel-revolution', 0, 0.75, True),
+    ('p101', 'quirky-dog', 0, 0.85, True),
+    ('c01', 'thinking-music', 0, 0.75, True),
+    ('p201', 'call-to-adventure', 0, 0.85, True),
+    ('p207', 'bit-shift', 0, 0.7),
+    ('p211', '8bit-dungeon-level', 0, 0.8, True),
+    ('p215', 'decisions', 0, 0.9, True),
+    ('p220', 'relent', 0, 0.9, True),
+    ('p224', 'heartbreaking', 0, 1.0, True),
+    ('p227', 'heroic-age', 0, 0.9, True),
+    ('pl01', 'winner-winner', 0, 0.65, True),
+    ('f01', 'airship-serenity', 0, 0.8),
 ]
 
 
@@ -321,7 +333,7 @@ RESTO = [
     CH('p224', 'p2', g3d(t3d(29, 'cornucopia', 'ombro', alvo='opus', para='haiku2', imortais=['opus'], golpe=2.0,
                              acoes={'opus': 'falar', 'haiku2': 'parado'}), hud=True), [
         ('opus', 'Haiku 2, o DeepSeek 2 estava certo: a dupla foi revogada e só um sai daqui. Você lutou bem ao meu lado, e '
-                 'merece ouvir isso de frente, não pelas costas. [[p]] Sinto muito.'),
+                 'merece ouvir isso de frente, não pelas costas. Sinto muito.'),
     ]),
     CH('p225', 'p2', g3d(t3d(29, 'cornucopia', 'duelo', alvo='opus', golpe=0.18, imortais=['opus'], acoes={'haiku2': 'parado'}),
                          t3d(29, 'cornucopia', 'close', alvo='haiku2', imortais=['opus'], acoes={'haiku2': 'parado'}, desde=1),
