@@ -10,7 +10,7 @@ import {DISTRITOS, TRIBUTOS, tributo} from './regras';
 
 export type Tomada3D = {id: string; de: number; ate: number; turno: number; partida: string; periodo?: string | null; semHud?: boolean};
 export type Fala3D = {id: string; texto: string; at: number; dur: number; pensa?: boolean};
-export type Elim3D = {id: string; at: number; causa?: string};
+export type Elim3D = {id: string; at: number; causa?: string; drama?: boolean | 'fim'};
 type Telas = Record<string, [number, number, number]>[];
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -364,6 +364,23 @@ const Pensamento: React.FC<{fala: Fala3D; frame: number}> = ({fala, frame}) => {
 
 // ---------------------------------------------------------------- eliminado (faixa com o retrato)
 const CAUSA: Record<string, string> = {sede: 'morreu de sede', fome: 'morreu de fome', 'névoa': 'morreu na névoa tóxica', frio: 'morreu de frio', combate: 'eliminado em combate'};
+// "press F to pay respects": tecla que desce, afunda (pressionada) e some
+const TeclaF: React.FC<{d: number}> = ({d}) => {
+  const {fps} = useVideoConfig();
+  const entra = spring({frame: d, fps, config: {damping: 12, stiffness: 160}});
+  const aperta = d > 22 && d < 30 ? 1 : 0;
+  const sai = clamp01((d - 88) / 12);
+  return (
+    <AbsoluteFill style={{alignItems: 'flex-end', justifyContent: 'center', paddingRight: 210, opacity: 1 - sai}}>
+      <div style={{transform: `translateY(${(1 - entra) * -320 + aperta * 10}px) rotate(${(1 - entra) * 8 - 3}deg)`}}>
+        <div style={{width: 220, height: 220, borderRadius: 30, background: 'linear-gradient(180deg, #f4f4f2 0%, #c9c9c4 100%)', boxShadow: aperta ? '0 4px 0 #6d6d68, 0 10px 30px rgba(0,0,0,.5)' : '0 14px 0 #6d6d68, 0 24px 40px rgba(0,0,0,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '4px solid #fff'}}>
+          <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 150, color: '#1b1b1b', lineHeight: 1}}>F</span>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 const Eliminado: React.FC<{e: Elim3D; frame: number}> = ({e, frame}) => {
   const t = tributo(e.id);
   const d = frame - e.at;
@@ -416,6 +433,12 @@ export const IL3D: React.FC<{
       .finally(() => continueRender(h));
   }, [tomadas, chat.length, h]);
 
+  // mortes marcantes: o mundo perde a cor (e volta depois, menos na última) e aparece a tecla F
+  const cinza = Math.max(0, ...eliminados.filter((e) => e.drama).map((e) => {
+    const d = frame - e.at;
+    const volta = e.drama === 'fim' ? 0 : clamp01((d - 110) / 14);
+    return clamp01((d + 2) / 6) * (1 - volta);
+  }));
   const atual = tomadas.find((tm) => frame >= tm.de && frame < tm.ate) ?? tomadas[tomadas.length - 1];
   const dados = atual ? partidas[atual.partida] : undefined;
   const ancora = (id: string): [number, number] | null => {
@@ -427,11 +450,13 @@ export const IL3D: React.FC<{
   };
   return (
     <AbsoluteFill style={{background: '#000'}}>
+      <AbsoluteFill style={{filter: cinza > 0 ? `grayscale(${cinza}) contrast(${1 + 0.15 * cinza})` : undefined}}>
       {tomadas.map((tm) => (
         <Sequence key={tm.id} from={tm.de} durationInFrames={Math.max(1, tm.ate - tm.de)}>
           <Tomada id={tm.id} dur={tm.ate - tm.de} semNomes={!!placar} falando={chat.map((c) => [c.id, c.at - 6 - tm.de, c.at + c.dur + 18 - tm.de, !!c.pensa] as [string, number, number, boolean])} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
         </Sequence>
       ))}
+      </AbsoluteFill>
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%)'}} />
       {hud && dados && atual && !atual.semHud && <HUD dados={dados} turno={atual.turno} periodo={atual.periodo} anunciados={anunciados} />}
       {chat
@@ -449,6 +474,11 @@ export const IL3D: React.FC<{
         .filter((e) => frame >= e.at && frame < e.at + 76)
         .map((e) => (
           <Eliminado key={`x-${e.id}`} e={e} frame={frame} />
+        ))}
+      {eliminados
+        .filter((e) => e.drama && frame >= e.at + 20 && frame < e.at + 120)
+        .map((e) => (
+          <TeclaF key={`f-${e.id}`} d={frame - e.at - 20} />
         ))}
       {placar && partidas.oficial && <Placar dados={partidas.oficial} />}
       {titulo && <TituloCinema {...titulo} />}

@@ -1,4 +1,4 @@
-"""HUD coerente no vídeo 3: o dia nunca volta e os vivos só caem quando o vídeo mostra a morte.
+"""HUD coerente no vídeo 3 (o dia nunca volta, os vivos só caem quando o vídeo mostra a morte) e mortes marcantes.
 
 - Tomadas com HUD formam uma sequência de turnos; as que saem da ordem (cenas paralelas, flashbacks, um
   pulo à frente) ficam sem HUD (`semHud`). Fica a maior sequência não decrescente, pesada pela duração.
@@ -8,6 +8,9 @@
 Chamado pelo build_v3.py; também roda sozinho: python3 video/scripts/hud3.py [timeline.json]
 """
 import json, os, sys
+
+# mortes que mais pesam na história: preto e branco + tecla F ('fim' = a cor não volta até o fim da cena)
+DRAMA = {('p215', 'qwen1'): True, ('p222', 'ds2'): True, ('p226', 'opus'): 'fim'}
 
 
 def ajustar(timeline):
@@ -29,6 +32,14 @@ def ajustar(timeline):
             i = ant[i]
         for tm in tms:
             tm['semHud'] = id(tm) not in fica
+    for c in timeline['scenes']:
+        for e in ((c.get('visual') or {}).get('props') or {}).get('eliminados') or []:
+            if (c['id'], e['id']) in DRAMA:
+                e['drama'] = DRAMA[(c['id'], e['id'])]
+    for c in timeline['scenes']:  # limpa a continuação de uma rodada anterior (idempotente)
+        P = (c.get('visual') or {}).get('props') or {}
+        if P.get('eliminados'):
+            P['eliminados'] = [e for e in P['eliminados'] if not e.get('eco')]
     mostradas = {}
     for c in cenas:
         P = c['visual']['props']
@@ -36,6 +47,15 @@ def ajustar(timeline):
         ja = mostradas.setdefault(partida, [])
         P['anunciados'] = [[x, -1] for x in ja] + [[e['id'], e['at']] for e in P.get('eliminados', [])]
         ja.extend(e['id'] for e in P.get('eliminados', []))
+    # morte no fim da cena: o banner (e o preto e branco) continua na cena seguinte em vez de sumir no corte
+    sc = timeline['scenes']
+    for c, prox in zip(sc, sc[1:]):
+        P, Q = (c.get('visual') or {}).get('props') or {}, (prox.get('visual') or {}).get('props') or {}
+        if (prox.get('visual') or {}).get('name') != 'IL3D':
+            continue
+        for e in P.get('eliminados') or []:
+            if not e.get('eco') and c['duration'] - e['at'] < 130:
+                Q.setdefault('eliminados', []).append(dict(e, at=e['at'] - c['duration'], eco=True))
     return timeline
 
 
