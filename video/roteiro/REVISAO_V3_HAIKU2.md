@@ -4,7 +4,7 @@ Legenda de gravidade: **BUG grave** (quebra a leitura ou a história), **BUG lev
 
 Convenção: "pNNN @ mm:ss" = tempo dentro do pedaço; "global" = quadro global (N*3000 + t*24); cena = id em timeline3_completo.json. Tempos das folhas de contato podem variar cerca de ±0,5 s em relação aos quadros de tamanho cheio.
 
-Status: a primeira rodada (p000 a p004) foi revisada e os pedaços foram apagados pelo coordenador para um novo render, que recomeçou às 20:20 do p000. As seções abaixo descrevem a rodada anterior. A seção "Verificação das correções" confere se os itens foram resolvidos no novo render. Pendentes: p000 a p008 do novo render (os de p005 a p008 ainda não foram revisados).
+Status: revisão completa. A primeira rodada (p000 a p004) foi apagada pelo coordenador, e o render novo começou às 20:20 pelo p000. As seções de p000 a p008 (sem a palavra "Verificação") descrevem a rodada anterior. A seção "Verificação das correções" confere as correções no render novo (p000 a p004) e traz a revisão nova de p005 a p008. O "Resumo final" no fim lista os 10 itens mais importantes com o status de cada um. Os pedaços p000 a p008 do render novo foram todos revisados.
 
 ---
 
@@ -285,8 +285,12 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - HUD em 0:36 (Dia 7 · Tarde), 0:48 (Dia 7 · Noite) e 1:57 (Dia 8 · Tarde), sempre 11 vivos. A ordem está correta.
 - Banner ELIMINADO "Qwen 27B-2 · morreu de fome" em 0:27 (JSON: p212, causa fome). O HUD passa de 12 para 11 no mesmo instante. Isso resolve a correção "só conta mortes já anunciadas".
 
-### Pontos a conferir (não confirmados em tamanho cheio)
-- Tela lilás sem personagens em 1:57 a 2:00 na folha. No quadro exato de 1:57 a cena aparece normal, então pode ser só a névoa tomando a tela no fim, e não um erro. Conferir antes de corrigir.
+### Tela lilás sem personagens (1:57 a 2:00) — confirmado em tamanho cheio (p005 @ 01:59)
+- Pedaço: p005 @ 01:57 a 02:00
+- Global: 17868 a 17976 aprox.
+- Cena: p214b/p215 (névoa sobre o Lago, Dia 8 tarde)
+- Descrição: a tomada fica só na névoa lilás sobre o Lago, sem nenhum personagem, por cerca de 3 a 4 s. A névoa é o assunto, então a tomada é coerente, mas é um plano vazio longo.
+- Sugestão: colocar um personagem na borda do plano ou cortar a tomada para 1 a 2 s antes do banner da morte seguinte.
 
 ---
 
@@ -381,10 +385,49 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 
 ---
 
-## Resumo parcial (até agora)
-1. MELHORIA — Opus parado por ~27 s em t05 (p000 @ 01:12–01:39).
-2. MELHORIA — memes com pessoas reais: checar direitos (p000 @ 00:36; p001 @ 01:24 e 01:58).
-3. BUG leve — boneco cortado na borda em r01 (p000 @ 02:00).
-4. BUG leve — legenda "mesmo distrito, os dois vencem." sobre o mapa da arena (p001 @ 00:32).
-5. BUG leve — rótulos "um pouco d'água" e "Caverna" apertados no mapa da ilha (p001 @ 00:18).
-6. BUG leve — boneco gigante e cortado no primeiro plano da r05 (p001 @ 00:42).
+## p008 (novo render, gerado às 21:22; quadros 24000–24771, fim da pl03 e encerramento f01; duração 32 s)
+
+### BUG leve — três bonecos sobrepostos no início (0:00 a 0:08)
+- Pedaço: p008 @ 00:00 a 00:08 (pl03, falas sobre o Qwen 27B-1 e a caverna)
+- Global: 24000 a 24192 aprox.
+- Cena: pl03
+- Descrição: confirmado em tamanho cheio (p008 @ 00:02). Um boneco azul agachado fica à frente e dois bonecos laranja estão atrás dele, quase dentro dele, formando um bloco só. Não dá para ver quem é quem.
+- Sugestão: separar os três no espaço (dar um passo lateral a cada um) ou mudar o ângulo da tomada.
+
+### MELHORIA — encerramento sem legenda e sem tempo de tela final
+- Pedaço: p008 @ 00:22 a 00:32 (encerramento f01, fala "E aí, qual IA você quer ver na próxima temporada? Comenta aí. Se inscreve...")
+- Global: 24547 a 24771 aprox.
+- Cena: f01
+- Descrição: o JSON da f01 não tem nenhum grupo de legenda (capGroups vazio), então a fala de encerramento não aparece na tela. Confirmado em tamanho cheio (p008 @ 00:26): o Haiku 2 fica parado no centro, sem legenda e sem movimento. O vídeo acaba em 32 s, sem tempo para um cartão final.
+- Sugestão: adicionar legenda à f01 (ou um texto de "Se inscreve" na tela), dar um pequeno movimento ao Haiku 2 (respiração, aceno) e reservar 15 a 20 s de tela final para cartão de próximo vídeo ou end screen do YouTube.
+
+### MELHORIA — legenda só aparece em um trecho da pl03
+- Pedaço: p008 @ 00:08 a 00:22
+- Global: 24192 a 24547 aprox.
+- Cena: pl03
+- Descrição: a pl03 tem uma única legenda ("Cumpriu.", no segundo 16). A narração de "curiosidades" (sobre o Qwen Max e a flecha) fica sem legenda por quase 9 s. Pode ser um padrão de legendas esparsas, mas aqui parece que falta texto.
+- Sugestão: confirmar se o padrão de legendas dessa pl03 é intencional e completar os grupos que faltam.
+
+### OK — placar e encerramento batem com o JSON
+- Placar (pl01, pl02): "onze mortes. Cinco na névoa, duas de fome, duas de sede... e só duas em combate" bate com a tela de 11 MORTES do p007 e com o JSON.
+- Pl02: "Dezenove turnos sem nenhum ataque, dez dias de jogo, e trezentas e cinco chamadas de IA" bate com o fim do JSON (29 turnos, 305 chamadas, dia 10).
+
+---
+
+## Resumo final — 10 itens mais importantes (novo render, p000 a p008 revisados)
+
+Status de cada item no render novo (20:20 em diante). "Resolvido", "parcial" ou "não resolvido" referem-se às correções pedidas pelo coordenador. "Novo" significa que apareceu só no render novo.
+
+1. BUG grave (parcial) — HUD de dia e vivos fora de ordem (p004 @ 1:54 ainda mostra "DIA 5 · MANHÃ / 12 VIVOS" depois de trechos de noite). O HUD foi escondido em outros planos, mas a sequência de turnos da p210b continua fora de ordem.
+2. BUG grave (parcial) — morte do Qwen 27B-2 (turno 17) não aparece no p004; o banner só surge no p005 @ 0:27. Entre 1:33 e 2:00 do p004 o público vê corpos em descanso sem saber que um deles morreu.
+3. BUG leve (não resolvido) — corpos caídos saem do quadro nas eliminações: Qwen 27B-2 (p002 @ 1:55), Qwen Max (p006 @ 0:09) e Qwen 27B-1 (p006 @ 0:21). A morte fica só no banner.
+4. BUG leve (não resolvido) — falantes de costas ou fora do quadro: DeepSeek 1 no cartão de p002 @ 0:06, Qwen Max no balão de p002 @ 1:27, e Opus em close cortado no balão de p007 @ 0:48.
+5. BUG leve (novo) — duas eliminações com 1 s de diferença; o banner do DeepSeek 1 (p006 @ 0:50) some antes de ser lido, e o DeepSeek 4 morre sem corpo na tomada seguinte (p006 @ 0:51).
+6. BUG leve (novo) — legenda com realce sem espaço ("NaCornucópia", p006 @ 0:51). A legenda do encerramento f01 não tem nenhuma legenda (p008 @ 0:26).
+7. BUG leve (não resolvido) — caverna como bloco preto chapado, sem textura (p003 @ 1:21). Também não resolvido o Opus parado por cerca de 27 s (p000 @ 1:12–1:39) e a pose sentada sem apoio (p002 @ 0:00 e p003 @ 1:54).
+8. BUG leve (novo) — três bonecos sobrepostos no início da pl03 (p008 @ 0:02) e boneco de primeiro plano enorme e cortado no p005 @ 0:36 (a confirmar).
+9. BUG leve (parcial) — rótulos "Caverna" e a legenda "mesmo distrito, os dois vencem." ainda encostam nas bordas do mapa (p001 @ 0:18 e 0:32). Resolvido: o boneco gigante de r05 (p001 @ 0:42).
+10. MELHORIA — o vídeo acaba em 32 s, com o Haiku 2 parado e sem legenda nem cartão final (p008 @ 0:22 a 0:32). Acrescentar legenda, um movimento leve e 15 a 20 s de tela final.
+
+Itens resolvidos no novo render: balão "ds1" trocado por "DeepSeek 1" (p003 @ 1:54); etiqueta duplicada "DeepSeek 2" (p002 @ 1:00); boneco translúcido em r05/p004 (p004 @ 0:48); "z z z" nos corpos em descanso (p004 @ 1:33); cubo "F" explicado como luto (p006 e p007).
+Pendente de checagem: memes com pessoas reais (p000 @ 0:36; p001 @ 1:24 e 1:58; p002 @ 0:36; p006 @ 1:15; p007 @ 1:12) precisam de verificação de direitos de imagem.
