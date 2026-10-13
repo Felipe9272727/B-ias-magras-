@@ -4,7 +4,7 @@ Legenda de gravidade: **BUG grave** (quebra a leitura ou a história), **BUG lev
 
 Convenção: "pNNN @ mm:ss" = tempo dentro do pedaço; "global" = quadro global (N*3000 + t*24); cena = id em timeline3_completo.json. Tempos das folhas de contato podem variar cerca de ±0,5 s em relação aos quadros de tamanho cheio.
 
-Status: p000, p001, p002 e p003 revisados. p004–p008 pendentes.
+Status: p000 a p004 revisados. p005–p008 pendentes.
 
 ---
 
@@ -182,6 +182,44 @@ Status: p000, p001, p002 e p003 revisados. p004–p008 pendentes.
 - Cartões de pensamento do Qwen 27B-1 (00:51 a 00:57) batem com o JSON (p203, at 156).
 - Banner de noite (Dia 1 · Noite) e o escurecimento da transição combinam com a narração.
 - Nenhum ELIMINADO neste pedaço, o que bate com o JSON (sem entradas de eliminados em p111 a p207).
+
+---
+
+## p004 (quadros 12000–14999, cenas p207 final a p210b)
+
+### BUG grave — HUD de dia e de vivos vai e volta no tempo
+- Pedaço: p004 @ 00:48 (DIA 5 · MANHÃ, 12 VIVOS), p004 @ 01:33 (DIA 6 · NOITE, 11 VIVOS), p004 @ 01:54 (DIA 5 · MANHÃ, 12 VIVOS), p004 @ 02:03 (DIA 6 · NOITE, 11 VIVOS). Confirmado em tamanho cheio.
+- Global: 13152, 14232, 14736 e 14952 aprox.
+- Cenas: p209 (turno 13), p210 (turnos 14, 15, 18) e p210b (turno 13, depois 14 e 18)
+- Descrição: a ordem dos turnos nas tomadas não é crescente. Sequência de turnos: p207 = 7, p208 = 9, p208b = 8, p209 = 13, p209b = 10 e 11, p210 = 14, 15 e 18, p210b = 13, 14 e 18. O HUD acompanha esses números, então o espectador vê o dia voltar de "Dia 6 noite" para "Dia 5 manhã" e depois avançar de novo. A contagem de vivos também oscila: 12 para 11 para 12 para 11, sem nenhuma morte nova entre um e outro.
+- Sugestão: reordenar as tomadas pelo turno (ou corrigir o campo "turno" de cada tomada) para que sejam crescentes de p207 a p210b. Depois conferir o HUD nos quadros de 0:48, 1:33, 1:54 e 2:03.
+
+### BUG grave — corpos de "descansar" lidos como mortos; morte real sem banner
+- Pedaço: p004 @ 01:27 a 01:45 (HUD "11 VIVOS", com X no anel roxo; corpos caídos visíveis em 01:33 e 01:39)
+- Global: 14088 a 14520 aprox.
+- Cena: p210 (início) e p210b
+- Descrição: no quadro de 01:33 e 01:39 aparecem três personagens deitados no chão: marrom à esquerda (Sonnet), roxo no centro-alto (Qwen Max) e azul no canto inferior direito (DeepSeek 3). Pelo JSON, esses três estão vivos. No turno 18 eles têm a ação "descansar" (Sonnet, Qwen Max e DeepSeek 3), e a pose de descanso é um corpo deitado idêntico a um corpo morto. As etiquetas de nome continuam sobre esses bonecos. Enquanto isso, a única morte da partida (Qwen 27B-2, qwen3, vida 0 no turno 17, Dia 6 tarde) aparece só no HUD, sem banner ELIMINADO e sem narração. No JSON, o primeiro registro de eliminado desta partida é o da p212, muito depois.
+- Sugestão: trocar a pose de "descansar" por algo que não se confunda com morte (sentado encostado, deitado de lado com um símbolo de sono ou um brilho de descanso). Tirar a etiqueta de nome de quem não está ativo nesse plano. Adicionar um banner ELIMINADO e uma linha de narração para a morte do Qwen 27B-2, no momento em que ela acontece.
+
+### BUG leve — boneco de primeiro plano translúcido e cortado
+- Pedaço: p004 @ 00:42 a 00:57 (o boneco escuro à direita, cortado na borda inferior, aparece em 00:48 tamanho cheio)
+- Global: 13008 a 13368 aprox. (o trecho em tamanho cheio é 13152)
+- Cena: p209
+- Descrição: o boneco grande à direita está semi-transparente, com uma faixa verde-amarela passando por cima do corpo, e o chão aparece através dele. O resto da cena está opaco. Ele também ocupa boa parte do quadro e é cortado pela borda inferior.
+- Sugestão: checar a opacidade desse personagem (névoa ou fade aplicado no objeto errado?) e afastar a câmera ou tirar o boneco do primeiro plano.
+
+### MELHORIA — etiquetas de nome pequenas e tremidas nas tomadas largas
+- Pedaço: p004 @ 00:00 a 00:21 e 01:18 a 01:27
+- Global: 12000 a 12504 e 13872 a 14520 aprox.
+- Cena: p207, p210 (tomadas largas)
+- Descrição: nas tomadas largas, as etiquetas de nome ficam muito pequenas e são ilegíveis na folha de contato. Mesma observação de p003.
+- Sugestão: mostrar só as etiquetas dos personagens que falam nessas tomadas, ou aumentar a fonte.
+
+### Itens observados e considerados OK (p004)
+- Título "NOVA REGRA" (00:03) entra limpo sobre a cena.
+- Balões do Opus (00:18 a 00:24) e do Sonnet (00:42 a 00:51) estão presos aos bonecos certos e as falas cabem no balão.
+- Cartões de pensamento do Opus (00:54 a 00:57), do Qwen 27B-3 (01:51 e 02:03) e do DeepSeek 2 (01:57 e 02:00) batem com as falas do JSON.
+- Quadro de 02:03 mostra o balão do Qwen 27B-3 ("Estamos juntos até") com a etiqueta correta.
 
 ---
 

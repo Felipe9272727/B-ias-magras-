@@ -264,6 +264,8 @@ def main():
                 'teste': json.loads((LOGS / 'partida_v2_abortada.json').read_text())}
     timeline = dict(fps=FPS, width=1920, height=1080, durationInFrames=cursor, scenes=scenes, chapters=chapters,
                     clips={}, memes=memes, data=dict(partidas=partidas))
+    import hud3  # HUD sem voltar no tempo e mortes só depois do ELIMINADO
+    hud3.ajustar(timeline)
     suf = f'_{args.nome}' if args.nome else ''
     (PUBLIC / f'timeline3{suf}.json').write_text(json.dumps(timeline, ensure_ascii=False))
     TOMADAS.with_name(f'tomadas3{suf}.json').write_text(json.dumps(specs, ensure_ascii=False, indent=1))

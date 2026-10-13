@@ -12,7 +12,7 @@ export const IlhaVisual: React.FC<{name: string; props: Record<string, any>; tim
   const ps = ((timeline.data as Record<string, unknown>).partidas ?? {}) as Record<string, Partida>;
   switch (name) {
     case 'IL3D':
-      return <IL3D tomadas={p.tomadas} hud={p.hud} titulo={p.titulo} chat={p.chat} eliminados={p.eliminados} placar={p.placar} partidas={ps} />;
+      return <IL3D tomadas={p.tomadas} hud={p.hud} titulo={p.titulo} chat={p.chat} eliminados={p.eliminados} placar={p.placar} partidas={ps} anunciados={p.anunciados} />;
     case 'ILClipe':
       return <ILClipe src={p.src} inicio={p.inicio} />;
     case 'ILTitulo':

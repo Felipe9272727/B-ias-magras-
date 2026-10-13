@@ -8,7 +8,7 @@ import {DISTRITOS, TRIBUTOS, tributo} from './regras';
 // Gameplay 3D renderizada no Blender (public/ilha/3d/<id>.mp4 + <id>.json com a posição das cabeças na tela),
 // com título, HUD de battle royale e balões de fala presos à cabeça de quem fala.
 
-export type Tomada3D = {id: string; de: number; ate: number; turno: number; partida: string; periodo?: string | null};
+export type Tomada3D = {id: string; de: number; ate: number; turno: number; partida: string; periodo?: string | null; semHud?: boolean};
 export type Fala3D = {id: string; texto: string; at: number; dur: number; pensa?: boolean};
 export type Elim3D = {id: string; at: number; causa?: string};
 type Telas = Record<string, [number, number, number]>[];
@@ -51,7 +51,7 @@ const Boneco: React.FC<{id: string; v: [number, number, number, number, number, 
   const [QW, QH] = meta.quadro;
   const s = ppm / meta.ppm;
   const px = x * 1920, py = y * 1080;
-  const op = clamp01((800 - ppm) / 200);  // passou rente à câmera: some em vez de tapar a tela
+  const op = clamp01((740 - ppm) / 40);  // rente à câmera: some (rápido) em vez de tapar a tela
   if (op <= 0) return null;
   return (
     <div style={{opacity: op}}>
@@ -96,6 +96,21 @@ const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [strin
         <Img src={staticFile(`ilha/3d/${id}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
         {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} />)}
         {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
+        {pos && atores.map(([tid, v]) => {  // dormindo: "z z z" subindo, pra não parecer morto
+          const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
+          if (!cab || pos.anims[v[4]] !== 'dormir' || v[2] > 740) return null;
+          const tam = Math.max(34, Math.min(64, v[2] * 0.16));
+          return (
+            <div key={`zz-${tid}`} style={{position: 'absolute', left: cab[0] * 1920 + 50 + tam * 0.5, top: cab[1] * 1080 - 10}}>
+              {[0, 1, 2].map((k) => {
+                const c = (((f / 24) * 0.55 + k / 3) % 1);
+                return (
+                  <div key={k} style={{position: 'absolute', left: c * tam * 1.3, top: -c * tam * 2.2, opacity: Math.sin(c * Math.PI), fontFamily: FONT.display, fontWeight: 900, fontSize: tam * (0.6 + 0.5 * c), color: '#dfe8ff', WebkitTextStroke: '2px #1a2340'}}>z</div>
+                );
+              })}
+            </div>
+          );
+        })}
         {pos && atores.map(([tid, v]) => {
           const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
           const animTag = pos.anims[v[4]];
@@ -249,10 +264,12 @@ const Sol: React.FC<{noite: boolean}> = ({noite}) =>
     </svg>
   );
 
-const HUD: React.FC<{dados: Partida; turno: number; periodo?: string | null}> = ({dados, turno, periodo}) => {
+const HUD: React.FC<{dados: Partida; turno: number; periodo?: string | null; anunciados?: [string, number][] | null}> = ({dados, turno, periodo, anunciados}) => {
   const f = useCurrentFrame();
   const t = turnoDe(dados, turno);
-  const est = estadoDe(dados, turno);
+  const log = estadoDe(dados, turno);
+  // morto só depois que o vídeo mostrou o ELIMINADO (anunciados); sem a lista, vale o registro da partida
+  const est = {get: (id: string) => ({vivo: anunciados ? !anunciados.some(([a, q]) => a === id && f >= q) : log.get(id)?.vivo !== false})};
   const per = periodo ?? t?.periodo ?? 'manhã';
   const vivos = TRIBUTOS.filter((x) => est.get(x.id)?.vivo !== false).length;
   const entra = clamp01(f / 8);
@@ -377,7 +394,8 @@ export const IL3D: React.FC<{
   eliminados?: Elim3D[];
   placar?: boolean | null;
   partidas: Record<string, Partida>;
-}> = ({tomadas, hud, titulo, chat = [], eliminados = [], placar, partidas}) => {
+  anunciados?: [string, number][] | null;
+}> = ({tomadas, hud, titulo, chat = [], eliminados = [], placar, partidas, anunciados}) => {
   const frame = useCurrentFrame();
   const [telas, setTelas] = useState<Record<string, {placa: boolean; telas: Telas}>>({});
   const [h] = useState(() => delayRender('posições 3D'));
@@ -415,7 +433,7 @@ export const IL3D: React.FC<{
         </Sequence>
       ))}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%)'}} />
-      {hud && dados && atual && <HUD dados={dados} turno={atual.turno} periodo={atual.periodo} />}
+      {hud && dados && atual && !atual.semHud && <HUD dados={dados} turno={atual.turno} periodo={atual.periodo} anunciados={anunciados} />}
       {chat
         .filter((c) => !c.pensa && frame >= c.at && frame < c.at + c.dur + 16)
         .map((c) => {
