@@ -257,7 +257,36 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - Problema novo: nenhum identificado nos quadros que conferi.
 
 ### p004 (novo render, gerado às 21:00)
-- A verificar: HUD voltando no tempo, corpos em "descansar" e etiqueta, boneco translúcido, "z z z".
+- Boneco translúcido de primeiro plano (0:48): RESOLVIDO. O boneco à direita agora é opaco, laranja. Continua grande e cortado na borda inferior, mas sem o véu verde.
+- "z z z" nos corpos em descanso (1:33 e 1:39): RESOLVIDO. Sonnet, Qwen Max e DeepSeek 3 têm o símbolo de sono. Os corpos continuam deitados, mas agora a leitura é de descanso, não de morte.
+- HUD voltando no tempo (0:48, 1:33, 1:54, 2:03): PARCIALMENTE RESOLVIDO. Nos planos de 0:48, 1:33 e 2:03 o HUD não aparece (foi escondido, como pedido). Porém, em 1:54 o HUD mostra "DIA 5 · MANHÃ / 12 VIVOS", depois do trecho de noite do Dia 6 do plano anterior. A sequência de turnos da p210b ainda está fora de ordem nesse trecho.
+- Morte real do Qwen 27B-2 (turno 17): sem banner no p004. O anúncio aparece só no início do p005 (ver abaixo). Consequência: entre 1:33 e 2:00 o público não vê a morte, só os corpos em descanso.
+- Problema novo: nenhum identificado além dos acima.
+
+---
+
+## p005 (novo render, gerado às 21:06; quadros 15000–17999, cenas p211 a p215 início)
+
+### BUG leve — boneco de primeiro plano enorme e cortado (0:36 a 0:39, observado na folha; confirmar)
+- Pedaço: p005 @ 00:36 a 00:39
+- Global: 15864 a 15936 aprox.
+- Cena: p213 (DeepSeek 1 falando "Certo" e "Abaixo a faca e talvez...")
+- Descrição: na folha, a cabeça e o torso de um boneco ocupam a parte de baixo do quadro e cortam a cena. O restante (Qwen 27B-1 e outros) aparece pequeno ao fundo. Confirmar em tamanho cheio antes de corrigir.
+- Sugestão: afastar a câmera ou subir o ângulo, como na rodada anterior.
+
+### BUG leve — Opus aparece com cor marrom apagada (0:48 a 0:57, confirmado em tamanho cheio)
+- Pedaço: p005 @ 00:48 (balão "DeepSeek 1, o Qwen ferido é presa...")
+- Global: 15000 + 1152 = 16152 aprox.
+- Cena: p213b
+- Descrição: o boneco com o balão "Opus" está em marrom escuro, sem o laranja do Opus, e com o rosto mais escuro. Pode ser o efeito de "ferido" ou um sombreamento da noite. Se não for intencional, o personagem não é reconhecível.
+- Sugestão: checar se o estado "ferido" tem esse tom; se não tiver, restaurar a cor laranja do Opus.
+
+### OK — HUD monotônico e morte anunciada
+- HUD em 0:36 (Dia 7 · Tarde), 0:48 (Dia 7 · Noite) e 1:57 (Dia 8 · Tarde), sempre 11 vivos. A ordem está correta.
+- Banner ELIMINADO "Qwen 27B-2 · morreu de fome" em 0:27 (JSON: p212, causa fome). O HUD passa de 12 para 11 no mesmo instante. Isso resolve a correção "só conta mortes já anunciadas".
+
+### Pontos a conferir (não confirmados em tamanho cheio)
+- Tela lilás sem personagens em 1:57 a 2:00 na folha. No quadro exato de 1:57 a cena aparece normal, então pode ser só a névoa tomando a tela no fim, e não um erro. Conferir antes de corrigir.
 
 ---
 
