@@ -4,7 +4,7 @@ Legenda de gravidade: **BUG grave** (quebra a leitura ou a história), **BUG lev
 
 Convenção: "pNNN @ mm:ss" = tempo dentro do pedaço; "global" = quadro global (N*3000 + t*24); cena = id em timeline3_completo.json. Tempos das folhas de contato podem variar cerca de ±0,5 s em relação aos quadros de tamanho cheio.
 
-Status: p000 revisado. p001 e p002 em revisão. p003–p008 pendentes.
+Status: p000, p001, p002 e p003 revisados. p004–p008 pendentes.
 
 ---
 
@@ -33,7 +33,162 @@ Status: p000 revisado. p001 e p002 em revisão. p003–p008 pendentes.
 
 ---
 
+---
+
+## p001 (quadros 3000–5999, cenas r02 final a p105)
+
+### BUG leve — legendas de cena do mapa sobrepostas e coladas nas bordas (mapa "A ILHA: 10 REGIÕES")
+- Pedaço: p001 @ 00:18 (fica visível de 00:09 a 00:24)
+- Global: 3432 aprox.
+- Cena: r03 (Manim, ILClipe)
+- Descrição: o rótulo "um pouco d'água" encosta no contorno do círculo da caverna e o rótulo "Caverna" toca a borda do círculo, ficando apertado. Os outros 10 rótulos estão legíveis.
+- Sugestão: afastar os rótulos "um pouco d'água" e "Caverna" do círculo (ou pôr um leader line curto) e deixar pelo menos 20 px de respiro.
+
+### BUG leve — legenda cai em cima do mapa da arena
+- Pedaço: p001 @ 00:30 a 00:36
+- Global: 3720 a 3864 aprox.
+- Cena: r04 (Manim, ILClipe; narração "mesmo distrito, os dois vencem")
+- Descrição: a legenda "mesmo distrito, os dois vencem." fica sobre a base da ilha (em cima do círculo da Praia do Naufrágio e do contorno). Confirmado em tamanho cheio em p001 @ 00:32. O texto segue legível, mas a sobreposição é visível.
+- Sugestão: subir o mapa da arena uns 80 a 100 px ou colocar a legenda numa faixa escura própria, mantendo a área segura abaixo do mapa.
+
+### BUG leve — boneco de primeiro plano gigante, cortado, colado na câmera
+- Pedaço: p001 @ 00:42 (também visível em 00:45)
+- Global: 4008 aprox.
+- Cena: r05 (IL3D, "Aliança vale. Mentir vale.")
+- Descrição: a cabeça de um boneco (cabeça calva com faixa laranja, provavelmente Opus) aparece enorme no canto inferior direito, cortada, e outro boneco aparece cortado no canto inferior esquerdo. O boneco da cena com o rótulo "Sonnet" fica pequeno e no centro, o que cria uma disputa de foco.
+- Sugestão: afastar a câmera ou tirar o boneco do primeiro plano; se for um plano de propósito, deixar só um personagem em destaque.
+
+### MELHORIA — meme com pessoa real (verificar direitos)
+- Pedaço: p001 @ 01:24 (Picard, "picard-facepalm") e p001 @ 01:58 (monkey-puppet-awkward)
+- Global: 5044 aprox. e 5833 aprox.
+- Cena: p103 e p104b
+- Descrição: os memes de rosto humano seguem o mesmo ponto da seção de p000. Ver a nota da seção p000.
+- Sugestão: mesma da seção p000.
+
+### MELHORIA — pose que parece "flutuar" (verificar)
+- Pedaço: p001 @ 02:03
+- Global: 5952 aprox.
+- Cena: p105 (início)
+- Descrição: o boneco roxo à esquerda (Qwen) está com as pernas dobradas, como sentado no ar, sem apoio visível. A sombra fica sob os pés, então talvez seja só uma pose de agachamento, mas a silhueta dá impressão de flutuar. Na mesma tomada, o boneco azul de costas ocupa o centro da tela e fica cortado pela borda inferior.
+- Sugestão: checar o contato do quadril com o chão nessa pose; se ficar estranho, usar uma pose de agachado mais baixa. Para o boneco de costas, trocar o enquadramento ou virar a câmera para mostrar o rosto de quem fala.
+
+### Itens observados e considerados OK (p001)
+- Título "O TESTE / PARTIDA 1" (00:48) entra limpo na transição de p101.
+- Cartão PENSAMENTO SECRETO do DeepSeek 1 (01:48 a 01:57) está legível em tamanho cheio (p001 @ 01:54), com a fala quebrando bem entre linhas.
+- Linha do tempo da arena (D1 a D10) com paraquedas em D2, regra da dupla em D3, maré em D4 e névoa em D6 bate com a narração.
+- HUD "COMO SE MORRE" da r02 (00:00 a 00:06) anima as barras de forma coerente com a narração.
+- Balões de fala das falas dos Qwen (01:00 a 01:45) estão presos às cabeças dos bonecos que falam.
+
+---
+
+## p002 (quadros 6000–8999, cenas p105 final a c01 início)
+
+### BUG leve — etiqueta "DeepSeek 2" duplicada atrás do balão
+- Pedaço: p002 @ 00:57 a 01:03 (balão "Qwen2, você já está morto de pé")
+- Global: 7368 a 7512 aprox.
+- Cena: p107
+- Descrição: a etiqueta de fala "DeepSeek 2" do próprio balão fica por cima de uma segunda etiqueta "DeepSeek 2" do mundo 3D, que aparece meio escondida sob a borda do balão. Fica como texto duplicado e borrado. Confirmado em p002 @ 01:00 (tamanho cheio).
+- Sugestão: esconder a etiqueta do mundo 3D enquanto o balão do mesmo personagem estiver na tela, ou remover o cabeçalho do balão.
+
+### BUG leve — balão aponta para personagem quase fora do quadro
+- Pedaço: p002 @ 01:24 a 01:33 (balão "Preciso de água. Vou me mover")
+- Global: 8016 a 8232 aprox.
+- Cena: p109 (balão do Qwen Max)
+- Descrição: no quadro em tamanho cheio (p002 @ 01:27), o balão fica no alto à direita, mas quem fala está na borda direita, quase todo fora da tela (só cabeça e uma perna aparecem). O espectador não consegue associar a fala ao boneco.
+- Sugestão: reenquadrar a câmera para mostrar o Qwen Max inteiro ao falar, ou puxar o balão para perto do personagem.
+
+### BUG leve — quem fala está de costas para a câmera (cartão de pensamento)
+- Pedaço: p002 @ 00:00 a 00:15 (cartão "DeepSeek 1 · Se o Qwen 27B-1 ficar vivo")
+- Global: 6000 a 6360 aprox. (confirmado em p002 @ 00:06, global 6144)
+- Cena: p105
+- Descrição: o cartão é do DeepSeek 1, mas o boneco do primeiro plano que o pensa aparece de costas, com a mochila (quadrado marrom) virada para a câmera. O cartão e o boneco não se conectam visualmente. O mesmo problema aparece nos balões de p002 @ 01:27 (Qwen Max de costas com a mochila).
+- Sugestão: girar o boneco para a câmera nos planos em que ele fala ou pensa, ou escolher o ângulo onde o rosto aparece.
+
+### BUG leve — corpo do eliminado sai do quadro (Qwen 27B-2)
+- Pedaço: p002 @ 01:54 a 01:58 (banner "ELIMINADO · Qwen 27B-2 · morreu de sede")
+- Global: 8736 a 8832 aprox. (evento do JSON em 8754)
+- Cena: p110
+- Descrição: no momento da eliminação, a câmera está apontada para o chão e para o céu, e só aparecem os pés roxos na borda inferior. A morte fica pouco visível, só com o banner. O corpo de Qwen Max (p002 @ 01:33) aparece, mas o do Qwen 27B-2 não.
+- Sugestão: reenquadrar a câmera para mostrar o corpo caído, ou mover a câmera para o personagem na hora do banner.
+
+### MELHORIA — pose "sentada" no ar (Qwen 27B-1 antes da morte)
+- Pedaço: p002 @ 00:00 a 00:15 (e continua em p001 @ 02:03)
+- Global: 6000 a 6360 aprox.
+- Cena: p105
+- Descrição: o boneco roxo à esquerda fica sentado com as pernas dobradas por mais de 15 s, sem apoio visível. Parece suspenso no ar. Ver também a observação de p001 @ 02:03.
+- Sugestão: pôr o quadril no chão ou usar uma pose de descanso mais baixa.
+
+### MELHORIA — memes com pessoa real (verificar direitos)
+- Pedaço: p002 @ 00:36 (meme "visible-confusion", foto de homem sobre o boneco roxo)
+- Global: 6864 aprox.
+- Cena: p106
+- Descrição: mesma observação da seção p000 sobre fotos de pessoas reais em memes.
+- Sugestão: confirmar licença ou trocar por versão ilustrada.
+
+### Itens observados e considerados OK (p002)
+- Banners ELIMINADO (Qwen 27B-1 em 01:03, Qwen Max em 01:33, Qwen 27B-2 em 01:56) batem com os eventos do JSON (causa "combate" e "sede") e são legíveis. O corpo do Qwen 27B-1 cai antes do banner (p002 @ 01:00), o que está correto.
+- Cartões de pensamento do Qwen 27B-2 (01:42 a 01:50) aparecem depois da morte do Qwen Max (01:32), como o roteiro pede.
+- Balões de "Preciso de água" (00:24 e 00:30) apontam para os personagens certos.
+
+---
+
+## p003 (quadros 9000–11999, cenas p111 final a p207 início)
+
+### BUG leve — balão mostra o identificador interno "ds1" em vez de "DeepSeek 1"
+- Pedaço: p003 @ 01:52 a 02:03 (balão do DeepSeek 4: "DeepSeek, aqui é o ds1. O kit médico fica comigo...")
+- Global: 11696 a 11832 aprox.
+- Cena: p206b (narração: "Ele não é o DeepSeek 1")
+- Descrição: confirmado em tamanho cheio (p003 @ 01:54): o texto do balão traz "ds1", a sigla de id do JSON, e não "DeepSeek 1". Para quem assiste, "ds1" soa como código e não como nome. A fala também fica estranha por começar com "DeepSeek," como vocativo.
+- Sugestão: trocar o texto por "DeepSeek 1" escrito por extenso e revisar a frase completa ("DeepSeek 1, aqui é o DeepSeek 4..."), com a voz regravada se necessário.
+
+### BUG leve — entrada da caverna é um bloco preto chapado
+- Pedaço: p003 @ 01:10 a 01:24 (noite, Dia 1)
+- Global: 10674 a 11016 aprox.
+- Cena: p205 ("Primeira noite")
+- Descrição: a entrada da caverna é um polígono preto sólido, sem textura nem sombreamento. Em p003 @ 01:21 e 01:10 ele parece um buraco vazio no cenário e não uma caverna. O resto da noite está escuro, mas legível.
+- Sugestão: dar textura ou um gradiente de luz à boca da caverna (fogueira ou brilho da água pingando) para que não pareça um recorte preto.
+
+### BUG leve — boneco de primeiro plano bloqueia a briga
+- Pedaço: p003 @ 01:09 (briga pelo arco, luta em torno do arco)
+- Global: 10656 aprox.
+- Cena: p204 ("seis IAs tentam pegar o mesmo arco")
+- Descrição: em tamanho cheio, um boneco azul de costas, cortado pela borda inferior, cobre quase metade do quadro e esconde os personagens que brigam atrás dele. A ação principal fica pouco visível.
+- Sugestão: afastar a câmera ou subir o ângulo para que a briga apareça inteira.
+
+### MELHORIA — poses sentadas sem apoio (DeepSeek 4 e outros)
+- Pedaço: p003 @ 01:54 (DeepSeek 4 sentado) e, nas seções anteriores, p002 @ 00:00 e p001 @ 02:03
+- Global: 11736 aprox.
+- Cena: p206b
+- Descrição: o DeepSeek 4 aparece sentado no ar, com as pernas dobradas e sem banco nem chão de apoio. O mesmo problema já tinha aparecido em outros bonecos sentados (roxo à esquerda em p001 e p002).
+- Sugestão: colocar um apoio visível (caixa, pedra, tronco) ou usar uma pose de agachado mais baixa.
+
+### MELHORIA — personagem parado por cerca de 18 s durante o balão do Qwen 27B-1
+- Pedaço: p003 @ 01:27 a 01:45
+- Global: 11088 a 11520 aprox.
+- Cena: p206 ("Essa caverna é minha")
+- Descrição: o boneco roxo fica praticamente sem movimento enquanto o balão está na tela. A fala é boa, mas a imagem fica parada.
+- Sugestão: idle sutil (respiração, troca de peso, olhar para o lado) ou um corte para outro ângulo durante a fala.
+
+### MELHORIA — etiquetas de nome pequenas nas tomadas largas do lago
+- Pedaço: p003 @ 00:03 a 00:21
+- Global: 9072 a 9504 aprox.
+- Cena: c01 e c02
+- Descrição: na tomada aérea do lago, as etiquetas de nome ("Qwen 27B-3", "DeepSeek 2" etc.) ficam muito pequenas e tremidas. Na folha de contato são ilegíveis.
+- Sugestão: aumentar as etiquetas nas tomadas largas ou mostrar só os nomes dos personagens que falam.
+
+### Itens observados e considerados OK (p003)
+- Título "PRA VALER / PARTIDA 2" (00:24 a 00:30) entra limpo, com a legenda "Os doze saem correndo pra Cornucópia" legível.
+- Balão do Anthropic/Sonnet (00:30 a 00:42) está preso ao Opus, com a fala completa dentro do balão.
+- Cartões de pensamento do Qwen 27B-1 (00:51 a 00:57) batem com o JSON (p203, at 156).
+- Banner de noite (Dia 1 · Noite) e o escurecimento da transição combinam com a narração.
+- Nenhum ELIMINADO neste pedaço, o que bate com o JSON (sem entradas de eliminados em p111 a p207).
+
+---
+
 ## Resumo parcial (até agora)
 1. MELHORIA — Opus parado por ~27 s em t05 (p000 @ 01:12–01:39).
-2. MELHORIA — memes com pessoas reais: checar direitos (p000 @ 00:36 e outros).
+2. MELHORIA — memes com pessoas reais: checar direitos (p000 @ 00:36; p001 @ 01:24 e 01:58).
 3. BUG leve — boneco cortado na borda em r01 (p000 @ 02:00).
+4. BUG leve — legenda "mesmo distrito, os dois vencem." sobre o mapa da arena (p001 @ 00:32).
+5. BUG leve — rótulos "um pouco d'água" e "Caverna" apertados no mapa da ilha (p001 @ 00:18).
+6. BUG leve — boneco gigante e cortado no primeiro plano da r05 (p001 @ 00:42).

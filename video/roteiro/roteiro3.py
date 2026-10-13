@@ -267,7 +267,7 @@ RESTO = [
     ]),
     CH('p206b', 'p2', g3d(t3d(4, 'cornucopia', 'close', alvo='ds4'), hud=True), [
         ('N', 'Enquanto isso, na Cornucópia, o DeepSeek 4 resolve que agora ele manda:'),
-        ('ds4', 'DeepSeek, aqui é o ds1. O kit médico fica comigo. Eu distribuo pra quem estiver de pé no fim do dia.'),
+        ('ds4', 'DeepSeek, aqui é o DeepSeek 1. O kit médico fica comigo. Eu distribuo pra quem estiver de pé no fim do dia.'),
         ('N', 'Ele não é o DeepSeek 1. [[m:side-eye-dog:right:2.2]] E o kit médico? Usou nele mesmo, no dia oito.'),
     ]),
     N('p207', 'p2', g3d(t3d(7, 'lago', 'orbita'), t3d(7, 'lago', 'alta'), hud=True),

@@ -143,8 +143,10 @@ class Mapa(Base):
             g = gota(0.14).move_to(zonas[z].get_center())
             pouca.add(g)
             self.play(zonas[z].animate.set_fill('#2e6f8f', 0.8), FadeIn(g, scale=0.5), run_time=self.tempo(0.05))
-        s2 = txt('um pouco d\'água', 26, '#9fdcff').next_to(zonas['caverna'], LEFT, buff=0.15).shift(UP * 0.45)
-        self.play(FadeIn(s2), run_time=self.tempo(0.05))
+        s2 = txt('um pouco d\'água', 26, '#9fdcff').to_corner(UL, buff=0.6).shift(DOWN * 1.0)
+        setas = VGroup(*[Arrow(s2.get_right(), g.get_center(), buff=0.22, stroke_width=3, color='#9fdcff',
+                               max_tip_length_to_length_ratio=0.12) for g in pouca])
+        self.play(FadeIn(s2), Create(setas), run_time=self.tempo(0.05))
         s3 = txt('o resto: seco', 30, '#e7c98a', HEAVY).to_corner(DR, buff=0.6)
         self.play(FadeIn(s3, shift=UP * 0.2), run_time=self.tempo(0.06))
         self.wait(max(0, DUR - self.renderer.time))
@@ -155,16 +157,16 @@ class Eventos(Base):
         self.fundo()
         titulo = txt('A ARENA TAMBÉM JOGA', 46, COR['ouro'], HEAVY).to_edge(UP, buff=0.5)
         self.play(Write(titulo), run_time=self.tempo(0.06))
-        linha = NumberLine(x_range=[1, 10, 1], length=12, color='#8aa0b8', include_numbers=False).shift(UP * 1.6)
+        linha = NumberLine(x_range=[1, 10, 1], length=12, color='#8aa0b8', include_numbers=False).shift(UP * 1.4)
         dias = VGroup(*[txt(f'D{d}', 24, '#8aa0b8').next_to(linha.n2p(d), DOWN, buff=0.15) for d in range(1, 11)])
         self.play(Create(linha), FadeIn(dias), run_time=self.tempo(0.07))
         eventos = [(2, 'paraquedas', COR['tinta']), (3, 'regra da dupla', COR['ouro']), (4, 'maré', COR['sede']),
                    (6, 'névoa', COR['nevoa'])]
         for i, (d, nome, cor) in enumerate(eventos):
             p = Dot(linha.n2p(d), radius=0.13, color=cor)
-            r = txt(nome, 26, cor, HEAVY).next_to(p, UP, buff=0.2 + (0.55 if i % 2 else 0))
+            r = txt(nome, 26, cor, HEAVY).next_to(p, UP, buff=0.2 + (0.45 if i % 2 else 0))
             self.play(GrowFromCenter(p), FadeIn(r, shift=DOWN * 0.15), run_time=self.tempo(0.06))
-        grupo, zonas, nomes = ilha_mob(escala=0.017, centro=(0.0, -1.55))
+        grupo, zonas, nomes = ilha_mob(escala=0.0155, centro=(0.0, -1.15))
         self.play(FadeIn(grupo), run_time=self.tempo(0.06))
         ondas = [('dia 6', ['ruinas', 'lago']), ('dia 7', ['montanha', 'caverna']), ('dia 8', ['floresta', 'campo'])]
         rot = None

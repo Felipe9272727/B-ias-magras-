@@ -26,6 +26,19 @@ const FILTRO: Record<string, string> = {
   tarde: 'none',
 };
 
+// Movimento lento de câmera sobre a placa: quanto mais longa a tomada, mais ela anda (não parece pausada).
+// Os balões (fora da placa) usam a mesma conta para continuar presos à cabeça.
+const ORIGEM: [number, number] = [960, 594];
+export const camPlaca = (f: number, dur: number, id: string) => {
+  const s = dur / 24;
+  const p = f / Math.max(1, dur);
+  const z = 1 + Math.min(0.15, 0.06 + 0.0045 * Math.max(0, s - 10)) * p;
+  const lado = [...id].reduce((a, c) => a + c.charCodeAt(0), 0) % 2 ? 1 : -1;
+  const dx = s > 12 ? lado * Math.min(60, 2.5 * (s - 12)) * (p - 0.5) : 0;
+  return {z, dx};
+};
+const naCamera = (x: number, y: number, c: {z: number; dx: number}): [number, number] => [ORIGEM[0] + (x - ORIGEM[0]) * c.z + c.dx, ORIGEM[1] + (y - ORIGEM[1]) * c.z];
+
 const Boneco: React.FC<{id: string; v: [number, number, number, number, number, number]; nomes: string[]; meta: MetaBonecos; filtro: string}> = ({id, v, nomes, meta, filtro}) => {
   const [x, y, ppm, dir0, ai, ta] = v;
   const espelho = dir0 > 180;  // 225/270/315 = 135/90/45 espelhados
@@ -38,19 +51,21 @@ const Boneco: React.FC<{id: string; v: [number, number, number, number, number, 
   const [QW, QH] = meta.quadro;
   const s = ppm / meta.ppm;
   const px = x * 1920, py = y * 1080;
+  const op = clamp01((800 - ppm) / 200);  // passou rente à câmera: some em vez de tapar a tela
+  if (op <= 0) return null;
   return (
-    <>
+    <div style={{opacity: op}}>
       <div style={{position: 'absolute', left: px - 0.38 * ppm, top: py - 0.1 * ppm, width: 0.76 * ppm, height: 0.2 * ppm, borderRadius: '50%', background: 'radial-gradient(ellipse at center, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 70%)'}} />
       <div style={{position: 'absolute', left: px - (espelho ? 1 - meta.pe[0] : meta.pe[0]) * QW * s, top: py - meta.pe[1] * QH * s, width: QW, height: QH, overflow: 'hidden', transform: `scale(${s})`, transformOrigin: 'top left'}}>
         <div style={{position: 'absolute', inset: 0, overflow: 'hidden', transform: espelho ? 'scaleX(-1)' : undefined}}>
           <Img src={staticFile(`ilha/bonecos/${id}/${anim}_${dir}.png`)} style={{position: 'absolute', left: -fr * QW, top: 0, width: QW * A.n, height: QH, maxWidth: 'none', filter: filtro}} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, periodo, dur}) => {
+const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [string, number, number][]}> = ({id, periodo, dur, falando}) => {
   const f = useCurrentFrame();
   const [pos, setPos] = useState<PosPlaca | null>(null);
   const [meta, setMeta] = useState<MetaBonecos | null>(metaCache);
@@ -68,7 +83,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
       .catch(() => null)
       .finally(() => continueRender(h));
   }, [id, h]);
-  const zoom = 1 + 0.06 * (f / Math.max(1, dur));
+  const cam = camPlaca(f, dur, id);
   const atores = pos && meta
     ? Object.entries(pos.atores)
         .map(([tid, tr]) => [tid, tr[Math.min(f, tr.length - 1)]] as const)
@@ -77,7 +92,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
     : [];
   return (
     <AbsoluteFill style={{overflow: 'hidden', background: '#000'}}>
-      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: '50% 55%'}}>
+      <AbsoluteFill style={{transform: `translateX(${cam.dx}px) scale(${cam.z})`, transformOrigin: '50% 55%'}}>
         <Img src={staticFile(`ilha/3d/${id}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
         {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} />)}
         {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
@@ -85,6 +100,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
           const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
           const animTag = pos.anims[v[4]];
           if (!cab || v[2] > 230 || cab[1] < 0.14 || animTag === 'morto' || animTag === 'cair') return null;  // close: dispensa
+          if (falando.some(([fid, a, b]) => fid === tid && f >= a && f < b)) return null;  // o balão já diz o nome
           const t = tributo(tid);
           const tam = Math.max(18, Math.min(30, v[2] * 0.09));
           return (
@@ -102,7 +118,7 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
   );
 };
 
-const Tomada: React.FC<{id: string; periodo?: string; dur?: number}> = ({id, periodo = 'tarde', dur = 100}) => {
+const Tomada: React.FC<{id: string; periodo?: string; dur?: number; falando?: [string, number, number][]}> = ({id, periodo = 'tarde', dur = 100, falando = []}) => {
   const [ok, setOk] = useState<'mp4' | 'placa' | false | null>(null);
   const [h] = useState(() => delayRender(`3d ${id}`));
   useEffect(() => {
@@ -115,7 +131,7 @@ const Tomada: React.FC<{id: string; periodo?: string; dur?: number}> = ({id, per
       .catch(() => setOk(false))
       .finally(() => continueRender(h));
   }, [id, h]);
-  if (ok === 'placa') return <Placa id={id} periodo={periodo} dur={dur} />;
+  if (ok === 'placa') return <Placa id={id} periodo={periodo} dur={dur} falando={falando} />;
   if (ok === 'mp4') return <OffthreadVideo src={staticFile(`ilha/3d/${id}.mp4`)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #1d2b33 0%, #05080b 80%)', alignItems: 'center', justifyContent: 'center'}}>
@@ -363,7 +379,7 @@ export const IL3D: React.FC<{
   partidas: Record<string, Partida>;
 }> = ({tomadas, hud, titulo, chat = [], eliminados = [], placar, partidas}) => {
   const frame = useCurrentFrame();
-  const [telas, setTelas] = useState<Record<string, Telas>>({});
+  const [telas, setTelas] = useState<Record<string, {placa: boolean; telas: Telas}>>({});
   const [h] = useState(() => delayRender('posições 3D'));
   useEffect(() => {
     if (!chat.length) {
@@ -374,8 +390,8 @@ export const IL3D: React.FC<{
       tomadas.map((tm) =>
         fetch(staticFile(`ilha/3d/${tm.id}.json`))
           .then((r) => (r.ok ? r.json() : null))
-          .then((j) => [tm.id, j?.telas ?? []] as const)
-          .catch(() => [tm.id, []] as const),
+          .then((j) => [tm.id, j?.atores ? {placa: true, telas: j.telas ?? []} : {placa: false, telas: j?.telas ?? []}] as const)
+          .catch(() => [tm.id, {placa: false, telas: []}] as const),
       ),
     )
       .then((pares) => setTelas(Object.fromEntries(pares)))
@@ -386,14 +402,16 @@ export const IL3D: React.FC<{
   const dados = atual ? partidas[atual.partida] : undefined;
   const ancora = (id: string): [number, number] | null => {
     if (!atual) return null;
-    const p = telas[atual.id]?.[frame - atual.de]?.[id];
-    return p ? [p[0] * 1920, p[1] * 1080] : null;
+    const T = telas[atual.id];
+    const p = T?.telas[frame - atual.de]?.[id];
+    if (!p) return null;
+    return T.placa ? naCamera(p[0] * 1920, p[1] * 1080, camPlaca(frame - atual.de, atual.ate - atual.de, atual.id)) : [p[0] * 1920, p[1] * 1080];
   };
   return (
     <AbsoluteFill style={{background: '#000'}}>
       {tomadas.map((tm) => (
         <Sequence key={tm.id} from={tm.de} durationInFrames={Math.max(1, tm.ate - tm.de)}>
-          <Tomada id={tm.id} dur={tm.ate - tm.de} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
+          <Tomada id={tm.id} dur={tm.ate - tm.de} falando={chat.filter((c) => !c.pensa).map((c) => [c.id, c.at - tm.de, c.at + c.dur + 16 - tm.de] as [string, number, number])} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
         </Sequence>
       ))}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%)'}} />
