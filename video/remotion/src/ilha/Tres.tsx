@@ -65,7 +65,7 @@ const Boneco: React.FC<{id: string; v: [number, number, number, number, number, 
   );
 };
 
-const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [string, number, number, boolean][]; semNomes?: boolean}> = ({id, periodo, dur, falando, semNomes}) => {
+export const Placa: React.FC<{id: string; periodo: string; dur: number; falando: [string, number, number, boolean][]; semNomes?: boolean}> = ({id, periodo, dur, falando, semNomes}) => {
   const f = useCurrentFrame();
   const [pos, setPos] = useState<PosPlaca | null>(null);
   const [meta, setMeta] = useState<MetaBonecos | null>(metaCache);
