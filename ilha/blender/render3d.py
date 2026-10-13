@@ -54,7 +54,7 @@ def codificar(spec):
     if not mp4.exists():
         tmp = mp4.with_suffix('.tmp.mp4')
         subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-framerate', '24', '-i', str(d / '%04d.png'),
-                        '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-g', '24', str(tmp)], check=True)
+                        '-vf', 'scale=1920:1080:flags=lanczos', '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-g', '24', str(tmp)], check=True)
         tmp.rename(mp4)
     shutil.copy(d / 'pos.json', PUB / f"{spec['id']}.json")
 

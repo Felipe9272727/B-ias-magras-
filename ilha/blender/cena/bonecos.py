@@ -134,7 +134,8 @@ def pe_na_tela(sc, cam):
 QUADROS = os.path.join(RAIZ, 'render', 'bonecos')  # quadros soltos; ilha/blender/tiras.py junta em tiras
 
 
-def renderizar(ids, teste=False):
+def renderizar(ids, teste=False, so=None):
+    """so: conjunto de (tributo, animação, direção) — renderiza só esses (ilha/dados/bonecos_necessarios.json)."""
     sc, cam = montar()
     meta = dict(quadro=[QW, QH], pe=pe_na_tela(sc, cam), ppm=round(QW / LARG, 3), incl=INCL, dirs=DIRS,
                 anims={k: dict(n=v[0], dur=round(v[1], 4), laco=v[2]) for k, v in ANIMS.items()})
@@ -155,6 +156,8 @@ def renderizar(ids, teste=False):
         for nome, (n, dur, laco, fn) in anims.items():
             dirs = DIRS if not teste else [0, 90, 135]
             for d in dirs:
+                if so is not None and (t['id'], nome, d) not in so:
+                    continue
                 tira = os.path.join(pasta, f'{nome}_{d}.png')
                 if os.path.exists(tira) and not teste:
                     continue
@@ -201,6 +204,13 @@ if __name__ == '__main__':
     args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
     teste = '--teste' in args
     args = [a for a in args if a != '--teste']
+    so = None
+    if '--lista' in args:
+        i = args.index('--lista')
+        so = {tuple(x) for x in json.load(open(args[i + 1]))}
+        args = args[:i] + args[i + 2:]
     ids = args[0].split(',') if args and args[0] else None
-    renderizar(ids, teste)
+    if so is not None and not ids:
+        ids = sorted({x[0] for x in so})
+    renderizar(ids, teste, so)
     print('FIM')

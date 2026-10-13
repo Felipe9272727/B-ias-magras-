@@ -3,7 +3,7 @@
 # monta as tiras, renderiza no Remotion e mixa.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-until grep -q "TIRA ds2" ../ilha/logs/bonecos_0.log 2>/dev/null; do sleep 30; done
+until grep -q "^FIM" ../ilha/logs/bonecos_0.log 2>/dev/null; do sleep 20; done
 python3 ../ilha/blender/tiras.py
 until grep -qE "PRONTO|FALTAM" ../ilha/logs/render3d_amostra.log 2>/dev/null; do sleep 20; done
 cd remotion
