@@ -2,6 +2,7 @@ import React from 'react';
 import type {Timeline} from '../types';
 import {partidaDe} from './dados';
 import {ILClipe} from './Clipe';
+import {IL3D} from './Tres';
 import {ILMapa, ItemChat} from './Mapa';
 import {ILElenco, ILFicha, ILMorte, ILPlacar, ILRegra, ILTitulo} from './Cenas';
 import type {Partida} from './dados';
@@ -10,6 +11,8 @@ import type {Partida} from './dados';
 export const IlhaVisual: React.FC<{name: string; props: Record<string, any>; timeline: Timeline}> = ({name, props: p, timeline}) => {
   const ps = ((timeline.data as Record<string, unknown>).partidas ?? {}) as Record<string, Partida>;
   switch (name) {
+    case 'IL3D':
+      return <IL3D tomadas={p.tomadas} hud={p.hud} titulo={p.titulo} chat={p.chat} eliminados={p.eliminados} partidas={ps} />;
     case 'ILClipe':
       return <ILClipe src={p.src} inicio={p.inicio} />;
     case 'ILTitulo':

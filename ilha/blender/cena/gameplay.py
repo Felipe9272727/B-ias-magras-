@@ -34,6 +34,7 @@ ZC = {z['id']: z for z in ZONAS}
 FPS = 24
 LT, LS = 0.31, 0.47  # coxa (quadril→joelho) e canela+pé (joelho→chão)
 ARMAS = ('machado', 'lanca', 'arco', 'faca')  # prioridade do que aparece na mão
+ORDEM_PLAT = ['opus', 'ds1', 'qwen1', 'sonnet', 'ds2', 'qwen2', 'haiku1', 'ds3', 'qwen3', 'haiku2', 'ds4', 'qwen4']
 
 
 def rgb(h):
@@ -104,8 +105,9 @@ class Ilha:
         self.fill.parent = self.cam
         self.fill.location = (0, 1.5, 0.5)
         self.rig = {}
-        for i, t in enumerate(tributos):
-            self.rig[t['id']] = P.criar_tributo_articulado(f"R_{t['id']}", EMPRESA[t['distrito']], rgb(t['cor']), seed=i + 3)
+        for t in tributos:  # mesma semente das tomadas do Blender (praia) e dos retratos: ordem das plataformas
+            self.rig[t['id']] = P.criar_tributo_articulado(f"R_{t['id']}", EMPRESA[t['distrito']], rgb(t['cor']),
+                                                           seed=ORDEM_PLAT.index(t['id']) + 3)
         veg = bpy.data.collections.get('vegetacao')
         self.veg = [(o, o.location.x, o.location.y) for o in (veg.objects if veg else [])]
         self.terreno = next(o for o in bpy.data.objects if o.type == 'MESH' and o.name.lower().startswith('ilha'))
@@ -123,6 +125,32 @@ class Ilha:
         nt.links.new(vol.outputs[0], out.inputs['Volume'])
         self._palcos = {}
         self.caverna()
+        self.noite = bpy.data.worlds.new('ceu_noite')
+        self.noite.use_nodes = True
+        ntn = self.noite.node_tree
+        bgn = ntn.nodes['Background']
+        coord = ntn.nodes.new('ShaderNodeTexCoord')
+        grad = ntn.nodes.new('ShaderNodeSeparateXYZ')
+        ramp = ntn.nodes.new('ShaderNodeValToRGB')
+        ramp.color_ramp.elements[0].color = (0.07, 0.1, 0.22, 1)
+        ramp.color_ramp.elements[1].position = 0.6
+        ramp.color_ramp.elements[1].color = (0.012, 0.02, 0.06, 1)
+        ntn.links.new(coord.outputs['Generated'], grad.inputs[0])
+        ntn.links.new(grad.outputs['Z'], ramp.inputs[0])
+        estr = ntn.nodes.new('ShaderNodeTexVoronoi')
+        estr.inputs['Scale'].default_value = 420
+        cut = ntn.nodes.new('ShaderNodeMath')
+        cut.operation = 'LESS_THAN'
+        cut.inputs[1].default_value = 0.035
+        ntn.links.new(coord.outputs['Generated'], estr.inputs['Vector'])
+        ntn.links.new(estr.outputs['Distance'], cut.inputs[0])
+        mix = ntn.nodes.new('ShaderNodeMix')
+        mix.data_type = 'RGBA'
+        ntn.links.new(cut.outputs[0], mix.inputs['Factor'])
+        ntn.links.new(ramp.outputs['Color'], mix.inputs[6])
+        mix.inputs[7].default_value = (0.9, 0.92, 1.0, 1)
+        ntn.links.new(mix.outputs[2], bgn.inputs['Color'])
+        bgn.inputs['Strength'].default_value = 2.2
 
     def caverna(self):
         px, py = self.palco('caverna')
@@ -161,6 +189,7 @@ class Ilha:
 
     def periodo(self, per):
         s, w = self.sol, self.mundo
+        self.sc.world = self.noite if per == 'noite' else self.mundo
         bg = w.node_tree.nodes.get('Background')
         ceu = next((n for n in w.node_tree.nodes if n.type == 'TEX_SKY'), None)
         if ceu:
@@ -409,10 +438,12 @@ def filmar(ilha, log, tom, pasta, teste=False):
 
     if tom.get('largada'):  # corrida das plataformas até a boca da Cornucópia
         plats = json.load(open(os.path.join(RAIZ, 'dados', 'plataformas.json')))
-        ordem = ['opus', 'ds1', 'qwen1', 'sonnet', 'ds2', 'qwen2', 'haiku1', 'ds3', 'qwen3', 'haiku2', 'ds4', 'qwen4']
+        ordem = ORDEM_PLAT
         aqui = list(ordem)
         fim = lugares(ilha, aqui, 'cornucopia', seed=7, centro=(0.0, -8.0))
         ini = {tid: (p['x'], p['y']) for tid, p in zip(ordem, plats)}
+        if tom['largada'] == 'parado':  # todos em cima das plataformas, esperando o sinal
+            fim = dict(ini)
     else:
         aqui = tom.get('mostrar') or [i for i, s in est.items() if s['zona'] == zid and (s['vivo'] or i in mortes)]
         fim = lugares(ilha, aqui, zid, seed=k * 31 + len(aqui))
@@ -434,7 +465,10 @@ def filmar(ilha, log, tom, pasta, teste=False):
         x1, y1 = fim[tid]
         d = dec.get(tid, {})
         acao = tom.get('acoes', {}).get(tid) or ACAO.get(d.get('acao', ''), 'parado')
-        if tom.get('largada'):
+        if tom.get('largada') == 'parado':
+            x0, y0 = x1, y1
+            acao = 'parado'
+        elif tom.get('largada'):
             x0, y0 = ini[tid]
             acao = 'pegar'
         elif tid in ant and ant[tid]['zona'] != zid and ant[tid]['zona'] in ZC:  # entra andando vindo da zona anterior
@@ -459,9 +493,9 @@ def filmar(ilha, log, tom, pasta, teste=False):
             acao = 'falar' if d.get('fala') else 'parado'
         atingido = any(e['alvo'] == tid and e['id'] in fim for e in ataques)
         plano[tid] = dict(x0=x0, y0=y0, x1=x1, y1=y1, acao=acao, anda=(abs(x0 - x1) + abs(y0 - y1)) > 0.01,
-                          alvo=alvo_atq, atingido=atingido, arma=arma, morre=tid in mortes,
+                          alvo=alvo_atq, atingido=atingido, arma=arma, morre=tid in mortes and tid not in tom.get('imortais', []),
                           ferido=est[tid]['vida'] < 35, fase=random.Random(tid + str(k)).random(),
-                          corre=bool(tom.get('largada')))
+                          corre=tom.get('largada') is True, plataforma=tom.get('largada') == 'parado')
     ids = list(plano)
     gx = sum(plano[i]['x1'] for i in ids) / len(ids) if ids else cx
     gy = sum(plano[i]['y1'] for i in ids) / len(ids) if ids else cy
@@ -548,6 +582,8 @@ def filmar(ilha, log, tom, pasta, teste=False):
         else:
             rot = (0.0, 0.0, th)
             z -= baixar
+        if p['plataforma']:
+            z += 0.25
         return pos.x, pos.y, z, rot, a
 
     def aplicar(tid, t):
@@ -565,6 +601,9 @@ def filmar(ilha, log, tom, pasta, teste=False):
     tipo = tom.get('cam', 'orbita')
     rnd = random.Random(k * 7 + len(zid) + len(tom['id']))
     a0 = tom.get('angulo', rnd.uniform(0, 360))
+    if a0 == 'centro':  # câmera do lado do centro da zona (no lago: em cima da água, olhando a margem)
+        zx, zy = ZC[zid]['c']
+        a0 = math.degrees(math.atan2(zy - gy, zx - gx))
     semente = rnd.uniform(0, 10)
 
     def pos_trib(tid, t):
@@ -617,7 +656,7 @@ def filmar(ilha, log, tom, pasta, teste=False):
             if math.cos(math.radians(a0)) < 0:
                 nrm = -nrm
             sep = (qb - qa).length
-            loc = m + nrm * (max(5.5, sep * 1.3 + 3.5) - 1.2 * e) - dv * 0.6 + Vector((0, 0, 1.5))
+            loc = m + nrm * (max(4.2, sep * 1.1 + 2.6) - 0.8 * e) - dv * 0.5 + Vector((0, 0, 1.45))
             mira = m + Vector((0, 0, 1.0))
             lente = 32
         elif tipo == 'aerea':
@@ -638,6 +677,12 @@ def filmar(ilha, log, tom, pasta, teste=False):
             loc = grupo + dirc * (espalho + 6) + lado * (-4 + 8 * e) + Vector((0, 0, 0.8))
             mira = grupo + lado * (-1 + 2 * e)
             lente = 34
+        elif tipo == 'alta':
+            a = math.radians(a0 + 20 * e)
+            r = espalho + 9
+            loc = Vector((grupo.x + math.cos(a) * r, grupo.y + math.sin(a) * r, grupo.z + 6.5 - 1.0 * e))
+            mira = grupo - Vector((0, 0, 0.6))
+            lente = 30
         elif tipo == 'baixa':
             a = math.radians(a0)
             r = espalho + 8 - 4 * e
