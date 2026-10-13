@@ -381,14 +381,14 @@ const TeclaF: React.FC<{d: number}> = ({d}) => {
   );
 };
 
-const Eliminado: React.FC<{e: Elim3D; frame: number}> = ({e, frame}) => {
+const Eliminado: React.FC<{e: Elim3D; frame: number; k?: number}> = ({e, frame, k = 0}) => {
   const t = tributo(e.id);
   const d = frame - e.at;
   const {fps} = useVideoConfig();
   const bate = spring({frame: d, fps, config: {damping: 10, stiffness: 170}});
   const sai = clamp01((d - 66) / 8);
   return (
-    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 230, opacity: 1 - sai}}>
+    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 230 + k * 150, opacity: 1 - sai}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 22, padding: '14px 34px 14px 18px', background: 'rgba(12,4,6,.9)', border: '5px solid #ff3b3b', borderRadius: 20, transform: `scale(${interpolate(bate, [0, 1], [1.8, 1])}) rotate(${(1 - bate) * -4}deg)`, boxShadow: '0 0 40px rgba(255,40,40,.45)'}}>
         <Retrato id={e.id} size={96} cinza borda="#ff3b3b" />
         <div>
@@ -472,8 +472,9 @@ export const IL3D: React.FC<{
         ))}
       {eliminados
         .filter((e) => frame >= e.at && frame < e.at + 76)
-        .map((e) => (
-          <Eliminado key={`x-${e.id}`} e={e} frame={frame} />
+        .sort((a, b) => a.at - b.at)
+        .map((e, k) => (  // duas mortes juntas: a mais nova empilha em cima, sem cobrir a outra
+          <Eliminado key={`x-${e.id}`} e={e} frame={frame} k={k} />
         ))}
       {eliminados
         .filter((e) => e.drama && frame >= e.at + 20 && frame < e.at + 120)

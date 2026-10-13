@@ -290,7 +290,7 @@ export const Captions: React.FC<{groups: CapGroup[]; topo?: boolean}> = ({groups
         {g.words.map((w, i) => {
           const active = frame >= w.s && frame < (g.words[i + 1]?.s ?? w.e + 6);
           return (
-            <span key={i} style={{color: active ? C.gold : '#fff', display: 'inline-block', margin: '0 9px', transform: active ? 'scale(1.08)' : undefined}}>
+            <span key={i} style={{color: active ? C.gold : '#fff', display: 'inline-block', margin: '0 14px'}}>
               {w.w}
             </span>
           );
