@@ -99,11 +99,12 @@ def narrar(sid, texto, base, offset_s, vis, memes, sfx, avisos, sem_voz):
     return dict(dur=dur, events=events, words=cw, forced=forced_i, extra=extra, audio=bool(words), cortes=cortes)
 
 
-def tomadas_da_cena(sid, vis, duracao, cortes, chat):
-    """Divide a cena entre as tomadas 3D: nos cortes marcados e, se faltar, em partes iguais."""
+def tomadas_da_cena(sid, vis, duracao, cortes, chat, inicios=()):
+    """Divide a cena entre as tomadas 3D: nos cortes marcados ([[c]] ou desde=k) e, se faltar, em partes iguais."""
     toms = vis['props']['tomadas']
     n = len(toms)
-    marcas = sorted(c for c in cortes if 0 < c < duracao)[:n - 1]
+    extra = [inicios[s['desde']] for s in toms[1:] if isinstance(s.get('desde'), int) and s['desde'] < len(inicios)]
+    marcas = sorted(set(c for c in list(cortes) + extra if 0 < c < duracao))[:n - 1]
     if len(marcas) < n - 1:
         ini = marcas[-1] if marcas else 0
         resto = n - 1 - len(marcas)
@@ -120,7 +121,7 @@ def tomadas_da_cena(sid, vis, duracao, cortes, chat):
             fim_s = ini_s + c['dur'] / FPS
             if fim_s > 0 and ini_s < (ate - de) / FPS:
                 falas.setdefault(c['id'], []).append([round(max(0.0, ini_s), 2), round(fim_s, 2)])
-        s = dict(spec, id=tid, quadros=ate - de + FOLGA)
+        s = dict({k: v for k, v in spec.items() if k != 'desde'}, id=tid, quadros=ate - de + FOLGA)
         if falas:
             s['falas'] = falas
         specs.append(s)
@@ -171,7 +172,7 @@ def main():
         vis = json.loads(json.dumps(sc['visual']))
         lead = sc.get('lead', 0.25)
         pad = sc.get('pad', 0.5)
-        events, words, forced, voices, cortes, chat = [], [], set(), [], [], []
+        events, words, forced, voices, cortes, chat, inicios = [], [], set(), [], [], [], []
         if 'text' in sc:
             n = narrar(sid, sc['text'], VOZ / sid, lead, vis, memes, sfx, avisos, args.sem_voz)
             events += n['events']
@@ -185,6 +186,7 @@ def main():
             t = lead
             for k, (quem, txt) in enumerate(sc['falas']):
                 base = VOZ / f'{sid}_{k}'
+                inicios.append(round(t * FPS))
                 if quem == 'N':
                     n = narrar(sid, txt, base, t, vis, memes, sfx, avisos, args.sem_voz)
                     events += n['events']
@@ -214,7 +216,7 @@ def main():
                 vis['props']['inicio'] = round(clipe_fim.get(src, 0.0), 3)
             clipe_fim[src] = float(vis['props'].get('inicio') or 0) + duration / FPS
         if vis.get('name') == 'IL3D':
-            specs += tomadas_da_cena(sid, vis, duration, cortes, [c for c in chat if not c.get('pensa')])
+            specs += tomadas_da_cena(sid, vis, duration, cortes, [c for c in chat if not c.get('pensa')], inicios)
             vis['props']['eliminados'] = [e for e in events if e['type'] == 'elim']
             events = [e for e in events if e['type'] != 'elim']
             for e in vis['props']['eliminados']:

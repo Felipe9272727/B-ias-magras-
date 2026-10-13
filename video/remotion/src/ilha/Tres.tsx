@@ -34,7 +34,7 @@ const Tomada: React.FC<{id: string}> = ({id}) => {
 };
 
 // ---------------------------------------------------------------- título por cima do 3D
-const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string}> = ({kicker, title, subtitle, color = '#ffcc33'}) => {
+const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string; retratos?: boolean}> = ({kicker, title, subtitle, color = '#ffcc33', retratos = true}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const bate = spring({frame: f - 4, fps, config: {damping: 11, stiffness: 160}});
@@ -76,7 +76,7 @@ const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string;
           </div>
         )}
         {subtitle && <div style={{marginTop: 18, fontFamily: FONT.display, fontWeight: 700, fontSize: 40, color: '#fff', opacity: kick}}>{subtitle}</div>}
-        <div style={{display: 'flex', gap: 34, marginTop: 44}}>
+        {retratos && <div style={{display: 'flex', gap: 34, marginTop: 44}}>
           {DISTRITOS.map((d, di) => (
             <div key={d.nome} style={{display: 'flex', gap: 10, padding: '10px 14px', borderRadius: 60, background: 'rgba(0,0,0,.45)', border: `3px solid ${d.cor}`}}>
               {TRIBUTOS.filter((t) => t.distrito === d.nome).map((t, i) => {
@@ -89,8 +89,41 @@ const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string;
               })}
             </div>
           ))}
-        </div>
+        </div>}
       </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- placar: mortes por causa (partida oficial)
+const ROTULO: Record<string, [string, string]> = {'névoa': ['NÉVOA TÓXICA', '#c77dff'], fome: ['FOME', '#ffb26b'], sede: ['SEDE', '#83cdec'], combate: ['COMBATE', '#ff3b3b']};
+const Placar: React.FC<{dados: Partida}> = ({dados}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const grupos: Record<string, string[]> = {};
+  for (const t of dados.turnos) for (const e of t.eventos ?? []) if (e.tipo === 'morte') (grupos[String(e.causa)] ??= []).push(String(e.vitima));
+  const ordem = Object.keys(grupos).sort((a, b) => grupos[b].length - grupos[a].length);
+  const total = Object.values(grupos).reduce((a, b) => a + b.length, 0);
+  return (
+    <AbsoluteFill style={{background: 'rgba(4,6,12,.55)', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 96, color: '#fff', WebkitTextStroke: '3px #000', textShadow: '0 8px 0 #000', transform: `scale(${spring({frame: f, fps, config: {damping: 12}})})`}}>
+        {total} MORTES
+      </div>
+      <div style={{display: 'flex', flexDirection: 'column', gap: 18, marginTop: 30}}>
+        {ordem.map((c, i) => {
+          const o = spring({frame: f - 10 - i * 7, fps, config: {damping: 14}});
+          const [nome, cor] = ROTULO[c] ?? [c.toUpperCase(), '#fff'];
+          return (
+            <div key={c} style={{display: 'flex', alignItems: 'center', gap: 22, opacity: o, transform: `translateX(${(1 - o) * -80}px)`}}>
+              <div style={{width: 330, textAlign: 'right', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: cor, textShadow: '0 4px 0 #000'}}>{nome}</div>
+              <div style={{width: 74, fontFamily: FONT.display, fontWeight: 900, fontSize: 56, color: '#fff', textShadow: '0 4px 0 #000'}}>{grupos[c].length}</div>
+              <div style={{display: 'flex', gap: 8}}>
+                {grupos[c].map((id) => <Retrato key={id} id={id} size={66} cinza borda={cor} />)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </AbsoluteFill>
   );
 };
@@ -233,8 +266,9 @@ export const IL3D: React.FC<{
   titulo?: {kicker?: string; title: string; subtitle?: string; color?: string} | null;
   chat?: Fala3D[];
   eliminados?: Elim3D[];
+  placar?: boolean | null;
   partidas: Record<string, Partida>;
-}> = ({tomadas, hud, titulo, chat = [], eliminados = [], partidas}) => {
+}> = ({tomadas, hud, titulo, chat = [], eliminados = [], placar, partidas}) => {
   const frame = useCurrentFrame();
   const [telas, setTelas] = useState<Record<string, Telas>>({});
   const [h] = useState(() => delayRender('posições 3D'));
@@ -287,6 +321,7 @@ export const IL3D: React.FC<{
         .map((e) => (
           <Eliminado key={`x-${e.id}`} e={e} frame={frame} />
         ))}
+      {placar && partidas.oficial && <Placar dados={partidas.oficial} />}
       {titulo && <TituloCinema {...titulo} />}
     </AbsoluteFill>
   );

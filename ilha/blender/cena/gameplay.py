@@ -226,6 +226,17 @@ class Ilha:
                 l.data.color = (1, 0.55, 0.2)
                 l.data.shadow_soft_size = 0.3
                 self.fogos += [f, l]
+            if z.get('inundada'):  # maré: lâmina d'água por cima da zona
+                zx, zy = ZC[zid]['c']
+                bpy.ops.mesh.primitive_cylinder_add(vertices=20, radius=ZC[zid]['r'] * 1.7, depth=0.1,
+                                                    location=(zx, zy, 1.1))
+                agua = bpy.context.object
+                mar = bpy.data.objects.get('MarCalmo')
+                if mar and mar.data.materials:
+                    agua.data.materials.append(mar.data.materials[0])
+                else:
+                    agua.data.materials.append(P.mat_cor('mare', (0.1, 0.45, 0.7), rough=0.2))
+                self.nevoas.append(agua)
             if z.get('nevoa'):
                 zx, zy = ZC[zid]['c']
                 r = ZC[zid]['r'] * 0.9
