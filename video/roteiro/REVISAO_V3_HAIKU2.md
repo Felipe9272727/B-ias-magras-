@@ -248,8 +248,16 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - Pose sentada sem apoio (0:00 a 0:15, boneco roxo à esquerda): NÃO RESOLVIDO. A pose continua igual.
 - Problema novo: nenhum identificado nas tomadas que conferi. A folha de contato mostra a mesma sequência geral da rodada anterior.
 
-### p003, p004 (novo render)
-- A verificar quando forem gerados.
+### p003 (novo render, gerado às 20:51)
+- Balão mostrando "ds1" em vez de "DeepSeek 1" (1:54): RESOLVIDO. O texto agora diz "DeepSeek, aqui é o DeepSeek 1. O...".
+- Entrada da caverna como bloco preto chapado (1:21): NÃO RESOLVIDO. O polígono preto continua sem textura nem sombra.
+- Boneco de primeiro plano bloqueando a briga (1:09): PARCIALMENTE RESOLVIDO. A figura de frente foi trocada por um boneco laranja de costas, que ainda ocupa grande parte do quadro, mas a briga atrás aparece melhor.
+- Pose sentada sem apoio do DeepSeek 4 (1:54): NÃO RESOLVIDO. Ele continua sentado sem banco.
+- Boneco parado no balão do Qwen 27B-1 (1:27 a 1:45): não reconferido nesta rodada.
+- Problema novo: nenhum identificado nos quadros que conferi.
+
+### p004 (novo render, gerado às 21:00)
+- A verificar: HUD voltando no tempo, corpos em "descansar" e etiqueta, boneco translúcido, "z z z".
 
 ---
 
