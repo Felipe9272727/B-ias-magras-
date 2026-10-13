@@ -151,7 +151,7 @@ def renderizar(ids, teste=False, so=None):
         pasta = os.path.join(SAIDA, t['id'])
         os.makedirs(pasta, exist_ok=True)
         usadas = armas_usadas().get(t['id'], set()) | {'maos'}
-        anims = {k: v for k, v in ANIMS.items() if not k.startswith('atacar_') or k[8:] in usadas}
+        anims = {k: v for k, v in ANIMS.items() if not k.startswith('atacar_') or k[7:] in usadas}
         anims = anims if not teste else {k: ANIMS[k] for k in ('andar', 'falar', 'atacar_lanca', 'cair')}
         for nome, (n, dur, laco, fn) in anims.items():
             dirs = DIRS if not teste else [0, 90, 135]

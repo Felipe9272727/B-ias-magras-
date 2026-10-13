@@ -20,8 +20,16 @@ for d in sorted(Q.glob('*/*_*')):
         continue
     tira.parent.mkdir(parents=True, exist_ok=True)
     im = Image.new('RGBA', (QW * n, QH), (0, 0, 0, 0))
+    ruim = False
     for i, f in enumerate(fs[:n]):
-        im.paste(Image.open(f), (i * QW, 0))
+        try:
+            im.paste(Image.open(f), (i * QW, 0))
+        except Exception:
+            print('quadro corrompido, apagado:', f)
+            f.unlink()
+            ruim = True
+    if ruim:
+        continue
     im.save(tira, optimize=True)
     feitas += 1
 tiras = {}
