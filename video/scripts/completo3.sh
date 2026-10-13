@@ -5,6 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 R=..
 python3 $R/ilha/blender/render3d.py 2 --lista $R/ilha/dados/tomadas3_completo.json
+python3 scripts/virar_falantes.py
 python3 $R/ilha/blender/necessarios.py
 XV='xvfb-run -a -s "-screen 0 1920x1080x24"'
 xvfb-run -a -s "-screen 0 1920x1080x24" blender -b -P $R/ilha/blender/cena/bonecos.py -- opus,sonnet,haiku1,haiku2,ds1,ds2 --lista $R/ilha/dados/bonecos_necessarios.json > $R/ilha/logs/bonecos_c0.log 2>&1 &
