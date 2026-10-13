@@ -43,7 +43,11 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'deepseek') maxTokens += 3000
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs)
-    if (r.ok && r.text.trim()) return r
+    if (r.ok && r.text.trim()) {
+      const c = Number(r.usage?.cost ?? 0)  // o OpenRouter informa o custo em dólar de cada chamada
+      if (c) { uso.custo = uso.custo ?? {}; uso.custo[provider] = (uso.custo[provider] ?? 0) + c }
+      return r
+    }
     if (/sem cota|sem chave/.test(r.text)) throw new Error(r.text)
     await dormir(1500 * (tentativa + 1))
   }
