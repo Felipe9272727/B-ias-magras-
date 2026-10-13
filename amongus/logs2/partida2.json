@@ -1,0 +1,2285 @@
+{
+ "seed": 1614347879,
+ "partida": 2,
+ "temporada": true,
+ "cfg": {
+  "recargaMorte": 5,
+  "recargaSabotagem": 12,
+  "tarefasPorTripulante": 5,
+  "reatorPrazo": 10,
+  "metamorfoDuracao": 6,
+  "metamorfoRecarga": 12,
+  "ventEngenheiroRecarga": 4,
+  "vitaisRecarga": 6,
+  "rastreioDuracao": 6,
+  "rastreioRecarga": 10,
+  "rodadasDiscussao": 2,
+  "xerifeRecarga": 8,
+  "detetiveRecarga": 4,
+  "fantasmaDuracao": 4,
+  "fantasmaRecarga": 12,
+  "reunioesEmergencia": 1
+ },
+ "salas": {
+  "Refeitorio": {
+   "x": 50,
+   "y": 14,
+   "nome": "Refeitório"
+  },
+  "Armas": {
+   "x": 74,
+   "y": 14,
+   "nome": "Armas"
+  },
+  "O2": {
+   "x": 66,
+   "y": 34,
+   "nome": "O2"
+  },
+  "Navegacao": {
+   "x": 92,
+   "y": 40,
+   "nome": "Navegação"
+  },
+  "Escudos": {
+   "x": 74,
+   "y": 70,
+   "nome": "Escudos"
+  },
+  "Comunicacoes": {
+   "x": 62,
+   "y": 86,
+   "nome": "Comunicações"
+  },
+  "Deposito": {
+   "x": 48,
+   "y": 72,
+   "nome": "Depósito"
+  },
+  "Admin": {
+   "x": 58,
+   "y": 52,
+   "nome": "Admin"
+  },
+  "Eletrica": {
+   "x": 34,
+   "y": 64,
+   "nome": "Elétrica"
+  },
+  "MotorInferior": {
+   "x": 14,
+   "y": 70,
+   "nome": "Motor Inferior"
+  },
+  "Seguranca": {
+   "x": 24,
+   "y": 42,
+   "nome": "Segurança"
+  },
+  "Reator": {
+   "x": 4,
+   "y": 42,
+   "nome": "Reator"
+  },
+  "MotorSuperior": {
+   "x": 14,
+   "y": 16,
+   "nome": "Motor Superior"
+  },
+  "Enfermaria": {
+   "x": 32,
+   "y": 30,
+   "nome": "Enfermaria"
+  }
+ },
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "papel": "Barulhento",
+   "time": "tripulante",
+   "modelo": "DeepSeek Flash",
+   "provider": "deepseek",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Refeitorio",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Navegacao",
+     "nome": "Estabilizar o rumo"
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Consertar a fiação"
+    },
+    {
+     "sala": "Seguranca",
+     "nome": "Consertar a fiação"
+    }
+   ]
+  },
+  {
+   "cor": "Azul",
+   "papel": "Metamorfo",
+   "time": "impostor",
+   "modelo": "DeepSeek Flash",
+   "provider": "deepseek",
+   "estrategia": false,
+   "tarefas": []
+  },
+  {
+   "cor": "Verde",
+   "papel": "Faxineiro",
+   "time": "impostor",
+   "modelo": "Gemini 3.8 Flash",
+   "provider": "or:google/gemini-3.8-flash",
+   "estrategia": true,
+   "tarefas": []
+  },
+  {
+   "cor": "Rosa",
+   "papel": "Medico",
+   "time": "tripulante",
+   "modelo": "DeepSeek Flash",
+   "provider": "deepseek",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor"
+    },
+    {
+     "sala": "Deposito",
+     "nome": "Abastecer os motores"
+    },
+    {
+     "sala": "Armas",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Escudos",
+     "nome": "Ativar os escudos"
+    },
+    {
+     "sala": "Seguranca",
+     "nome": "Consertar a fiação"
+    }
+   ]
+  },
+  {
+   "cor": "Laranja",
+   "papel": "Xerife",
+   "time": "tripulante",
+   "modelo": "GPT-5.6 Luna",
+   "provider": "or:openai/gpt-5.6-luna",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor"
+    },
+    {
+     "sala": "Deposito",
+     "nome": "Esvaziar o lixo"
+    },
+    {
+     "sala": "MotorInferior",
+     "nome": "Alinhar o motor"
+    },
+    {
+     "sala": "O2",
+     "nome": "Esvaziar o lixo"
+    },
+    {
+     "sala": "Reator",
+     "nome": "Iniciar o reator"
+    }
+   ]
+  },
+  {
+   "cor": "Amarelo",
+   "papel": "Cientista",
+   "time": "tripulante",
+   "modelo": "Grok 4.3",
+   "provider": "or:x-ai/grok-4.3",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Navegacao",
+     "nome": "Traçar a rota"
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Consertar a fiação"
+    },
+    {
+     "sala": "Enfermaria",
+     "nome": "Escanear no MedBay"
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "O2",
+     "nome": "Limpar o filtro de O2"
+    }
+   ]
+  },
+  {
+   "cor": "Preto",
+   "papel": "Prefeito",
+   "time": "tripulante",
+   "modelo": "Grok 4.3",
+   "provider": "or:x-ai/grok-4.3",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides"
+    },
+    {
+     "sala": "Reator",
+     "nome": "Iniciar o reator"
+    },
+    {
+     "sala": "Refeitorio",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Escudos",
+     "nome": "Ativar os escudos"
+    },
+    {
+     "sala": "O2",
+     "nome": "Limpar o filtro de O2"
+    }
+   ]
+  },
+  {
+   "cor": "Branco",
+   "papel": "Engenheiro",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Seguranca",
+     "nome": "Consertar a fiação"
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Enfermaria",
+     "nome": "Escanear no MedBay"
+    },
+    {
+     "sala": "Reator",
+     "nome": "Destravar os coletores"
+    },
+    {
+     "sala": "O2",
+     "nome": "Esvaziar o lixo"
+    }
+   ]
+  },
+  {
+   "cor": "Roxo",
+   "papel": "Fantasma",
+   "time": "impostor",
+   "modelo": "GPT-5.6 Luna",
+   "provider": "or:openai/gpt-5.6-luna",
+   "estrategia": false,
+   "tarefas": []
+  },
+  {
+   "cor": "Marrom",
+   "papel": "Detetive",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Navegacao",
+     "nome": "Traçar a rota"
+    },
+    {
+     "sala": "Admin",
+     "nome": "Passar o cartão"
+    },
+    {
+     "sala": "Armas",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "O2",
+     "nome": "Limpar o filtro de O2"
+    },
+    {
+     "sala": "Escudos",
+     "nome": "Ativar os escudos"
+    }
+   ]
+  },
+  {
+   "cor": "Ciano",
+   "papel": "Rastreador",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Comunicacoes",
+     "nome": "Baixar dados"
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor"
+    },
+    {
+     "sala": "Admin",
+     "nome": "Passar o cartão"
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides"
+    },
+    {
+     "sala": "Enfermaria",
+     "nome": "Escanear no MedBay"
+    }
+   ]
+  },
+  {
+   "cor": "Lima",
+   "papel": "Tripulante",
+   "time": "tripulante",
+   "modelo": "Gemini 3.8 Flash",
+   "provider": "or:google/gemini-3.8-flash",
+   "estrategia": false,
+   "tarefas": [
+    {
+     "sala": "Admin",
+     "nome": "Passar o cartão"
+    },
+    {
+     "sala": "MotorSuperior",
+     "nome": "Alinhar o motor"
+    },
+    {
+     "sala": "Enfermaria",
+     "nome": "Inspecionar amostra"
+    },
+    {
+     "sala": "Navegacao",
+     "nome": "Estabilizar o rumo"
+    },
+    {
+     "sala": "Refeitorio",
+     "nome": "Esvaziar o lixo"
+    }
+   ]
+  }
+ ],
+ "tiques": [
+  {
+   "tique": 0,
+   "decisoes": [],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 0,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 1,
+   "decisoes": [
+    {
+     "cor": "Ciano",
+     "acao": "ir para Admin",
+     "pensamento": "Ninguém fez nada ainda, então vou começar as tarefas pela sala Admin e observar quem se move.",
+     "de": "Refeitorio",
+     "para": "Admin"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Já que todo mundo está saindo do Refeitório e tenho tarefa aqui, vou adiantar o lixo logo.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Vou fingir uma tarefa para parecer ocupado e observar quem se separa do grupo.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Admin",
+     "pensamento": "Melhor sair do bolo cedo e me posicionar perto dos dutos do Admin sem chamar atenção; ainda não posso matar.",
+     "de": "Refeitorio",
+     "para": "Admin"
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Deposito",
+     "pensamento": "Todo mundo ainda está no Refeitório, vou me espalhar em direção ao Depósito para não levantar suspeitas no começo.",
+     "de": "Refeitorio",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "ir para Armas",
+     "pensamento": "Ninguém vai morrer no tique 1 com todos juntos; melhor começar as tarefas e guardar o escudo pra quando alguém estiver em perigo real.",
+     "de": "Refeitorio",
+     "para": "Armas"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Enfermaria",
+     "pensamento": "Vou começar fazendo a tarefa de scan no MedBay que fica logo ao lado.",
+     "de": "Refeitorio",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Vou começar pela tarefa do motor e observar quem me acompanha ou age de forma suspeita.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Tem todo mundo aqui no Refeitório, então é seguro começar baixando meus dados antes de sair andando sozinho.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Enfermaria",
+     "pensamento": "Tenho cinco tarefas e a Enfermaria é vizinha, então vou começar pelo escaneamento no MedBay sem usar duto.",
+     "de": "Refeitorio",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Vou fazer Baixar dados aqui no Refeitório pra já subir a barra de tarefas.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "ir para Admin",
+     "pensamento": "Estou no Refeitório com todo mundo; vou direto para o Admin cumprir a tarefa de passar o cartão.",
+     "de": "Refeitorio",
+     "para": "Admin"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 0,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 2,
+   "decisoes": [
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Vou fazer Baixar dados aqui mesmo no Refeitório pra avançar nas tarefas logo no começo.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Vou sair para o Motor Superior e procurar uma oportunidade sem levantar suspeitas.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Tem gente comigo no Refeitório, então aproveito pra adiantar a tarefa de baixar dados sem ficar sozinho.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Estou no Admin com Azul e Ciano; tenho a tarefa Passar o cartão aqui, então vou fazê-la enquanto observo quem anda por perto.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Branco",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Amarelo está aqui comigo; posso fazer a tarefa de escanear no MedBay agora sem gastar tempo e observar quem chega.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Estou com o Azul e o Marrom no Admin, sem nada suspeito ainda, então vou adiantar uma tarefa aqui e guardar o rastreador para quando alguém agir estranho.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Eletrica",
+     "pensamento": "Vou para a Elétrica checar alvos isolados enquanto espero o tempo de recarga diminuir.",
+     "de": "Deposito",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Vou fazer a tarefa de Escanear no MedBay aqui mesmo, já que estou na Enfermaria.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Vou aproveitar que já estou no Refeitório com outras pessoas por perto para fazer o lixo com segurança.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Azul",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Vou usar o mapa do Admin pra ver onde estão os outros e planejar um abate sem testemunha quando a recarga voltar.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para MotorInferior",
+     "pensamento": "Vou começar pela tarefa do motor e observar quem circula por esta área.",
+     "de": "MotorSuperior",
+     "para": "MotorInferior"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Estou sozinha em Armas, então vou adiantar minha tarefa antes de gastar o escudo sem informação.",
+     "de": "Armas",
+     "para": "Armas"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 0,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 3,
+   "decisoes": [
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Alinhar o motor",
+     "pensamento": "Vou avançar na tarefa do motor enquanto observo quem passa por esta área.",
+     "de": "MotorInferior",
+     "para": "MotorInferior"
+    },
+    {
+     "cor": "Branco",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Estou na Enfermaria com o Amarelo, sem sinal de nada suspeito; vou logo fazer a tarefa de escanear no MedBay, que está aqui mesmo.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Estou no Admin com Azul e Ciano; vou aproveitar para fazer a tarefa Passar o cartão aqui, já que estou na sala certa.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Verde",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Estou sozinho na Elétrica e o kill cooldown ainda está em 6 tiques, então vou fingir que faço tarefa para parecer inocente.",
+     "de": "Eletrica",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Vou passar o cartão aqui no Admin para adiantar tarefa e guardar o rastreamento para quando alguém parecer suspeito.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "entrar no duto e sair em Reator",
+     "pensamento": "Vou me reposicionar discretamente no Reator, longe de testemunhas, enquanto aguardo uma oportunidade segura.",
+     "de": "MotorSuperior",
+     "para": "Reator"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Já que estou no Refeitório com outras pessoas por perto, vou aproveitar para adiantar a tarefa do lixo.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Vou adiantar minha tarefa aqui em Armas enquanto não tenho informação pra usar o escudo.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Tenho tarefa aqui no Refeitório e tem gente comigo, então é seguro começar baixando os dados.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Duas testemunhas aqui, não dá pra matar; vou pro Refeitório me misturar e ganhar álibi.",
+     "de": "Admin",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Estou na Enfermaria e tenho a tarefa aqui, vou escanear agora.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Vou fazer a tarefa de Baixar dados aqui no Refeitório pra progredir rápido.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 3,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 4,
+   "decisoes": [
+    {
+     "cor": "Branco",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Estou na Enfermaria com o Amarelo, então posso fazer a tarefa de escaneamento aqui sem me afastar.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ficar invisível",
+     "pensamento": "Vou ficar invisível para me aproximar de Laranja sem levantar suspeitas.",
+     "de": "Reator",
+     "para": "Reator"
+    },
+    {
+     "cor": "Verde",
+     "acao": "entrar no duto e sair em Seguranca",
+     "pensamento": "A Segurança está vazia e ninguém me vê entrando no duto aqui na Elétrica, vou rotacionar discretamente.",
+     "de": "Eletrica",
+     "para": "Seguranca"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Deposito",
+     "pensamento": "Vou descer pro Depósito e emendar direto na Elétrica pra fazer minha fiação, andar parado é pedir pra morrer.",
+     "de": "Refeitorio",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Lima",
+     "acao": "ir para Enfermaria",
+     "pensamento": "Vou aproveitar que a Enfermaria está logo aqui para colocar a amostra para rodar o quanto antes.",
+     "de": "Refeitorio",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Tô na Enfermaria e tenho tarefa aqui, vou escanear agora.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Enfermaria",
+     "pensamento": "Três testemunhas aqui é veneno; vou sair de fininho e caçar alguém isolado na Enfermaria.",
+     "de": "Refeitorio",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Estou no Admin com o Ciano, então vou aproveitar para passar o cartão e adiantar a barra de tarefas.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Marrom está comigo no Admin, mas ainda não tenho motivo para desconfiar dele, então vou adiantar minha tarefa e guardar o rastreador.",
+     "de": "Admin",
+     "para": "Admin"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Alinhar o motor",
+     "pensamento": "Vou fazer minha tarefa no Motor Inferior e observar qualquer movimentação suspeita.",
+     "de": "MotorInferior",
+     "para": "MotorInferior"
+    },
+    {
+     "cor": "Preto",
+     "acao": "ir para Armas",
+     "pensamento": "Vou pra Armas começar a tarefa de asteroides, Azul parece confiável por agora.",
+     "de": "Refeitorio",
+     "para": "Armas"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "proteger Azul",
+     "pensamento": "Ninguém aqui ainda, vou usar meu escudo logo no Azul, que na partida passada votou certo nas duas vezes.",
+     "de": "Armas",
+     "para": "Armas"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Seguranca",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": true
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 7,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 5,
+   "decisoes": [
+    {
+     "cor": "Marrom",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Vou para o Refeitório, que é um ponto central, para ver mais gente e seguir para minhas tarefas.",
+     "de": "Admin",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Inspecionar amostra",
+     "pensamento": "Estou na Enfermaria acompanhado de Azul, Amarelo e Branco, momento perfeito e seguro para iniciar a amostra.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Preto está aqui comigo; vou fazer minha tarefa de Baixar dados e ficar de olho nele.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Vou andar pelo Refeitório, que é um ponto central, sem usar o duto para não levantar suspeita com Amarelo e Lima olhando.",
+     "de": "Enfermaria",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Eletrica",
+     "pensamento": "Sozinho aqui e com tarefa pendente na Elétrica logo ao lado, melhor aproveitar e avançar sem vagar demais.",
+     "de": "Deposito",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Alinhar o motor",
+     "pensamento": "Vou cumprir a tarefa do motor enquanto observo se alguém aparece por perto.",
+     "de": "MotorInferior",
+     "para": "MotorInferior"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "entrar no duto e sair em MotorSuperior",
+     "pensamento": "Vou me reposicionar discretamente no Motor Superior, onde não há testemunhas.",
+     "de": "Reator",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Verde",
+     "acao": "olhar as câmeras",
+     "pensamento": "Vou olhar as câmeras para passar tempo e fingir utilidade enquanto minha recarga de matar carrega.",
+     "de": "Seguranca",
+     "para": "Seguranca"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ver sinais vitais",
+     "pensamento": "Vou checar sinais vitais agora que meu poder está pronto pra confirmar se tem corpo.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Três testemunhas aqui — não dá pra matar nem usar duto; melhor me misturar no Refeitório e ganhar álibi.",
+     "de": "Enfermaria",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Destruir asteroides",
+     "pensamento": "Vou fazer a tarefa de Armas agora que estou aqui com Rosa.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "rastrear Marrom",
+     "pensamento": "Marrom está comigo na sala e ainda não sei nada sobre ele; vou rastreá-lo para ver se ele me segue ou vai para outro lugar.",
+     "de": "Admin",
+     "para": "Admin"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Seguranca",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": true
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 9,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 6,
+   "decisoes": [
+    {
+     "cor": "Marrom",
+     "acao": "ir para Armas",
+     "pensamento": "Vou para Armas fazer a tarefa de baixar dados, que é uma das minhas que está na sala vizinha.",
+     "de": "Refeitorio",
+     "para": "Armas"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "ir para Navegacao",
+     "pensamento": "Preto está aqui parado, prefiro me afastar e ir fazer minhas tarefas: passo por Navegação rumo aos Escudos.",
+     "de": "Armas",
+     "para": "Navegacao"
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Reator",
+     "pensamento": "Vou direto para o Reator destravar os coletores, mas fico de olho no Marrom que está comigo aqui.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Deposito",
+     "pensamento": "Vou para o Depósito para esvaziar o lixo e observar quem circula por perto.",
+     "de": "MotorInferior",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Minha recarga ainda está em 3 tiques, então vou para o Motor Superior me aproximar de outros jogadores sem chamar atenção.",
+     "de": "Seguranca",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Vou pra Refeitório pra começar a andar em direção às tarefas.",
+     "de": "Enfermaria",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Azul",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Dois jogadores me veem aqui, então vou fingir uma tarefa no Refeitório para criar álibi e esperar a recarga de matar.",
+     "de": "Refeitorio",
+     "para": "Refeitorio"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Destruir asteroides",
+     "pensamento": "Vou fazer a tarefa de asteroides aqui em Armas antes de sair.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Consertar a fiação",
+     "pensamento": "Estou sozinho na Elétrica e tenho tarefa bem aqui — melhor adiantar a fiação agora e só depois me mover com cuidado.",
+     "de": "Eletrica",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Inspecionar amostra",
+     "pensamento": "Estou na Enfermaria com o Amarelo, vou aproveitar para adiantar logo a tarefa da amostra.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "entrar no duto e sair em Reator",
+     "pensamento": "Vou usar o duto para chegar ao Reator sem ser visto e aguardar uma oportunidade segura.",
+     "de": "MotorSuperior",
+     "para": "Reator"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Marrom está no Refeitório, mas prefiro não me arriscar sozinho com ele; vou adiantar minhas tarefas em Comunicações e seguir rastreando de longe.",
+     "de": "Admin",
+     "para": "Deposito"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Navegacao",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Refeitorio",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": true
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 9,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 7,
+   "decisoes": [
+    {
+     "cor": "Azul",
+     "acao": "ir para Deposito",
+     "pensamento": "Amarelo está me vendo; melhor não me transformar agora e sair para procurar alvo isolado.",
+     "de": "Refeitorio",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Branco",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorSuperior",
+     "para": "Reator"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Estou em Armas com o Preto; vou aproveitar para baixar os dados aqui antes de seguir pro O2.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para O2",
+     "pensamento": "Vou começar a limpar o filtro no O2 pra avançar nas tarefas.",
+     "de": "Refeitorio",
+     "para": "Armas"
+    },
+    {
+     "cor": "Verde",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "O Branco está aqui e meu kill ainda está em recarga de 2 tiques, então vou fingir que faço tarefa para não levantar suspeitas.",
+     "de": "MotorSuperior",
+     "para": "MotorSuperior"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "sabotar luzes",
+     "pensamento": "Vou sabotar as luzes para criar uma oportunidade de morte sem testemunhas.",
+     "de": "Reator",
+     "para": "Reator"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Destruir asteroides",
+     "pensamento": "Vou fazer a tarefa de Armas agora, Marrom tá quieto do meu lado.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Inspecionar amostra",
+     "pensamento": "Estou sozinho na Enfermaria, vou iniciar a tarefa das amostras logo para adiantar o progresso.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Consertar a fiação",
+     "pensamento": "Tô sozinho na Elétrica, melhor adiantar logo essa fiação em vez de vagar sem companhia como na partida passada.",
+     "de": "Eletrica",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Vou aproveitar a presença de Ciano e concluir o lixo no Depósito, sem motivo para atirar.",
+     "de": "Deposito",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "continuar até Comunicacoes",
+     "pensamento": "",
+     "de": "Deposito",
+     "para": "Comunicacoes"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "ir para Escudos",
+     "pensamento": "Ninguém por aqui; vou para Escudos ativar os escudos, é tarefa e fica perto.",
+     "de": "Navegacao",
+     "para": "Escudos"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "MotorSuperior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escudos",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": true
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Comunicacoes",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": {
+     "tipo": "Luzes",
+     "desde": 7
+    },
+    "tarefas": 9,
+    "totalTarefas": 45
+   }
+  },
+  {
+   "tique": 8,
+   "decisoes": [
+    {
+     "cor": "Azul",
+     "acao": "ficar parado observando",
+     "pensamento": "Luzes apagadas e Laranja sozinho comigo: espero a recarga da faca e mato aqui sem ninguém me ver.",
+     "de": "Deposito",
+     "para": "Deposito"
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "continuar até O2",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "O2"
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Estou no escuro com dois vultos, então o melhor é fazer a tarefa daqui e ficar atento a quem se mexe.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Reator",
+     "pensamento": "Com as luzes apagadas e o Roxo com Branco no Reator, vou entrar a pé no Reator para flanquear ou dar cobertura para uma kill do meu parceiro.",
+     "de": "MotorSuperior",
+     "para": "Reator"
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Inspecionar amostra",
+     "pensamento": "Estou na Enfermaria e posso iniciar a amostra rapidinho antes de lidar com as luzes.",
+     "de": "Enfermaria",
+     "para": "Enfermaria"
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Destruir asteroides",
+     "pensamento": "Vou fazer minha tarefa aqui em Armas enquanto tem luzes apagadas.",
+     "de": "Armas",
+     "para": "Armas"
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Ativar os escudos",
+     "pensamento": "Estou sozinho em Escudos, seguro; aproveito para completar a tarefa aqui antes de ir consertar as luzes na Elétrica.",
+     "de": "Escudos",
+     "para": "Escudos"
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Seguranca",
+     "pensamento": "Tem um vulto no escuro comigo e as luzes estão apagadas, então vou sair daqui e adiantar a tarefa de fiação na Segurança.",
+     "de": "Reator",
+     "para": "Seguranca"
+    },
+    {
+     "cor": "Roxo",
+     "acao": "entrar no duto e sair em MotorInferior",
+     "pensamento": "Vou sair pelo duto para o Motor Inferior, evitando Branco e criando uma rota segura.",
+     "de": "Reator",
+     "para": "MotorInferior"
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "consertar luzes",
+     "pensamento": "Estou sozinho na Elétrica e a sabotagem é aqui mesmo, então conserto as luzes rápido antes que alguém me pegue no escuro.",
+     "de": "Eletrica",
+     "para": "Eletrica"
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Baixar dados",
+     "pensamento": "Estou sozinho em Comunicações, então vou aproveitar para fazer a tarefa Baixar dados enquanto sigo de olho no Marrom.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes"
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Eletrica",
+     "pensamento": "Não consigo identificar o vulto no escuro; vou consertar as luzes para investigar com segurança.",
+     "de": "Deposito",
+     "para": "Eletrica"
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Deposito",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escudos",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Eletrica",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "O2",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Seguranca",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "MotorInferior",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Armas",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Comunicacoes",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Enfermaria",
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false
+     }
+    ],
+    "corpos": [],
+    "sabotagem": null,
+    "tarefas": 11,
+    "totalTarefas": 45
+   }
+  }
+ ],
+ "reunioes": [],
+ "eventos": [
+  {
+   "tique": 3,
+   "tipo": "duto",
+   "cor": "Roxo",
+   "aparente": "Roxo",
+   "de": "MotorSuperior",
+   "para": "Reator"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa",
+   "cor": "Lima",
+   "sala": "Refeitorio",
+   "nome": "Esvaziar o lixo"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa",
+   "cor": "Vermelho",
+   "sala": "Refeitorio",
+   "nome": "Baixar dados"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa",
+   "cor": "Preto",
+   "sala": "Refeitorio",
+   "nome": "Baixar dados"
+  },
+  {
+   "tique": 4,
+   "tipo": "tarefa",
+   "cor": "Branco",
+   "sala": "Enfermaria",
+   "nome": "Escanear no MedBay"
+  },
+  {
+   "tique": 4,
+   "tipo": "invisivel",
+   "cor": "Roxo",
+   "sala": "Reator",
+   "ate": 8
+  },
+  {
+   "tique": 4,
+   "tipo": "duto",
+   "cor": "Verde",
+   "aparente": "Verde",
+   "de": "Eletrica",
+   "para": "Seguranca"
+  },
+  {
+   "tique": 4,
+   "tipo": "tarefa",
+   "cor": "Amarelo",
+   "sala": "Enfermaria",
+   "nome": "Escanear no MedBay"
+  },
+  {
+   "tique": 4,
+   "tipo": "tarefa",
+   "cor": "Marrom",
+   "sala": "Admin",
+   "nome": "Passar o cartão"
+  },
+  {
+   "tique": 4,
+   "tipo": "tarefa",
+   "cor": "Ciano",
+   "sala": "Admin",
+   "nome": "Passar o cartão"
+  },
+  {
+   "tique": 4,
+   "tipo": "poder",
+   "cor": "Rosa",
+   "poder": "escudo",
+   "alvo": "Azul"
+  },
+  {
+   "tique": 5,
+   "tipo": "tarefa",
+   "cor": "Rosa",
+   "sala": "Armas",
+   "nome": "Baixar dados"
+  },
+  {
+   "tique": 5,
+   "tipo": "tarefa",
+   "cor": "Laranja",
+   "sala": "MotorInferior",
+   "nome": "Alinhar o motor"
+  },
+  {
+   "tique": 5,
+   "tipo": "duto",
+   "cor": "Roxo",
+   "aparente": "Roxo",
+   "de": "Reator",
+   "para": "MotorSuperior"
+  },
+  {
+   "tique": 5,
+   "tipo": "poder",
+   "cor": "Amarelo",
+   "poder": "vitais"
+  },
+  {
+   "tique": 5,
+   "tipo": "poder",
+   "cor": "Ciano",
+   "poder": "rastrear",
+   "alvo": "Marrom"
+  },
+  {
+   "tique": 6,
+   "tipo": "duto",
+   "cor": "Roxo",
+   "aparente": "Roxo",
+   "de": "MotorSuperior",
+   "para": "Reator"
+  },
+  {
+   "tique": 7,
+   "tipo": "sabotagem",
+   "cor": "Roxo",
+   "subtipo": "Luzes"
+  },
+  {
+   "tique": 7,
+   "tipo": "reaparece",
+   "cor": "Roxo",
+   "sala": "Reator"
+  },
+  {
+   "tique": 8,
+   "tipo": "tarefa",
+   "cor": "Lima",
+   "sala": "Enfermaria",
+   "nome": "Inspecionar amostra"
+  },
+  {
+   "tique": 8,
+   "tipo": "tarefa",
+   "cor": "Preto",
+   "sala": "Armas",
+   "nome": "Destruir asteroides"
+  },
+  {
+   "tique": 8,
+   "tipo": "duto",
+   "cor": "Roxo",
+   "aparente": "Roxo",
+   "de": "Reator",
+   "para": "MotorInferior"
+  },
+  {
+   "tique": 8,
+   "tipo": "conserto",
+   "por": [
+    "Vermelho"
+   ],
+   "subtipo": "Luzes"
+  }
+ ],
+ "resultado": null,
+ "uso": {
+  "chamadas": 93,
+  "falhas": 0,
+  "porProvider": {
+   "deepseek": 24,
+   "or:google/gemini-3.8-flash": 16,
+   "or:openai/gpt-5.6-luna": 16,
+   "or:x-ai/grok-4.3": 15,
+   "haiku": 22
+  },
+  "custo": {
+   "or:google/gemini-3.8-flash": 0.01822125,
+   "or:openai/gpt-5.6-luna": 0.006160380000000002,
+   "or:x-ai/grok-4.3": 0.037236599999999995
+  }
+ },
+ "poderes": {
+  "Vermelho": {
+   "papel": "Barulhento",
+   "usos": 0
+  },
+  "Azul": {
+   "papel": "Metamorfo",
+   "usos": 0
+  },
+  "Verde": {
+   "papel": "Faxineiro",
+   "usos": 0
+  },
+  "Rosa": {
+   "papel": "Medico",
+   "usos": 1
+  },
+  "Laranja": {
+   "papel": "Xerife",
+   "usos": 0
+  },
+  "Amarelo": {
+   "papel": "Cientista",
+   "usos": 1
+  },
+  "Preto": {
+   "papel": "Prefeito",
+   "usos": 0
+  },
+  "Branco": {
+   "papel": "Engenheiro",
+   "usos": 0
+  },
+  "Roxo": {
+   "papel": "Fantasma",
+   "usos": 1
+  },
+  "Marrom": {
+   "papel": "Detetive",
+   "usos": 0
+  },
+  "Ciano": {
+   "papel": "Rastreador",
+   "usos": 1
+  },
+  "Lima": {
+   "papel": "Tripulante",
+   "usos": 0
+  }
+ }
+}
