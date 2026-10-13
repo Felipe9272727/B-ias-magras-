@@ -44,7 +44,7 @@ bt.PRONUNCIA.update({
     '27B-1': 'vinte e sete bê um', '27B-2': 'vinte e sete bê dois', '27B-3': 'vinte e sete bê três',
 })
 bt.LEGENDA = []
-bt.TERMOS = {'Anthropic', 'DeepSeek', 'Qwen', 'Alibaba', 'Cornucópia'}
+bt.TERMOS = {'Anthropic', 'DeepSeek', 'Qwen', 'Alibaba', 'Cornucópia', 'Opus', 'Sonnet', 'Haiku', 'Lago', 'Caverna', 'névoa'}
 
 
 def carregar_roteiro():

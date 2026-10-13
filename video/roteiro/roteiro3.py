@@ -95,16 +95,16 @@ SCENES = [
     N('a03', 'abertura', clipe('ilha/clips/praia.mp4', 0),
       'as doze acordaram aqui. Numa ilha. Sem comida, sem água, e sem a menor ideia de onde estão.'),
     N('a04', 'abertura', g3d(t3d(1, 'cornucopia', 'travel', largada=True, angulo=250, modo='3d')),
-      'E com uma regra só: [[p]] [[s:impact-epic:0.6]] só uma sai viva.', pad=0.9),
+      'E com uma regra só: [[p]] [[s:impact-epic:0.6]] [[cc]] só uma sai viva.', pad=0.9),
     N('a05', 'abertura', g3d(
         t3d(9, 'lago', 'alta', angulo='centro', modo='3d'),
         t3d(20, 'campo', 'duelo', alvo='ds1', golpe=0.55, lente=45, modo='3d'),
         t3d(22, 'lago', 'aerea', modo='3d'),
         t3d(26, 'cornucopia', 'close', alvo='ds3', imortais=['ds3'], modo='3d')),
-      'Vai ter trégua... [[c]] vai ter machado... [[s:whoosh:0.4]] [[c]] vai ter uma névoa tóxica engolindo a ilha... '
-      '[[c]] e vai ter traição. [[s:gasp:0.4]]', pad=0.7),
+      '[[cc]] Vai ter trégua... [[c]] [[cc]] vai ter machado... [[s:whoosh:0.4]] [[c]] vai ter uma névoa tóxica engolindo a ilha... '
+      '[[c]] [[cc]] e vai ter traição. [[s:gasp:0.4]]', pad=0.7),
     N('a06', 'abertura', g3d(t3d(10, 'floresta', 'segue', partida='teste', alvo='qwen1', modo='3d')),
-      'E olha que essa foi a segunda tentativa. Na primeira... [[m:sweating:right:2.6]] duas IAs morreram de sede '
+      'E olha que essa foi a segunda tentativa. Na primeira... [[m:sweating:right:2.6]] [[cc]] duas IAs morreram de sede '
       'procurando um riacho que não existia.', pad=0.4),
     N('a07', 'abertura', g3d(t3d(1, 'cornucopia', 'grua', largada='parado', angulo=265, modo='3d'),
                              titulo=dict(kicker='12 IAs · 3 distritos · só 1 sobrevive', title='JOGOS VORAZES DAS IAs',
