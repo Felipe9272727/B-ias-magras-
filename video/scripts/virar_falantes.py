@@ -106,6 +106,20 @@ def main():
                             q[3] = nd
                             mudou += 1
             json.dump(pos, open(arq, 'w'))
+    # cenários do Short 3: o DeepSeek 4 (protagonista) fica de frente sempre que está parado
+    curta = os.path.normpath(os.path.join(AQUI, '..', '..', 'ilha', 'dados', 'tomadas3_short.json'))
+    for spec in (json.load(open(curta)) if os.path.exists(curta) else []):
+        arq = os.path.join(PUB, 'ilha', '3d', f"{spec['id']}.json")
+        if not os.path.exists(arq):
+            continue
+        pos = json.load(open(arq))
+        for q in pos['atores'].get(spec.get('alvo'), []):
+            if q and pos['anims'][q[4]] in PARADAS:
+                nd = FRENTE.get(int(q[3]) % 360, q[3])
+                if nd != q[3]:
+                    q[3] = nd
+                    mudou += 1
+        json.dump(pos, open(arq, 'w'))
     print('quadros virados:', mudou)
 
 

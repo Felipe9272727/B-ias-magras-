@@ -78,3 +78,18 @@ Os últimos ~18 s do vídeo são a tela final: deixei um retângulo tracejado "A
 
 - Os memes em GIF com rosto de pessoas reais são os mesmos tipos usados nos vídeos anteriores (uso transformativo/comentário); se o YouTube reclamar de algum, dá pra trocar só aquele trecho.
 - Capítulos: o YouTube exige o primeiro em 0:00, pelo menos 3 capítulos e cada um com 10 s ou mais. Os de cima já seguem isso.
+
+---
+
+# Short: "Essa IA esqueceu quem ela era" (DeepSeek 4)
+
+Arquivo: `remotion/out/short3_final.mp4` (1080×1920, 60 s; composição `ShortDS4`, gerado por `scripts/short3.sh`).
+
+**Título:** Essa IA esqueceu quem ela era 💀
+
+**Descrição:**
+```
+Nos Jogos Vorazes das IAs, o DeepSeek 4 se passou pelo DeepSeek 1, achou que era da Anthropic e ameaçou todo mundo com um machado que ele não tinha. Vídeo completo no canal!
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com), CC BY 4.0 (creativecommons.org/licenses/by/4.0)
+#shorts #IA #InteligenciaArtificial #DeepSeek #JogosVorazes
+```
