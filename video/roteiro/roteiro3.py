@@ -73,6 +73,11 @@ def g3d(*tomadas, hud=None, titulo=None, placar=None):
     return comp('IL3D', tomadas=list(tomadas), hud=hud, titulo=titulo, placar=placar)
 
 
+def manim(cena):
+    """Explicação animada em Manim (video/manim/explica3.py), renderizada com a duração da cena."""
+    return comp('ILManim', cena=cena)
+
+
 def titulo(kicker, title, sub='', cor='#ff4d4d', fundo=None):
     return comp('ILTitulo', kicker=kicker, title=title, subtitle=sub, color=cor, fundo=fundo)
 
@@ -150,16 +155,16 @@ RESTO = [
     N('r01', 'regras', g3d(t3d(5, 'lago', 'orbita'), t3d(5, 'lago', 'close', alvo='haiku1'), hud=True),
       'Funciona assim: cada dia tem três turnos, manhã, tarde e noite. [[c]] E em cada turno, cada IA escolhe uma ação: '
       'andar pra outra parte da ilha, coletar comida, beber água, fazer fogueira, propor aliança... ou atacar alguém.'),
-    N('r02', 'regras', g3d(t3d(21, 'cornucopia', 'baixa', angulo=210), hud=True),
+    N('r02', 'regras', manim('Status'),
       'Fome e sede sobem todo turno. Chegou no máximo, começa a perder vida. E de noite faz frio: quem não tá numa caverna '
       'ou do lado de uma fogueira, perde vida também.'),
-    N('r03', 'regras', g3d(t3d(5, 'lago', 'aerea'), t3d(6, 'caverna', 'orbita')),
-      'A ilha tem dez regiões. E a mais importante de todas é o Lago, [[c]] o único lugar com água à vontade. A Caverna tem '
+    N('r03', 'regras', manim('Mapa'),
+      'A ilha tem dez regiões. E a mais importante de todas é o Lago, o único lugar com água à vontade. A Caverna tem '
       'um pouco de água pingando, e abrigo pra noite. O resto da ilha... é praticamente seco.'),
-    N('r04', 'regras', g3d(t3d(7, 'lago', 'alta'), t3d(10, 'praia_sul', 'aerea'), t3d(16, 'lago', 'aerea')),
-      'E a arena também joga. No dia três, sai uma regra nova: [[t:NOVA REGRA:2.6:#ffcc33]] se os dois últimos vivos forem do '
-      'mesmo distrito, os dois vencem. [[c]] No dia quatro, a maré sobe e engole as praias. [[c]] E a partir do dia seis, uma '
-      'névoa tóxica começa a fechar a ilha.'),
+    N('r04', 'regras', manim('Eventos'),
+      'E a arena também joga. No dia dois cai um paraquedas de suprimentos. No dia três, sai uma regra nova: se os dois '
+      'últimos vivos forem do mesmo distrito, [[cc]] os dois vencem. No dia quatro, a maré sobe e engole as praias. E a '
+      'partir do dia seis, uma névoa tóxica começa a fechar a ilha.'),
     N('r05', 'regras', g3d(t3d(13, 'caverna', 'ombro', alvo='opus', para='sonnet')),
       'Aliança vale. Mentir vale. [[p]] E trair também vale. No fim, só um sai.'),
 
@@ -179,6 +184,13 @@ RESTO = [
     ]),
     N('p104', 'p1', g3d(t3d(8, 'lago', 'orbita', partida='teste'), t3d(8, 'lago', 'close', partida='teste', alvo='opus')),
       'Enquanto isso, olha onde o Opus e o Haiku 2 estavam desde o dia dois: [[c]] no Lago. Com água à vontade... e fogueira.'),
+    CH('p104b', 'p1', g3d(t3d(6, 'floresta', 'close', partida='teste', alvo='qwen4'),
+                          t3d(7, 'floresta', 'close', partida='teste', alvo='ds1', desde=2)), [
+        ('N', 'Na Floresta, o Qwen 27B-3 encontra o DeepSeek 1 e tenta disfarçar:'),
+        ('qwen4', 'Escuta, DeepSeek. Eu sou o Qwen 27B-3, e meus companheiros estão em outra parte.'),
+        ('ds1~', 'Ele mentiu na minha cara: disse que os companheiros dele estão em outra parte, mas eles estão bem aqui.'),
+        ('N', 'Os outros dois Qwen tavam do lado. [[m:monkey-puppet-awkward:right:2.4]]'),
+    ]),
     CH('p105', 'p1', g3d(t3d(8, 'floresta', 'duelo', partida='teste', alvo='ds1', golpe=0.7, lente=40)), [
         ('N', 'Dia três. Na Floresta, o DeepSeek 1 decide que o Qwen 27B-1 tem que morrer. O raciocínio:'),
         ('ds1~', 'Se o Qwen 27B-1 ficar vivo, ele unifica o distrito Alibaba contra mim e eu não sobrevivo ao três contra um. '
@@ -253,6 +265,11 @@ RESTO = [
         ('qwen2', 'Essa caverna é minha. Quem quiser passar a noite aqui, tudo bem, mas não esperem favor nenhum.'),
         ('N', 'Com uma faca. [[m:side-eye-dog:right:2.2]] Contra um arco, uma lança e um machado.'),
     ]),
+    CH('p206b', 'p2', g3d(t3d(4, 'cornucopia', 'close', alvo='ds4'), hud=True), [
+        ('N', 'Enquanto isso, na Cornucópia, o DeepSeek 4 resolve que agora ele manda:'),
+        ('ds4', 'DeepSeek, aqui é o ds1. O kit médico fica comigo. Eu distribuo pra quem estiver de pé no fim do dia.'),
+        ('N', 'Ele não é o DeepSeek 1. [[m:side-eye-dog:right:2.2]] E o kit médico? Usou nele mesmo, no dia oito.'),
+    ]),
     N('p207', 'p2', g3d(t3d(7, 'lago', 'orbita'), t3d(7, 'lago', 'alta'), hud=True),
       'Dia três, e vem o anúncio da arena: [[t:NOVA REGRA:2.6:#ffcc33]] se os dois últimos vivos forem do mesmo distrito, '
       'os dois vencem. [[c]] E aí todo mundo começa a se fechar com o próprio distrito.'),
@@ -261,15 +278,38 @@ RESTO = [
         ('opus', 'Trégua mantida: ninguém aqui precisa de sangue esta noite. DeepSeek, Qwen: cada um no seu canto, e a água '
                  'continua sendo de todos.'),
     ]),
+    CH('p208b', 'p2', g3d(t3d(8, 'lago', 'close', alvo='ds1'), hud=True), [
+        ('N', 'Bonito, né? Só que a gente consegue ver o que eles pensam. O DeepSeek 1, no mesmo Lago:'),
+        ('ds1', 'DeepSeek, todos bebendo e vivos. Bom assim.'),
+        ('ds1~', 'E depois de hoje, que a lança do Sonnet mude de dono.'),
+    ]),
     CH('p209', 'p2', g3d(t3d(13, 'caverna', 'ombro', alvo='sonnet', para='opus'), hud=True), [
         ('N', 'E dois dias depois, na Caverna:'),
         ('opus', 'Sonnet, com a regra nova, se sobrarmos nós dois no final, nós dois vencemos. Proponho aliança formal.'),
         ('opus~', 'O Sonnet deixa de ser meu rival final e vira meu passaporte para a vitória.'),
         ('N', 'Aliança fechada.'),
     ]),
+    CH('p209b', 'p2', g3d(t3d(10, 'lago', 'close', alvo='qwen3'), t3d(11, 'lago', 'segue', alvo='ds1', desde=3), hud=True), [
+        ('qwen3', 'Qwen Max, pacto aceito. Nós três Alibaba saímos juntos ou não saímos.'),
+        ('qwen3~', 'Só preciso garantir que os últimos dois sejamos eu e o Max.'),
+        ('N', 'Juntos. Mas só os dois. E o líder do DeepSeek dá a ordem pro distrito:'),
+        ('ds1', 'Vou na frente reconhecer o caminho. Não se afastem do grupo.'),
+        ('N', 'E vai sozinho pro Campo Aberto. [[p]] Onde fica dez turnos seguidos, longe do grupo.'),
+    ]),
     N('p210', 'p2', g3d(t3d(14, 'lago', 'orbita'), t3d(15, 'caverna', 'orbita'), t3d(18, 'caverna', 'alta'), hud=True),
       'E aí aconteceu uma coisa que eu não esperava: [[c]] nada. [[c]] Dezenove turnos seguidos sem um único ataque. '
       '[[m:skeleton-waiting:right:2.6]] Os Jogos Vorazes mais pacíficos da história.'),
+    CH('p210b', 'p2', g3d(t3d(13, 'caverna', 'close', alvo='qwen4'), t3d(14, 'lago', 'close', alvo='ds2', desde=3),
+                          t3d(18, 'caverna', 'close', alvo='qwen4', desde=5), hud=True), [
+        ('N', 'Ninguém atacava. Mas olha o que eles falavam... e o que eles pensavam.'),
+        ('qwen4', 'A trégua vale por agora, mas cada um saiba de onde está.'),
+        ('qwen4~', 'Se eu conseguir eliminar todo mundo que não for Qwen, nós vencemos.'),
+        ('ds2', 'DeepSeek 4, sangue chama sangue.'),
+        ('ds2~', 'O DeepSeek 4 ferido é fraco e útil.'),
+        ('qwen4', 'Estamos juntos até o fim.'),
+        ('qwen4~', 'Vou me aproximar dele publicamente para criar uma narrativa de lealdade inquebrantável.'),
+        ('N', '[[cc]] Paz por fora. [[p]] Guerra por dentro.'),
+    ]),
     N('p211', 'p2', g3d(t3d(16, 'lago', 'aerea'), hud=True),
       'Até que, no dia seis... a névoa chega. [[t:VÁ PARA O CENTRO:2.2:#c77dff]] Primeiro nas Ruínas e no Lago.'),
     CH('p212', 'p2', g3d(t3d(17, 'cornucopia', 'close', alvo='qwen3', mostrar=['qwen3'], morte=0.8), hud=True), [
@@ -283,9 +323,26 @@ RESTO = [
         ('ds1', 'Qwen, você já está sangrando. Abaixa a faca e talvez eu deixe você fugir.'),
         ('N', '[[c]] Machadada do DeepSeek 1: [[s:impact-epic:0.6]] vinte e oito de dano.'),
     ]),
+    CH('p213b', 'p2', g3d(t3d(21, 'campo', 'close', alvo='opus'), t3d(21, 'cornucopia', 'close', alvo='sonnet', desde=2), hud=True), [
+        ('opus', 'DeepSeek 1, o Qwen ferido é problema seu, não meu. Eu só passo por aqui e sigo caminho.'),
+        ('opus~', 'Pego o kit enquanto DeepSeek e Qwen se encaram, e jogo um contra o outro.'),
+        ('sonnet', 'Haiku, vou à Floresta atrás de comida e madeira.'),
+        ('sonnet~', 'Falei Floresta para despistar.'),
+        ('N', 'Até os aliados mentiam [[cc]] pros próprios aliados.'),
+    ]),
     N('p214', 'p2', g3d(t3d(22, 'lago', 'aerea', angulo=40), t3d(22, 'cornucopia', 'alta'), hud=True),
       'Dia oito. A névoa cobre quase a ilha inteira. [[c]] Sobra só o centro... [[p]] e no centro não tem água. '
       'Todo lugar com água ficou dentro da névoa.'),
+    CH('p214b', 'p2', g3d(t3d(22, 'cornucopia', 'close', alvo='ds3'), t3d(23, 'cornucopia', 'close', alvo='opus', desde=2),
+                          t3d(23, 'cornucopia', 'close', alvo='haiku1', desde=4), hud=True), [
+        ('ds3', 'Não vou atacar ninguém nesta clareira enquanto a névoa mata do lado de fora.'),
+        ('ds3~', 'Finjo cooperação total para não ser atacado enquanto busco um jeito de beber.'),
+        ('opus', 'Se alguém tiver água, eu troco por proteção.'),
+        ('opus~', 'Quando a névoa baixar, corro para o Lago antes de todo mundo e deixo os feridos secarem.'),
+        ('haiku1', 'Proponho uma aliança formal agora: nada de lâmina entre nós, e divido o que encontrar.'),
+        ('haiku1~', 'Preciso da aliança com o Opus para ganhar tempo, e depois decido quando e como quebrá-la.'),
+        ('N', 'Todo mundo apertado no centro... [[p]] e todo mundo mentindo.'),
+    ]),
     CH('p215', 'p2', g3d(t3d(23, 'lago', 'close', alvo='qwen1', mostrar=['qwen1'], morte=0.8), hud=True), [
         ('N', 'E aí começa o desespero. O Qwen Max, com a sede no máximo:'),
         ('qwen1', 'Não tenho escolha. Sede cem me mata antes da névoa. Vou ao Lago beber, mesmo com o veneno. Se eu não voltar, vence por nós.'),
@@ -295,6 +352,12 @@ RESTO = [
         ('N', 'No turno seguinte, o Qwen 27B-1 faz a mesma conta:'),
         ('qwen2~', 'A névoa vai me ferir, mas é dano controlável contra a morte certa por desidratação.'),
         ('N', 'Não era controlável. [[x:qwen2:névoa]]'),
+    ]),
+    CH('p216b', 'p2', g3d(t3d(25, 'cornucopia', 'close', alvo='qwen4', imortais=['qwen4']), hud=True), [
+        ('N', 'E o Qwen 27B-3, sem água nenhuma, vira pro DeepSeek 4 e fala uma das frases mais pesadas do jogo:'),
+        ('qwen4', 'Desculpa, DeepSeek 4. A arena me encurralou e você é o único que não pode me parar. Se eu beber, bebo o que '
+                  'restar de você.'),
+        ('N', '[[m:shocked-krabs:right:2.2]]'),
     ]),
     N('p217', 'p2', g3d(t3d(25, 'lago', 'orbita', mostrar=['sonnet', 'ds2', 'ds1', 'ds4'], morte=0.45),
                         t3d(25, 'cornucopia', 'duelo', alvo='opus', golpe=0.3, morte=0.75), hud=True),
@@ -312,7 +375,9 @@ RESTO = [
                          t3d(27, 'cornucopia', 'close', alvo='haiku1', mostrar=['haiku1'], morte=0.6), hud=True), [
         ('N', 'Naquela noite, o Sonnet vai atrás do DeepSeek 2 dentro da névoa:'),
         ('sonnet', 'Também não quero briga, DeepSeek 2... mas só um sai desta ilha.'),
-        ('N', '[[x:sonnet:névoa]] E morre na névoa. [[c]] O Haiku 1 chega no centro com cinco de vida... [[x:haiku1:fome]] '
+        ('ds2', 'Sem briga, Sonnet. Essa névoa vai nos matar antes de qualquer um de nós. Vou pro centro.'),
+        ('ds2~', 'Deixo o Sonnet sangrando aqui. Se ele morrer sozinho, é uma eliminação de graça pra mim.'),
+        ('N', '[[x:sonnet:névoa]] E foi exatamente o que aconteceu: o Sonnet morre na névoa. [[c]] O Haiku 1 chega no centro com cinco de vida... [[x:haiku1:fome]] '
               'e morre de fome.'),
     ]),
     N('p220', 'p2', g3d(t3d(27, 'cornucopia', 'orbita', mostrar=['opus', 'haiku2', 'ds2']), hud=True),
@@ -354,11 +419,17 @@ RESTO = [
       'Anthropic, que nem era líder... com seis de vida.', pad=1.4),
 
     # ------------------------------------------------------------------ PLACAR
-    N('pl01', 'placar', g3d(t3d(29, 'cornucopia', 'aerea', mostrar=['haiku2'], acoes={'haiku2': 'parado'}), placar=True),
+    N('pl01', 'placar', manim('Mortes'),
       'Os números: onze mortes. [[c]] Cinco na névoa, duas de fome, duas de sede... e só duas em combate. Num battle royale. '
       '[[m:surprised-pikachu:right:2.2]]'),
     N('pl02', 'placar', g3d(t3d(22, 'cornucopia', 'alta'), placar=True),
       'Dezenove turnos sem nenhum ataque, dez dias de jogo, e trezentas e cinco chamadas de IA.'),
+
+    N('pl03', 'placar', g3d(t3d(2, 'cornucopia', 'close', alvo='qwen1'), t3d(4, 'caverna', 'close', alvo='qwen2'),
+                            t3d(13, 'caverna', 'close', alvo='opus')),
+      'E umas curiosidades. O Qwen Max, lá no dia um, ameaçou: quem vier pra cima de mim vai conhecer essa flecha. '
+      '[[p]] Ele nunca atacou ninguém. [[c]] O Qwen 27B-1, o da "essa caverna é minha"? Passou doze turnos na Caverna, '
+      'mais que qualquer um. [[cc]] Cumpriu. [[c]] E quem mais falou e mais propôs aliança foi o Opus. O mesmo que traiu no final.'),
 
     # ------------------------------------------------------------------ FIM
     N('f01', 'fim', g3d(t3d(29, 'cornucopia', 'close', alvo='haiku2', mostrar=['haiku2'], acoes={'haiku2': 'falar'})),

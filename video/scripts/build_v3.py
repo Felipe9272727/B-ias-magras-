@@ -164,7 +164,8 @@ def main():
                 for k, (quem, txt) in enumerate(sc['falas']):
                     if quem == 'N':
                         tokens, _ = bt.parse(limpo(txt))
-                        jobs.append((' '.join(bt.spoken(t) for t in tokens), b2.NARRADOR, VOZ / f"{sc['id']}_{k}"))
+                        if tokens:
+                            jobs.append((' '.join(bt.spoken(t) for t in tokens), b2.NARRADOR, VOZ / f"{sc['id']}_{k}"))
                     elif txt.strip('. '):
                         jobs.append((' '.join(bt.spoken(t) for t in txt.split()), VOZES[quem.rstrip('~')], VOZ / f"{sc['id']}_{k}"))
         print(f'Vozes: {len(jobs)} trechos, {sum(len(j[0]) for j in jobs)} caracteres (o cache evita repetir)')
@@ -172,7 +173,7 @@ def main():
             list(ex.map(lambda j: b2.tts(*j), jobs))
 
     # 2) cenas
-    scenes, specs, cursor = [], [], 0
+    scenes, specs, cursor, manims = [], [], 0, []
     clipe_fim = {}  # src -> segundo onde a última cena com esse clipe parou (para 'continua')
     for sc in mod.SCENES:
         sid = sc['id']
@@ -226,6 +227,10 @@ def main():
             vis.setdefault('props', {})['chat'] = chat
             end = t
         duration = round((end + pad) * FPS)
+        if vis.get('name') == 'ILManim':  # vira um clipe; o render do Manim usa a duração da cena
+            cena = vis['props']['cena']
+            manims.append(dict(id=sid, cena=cena, dur=round(duration / FPS, 3)))
+            vis = dict(type='component', name='ILClipe', props=dict(src=f'ilha/manim/{sid}.mp4', inicio=0))
         if vis.get('name') == 'ILClipe':
             src = vis['props']['src']
             if vis['props'].get('inicio') == 'continua':
@@ -262,6 +267,7 @@ def main():
     suf = f'_{args.nome}' if args.nome else ''
     (PUBLIC / f'timeline3{suf}.json').write_text(json.dumps(timeline, ensure_ascii=False))
     TOMADAS.with_name(f'tomadas3{suf}.json').write_text(json.dumps(specs, ensure_ascii=False, indent=1))
+    TOMADAS.with_name(f'manim3{suf}.json').write_text(json.dumps(manims, ensure_ascii=False, indent=1))
     print(f'Linha do tempo: {len(scenes)} cenas, {cursor} quadros ({cursor / FPS / 60:.2f} min); '
           f'{len(specs)} tomadas 3D, {sum(s["quadros"] for s in specs)} quadros de Blender')
     for c in chapters:
