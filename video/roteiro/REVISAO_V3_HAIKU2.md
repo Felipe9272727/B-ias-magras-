@@ -290,6 +290,61 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 
 ---
 
+## p006 (novo render, gerado às 21:13; quadros 18000–20999, cenas p215 final a p220)
+
+### BUG leve — duas eliminações com 1 s de diferença; o primeiro banner some antes de ser lido
+- Pedaço: p006 @ 00:49 a 00:52
+- Global: 19176 a 19248 aprox. (JSON: DeepSeek 1 em 19195, DeepSeek 4 em 19227)
+- Cena: p217
+- Descrição: confirmado em tamanho cheio (p006 @ 00:50). O banner "ELIMINADO · DeepSeek 1 · morreu na névoa tóxica" aparece com o corpo visível e fica só cerca de 1 s antes de ser trocado pelo banner de DeepSeek 4 (p006 @ 00:51). O HUD cai de 8 para 7 nesse intervalo. Para o público, a morte do DeepSeek 1 quase não é lida.
+- Sugestão: separar as duas eliminações por pelo menos 2 s, ou empilhar os banners (um embaixo do outro) em vez de substituir.
+
+### BUG leve — DeepSeek 4 morre sem corpo no quadro
+- Pedaço: p006 @ 00:51 a 00:53
+- Global: 19224 a 19272 aprox.
+- Cena: p217 (cena da Cornucópia com Opus, Haiku 2 e DeepSeek 3)
+- Descrição: o banner diz "DeepSeek 4 · morreu na névoa tóxica", mas a tomada é outra (Cornucópia, Opus com lança) e não mostra o corpo do DeepSeek 4 em lugar nenhum. A morte fica só no banner.
+- Sugestão: mostrar o corpo caído na tomada do banner, ou trocar para a tomada da névoa onde ele morreu.
+
+### BUG leve — legenda sem espaço entre "Na" e "Cornucópia"
+- Pedaço: p006 @ 00:51 (legenda "Na Cornucópia, o Opus acerta o Qwen")
+- Global: 19224 aprox.
+- Cena: p217
+- Descrição: confirmado em tamanho cheio. A palavra destacada "Cornucópia" está colada na palavra anterior, e o texto sai "NaCornucópia,o Opus". Parece erro de espaçamento do realce de palavra (o mesmo efeito de karaokê usado nas legendas).
+- Sugestão: revisar o espaçamento da legenda com realce, para que cada palavra tenha seu espaço antes e depois do destaque.
+
+### BUG leve — corpos de Qwen Max e Qwen 27B-1 quase fora do quadro
+- Pedaço: p006 @ 00:09 (Qwen Max, dois pés escuros na borda inferior) e p006 @ 00:18 a 00:21 (Qwen 27B-1, massa roxa na borda inferior)
+- Global: 18216 aprox. e 18432 a 18504 aprox.
+- Cena: p215 e p216
+- Descrição: os banners de eliminação ("morreu na névoa tóxica") aparecem, mas os corpos ficam cortados pela borda inferior, só com os pés ou uma massa roxa visíveis. A morte é lida pelo banner, não pelo corpo. É o mesmo problema da rodada anterior (corpo do Qwen 27B-2 fora do quadro), que ainda não foi corrigido.
+- Sugestão: subir a câmera nessas tomadas de eliminação para que o corpo caia no meio do quadro.
+
+### BUG leve — cubo branco com a letra "F" flutuando na cena da névoa
+- Pedaço: p006 @ 00:09 (canto direito, perto do banner de Qwen Max)
+- Global: 18216 aprox.
+- Cena: p215 (névoa tóxica)
+- Descrição: um cubo branco com a letra "F" aparece no canto direito, sem relação aparente com a narração, e some junto. Pode ser um objeto da cena ou uma tecla de apoio. Como não tem explicação na tela, parece erro.
+- Sugestão: remover o objeto, ou se for intencional (tecla de ação), explicar na narração ou com uma legenda.
+
+### MELHORIA — personagem marrom escuro entre 1:24 e 1:45 (verificar se é estado "ferido" intencional)
+- Pedaço: p006 @ 01:24 a 01:45 (Sonnet, que depois tem a fala "também não quero briga")
+- Global: 19176 a 20280 aprox.
+- Cena: p218 e p219
+- Descrição: o Sonnet aparece com cor marrom escura, bem diferente do laranja-amarelo que tinha no início da fase da névoa (0:50). Pode ser o estado "sangrando" anunciado no cartão do DeepSeek 2 (1:42), mas a cor fica apagada e pouco legível, sobretudo na névoa roxa.
+- Sugestão: se for estado de ferido, manter, mas com contraste maior (um brilho vermelho ou ícone). Se não for, restaurar a cor.
+
+### OK — HUD e ordem das mortes
+- O HUD cai de 11 para 10 (0:09, Qwen Max), 8 (0:50), 7 (0:51), 6 (1:06, dia 9 tarde), 5 e 4 (1:21 a 1:48). A contagem bate com os banners.
+- Eliminações por névoa e sede aparecem com causa escrita no banner, o que bate com o JSON (qwen1, qwen2, ds1, ds4, qwen4, sonnet, haiku1).
+- Dias do HUD sobem em ordem (Dia 8 tarde, Dia 9 manhã, Dia 9 tarde).
+
+### Pontos a conferir
+- Balão do DeepSeek 1 em 1:03 a 1:09 com a frase "Qwen 27B-3 está viva..." (leitura da folha, não confirmada). O Qwen 27B-3 morre em 0:58 (JSON: qwen4, sede). Se a frase disser "viva", é contradição; conferir o texto em tamanho cheio antes de corrigir.
+- Meme com foto de pessoa real em 1:15 (rodada anterior já apontou isso para outros memes).
+
+---
+
 ## Resumo parcial (até agora)
 1. MELHORIA — Opus parado por ~27 s em t05 (p000 @ 01:12–01:39).
 2. MELHORIA — memes com pessoas reais: checar direitos (p000 @ 00:36; p001 @ 01:24 e 01:58).
