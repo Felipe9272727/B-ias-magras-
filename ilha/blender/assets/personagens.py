@@ -425,8 +425,73 @@ def criar_tributo_rig(nome, empresa, cor, seed=0):
     return raiz
 
 
+PIV_COTOVELO = {"antebraco_d": V((-0.28, 0, 0.95)), "antebraco_e": V((0.28, 0, 0.95))}
+PIV_JOELHO = {"canela_d": V((-0.11, 0, 0.47)), "canela_e": V((0.11, 0, 0.47))}
+PAI_ARTIC = {"cabeca": "tronco", "braco_e": "tronco", "braco_d": "tronco", "antebraco_e": "braco_e",
+             "antebraco_d": "braco_d", "canela_e": "perna_e", "canela_d": "perna_d"}
+
+
+def criar_tributo_articulado(nome, empresa, cor, seed=0):
+    """Tributo para animação: 10 partes com joelhos e cotovelos, e os itens (faca, lanca, arco, machado, tocha)
+    presos ao antebraço direito, escondidos. Retorna (raiz, partes, itens); partes: tronco, cabeca, braco_e/d,
+    antebraco_e/d, perna_e/d (coxas), canela_e/d. Cada parte tem origem na própria articulação."""
+    _checar(empresa)
+    sorteio = _sorteio(seed)
+    esc = sorteio["escala"]
+    base = _construir(empresa, cor, sorteio, None)
+    e = EMPRESAS[empresa]
+    main, acento = hexrgb(e["main"]), hexrgb(e["acento"])
+    pele = hexrgb(sorteio["pele"])
+    G = {k: _Grupo() for k in ("braco_e", "braco_d", "antebraco_e", "antebraco_d",
+                                "perna_e", "perna_d", "canela_e", "canela_d")}
+    G["tronco"], G["cabeca"] = base["tronco"], base["cabeca"]
+    for lado, x in (("d", -0.28), ("e", 0.28)):
+        G["braco_" + lado].prisma(0.93, 1.22, 0.069, 0.069, 0.064, 0.064, 7, main, x=x)
+        a = G["antebraco_" + lado]
+        a.elipsoide(x, 0, 0.95, 0.068, 0.068, 0.06, main, sub=0)  # cotovelo: esconde a emenda ao dobrar
+        a.prisma(0.70, 0.96, 0.072, 0.072, 0.068, 0.068, 7, main, x=x)
+        a.prisma(0.66, 0.72, 0.076, 0.076, 0.072, 0.072, 8, acento, x=x)
+        a.elipsoide(x, 0, MAO[2], 0.07, 0.07, 0.07, pele, sub=0)
+    G["braco_e"].prisma(0.98, 1.10, 0.083, 0.083, 0.085, 0.085, 8, cor, x=0.28)
+    for lado, x in (("d", -0.11), ("e", 0.11)):
+        G["perna_" + lado].prisma(0.46, 0.82, 0.077, 0.077, 0.085, 0.085, 7, main, x=x)
+        c = G["canela_" + lado]
+        c.elipsoide(x, 0, 0.47, 0.079, 0.079, 0.065, main, sub=0)  # joelho
+        c.prisma(0.14, 0.48, 0.07, 0.07, 0.077, 0.077, 7, main, x=x)
+        c.elipsoide(x, -0.02, 0.085, 0.10, 0.13, 0.085, hexrgb(BOTA), sub=1)
+
+    raiz = bpy.data.objects.new(nome, None)
+    raiz.empty_display_type = "PLAIN_AXES"
+    bpy.context.scene.collection.objects.link(raiz)
+    pivos = {"tronco": PIV_TRONCO, "cabeca": PIV_CABECA, **PIV_BRACO, **PIV_PERNA, **PIV_COTOVELO, **PIV_JOELHO}
+    partes = {}
+    for k, g in G.items():
+        piv = pivos[k] * esc
+        ob = _objeto(f"{nome}_{k}", [([p * esc for p in f], spec) for f, spec in g.faces], origem=piv)
+        ob.location = piv
+        partes[k] = ob
+    itens = {}
+    for it in ITENS[1:]:
+        g = _Grupo()
+        _item(g, it)
+        piv = PIV_COTOVELO["antebraco_d"] * esc
+        ob = _objeto(f"{nome}_item_{it}", [([p * esc for p in f], spec) for f, spec in g.faces], origem=piv)
+        ob.location = piv
+        ob.hide_render = True
+        itens[it] = ob
+    bpy.context.view_layer.update()
+    for k, ob in partes.items():
+        pai = partes[PAI_ARTIC[k]] if k in PAI_ARTIC else raiz
+        ob.parent = pai
+        ob.matrix_parent_inverse = pai.matrix_world.inverted()
+    for ob in itens.values():
+        ob.parent = partes["antebraco_d"]
+        ob.matrix_parent_inverse = partes["antebraco_d"].matrix_world.inverted()
+    return raiz, partes, itens
+
+
 # ---------------------------------------------------------------- previas
-COR_PESSOAL = ["#E63946", "#FFD60A", "#9B5DE5", "#7CB342", "#FF5FA2", "#00E5FF",
+COR_PESSOAL =["#E63946", "#FFD60A", "#9B5DE5", "#7CB342", "#FF5FA2", "#00E5FF",
                "#C77DFF", "#2EC4B6", "#8D6E63", "#D81B60", "#E0FF4F", "#00C853"]
 
 if __name__ == "__main__":
