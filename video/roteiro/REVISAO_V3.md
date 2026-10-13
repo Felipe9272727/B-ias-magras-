@@ -61,8 +61,9 @@ Pendente. Os `pNNN.mp4` ainda não foram gerados.
 
 ## Vigia do pipeline
 
-- Processo `completo3.sh` (PID 24875) ativo na etapa 3D. Log sem Traceback.
-- Nenhuma relançada necessária até agora.
+- Processo `completo3.sh` (PID 24875) ativo na etapa 3D até a última verificação. Log sem Traceback.
+- Pausa pedida pelo coordenador: o processo foi parado de propósito para corrigir cenários (caverna, lago, câmera perto de objetos, névoa). Arquivo `ilha/logs/PAUSA_PRINCIPAL` presente. Último trecho do log: `TOMADA p218_1`.
+- Não relançar enquanto `PAUSA_PRINCIPAL` existir. Quando sumir, voltar a vigiar. O relançamento é do coordenador.
 
 ## 10 piores coisas (preliminar, a fechar com a etapa B)
 

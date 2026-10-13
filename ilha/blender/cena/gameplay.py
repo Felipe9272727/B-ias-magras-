@@ -127,7 +127,7 @@ class Ilha:
         nt.nodes.clear()
         vol = nt.nodes.new('ShaderNodeVolumePrincipled')
         vol.inputs['Color'].default_value = (0.55, 0.15, 0.85, 1)
-        vol.inputs['Density'].default_value = 0.012
+        vol.inputs['Density'].default_value = 0.007
         vol.inputs['Emission Strength'].default_value = 0.05
         vol.inputs['Emission Color'].default_value = (0.6, 0.2, 1.0, 1)
         out = nt.nodes.new('ShaderNodeOutputMaterial')
@@ -166,9 +166,10 @@ class Ilha:
         zx, zy = ZC['caverna']['c']
         tras = Vector((zx - px, zy - py))
         tras = tras.normalized() if tras.length > 1 else Vector((0, 1))
-        cx, cy = px + tras.x * 9, py + tras.y * 9
+        cx, cy = px + tras.x * 15, py + tras.y * 15
+        self.caverna_c = (cx, cy)
         rocha = P.mat_cor('caverna_rocha', (0.40, 0.38, 0.36), rough=0.95)
-        escuro = P.mat_cor('caverna_boca', (0.02, 0.02, 0.025), rough=1.0)
+        escuro = P.mat_cor('caverna_boca', (0.07, 0.065, 0.06), rough=1.0)
         bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1, location=(cx, cy, chao(cx, cy) - 0.8))
         m = bpy.context.object
         m.name = 'caverna_morro'
@@ -186,6 +187,7 @@ class Ilha:
         b.scale = (2.4, 0.9, 2.0)
         b.rotation_euler = frente.to_track_quat('-Y', 'Z').to_euler()
         b.data.materials.append(escuro)
+        self.caverna_objs = [m, b]
         for i in range(7):  # pedras soltas na entrada
             a = rnd.uniform(-1.2, 1.2)
             d = rnd.uniform(6.5, 9)
@@ -195,6 +197,7 @@ class Ilha:
             pd = bpy.context.object
             pd.scale.z = rnd.uniform(0.5, 0.9)
             pd.data.materials.append(rocha)
+            self.caverna_objs.append(pd)
 
     def periodo(self, per):
         s, w = self.sol, self.mundo
@@ -277,10 +280,15 @@ class Ilha:
         self._palcos[zid] = melhor
         return melhor
 
-    def esconder_vegetacao(self, pontos, raio):
-        r2 = raio * raio
+    def esconder_vegetacao(self, pontos, raio, cameras=(), raio_cam=5.5):
+        r2, rc2 = raio * raio, raio_cam * raio_cam
         for o, x, y in self.veg:
-            o.hide_render = any((x - px) ** 2 + (y - py) ** 2 < r2 for px, py in pontos)
+            o.hide_render = (any((x - px) ** 2 + (y - py) ** 2 < r2 for px, py in pontos)
+                             or any((x - px) ** 2 + (y - py) ** 2 < rc2 for px, py in cameras))
+        cx, cy = getattr(self, 'caverna_c', (1e9, 1e9))
+        perto = any(math.hypot(cx - px, cy - py) < 11 for px, py in cameras)
+        for o in getattr(self, 'caverna_objs', []):
+            o.hide_render = perto
 
     def livre(self, mira, loc):
         """Sobe a câmera até o terreno não tapar a visão do alvo."""
@@ -642,6 +650,9 @@ def filmar(ilha, log, tom, pasta, teste=False):
     if a0 == 'centro':  # câmera do lado do centro da zona (no lago: em cima da água, olhando a margem)
         zx, zy = ZC[zid]['c']
         a0 = math.degrees(math.atan2(zy - gy, zx - gx))
+    elif zid == 'lago' and tom.get('angulo') is None:  # câmera de costas para a água: o lago aparece atrás deles
+        zx, zy = ZC[zid]['c']
+        a0 = math.degrees(math.atan2(gy - zy, gx - zx)) + rnd.uniform(-25, 25)
     semente = rnd.uniform(0, 10)
 
     def pos_trib(tid, t):
@@ -666,6 +677,9 @@ def filmar(ilha, log, tom, pasta, teste=False):
                 th = math.radians(a0)
             elif zid == 'cornucopia':  # câmera ao sul: a Cornucópia aparece atrás
                 th = 0.0
+            elif zid == 'lago':  # câmera do lado oposto à água
+                zx, zy = ZC['lago']['c']
+                th = direcao(q.x - zx, q.y - zy)
             elif len(ids) > 1:
                 th = direcao(gx - q.x, gy - q.y)
             else:
@@ -748,10 +762,13 @@ def filmar(ilha, log, tom, pasta, teste=False):
     # vegetação que atrapalha: some perto dos tributos e do caminho da câmera
     pontos = [(plano[i]['x0'], plano[i]['y0']) for i in ids] + [(plano[i]['x1'], plano[i]['y1']) for i in ids]
     pontos += [((plano[i]['x0'] + plano[i]['x1']) / 2, (plano[i]['y0'] + plano[i]['y1']) / 2) for i in ids if plano[i]['anda']]
+    cams = []
     for q in range(0, n, max(1, n // 6)):
         camera_em(q / FPS, q / max(1, n - 1))
-        pontos.append((ilha.cam.location.x, ilha.cam.location.y))
-    ilha.esconder_vegetacao(pontos, 2.6)
+        cams.append((ilha.cam.location.x, ilha.cam.location.y))
+    camera_em(tom.get('u_cam', 0.5) * dur, tom.get('u_cam', 0.5))
+    cams.append((ilha.cam.location.x, ilha.cam.location.y))
+    ilha.esconder_vegetacao(pontos, 2.6, cams)
 
     destino = os.path.join(pasta, tom['id'])
     os.makedirs(destino, exist_ok=True)
