@@ -2,6 +2,7 @@ import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotio
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
+import {Thumb3} from './ilha/Thumb3';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -118,6 +119,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortAzul2" component={ShortAzul2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort2} />
       <Composition id="ShortMario" component={ShortMario} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortMario} />
       <Still id="Thumb2" component={Thumb2} width={1280} height={720} />
+      <Still id="Thumb3" component={Thumb3} width={1280} height={720} />
       <Still id="ArtePreview" component={ArtePreview} width={1920} height={1080} />
       <Still id="ArteZoom" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 2712, cy: 576, escala: 1.3}} />
       <Still id="ArteReatorMotor" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 420, cy: 2100, escala: 0.7}} />
