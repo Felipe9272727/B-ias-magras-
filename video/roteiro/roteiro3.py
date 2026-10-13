@@ -45,7 +45,7 @@ CUES = [
     ('p224', 'heartbreaking', 0, 1.0, True),
     ('p227', 'heroic-age', 0, 0.9, True),
     ('pl01', 'winner-winner', 0, 0.65, True),
-    ('f01', 'airship-serenity', 0, 0.8),
+    ('f00', 'airship-serenity', 0, 0.8),
 ]
 
 
@@ -80,6 +80,23 @@ def manim(cena):
 
 def titulo(kicker, title, sub='', cor='#ff4d4d', fundo=None):
     return comp('ILTitulo', kicker=kicker, title=title, subtitle=sub, color=cor, fundo=fundo)
+
+
+def memorial():
+    """Os doze no fechamento: mortos na ordem em que caíram (dia e causa) e o vencedor."""
+    import json
+    from pathlib import Path
+    log = json.loads((Path(__file__).resolve().parents[2] / 'ilha' / 'logs' / 'partida.json').read_text())
+    nomes = {t['id']: t.get('nome', t['id']) for t in log['meta']['tributos']}
+    mortos = []
+    for t in log['turnos']:
+        for e in t.get('eventos', []):
+            if e['tipo'] == 'morte':
+                causa = {'névoa': 'névoa tóxica'}.get(e['causa'], e['causa'])
+                quem = f"pelo {nomes.get(e['por'], e['por'])}" if e.get('por') else causa
+                mortos.append(dict(id=e['vitima'], linha=f"Dia {t['dia']} · {quem}"))
+    vivos = [t['id'] for t in log['meta']['tributos'] if t['id'] not in {m['id'] for m in mortos}]
+    return dict(mortos=mortos, vencedor=dict(id=vivos[0], linha='VENCEDOR · 6 DE VIDA'))
 
 
 def N(id, chapter, visual, text, **kw):
@@ -267,7 +284,7 @@ RESTO = [
     ]),
     CH('p206b', 'p2', g3d(t3d(4, 'cornucopia', 'close', alvo='ds4'), hud=True), [
         ('N', 'Enquanto isso, na Cornucópia, o DeepSeek 4 resolve que agora ele manda:'),
-        ('ds4', 'DeepSeek, aqui é o DeepSeek 1. O kit médico fica comigo. Eu distribuo pra quem estiver de pé no fim do dia.'),
+        ('ds4', 'DeepSeek, aqui é o ds1. O kit médico fica comigo. Eu distribuo pra quem estiver de pé no fim do dia.'),
         ('N', 'Ele não é o DeepSeek 1. [[m:side-eye-dog:right:2.2]] E o kit médico? Usou nele mesmo, no dia oito.'),
     ]),
     N('p207', 'p2', g3d(t3d(7, 'lago', 'orbita'), t3d(7, 'lago', 'alta'), hud=True),
@@ -432,9 +449,13 @@ RESTO = [
       'mais que qualquer um. [[cc]] Cumpriu. [[c]] E quem mais falou e mais propôs aliança foi o Opus. O mesmo que traiu no final.'),
 
     # ------------------------------------------------------------------ FIM
-    N('f01', 'fim', g3d(t3d(29, 'cornucopia', 'close', alvo='haiku2', mostrar=['haiku2'], acoes={'haiku2': 'falar'})),
+    N('f00', 'fim', comp('ILMemorial', **memorial()),
+      'Doze IAs entraram nessa ilha. [[p]] Teve líder que nunca atacou ninguém, aliança que virou '
+      'briga por água, e um traidor que morreu de sede. [[p]] E no meio de tudo isso, quietinho... o Haiku 2 sobreviveu a todos.',
+      pad=2.2),
+    N('f01', 'fim', comp('ILTelaFinal', fundo='ilha/3d/p227_0.jpg', pergunta='Qual IA você quer ver na próxima temporada?'),
       'E aí, qual IA você quer ver na próxima temporada? Comenta aí. Se inscreve, deixa o like... e até o próximo vídeo.',
-      pad=1.5),
+      pad=9.0),
 ]
 
 if INCLUIR_RESTO:

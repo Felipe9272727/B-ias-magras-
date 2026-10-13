@@ -3,6 +3,7 @@ import type {Timeline} from '../types';
 import {partidaDe} from './dados';
 import {ILClipe} from './Clipe';
 import {IL3D} from './Tres';
+import {ILMemorial, ILTelaFinal} from './Final';
 import {ILMapa, ItemChat} from './Mapa';
 import {ILElenco, ILFicha, ILMorte, ILPlacar, ILRegra, ILTitulo} from './Cenas';
 import type {Partida} from './dados';
@@ -13,6 +14,10 @@ export const IlhaVisual: React.FC<{name: string; props: Record<string, any>; tim
   switch (name) {
     case 'IL3D':
       return <IL3D tomadas={p.tomadas} hud={p.hud} titulo={p.titulo} chat={p.chat} eliminados={p.eliminados} placar={p.placar} partidas={ps} anunciados={p.anunciados} />;
+    case 'ILMemorial':
+      return <ILMemorial mortos={p.mortos} vencedor={p.vencedor} vencedorEm={p.vencedorEm} />;
+    case 'ILTelaFinal':
+      return <ILTelaFinal fundo={p.fundo} pergunta={p.pergunta} />;
     case 'ILClipe':
       return <ILClipe src={p.src} inicio={p.inicio} />;
     case 'ILTitulo':

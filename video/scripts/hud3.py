@@ -32,6 +32,15 @@ def ajustar(timeline):
             i = ant[i]
         for tm in tms:
             tm['semHud'] = id(tm) not in fica
+    for c in timeline['scenes']:  # texto do balão: o id interno vira nome (a voz já fala certo)
+        for f in ((c.get('visual') or {}).get('props') or {}).get('chat') or []:
+            f['texto'] = f['texto'].replace('aqui é o ds1.', 'aqui é o DeepSeek 1.')
+    for c in timeline['scenes']:  # memorial: o vencedor entra quando o narrador fala o nome dele
+        v = c.get('visual') or {}
+        if v.get('name') == 'ILMemorial':
+            ws = [w for w in c.get('words') or [] if w['w'].startswith('Haiku')]
+            if ws:
+                v['props']['vencedorEm'] = max(0, ws[-1]['s'] - 4)
     for c in timeline['scenes']:
         for e in ((c.get('visual') or {}).get('props') or {}).get('eliminados') or []:
             if (c['id'], e['id']) in DRAMA:
