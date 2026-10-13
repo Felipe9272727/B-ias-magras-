@@ -83,7 +83,8 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
         {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
         {pos && atores.map(([tid, v]) => {
           const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
-          if (!cab) return null;
+          const animTag = pos.anims[v[4]];
+          if (!cab || v[2] > 230 || cab[1] < 0.14 || animTag === 'morto' || animTag === 'cair') return null;  // close: dispensa
           const t = tributo(tid);
           const tam = Math.max(18, Math.min(30, v[2] * 0.09));
           return (

@@ -14,6 +14,7 @@ import concurrent.futures as cf
 import importlib.util
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -208,7 +209,16 @@ def main():
                     quem_id = quem.rstrip('~')
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = b2.tts(' '.join(bt.spoken(x) for x in txt.split()), VOZES[quem_id], base)
-                        voices.append(dict(at=round(t * FPS), src=f'voice3/{sid}_{k}.mp3'))
+                        src = f'voice3/{sid}_{k}.mp3'
+                        if pensa:  # voz interior: eco curto, um pouco abafada
+                            interior = base.with_name(base.name + '_pensa.mp3')
+                            if not interior.exists() or interior.stat().st_mtime < base.with_suffix('.mp3').stat().st_mtime:
+                                subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', str(base.with_suffix('.mp3')), '-af',
+                                                'highpass=f=160,lowpass=f=7000,aecho=0.8:0.6:45|90:0.28|0.16,volume=1.1',
+                                                str(interior)], check=True)
+                            src = f'voice3/{interior.name}'
+                            events.append(dict(type='sfx', at=round(t * FPS), id='swoosh-air', file=sfx['swoosh-air'], vol=0.45))
+                        voices.append(dict(at=round(t * FPS), src=src))
                     else:
                         dur = max(1.3, len(txt) / 15)
                     chat.append(dict(id=quem_id, texto=txt, at=round(t * FPS), dur=round(dur * FPS), pensa=pensa))
