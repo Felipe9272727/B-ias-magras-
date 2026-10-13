@@ -110,7 +110,7 @@ const Tomada: React.FC<{id: string; periodo?: string; dur?: number}> = ({id, per
 };
 
 // ---------------------------------------------------------------- título por cima do 3D
-const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string; retratos?: boolean}> = ({kicker, title, subtitle, color = '#ffcc33', retratos = true}) => {
+const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string; retratos?: boolean; baixo?: boolean}> = ({kicker, title, subtitle, color = '#ffcc33', retratos = true, baixo = false}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const bate = spring({frame: f - 4, fps, config: {damping: 11, stiffness: 160}});
@@ -122,9 +122,9 @@ const TituloCinema: React.FC<{kicker?: string; title: string; subtitle?: string;
   const [l1, l2] = title.includes(' DAS ') ? [title.split(' DAS ')[0], 'DAS ' + title.split(' DAS ')[1]] : [title, ''];
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{background: `rgba(4,6,12,${0.18 + 0.32 * clamp01(f / 12)})`}} />
+      <AbsoluteFill style={{background: baixo ? `linear-gradient(180deg, rgba(4,6,12,0) 45%, rgba(4,6,12,${0.75 * clamp01(f / 12)}) 100%)` : `rgba(4,6,12,${0.18 + 0.32 * clamp01(f / 12)})`}} />
       <AbsoluteFill style={{background: `rgba(255,240,200,${flash})`}} />
-      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+      <AbsoluteFill style={{alignItems: 'center', justifyContent: baixo ? 'flex-end' : 'center', paddingBottom: baixo ? 70 : 0, flexDirection: 'column'}}>
         <div style={{transform: `scale(${escala})`, filter: `blur(${blur}px)`, textAlign: 'center', position: 'relative'}}>
           <div style={{position: 'relative'}}>
             <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 168, lineHeight: 0.95, letterSpacing: 4, color, WebkitTextStroke: '5px #120c02', textShadow: '0 10px 0 #000, 0 0 60px rgba(255,180,40,.55)'}}>
@@ -247,7 +247,7 @@ const HUD: React.FC<{dados: Partida; turno: number; periodo?: string | null}> = 
           </div>
         ))}
         <div style={{padding: '8px 20px', borderRadius: 14, background: '#ff3b3b', border: '3px solid #000', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff'}}>
-          {vivos} VIVOS
+          {vivos} {vivos === 1 ? 'VIVO' : 'VIVOS'}
         </div>
       </div>
     </AbsoluteFill>
@@ -264,7 +264,8 @@ const Balao: React.FC<{fala: Fala3D; x: number | null; y: number | null; frame: 
   const W = 660;
   const preso = x !== null && y !== null;
   const bx = preso ? Math.min(1920 - W - 40, Math.max(40, x - W / 2)) : 60;
-  const by = preso ? Math.max(120, y - 40) : 820;
+  const alto = 120 + Math.ceil(fala.texto.length / 34) * 42;  // altura estimada do balão
+  const by = preso ? Math.max(110 + alto, y - 40) : 820;
   return (
     <div style={{position: 'absolute', left: bx, top: by, transform: `translateY(-100%) scale(${0.85 + 0.15 * entra})`, transformOrigin: 'bottom center', opacity: entra * sai, width: W}}>
       <div style={{background: '#fffdf6', border: '5px solid #0b0d14', borderRadius: 26, padding: '16px 24px 18px', boxShadow: '0 8px 0 rgba(0,0,0,.35)', position: 'relative'}}>

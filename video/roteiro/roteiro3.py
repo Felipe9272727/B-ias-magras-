@@ -348,8 +348,8 @@ RESTO = [
     ]),
     N('p226', 'p2', g3d(t3d(29, 'cornucopia', 'duelo', alvo='opus', golpe=0.15, morte=0.62, acoes={'haiku2': 'parado'}), hud=True),
       'O Haiku 2 revida: oito de dano. E aí... [[x:opus:sede]] o Opus cai. Não pelo golpe. [[p]] De sede.'),
-    N('p227', 'p2', g3d(t3d(29, 'cornucopia', 'grua', mostrar=['haiku2'], acoes={'haiku2': 'parado'}),
-                        titulo=dict(kicker='vencedor', title='HAIKU 2', color='#b07ce8', retratos=False)),
+    N('p227', 'p2', g3d(t3d(29, 'cornucopia', 'close', alvo='haiku2', mostrar=['haiku2'], acoes={'haiku2': 'parado'}),
+                        titulo=dict(kicker='vencedor', title='HAIKU 2', color='#b07ce8', retratos=False, baixo=True)),
       'O vencedor dos Jogos Vorazes das IAs... [[s:drumroll:0.5]] é o Haiku 2. [[s:crowd-cheer:0.5]] O menor modelo da '
       'Anthropic, que nem era líder... com seis de vida.', pad=1.4),
 
