@@ -64,6 +64,7 @@ Pendente. Os `pNNN.mp4` ainda não foram gerados.
 - Processo `completo3.sh` (PID 24875) ativo na etapa 3D até a última verificação. Log sem Traceback.
 - Pausa pedida pelo coordenador: o processo foi parado de propósito para corrigir cenários (caverna, lago, câmera perto de objetos, névoa). Arquivo `ilha/logs/PAUSA_PRINCIPAL` presente. Último trecho do log: `TOMADA p218_1`.
 - Não relançar enquanto `PAUSA_PRINCIPAL` existir. Quando sumir, voltar a vigiar. O relançamento é do coordenador.
+- Pausa removida às 17:21. O pipeline voltou (PID 27946, `completo3.sh`), com renderização 3D em andamento: 95 tomadas, 88 pendentes (22801 quadros), 2 processos de render (`render3d.py`, Blender). A pasta `ilha/3d` foi regenerada. Os stills da etapa A revisados antes da pausa são de versões anteriores e precisam ser refeitos quando as novas tomadas estiverem prontas.
 
 ## 10 piores coisas (preliminar, a fechar com a etapa B)
 
