@@ -119,7 +119,7 @@ def cap(kicker, title, cor='#ffcc33'):
 
 
 # Resto do vídeo: só entra depois que o Felipe aprovar a abertura (INCLUIR_RESTO).
-INCLUIR_RESTO = False
+INCLUIR_RESTO = True
 RESTO = [
     # ------------------------------------------------------------------ OS TRIBUTOS
     N('t01', 'tributos', g3d(t3d(1, 'cornucopia', 'orbita', largada='parado', angulo=200)),

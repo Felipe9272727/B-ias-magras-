@@ -29,6 +29,7 @@ const calcTimeline = (arquivo: string): CalculateMetadataFunction<Props> => asyn
 const calculateMetadata2 = calcTimeline('timeline2.json');
 const calculateMetadata3 = calcTimeline('timeline3.json');
 const calculateMetadata3a = calcTimeline('timeline3_amostra.json');
+const calculateMetadata3c = calcTimeline('timeline3_completo.json');
 
 const calcShort: CalculateMetadataFunction<{dados: DadosShort | null}> = async () => {
   const dados = (await (await fetch(staticFile('short/legendas.json'))).json()) as DadosShort;
@@ -100,6 +101,16 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={300}
         defaultProps={{timeline: null} as Props}
         calculateMetadata={calculateMetadata3a}
+      />
+      <Composition
+        id="Video3Completo"
+        component={Main}
+        width={W}
+        height={H}
+        fps={FPS}
+        durationInFrames={300}
+        defaultProps={{timeline: null} as Props}
+        calculateMetadata={calculateMetadata3c}
       />
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
