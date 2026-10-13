@@ -17,7 +17,7 @@ const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
 // ---------------------------------------------------------------- bonecos 3D pré-renderizados sobre o cenário
 type MetaBonecos = {quadro: [number, number]; pe: [number, number]; ppm: number; anims: Record<string, {n: number; dur: number; laco: boolean}>; tiras?: Record<string, string[]>};
-type PosPlaca = {anims: string[]; atores: Record<string, ([number, number, number, number, number, number] | null)[]>};
+type PosPlaca = {telas?: Record<string, [number, number, number]>[]; anims: string[]; atores: Record<string, ([number, number, number, number, number, number] | null)[]>};
 let metaCache: MetaBonecos | null = null;
 
 const FILTRO: Record<string, string> = {
@@ -81,6 +81,21 @@ const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, period
         <Img src={staticFile(`ilha/3d/${id}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
         {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} />)}
         {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
+        {pos && atores.map(([tid, v]) => {
+          const cab = pos.telas?.[Math.min(f, (pos.telas?.length ?? 1) - 1)]?.[tid];
+          if (!cab) return null;
+          const t = tributo(tid);
+          const tam = Math.max(18, Math.min(30, v[2] * 0.09));
+          return (
+            <div key={`tag-${tid}`} style={{position: 'absolute', left: cab[0] * 1920, top: cab[1] * 1080 - 6, transform: 'translate(-50%, -100%)', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: 6, padding: '2px 10px 2px 6px', borderRadius: 20, background: 'rgba(8,10,18,.78)', border: `3px solid ${t?.cor ?? '#fff'}`, fontFamily: FONT.display, fontWeight: 800, fontSize: tam, color: '#fff', whiteSpace: 'nowrap'}}>
+                <span style={{width: tam * 0.6, height: tam * 0.6, borderRadius: '50%', background: t?.cor ?? '#fff', display: 'inline-block'}} />
+                {t?.nome ?? tid}
+              </div>
+              <svg width={16} height={9}><path d="M0 0 L16 0 L8 9 Z" fill={t?.cor ?? '#fff'} /></svg>
+            </div>
+          );
+        })}
       </AbsoluteFill>
     </AbsoluteFill>
   );

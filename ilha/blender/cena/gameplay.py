@@ -664,13 +664,15 @@ def filmar(ilha, log, tom, pasta, teste=False):
             q = pos_trib(alvo, t)
             if tom.get('angulo') is not None:
                 th = math.radians(a0)
+            elif zid == 'cornucopia':  # câmera ao sul: a Cornucópia aparece atrás
+                th = 0.0
             elif len(ids) > 1:
                 th = direcao(gx - q.x, gy - q.y)
             else:
                 th = math.radians(a0)
             frente = Vector((math.sin(th), -math.cos(th), 0))
             lado = Vector((math.cos(th), math.sin(th), 0))
-            loc = q + frente * (3.4 - 0.5 * e) + lado * 0.8 + Vector((0, 0, 1.6))
+            loc = q + frente * (4.6 - 0.4 * e) + lado * 0.9 + Vector((0, 0, 1.55))
             mira = q + Vector((0, 0, 1.25))
             lente = 40
         elif tipo == 'ombro' and alvo and para:
@@ -679,7 +681,7 @@ def filmar(ilha, log, tom, pasta, teste=False):
             dv.z = 0
             dv = dv.normalized() if dv.length > 0.01 else Vector((1, 0, 0))
             lado = Vector((-dv.y, dv.x, 0))
-            loc = qa - dv * (1.7 - 0.3 * e) + lado * 0.65 + Vector((0, 0, 1.75))
+            loc = qa - dv * (2.6 - 0.3 * e) + lado * 1.1 + Vector((0, 0, 1.9))
             mira = qb + Vector((0, 0, 1.3))
             lente = 38
         elif tipo == 'duelo' and alvo:
@@ -691,7 +693,10 @@ def filmar(ilha, log, tom, pasta, teste=False):
             dv.z = 0
             dv = dv.normalized() if dv.length > 0.01 else Vector((1, 0, 0))
             nrm = Vector((-dv.y, dv.x, 0))
-            if math.cos(math.radians(a0)) < 0:
+            if zid == 'cornucopia' and tom.get('angulo') is None:
+                if nrm.y > 0:
+                    nrm = -nrm
+            elif math.cos(math.radians(a0)) < 0:
                 nrm = -nrm
             sep = (qb - qa).length
             loc = m + nrm * (max(4.2, sep * 1.1 + 2.6) - 0.8 * e) - dv * 0.5 + Vector((0, 0, 1.45))
