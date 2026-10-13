@@ -45,9 +45,14 @@ def clipe(src, inicio=0):
     return comp('ILClipe', src=src, inicio=inicio)
 
 
-def t3d(turno, zona, cam='orbita', partida='oficial', **kw):
-    """Uma tomada 3D. kw: alvo, para, angulo, lente, acoes, mostrar, largada, golpe, morte, periodo."""
-    return dict(turno=turno, zona=zona, cam=cam, partida=partida, **kw)
+def t3d(turno, zona, cam='orbita', partida='oficial', modo='placa', **kw):
+    """Uma tomada. modo='placa': cenário parado renderizado no Blender + bonecos 3D montados no Remotion (rápido);
+    modo='3d': tudo renderizado no Blender quadro a quadro (lento, só para planos especiais).
+    kw: alvo, para, angulo, lente, acoes, mostrar, largada, golpe, morte, periodo, imortais, u_cam."""
+    d = dict(turno=turno, zona=zona, cam=cam, partida=partida, **kw)
+    if modo != '3d':
+        d['modo'] = modo
+    return d
 
 
 def g3d(*tomadas, hud=None, titulo=None, placar=None):
@@ -77,19 +82,19 @@ SCENES = [
       'O navio não aguentou. [[s:explosion:0.35]] ... E quando o sol nasceu...', pad=0.2),
     N('a03', 'abertura', clipe('ilha/clips/praia.mp4', 0),
       'as doze acordaram aqui. Numa ilha. Sem comida, sem água, e sem a menor ideia de onde estão.'),
-    N('a04', 'abertura', g3d(t3d(1, 'cornucopia', 'travel', largada=True, angulo=250)),
+    N('a04', 'abertura', g3d(t3d(1, 'cornucopia', 'travel', largada=True, angulo=250, modo='3d')),
       'E com uma regra só: [[p]] [[s:impact-epic:0.6]] só uma sai viva.', pad=0.9),
     N('a05', 'abertura', g3d(
-        t3d(9, 'lago', 'alta', angulo='centro'),
-        t3d(20, 'campo', 'duelo', alvo='ds1', golpe=0.55, lente=45),
-        t3d(22, 'lago', 'aerea'),
-        t3d(26, 'cornucopia', 'close', alvo='ds3', imortais=['ds3'])),
+        t3d(9, 'lago', 'alta', angulo='centro', modo='3d'),
+        t3d(20, 'campo', 'duelo', alvo='ds1', golpe=0.55, lente=45, modo='3d'),
+        t3d(22, 'lago', 'aerea', modo='3d'),
+        t3d(26, 'cornucopia', 'close', alvo='ds3', imortais=['ds3'], modo='3d')),
       'Vai ter trégua... [[c]] vai ter machado... [[s:whoosh:0.4]] [[c]] vai ter uma névoa tóxica engolindo a ilha... '
       '[[c]] e vai ter traição. [[s:gasp:0.4]]', pad=0.7),
-    N('a06', 'abertura', g3d(t3d(10, 'floresta', 'segue', partida='teste', alvo='qwen1')),
+    N('a06', 'abertura', g3d(t3d(10, 'floresta', 'segue', partida='teste', alvo='qwen1', modo='3d')),
       'E olha que essa foi a segunda tentativa. Na primeira... [[m:sweating:right:2.6]] duas IAs morreram de sede '
       'procurando um riacho que não existia.', pad=0.4),
-    N('a07', 'abertura', g3d(t3d(1, 'cornucopia', 'grua', largada='parado', angulo=265),
+    N('a07', 'abertura', g3d(t3d(1, 'cornucopia', 'grua', largada='parado', angulo=265, modo='3d'),
                              titulo=dict(kicker='12 IAs · 3 distritos · só 1 sobrevive', title='JOGOS VORAZES DAS IAs',
                                          subtitle='', color='#ffcc33')),
       'Bem-vindos aos Jogos Vorazes das IAs. [[s:boom:0.6]]', lead=0.4, pad=2.0),

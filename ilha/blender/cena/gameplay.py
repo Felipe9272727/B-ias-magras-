@@ -74,8 +74,17 @@ class Ilha:
         sc.render.fps = FPS
         montar_ilha(densidade=float(os.environ.get('GP_DENS', '0.6')))
         self.mundo = ceu_dia(sol_elev=35)
-        sc.render.engine = 'BLENDER_EEVEE_NEXT'
+        if os.environ.get('GP_MOTOR') == 'workbench':
+            sc.render.engine = 'BLENDER_WORKBENCH'
+            sh = sc.display.shading
+            sh.light, sh.color_type = 'STUDIO', 'MATERIAL'
+            sh.show_shadows = True
+            sh.show_cavity = os.environ.get('GP_CAV', '0') == '1'
+        else:
+            sc.render.engine = 'BLENDER_EEVEE_NEXT'
         sc.eevee.taa_render_samples = int(os.environ.get('GP_TAA', '6'))
+        if os.environ.get('GP_SOMBRA', '1') == '0':
+            sc.eevee.use_shadows = False
         sc.view_settings.view_transform = 'AgX'
         sc.view_settings.look = 'AgX - Punchy'
         sc.render.resolution_x, sc.render.resolution_y = 1920, 1080
@@ -520,6 +529,8 @@ def filmar(ilha, log, tom, pasta, teste=False):
         return None
 
     # ---- posição/pose de cada tributo no instante t
+    anim_de = {}  # tid -> (animação, tempo dentro dela, direção do corpo th, deitado?)
+
     def estado_trib(tid, t):
         p = plano[tid]
         if p['anda']:
@@ -542,10 +553,20 @@ def filmar(ilha, log, tom, pasta, teste=False):
         else:
             th = math.radians(tom.get('angulo', 200) + 180)
         avanco, deitar, lado = 0.0, 0.0, 0.0
+        nome_anim, t_anim = ('correr' if p['corre'] else 'andar'), t + p['fase'] * 3
         if andando:
             a = pose_andar(t, p['fase'], corre=p['corre'])
         else:
             ac = p['acao']
+            t_anim = t + p['fase'] * 7
+            nome_anim = {'beber': 'beber', 'coletar': 'coletar', 'pegar': 'coletar', 'fogueira': 'coletar', 'comer': 'comer',
+                         'descansar': 'sentar', 'dormir': 'dormir'}.get(ac, 'ferido' if p['ferido'] else 'parado')
+            if ac == 'atacar':
+                nome_anim = 'atacar_' + ({'mãos': 'maos', None: 'maos'}.get(p['arma'], p['arma']))
+                t_anim = t - golpe_t + 0.6
+            elif ac == 'falar':
+                gfala = 1.0 if quem_fala(t) == tid else (0.0 if falas else (1.0 if math.sin(t * 0.9 + p['fase'] * 6) > 0 else 0.0))
+                nome_anim = 'falar' if gfala > 0.5 else ('ferido' if p['ferido'] else 'parado')
             if ac in ('beber', 'coletar', 'pegar', 'fogueira'):
                 a = pose_agachar(t, p['fase'], ac)
             elif ac == 'comer':
@@ -565,6 +586,8 @@ def filmar(ilha, log, tom, pasta, teste=False):
         if p['atingido']:
             a, recuo = pose_atingido(a, t, golpe_t + 0.12)
             avanco += recuo
+            if 0 <= t - golpe_t - 0.12 < 0.9 and not andando:
+                nome_anim, t_anim = 'atingido', t - golpe_t - 0.12
         foco = quem_fala(t)  # cabeça vira para quem está falando
         if foco and foco != tid and not andando and lado == 0:
             rel = math.degrees(ang_dif(direcao(plano[foco]['x1'] - x, plano[foco]['y1'] - y), th))
@@ -574,6 +597,9 @@ def filmar(ilha, log, tom, pasta, teste=False):
         if p['morre']:  # cambaleia e cai de costas
             if t > tm - 0.8:
                 a = pose_parado(t, p['fase'], ferido=True)
+                nome_anim, t_anim = 'ferido', t
+            if t > tm:
+                nome_anim, t_anim = ('cair', t - tm) if t - tm < 0.75 else ('morto', 0.0)
             deitar = suave((t - tm) / 0.45) if t > tm else 0.0
             if deitar > 0:
                 a = {kk: tuple(v * (1 - deitar) for v in val) for kk, val in a.items()}
@@ -595,6 +621,7 @@ def filmar(ilha, log, tom, pasta, teste=False):
             z -= baixar
         if p['plataforma']:
             z += 0.25
+        anim_de[tid] = (nome_anim, t_anim, th, chao(x, y) + (0.25 if p['plataforma'] else 0.0), x, y)
         return pos.x, pos.y, z, rot, a
 
     def aplicar(tid, t):
@@ -724,6 +751,8 @@ def filmar(ilha, log, tom, pasta, teste=False):
     destino = os.path.join(pasta, tom['id'])
     os.makedirs(destino, exist_ok=True)
     sc = ilha.sc
+    if tom.get('modo', '3d') == 'placa':
+        return placa(ilha, tom, destino, ids, plano, estado_trib, anim_de, camera_em, n, dur, teste)
     if teste:
         sc.render.resolution_percentage = 50
     quadros = set(tom.get('teste', [1, n // 2, n])) if teste else set(range(1, n + 1))
@@ -752,6 +781,62 @@ def filmar(ilha, log, tom, pasta, teste=False):
         print('QUADRO', tom['id'], q, flush=True)
     with open(os.path.join(destino, 'pos.json'), 'w') as f:
         json.dump(dict(id=tom['id'], quadros=n, fps=FPS, telas=telas), f)
+
+
+DIRS = [0, 45, 90, 135, 180, 225, 270, 315]
+
+
+def placa(ilha, tom, destino, ids, plano, estado_trib, anim_de, camera_em, n, dur, teste):
+    """Cenário parado (uma imagem, sem os tributos) + trilha de cada ator quadro a quadro para o Remotion:
+    [x, y] do pé na tela (0..1), px por metro naquela distância, direção do corpo em relação à câmera (0 = de frente),
+    animação e tempo dentro dela."""
+    sc = ilha.sc
+    for tid, (r, partes, itens) in ilha.rig.items():
+        for ob in [r] + list(partes.values()) + list(itens.values()):
+            ob.hide_render = True
+    u_cam = tom.get('u_cam', 0.5)
+    camera_em(u_cam * dur, u_cam)
+    bpy.context.view_layer.update()
+    cam = ilha.cam
+    M = cam.matrix_world.to_3x3()
+    fw = M @ Vector((0, 0, -1))
+    rt = M @ Vector((1, 0, 0))
+    para_cam = Vector((-fw.x, -fw.y)).normalized()
+    direita = Vector((rt.x, rt.y)).normalized()
+    nomes, atores, telas = [], {tid: [] for tid in ids}, []
+    W, H = sc.render.resolution_x, sc.render.resolution_y
+    for q in range(1, n + 1):
+        t = (q - 1) / FPS
+        reg = {}
+        for tid in ids:
+            estado_trib(tid, t)
+            nome, ta, th, zc, x, y = anim_de[tid]
+            pe = Vector((x, y, zc))
+            v0 = world_to_camera_view(sc, cam, pe)
+            v1 = world_to_camera_view(sc, cam, pe + Vector((0, 0, 1)))
+            if v0.z <= 0.2:
+                atores[tid].append(None)
+                continue
+            ppm = abs(v1.y - v0.y) * H
+            frente = Vector((math.sin(th), -math.cos(th)))
+            rel = math.degrees(math.atan2(frente.dot(direita), frente.dot(para_cam))) % 360
+            d = DIRS[int(round(rel / 45)) % 8]
+            if nome not in nomes:
+                nomes.append(nome)
+            atores[tid].append([round(v0.x, 4), round(1 - v0.y, 4), round(ppm, 2), d, nomes.index(nome), round(ta, 3)])
+            alto = 1.1 if nome in ('sentar', 'dormir', 'morto', 'cair', 'beber', 'coletar') else 2.05
+            vh = world_to_camera_view(sc, cam, pe + Vector((0, 0, alto)))
+            reg[tid] = [round(vh.x, 4), round(1 - vh.y, 4), round(v0.z, 2)]
+        telas.append(reg)
+    sc.render.resolution_percentage = 50 if teste else 100
+    arq = os.path.join(destino, 'placa.png')
+    if teste or not os.path.exists(arq):
+        sc.render.filepath = arq
+        bpy.ops.render.render(write_still=True)
+        print('PLACA', tom['id'], flush=True)
+    with open(os.path.join(destino, 'pos.json'), 'w') as f:
+        json.dump(dict(id=tom['id'], quadros=n, fps=FPS, telas=telas, anims=nomes, atores=atores,
+                       periodo=tom.get('periodo_real')), f)
 
 
 if __name__ == '__main__':

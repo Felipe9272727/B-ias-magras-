@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AbsoluteFill, continueRender, delayRender, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender, Img, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FONT} from '../theme';
 import {Retrato} from './comum';
 import {estadoDe, Partida, turnoDe} from './dados';
@@ -15,16 +15,92 @@ type Telas = Record<string, [number, number, number]>[];
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-const Tomada: React.FC<{id: string}> = ({id}) => {
-  const [ok, setOk] = useState<boolean | null>(null);
+// ---------------------------------------------------------------- bonecos 3D pré-renderizados sobre o cenário
+type MetaBonecos = {quadro: [number, number]; pe: [number, number]; ppm: number; anims: Record<string, {n: number; dur: number; laco: boolean}>; tiras?: Record<string, string[]>};
+type PosPlaca = {anims: string[]; atores: Record<string, ([number, number, number, number, number, number] | null)[]>};
+let metaCache: MetaBonecos | null = null;
+
+const FILTRO: Record<string, string> = {
+  noite: 'brightness(0.6) saturate(0.7) contrast(1.05) hue-rotate(8deg)',
+  manhã: 'sepia(0.12) saturate(1.1) brightness(1.02)',
+  tarde: 'none',
+};
+
+const Boneco: React.FC<{id: string; v: [number, number, number, number, number, number]; nomes: string[]; meta: MetaBonecos; filtro: string}> = ({id, v, nomes, meta, filtro}) => {
+  const [x, y, ppm, dir0, ai, ta] = v;
+  const espelho = dir0 > 180;  // 225/270/315 = 135/90/45 espelhados
+  const dir = espelho ? 360 - dir0 : dir0;
+  let anim = nomes[ai] ?? 'parado';
+  const tem = meta.tiras?.[id];
+  if (tem && !tem.includes(anim)) anim = anim.startsWith('atacar_') && tem.includes('atacar_maos') ? 'atacar_maos' : 'parado';
+  const A = meta.anims[anim] ?? meta.anims.parado;
+  const fr = A.laco ? Math.floor((((ta / A.dur) % 1) + 1) % 1 * A.n) : Math.min(A.n - 1, Math.max(0, Math.floor((ta / A.dur) * A.n)));
+  const [QW, QH] = meta.quadro;
+  const s = ppm / meta.ppm;
+  const px = x * 1920, py = y * 1080;
+  return (
+    <>
+      <div style={{position: 'absolute', left: px - 0.38 * ppm, top: py - 0.1 * ppm, width: 0.76 * ppm, height: 0.2 * ppm, borderRadius: '50%', background: 'radial-gradient(ellipse at center, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 70%)'}} />
+      <div style={{position: 'absolute', left: px - (espelho ? 1 - meta.pe[0] : meta.pe[0]) * QW * s, top: py - meta.pe[1] * QH * s, width: QW, height: QH, overflow: 'hidden', transform: `scale(${s})`, transformOrigin: 'top left'}}>
+        <div style={{position: 'absolute', inset: 0, overflow: 'hidden', transform: espelho ? 'scaleX(-1)' : undefined}}>
+          <Img src={staticFile(`ilha/bonecos/${id}/${anim}_${dir}.png`)} style={{position: 'absolute', left: -fr * QW, top: 0, width: QW * A.n, height: QH, maxWidth: 'none', filter: filtro}} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Placa: React.FC<{id: string; periodo: string; dur: number}> = ({id, periodo, dur}) => {
+  const f = useCurrentFrame();
+  const [pos, setPos] = useState<PosPlaca | null>(null);
+  const [meta, setMeta] = useState<MetaBonecos | null>(metaCache);
+  const [h] = useState(() => delayRender(`placa ${id}`));
+  useEffect(() => {
+    Promise.all([
+      fetch(staticFile(`ilha/3d/${id}.json`)).then((r) => r.json()),
+      metaCache ? Promise.resolve(metaCache) : fetch(staticFile('ilha/bonecos/bonecos.json')).then((r) => r.json()),
+    ])
+      .then(([p, m]) => {
+        metaCache = m;
+        setPos(p);
+        setMeta(m);
+      })
+      .catch(() => null)
+      .finally(() => continueRender(h));
+  }, [id, h]);
+  const zoom = 1 + 0.06 * (f / Math.max(1, dur));
+  const atores = pos && meta
+    ? Object.entries(pos.atores)
+        .map(([tid, tr]) => [tid, tr[Math.min(f, tr.length - 1)]] as const)
+        .filter((e): e is readonly [string, [number, number, number, number, number, number]] => !!e[1])
+        .sort((a, b) => a[1][2] - b[1][2])
+    : [];
+  return (
+    <AbsoluteFill style={{overflow: 'hidden', background: '#000'}}>
+      <AbsoluteFill style={{transform: `scale(${zoom})`, transformOrigin: '50% 55%'}}>
+        <Img src={staticFile(`ilha/3d/${id}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+        {meta && atores.map(([tid, v]) => <Boneco key={tid} id={tid} v={v} nomes={pos!.anims} meta={meta} filtro={FILTRO[periodo] ?? 'none'} />)}
+        {periodo === 'noite' && <AbsoluteFill style={{background: 'rgba(30,50,120,.10)', mixBlendMode: 'multiply'}} />}
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+const Tomada: React.FC<{id: string; periodo?: string; dur?: number}> = ({id, periodo = 'tarde', dur = 100}) => {
+  const [ok, setOk] = useState<'mp4' | 'placa' | false | null>(null);
   const [h] = useState(() => delayRender(`3d ${id}`));
   useEffect(() => {
     fetch(staticFile(`ilha/3d/${id}.mp4`), {method: 'HEAD'})
-      .then((r) => setOk(r.ok))
+      .then(async (r) => {
+        if (r.ok) return setOk('mp4');
+        const j = await fetch(staticFile(`ilha/3d/${id}.jpg`), {method: 'HEAD'});
+        setOk(j.ok ? 'placa' : false);
+      })
       .catch(() => setOk(false))
       .finally(() => continueRender(h));
   }, [id, h]);
-  if (ok) return <OffthreadVideo src={staticFile(`ilha/3d/${id}.mp4`)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />;
+  if (ok === 'placa') return <Placa id={id} periodo={periodo} dur={dur} />;
+  if (ok === 'mp4') return <OffthreadVideo src={staticFile(`ilha/3d/${id}.mp4`)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #1d2b33 0%, #05080b 80%)', alignItems: 'center', justifyContent: 'center'}}>
       <div style={{fontFamily: FONT.mono, fontSize: 34, color: '#83cdec'}}>{ok === null ? 'carregando' : 'tomada 3D ainda não renderizada'}</div>
@@ -300,7 +376,7 @@ export const IL3D: React.FC<{
     <AbsoluteFill style={{background: '#000'}}>
       {tomadas.map((tm) => (
         <Sequence key={tm.id} from={tm.de} durationInFrames={Math.max(1, tm.ate - tm.de)}>
-          <Tomada id={tm.id} />
+          <Tomada id={tm.id} dur={tm.ate - tm.de} periodo={tm.periodo ?? (partidas[tm.partida] ? turnoDe(partidas[tm.partida], tm.turno)?.periodo : undefined) ?? 'tarde'} />
         </Sequence>
       ))}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%)'}} />

@@ -19,6 +19,8 @@ DIRETOR = REPO / 'ilha' / 'blender' / 'cena' / 'gameplay.py'
 
 def completa(spec):
     d = RENDER / spec['id']
+    if spec.get('modo') == 'placa':
+        return (d / 'placa.png').exists() and (d / 'pos.json').exists()
     return all((d / f'{q:04d}.png').exists() for q in range(1, spec['quadros'] + 1)) and (d / 'pos.json').exists()
 
 
@@ -31,7 +33,9 @@ def preparar(spec):
     if f.exists() and f.read_text() != atual:
         for p in d.glob('*.png'):
             p.unlink()
-        for p in (PUB / f"{spec['id']}.mp4", PUB / f"{spec['id']}.json"):
+        if (d / 'placa.png').exists():
+            (d / 'placa.png').unlink()
+        for p in (PUB / f"{spec['id']}.mp4", PUB / f"{spec['id']}.jpg", PUB / f"{spec['id']}.json"):
             if p.exists():
                 p.unlink()
     f.write_text(atual)
@@ -40,6 +44,12 @@ def preparar(spec):
 def codificar(spec):
     d = RENDER / spec['id']
     PUB.mkdir(parents=True, exist_ok=True)
+    if spec.get('modo') == 'placa':  # cenário em JPG (leve) + trilha dos atores
+        jpg = PUB / f"{spec['id']}.jpg"
+        if not jpg.exists():
+            subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', str(d / 'placa.png'), '-q:v', '2', str(jpg)], check=True)
+        shutil.copy(d / 'pos.json', PUB / f"{spec['id']}.json")
+        return
     mp4 = PUB / f"{spec['id']}.mp4"
     if not mp4.exists():
         tmp = mp4.with_suffix('.tmp.mp4')
