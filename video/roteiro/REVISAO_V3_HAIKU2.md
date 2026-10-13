@@ -240,7 +240,15 @@ Esta seção confere, pedaço a pedaço, se os itens das seções anteriores for
 - Memes com pessoa real (1:24 e 1:58): sem mudança, pendente de verificação de direitos.
 - Problema novo: nenhum identificado neste pedaço.
 
-### p002, p003, p004 (novo render)
+### p002 (novo render, gerado às 20:40)
+- Etiqueta "DeepSeek 2" duplicada atrás do balão (1:00): RESOLVIDO. Só o cabeçalho do balão aparece.
+- Balão do Qwen Max apontando para personagem quase fora do quadro (1:27): NÃO RESOLVIDO. O balão continua no alto à direita e quem fala segue na borda direita, cortado.
+- Corpo do Qwen 27B-2 fora do quadro na eliminação (1:55): NÃO RESOLVIDO. O banner "ELIMINADO · Qwen 27B-2 · morreu de sede" aparece, mas só os pés aparecem na borda inferior.
+- Speaker de costas no cartão do DeepSeek 1 (0:06): NÃO RESOLVIDO. O boneco central continua de costas, com a mochila para a câmera.
+- Pose sentada sem apoio (0:00 a 0:15, boneco roxo à esquerda): NÃO RESOLVIDO. A pose continua igual.
+- Problema novo: nenhum identificado nas tomadas que conferi. A folha de contato mostra a mesma sequência geral da rodada anterior.
+
+### p003, p004 (novo render)
 - A verificar quando forem gerados.
 
 ---
