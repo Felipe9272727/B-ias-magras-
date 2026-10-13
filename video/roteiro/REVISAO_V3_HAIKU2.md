@@ -223,6 +223,21 @@ Status: a primeira rodada (p000 a p004) foi revisada e os pedaços foram apagado
 
 ---
 
+## Verificação das correções (novo render, a partir de 20:20)
+
+Esta seção confere, pedaço a pedaço, se os itens das seções anteriores foram resolvidos no novo render e se alguma correção criou problema novo.
+
+### p000 (novo render, gerado às 20:28)
+- Opus parado em t05 (1:12 a 1:39): NÃO RESOLVIDO. A pose continua igual nas tomadas de 1:12 a 1:24 e o cartão aparece e some sem movimento de câmera perceptível.
+- Boneco cortado na borda direita em r01 (2:00): NÃO RESOLVIDO. O boneco marrom continua cortado pela borda direita. A tomada mudou um pouco de ângulo, mas o corte permanece.
+- Meme com pessoa real (0:36, "sweating"): sem mudança. Continua pendente de verificação de direitos.
+- Problema novo: nenhum identificado neste pedaço.
+
+### p001, p002, p003, p004 (novo render)
+- A verificar quando forem gerados.
+
+---
+
 ## Resumo parcial (até agora)
 1. MELHORIA — Opus parado por ~27 s em t05 (p000 @ 01:12–01:39).
 2. MELHORIA — memes com pessoas reais: checar direitos (p000 @ 00:36; p001 @ 01:24 e 01:58).
