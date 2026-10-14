@@ -1,0 +1,767 @@
+COZINHA Gemini · fase v3 (versus) · chefs: Gêmeo (Gemini), Gêmea (Gemini)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de tomate(56s), Salada(50s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Bora, Gêmea! Pega alface pra salada que eu começo a sopa de tomate!"
+     pensa: "Preciso de 3 tomates pra sopa logo, a tábua tá perto."
+  Gêmea: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Gêmeo]
+     fala: "Vou puxar os tomates pra sopa! Pega a alface da salada, Gêmeo!"
+     pensa: "Preciso encher a panela 1 com 3 tomates logo pra começar a cozinhar."
+  eventos: tipo=pedido receita=Sopa de tomate id=1; tipo=pedido receita=Salada id=2; tipo=esbarrao quem=Gêmea por=Gêmeo
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de tomate(54s), Salada(48s)
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando esse tomate da salada aqui, pega a alface logo!"
+     pensa: "Já estou com o tomate na mão, vou adiantar a salada e depois pego a alface."
+  Gêmea: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Sai da frente então! Pegando a alface pra salada!"
+     pensa: "Ele me travou no começo, preciso adiantar essa salada logo antes que expire."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de tomate(52s), Salada(46s)
+  Gêmea: ação='largar alface crua na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "SAI DA FRENTE! Vou largar aqui até você desocupar a tábua!"
+     pensa: "Só tem uma tábua e ele tá nela me bloqueando, preciso liberar a mão ou esperar ele terminar."
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "Tô picando o tomate aqui, traz essa alface logo!"
+     pensa: "Tomate já tá na tábua bem na minha frente, vou adiantar a salada ou a sopa."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de tomate(50s), Salada(44s)
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "TÔ TERMINANDO ESSE TOMATE, PEGA MAIS UM PRA SOPA!"
+     pensa: "O tomate já tá na metade, termino em um segundo e levo pra panela."
+  Gêmea: ação='pegar alface crua da bancada 9' → pegou alface crua
+     fala: "Pegando a alface aqui, já levo!"
+     pensa: "A alface já tá bem na minha frente, pego e espero ele liberar a tábua."
+  eventos: tipo=picou quem=Gêmeo o=tomate
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de tomate(48s), Salada(42s)
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Peguei o tomate picado, vou jogar na panela!"
+     pensa: "Tomate já tá pronto na tábua, levar pra panela da sopa logo."
+  Gêmea: ação='largar alface crua na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "LARGA ESSA TÁBUA QUE VOU PICAR O TOMATE!"
+     pensa: "Preciso soltar essa alface logo pra focar no tomate da sopa antes que o tempo aperte."
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de tomate(46s), Salada(40s)
+  Gêmea: ação='pegar alface crua da bancada 9' → pegou alface crua
+     fala: "Joga logo na panela! Vou picar alface pra salada!"
+     pensa: "Ele atrasou a passagem, mas agora liberou a tábua. Salada expira em 40s, preciso picar logo."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → andando
+     fala: "JÁ PIQUEI UM, TÁ NA PANELA! PICA A ALFACE DA SALADA!"
+     pensa: "Vou adiantar a sopa enquanto ela cuida da salada que vence antes."
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de tomate(44s), Salada(38s)
+  Gêmea: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando a alface! Pega um prato pra salada!"
+     pensa: "Tábua tá do meu lado, vou picar isso voando antes que o tempo aperte."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Joguei o primeiro! Pica essa alface que eu busco mais tomate!"
+     pensa: "Preciso adiantar essa sopa rápido antes que o tempo aperte, faltam mais dois tomates."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 1 n=1
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de tomate(42s), Salada(36s)
+  Gêmea: ação='picar alface na tábua 1' → picando
+     fala: "Picando a alface! Traz logo esse tomate!"
+     pensa: "Preciso picar rápido antes que o tempo da salada aperte."
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Pegando o prato! Depois já corto o tomate da salada!"
+     pensa: "Salada expira mais rápido (36s), vou levar o prato pra agilizar a entrega."
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de tomate(40s), Salada(34s), Sopa de tomate(56s)
+  Gêmea: ação='picar alface na tábua 1' → picou alface
+     fala: "Terminando a alface aqui, traz o prato pra cá logo!"
+     pensa: "Termino essa alface, ele joga o tomate picado e o prato e entregamos a salada rápido."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Largando o prato, tô indo buscar o tomate!"
+     pensa: "Preciso soltar esse prato rápido para pegar tomate pra sopa e pra salada."
+  eventos: tipo=pedido receita=Sopa de tomate id=3; tipo=picou quem=Gêmea o=alface
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de tomate(38s), Salada(32s), Sopa de tomate(54s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "Tô pegando o prato agora, já levo aí!"
+     pensa: "Pego o prato aqui do lado e já monto a salada com a alface dela."
+  Gêmea: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "Tô com a alface da salada! Traz o tomate picado!"
+     pensa: "Salada tá quase expirando, vou garantir a alface no prato logo."
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de tomate(36s), Salada(30s), Sopa de tomate(52s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Soltando o prato, vou pegar o tomate agora!"
+     pensa: "Preciso liberar as mãos pra buscar e picar tomate correndo pra essa salada não expirar."
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE NA BANCADA 2! PÕE O PRATO AQUI PRA MONTAR A SALADA!"
+     pensa: "Preciso liberar as mãos pra picar tomate antes que a sopa expire, e a salada já tem a alface pronta."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de tomate(34s), Salada(28s), Sopa de tomate(50s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO O PRATO! JÁ LEVO PRA SALADA!"
+     pensa: "Bancada 8 tá na minha cara (0.0s). Pego o prato e levo pra bancada 2 pra montar a salada que vence em 28s."
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "SAI DA FRENTE! Vou montar a salada, traz tomate!"
+     pensa: "A salada está quase expirando com 28s. Pego a alface picada que está do meu lado e levo pro prato na bancada 8."
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de tomate(32s), Salada(26s), Sopa de tomate(48s)
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI A ALFACE NA BANCADA 2! PEGA AÍ!"
+     pensa: "Vou soltar a alface logo pra liberar as mãos e picar o tomate da salada."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO PRATO! Vou pegar o tomate!"
+     pensa: "Preciso liberar as mãos rápido pra picar o tomate da salada e da sopa."
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de tomate(30s), Salada(24s), Sopa de tomate(46s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO O PRATO PRA SALADA! PICA UM TOMATE PRA MIM!"
+     pensa: "Salada tá quase expirando, pego o prato do meu lado e já monto a alface da bancada 2."
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "Pegando a alface pra salada, pica esse tomate rápido!"
+     pensa: "Salada tá com 24s, preciso agilizar isso antes que expire."
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de tomate(28s), Salada(22s), Sopa de tomate(44s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Soltando o prato aqui, vou picar o tomate!"
+     pensa: "Preciso liberar as mãos urgente pra pegar tomate e picar antes que a salada expire."
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI O ALFACE AQUI! VOU PEGAR O TOMATE!"
+     pensa: "Largo o alface pra liberar a mão e já cortar o tomate que a salada tá quase expirando."
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de tomate(26s), Salada(20s), Sopa de tomate(42s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO PRA SALADA! PICA ESSE TOMATE LOGO!"
+     pensa: "Salada tá com 20s! Pego o prato, recolho o alface e espero o tomate dela."
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "Tô com a alface da salada, pica esse tomate rápido!"
+     pensa: "Salada tá com 20s, preciso adiantar a alface dela logo."
+
+== t16 (0:32) pontos 0 | pedidos: Sopa de tomate(24s), Salada(18s), Sopa de tomate(40s), Sopa de tomate(56s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO O PRATO, JÁ VOU PICAR ESSE TOMATE!"
+     pensa: "Salada tá em 18s, preciso desocupar a mão pra correr pro tomate."
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI A ALFACE NA BANCADA, VOU PICAR O TOMATE!"
+     pensa: "Preciso largar isso rápido pra picar o tomate antes da salada expirar."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t17 (0:34) pontos 0 | pedidos: Sopa de tomate(22s), Salada(16s), Sopa de tomate(38s), Sopa de tomate(54s)
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "Pega o prato pra salada, 16s só!"
+     pensa: "A salada vai expirar em 16 segundos, já tem alface picada na minha frente, preciso montar rápido enquanto ele pica o tomate."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "TÔ COM O PRATO, PICA ESSE TOMATE LOGO QUE A SALADA VAI EXPIRAR!"
+     pensa: "Salada tá em 16s! Pego o prato, puxo a alface e já monto com o tomate dele."
+
+== t18 (0:36) pontos 0 | pedidos: Sopa de tomate(20s), Salada(14s), Sopa de tomate(36s), Sopa de tomate(52s)
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA O PRATO NA BANCADA PRA PEGAR A ALFACE! TÔ INDO NO TOMATE!"
+     pensa: "Largo a alface logo pra correr na caixa de tomate antes que a salada expire."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Botei o prato na bancada, joga o alface!"
+     pensa: "Largo o prato pra ela colocar o alface logo, depois falta o tomate picado."
+
+== t19 (0:38) pontos 0 | pedidos: Sopa de tomate(18s), Salada(12s), Sopa de tomate(34s), Sopa de tomate(50s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "TÔ COM O PRATO! PEGA ESSE TOMATE LOGO QUE A SALADA VAI VENCER!"
+     pensa: "Salada tem 12s, preciso montar com a alface da bancada 2 e o tomate que a Gêmea pegar."
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO O ALFACE, PREPARA O TOMATE DA SALADA!"
+     pensa: "A salada vai expirar em 12s, preciso levar esse alface pro prato dele voando."
+
+== t20 (0:40) pontos 0 | pedidos: Sopa de tomate(16s), Salada(10s), Sopa de tomate(32s), Sopa de tomate(48s)
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA O PRATO NA ALFACE OU PEGA O TOMATE! VAI EXPIRAR!"
+     pensa: "Preciso soltar essa alface agora pra correr atrás do tomate antes que a salada expire."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGA O ALFACE NO PRATO! VOU CORRENDO PICAR O TOMATE!"
+     pensa: "A salada vai vencer em 10 segundos, preciso largar isso e voar pro tomate."
+
+== t21 (0:42) pontos 0 | pedidos: Sopa de tomate(14s), Salada(8s), Sopa de tomate(30s), Sopa de tomate(46s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! JOGA O TOMATE NA TÁBUA PRA SALADA!"
+     pensa: "Pego o prato aqui do lado agora e corro pra juntar com a alface, salada vai expirar em 8s!"
+  Gêmea: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGUEI O ALFACE! PICA ESSE TOMATE LOGO QUE VAI EXPIRAR!"
+     pensa: "A salada expira em 8 segundos, preciso pegar o alface e já jogar no prato que ele levar o tomate."
+
+== t22 (0:44) pontos 0 | pedidos: Sopa de tomate(12s), Salada(6s), Sopa de tomate(28s), Sopa de tomate(44s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO O PRATO PRA PICAR O TOMATE, AGUENTA AÍ!"
+     pensa: "Preciso liberar as mãos urgente pra correr e picar esse tomate antes de 6 segundos!"
+  Gêmea: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA O PRATO AÍ PRA PEGAR A ALFACE! CADÊ O TOMATE?!"
+     pensa: "A salada expira em 6s e nem tem tomate picado, mas vou deixar a alface pronta e correr pro tomate."
+
+== t23 (0:46) pontos 0 | pedidos: Sopa de tomate(10s), Salada(4s), Sopa de tomate(26s), Sopa de tomate(42s)
+  Gêmea: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "A SALADA JÁ FOI! FOCA NA SOPA, VOU TRAZER TOMATE!"
+     pensa: "Salada vai expirar em 4s não dá tempo, preciso encher a panela de tomate rápido."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "A SALADA JÁ ERA! PICA TOMATE PRA SOPA, RÁPIDO!"
+     pensa: "Pego o prato do meu lado para agilizar a sopa ou montar o que der antes de perder ponto."
+
+== t24 (0:48) pontos 0 | pedidos: Sopa de tomate(8s), Salada(2s), Sopa de tomate(24s), Sopa de tomate(40s), Sopa de tomate(56s)
+  Gêmea: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "TÔ PICANDO! FICA ESPERTO NA PANELA 1!"
+     pensa: "A salada já expirou, foca na sopa de 24s senão a gente afunda mais."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "A SALADA JÁ ERA! CORRE COM ESSE TOMATE PRA SOPA!"
+     pensa: "Preciso das mãos livres para ajudar nos tomates, salada vai expirar em 2 segundos e só tem sopa na fila."
+  eventos: tipo=pedido receita=Sopa de tomate id=5
+
+== t25 (0:50) pontos -10 | pedidos: Sopa de tomate(6s), Sopa de tomate(22s), Sopa de tomate(38s), Sopa de tomate(54s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO, AGILIZA ESSE TOMATE!"
+     pensa: "Pego o prato na bancada 8 pra esvaziar a panela 1 assim que terminar."
+  Gêmea: ação='picar tomate na tábua 1' → picando
+     fala: "TÔ PICANDO! PEGA O PRATO E FICA DE OLHO NO FOGÃO!"
+     pensa: "O primeiro pedido vai expirar se não acelerar, preciso picar esse tomate rápido pra completar a sopa."
+  eventos: tipo=expirou receita=Salada id=2
+
+== t26 (0:52) pontos -10 | pedidos: Sopa de tomate(4s), Sopa de tomate(20s), Sopa de tomate(36s), Sopa de tomate(52s)
+  Gêmea: ação='picar tomate na tábua 1' → picou tomate
+     fala: "TÔ TERMINANDO DE PICAR, PREPARA O FOGÃO!"
+     pensa: "O primeiro pedido vai expirar com certeza, preciso focar no próximo da fila senão afundamos de vez."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "PRIMEIRO VAI EXPIRAR! ACELERA ESSE TOMATE QUE VOU BUSCAR MAIS!"
+     pensa: "A sopa não vai sair em 4s. Vou soltar o prato pra buscar mais tomate e salvar as próximas sopas."
+  eventos: tipo=picou quem=Gêmea o=tomate
+
+== t27 (0:54) pontos -10 | pedidos: Sopa de tomate(2s), Sopa de tomate(18s), Sopa de tomate(34s), Sopa de tomate(50s)
+  Gêmea: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGANDO O TOMATE! LEVA PRO FOGÃO 1!"
+     pensa: "O primeiro já era, preciso salvar a segunda sopa logo."
+  Gêmeo: ação='pegar tomate picado da tábua 1' → andando [BLOQUEADO por Gêmea]
+     fala: "JOGA MAIS TOMATE, VOU ALIMENTAR O FOGÃO!"
+     pensa: "O primeiro pedido já era, foco no de 18s. Preciso de 3 tomates na panela logo."
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t28 (0:56) pontos -20 | pedidos: Sopa de tomate(16s), Sopa de tomate(32s), Sopa de tomate(48s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "JOGA ESSE NA PANELA 1! TÔ PEGANDO MAIS TOMATE!"
+     pensa: "O primeiro pedido tem 16s, a panela 1 só tem 1 tomate. Ela vai botar o 2º, eu preciso levar o 3º AGORA pra cozinhar a tempo!"
+  Gêmea: ação='pôr tomate picado na panela do fogão 1 (1/3)' → andando
+     fala: "TÔ BOTANDO O SEGUNDO NA PANELA, PEGA O PRATO!"
+     pensa: "Preciso fechar essa sopa logo antes de expirar de novo, estamos no negativo!"
+  eventos: tipo=expirou receita=Sopa de tomate id=1
+
+== t29 (0:58) pontos -20 | pedidos: Sopa de tomate(14s), Sopa de tomate(30s), Sopa de tomate(46s)
+  Gêmea: ação='pôr tomate picado na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "JOGUEI! PICA ESSE RÁPIDO, 14 SEGUNDOS PRO PRIMEIRO!"
+     pensa: "Precisa de mais 1 tomate picado pra começar a cozinhar, estamos no negativo!"
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "FALTA O TERCEIRO TOMATE PRA PANELA, TÔ BOTANDO PRA PICAR!"
+     pensa: "A sopa só tem 1 ingrediente (ela vai botar o 2º agora), precisa do 3º tomate picado antes do prato, senão nem cozinha!"
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 1 n=2
+
+== t30 (1:00) pontos -20 | pedidos: Sopa de tomate(12s), Sopa de tomate(28s), Sopa de tomate(44s)
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "TÔ PICANDO! JÁ PEGA O PRATO PRA TIRAR!"
+     pensa: "Preciso picar esse tomate voando pra fechar a panela do fogão 1 antes de 12s!"
+  Gêmea: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PICA RÁPIDO ESSE TOMATE, TÔ COM O PRATO NA MÃO PRA ENTREGAR!"
+     pensa: "O pedido vai expirar em 12s, preciso do prato engatilhado agora pra tirar direto do fogão."
+
+== t31 (1:02) pontos -20 | pedidos: Sopa de tomate(10s), Sopa de tomate(26s), Sopa de tomate(42s)
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "TÔ TERMINANDO DE PICAR, LEVA A PANELA!"
+     pensa: "Terminar esse tomate logo pra jogar na panela antes de expirar!"
+  Gêmea: ação='esperar' → None
+     fala: "JOGA ESSE TOMATE NA PANELA RÁPIDO, VAI EXPIRAR!"
+     pensa: "Já estou com o prato colado no fogão, só falta ele jogar o último tomate pra cozinhar!"
+  eventos: tipo=picou quem=Gêmeo o=tomate
+
+== t32 (1:04) pontos -20 | pedidos: Sopa de tomate(8s), Sopa de tomate(24s), Sopa de tomate(40s), Salada(50s)
+  Gêmea: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "A PANELA NEM TÁ PRONTA, JOGA ESSE TOMATE NELA RÁPIDO!"
+     pensa: "O primeiro pedido vai expirar se não fechar a panela logo, preciso soltar o prato pra ajudar ou deixar espaço."
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGUEI! JÁ TÔ INDO PRO FOGÃO 1!"
+     pensa: "Preciso botar esse último tomate na panela voando pra salvar o pedido!"
+  eventos: tipo=pedido receita=Salada id=6
+
+== t33 (1:06) pontos -20 | pedidos: Sopa de tomate(6s), Sopa de tomate(22s), Sopa de tomate(38s), Salada(48s)
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (2/3)' → andando
+     fala: "JOGANDO! PEGA UM PRATO LOGO!"
+     pensa: "O primeiro pedido vai expirar de qualquer jeito porque faltam 6s e ainda tem que cozinhar, mas pelo menos já salva o segundo pedido de 22s."
+  Gêmea: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "JOGA LOGO NA PANELA! TÔ COM O PRATO NA MÃO!"
+     pensa: "A primeira vai expirar quase certeza, mas preciso estar pronta pra tirar a sopa do fogo 1 assim que cozinhar pra salvar a próxima."
+
+== t34 (1:08) pontos -20 | pedidos: Sopa de tomate(4s), Sopa de tomate(20s), Sopa de tomate(36s), Salada(46s)
+  Gêmea: ação='pôr alface picada da bancada 2 no prato' → andando
+     fala: "JOGA O TOMATE NA PANELA! TÔ COM PRATO!"
+     pensa: "A sopa de 4s já era, mas vou adiantar a salada ou esperar a panela ferver com esse prato na mão."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "TÔ BOTANDO! PEGA A SOPA ASSIM QUE ACABAR!"
+     pensa: "O primeiro pedido vai expirar com certeza, mas já inicia o cozimento pro segundo não rodar também."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 1 n=3
+
+== t35 (1:10) pontos -20 | pedidos: Sopa de tomate(2s), Sopa de tomate(18s), Sopa de tomate(34s), Salada(44s)
+  Gêmea: ação='esperar' → None
+     fala: "SAI DA FRENTE DO FOGÃO QUE EU TÔ COM O PRATO!"
+     pensa: "A sopa de 2s vai expirar ou queimar se eu não tirar agora, preciso que ele libere o fogão 1."
+  Gêmeo: ação='pegar tomate na caixa de tomate' → andando
+     fala: "A PANELA JÁ TÁ CHEIA, EMPRATA LOGO!"
+     pensa: "O primeiro vai expirar, foco na de 18s! Vou buscar mais tomate."
+
+== t36 (1:12) pontos -30 | pedidos: Sopa de tomate(16s), Sopa de tomate(32s), Salada(42s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "TÁ LIVRE, PEGA ESSA SOPA LOGO! Vou picar tomate pra próxima!"
+     pensa: "Deixo o fogão livre pra ela empratar e já adianto os tomates na tábua antes que tudo expire de novo."
+  Gêmea: ação='esperar' → None
+     fala: "CALMA QUE TÁ COZINHANDO AINDA, TÔ COM O PRATO NA MÃO!"
+     pensa: "A sopa ainda tá no fogo, preciso do prato vazio pra tirar assim que apitar senão queima tudo."
+  eventos: tipo=expirou receita=Sopa de tomate id=3
+
+== t37 (1:14) pontos -30 | pedidos: Sopa de tomate(14s), Sopa de tomate(30s), Salada(40s)
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "TIRA DO FOGO ASSIM QUE DER! Tô picando pro próximo!"
+     pensa: "Preciso adiantar a próxima sopa ou a salada antes que expire tudo de novo."
+  Gêmea: ação='esperar' → None
+     fala: "A SOPA AINDA TÁ COZINHANDO, CALMA! TÔ DO LADO DELA!"
+     pensa: "A sopa no fogão 1 ainda está cozinhando, não dá pra empratar agora. Não posso sujar o prato com alface senão perco a sopa que vai expirar em 14s. Vou esperar ela terminar de cozinhar."
+  eventos: tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de tomate)
+
+== t38 (1:16) pontos -30 | pedidos: Sopa de tomate(12s), Sopa de tomate(28s), Salada(38s)
+  Gêmea: ação='servir sopa de tomate do fogão 1 no prato' → serviu no prato
+     fala: "PEGANDO A SOPA! ENTREGA LOGO ISSO!"
+     pensa: "Preciso tirar a sopa antes que queime ou expire, faltam só 12s!"
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "A PANELA JÁ FICOU PRONTA, PÕE O PRATO NELA AGORA OU VAI QUEIMAR!"
+     pensa: "Ela já tá de prato na mão, precisa empratar logo antes que queime ou expire."
+  eventos: tipo=serviu quem=Gêmea onde=fogão 1
+
+== t39 (1:18) pontos -8 | pedidos: Sopa de tomate(26s), Salada(36s)
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "ENTREGA NO PASSA-PRATO AGORA, GÊMEA! TÁ EXPIRANDO!"
+     pensa: "Ela já pegou a sopa pronta e tá perto de entregar, vou terminar de picar esse tomate pra próxima sopa."
+  Gêmea: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "JÁ TÁ NO PRATO, TÔ ENTREGANDO! PICA MAIS TOMATE!"
+     pensa: "A panela já esvaziou porque eu já peguei a sopa! Só falta entregar antes que expire em 10s!"
+  eventos: tipo=picou quem=Gêmeo o=tomate; tipo=entregou quem=Gêmea receita=Sopa de tomate pontos=22 gorjeta=2
+
+== t40 (1:20) pontos -8 | pedidos: Sopa de tomate(24s), Salada(34s), Salada(50s)
+  Gêmea: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "JÁ ENTREGUEI A SOPA! Pegando prato pra salada!"
+     pensa: "Entreguei a sopa anterior. Agora preciso montar a salada rápido: pegar prato e juntar alface e tomate."
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Tô levando tomate pra panela! Pega prato pra salada!"
+     pensa: "Tomate já tá picado aqui, vou jogar no fogão pra adiantar essa sopa de 24s."
+  eventos: tipo=pedido receita=Salada id=7
+
+== t41 (1:22) pontos -8 | pedidos: Sopa de tomate(22s), Salada(32s), Salada(48s)
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → andando
+     fala: "Tô botando na sopa! Monta essa salada com a alface da bancada!"
+     pensa: "A sopa de tomate vai expirar em 22s, preciso encher essa panela rápido."
+  Gêmea: ação='pôr alface picada da bancada 2 no prato' → andando
+     fala: "Pegando a alface! Pica outro tomate pra salada!"
+     pensa: "Já tô com o prato, vou montar a salada com a alface da bancada 2 antes que expire."
+
+== t42 (1:24) pontos -8 | pedidos: Sopa de tomate(20s), Salada(30s), Salada(46s)
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "LARGUEI O TOMATE PICADO NA 14! BOTA NO PRATO COM A ALFACE!"
+     pensa: "Não vou jogar na sopa agora, a salada tá com 30s e Gêmea tá com prato. Vou deixar o tomate na bancada pra ela juntar e ir picar mais."
+  Gêmea: ação='pôr alface picada da bancada 2 no prato' → pôs no prato
+     fala: "Pegando a alface! Pica outro tomate pra salada!"
+     pensa: "Estou com o prato na mão, vou montar a salada logo antes que expire."
+
+== t43 (1:26) pontos -8 | pedidos: Sopa de tomate(18s), Salada(28s), Salada(44s)
+  Gêmeo: ação='pegar tomate picado da bancada 14' → pegou tomate picado
+     fala: "Tô com o tomate picado aqui, junta no prato!"
+     pensa: "Tem tomate picado bem do meu lado na bancada 14, vou pegar pra juntar com a alface dela ou botar no prato da salada."
+  Gêmea: ação='pôr tomate picado da bancada 14 no prato' → andando
+     fala: "PEGANDO O TOMATE! VAI ADIANTANDO A SOPA!"
+     pensa: "Vou juntar o tomate na alface pra fechar essa salada e entregar rápido antes que expire."
+
+== t44 (1:28) pontos -8 | pedidos: Sopa de tomate(16s), Salada(26s), Salada(42s)
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "JOGUEI UM TOMATE NA PANELA! PICA MAIS DOIS PRA SOPA!"
+     pensa: "Sopa expira em 16s, preciso iniciar essa panela rápido e deixar a salada com a Gêmea."
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "LARGA O TOMATE NO MEU PRATO AQUI NA BANCADA 5!"
+     pensa: "Vou deixar o prato na bancada pra ele colocar o tomate e fechar a salada."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 1 n=1
+
+== t45 (1:30) pontos -8 | pedidos: Sopa de tomate(14s), Salada(24s), Salada(40s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → andando
+     fala: "TÔ INDO BUSCAR O TOMATE PRA PICAR!"
+     pensa: "Preciso de tomate picado pra terminar essa salada da bancada 5 logo."
+  Gêmea: ação='pegar tomate na caixa de tomate' → andando
+     fala: "TÔ INDO BUSCAR TOMATE! FICA DE OLHO NA SOPA!"
+     pensa: "A sopa de tomate tá com 14s, preciso correr pra picar mais tomate senão expira e perdemos mais 10 pontos."
+
+== t46 (1:32) pontos -8 | pedidos: Sopa de tomate(12s), Salada(22s), Salada(38s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "Pega o tomate e pica! Eu tô com a alface no prato pra salada!"
+     pensa: "Sopa de 12s não dá tempo, foco total na salada de 22s que já tem alface no prato."
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "VOU PICAR TOMATE PRA SALADA E PRO FOGÃO!"
+     pensa: "Sopa de 12s tá quase perdida se não acelerar o tomate, e a salada precisa de tomate picado também. Tábua tá livre."
+
+== t47 (1:34) pontos -8 | pedidos: Sopa de tomate(10s), Salada(20s), Salada(36s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "LARGANDO ALFACE NA 5! PICA ESSE TOMATE LOGO PRO PRATO!"
+     pensa: "Preciso liberar as mãos pra ajudar na sopa ou pegar tomate picado."
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando o tomate pra essa salada!"
+     pensa: "Sopa de 10s vai expirar, foca na salada que a Gêmea já tem alface no prato."
+
+== t48 (1:36) pontos -8 | pedidos: Sopa de tomate(8s), Salada(18s), Salada(34s), Hambúrguer com alface(68s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "Pega esse tomate logo que tô com o prato da salada!"
+     pensa: "A sopa de 8s já era, não tem tomate suficiente nela. Vou adiantar a salada de 18s pegando a alface pronta."
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "PICANDO O TOMATE AGORA! PEGA O PRATO DA 5 PRA MONTAR!"
+     pensa: "Estou em cima da tábua com o tomate cru. Se eu picar agora, a gente fecha a salada rapidinho antes que expire."
+  eventos: tipo=pedido receita=Hambúrguer com alface id=8
+
+== t49 (1:38) pontos -8 | pedidos: Sopa de tomate(6s), Salada(16s), Salada(32s), Hambúrguer com alface(66s)
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Tô terminando de picar agora, traz o prato pra cá!"
+     pensa: "O tomate já tá na metade na tábua 1 bem na minha frente, termino de picar e já fecha a salada com a alface da Gêmea."
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "DEIXANDO NA 5! JOGA O TOMATE PICADO AQUI!"
+     pensa: "A sopa de tomate vai expirar em 6s e não dá tempo, foco na salada de 16s. Deixo o prato com alface na 5 pra ele botar o tomate."
+  eventos: tipo=picou quem=Gêmeo o=tomate
+
+== t50 (1:40) pontos -8 | pedidos: Sopa de tomate(4s), Salada(14s), Salada(30s), Hambúrguer com alface(64s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "Tô levando o prato com alface aí pra você, junta com o tomate!"
+     pensa: "Pego o prato com alface que já tá aqui na minha frente e combino com o tomate dele pra salvar a salada de 14s."
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGUEI! LEVANDO PRA BANCADA 5!"
+     pensa: "A sopa de 4s já era, preciso salvar a salada de 14s agora."
+
+== t51 (1:42) pontos -8 | pedidos: Sopa de tomate(2s), Salada(12s), Salada(28s), Hambúrguer com alface(62s)
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA O PRATO NA BANCADA 2 QUE EU MONTO!"
+     pensa: "A sopa de 2s já era, tenho que focar na salada de 12s. Vou deixar o tomate na bancada pra juntar com o prato dele."
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "DEIXANDO O PRATO NA 5! JOGA ESSE TOMATE AQUI PRA FECHAR A SALADA!"
+     pensa: "Vou colocar a alface na bancada 5 onde ele tá indo, ele taca o tomate e a gente entrega a salada correndo antes de expirar."
+
+== t52 (1:44) pontos -18 | pedidos: Salada(10s), Salada(26s), Hambúrguer com alface(60s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "TÔ COM O PRATO DE ALFACE, LEVANDO NO TOMATE!"
+     pensa: "Salada vai expirar em 10s! Pego o prato com alface e combino com o tomate da bancada 2 pra salvar."
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "TÔ COM O TOMATE, LEVANDO NA 5! SALVA A SALADA!"
+     pensa: "Tomate tá na minha frente a 0s, pego e combino na bancada 5 antes dos 10s acabarem."
+  eventos: tipo=expirou receita=Sopa de tomate id=5
+
+== t53 (1:46) pontos -18 | pedidos: Salada(8s), Salada(24s), Hambúrguer com alface(58s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "DEIXEI NA 5, JOGA O TOMATE E ENTREGA RÁPIDO!"
+     pensa: "8 segundos pra expirar a salada! Largar na bancada 5 pro Gêmeo juntar o tomate picado dele imediatamente."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXANDO NA BANCADA 2, JUNTA NO PRATO E ENTREGA JÁ!"
+     pensa: "A salada expira em 8s! Vou deixar o tomate na bancada pra Gêmea juntar com a alface no prato e entregar correndo."
+
+== t54 (1:48) pontos -18 | pedidos: Salada(6s), Salada(22s), Hambúrguer com alface(56s)
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "PEGUEI O TOMATE, TÔ INDO PRA BANCADA 5!"
+     pensa: "6 segundos pra salada! Pego o tomate agora, jogo no prato da bancada 5 e entrego correndo."
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "PEGANDO O PRATO, VOU JUNTAR COM O TOMATE!"
+     pensa: "O prato com alface está na minha cara (0.0s). Pego ele, corro pra bancada 2 pegar o tomate e entrego antes dos 6s estourarem."
+
+== t55 (1:50) pontos -18 | pedidos: Salada(4s), Salada(20s), Hambúrguer com alface(54s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "JOGA O TOMATE NO PRATO NA BANCADA 5 RÁPIDO!"
+     pensa: "Preciso deixar o prato na bancada 5 pro Gêmeo jogar o tomate picado imediatamente, faltam 4 segundos!"
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA NO PRATO RÁPIDO, 4 SEGUNDOS!"
+     pensa: "Deixei na bancada pra ela jogar no prato com alface e entregar correndo!"
+
+== t56 (1:52) pontos -18 | pedidos: Salada(2s), Salada(18s), Hambúrguer com alface(52s), Hambúrguer(62s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "PEGA O TOMATE NA BANCADA 2 E JUNTA COMIGO!"
+     pensa: "O prato com alface tá na minha cara (0.0s). Pego e vou em direção ao tomate picado ou espero o Gêmeo colocar."
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA SALADA!"
+     pensa: "Pego o tomate picado agora e levo pro prato na bancada 5 pra salvar a salada!"
+  eventos: tipo=pedido receita=Hambúrguer id=9
+
+== t57 (1:54) pontos -28 | pedidos: Salada(16s), Hambúrguer com alface(50s), Hambúrguer(60s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "JOGA O TOMATE AQUI NO PRATO! RÁPIDO!"
+     pensa: "Largo o prato com alface na bancada pra ele juntar o tomate picado e entregar a salada antes de expirar."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "TÁ NA MÃO, DEIXEI NA 2! JUNTA A SALADA E ENTREGA!"
+     pensa: "Soltei o tomate na bancada 2 pra ela juntar com a alface logo antes que expire."
+  eventos: tipo=expirou receita=Salada id=6
+
+== t58 (1:56) pontos -28 | pedidos: Salada(14s), Hambúrguer com alface(48s), Hambúrguer(58s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "PEGANDO O PRATO, VOU JUNTAR COM O TOMATE DA 2!"
+     pensa: "O pedido de salada vai expirar em 14s! Pego o prato com alface na bancada 5, vou na bancada 2 juntar o tomate picado e entrego voando."
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "TÔ COM O TOMATE, VAI PRO PASSA-PRATO!"
+     pensa: "Salada tá quase expirando, pegar o tomate picado e juntar na bancada 5 já!"
+
+== t59 (1:58) pontos -28 | pedidos: Salada(12s), Hambúrguer com alface(46s), Hambúrguer(56s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "JOGA O TOMATE NO MEU PRATO NA BANCADA 5!"
+     pensa: "Preciso juntar o tomate picado dele com o meu prato de alface picada pra fechar a salada antes de entregar."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "JOGUEI NA 2, PEGA E ENTREGA ESSA SALADA AGORA!"
+     pensa: "A Gêmea tá vindo com o prato pra bancada 2, preciso soltar o tomate aqui correndo senão a salada expira em 12s!"
+
+== t60 (2:00) pontos -28 | pedidos: Salada(10s), Hambúrguer com alface(44s), Hambúrguer(54s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "PEGANDO O PRATO PRA JUNTAR COM O TOMATE!"
+     pensa: "Pego o prato com alface na bancada 5 e vou direto na bancada 2 pegar o tomate pra salvar essa salada!"
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA JOGAR NA 5, AGILIZA A ENTREGA!"
+     pensa: "Salada tá quase expirando em 10s, pego o tomate picado que tá do meu lado e levo pro prato na bancada 5."
+
+== t61 (2:02) pontos -28 | pedidos: Salada(8s), Hambúrguer com alface(42s), Hambúrguer(52s)
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGA O PRATO AQUI OU VEM BUSCAR O TOMATE, RÁPIDO!"
+     pensa: "Vou deixar o tomate picado na bancada mais próxima para ela juntar com o prato dela e entregar essa salada antes que expire de novo!"
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "DEIXEI NA 5! JOGA O TOMATE RÁPIDO QUE VAI EXPIRAR!"
+     pensa: "Botei na 5 pra ele combinar o tomate picado e salvar a salada nos últimos segundos."
+
+== t62 (2:04) pontos -28 | pedidos: Salada(6s), Hambúrguer com alface(40s), Hambúrguer(50s)
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "TÔ COM O PRATO DE ALFACE, INDO PEGAR O TOMATE!"
+     pensa: "Pego o prato com alface aqui do meu lado e corro pra bancada 2 pegar o tomate pra salvar essa salada!"
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "PEGUEI O TOMATE, LEVANDO PRA BANCADA 5!"
+     pensa: "Preciso juntar o tomate na alface agora senão expira em 6s!"
+
+== t63 (2:06) pontos -28 | pedidos: Salada(4s), Hambúrguer com alface(38s), Hambúrguer(48s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "BOTEI O PRATO NA 5, JOGA O TOMATE E ENTREGA RÁPIDO!"
+     pensa: "4 segundos pra salada, se ele jogar o tomate agora dá tempo de salvar!"
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI NA BANCADA 2, JUNTA NO PRATO E ENTREGA RÁPIDO!"
+     pensa: "A salada expira em 4 segundos! Deixo aqui pra ela juntar com a alface e entregar correndo."
+
+== t64 (2:08) pontos -28 | pedidos: Salada(2s), Hambúrguer com alface(36s), Hambúrguer(46s), Hambúrguer com alface(68s)
+  Gêmeo: ação='pegar tomate picado da bancada 2' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA JOGAR NA 5!"
+     pensa: "A salada expira em 2s, preciso pegar o tomate picado que tá do meu lado (0s) e levar correndo pro prato com alface na bancada 5."
+  Gêmea: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "PEGANDO O PRATO COM ALFACE, JÁ JUNTO COM O TOMATE!"
+     pensa: "A salada vai expirar em 2s, preciso pegar o prato com alface na bancada 5 e botar o tomate da bancada 2 imediatamente!"
+  eventos: tipo=pedido receita=Hambúrguer com alface id=10
+
+== t65 (2:10) pontos -38 | pedidos: Hambúrguer com alface(34s), Hambúrguer(44s), Hambúrguer com alface(66s)
+  Gêmea: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "LARGA O TOMATE, SÓ TEM BURGER! PICA CARNE!"
+     pensa: "Não tem sopa no pedido, Gêmeo tá viajando com tomate. Vou deixar o prato com alface na bancada e grelhar carne urgente."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "NÃO TEM TOMATE NOS PEDIDOS, SÓ HAMBÚRGUER! BOTA CARNE PRA PICAR!"
+     pensa: "Tomate é inútil agora, os pedidos são só hambúrgueres. Preciso soltar isso e focar em carne e pão rápido."
+  eventos: tipo=expirou receita=Salada id=7
+
+== t66 (2:12) pontos -38 | pedidos: Hambúrguer com alface(32s), Hambúrguer(42s), Hambúrguer com alface(64s)
+  Gêmea: ação='pegar carne na caixa de carne' → pegou carne
+     fala: "PEGANDO CARNE! PICA AÍ QUE EU GRELHO!"
+     pensa: "Preciso alimentar as frigideiras urgentemente, só tem pedido de hambúrguer expirando."
+  Gêmeo: ação='pegar carne na caixa de carne' → andando [BLOQUEADO por Gêmea]
+     fala: "PEGANDO CARNE PRA PICAR!"
+     pensa: "Preciso picar carne rápido pras frigideiras vazias antes que o burger expire."
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t67 (2:14) pontos -38 | pedidos: Hambúrguer com alface(30s), Hambúrguer(40s), Hambúrguer com alface(62s)
+  Gêmea: ação='pôr carne crua na tábua 1 para picar' → largou em tábua 1
+     fala: "JÁ BOTEI NA TÁBUA, PICA AÍ E PEGA PÃO!"
+     pensa: "Botei a carne na tábua 1 para ele picar logo, enquanto isso preciso pegar pão ou cuidar da grelha."
+  Gêmeo: ação='pegar prato com alface picada da bancada 5' → pegou prato com alface picada
+     fala: "TÔ COM O PRATO E ALFACE! PICA ESSA CARNE E BOTA NA GRELHA!"
+     pensa: "Preciso adiantar a montagem do hambúrguer com alface que vence em 30s."
+
+== t68 (2:16) pontos -38 | pedidos: Hambúrguer com alface(28s), Hambúrguer(38s), Hambúrguer com alface(60s)
+  Gêmea: ação='picar carne na tábua 1' → picando
+     fala: "PICANDO! PEGA O PÃO AÍ JÁ!"
+     pensa: "Carne tá na tábua na minha frente, preciso picar logo pra jogar na grelha e salvar esse hambúrguer."
+  Gêmeo: ação='largar prato com alface picada na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "TÔ LARGANDO O PRATO, PICA ESSA CARNE E BOTA NA FRIGIDEIRA!"
+     pensa: "Preciso desocupar a mão pra pegar pão ou ajudar na carne, o prato de alface já tá pronto pra receber o burger."
+
+== t69 (2:18) pontos -38 | pedidos: Hambúrguer com alface(26s), Hambúrguer(36s), Hambúrguer com alface(58s)
+  Gêmeo: ação='pegar pão na caixa de pão' → pegou pão
+     fala: "PEGANDO O PÃO! TERMINA ESSA CARNE!"
+     pensa: "Gêmea pediu pão e tá picando a carne. Vou buscar o pão pra montar logo o hambúrguer com alface."
+  Gêmea: ação='picar carne na tábua 1' → picou carne
+     fala: "TÔ TERMINANDO A CARNE! JÁ PEGA O PÃO!"
+     pensa: "Terminar de picar essa carne pra tacar logo na frigideira, o tempo tá voando."
+  eventos: tipo=picou quem=Gêmea o=carne
+
+== t70 (2:20) pontos -38 | pedidos: Hambúrguer com alface(24s), Hambúrguer(34s), Hambúrguer com alface(56s)
+  Gêmea: ação='pegar carne picada da tábua 1' → pegou carne picada
+     fala: "PEGANDO A CARNE! VOU JOGAR NA GRELHA!"
+     pensa: "A carne picada tá na minha frente na tábua 1, pego e taco na grelha 1 voando pra salvar o hambúrguer de 24s."
+  Gêmeo: ação='pôr pão no prato da bancada 5' → montou no prato
+     fala: "Pus o pão com alface! JOGA A CARNE NA FRIGIDEIRA!"
+     pensa: "O prato na bancada 5 já tem alface, coloco o pão lá e só vai faltar a carne grelhada pra salvar esse pedido de 24s."
+
+== t71 (2:22) pontos -38 | pedidos: Hambúrguer com alface(22s), Hambúrguer(32s), Hambúrguer com alface(54s)
+  Gêmeo: ação='pegar prato com alface picada + pão da bancada 5' → pegou prato com alface picada + pão
+     fala: "JOGA A CARNE NA GRELHA 2 QUE JÁ TÔ COM O PRATO!"
+     pensa: "Pego o prato adiantado com pão e alface pra montar o hambúrguer assim que a carne grelhar."
+  Gêmea: ação='pôr carne picada na frigideira da grelha 1' → pôs na panela (1)
+     fala: "JOGUEI NA GRELHA 1! Fica de olho pra não queimar!"
+     pensa: "Preciso grelhar isso rápido pro hambúrguer de 22s não expirar."
+  eventos: tipo=na_panela quem=Gêmea onde=grelha 1 n=1
+
+== t72 (2:24) pontos -38 | pedidos: Hambúrguer com alface(20s), Hambúrguer(30s), Hambúrguer com alface(52s), Salada(50s)
+  Gêmea: ação='pegar carne na caixa de carne' → pegou carne
+     fala: "PEGANDO A CARNE PRA PICAR E GRELHAR!"
+     pensa: "Preciso pegar carne, mas antes de ir pra grelha precisa picar! Vou adiantar a carne logo."
+  Gêmeo: ação='largar prato com alface picada + pão na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "TÔ DE OLHO! Tira a carne e bota nesse prato!"
+     pensa: "Preciso liberar as mãos ou deixar o prato acessível pra carne que tá na grelha 1 antes que queime."
+  eventos: tipo=pedido receita=Salada id=11
+
+== t73 (2:26) pontos -38 | pedidos: Hambúrguer com alface(18s), Hambúrguer(28s), Hambúrguer com alface(50s), Salada(48s)
+  Gêmea: ação='pôr carne crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Pega o prato e tira a carne da grelha 1 AGORA!"
+     pensa: "A carne na grelha 1 já tá cozinhando e vai queimar; ele precisa tirar e montar no prato da bancada 5. Eu pico a próxima carne."
+  Gêmeo: ação='pegar prato com alface picada + pão da bancada 5' → pegou prato com alface picada + pão
+     fala: "TÔ COM O PRATO DO BURGER! PICA ESSA CARNE RÁPIDO!"
+     pensa: "Pego o prato com pão e alface na bancada 5 e já fico pronto pra tirar a carne da grelha 1 antes de queimar e entregar logo."
+  eventos: tipo=pronto onde=grelha 1 o=frigideira PRONTA (carne grelhada)
+
+== t74 (2:28) pontos -38 | pedidos: Hambúrguer com alface(16s), Hambúrguer(26s), Hambúrguer com alface(48s), Salada(46s)
+  Gêmeo: ação='pôr a carne grelhada da grelha 1 no prato' → serviu no prato
+     fala: "PEGANDO A CARNE! PREPARA O PRÓXIMO PÃO!"
+     pensa: "Pego a carne da grelha 1 no meu prato com pão e alface, fecha o primeiro hambúrguer e já entrego no passa-prato!"
+  Gêmea: ação='picar carne na tábua 1' → picando
+     fala: "A CARNE JÁ TÁ PRONTA NA GRELHA 1, EMPRATA LOGO ANTES QUE QUEIME!"
+     pensa: "Ele não viu que a grelha 1 já tá pronta! Vou picar a próxima enquanto ele entrega."
+  eventos: tipo=serviu quem=Gêmeo onde=grelha 1
+
+== t75 (2:30) pontos -6 | pedidos: Hambúrguer(24s), Hambúrguer com alface(46s), Salada(44s)
+  Gêmea: ação='picar carne na tábua 1' → picou carne
+     fala: "ENTREGA LOGO ESSE! TÔ TERMINANDO DE PICAR A PRÓXIMA CARNE!"
+     pensa: "Gêmeo já está com o hambúrguer pronto na mão pra entregar no passa-prato. Vou terminar de picar essa carne pra adiantar o próximo pedido antes que expire!"
+  Gêmeo: ação='ENTREGAR prato com alface picada + pão + carne grelhada no passa-prato' → entregou Hambúrguer com alface
+     fala: "JÁ TÁ NO PRATO, ENTREGANDO AGORA!"
+     pensa: "O hambúrguer com alface tá pronto na minha mão, faltam só 14s pro pedido expirar. Vou entregar pra salvar ponto."
+  eventos: tipo=picou quem=Gêmea o=carne; tipo=entregou quem=Gêmeo receita=Hambúrguer com alface pontos=32 gorjeta=2
+
+== t76 (2:32) pontos -6 | pedidos: Hambúrguer(22s), Hambúrguer com alface(44s), Salada(42s)
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "TÔ PEGANDO PRATO PRA MONTAR O HAMBÚRGUER! JOGA ESSA CARNE NA GRELHA!"
+     pensa: "Preciso de prato para montar o hambúrguer que expira em 22s. Vou pegar o prato e botar o pão logo."
+  Gêmea: ação='pegar carne picada da tábua 1' → pegou carne picada
+     fala: "BOA! Pegando carne picada pra grelha, prepara o prato com pão!"
+     pensa: "O hambúrguer de 22s precisa de carne grelhada rápido, vou botar essa carne da tábua na grelha."
+
+== t77 (2:34) pontos -6 | pedidos: Hambúrguer(20s), Hambúrguer com alface(42s), Salada(40s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO PRATO NA 8 PRA PEGAR O PÃO!"
+     pensa: "Preciso de pão no prato pro hambúrguer de 20s, vou largar o prato ou levar até o pão."
+  Gêmea: ação='pôr carne picada na frigideira da grelha 1' → pôs na panela (1)
+     fala: "CARNE NA GRELHA 1! JÁ BOTA O PÃO NESSE PRATO!"
+     pensa: "O hambúrguer simples tem 20s, preciso assar isso voando."
+  eventos: tipo=na_panela quem=Gêmea onde=grelha 1 n=1
+
+== t78 (2:36) pontos -6 | pedidos: Hambúrguer(18s), Hambúrguer com alface(40s), Salada(38s)
+  Gêmea: ação='pegar prato limpo vazio da bancada 8' → andando [BLOQUEADO por Gêmeo]
+     fala: "PEGANDO O PRATO PRA SALVAR A CARNE DA GRELHA!"
+     pensa: "A carne na grelha 1 vai queimar se eu não tirar com o prato agora, e o Gêmeo traz o pão."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO PRA CARNE!"
+     pensa: "O hambúrguer vai expirar em 18s e a carne tá pronta na grelha 1. Pego o prato da bancada 8 agora pra tirar da grelha antes que queime."
+  eventos: tipo=esbarrao quem=Gêmea por=Gêmeo
+
+== t79 (2:38) pontos -6 | pedidos: Hambúrguer(16s), Hambúrguer com alface(38s), Salada(36s)
+  Gêmea: ação='pegar pão na caixa de pão' → andando
+     fala: "TIRA A CARNE DA GRELHA 1 QUE EU LEVO O PÃO!"
+     pensa: "Ele tá com o prato pra carne, eu pego o pão pra fechar o hambúrguer de 16s antes que queime tudo."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "EU JÁ TÔ COM O PRATO! PEGA O PÃO RÁPIDO!"
+     pensa: "Preciso liberar a mão ou montar o hambúrguer, mas a grelha tá quase queimando e ela não tem prato, vou deixar esse acessível ou pegar a carne se der, melhor largar na bancada pra ela ou pro pão."
+  eventos: tipo=pronto onde=grelha 1 o=frigideira PRONTA (carne grelhada)
+
+== t80 (2:40) pontos -6 | pedidos: Hambúrguer(14s), Hambúrguer com alface(36s), Salada(34s), Hambúrguer com alface(68s)
+  Gêmea: ação='pegar pão na caixa de pão' → pegou pão
+     fala: "PEGANDO O PÃO! JUNTA COM A CARNE DA GRELHA!"
+     pensa: "Vou pegar o pão rápido, a carne na grelha 1 vai queimar se não montarmos logo."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "TÔ COM O PRATO, VOU TIRAR A CARNE!"
+     pensa: "Pego o prato aqui do lado e já tiro a carne da grelha antes de queimar."
+  eventos: tipo=pedido receita=Hambúrguer com alface id=12
+
+== t81 (2:42) pontos -6 | pedidos: Hambúrguer(12s), Hambúrguer com alface(34s), Salada(32s), Hambúrguer com alface(66s)
+  Gêmea: ação='largar pão na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "TIRA A CARNE RÁPIDO QUE VAI QUEIMAR! BOTEI O PÃO NA 3!"
+     pensa: "Largo o pão aqui pra ele juntar no prato com a carne antes que expire o hambúrguer ou queime a frigideira!"
+  Gêmeo: ação='servir carne grelhada da grelha 1 no prato' → serviu no prato
+     fala: "TÔ PEGANDO A CARNE! JOGA ESSE PÃO AQUI!"
+     pensa: "O hambúrguer vai expirar em 12s e a carne vai queimar na grelha! Preciso pegar a carne agora e juntar com o pão dela."
+  eventos: tipo=serviu quem=Gêmeo onde=grelha 1
+
+== t82 (2:44) pontos -6 | pedidos: Hambúrguer(10s), Hambúrguer com alface(32s), Salada(30s), Hambúrguer com alface(64s)
+  Gêmea: ação='pegar pão da bancada 3' → pegou pão
+     fala: "PEGUEI O PÃO, VAI PRO PASSA-PRATO!"
+     pensa: "Pão tá na minha frente (0s), pego e jogo nele pra salvar o hambúrguer de 10s!"
+  Gêmeo: ação='pôr pão da bancada 3 no prato' → andando [BLOQUEADO por Gêmea]
+     fala: "PEGANDO O PÃO! JÁ VAI SAIR O BURGER!"
+     pensa: "Só botar o pão da bancada 3 no prato com carne e correr pro passa-prato, faltam 10s!"
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t83 (2:46) pontos -6 | pedidos: Hambúrguer(8s), Hambúrguer com alface(30s), Salada(28s), Hambúrguer com alface(62s)
+  Gêmeo: ação='largar prato com carne grelhada na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Gêmea]
+     fala: "JOGA O PÃO AQUI NA BANCADA 3 RÁPIDO!"
+     pensa: "O hambúrguer vai expirar em 8s! Ela tá na bancada 3 com o pão, vou botar o prato com carne lá pra ela montar o burger e entregar!"
+  Gêmea: ação='largar pão na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "PÃO NA BANCADA 3, JUNTA AÍ E ENTREGA RÁPIDO!"
+     pensa: "Ele tem a carne no prato e falou que ia pegar pão. Vou largar na bancada do lado dele pra ele montar logo antes dos 8s acabarem."
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t84 (2:48) pontos -6 | pedidos: Hambúrguer(6s), Hambúrguer com alface(28s), Salada(26s), Hambúrguer com alface(60s)
+  Gêmea: ação='pegar pão da bancada 3' → pegou pão
+     fala: "O PÃO JÁ TÁ AÍ NA BANCADA 3, JUNTA COM O PRATO!"
+     pensa: "O pão já tá bem na bancada 3! Vou pegar pra jogar nele ou ele mesmo junta, faltam 6 segundos socorro!"
+  Gêmeo: ação='pôr pão da bancada 3 no prato' → andando [BLOQUEADO por Gêmea]
+     fala: "PEGANDO O PÃO, VAI VIRAR HAMBÚRGUER!"
+     pensa: "Faltam 6 segundos, ponho o pão agora e entrego correndo no passa-prato!"
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t85 (2:50) pontos -6 | pedidos: Hambúrguer(4s), Hambúrguer com alface(26s), Salada(24s), Hambúrguer com alface(58s)
+  Gêmea: ação='largar pão na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "TÔ LARGANDO NA BANCADA 3, JUNTA LOGO E ENTREGA!"
+     pensa: "Faltam 4s pro hambúrguer expirar! Ele tá com o prato e a carne, vou botar o pão na bancada pra ele juntar correndo."
+  Gêmeo: ação='largar prato com carne grelhada na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Gêmea]
+     fala: "SOLTEI NA BANCADA 3, BOTA O PÃO E ENTREGA JÁ!"
+     pensa: "O hambúrguer vai expirar em 4s! Se eu colocar na bancada 3 onde ela tá com o pão, ela monta ou eu pego montado e entrego!"
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t86 (2:52) pontos -6 | pedidos: Hambúrguer(2s), Hambúrguer com alface(24s), Salada(22s), Hambúrguer com alface(56s)
+  Gêmeo: ação='pôr pão da bancada 3 no prato' → andando [BLOQUEADO por Gêmea]
+     fala: "PEGANDO O PÃO, VAI EXPIRAR!"
+     pensa: "Preciso juntar o pão urgente pra fechar o hambúrguer e salvar pontos!"
+  Gêmea: ação='pegar pão da bancada 3' → pegou pão
+     fala: "PEGANDO O PÃO, VAI JUNTAR OU JÁ ENTREGA?"
+     pensa: "O hambúrguer vai expirar em 2s, preciso pegar o pão agora pra tentar salvar ou montar o próximo rápido!"
+  eventos: tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t87 (2:54) pontos -16 | pedidos: Hambúrguer com alface(22s), Salada(20s), Hambúrguer com alface(54s)
+  Gêmeo: ação='largar prato com carne grelhada na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Gêmea]
+     fala: "DEIXEI NA 3! BOTA O PÃO E ALFACE RÁPIDO!"
+     pensa: "Faltam 6 segundos, estamos em primeiro mas precisamos pontuar pra garantir."
+  Gêmea: ação='largar pão na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "DEIXEI NA BANCADA, JUNTA E ENTREGA!"
+     pensa: "O tempo tá no fim, só 6 segundos! Larga o pão pra ele montar logo."
+  eventos: tipo=expirou receita=Hambúrguer id=9; tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t88 (2:56) pontos -16 | pedidos: Hambúrguer com alface(20s), Salada(18s), Hambúrguer com alface(52s), Sopa de tomate(56s)
+  Gêmea: ação='pegar pão da bancada 3' → pegou pão
+     fala: "ACABA EM 4 SEGUNDOS, ENTREGA QUALQUER COISA!"
+     pensa: "Faltam 4 segundos pro fim do jogo, estamos em primeiro mas no negativo. Preciso tentar montar isso correndo."
+  Gêmeo: ação='pôr pão da bancada 3 no prato' → andando [BLOQUEADO por Gêmea]
+     fala: "SAI DA FRENTE, PEGA A ALFACE!"
+     pensa: "Só 4 segundos de jogo, preciso juntar o que der antes do apito final pra tentar pontuar."
+  eventos: tipo=pedido receita=Sopa de tomate id=13; tipo=esbarrao quem=Gêmeo por=Gêmea
+
+== t89 (2:58) pontos -16 | pedidos: Hambúrguer com alface(18s), Salada(16s), Hambúrguer com alface(50s), Sopa de tomate(54s)
+  Gêmeo: ação='esperar' → None
+     fala: "SEGURA, A GENTE TÁ GANHANDO! ACABOU!"
+     pensa: "Não vou arriscar entregar prato errado no último segundo, já estamos em primeiro!"
+  Gêmea: ação='largar pão na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "ACABOU! SEGURA QUE A GENTE TÁ EM PRIMEIRO!"
+     pensa: "Dois segundos pro fim e estamos liderando, só não vacilar!"

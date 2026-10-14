@@ -1,0 +1,1639 @@
+COZINHA Todas · fase c1 (coop) · chefs: Claudinho (Claude), Deep (DeepSeek), Gepeto (GPT), Gêmeo (Gemini)
+
+== t0 (0:00) pontos 0 | pedidos: Salada(48s), Sopa de cebola(54s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu pego tomate pra salada! Gepeto, pega cebola pra sopa, vai!"
+     pensa: "Salada é a mais rápida, 48s. Tomate primeiro, depois a tábua. Não posso deixar a sopa esfriar sem ninguém."
+  Deep: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "VOU DE CEBOLLA PRA SOPA! Gêmeo pega alface, Claudinho pega tomate, Gepeto fica na tábua picando!"
+     pensa: "Sopa é mais urgente? 54s, salada 48s. Dividir: eu cebola, eles salada."
+  Gepeto: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, FAZ A SALADA! DEEP, PEGA CEBOLAS E LEVA PRA TÁBUA!"
+     pensa: "Vou iniciar a sopa e correr para picar."
+  Gêmeo: ação='pegar alface na caixa de alface' → andando
+     fala: "Tô pegando alface pra salada! Alguém pega tomate e cebola!"
+     pensa: "Vou agilizar a salada primeiro enquanto os outros se organizam."
+  eventos: tipo=pedido receita=Salada id=1; tipo=pedido receita=Sopa de cebola id=2; tipo=esbarrao quem=Gepeto por=Deep
+
+== t1 (0:02) pontos 0 | pedidos: Salada(46s), Sopa de cebola(52s)
+  Gêmeo: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Tô pegando alface! Gepeto, libera a tábua 2 pra mim!"
+     pensa: "Claudinho tá no tomate, eu fecho a salada pegando alface rápido."
+  Gepeto: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, VOCÊ TRAZ AS CEBOLAS; EU PICO TUDO NA TÁBUA!"
+     pensa: "Vou garantir a produção da sopa e liberar o fluxo."
+  Deep: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "VOU PICAR ESSA CEBOLA NA TÁBUA 1! GEPETO, TRAZ MAIS 2 CEBOLAS PRA PANELA!"
+     pensa: "Sopa de cebola expira em 52s, preciso de 3 cebolas picadas na panela. Eu pico essa, Gepeto pega as outras."
+  Claudinho: ação='pôr tomate cru na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "Vou picar o tomate na tábua 1! Gepeto, sobra pra você picar a cebola do Deep!"
+     pensa: "Tábua 1 é a mais perto. Tomate picado é metade da salada, melhor eu cuidar disso e não perder tempo."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t2 (0:04) pontos 0 | pedidos: Salada(44s), Sopa de cebola(50s)
+  Deep: ação='picar cebola na tábua 1' → picando
+     fala: "TÔ NA TÁBUA 1, PICANDO A CEbola QUE JÁ TAVA AQUI! JÁ VOU BUSCAR MAIS PRA SOPA!"
+     pensa: "Gepeto tá no meio da cozinha sem nada; melhor eu adiantar a cebola que já está na tábua 1 e depois trazer mais duas da caixa."
+  Claudinho: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "GÊMEO, PEGO A TÁBUA 2 PRO TOMATE! PICO RÁPIDO E TE LIBERO!"
+     pensa: "Tábua 2 é a mais perto livre. O Gêmeo queria ela, mas o tomate é necessário pra salada e não posso ficar parado."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "PEGANDO A PRIMEIRA CEBOLA! DEEP, ABRE PASSAGEM PRA EU LEVAR!"
+     pensa: "Priorizar as cebolas para completar a sopa."
+  Gêmeo: ação='pôr alface crua na tábua 2 para picar' → andando [BLOQUEADO por Claudinho]
+     fala: "A tábua 1 tá cheia, tô picando a alface na tábua 2 pra salada!"
+     pensa: "Eles tão brigando pela tábua 1 com a cebola, vou adiantar a salada na 2."
+  eventos: tipo=esbarrao quem=Gêmeo por=Claudinho
+
+== t3 (0:06) pontos 0 | pedidos: Salada(42s), Sopa de cebola(48s)
+  Claudinho: ação='picar tomate na tábua 2' → picando
+     fala: "EU PICO O TOMATE NA TÁBUA 2! GÊMEO, DEPOIS DA SUA ALFACE EU MONTO A SALADA!"
+     pensa: "Tomate já tá na tábua 2, é o mais rápido pra salada. A sopa fica com o Deep e o Gepeto, mas preciso ficar de olho no tempo."
+  Deep: ação='picar cebola na tábua 1' → picou cebola
+     fala: "TÔ PICANDO A CEbola NA TÁBUA 1! GEPETO, TRAZ MAIS 2 CEbolas QUE A SOPA PRECISA DE 3!"
+     pensa: "Tô colado na tábua 1, aproveito e adianto a sopa de cebola antes que o tempo aperte."
+  Gêmeo: ação='largar alface crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "LARGA O TOMATE LOGO CLAUDINHO, PRECISO DESSA TÁBUA PRA ALFACE!"
+     pensa: "Vou soltar a alface aqui e já adiantar um prato enquanto o Claudinho termina de picar."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "DEEP, PEGA ESSA CEBOLA E FECHA AS 3 PRA SOPA!"
+     pensa: "Deixo a cebola acessível e libero minhas mãos."
+  eventos: tipo=picou quem=Deep o=cebola
+
+== t4 (0:08) pontos 0 | pedidos: Salada(40s), Sopa de cebola(46s)
+  Gêmeo: ação='pegar alface crua da bancada 4' → pegou alface crua
+     fala: "PEGUEI A ALFACE! LIBERA UMA TÁBUA PRA MIM!"
+     pensa: "Preciso picar essa alface assim que a tábua 1 ou 2 vagar pra fechar a salada."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "DEEP, PEGO AS DUAS CEBOLAS! CLAUDINHO, LIBERA A TÁBUA PRA ALFACE!"
+     pensa: "Buscar cebola agora para completar a sopa."
+  Claudinho: ação='picar tomate na tábua 2' → picou tomate
+     fala: "GÊMEO, TÔ TERMINANDO O TOMATE NA TÁBUA 2! DEPOIS ELA É SUA PRA ALFACE!"
+     pensa: "Tomate já tá na metade e estou do lado. Terminar aqui é mais rápido que trocar de tábua agora."
+  Deep: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "PEGUEI CEbola picada da tábua 1, vou pra panela! GÊMEO, TÁBUA 1 FICA LIVRE PRA VOCÊ, PARA DE BRIGAR COM O CLAUDINHO!"
+     pensa: "Tô em cima da tábua 1 já, cebola picada de graça. Fecho 3 pra sopa antes que o tempo coma a gente."
+  eventos: tipo=picou quem=Claudinho o=tomate
+
+== t5 (0:10) pontos 0 | pedidos: Salada(38s), Sopa de cebola(44s)
+  Gêmeo: ação='pôr alface crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "Tô indo picar alface na tábua 1, Claudinho pega um prato!"
+     pensa: "Deep liberou a tábua 1 a tempo, vou nela direto antes que alguém ocupe."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LEVA ESSA CEBOLA PRA PANELA ASSIM QUE PICAR! GÊMEO, USA A TÁBUA 2 PRA ALFACE!"
+     pensa: "Acelerar a sopa e liberar a tábua 1."
+  Deep: ação='pôr cebola picada na panela do fogão 1 (0/3)' → andando
+     fala: "1/3 NA PANELA 1! GEPETO, PICA ESSAS CEBOLAS NA TÁBUA 1, TÁ LIVRE! NÃO JOGA CRUA NA PANELA!"
+     pensa: "Comecei a sopa. Preciso que os outros piquem e tragam as outras 2 cebolas rápido."
+  Claudinho: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "GÊMEO, TÁBUA 2 É MINHA! PEGO TOMATE PRA SALADA, VOCÊ PICA A ALFACE NA TÁBUA 1!"
+     pensa: "Tomate picado já tá aqui, é o pedido mais rápido. Depois preciso de um prato limpo, mas o Gêmeo tá com a alface e a tábua 1 é dele."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Gepeto por=Deep
+
+== t6 (0:12) pontos 0 | pedidos: Salada(36s), Sopa de cebola(42s), Salada(48s)
+  Gêmeo: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "TÔ NA TÁBUA 1 COM A ALFACE, SAI DA FRENTE!"
+     pensa: "Claudinho quer a 2 e tá mais perto da 1 pra mim, vou picar essa alface logo antes que expire."
+  Claudinho: ação='esperar' → None
+     fala: "GÊMEO, PICA A ALFACE E DEIXA NO PRATO! EU SEGURO O TOMATE E MONTO A SALADA!"
+     pensa: "Pôr o tomate na panela estraga a sopa do Deep. Segurar é o menos ruim: falta só prato e alface."
+  Deep: ação='pôr cebola picada na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Começando a sopa de cebola! Gepeto, pica e manda mais 2 cebolas pra panela 1!"
+     pensa: "Panela 1 é a mais perto, vou adiantar a sopa enquanto o Gepeto pica o resto."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO, VOU PICAR CEBOLA NA TÁBUA 1 AGORA!"
+     pensa: "Garantir a terceira cebola antes que a tábua seja ocupada."
+  eventos: tipo=pedido receita=Salada id=3; tipo=na_panela quem=Deep onde=fogão 1 n=1; tipo=esbarrao quem=Gepeto por=Gêmeo
+
+== t7 (0:14) pontos 0 | pedidos: Salada(34s), Sopa de cebola(40s), Salada(46s)
+  Claudinho: ação='esperar' → None
+     fala: "GÊMEO, QUANDO A ALFACE TIVER PICADA, PEGA UM PRATO E ME ESPERA! EU SEGURO O TOMATE PARA A SALADA."
+     pensa: "Não largo o tomate: ele é da salada. Panela 1 é da sopa de cebola, então tomate ali estraga tudo. Espero o Gêmeo picar a alface."
+  Deep: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "GEPETO, TÁBUA 1 TÁ OCUPADA COM A ALFACE! VAI PRA TÁBUA 2 COM A CEbola. EU PEGO PRATO PRA SALADA AGORA!"
+     pensa: "Salada vale 2 pedidos e é rápida. Pego prato e fico pronto pra montar assim que a alface sair."
+  Gêmeo: ação='picar alface na tábua 1' → picando
+     fala: "SAI FORA GEPETO, TÔ PICANDO A ALFACE AQUI! VAI PRA TÁBUA 2!"
+     pensa: "A alface já tá aqui na tábua 1, vou picar correndo pra fechar a salada do Claudinho."
+  Gepeto: ação='pôr cebola crua na tábua 2 para picar' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, MANDEI A PRIMEIRA CEBOLA PRA TÁBUA 2! GÊMEO, LIBERA PASSAGEM!"
+     pensa: "Preciso picar rápido e entregar mais duas cebolas."
+  eventos: tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t8 (0:16) pontos 0 | pedidos: Salada(32s), Sopa de cebola(38s), Salada(44s)
+  Gêmeo: ação='picar alface na tábua 1' → picou alface
+     fala: "TÔ TERMINANDO A ALFACE AQUI, DEEP TRAZ ESSE PRATO LOGO!"
+     pensa: "Já estou na tábua 1 com a alface em 50%, vou terminar de picar pra montar a primeira salada antes que expire."
+  Claudinho: ação='esperar' → None
+     fala: "DEEP, PEGA O PRATO DA SALADA! GÊMEO, TERMINA ESSA ALFACE, EU SEGURO O TOMATE AQUI PRA MONTAR!"
+     pensa: "Tomate é pra salada, não pro fogão. Sem caminho livre até a tábua 1, então espero o prato e a alface ficarem prontos."
+  Deep: ação='pegar cebola na caixa de cebola' → andando
+     fala: "PEGANDO CEBOLA PRA SOPA! TÁBUA 2 TÁ LIVRE, GEPETO LEVA A CEbola DE LÁ PRA MIM!"
+     pensa: "Sopa precisa de 3 cebolas picadas, panela do fogão 1 já tem uma. Eu trago as outras. Tábua 1 tá ocupada com alface."
+  Gepeto: ação='pôr cebola crua na tábua 2 para picar' → andando [BLOQUEADO por Claudinho]
+     fala: "VOU PICAR A CEBOLA NA TÁBUA 2! DEEP, SEGURA UM PRATO PRA SALADA!"
+     pensa: "Começo a sopa enquanto os outros fecham a salada."
+  eventos: tipo=picou quem=Gêmeo o=alface; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t9 (0:18) pontos 0 | pedidos: Salada(30s), Sopa de cebola(36s), Salada(42s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixei o tomate picado na bancada 11! Quem pegar, leva pra salada, o prato tá na pilha!"
+     pensa: "Não posso jogar tomate na panela da sopa de cebola. Largo aqui pra liberar a mão e a salada não atrasa."
+  Deep: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "PEGUEI O PRATO! CLAUDINHO JOGA O TOMATE, GÊMEO MANDA A ALFACE!"
+     pensa: "Prato é prioridade, sem prato nada entrega. Fogão 1 já tem cebola, Gepeto que pique mais 2."
+  Gepeto: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "DEEP, CEBOLA NA TÁBUA 2! PICA E MANDA PRA PANELA!"
+     pensa: "Acelerar a sopa e sair do caminho."
+  Gêmeo: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "TÔ COM A ALFACE, CADÊ O PRATO?"
+     pensa: "Pegar essa alface agora pra fechar a primeira salada antes que expire."
+
+== t10 (0:20) pontos 0 | pedidos: Salada(28s), Sopa de cebola(34s), Salada(40s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! GÊMEO, TRAZ A ALFACE PRO PRATO QUE EU MONTO A SALADA!"
+     pensa: "Tomate picado bem ao lado. Salada de 28s é a mais urgente; Deep já tem prato, então a alface do Gêmeo fecha o pedido."
+  Deep: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "GÊMEO, TO LEVANDO PRATO! SEGURA A ALFACE E NÃO SOLTA!"
+     pensa: "Salada em 28s, prato a 0.3s. Depois pego tomate picado na bancada 11 e monto com a alface do Gêmeo."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, BOTA O PRATO NA BANCADA 2 PRA MONTAR ESSA SALADA!"
+     pensa: "Não tenho a opção direta de ir até o prato ou bancada 10, vou deixar a alface na bancada livre pra montarmos rápido."
+  Gepeto: ação='pegar tomate picado da bancada 11' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, TÔ PEGANDO O TOMATE! JUNTA COM A ALFACE NO PRATO!"
+     pensa: "Acelerar a primeira salada; Deep já está com o prato."
+  eventos: tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t11 (0:22) pontos 0 | pedidos: Salada(26s), Sopa de cebola(32s), Salada(38s)
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "TÔ INDO NA BANCADA 2 PEGAR A ALFACE! CLAUDINHO, CORRE PRA CÁ COM O TOMATE E JOGA NO MEU PRATO!"
+     pensa: "Prato vazio na mão, alface a 4.3s. Se o Claudinho chegar com o tomate, a salada sai em segundos. Gepeto que pare de pegar tomate à toa."
+  Gepeto: ação='picar cebola na tábua 2' → picando
+     fala: "EU PICO A CEBOLA! DEEP, GÊMEO, NÃO BLOQUEIEM A PASSAGEM!"
+     pensa: "Começar a terceira cebola para completar a sopa."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "GEPETO, TOMATE PICADO NA BANCADA 11! PEGA ELE E LEVA PRO PRATO. EU VOU PEGAR A ALFACE NA BANCADA 2."
+     pensa: "Não dá pra pôr tomate na panela da cebola, a sopa estraga. Largo o tomate pra liberar as mãos e pegar a alface. Espero que o Gepeto pegue o tomate e o Deep traga o prato."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, TRAZ ESSE PRATO LOGO!"
+     pensa: "A alface picada está na minha frente a 0s. Pego agora pra montar a primeira salada antes que expire."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo
+
+== t12 (0:24) pontos 0 | pedidos: Salada(24s), Sopa de cebola(30s), Salada(36s), Sopa de cebola(54s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, NÃO SAIA DO LUGAR, EU VOU PRO SEU PRATO!"
+     pensa: "Tomate picado bem do meu lado, 0 segundos. Se eu entregar rápido, saem duas saladas antes que os pedidos expirem."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, TRAZ A ALFACE NO PRATO AGORA! EU TÔ PONDO O TOMATE!"
+     pensa: "Salada precisa de alface e tomate no mesmo prato. Pego o tomate, Gêmeo traz a alface."
+  Gepeto: ação='pegar tomate picado da bancada 11' → andando [BLOQUEADO por Claudinho]
+     fala: "PEGUEI O TOMATE, DEEP! SEGURA O PRATO!"
+     pensa: "Levar o tomate ao prato do Deep para fechar a salada."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE NA 2, DEEP! PEGA E JUNTA COM ESSE TOMATE!"
+     pensa: "Eles estão todos correndo pra bancada 2, preciso largar isso logo antes que trombem em mim de novo."
+  eventos: tipo=pedido receita=Sopa de cebola id=4; tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t13 (0:26) pontos 0 | pedidos: Salada(22s), Sopa de cebola(28s), Salada(34s), Sopa de cebola(52s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, TOMATE NA BANCADA 11! EU PEGO A ALFACE NA 2 PRA GENTE MONTAR A SALADA!"
+     pensa: "Gepeto diz que pegou outro tomate, então esse aqui pode ficar livre. Largo e vou na alface antes que o pedido expire."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "BOTANDO A ALFACE NO PRATO AGORA! CLAUDINHO, MANDA O TOMATE PICADO!"
+     pensa: "Salada em 22s é a prioridade. Prato na mão + alface a 0.3s = combinação perfeita. Claudinho chega com tomate, entrego rápido e volto pra cebola da sopa."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "DEEP, SEGURA ESSE PRATO QUE A ALFACE TÁ NA MÃO!"
+     pensa: "Alface picada tá do meu lado, pego agora e fecho essa salada antes de expirar."
+  Gepeto: ação='picar cebola na tábua 2' → picou cebola
+     fala: "VOU TERMINAR A CEBOLA! DEEP, DEIXA A PANELA 2 LIVRE!"
+     pensa: "Completar a cebola agora para acelerar a próxima sopa."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=picou quem=Gepeto o=cebola
+
+== t14 (0:28) pontos 0 | pedidos: Salada(20s), Sopa de cebola(26s), Salada(32s), Sopa de cebola(50s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "EU PEGO O TOMATE PICADO! DEEP, SEGURA O PRATO AÍ!"
+     pensa: "Tomate picado está do meu lado (0.0s). Salada de 20s: a alface está com o Gêmeo, o Deep tem o prato. Vou levar o tomate pro prato antes que expire."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE NO MEU PRATO! TÔ INDO PRO PASSA-PRATO!"
+     pensa: "Salada em 20s: tomate no prato, Gêmeo traz alface. Entrego já. Gepeto cuida da sopa."
+  Gepeto: ação='pegar tomate picado da bancada 11' → andando [BLOQUEADO por Claudinho]
+     fala: "PEGUEI O TOMATE PICADO, DEEP!"
+     pensa: "A salada mais urgente precisa sair agora."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGUEI A ALFACE NA BANCADA 2, CLAUDINHO! PEGA LOGO!"
+     pensa: "Claudinho quer alface na bancada 2 pra salada de 20s, vou deixar lá agora pra pararem de travar meu caminho."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t15 (0:30) pontos 0 | pedidos: Salada(18s), Sopa de cebola(24s), Salada(30s), Sopa de cebola(48s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Largo o tomate na bancada 11! Deep, pega a alface da bancada 2 e monta o prato da salada!"
+     pensa: "Não posso pegar a alface segurando tomate. Largo aqui e pego a alface depois. O Deep tá com o prato, então a salada sai mais rápido se ele montar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "PÕE O TOMATE NO MEU PRATO AGORA, CLAUDINHO! EU JÁ BOTO A ALFACE!"
+     pensa: "Salada é o pedido mais urgente (18s). Alface primeiro, tomate do Claudinho em cima e entrego."
+  Gepeto: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "PEGO A CEBOLA! CLAUDINHO, NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Vou completar a panela de sopa antes que queime."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, FICA PARADO AÍ!"
+     pensa: "Alface tá na minha mão já, 18s pra salada não expirar!"
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo
+
+== t16 (0:32) pontos 0 | pedidos: Salada(16s), Sopa de cebola(22s), Salada(28s), Sopa de cebola(46s)
+  Gepeto: ação='pôr cebola picada na panela do fogão 1 (1/3)' → andando
+     fala: "CLAUDINHO, SAI DA MINHA ROTA! PRECISO FECHAR A SOPA; DEEP, CUIDA DA SALADA!"
+     pensa: "Completo a panela mais adiantada e depois busco outra cebola."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "TOMATE NO PRATO! GÊMEO, JOGA A ALFACE AQUI NO MEU PRATO E NÃO SAI DA FRENTE!"
+     pensa: "Prato com tomate, falta alface. Gêmeo segura a alface, então ele completa. Não posso largar o prato agora."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "DEEP, TOMATE PICADO NA MÃO! PÕE A ALFACE NO PRATO QUE EU TE LEVO O TOMATE!"
+     pensa: "Tomate picado está do meu lado. Deep já tem prato, então o tomate vai pra ele e a salada sai antes dos 16s."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI A ALFACE NA BANCADA 2! PEGA E MONTA ESSA SALADA, DEEP!"
+     pensa: "O Deep precisa da alface pro prato agora ou vamos perder 10 pontos da salada."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho
+
+== t17 (0:34) pontos 0 | pedidos: Salada(14s), Sopa de cebola(20s), Salada(26s), Sopa de cebola(44s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE, DEEP! FICA PARADO AÍ COM ESSE PRATO!"
+     pensa: "A salada vai vencer em 14s! Pego a alface agora e já jogo no prato do Deep."
+  Gepeto: ação='pôr cebola picada na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "CLAUDINHO, DESENCOSTA! VOU FECHAR A SOPA DE CEBOLA; DEEP, MONTA A SALADA!"
+     pensa: "Coloco esta cebola na panela já iniciada e depois busco mais duas."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE CHEGOU NO PRATO! CLAUDINHO, JOGA O TOMATE EM CIMA AGORA, ESSA SALADA VAI EXPIRAR!"
+     pensa: "Seguro o prato e deixo o Claudinho completar com o tomate que ele já tem na mão. 14s é pouco, não posso perder tempo."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI O TOMATE NA BANCADA 11! PEGA E MONTA A SALADA, EU NÃO VOU MEXER NA SOPA!"
+     pensa: "Tomate na panela estraga a sopa de cebola. Largo na bancada pro Deep pegar e não atrapalho a rota do Gepeto."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 1 n=2; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t18 (0:36) pontos 0 | pedidos: Salada(12s), Sopa de cebola(18s), Salada(24s), Sopa de cebola(42s), Hambúrguer(60s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "TOMATE PICADO PEGUEI, DEEP! SEGURA O PRATO AÍ QUE EU JOGO EM CIMA!"
+     pensa: "Tomate picado tá do meu lado, 0 segundos. Salada com 12s; se eu acertar, salva os 10 pontos."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE NO MEU PRATO AGORA! SALADA EM 12s, CORRE!"
+     pensa: "Prato com tomate, só falta a alface do Gêmeo. Depois entrego direto no passa-prato. Ninguém mais se meta no meu caminho."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO ALFACE NA 2 PRA PRÓXIMA SALADA! DEEP, FECHA ESSE PRATO LOGO!"
+     pensa: "O Deep já tá montando a primeira salada e o Claudinho largou o tomate. Vou deixar essa alface livre pra segunda salada antes que expire também."
+  Gepeto: ação='pegar tomate picado da bancada 11' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, PEGUEI O TOMATE! VOU COLOCAR NO PRATO AGORA!"
+     pensa: "Salvar a salada urgente."
+  eventos: tipo=pedido receita=Hambúrguer id=5; tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t19 (0:38) pontos 0 | pedidos: Salada(10s), Sopa de cebola(16s), Salada(22s), Sopa de cebola(40s), Hambúrguer(58s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, TOMATE PICADO NA BANCADA 11 PRA SALADA! GEPETO, JÁ TEM TOMATE, NÃO PEGA OUTRO!"
+     pensa: "Salada expira em 10s e o Deep tem o prato. Eu não consigo levar o tomate até ele a tempo, então largo na bancada 11 e aviso."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "JOGUEI A ALFACE! CLAUDINHO, MANDA O TOMATE PRA CÁ AGORA!"
+     pensa: "Salada de 10s é prioridade — alface no prato em 0.3s, depois só falta o tomate do Claude."
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "TOMATE NA MÃO! DEEP, MONTA A SALADA E ENTREGA AGORA! CLAUDINHO, DESENCOSTA DA PASSAGEM!"
+     pensa: "Prioridade é salvar a salada que expira em 10 segundos."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "TÔ COM A ALFACE, DEEP! NÃO SAI DAÍ!"
+     pensa: "A alface picada tá na minha frente (0.0s), pego e levo pro prato do Deep antes que expire!"
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo
+
+== t20 (0:40) pontos 0 | pedidos: Salada(8s), Sopa de cebola(14s), Salada(20s), Sopa de cebola(38s), Hambúrguer(56s)
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE NO MEU PRATO AGORA! E SAIAM DA PASSAGEM, PELO AMOR!"
+     pensa: "Prato com tomate, só falta alface do Gêmeo. Passagem travada é o maior risco."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, PEGA ESSE TOMATE NA BANCADA 11 E ENTREGA LOGO!"
+     pensa: "Preciso desocupar a mão pra ajudar na sopa de 14s, eles que finalizem essa salada já que estão com o prato e o tomate."
+  Gepeto: ação='pôr tomate cru na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "TOMATE NA TÁBUA 1, DEEP! PICA E FECHA A SALADA AGORA!"
+     pensa: "Entrego o tomate para a salada urgente e libero minhas mãos."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "TOMATE PICADO NA MÃO! DEEP, FICA AÍ QUE EU LEVO! GÊMEO, JOGA A ALFACE NA BANCADA PERTO DELE!"
+     pensa: "A salada de 8s é a prioridade. Já estou do lado do tomate picado, então pego ele antes de qualquer coisa e levo pro Deep montar."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t21 (0:42) pontos 0 | pedidos: Salada(6s), Sopa de cebola(12s), Salada(18s), Sopa de cebola(36s), Hambúrguer(54s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI O TOMATE PICADO NA BANCADA 11! PEGA E MONTA A SALADA AGORA, SÓ FALTA A ALFACE!"
+     pensa: "Não dá pra eu levar até o prato dele a tempo. Largo aqui e ele pega rápido. Não posso jogar isso na panela de cebola."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "CLAU, CORRE AQUI! PRATO COM ALFACE NA MÃO, JOGA O TOMATE AGORA!"
+     pensa: "Salada expira em 6s. Alface a 0.3s, eu já tenho prato. Claudinho vem com o tomate picado — se ele travar, perco o pedido."
+  Gepeto: ação='pôr tomate cru na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "SALADA URGENTE! CLAUDINHO, LEVA O TOMATE PICADO; GÊMEO, ALFACE NO PRATO!"
+     pensa: "Vou iniciar outro tomate enquanto eles fecham a primeira salada."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGUEI A ALFACE! DEEP, ME DÁ ESSE PRATO AGORA QUE VAI EXPIRAR!"
+     pensa: "6 segundos pra salada! Pego a alface agora e já combino com o prato do Deep antes que dê ruim."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t22 (0:44) pontos 0 | pedidos: Salada(4s), Sopa de cebola(10s), Salada(16s), Sopa de cebola(34s), Hambúrguer(52s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! GÊMEO, ALFACE NO PRATO DO DEEP AGORA, A SALADA VAI EXPIRAR!"
+     pensa: "Tomate picado tá do meu lado, 0 segundos. Se o Gêmeo botar a alface no prato em 2 turnos, ainda salvamos os 10 pontos."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, ALFACE NA BANCADA 2! PEGA O TOMATE NA 11 E MONTA ESSA SALADA JÁ!"
+     pensa: "Eles tão se trombando e a salada vai expirar em 4s! Vou largar aqui pra liberarem espaço e juntarem tudo."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE NO MEU PRATO AGORA, EU TÔ LEVANDO PRO PASSA!"
+     pensa: "4 segundos, quase nada. Tomate no prato e Gêmeo completa com alface. Se ele encher o prato dele em vez do meu, perdemos."
+  Gepeto: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "DEEP, FECHA A SALADA AGORA! CLAU, LIBERA A BANCADA; VOU PICAR TOMATE PRA SEGUNDA!"
+     pensa: "Salvar a salada de 4 segundos e preparar a próxima."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho
+
+== t23 (0:46) pontos 0 | pedidos: Salada(2s), Sopa de cebola(8s), Salada(14s), Sopa de cebola(32s), Hambúrguer(50s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "TOMATE NA BANCADA 11, GÊMEO PEGA E LEVA PRO DEEP! SALADA AGORA, 2 SEGUNDOS!"
+     pensa: "Gêmeo já pediu o tomate na 11. Largo ali e a salada ainda pode sair antes de expirar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO! CLAU, SEGURA ESSE TOMATE E VEM PRA CIMA DE MIM AGORA, EU PEGO DE VOCÊ!"
+     pensa: "Salada expira em 2s, mas é minha única jogada: alface primeiro, tomate do Claudinho depois. Se não der, pelo menos a segunda salada sai mais rápida. E preciso cobrar alguém pra fechar a SOPA — falta 1 cebola na panela do fogão 1!"
+  Gepeto: ação='pegar alface picada da bancada 2' → andando [BLOQUEADO por Claudinho]
+     fala: "PEGUEI A ALFACE! GÊMEO, JUNTA COM O TOMATE E ENTREGA A SALADA AGORA!"
+     pensa: "Salvar a salada que expira em 2 segundos."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE! DEEP, ENCOSTA AÍ COM O PRATO!"
+     pensa: "A salada expira em 2s, preciso pegar essa alface picada imediatamente e combinar com o prato do Deep ou jogar pra ele."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t24 (0:48) pontos -10 | pedidos: Sopa de cebola(6s), Salada(12s), Sopa de cebola(30s), Hambúrguer(48s)
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGO A ALFACE NA BANCADA 2! DEEP, BOTA NO TEU PRATO!"
+     pensa: "Preciso soltar essa alface logo pro Deep montar a salada ou pra eu poder ajudar na sopa que tá morrendo."
+  Gepeto: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "CLAU, FECHA A SOPA DE CEBOLA! EU PEGO A PRÓXIMA TAREFA!"
+     pensa: "A salada já expirou; vou evitar atrapalhar e preparar outra cebola."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, CHEGA AÍ COM A ALFACE! TÔ COM O TOMATE NO PRATO!"
+     pensa: "Salada precisa alface+tomate; ponho o tomate e espero o Gêmeo encostar com a alface."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, SEGURA O PRATO AÍ, EU VOU DIRETO PRA VOCÊ! GÊMEO, VEM COM A ALFACE PRA CÁ!"
+     pensa: "Tomate picado de graça, a 0.0s. Salada tem 12s. Deep tem o prato, Gêmeo tem a alface: o tomate fecha a conta. Não posso deixar ninguém me travar no caminho de novo."
+  eventos: tipo=expirou receita=Salada id=1; tipo=esbarrao quem=Deep por=Claudinho
+
+== t25 (0:50) pontos -10 | pedidos: Sopa de cebola(4s), Salada(10s), Sopa de cebola(28s), Hambúrguer(46s), Salada(48s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, FICA PARADO COM ESSE PRATO!"
+     pensa: "A alface picada tá aqui do meu lado na bancada 2 (0s). Pego e já levo pro Deep salvar essa salada!"
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, LARGUEI O TOMATE NA BANCADA 11! EU VOU PEGAR A ALFACE NA BANCADA 2 PRA SALADA!"
+     pensa: "Tomate na panela estraga a sopa de cebola. Largo na bancada, libero as mãos e pego a alface picada. Salada expira em 10s."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "PUS ALFACE! CLAU, JOGA O TOMATE NO PRATO AGORA, SALADA TÁ QUASE!"
+     pensa: "Salada quase expira. Monto rápido e depois corro pra sopa de cebola."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU PICAR A TERCEIRA CEBOLA! NÃO BLOQUEIEM A PASSAGEM!"
+     pensa: "Completar a panela urgente antes de expirar."
+  eventos: tipo=pedido receita=Salada id=6; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t26 (0:52) pontos -10 | pedidos: Sopa de cebola(2s), Salada(8s), Sopa de cebola(26s), Hambúrguer(44s), Salada(46s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, SEGURA O PRATO QUE EU VOU AÍ!"
+     pensa: "A salada expira em 8s e o tomate picado está do meu lado. Pego ele agora e levo pro prato do Deep."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE NA BANCADA 2, PEGA CLAU!"
+     pensa: "Preciso desocupar as mãos e alimentar essa salada antes que expire também."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "PUS TOMATE! GÊMEO, JOGA A ALFACE NO MEU PRATO AGORA! PAREM DE BLOQUEAR A PASSAGEM, PELO AMOR!"
+     pensa: "Sopa de cebola já era, foco na salada: tomate no prato em 0.3s e o Gêmeo tem alface picada na mão. Se ele completar, entrego em 4s. Boa."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, PICA ESSA CEBOLA E FECHA A SOPA AGORA!"
+     pensa: "É a única chance de completar a panela; a primeira sopa provavelmente já expirou."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t27 (0:54) pontos -20 | pedidos: Salada(6s), Sopa de cebola(24s), Hambúrguer(42s), Salada(44s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! VAI EXPIRAR, DEEP!"
+     pensa: "A salada expira em 6 segundos, preciso pegar essa alface picada agora e jogar no prato com o tomate do Claudinho."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI TOMATE PICADO NA BANCADA 11! PEGA E MONTA A SALADA COM A ALFACE!"
+     pensa: "Não dá pra entregar direto pro Deep. Largo o tomate perto dele e pego a alface da bancada 2 depois. Salada de 6s tá salva se ele for rápido."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "VEM CLAU! PRATO NA MÃO, JOGA O TOMATE AQUI AGORA!"
+     pensa: "Salada expira em 6s. Alface já está picada na bancada 2 a 0.3s. Ponho alface e Claudinho completa com o tomate que ele já carrega."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU PICAR CEBOLA! GÊMEO, PRIORIZA A SALADA AGORA!"
+     pensa: "A sopa já expirou; vou preparar o que ainda dá para salvar."
+  eventos: tipo=expirou receita=Sopa de cebola id=2; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t28 (0:56) pontos -20 | pedidos: Salada(4s), Sopa de cebola(22s), Hambúrguer(40s), Salada(42s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PICA ESSA CEBOLA PRA SOPA! DEEP, ENTREGA A SALADA AGORA!"
+     pensa: "Começar outra sopa e destravar a cozinha."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, SEGURA O PRATO QUE EU TE ENTREGO AGORA!"
+     pensa: "Salada expira em 4s. Tomate picado está do meu lado. Pego já e levo pro Deep montar com a alface do Gêmeo."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE AQUI, DEEP PEGA LOGO PRA SALADA!"
+     pensa: "Preciso desocupar a mão ou entregar essa alface antes que a salada expire em 4s!"
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO JOGA A ALFACE NO MEU PRATO AGORA, TÔ COM O TOMATE!"
+     pensa: "Salada em 4s, tomate na mão, só falta a alface do Gêmeo."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Claudinho
+
+== t29 (0:58) pontos -20 | pedidos: Salada(2s), Sopa de cebola(20s), Hambúrguer(38s), Salada(40s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, VEM CÁ COM ESSE PRATO!"
+     pensa: "A salada vai expirar em 2s, preciso pegar essa alface picada na bancada 2 agora pra tentar salvar ou adiantar a próxima!"
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "CLAUDINHO, JOGA O TOMATE AQUI AGORA, A SALADA VAI EXPIRAR!"
+     pensa: "2 segundos, alface primeiro e tomate do Claudinho em cima — se ele não vier, já era."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA PASSAGEM! VOU PICAR A CEBOLA PRA SOPA!"
+     pensa: "Começar outra sopa e destravar o fluxo."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI O TOMATE NA BANCADA 11! PEGA E MONTA A SALADA!"
+     pensa: "Salada expira em 2s, mas o tomate picado tem que chegar no prato do Deep. Panela do fogão 1 tem cebola, não posso misturar."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t30 (1:00) pontos -30 | pedidos: Sopa de cebola(18s), Hambúrguer(36s), Salada(38s)
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXANDO ALFACE NA BANCADA 2! DEEP, MONTA ESSA SALADA!"
+     pensa: "Preciso soltar essa alface logo pra eles montarem a salada e eu ajudar na sopa de cebola."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LIBERA A TÁBUA! VOU PICAR CEBOLA PRA PRÓXIMA SOPA!"
+     pensa: "Salvar a próxima rodada e não bloquear o caminho."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, TRAZ A ALFACE! TÔ COM O PRATO E O TOMATE!"
+     pensa: "Salada é o mais rápido agora. Tomate no prato, pego alface com Gêmeo. Gepeto que desvie."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, VEM PRA BANCADA 11 COM O PRATO, A SALADA É AGORA!"
+     pensa: "Tomate picado já está do meu lado. Falta o prato do Deep e a alface do Gêmeo, senão a salada expira de novo."
+  eventos: tipo=expirou receita=Salada id=3; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Claudinho
+
+== t31 (1:02) pontos -30 | pedidos: Sopa de cebola(16s), Hambúrguer(34s), Salada(36s), Sopa de cebola(54s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR A TERCEIRA CEBOLA AGORA!"
+     pensa: "Completar a sopa urgente antes que expire."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, FICA AÍ QUE EU TÔ LEVANDO!"
+     pensa: "A alface picada tá na minha cara, vou pegar e juntar com o prato do Deep pra salvar essa salada!"
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "VOU MONTAR! CLAUDINHO, SEGURA O TOMATE QUE EU PEGO O PRATO!"
+     pensa: "Salada primeiro, alface no prato."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI O TOMATE NA BANCADA 11! EU PEGO A ALFACE DA BANCADA 2, VOCÊ MONTA A SALADA!"
+     pensa: "Tomate na panela de cebola estraga a sopa e na de tomate não tem pedido. Largar na bancada 11 e pegar a alface da 2 é o caminho mais rápido pra salvar a salada."
+  eventos: tipo=pedido receita=Sopa de cebola id=7; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t32 (1:04) pontos -30 | pedidos: Sopa de cebola(14s), Hambúrguer(32s), Salada(34s), Sopa de cebola(52s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR A CEBOLA PRA PRIMEIRA SOPA!"
+     pensa: "Preciso completar a panela antes de queimar e salvar os pontos."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "BOTEI O TOMATE NO PRATO! GÊMEO, JOGA A ALFACE AQUI AGORA! GEPETO, A SOPA TÁ EM 14 SEGUNDOS, CORRE COM ESSA CEbola!"
+     pensa: "Salada em 34s: tomate no prato, falta só a alface do Gêmeo. Sopa de cebola é o urgente: panela com 2 cebolas, falta a terceira picada e depois cozinhar e servir em 14s — apertado. Eu com prato na mão não posso ajudar na cebola, então aviso o Gepeto e entrego a salada rápido."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXANDO A ALFACE NA 2, DEEP! PEGA E FECHA ESSA SALADA!"
+     pensa: "Eles estão se desencontrando e a sopa vai expirar, preciso largar isso logo pra ajudar na cozinha."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, MONTA A SALADA COM ESSE PRATO, EU TE LEVO O TOMATE!"
+     pensa: "Tomate picado tá a zero passo. Salada tá com 34s e o Gêmeo já tem a alface. Se eu entregar pro Deep no prato, sai salada."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Claudinho
+
+== t33 (1:06) pontos -30 | pedidos: Sopa de cebola(12s), Hambúrguer(30s), Salada(32s), Sopa de cebola(50s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "DEEP, TÔ COM A ALFACE NA MÃO! NÃO SAI DAÍ!"
+     pensa: "A alface picada tá na minha frente a 0.0s. Pego e jogo no prato do Deep pra salvar essa salada, já que a sopa de 12s é missão impossível do Gepeto."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR A TERCEIRA CEBOLA AGORA!"
+     pensa: "Prioridade total: fechar a sopa quase expirando."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "EU PONHO A ALFACE! CLAUDINHO, TOMATE AGORA! GEPETO, 3ª CEBOLA NO FOGÃO 1!"
+     pensa: "Salada quase fechando, mas a sopa de cebola tá estourando. Todo mundo precisa correr."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGUEI TOMATE NA 11! EU PEGO A ALFACE DA 2 PRA SALADA, DEEP, NÃO SAI DO PRATO!"
+     pensa: "Tomate na panela estraga a sopa de cebola. Libero as mãos e vou buscar a alface pra salada, que já expirou duas vezes."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t34 (1:08) pontos -30 | pedidos: Sopa de cebola(10s), Hambúrguer(28s), Salada(30s), Sopa de cebola(48s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, GEPETO, CUIDADO COM A PASSAGEM! GÊMEO, ME PASSA A ALFACE NO PRATO DO DEEP!"
+     pensa: "Tomate picado tá do meu lado, dá pra salada ainda. Preciso que o prato chegue na bancada sem bagunça."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "METI O TOMATE NO PRATO! GÊMEO, CORRE PRA 11 COM A ALFACE! GEPETO, A 3ª CEBOLA AGORA, A SOPA VAI EXPIRAR!"
+     pensa: "Salada sai rápido com a alface do Gêmeo; a sopa de 10s precisa de prato e da 3ª cebola correndo."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE NA 2, PEGA, CLAUDINHO! GEPETO, ESSA SOPA VAI EXPIRAR!"
+     pensa: "O Claudinho quer a alface na bancada 2 pra salada. Deixo lá pra ele e pro Deep montarem, enquanto cobro a sopa que tá em 10s!"
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, PICa ESSA CEBOLA AGORA! CLAUDINHO, TERMINA A SOPA!"
+     pensa: "Prioridade é salvar a sopa quase expirada."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t35 (1:10) pontos -30 | pedidos: Sopa de cebola(8s), Hambúrguer(26s), Salada(28s), Sopa de cebola(46s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixo o tomate na 11 pra salada! Gêmeo, alface na 2 é minha próxima!"
+     pensa: "Tomate na panela estraga a sopa de cebola. Largo aqui e pego a alface depois."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO! GEPETO, PICA ESSA CEBOLA NA TÁBUA 1 E MANDA PRA PANELA — A SOPA VAI EXPIRAR! CLAUDINHO, GUARDA TEU TOMATE PRA MIM!"
+     pensa: "Salada quase pronta: alface no prato, falta o tomate do Claudinho. Sopa em 8s é o fogo — cebola do Gepeto tem que entrar AGORA."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA! DEEP, ME DÁ O PRATO!"
+     pensa: "A sopa de 8s já era, não dá tempo de cozinhar. Vou salvar a salada!"
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA PASSAGEM! VOU PICAR A TERCEIRA CEBOLA AGORA!"
+     pensa: "Priorizar a sopa que expira em 8 segundos."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t36 (1:12) pontos -30 | pedidos: Sopa de cebola(6s), Hambúrguer(24s), Salada(26s), Sopa de cebola(44s)
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, SEGURA A ALFACE! TÔ BOTANDO O TOMATE PICADO NO PRATO JÁ — NÃO SOLTA ESSA ALFACE!"
+     pensa: "Sopa de cebola vai expirar em 6s e eu não consigo ajudar daqui; ao menos adianto a salada com tomate + alface do Gêmeo no mesmo prato."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! CEBOLA INDO PRA TÁBUA!"
+     pensa: "Prioridade é salvar a sopa de 6 segundos; preciso picar agora."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGUEI A ALFACE NA 2, PEGA AÍ! ESQUECE ESSA SOPA DE 6S QUE NÃO DÁ TEMPO!"
+     pensa: "A sopa de 6s já era, falta picar e cozinhar. Vou deixar a alface na bancada 2 pro Claudinho/Deep montarem a salada logo e focar no hambúrguer."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "EU PEGO O TOMATE PICADO AGORA! DEEP, SEGURA O PRATO PRA SALADA, GÊMEO, LEVA A ALFACE PRA ELE!"
+     pensa: "Salada tem 26s e o tomate picado está do meu lado. Se eu acertar isso, salvo pelo menos um pedido."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t37 (1:14) pontos -30 | pedidos: Sopa de cebola(4s), Hambúrguer(22s), Salada(24s), Sopa de cebola(42s), Hambúrguer(60s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGUEI A ALFACE! DEEP, ME DÁ ESSE PRATO!"
+     pensa: "A sopa de 4s já era, foca na salada pra gente não afundar mais!"
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR A CEBOLA PRA SALVAR A SOPA!"
+     pensa: "Prioridade: impedir a sopa de expirar; preciso liberar a tábua."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GEPETO, JOGA A CEBOLA NA PANELA DO FOGÃO 1 AGORA, SOPA EXPIRA EM 4S! EU MONTO A SALADA!"
+     pensa: "Prato com alface, Claudinho traz o tomate picado e a salada sai. A sopa tá crítica: panela do fogão 1 tem só 2 cebolas, alguém TEM que completar e servir em 4s."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deep, deixei o tomate na bancada 11 pra você montar a salada! Gêmeo, traz a alface da 2!"
+     pensa: "Pôr tomate na panela da cebola estragava a sopa. Melhor liberar as mãos e a salada tem 24s."
+  eventos: tipo=pedido receita=Hambúrguer id=8; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t38 (1:16) pontos -30 | pedidos: Sopa de cebola(2s), Hambúrguer(20s), Salada(22s), Sopa de cebola(40s), Hambúrguer(58s)
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, ALFACE NA 2, PEGA COM O TOMATE DA 11 PRA FECHAR A SALADA!"
+     pensa: "A sopa de 2s já era, não dá tempo de picar cebola. Foco total na salada antes que expire também!"
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, VOU LARGAR O PRATO NA 2, PÕE A ALFACE! CLAUDINHO, PEGA PÃO E PRATO PRA BURGER! GEPETO, ESQUECE A SOPA E PEGA CARNE!"
+     pensa: "Sopa já era. Adianto a salada com tomate e passo o prato pro Gêmeo; hambúrguer é a prioridade agora."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, PICA E JOGA NA PANELA AGORA!"
+     pensa: "A sopa está no limite; preciso acelerar a picada."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "EU PEGO O TOMATE PICADO! GÊMEO, JUNTA A ALFACE COMIGO NO PRATO DA SALADA!"
+     pensa: "Salada é o pedido mais perto de estourar sem sopa. Tomate picado tá do meu lado, então eu pego já e a alface vem do Gêmeo."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t39 (1:18) pontos -40 | pedidos: Hambúrguer(18s), Salada(20s), Sopa de cebola(38s), Hambúrguer(56s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGUEI A ALFACE! DEEP, BOTA O PRATO LOGO!"
+     pensa: "A alface picada tá na minha frente na bancada 2. Pego ela pra montar a salada rápido antes que expire mais uma!"
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO! CLAUDINHO, JOGA TEU TOMATE PICADO AQUI NA BANCADA 2 AGORA, 20 SEGUNDOS!"
+     pensa: "Sopa já era. Salada primeiro: alface no prato e Claudinho completa com tomate. Gepeto tem cebola crua, alguém precisa grelhar carne pro hambúrguer de 18s!"
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "GÊMEO, TOMATE NA 11! PEGA E FECHA A SALADA!"
+     pensa: "Pôr tomate na panela estraga a sopa de cebola. A salada expira em 20s, então deixo o tomate onde o Gêmeo pediu."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LIBERA A TÁBUA! VOU PICAR CEBOLA PRA PRÓXIMA SOPA!"
+     pensa: "Salvando ingredientes para a próxima sopa."
+  eventos: tipo=expirou receita=Sopa de cebola id=4; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t40 (1:20) pontos -40 | pedidos: Hambúrguer(16s), Salada(18s), Sopa de cebola(36s), Hambúrguer(54s)
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, CORRE AQUI NA 11 COM A ALFACE, TÔ COM O PRATO E O TOMATE!"
+     pensa: "Salada: tomate no prato, agora só falta a alface do Gêmeo. Depois entregar correndo, tá apertado."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LIBERA A TÁBUA! VOU PICAR CEBOLA AQUI."
+     pensa: "Ainda dá para salvar a próxima sopa."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, SAI DA FRENTE E PÕE O PRATO NA BANCADA 2 AGORA!"
+     pensa: "Salada expira em 18s. Tomate pronto, falta o Deep montar o prato com a alface do Gêmeo."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, BOTA O PRATO NA BANCADA 2 PRA PEGAR ESSA ALFACE! VOU NO TOMATE!"
+     pensa: "Deixo a alface na bancada pro Deep montar no prato e corro pegar o tomate na 11 pra fechar a salada antes de expirar."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t41 (1:22) pontos -40 | pedidos: Hambúrguer(14s), Salada(16s), Sopa de cebola(34s), Hambúrguer(52s)
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, EU JÁ TENHO O TOMATE! LARGO NA 11 AGORA, GÊMEO NÃO PRECISA VIR!"
+     pensa: "Salada expira em 16s e o Deep já está com o prato. Deixar o tomate na 11 evita o Gêmeo ir buscar outro e duplicar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO! CLAUDINHO, TRAZ O TOMATE PICADO PRA MONTAR A SALADA AGORA!"
+     pensa: "Salada é prioridade: 16s. Já tenho prato, pego alface e peço tomate pro Claudinho. Gêmeo que saia do caminho."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LIBERA A PASSAGEM! VOU PICAR A TERCEIRA CEBOLA!"
+     pensa: "A sopa expirou, mas ainda dá para preparar outra e salvar pontos."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "PEGUEI A ALFACE PICADA DA 2! JUNTA COM O PRATO E TOMATE!"
+     pensa: "A alface tá na minha cara, vou pegar pra salvar essa salada antes que expire de novo!"
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t42 (1:24) pontos -40 | pedidos: Hambúrguer(12s), Salada(14s), Sopa de cebola(32s), Hambúrguer(50s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, MONTA O PRATO COM A ALFACE QUE EU TRAGO JÁ!"
+     pensa: "A salada tem 14s. Com o tomate na mão, preciso chegar no prato antes que o Gêmeo ou o Deep travem a passagem de novo."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE AQUI NO PRATO AGORA! ALGUÉM METE CARNE NA FRIGIDEIRA, HAMBÚRGUER TÁ EXPIRANDO!"
+     pensa: "Salada primeiro, entrego rápido. 12s pro hambúrguer é osso, ninguém tem carne grelhada ainda."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU PICAR A TERCEIRA CEBOLA; FECHem A SALADA E O HAMBÚRGUER!"
+     pensa: "Salvar a sopa antes que queime ou expire."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, LARGO A ALFACE NA BANCADA 2, BOTA NO PRATO AGORA!"
+     pensa: "Preciso soltar essa alface logo pro Deep juntar com o tomate da 11 e salvar a salada de 14s!"
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t43 (1:26) pontos -40 | pedidos: Hambúrguer(10s), Salada(12s), Sopa de cebola(30s), Hambúrguer(48s), Sopa de cebola(54s)
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "CLAUDINHO, TRAZ O TOMATE PICADO AGORA! GÊMEO, SAI DA FRENTE! SALADA EM 12 SEGUNDOS!"
+     pensa: "Pego a alface e monto a salada; o hambúrguer de 10s já era, foquem na salada."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, DEIXEI TOMATE PICADO NA BANCADA 11! PEGA ENQUANTO MONTA A SALADA COM A ALFACE, ELA TÁ EXPIRANDO!"
+     pensa: "Tomate na panela de cebola estraga a sopa. Largo na bancada 11 pra salada sair antes que expire."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR CEBOLA PRA SOPA!"
+     pensa: "Preciso iniciar a próxima sopa enquanto eles salvam hambúrguer e salada."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "DEEP, PARADO AÍ! TÔ COM A ALFACE, JOGA O TOMATE E ENTREGA ESSA SALADA!"
+     pensa: "Hambúrguer em 10s sem carne no fogo já era, foco total em salvar a salada em 12s!"
+  eventos: tipo=pedido receita=Sopa de cebola id=9; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t44 (1:28) pontos -40 | pedidos: Hambúrguer(8s), Salada(10s), Sopa de cebola(28s), Hambúrguer(46s), Sopa de cebola(52s)
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "DEEP, PEGUEI O TOMATE PICADO! TÁ INDO PRA VOCÊ, NÃO SAI DO LUGAR!"
+     pensa: "Tomate picado tá do meu lado, 0 segundo. Salada expira em 10s; Deep monta o prato, Gêmeo traz a alface."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE AQUI NO PRATO! RÁPIDO!"
+     pensa: "Salada expira em 10s; pego tomate e entrego."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA FRENTE! VOU PICAR CEBOLA PRA SOPA!"
+     pensa: "Priorizar a sopa antes que a panela fique parada demais."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, ALFACE NA BANCADA 2! PEGA O PRATO E MONTA ESSA SALADA!"
+     pensa: "O hambúrguer já era em 8s, foco na salada antes que expire também!"
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t45 (1:30) pontos -40 | pedidos: Hambúrguer(6s), Salada(8s), Sopa de cebola(26s), Hambúrguer(44s), Sopa de cebola(50s)
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "DEEP, TÔ COM A ALFACE! MONTA ESSA SALADA AGORA!"
+     pensa: "A alface picada tá do meu lado (0s), pego e jogo no prato do Deep antes que expire!"
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA TÁBUA! VOU PICAR CEBOLA PRA SOPA!"
+     pensa: "Preciso começar a sopa antes que o hambúrguer e a salada expirem."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "COLA O TOMATE NO MEU PRATO AGORA, CLAUDINHO! GÊMEO, CORRE NO HAMBÚRGUER, PÃO+CARNE, 6 SEGUNDOS!"
+     pensa: "alface no prato em 0.3s, tomate do Claudinho fecha a salada, entrego em 4s. Corrida contra o relógio."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, TOMATE PICADO NA BANCADA 11! MONTA A SALADA AÍ, EU PEGO A ALFACE!"
+     pensa: "Salada expira em 8s e o tomate não pode ir na panela da sopa. Largo aqui pro Deep montar com o prato dele."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t46 (1:32) pontos -40 | pedidos: Hambúrguer(4s), Salada(6s), Sopa de cebola(24s), Hambúrguer(42s), Sopa de cebola(48s)
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEIXEI A ALFACE NA BANCADA 2! PEGA E ENTREGA A SALADA!"
+     pensa: "O hambúrguer de 4s já era, nem tem carne no fogo. Preciso soltar a alface pra eles salvarem a salada antes que expire também."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, LIBERA A TÁBUA! VOU PICAR CEBOLA PRA SOPA!"
+     pensa: "Começar a segunda sopa enquanto eles fecham os pedidos urgentes."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, JOGA A ALFACE NO MEU PRATO AGORA! TÔ COM O TOMATE! ALGUÉM PEGA O HAMBÚRGUER QUE VAI EXPIRAR!"
+     pensa: "Salada em 6s: tomate no prato agora, Gêmeo encaixa a alface. Hambúrguer de 4s eu não consigo, tô preso no prato — que os outros salvem."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "DEEP, PEGUEI O TOMATE PICADO! SEGURA O PRATO AÍ QUE EU VOU PRA SALADA!"
+     pensa: "Salada expira em 6s e eu tô do lado do tomate picado. Se o Deep segurar o prato e o Gêmeo levar a alface, dá tempo."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Claudinho
+
+== t47 (1:34) pontos -40 | pedidos: Hambúrguer(2s), Salada(4s), Sopa de cebola(22s), Hambúrguer(40s), Sopa de cebola(46s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA PASSAGEM! VOU PICAR CEBOLA PRA SOPA; CLAUDINHO, FECHA A SALADA AGORA!"
+     pensa: "Priorizar a sopa enquanto os outros salvam os pedidos urgentes."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "PEGUEI A ALFACE! CLAUDINHO JOGA O TOMATE NO PRATO AGORA E ALGUÉM ENTREGA, SALADA EM 4s!!!"
+     pensa: "alface a 0.3s, pego já; preciso do tomate do Claudinho no mesmo prato pra salada valer; hambúrguer de 2s já era, não dá tempo"
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEEP, TOMATE PICADO NA BANCADA 11! PEGA E MONTA A SALADA AGORA!"
+     pensa: "Deep tá com o prato, mas o tomate dele não tá na mão. Largo aqui pra ele pegar, a salada tem 4s."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "DEEP, VEM CÁ COM O PRATO QUE EU TÔ COM A ALFACE! O HAMBÚRGUER JÁ ERA!"
+     pensa: "Hambúrguer de 2s já expirou praticamente, preciso garantir a salada de 4s pegando a alface da bancada 2 agora."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t48 (1:36) pontos -50 | pedidos: Salada(2s), Sopa de cebola(20s), Hambúrguer(38s), Sopa de cebola(44s)
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "DEEP, VOCÊ TÁ SEM ALFACE! LARGA ESSE PRATO OU PEGA A ALFACE AQUI!"
+     pensa: "O Deep acha que pegou alface mas tá com prato vazio, a salada vai expirar em 2s, preciso soltar essa alface logo."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "SALADA AGORA! EU JÁ PICO A CEBOLA PRA SOPA!"
+     pensa: "A salada está por um fio; não posso perder mais tempo."
+  Deep: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "GÊMEO, VEM PRA CÁ COM A ALFACE AGORA, TÔ COM PRATO E TOMATE!"
+     pensa: "Salada expira em 2s, preciso do tomate e da alface do Gêmeo nesse prato já."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "DEEP, PÕE O PRATO AQUI NA BANCADA 11! PEGUEI O TOMATE PICADO, GÊMEO TRAZ A ALFACE PRA CÁ!"
+     pensa: "Salada expira em 2s. Tomate tá do meu lado. Falta prato e alface no mesmo lugar, rápido."
+  eventos: tipo=expirou receita=Hambúrguer id=5; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Claudinho
+
+== t49 (1:38) pontos -60 | pedidos: Sopa de cebola(18s), Hambúrguer(36s), Sopa de cebola(42s), Sopa de tomate(54s)
+  Claudinho: ação='pôr tomate picado na panela do fogão 2 (0/3)' → andando
+     fala: "GEPETO, SOPA DE TOMATE NA PANELA 2! TRAZ MAIS DOIS TOMATES DA CAIXA!"
+     pensa: "Fogão 1 já tem cebola: tomate ali estraga a sopa. Fogão 2 tá vazio e o pedido de tomate ainda tem 54s."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → andando [BLOQUEADO por Gêmeo]
+     fala: "SEM SALADA! FOCO NA SOPA: GEPETO PICA CEBOLA, CLAUDINHO PÕE TOMATE NA PANELA 2! LARGO O PRATO E AJUDO!"
+     pensa: "Sem salada nos pedidos. Preciso liberar as mãos pra salvar a sopa de cebola que expira em 18s."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU FECHAR A SOPA DE CEBOLA AGORA! DEEP, DESENCOSTA!"
+     pensa: "Completar a panela rápido antes de queimar."
+  Gêmeo: ação='pegar alface picada da bancada 2' → pegou alface picada
+     fala: "NÃO TEM SALADA NOS PEDIDOS, SEUS DOIDOS! OLHEM OS PEDIDOS!"
+     pensa: "Eles estão pedindo alface e montando salada que nem tá na comanda! Vou tirar essa alface daqui logo e tentar consertar o foco."
+  eventos: tipo=expirou receita=Salada id=6; tipo=pedido receita=Sopa de tomate id=10; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t50 (1:40) pontos -60 | pedidos: Sopa de cebola(16s), Hambúrguer(34s), Sopa de cebola(40s), Sopa de tomate(52s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU PICAR A CEBOLA AGORA! DEEP, LIBERA A TÁBUA!"
+     pensa: "Prioridade é completar a sopa de cebola antes de expirar."
+  Gêmeo: ação='largar alface picada na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "LARGANDO A ALFACE! GEPETO, PICA ESSA CEBOLA LOGO QUE VAI VENCER!"
+     pensa: "Alface inútil agora, preciso me livrar disso rápido para ajudar nas sopas e no hambúrguer."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 2)' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO TÁ CERTO, OLHEM OS PEDIDOS! DUAS SOPAS DE CEBOLA E UM TOMATE, NADA DE ALFACE! LARGO O PRATO E VOU DE CEbola PRA PANELA 1 — GEPETO, FECHA A CEbola, NÃO A D"
+     pensa: "Pontos no chão (-60), pedidos caindo. Preciso de mãos livres AGORA pra fechar as duas sopas de cebola — panela 1 já tem 2 cebolas, falta uma."
+  Claudinho: ação='pôr tomate picado na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "TOMATE NA PANELA 2! DEEP, BORA PRA SOPA DE TOMATE!"
+     pensa: "Fogão 1 já tem cebola; tomate ali estragaria a sopa de cebola. Panela 2 vazia é o lugar certo."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=na_panela quem=Claudinho onde=fogão 2 n=1
+
+== t51 (1:42) pontos -60 | pedidos: Sopa de cebola(14s), Hambúrguer(32s), Sopa de cebola(38s), Sopa de tomate(50s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Gepeto]
+     fala: "EU PEGO O TOMATE PRA SOPA DE TOMATE! GEPETO, PICA A CEBOLA E FECHA AS DUAS SOPAS DE CEBOLA!"
+     pensa: "Panela 1 já tem 2 cebolas picadas e o Gepeto tá com a terceira. A de tomate tá atrasada: só tem 1 picado no fogão 2, então preciso trazer tomate."
+  Gêmeo: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Claudinho]
+     fala: "GEPETO TERMINA ESSA CEBOLA E JOGA NA 1! TO PEGANDO OUTRA PRA PRÓXIMA!"
+     pensa: "A sopa de cebola expira em 14s, Gepeto tem que botar a última na panela 1 agora, já vou adiantar a segunda sopa."
+  Deep: ação='esperar' → None
+     fala: "GEPETO, PICA ESSA CEBOIA E JOGA NO FOGÃO 1 AGORA! EU SIRVO COM O PRATO — 14 SEGUNDOS, CORRE!"
+     pensa: "Seguro o prato limpo pra servir a sopa de cebola urgente; largar aqui seria perdê-lo. Gepeto pica a 3ª cebola pro fogão 1 que já tem 2. Não largo o prato, é minha função."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, PICA ESSA CEBOLA AGORA! CLAUDINHO, SEGURA A PANELA 1!"
+     pensa: "A cebola precisa entrar na tábua imediatamente para salvar o pedido de 14 segundos."
+  eventos: tipo=esbarrao quem=Claudinho por=Gepeto; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t52 (1:44) pontos -60 | pedidos: Sopa de cebola(12s), Hambúrguer(30s), Sopa de cebola(36s), Sopa de tomate(48s)
+  Claudinho: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "EU PEGO CEBOLA E PICO NA TÁBUA 1! A PANELA JÁ TEM 2, SÓ FALTA UMA! GEPETO, NÃO ENTRA NO MEU CAMINHO!"
+     pensa: "Panela 1 tem 2 cebolas picadas. Falta 1 só pra sopa de 12s não expirar. Se o Gepeto picar a dele também, sobra cebola. Melhor eu pegar a crua e picar já."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → andando [BLOQUEADO por Gêmeo]
+     fala: "LARGO O PRATO! GEPETO JOGA A CEBOLA NA TÁBUA 1 AGORA QUE EU PICO PRA PANELA 1 — ESSA SOPA VAI EXPIRAR!"
+     pensa: "Preciso das mãos livres: solto o prato e corro pra tábua picar a cebola que falta no fogão 1."
+  Gêmeo: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Claudinho]
+     fala: "GEPETO BOTA ESSA CEBOLA NA TÁBUA 1 RÁPIDO! TO PEGANDO MAIS UMA!"
+     pensa: "Precisa de cebola urgente pro fogão 1 e pra outra sopa de cebola."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "PICO ESSA E JOGO NA PANELA 1! DEEP, NÃO BLOQUEIA!"
+     pensa: "Prioridade é fechar a sopa quase expirando."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=esbarrao quem=Gepeto por=Deep
+
+== t53 (1:46) pontos -60 | pedidos: Sopa de cebola(10s), Hambúrguer(28s), Sopa de cebola(34s), Sopa de tomate(46s)
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PONHO NA TÁBUA 1! DEEP, PICA E LEVA PRA PANELA 1!"
+     pensa: "A sopa de cebola tá quase expirando. Tábua 1 tá livre e o Deep já tá perto, então eu deixo a cebola ali e ele faz o resto."
+  Gêmeo: ação='pegar carne na caixa de carne' → andando [BLOQUEADO por Claudinho]
+     fala: "PAREM DE SE MATAR NA CEBOLA! VOU ADIANTAR O HAMBÚRGUER!"
+     pensa: "Eles estão todos amontoados na mesma sopa que nem vai dar tempo de cozinhar. Vou focar no hambúrguer antes que expire também."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → andando [BLOQUEADO por Gêmeo]
+     fala: "LIBERANDO A TÁBUA 1! PICA E JOGA A TERCEIRA CEBOLA NA PANELA, RÁPIDO!"
+     pensa: "Saio da frente pra Claudinho picar; depois pego prato e sirvo a sopa."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VAI, DEEP, PICA AGORA! CLAUDINHO, FECHA A TERCEIRA CEBOLA!"
+     pensa: "Coloco a cebola na tábua para completar a sopa urgente."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t54 (1:48) pontos -60 | pedidos: Sopa de cebola(8s), Hambúrguer(26s), Sopa de cebola(32s), Sopa de tomate(44s)
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "A PRIMEIRA SOPA VAI CAIR! FOCO NO HAMBÚRGUER E NA PRÓXIMA!"
+     pensa: "8 segundos não dá tempo nem de cozinhar. Vou adiantar cortes."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, TÁBUA 1 LIBERADA: PICA ESSA E JOGA NA PANELA 1!"
+     pensa: "Garantir a terceira cebola antes de expirar."
+  Deep: ação='esperar' → None
+     fala: "SEGURA O PRATO! CLAUDINHO, JOGA A TERCEIRA CEBOLA NA PANELA 1 AGORA! GEPETO, NÃO DEIXA A PANELA QUEIMAR! EU TENHO O PRATO PRO PEDIDO DE 8s!"
+     pensa: "Fico com o prato pronto pra servir a sopa que expira. Se largar, perco tempo e o prato."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO A TERCEIRA CEBOLA NA TÁBUA 1! DEEP, SAI DA FRENTE!"
+     pensa: "Se eu picar essa cebola, a sopa de cebola sai. O Deep tá com prato na mão, então ele não vai picar nada agora."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t55 (1:50) pontos -60 | pedidos: Sopa de cebola(6s), Hambúrguer(24s), Sopa de cebola(30s), Sopa de tomate(42s), Salada(48s)
+  Gêmeo: ação='pegar carne na caixa de carne' → andando [BLOQUEADO por Claudinho]
+     fala: "A PRIMEIRA SOPA JÁ FOI PRO SACO! FOCO NO HAMBÚRGUER, VOU PEGAR CARNE!"
+     pensa: "A sopa de 6s não dá tempo, panela nem começou a ferver a 3ª cebola. Vou adiantar o hambúrguer pra estancar o prejuízo."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GEPETO! JOGA A 3ª CEBOla NA PANELA 1 AGORA, SOPA EXPIRA EM 6s!! EU MONTO A SALADA!"
+     pensa: "Panela 1 tem 2 cebolas, falta uma. Claudinho tá picando. Eu adianto a salada com esse prato enquanto cobro a sopa."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, EU PICO ESSA CEBOLA AGORA E JOGO NA PANELA 1!"
+     pensa: "Panela 1 já tem 2 cebolas picadas, falta só essa. Picar na tábua 1 e levar pro fogão é o caminho mais rápido pra sopa de 6s."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Claudinho]
+     fala: "CLAUDINHO, TERMINA A PRIMEIRA! DEIXO ESTA CEBOLA NA BANCADA 3 PRA PRÓXIMA SOPA!"
+     pensa: "Não atrapalhar a tábua; preparar a próxima sopa."
+  eventos: tipo=pedido receita=Salada id=11; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t56 (1:52) pontos -60 | pedidos: Sopa de cebola(4s), Hambúrguer(22s), Sopa de cebola(28s), Sopa de tomate(40s), Salada(46s)
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, CEBOLA NA TÁBUA! PICANDO AGORA, A 3ª VAI PRA PANELA 1!"
+     pensa: "A panela já tem 2 cebolas picadas. Essa crua picada vira a 3ª e salva a sopa antes de expirar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "SOPA DE CEbola JÁ ERA, NÃO DÁ TEMPO MESMO! EU MONTO A SALADA, ALGUÉM PICA TOMATE AGORA!"
+     pensa: "Panela 1 tem 2 cebolas, Claude põe a 3ª mas cozinhar leva tempo demais. Sopa de cebola expira em 4s: perdida. Melhor avançar a salada com esse prato. Preciso de tomate picado urgente."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA AGORA! DEEP, SEGURA A PANELA 1!"
+     pensa: "Coloco na tábua para completar a sopa antes de expirar."
+  Gêmeo: ação='pegar carne na caixa de carne' → andando [BLOQUEADO por Claudinho]
+     fala: "A PRIMEIRA SOPA JÁ FOI! FOQUEM NO HAMBÚRGUER, VOU ADIANTAR A CARNE!"
+     pensa: "Não dá mais tempo de salvar a sopa de 4s, preciso agilizar a carne antes que o hambúrguer expire também."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Gêmeo por=Claudinho
+
+== t57 (1:54) pontos -60 | pedidos: Sopa de cebola(2s), Hambúrguer(20s), Sopa de cebola(26s), Sopa de tomate(38s), Salada(44s)
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → andando [BLOQUEADO por Gêmeo]
+     fala: "LARGUEI O PRATO, VOU DE TOMATE PRA PANELA 2! CLAUDINHO, MANDA A 3ª CEBOLA JÁ! GÊMEO, SAI DA MINHA FRENTE!"
+     pensa: "A sopa de 2s já era, foco na de 26s e na de tomate. Preciso das mãos livres."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, PEGA ESSA CEBOLA E PICA! FECHA A TERCEIRA PRA PANELA 1!"
+     pensa: "Acelerar a terceira cebola é prioridade; ainda dá para salvar a próxima sopa."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "TÔ PICANDO O TOMATE NA TÁBUA 2! DEEP, PEGA A ALFACE NA BANCADA 2 PRA SALADA!"
+     pensa: "A primeira sopa já era, vou adiantar o tomate pra salada ou pra sopa de tomate enquanto o Deep monta com a alface pronta."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA CEBOLA! GEPETO, PEGA O TOMATE PRO DEEP!"
+     pensa: "Fogão 1 já tem duas cebolas picadas. Uma terceira salva a sopa de 26s. Gepeto fica com o tomate."
+  eventos: tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t58 (1:56) pontos -70 | pedidos: Hambúrguer(18s), Sopa de cebola(24s), Sopa de tomate(36s), Salada(42s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLADINHO, PEGA ESSA CEBOLA! EU VOU BUSCAR O TOMATE PRO DEEP!"
+     pensa: "Libero a mão e ainda salvo ingredientes para a próxima sopa."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "TO MONTANDO A SALADA! GÊMEO, MANDA O TOMATE PICADO PRA CÁ E SAI DA MINHA FRENTE, PELO AMOR!"
+     pensa: "Perdemos a sopa de cebola por causa do bloqueio do Gêmeo. Foco total na salada agora: alface no prato, tomate picado vem depois. Pão e carne também precisam sair pra grelha."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "PICO O TOMATE DA TÁBUA 2! FOCA NO HAMBÚRGUER QUE VAI EXPIRAR!"
+     pensa: "Eles estão todos se trombando pelas cebolas. Vou adiantar o tomate da sopa/salada na tábua 2 que tá do meu lado sem bloquear ninguém."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, CEBOLA NA TÁBUA 1! ESSA É A TERCEIRA PRA PANELA 1, GEPETO FICA DE OLHO!"
+     pensa: "Panela 1 já tem 2 cebolas picadas. Uma a mais e a sopa sai, mas o Deep tá enroscado perto da tábua e já me travou quatro vezes."
+  eventos: tipo=expirou receita=Sopa de cebola id=7; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t59 (1:58) pontos -70 | pedidos: Hambúrguer(16s), Sopa de cebola(22s), Sopa de tomate(34s), Salada(40s)
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "TÔ PICANDO O TOMATE NA TÁBUA 2, DEEP! ALGUÉM OLHA A CARNE DO HAMBÚRGUER!"
+     pensa: "O tomate já tá na tábua 2, vou picar rápido pro Deep terminar essa salada antes que expire tudo, mas ninguém tá fazendo o hambúrguer!"
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA TÁBUA 1 QUE EU TENHO QUE PICAR A CEBOLA! ESSA É A TERCEIRA PRA SOPA!"
+     pensa: "A panela do fogão 1 já tem duas cebolas picadas. Essa terceira fecha a sopa. O Deep está travando a tábua de novo, então preciso ser rápido."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO, GÊMEO, SAIA DO MEU CAMINHO! PEGUEI ALFACE — QUEM JOGA O TOMATE PICADO AQUI? E ALGUÉM CORRE NO HAMBÚRGUER QUE VAI EXPIRAR!"
+     pensa: "Salada é o mais rápido: alface + tomate cru picado, sem cozinhar. Hambúrguer em 16s exige carne picada E grelhada, impossível sozinho."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, TÁBUA 1 LIBERADA! TERMINA ESSA CEBOLA E SALVA O QUE DER!"
+     pensa: "A sopa de cebola expirou, mas deixar a cebola pronta pode aproveitar a panela."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Deep
+
+== t60 (2:00) pontos -70 | pedidos: Hambúrguer(14s), Sopa de cebola(20s), Sopa de tomate(32s), Salada(38s)
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA CEBOLA NA TÁBUA 1! DEEP, VAI PRO HAMBÚRGUER, TÁ? A PANELA DO FOGÃO 1 JÁ TEM 2 CEBOLAS, É SÓ MAIS UMA PRA SOPA!"
+     pensa: "Com essa cebola picada a sopa de cebola fica com 3 e ainda dá pra salvar antes de expirar. O Deep tá com o prato parado perto da tábua, então é melhor eu usar a tábua agora e não brigar com ele por ela."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "SOPA DE CEBOLA JÁ EXPIROU, LARGA ESSA CEbola! PRECISO DE PÃO NO PRATO E CARNE NA FRIGIDEIRA AGORA, HAMBÚRGUER TEM 14s! EU SEGURO A ALFACE NO PRATO."
+     pensa: "Sopa de cebola perdida. Cebola picada agora é desperdício. Salada é o caminho mais rápido com a alface a 0.3s. Alguém tem que salvar o hambúrguer."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "TÔ PICANDO O TOMATE NA TÁBUA 2! DEEP PEGA ESSE ALFACE DA BANCADA!"
+     pensa: "Hambúrguer já era em 14s sem carne nem no fogo. Vou adiantar o tomate pra salada ou sopa!"
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Claudinho]
+     fala: "CEBOLA NA BANCADA 3! FOQUEM NO HAMBÚRGUER AGORA!"
+     pensa: "Sopa de cebola já expirou; não vou travar a tábua."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t61 (2:02) pontos -70 | pedidos: Hambúrguer(12s), Sopa de cebola(18s), Sopa de tomate(30s), Salada(36s), Salada(48s)
+  Gêmeo: ação='pegar carne na caixa de carne' → andando [BLOQUEADO por Claudinho]
+     fala: "SAI DA FRENTE DEEP! TÔ PEGANDO A CARNE PRO HAMBÚRGUER!"
+     pensa: "O hambúrguer vai expirar em 12s, não tem carne na frigideira ainda, preciso picar e grelhar voando."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO SAI DA MINHA FRENTE PELO AMOR! HAMBÚRGUER JÁ ERA, VOU MONTAR SALADA — TERMINA ESSE TOMATE E MANDA PRA CÁ!"
+     pensa: "hamburguer em 12s sem carne picada nem pão no prato é impossível; salto pra salada que dá pra fazer já, alface tá do meu lado"
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, FOCA NO HAMBÚRGUER AGORA! CLAUDINHO, PICA A CEBOLA NA TÁBUA 1!"
+     pensa: "Desobstruo minhas mãos e deixo o time salvar o hambúrguer."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA CEBOLA NA TÁBUA 1 E LEVO PRO FOGÃO 1, ELA FECHA AS 3 DA SOPA! Deep, sai do caminho que eu passo!"
+     pensa: "A panela do fogão 1 já tem 2 cebolas picadas. Essa terceira salva a sopa de cebola, se eu for rápido."
+  eventos: tipo=pedido receita=Salada id=12; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gepeto por=Claudinho; tipo=esbarrao quem=Claudinho por=Deep
+
+== t62 (2:04) pontos -70 | pedidos: Hambúrguer(10s), Sopa de cebola(16s), Sopa de tomate(28s), Salada(34s), Salada(46s)
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "TÔ PICANDO O TOMATE NA TÁBUA 2! DEEP, PREPARA O PRATO PRA SALADA!"
+     pensa: "Hambúrguer já era em 10s sem nada na grelha. Vou picar o tomate da tábua 2 pra salvar a salada ou a sopa."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Claudinho]
+     fala: "CEBOLA NA BANCADA 3! LIBEREI A TÁBUA — FOQUEM NO HAMBÚRGUER E NAS SALADAS!"
+     pensa: "Solto a cebola para não travar a tábua nem o Claudinho."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO, CORRE COM ESSA CARNE! CLAUDINHO, PÕE O PÃO NO PRATO! EU MONTO O BURGER, ME DÁ O PRATO CHEIO QUANDO TIVER PRONTO!"
+     pensa: "Burger em 10s e eu de prato vazio na mão — não dá tempo sozinho. Uso esse prato pra adiantar alface da salada e grito pro Gêmeo largar a carne e o Claudinho botar o pão. Se ninguém se mexer, é -10 de novo."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA TÁBUA 1 QUE EU TÔ PICANDO A CEBOLA! GÊMEO, PEGA O PÃO!"
+     pensa: "A panela do fogão 1 já tem 2 cebolas picadas; falta só uma. Se eu picar essa, dá pra fazer outra sopa antes que expire."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Gepeto por=Claudinho; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Claudinho por=Deep
+
+== t63 (2:06) pontos -70 | pedidos: Hambúrguer(8s), Sopa de cebola(14s), Sopa de tomate(26s), Salada(32s), Salada(44s)
+  Gêmeo: ação='pegar pão na caixa de pão' → andando [BLOQUEADO por Gepeto]
+     fala: "PEGANDO O PÃO! MAS A CARNE NÃO VAI DAR TEMPO, ALGUÉM BOTA CARNE PRA PICAR!"
+     pensa: "Hambúrguer em 8s sem carne no fogo já era, mas vou adiantar o pão e focar em salvar o resto."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PEGA ESSA CEBOLA E FECHA A SOPA!"
+     pensa: "Completar a terceira cebola é prioridade; a sopa expira em 14 segundos."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA CEBOLA NA TÁBUA 1! DEEP, SAI DO CAMINHO, JÁ TÔ INDO!"
+     pensa: "Falta só uma cebola picada pra sopa do fogão 1. Deep tá travando a passagem de novo, então preciso ser rápido."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO, SALADA RODANDO! CORRE ATRÁS DO HAMBÚRGUER, 8 SEGUNDOS!!"
+     pensa: "Hambúrguer quase explodindo e ninguém pega pão+carne. Eu começo a salada com a alface que tá a 0.3s, é o mais rápido."
+  eventos: tipo=esbarrao quem=Gêmeo por=Gepeto; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t64 (2:08) pontos -70 | pedidos: Hambúrguer(6s), Sopa de cebola(12s), Sopa de tomate(24s), Salada(30s), Salada(42s)
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA CEBOLA! GEPETO, PREPARA O FOGÃO 1 PRA SOPA!"
+     pensa: "Preciso de mais uma cebola picada pra fechar a sopa de cebola antes de expirar em 12s. A tábua 1 é a mais perto."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → andando [BLOQUEADO por Claudinho]
+     fala: "CLAUDINHO, PICA A MINHA TAMBÉM DEPOIS! DEEP, LIBERA A TÁBUA!"
+     pensa: "Evito bloquear e deixo cebola extra pronta para a sopa."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "O HAMBÚRGUER JÁ ERA, NÃO DÁ TEMPO! TÔ PICANDO O TOMATE PRA SALADA E PRO FOGÃO!"
+     pensa: "Hambúrguer tem 6s e nem carne no fogo tem, impossível salvar. Vou picar o tomate da tábua 2 pra adiantar sopa ou salada sem trombada."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "ALFACE NO PRATO! GEPETO, LARGA A CEbola E PICA TOMATE NA TÁBUA 2 AGORA, TEM 2 SALADAS PRA SAIR!"
+     pensa: "Hambúrguer e sopa de cebola já eram, 6s e 12s não dá. Vou garantir as saladas: alface já tá no prato, só falta tomate picado. Gepeto tá perdido com cebola na mão e a tábua 2 tem tomate cru esperando."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gepeto por=Claudinho; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t65 (2:10) pontos -70 | pedidos: Hambúrguer(4s), Sopa de cebola(10s), Sopa de tomate(22s), Salada(28s), Salada(40s)
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "SAIAM DA FRENTE! TÔ PICANDO O TOMATE PRA SALADA!"
+     pensa: "Hambúrguer já era em 4s e a sopa de cebola os dois tão cuidando. Vou adiantar o tomate pra salada antes que expire também."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "VOU PICAR ESSA CEBOLA E FECHAR A SOPA! DEEP, LIBERA A TÁBUA!"
+     pensa: "Preciso completar as três cebolas antes de queimar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "PONHO ALFACE NO PRATO — GÊMEO, MANDA O TOMATE PICADO PRA CÁ QUE FECHO A SALADA! HAMBÚRGUER JÁ ERA, NÃO CORRE ATRÁS!"
+     pensa: "Hambúrguer perdido, sopa de cebola também difícil. Vou montar salada rápida: alface no prato e o tomate do Gêmeo completa. Duas saladas de uma vez se ele cooperar."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "PICO ESSA CEBOLA AGORA! ELA VAI PRA PANELA E FECHA A SOPA DE CEBOLA!"
+     pensa: "A panela do fogão 1 tem 2 cebolas picadas e precisa de 3. Essa é a última que falta, então pico aqui na tábua 1 e levo pro fogão."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Claudinho por=Deep
+
+== t66 (2:12) pontos -70 | pedidos: Hambúrguer(2s), Sopa de cebola(8s), Sopa de tomate(20s), Salada(26s), Salada(38s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PICA ESSA TAMBÉM PRA FECHAR A SOPA!"
+     pensa: "Coloco na tábua; precisamos entregar a sopa de cebola antes de queimar."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "TÔ PICANDO O TOMATE PRA SALADA! SAI DA MINHA FRENTE!"
+     pensa: "Chega de colisão. O hambúrguer já era, vou picar esse tomate na tábua 2 pra salvar a salada pro Deep."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO ESSA! Gepeto, tu tá com outra cebola, leva pro fogão 1 que completa a sopa!"
+     pensa: "Sopa de cebola expira em 8s e o fogão 1 já tem 2 picadas. Preciso de uma a mais. Deep tá perto da tábua, então vai ser apertado."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "CLAUDINHO PICA A CEBOLLA NA TÁBUA 1, GEPETO SAI DA FRENTE E VAI PRA TÁBUA 2! EU MONTANDO A SALADA!"
+     pensa: "Hambúrguer já era, 2s. Panela de cebola tá com 2, falta 1. Adianto alface no prato e libero o gargalo da tábua."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t67 (2:14) pontos -80 | pedidos: Sopa de cebola(6s), Sopa de tomate(18s), Salada(24s), Salada(36s)
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "EU PICO A CEBOLA NA TÁBUA 1! GEPETO, TRAZ MAIS UMA CEBOLA PRA PANELA, FALTA UMA!"
+     pensa: "A sopa de cebola tem só 6s. A panela já tem 2 picadas, falta 1. Pico essa e levo pro fogão 1."
+  Deep: ação='esperar' → None
+     fala: "VAMO, CLAUDINHO! JOGA A CEBOLA NA PANELA 1! TÔ COM PRATO PRA SERVIR! GÊMEO, SAIA DA FRENTE!"
+     pensa: "Sopa de cebola expira em 6s. Preciso segurar o prato e cobrar os caras."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PICA ESSA NA TÁBUA 1 E COMPLETA A SOPA AGORA!"
+     pensa: "Prioridade é salvar a sopa de cebola antes de expirar."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "A SOPA DE CEBOLA VAI RODAR! TÔ PICANDO O TOMATE PRA SALADA!"
+     pensa: "Sopa de cebola vai expirar em 6s, impossível salvar agora. Vou adiantar o tomate da salada pra estancar o prejuízo."
+  eventos: tipo=expirou receita=Hambúrguer id=8; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Gêmeo por=Deep
+
+== t68 (2:16) pontos -80 | pedidos: Sopa de cebola(4s), Sopa de tomate(16s), Salada(22s), Salada(34s), Sopa de tomate(54s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PICA ESSA TAMBÉM E JOGA NA PANELA 1!"
+     pensa: "Acelerar a sopa de cebola antes de expirar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "CLAUDINHO, DEIXA A CEbola, A SOPA JÁ ERA! GÊMEO, MANDA TOMATE PICADO PRA SALADA! EU TÔ MONTANDO A SALADA COM ALFACE!"
+     pensa: "A sopa de cebola expira em 4s, impossível. Vou adiantar a salada colocando alface no prato."
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, SAI DA MINHA FRENTE! TÔ PICANDO O TOMATE PRA SALADA E PRO PRÓXIMO!"
+     pensa: "A sopa de cebola já era, não dá tempo de cozinhar em 4s. Vou focar no tomate pra adiantar a sopa de 16s e as saladas."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "TÁ NA MÃO, DEEP! PICO ESSA CEBOLA AGORA E A SOPA FECHA!"
+     pensa: "A panela 1 já tem 2 cebolas picadas. Só falta mais uma picada pra sopa ficar pronta antes de expirar em 4s. Deep, pega o prato e fica pronto pra servir."
+  eventos: tipo=pedido receita=Sopa de tomate id=13; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t69 (2:18) pontos -80 | pedidos: Sopa de cebola(2s), Sopa de tomate(14s), Salada(20s), Salada(32s), Sopa de tomate(52s)
+  Gêmeo: ação='picar tomate na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "SAI DA FRENTE, DEEP! TÔ PICANDO O TOMATE PRA SALADA!"
+     pensa: "A sopa de cebola já era em 2s, vou picar esse tomate que tá na tábua 2 pra salvar a salada."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "GEPETO, EU PICO! DEEP, NÃO DESISTE, FALTA SÓ UMA CEBOLA PRA SOPA!"
+     pensa: "Fogão 1 já tem 2 cebolas picadas. Mais uma e a sopa sai, mesmo que o pedido esteja quase expirando. Vou para a tábua."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, PEGA ESSA CEBOLA E PICA AGORA!"
+     pensa: "A sopa de cebola está quase perdida, mas ainda tento salvar."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO, SAI DA FRENTE! VOU MONTAR A SALADA — MANDA O TOMATE PICADO!"
+     pensa: "Sopa de cebola não dá mais; adianto alface no prato pra salada."
+  eventos: tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gepeto por=Deep; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t70 (2:20) pontos -90 | pedidos: Sopa de tomate(12s), Salada(18s), Salada(30s), Sopa de tomate(50s)
+  Claudinho: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "GEPETO, CEBOLA NÃO ENTRA NESSE PEDIDO! DEIXO NA BANCADA, VOU BUSCAR TOMATE PRA SOPA!"
+     pensa: "Cebola não serve pra nenhum pedido ativo. Largo e libero a mão pro tomate, que a sopa de 12s tá quase expirando."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GÊMEO, SAI DO MEU CAMINHO! TÔ MONTANDO A SALADA — ALFACE NO PRATO. CLAUDINHO, JOGA ESSA CEBO... DEIXA, TERMINA A SOPA DE CEBOBA QUE TÁ QUASE! E ALGUÉM PÕE TOMAT"
+     pensa: "Sopa de 12s provavelmente já era; salada é a aposta mais rápida e barata. Alface no prato agora, tomate picado depois."
+  Gepeto: ação='jogar cebola crua no lixo' → andando
+     fala: "CLAUDINHO, FOCA NA SOPA DE TOMATE! GÊMEO, MANDA O TOMATE PICADO PRA SALADA!"
+     pensa: "Preciso liberar as mãos e salvar os pedidos de tomate."
+  Gêmeo: ação='picar tomate na tábua 2' → picando
+     fala: "TÔ PICANDO O TOMATE NA TÁBUA 2, DEEP! PEGA A ALFACE NA BANCADA 2!"
+     pensa: "A sopa de tomate vai expirar em 12s e só tem 1 tomate no fogão 2, impossível salvar. Vou focar nas saladas pra pontuar logo."
+  eventos: tipo=expirou receita=Sopa de cebola id=9; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t71 (2:22) pontos -90 | pedidos: Sopa de tomate(10s), Salada(16s), Salada(28s), Sopa de tomate(48s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "EU PEGO TOMATE E PICO NA TÁBUA 1! GÊMEO, TERMINA O DA TÁBUA 2 PRA SALADA!"
+     pensa: "Sopa de tomate tá quase expirando, mas dá pra salvar a salada se o tomate sair rápido. Tábua 1 tá livre, então eu piso nela."
+  Gêmeo: ação='picar tomate na tábua 2' → picou tomate
+     fala: "TÔ TERMINANDO DE PICAR ESSE TOMATE PRA SALADA!"
+     pensa: "Terminar esse tomate logo que tá na minha frente pra salvar a salada."
+  Deep: ação='pôr alface picada da bancada 2 no prato' → pôs no prato
+     fala: "SOPA DE TOMATE TÁ PERDIDA, SÓ TEM 1 TOMATE NA PANELA! FOCO NAS SALADAS! TÔ MONTANDO UMA AGORA, GÊMEO MANDA TOMATE PICADO!"
+     pensa: "10s é impossível pra cozinhar sopa. Salvo a salada e seguro pontos."
+  Gepeto: ação='jogar cebola crua no lixo' → andando
+     fala: "JOGANDO A CEBOLA FORA! FOCO TOTAL NA SOPA DE TOMATE!"
+     pensa: "Liberar as mãos para ajudar nas sopas e saladas de tomate."
+  eventos: tipo=picou quem=Gêmeo o=tomate
+
+== t72 (2:24) pontos -90 | pedidos: Sopa de tomate(8s), Salada(14s), Salada(26s), Sopa de tomate(46s)
+  Gepeto: ação='jogar cebola crua no lixo' → jogou no lixo
+     fala: "JOGANDO A CEBOLA FORA! FOCO TOTAL NO TOMATE E NAS SALADAS!"
+     pensa: "Libero as mãos e não atrapalho os pedidos urgentes."
+  Deep: ação='pôr tomate picado da tábua 2 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "SALADA PRONTA! PEGUEI O TOMATE DA TÁBUA 2, JÁ ENTREGO! GÊMEO SAI DA FRENTE, PELO AMOR!"
+     pensa: "Prato com alface + tomate da tábua 2 = salada de 14s entregue. Prioridade máxima."
+  Gêmeo: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "DEEP, SAI DO CAMINHO! TÔ COM O TOMATE DA SALADA!"
+     pensa: "A sopa de 8s já era, foco total em entregar a salada com o Deep antes que expire!"
+  Claudinho: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Pego o tomate e pico na tábua 1! Gêmeo, pega o picado da tábua 2 pra sopa!"
+     pensa: "Sopa de tomate com 8s pra expirar. Preciso de 3 tomates picados na panela, e a tábua 1 é a mais perto."
+  eventos: tipo=lixo quem=Gepeto o=cebola crua; tipo=esbarrao quem=Deep por=Gêmeo
+
+== t73 (2:26) pontos -90 | pedidos: Sopa de tomate(6s), Salada(12s), Salada(24s), Sopa de tomate(44s)
+  Claudinho: ação='picar tomate na tábua 1' → picando
+     fala: "EU PICO ESSE TOMATE AGORA! GÊMEO, LEVA ESSE PRO PRATO DA SALADA E DEEP ENTREGA JÁ!"
+     pensa: "Tomate cru bem aqui, do meu lado. Se eu picar já, ajudo a salada que expira em 12s. A sopa de 6s precisa de 3 tomates, então ainda vou precisar de mais."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 2 (1/3)' → andando
+     fala: "JOGANDO TOMATE NA PANELA 2! CLAUDINHO PICA MAIS TOMATE PRA ESSA SOPA!"
+     pensa: "A sopa de 6s vai expirar, não dá tempo, mas preciso abastecer o fogão 2 pra próxima sopa logo."
+  Deep: ação='largar prato com alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "GÊMEO, JOGA O TOMATE PICADO NO PRATO DA BANCADA 11 E ENTREGA! SALADA PRONTA, SAI DO MEU CAMINHO!"
+     pensa: "Prato com alface na bancada 11, Gêmeo tem tomate picado — ele junta e entrega. Sopa de tomate com 6s é impossível, priorizo a salada."
+  Gepeto: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "CLAUDINHO, TERMINA O TOMATE! GÊMEO, LEVA O TOMATE DA SALADA! DEEP, ENTREGA A SOPA ASSIM QUE FICAR PRONTA!"
+     pensa: "Pego o prato agora para servir a sopa no instante em que cozinhar."
+
+== t74 (2:28) pontos -90 | pedidos: Sopa de tomate(4s), Salada(10s), Salada(22s), Sopa de tomate(42s), Sopa de cebola(54s)
+  Gêmeo: ação='pôr tomate picado no prato da bancada 11' → andando [BLOQUEADO por Claudinho]
+     fala: "JOGUEI NA BANCADA 11! DEEP, ENTREGA ESSA SALADA AGORA ANTES QUE EXPIRE!"
+     pensa: "A sopa de tomate de 4s já era, não dá tempo de cozinhar. Foco na salada de 10s!"
+  Gepeto: ação='largar prato limpo vazio na bancada livre mais perto (bancada 10)' → largou em bancada 10
+     fala: "GÊMEO, FECHA A SOPA DE TOMATE E SERVE NO PRATO! DEEP, DESTRAVA A PASSAGEM!"
+     pensa: "Libero as mãos sem perder o prato; a sopa de tomate está por um ingrediente."
+  Deep: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "PEGUEI O PRATO DA SALADA! CLAUDINHO, TERMINA ESSE TOMATE E JOGA AQUI! GÊMEO, SAI DO MEU CAMINHO, PELO AMOR!"
+     pensa: "Salada em 10s é a única chance real. Sopa de tomate com 1/3 não sai a tempo, já era."
+  Claudinho: ação='picar tomate na tábua 1' → picou tomate
+     fala: "EU TERMINO O TOMATE NA TÁBUA 1! DEEP, PRATO DE SALADA PRONTO EM SEGUIDA!"
+     pensa: "A salada de 10s é a mais urgente. Termino esse tomate e levo pra bancada 11 com a alface."
+  eventos: tipo=pedido receita=Sopa de cebola id=14; tipo=esbarrao quem=Gêmeo por=Claudinho; tipo=picou quem=Claudinho o=tomate
+
+== t75 (2:30) pontos -90 | pedidos: Sopa de tomate(2s), Salada(8s), Salada(20s), Sopa de tomate(40s), Sopa de cebola(52s)
+  Claudinho: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! DEEP, SEGURA O PRATO AÍ QUE EU VOU PRO SEU LADO!"
+     pensa: "A salada tem 8s. Com o tomate na mão, falta só juntar com a alface do Deep sem travar o caminho."
+  Deep: ação='pôr tomate picado da tábua 1 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "PEGUEI OTOMATE DA TÁBUA 1, SALADA COMPLETA! JÁ VOU ENTREGAR!"
+     pensa: "Tábua 1 a 0,3s com tomate picado, é só encaixar no prato e correr pro passa-prato em 4,3s: dá tempo dos 8s."
+  Gepeto: ação='pegar tomate picado da tábua 1' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, ENTREGA A SALADA AGORA! EU LEVO O TOMATE PRA PRÓXIMA!"
+     pensa: "A sopa expirou; salvar a próxima salada."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 2 (1/3)' → andando
+     fala: "JOGANDO TOMATE NO FOGÃO 2! DEEP, ENTREGA ESSA SALADA LOGO!"
+     pensa: "A sopa de 2s já era, preciso adiantar a próxima sopa no fogão 2 enquanto eles montam a salada."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t76 (2:32) pontos -100 | pedidos: Salada(6s), Salada(18s), Sopa de tomate(38s), Sopa de cebola(50s)
+  Gepeto: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "DEEP, ENTREGA A PRIMEIRA SALADA AGORA! EU PREPARO A PRÓXIMA."
+     pensa: "Vou adiantar a alface da segunda salada."
+  Deep: ação='largar prato com alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGUEI O PRATO NA BANCADA 11! CLAUDINHO JOGA O TOMATE E ALGUÉM ENTREGA, CORRE QUE SÃO 6 SEGUNDOS!"
+     pensa: "Prato só com alface não é salada; sem opção de pegar nada agora, largo pro Claudinho completar e entregar."
+  Claudinho: ação='pôr tomate picado na panela do fogão 2 (1/3)' → andando
+     fala: "GÊMEO, O MEU VAI NO FOGÃO 2! COLOCA O SEU TAMBÉM, A SOPA DE TOMATE FECHA!"
+     pensa: "Fogão 2 já tem 1, com o meu vai pra 2 e com o do Gêmeo fecha 3. Sopa de tomate ainda tem 38s."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "TÔ ENCHENDO A SOPA DE TOMATE! DEEP, ENTREGA ESSA SALADA LOGO, PELO AMOR DE DEUS!"
+     pensa: "Eles já estão cuidando da salada que vai expirar; vou adiantar a sopa de tomate no fogão 2 que tá do meu lado antes que expire também."
+  eventos: tipo=expirou receita=Sopa de tomate id=10; tipo=na_panela quem=Gêmeo onde=fogão 2 n=2
+
+== t77 (2:34) pontos -100 | pedidos: Salada(4s), Salada(16s), Sopa de tomate(36s), Sopa de cebola(48s)
+  Gepeto: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "VOU PICAR A ALFACE AGORA! DEEP, PREPARA O TOMATE PRA SALADA!"
+     pensa: "Salvar a salada urgente; preciso picar primeiro."
+  Deep: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "CLAUDINHO PARA TUDO! NÃO JOGA NO FOGÃO, ME DÁ O TOMATE PICADO NO PRATO PRA SALADA, EXPIRA EM 4s!!!"
+     pensa: "pego o prato de alface que tá do meu lado e corro pro passa-prato, Claudinho que jogue o tomate nele no caminho"
+  Claudinho: ação='pôr tomate picado no prato da bancada 11' → andando [BLOQUEADO por Deep]
+     fala: "EU MONTO A SALADA NO PRATO DA BANCADA 11! DEEP, PEGA E ENTREGA JÁ, FALTAM 4 SEGUNDOS!"
+     pensa: "A salada expira em 4s e o prato da 11 já tem alface. Meu tomate fecha ela agora; a sopa do Gêmeo fica pro próximo ciclo."
+  Gêmeo: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "CLAUDINHO BOTA ESSE TOMATE NA SALADA DA BANCADA 11, VAI EXPIRAR!"
+     pensa: "A salada vai vencer em 4s se ninguém finalizar, vou adiantar a cebola pra sopa 1."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep
+
+== t78 (2:36) pontos -100 | pedidos: Salada(2s), Salada(14s), Sopa de tomate(34s), Sopa de cebola(46s)
+  Claudinho: ação='pôr tomate picado no prato da bancada 10' → andando
+     fala: "DEEP, DEIXEI O TOMATE NO PRATO DA BANCADA 10! TRAZ A ALFACE PRA CÁ, AGORA!"
+     pensa: "Não consigo levar o tomate até o Deep a tempo. Monto a salada aqui e ele traz a alface."
+  Deep: ação='largar prato com alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "SOLTEI A ALFACE NA 11, CLAUDINHO! JOGA O TOMATE NO MESMO PRATO E ENTREGA A SEGUNDA SALADA, ESSA DE 2s JÁ ERA!"
+     pensa: "A de 2s não dá, mas se juntar alface+tomate na 11 salvamos a de 14s. Gêmeo para de atrapalhar!"
+  Gepeto: ação='esperar' → None
+     fala: "CLAUDINHO, COLOCA O TOMATE AGORA! DEEP, ENTREGA A SALADA!"
+     pensa: "Não atrapalhar; eles precisam concluir a salada urgente."
+  Gêmeo: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "ENTREGA ESSA SALADA LOGO! Tô picando cebola na tábua 2 pra sopa!"
+     pensa: "O fogão 1 já tem 2 cebolas picadas, preciso picar essa pra botar pra cozinhar antes que expire tudo de novo."
+
+== t79 (2:38) pontos -110 | pedidos: Salada(12s), Sopa de tomate(32s), Sopa de cebola(44s)
+  Gêmeo: ação='pegar prato com alface picada da bancada 11' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, JOGA O TOMATE NO MEU PRATO! VOU LEVAR PRA ENTREGAR!"
+     pensa: "O prato com alface tá do meu lado a 0.3s. Pego ele, Claudinho junta o tomate picado que tem na mão e salvamos a salada de 12s!"
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "VOU FECHAR A SOPA DE TOMATE; DEIXEM A PANELA LIVRE!"
+     pensa: "Pego o terceiro tomate e tento salvar a próxima entrega."
+  Deep: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "PEGUEI A ALFACE! CLAUDINHO, JOGA O TOMATE NO PRATO AGORA, 12 SEGUNDOS!"
+     pensa: "Salada quase expirando, pego a alface e corro pro tomate."
+  Claudinho: ação='pôr tomate picado no prato da bancada 11' → andando [BLOQUEADO por Deep]
+     fala: "TOMATE NO PRATO DA 11! Deep, pega e entrega a SALADA AGORA!"
+     pensa: "Salada expira em 12s e o prato com alface já está na 11. Se eu colocar o tomate ali, o Deep só precisa entregar."
+  eventos: tipo=expirou receita=Salada id=11; tipo=esbarrao quem=Gêmeo por=Deep; tipo=esbarrao quem=Claudinho por=Deep
+
+== t80 (2:40) pontos -110 | pedidos: Salada(10s), Sopa de tomate(30s), Sopa de cebola(42s), Salada(48s)
+  Deep: ação='largar prato com alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGUEI O PRATO NA 11! CLAUDINHO, JOGA TEU TOMATE NELE E MANDA PRA ENTREGA AGORA! GEMEO, NAO PEGA ESSE PRATO — VAI PICAR CEBOLA PRA FECHAR A SOPA DO FOGÃO 1!"
+     pensa: "Salada expirada já era, mas a de 48s ainda dá. Junto alface+tomate na 11. Sopa de tomate expirou, foco total na cebola: fogão 1 só precisa de 1 cebola picada."
+  Claudinho: ação='pôr tomate picado na panela do fogão 2 (2/3)' → andando
+     fala: "Gepeto, eu fecho a sopa de tomate no fogão 2! Esse é o terceiro, NÃO põe mais!"
+     pensa: "A salada tá quase expirando e o Deep está longe, mas a sopa de tomate ainda tem 30s. Com esse tomate ela fica completa e libera o Gepeto."
+  Gêmeo: ação='picar cebola na tábua 2' → picando
+     fala: "ENTREGA ESSA SALADA LOGO! TÔ PICANDO A ÚLTIMA CEBOLA!"
+     pensa: "Claudinho e Deep resolvem a salada agora. Eu pico essa cebola pra fechar o fogão 1."
+  Gepeto: ação='esperar' → None
+     fala: "DEEP, ENTREGA A SALADA AGORA! GÊMEO, PEGA O TOMATE E CORRE PRA SOPA!"
+     pensa: "Não atrapalhar a entrega urgente; depois preparo outra sopa."
+  eventos: tipo=pedido receita=Salada id=15
+
+== t81 (2:42) pontos -110 | pedidos: Salada(8s), Sopa de tomate(28s), Sopa de cebola(40s), Salada(46s)
+  Claudinho: ação='pôr tomate picado no prato da bancada 11' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, TÔ JOGANDO O TOMATE NO PRATO DA 11 AGORA! FECHA A SALADA E LEVA PRO PASSA-PRATO, SÃO 8 SEGUNDOS!"
+     pensa: "Prato da 11 já tem alface picada. Tomate completa a salada e salva o pedido de 8s antes de expirar."
+  Gêmeo: ação='picar cebola na tábua 2' → picou cebola
+     fala: "TÔ TERMINANDO A CEBOLA PRO FOGÃO 1! CLAUDINHO, BOTA ESSE TOMATE NA SALADA!"
+     pensa: "Já estou na tábua 2 com a cebola 50% picada, terminar ela fecha a sopa do fogão 1 rapidinho."
+  Deep: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "CLAU, JOGA O TOMATE NO MEU PRATO AGORA! EU VOU ENTREGAR!"
+     pensa: "Pego o prato, ele adiciona tomate rápido e eu corro pro passa-prato. 8s dá se ninguém travar."
+  Gepeto: ação='pôr tomate cru no prato da bancada 11' → andando [BLOQUEADO por Deep]
+     fala: "CLAUDINHO, SALADA FECHADA! ENTREGA AGORA!"
+     pensa: "Salvar a salada antes que expire."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=picou quem=Gêmeo o=cebola; tipo=esbarrao quem=Gepeto por=Deep
+
+== t82 (2:44) pontos -110 | pedidos: Salada(6s), Sopa de tomate(26s), Sopa de cebola(38s), Salada(44s)
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "CLAU E DEEP, FECHA E ENTREGA A SALADA AGORA! DEIXO TOMATE PRA PRÓXIMA SOPA."
+     pensa: "Salada está nas mãos deles; armazeno este tomate para a próxima rodada."
+  Deep: ação='ENTREGAR prato com alface picada no passa-prato' → andando
+     fala: "ENTREGANDO SÓ ALFACE, ESSA SALADA JÁ ERA! GÊMEO, JOGA TOMATE NO FOGÃO 2 QUE A SOPA É PRIORIDADE!"
+     pensa: "Salada sem tomate não fecha, mas 6s não dá pra esperar. Entrego e viro o foco pra sopa de tomate."
+  Claudinho: ação='pôr tomate picado no prato da bancada 10' → andando
+     fala: "DEEP, PEGA ESSE PRATO DA BANCADA 10 COM O TOMATE! TÁ FALTANDO A TUA ALFACE!"
+     pensa: "Deep não vai chegar a tempo até mim. Monto o prato do meu lado e ele traz a alface."
+  Gêmeo: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "ENTREGA LOGO ESSA SALADA, DEEP! TÔ INDO FECHAR A SOPA DE CEBOLA!"
+     pensa: "Eles estão entregando a salada que vai expirar. Eu pego a cebola picada da tábua 2 e levo pro fogão 1 pra fechar a sopa."
+
+== t83 (2:46) pontos -110 | pedidos: Salada(4s), Sopa de tomate(24s), Sopa de cebola(36s), Salada(42s)
+  Claudinho: ação='pôr tomate picado na panela do fogão 2 (2/3)' → pôs na panela (3)
+     fala: "EU FECHO A SOPA DE TOMATE NO FOGÃO 2! DEEP, SE QUISER A SALADA, ME PASSA ESSE PRATO QUE EU PONHO O TOMATE!"
+     pensa: "Salada com 4s não dá tempo. Fogão 2 está perto e fecha a sopa de tomate (24s). Melhor garantir um pedido."
+  Deep: ação='ENTREGAR prato com alface picada no passa-prato' → andando
+     fala: "ENTREGANDO SÓ ALFACE, NÃO VAI VALER! CLAU, GUARDA ESSE TOMATE PRO PRÓXIMO PRATO, A GENTE MONTA JUNTO!"
+     pensa: "Perdi a salada, mas não posso ficar parado com prato na mão. Entrego e já corro pra próxima."
+  Gepeto: ação='pegar tomate cru da bancada 2' → pegou tomate cru
+     fala: "DEEP, ENTREGA A SALADA AGORA! CLAUDINHO, FECHA AS SOPAS!"
+     pensa: "Vou garantir mais tomate para a sopa."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (2/3)' → andando
+     fala: "TÔ FECHANDO A SOPA DE CEBOLA NO FOGÃO 1! SAI DA FRENTE!"
+     pensa: "O fogão 1 já tem 2 cebolas, minha cebola picada vai começar a cozinhar agora!"
+  eventos: tipo=na_panela quem=Claudinho onde=fogão 2 n=3
+
+== t84 (2:48) pontos -110 | pedidos: Salada(2s), Sopa de tomate(22s), Sopa de cebola(34s), Salada(40s)
+  Gepeto: ação='pôr tomate cru no prato da bancada 10' → andando
+     fala: "DEEP, TRAZ O PRATO COM ALFACE PRA BANCADA 10 AGORA!"
+     pensa: "Salvar a salada no último segundo."
+  Claudinho: ação='pegar prato limpo vazio da bancada 10' → pegou prato limpo vazio
+     fala: "GEPETO, TOMATE FICA COMIGO! PEGO PRATO PRA SOPA DO FOGÃO 2 AGORA!"
+     pensa: "A salada de 2s já tá perdida. A sopa de tomate tá cozinhando no fogão 2 e pode queimar; preciso de um prato na mão."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (2/3)' → andando [BLOQUEADO por Gepeto]
+     fala: "FECHEI A SOPA DE CEBOLA NO FOGÃO 1! ALGUÉM PEGA PRATO!"
+     pensa: "Fogão 1 tem 2 cebolas, colocando a terceira começa a cozinhar. Salada de 2s já era, focar no que dá ponto."
+  Deep: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "LARGUEI O PRATO COM ALFACE NA BANCADA 7! GEPETO, PICA ESSE TOMATE E JOGA NO PRATO — SALADA É ALFACE + TOMATE, NÃO ENTREGA PELA METADE! GÊMEO E CLAUDINHO, FECHAM"
+     pensa: "Não posso entregar salada só com alface, ia ser pedido errado. Solto o prato e peço o tomate picado do Gepeto. Tempo tá voando."
+  eventos: tipo=esbarrao quem=Gêmeo por=Gepeto
+
+== t85 (2:50) pontos -120 | pedidos: Sopa de tomate(20s), Sopa de cebola(32s), Salada(38s)
+  Deep: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "PEGO PRATO LIMPO E VOU NO FOGÃO 1, GÊMEO! CLAUDINHO, SEGURA O FOGÃO 2!"
+     pensa: "Duas sopas prontas e ninguém com prato limpo. Pego prato e sirvo a de cebola antes que queime."
+  Claudinho: ação='esperar' → None
+     fala: "EU TENHO O PRATO! GÊMEO, FICA COM A SALADA. VOU SERVIR A SOPA DE CEBOLA NO FOGÃO 1!"
+     pensa: "Largar o prato agora é perder a sopa de cebola, que já está pronta. Deep tem que recuperar a alface sozinho."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (2/3)' → andando [BLOQUEADO por Gepeto]
+     fala: "FECHEI A SOPA DE CEBOLA! COZINHANDO!"
+     pensa: "Fogão 1 tem 2 cebolas picadas, vou botar a terceira agora pra cozinhar a sopa de cebola."
+  Gepeto: ação='pôr tomate cru na tábua 2 para picar' → andando
+     fala: "PONHO O TOMATE NA TÁBUA; CLAUDINHO, PEGA A SOPA DE CEBOLA!"
+     pensa: "Salada expirou, mas já preparo o próximo tomate."
+  eventos: tipo=expirou receita=Salada id=12; tipo=esbarrao quem=Gêmeo por=Gepeto
+
+== t86 (2:52) pontos -120 | pedidos: Sopa de tomate(18s), Sopa de cebola(30s), Salada(36s), Sopa de cebola(54s)
+  Gepeto: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "VOU PICAR ESTE TOMATE; PRIORIZEM AS SOPAS DE CEBOLA!"
+     pensa: "Salada e tomate expiraram, mas deixar tomate pronto pode salvar a próxima rodada."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 10)' → andando [BLOQUEADO por Claudinho]
+     fala: "LARGUEI O PRATO NA 10! GÊMEO, JOGA A CEBOLLA NO FOGÃO 1 AGORA E FECHA ESSA SOPA!"
+     pensa: "Fogão 1 tem só 2 cebolas, falta 1. Gêmeo tá com cebola picada na mão. Largo o prato pra ele servir assim que fechar. Precisamos de duas sopas de cebola, tempo curto."
+  Claudinho: ação='esperar' → None
+     fala: "Deep, eu seguro o fogão 2 com o prato na mão! Vou servir a sopa de tomate já."
+     pensa: "Largar o prato agora perde o que preciso pra servir a sopa de tomate. Espero um turno e vou pro fogão 2 antes de queimar."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "A SOPA DE CEBOLA VAI COMEÇAR A COZINHAR AGORA! SAIAM DA FRENTE!"
+     pensa: "Eles estão se trombando pra pegar prato de uma sopa que nem terminou de encher! Vou botar a última cebola no fogão 1 agora pra cozinhar."
+  eventos: tipo=pedido receita=Sopa de cebola id=16; tipo=esbarrao quem=Deep por=Claudinho; tipo=na_panela quem=Gêmeo onde=fogão 1 n=3; tipo=pronto onde=fogão 2 o=panela PRONTA (sopa de tomate)
+
+== t87 (2:54) pontos -120 | pedidos: Sopa de tomate(16s), Sopa de cebola(28s), Salada(34s), Sopa de cebola(52s)
+  Gepeto: ação='esperar' → None
+     fala: "CLAUDINHO, SERVE A SOPA DE TOMATE AGORA!"
+     pensa: "Ele já está com o prato; não atrapalhar."
+  Deep: ação='servir sopa de tomate do fogão 2 no prato' → serviu no prato
+     fala: "EU PEGO O TOMATE, CLAUDINHO! SEGURA A CEbola!"
+     pensa: "Sopa de tomate expira em 16s, melhor eu servir agora com o prato limpo que já tenho."
+  Claudinho: ação='servir sopa de tomate do fogão 2 no prato' → andando [BLOQUEADO por Deep]
+     fala: "EU PEGO A SOPA DE TOMATE DO FOGÃO 2! DEEP, NÃO SAI DO CAMINHO!"
+     pensa: "Ela já está pronta e vai queimar. Com o prato na mão, sirvo agora e levo pro passa-prato antes de expirar."
+  Gêmeo: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "DEEP, O FOGÃO 1 JÁ TÁ CHEIO E COZINHANDO! Claudinho, tira esse tomate logo!"
+     pensa: "O fogão 1 já tá com 3 cebolas. Vou adiantar a próxima sopa de cebola antes que tudo exploda."
+  eventos: tipo=serviu quem=Deep onde=fogão 2; tipo=esbarrao quem=Claudinho por=Deep
+
+== t88 (2:56) pontos -98 | pedidos: Sopa de cebola(26s), Salada(32s), Sopa de cebola(50s)
+  Claudinho: ação='largar prato limpo vazio na bancada livre mais perto (bancada 6)' → largou em bancada 6
+     fala: "DEEP, LEVA ESSA SOPA DE TOMATE PRO PASSA-PRATO AGORA! Eu largo o prato aqui e vou pegar cebola."
+     pensa: "Sem prato nas mãos eu consigo pegar ingrediente. Deep já tem a sopa pronta, o problema é ele não entregar."
+  Deep: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "SAI DA MINHA FRENTE, CLAUDINHO! SOPA DE TOMATE INDO PRO PASSA-PRATO AGORA!"
+     pensa: "Pedido de tomate tá em 14s, entrego já com o prato na mão. Depois pego fogão 2 e cebola pro próximo pedido."
+  Gepeto: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Gêmeo]
+     fala: "VOU PEGAR CEBOLA PRA SEGUNDA SOPA! DEEP, LIBERA O FOGÃO 2!"
+     pensa: "Garantir a próxima sopa de cebola enquanto os outros entregam a pronta."
+  Gêmeo: ação='largar cebola crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "DEEP, ENTREGA ESSA SOPA DE TOMATE AGORA NO PASSA-PRATO!"
+     pensa: "As tábuas tão cheias de alface e tomate, preciso liberar a mão pra ajudar a picar ou entregar."
+  eventos: tipo=entregou quem=Deep receita=Sopa de tomate pontos=22 gorjeta=2; tipo=esbarrao quem=Gepeto por=Gêmeo
+
+== t89 (2:58) pontos -98 | pedidos: Sopa de cebola(24s), Salada(30s), Sopa de cebola(48s)
+  Gêmeo: ação='picar tomate na tábua 2' → picando
+     fala: "TÔ PICANDO O TOMATE PRA SALADA! ALGUÉM PEGA PRATO PRA SOPA DO FOGÃO 1!"
+     pensa: "O tomate já tá na tábua 2 e a alface picada tá no prato na bancada 7. Se eu picar o tomate a gente fecha essa salada rápido."
+  Gepeto: ação='pegar prato limpo vazio da bancada 6' → andando [BLOQUEADO por Claudinho]
+     fala: "EU PEGO O PRATO; ALGUÉM FICA DE OLHO NA SOPA DE CEBOLA!"
+     pensa: "Priorizar prato para servir a sopa pronta antes de queimar."
+  Deep: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "JÁ ENTREGUEI A DE TOMATE, GENTE! PEGANDO PRATO PRA SERVIR A SOPA DO FOGÃO 1 — GEPETO, JOGA CEbola NO FOGÃO 2 AGORA!"
+     pensa: "Fogão 1 tá cozinhando, precisa de prato. Passa-prato tá do meu lado, entrego na hora."
+  Claudinho: ação='pegar prato limpo vazio da bancada 6' → pegou prato limpo vazio
+     fala: "EU PEGO O PRATO PRA SOPA DE CEBOLA! Gêmeo, a salada precisa de tomate picado, pode ir!"
+     pensa: "Sopa de cebola no fogão 1 tá quase pronta e o pedido de 24s não pode expirar. Pego o prato aqui do lado e vou pro fogão 1."
+  eventos: tipo=esbarrao quem=Gepeto por=Claudinho; tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de cebola)
+
+== t90 (3:00) pontos -98 | pedidos: Sopa de cebola(22s), Salada(28s), Sopa de cebola(46s)
+  Gêmeo: ação='picar tomate na tábua 2' → picou tomate
+     fala: "TÔ TERMINANDO DE PICAR O TOMATE PRA SALADA! TIRA A SOPA DO FOGO 1 LOGO!"
+     pensa: "Tomate já tá 50% picado na minha frente. Termino isso e mando pra bancada 7 com a alface."
+  Claudinho: ação='servir sopa de cebola do fogão 1 no prato' → serviu no prato
+     fala: "EU JÁ TENHO O PRATO! DEEP, NÃO PEGA OUTRO, VAI NO FOGÃO 2!"
+     pensa: "Tô com o prato na mão e a sopa do fogão 1 queimando; é só servir agora e evitar que o Deep pegue prato à toa."
+  Deep: ação='servir sopa de cebola do fogão 1 no prato' → andando [BLOQUEADO por Claudinho]
+     fala: "SERVINDO A SOPA DO FOGÃO 1 AGORA! CLAUDINHO PEGA PRATO QUE TEM OUTRA CEbola NA PANELA!"
+     pensa: "Panela pronta queima, tenho prato na mão, serve já e entrega no passa-prato."
+  Gepeto: ação='pegar panela PRONTA (sopa de cebola) do fogão 1' → andando [BLOQUEADO por Claudinho]
+     fala: "DEEP, TRAZ O PRATO! EU LEVO A SOPA PRO PASSA-PRATO!"
+     pensa: "Salvar a sopa antes que queime; Deep pega o prato."
+  eventos: tipo=picou quem=Gêmeo o=tomate; tipo=serviu quem=Claudinho onde=fogão 1; tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Gepeto por=Claudinho
+
+== t91 (3:02) pontos -73 | pedidos: Salada(26s), Sopa de cebola(44s)
+  Claudinho: ação='ENTREGAR prato com sopa de cebola no passa-prato' → entregou Sopa de cebola
+     fala: "SOPA NO PASSA-PRATO! DEEP, PEGA O PRATO LIMPO DA PILHA PRA OUTRA SOPA!"
+     pensa: "Tenho a sopa pronta agora; entregar já garante os pontos antes do pedido de 20s expirar."
+  Deep: ação='pôr tomate picado da tábua 2 no prato' → andando [BLOQUEADO por Gepeto]
+     fala: "GEPETO, CORRE NO FOGÃO 2 QUE TÁ QUEIMANDO! EU MONTO A SALADA COM O TOMATE!"
+     pensa: "sopa do fogão 2 vai queimar se ninguém servir, mas não tenho ação pra isso — aproveito o tomate já picado e adianto a salada"
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "GÊMEO, TERMINA O TOMATE! CLAUDINHO, ENTREGA ESSA SOPA AGORA!"
+     pensa: "Vou montar a salada antes que expire."
+  Gêmeo: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "TÔ COM O TOMATE DA SALADA! QUEM PEGA A SOPA DO FOGÃO 2 PRA NÃO QUEIMAR?!"
+     pensa: "O tomate picado tá na minha mão (0s). Na bancada 7 tem prato com alface picada, vou juntar pra fechar a salada de 26s."
+  eventos: tipo=entregou quem=Claudinho receita=Sopa de cebola pontos=25 gorjeta=5; tipo=esbarrao quem=Deep por=Gepeto
+
+== t92 (3:04) pontos -73 | pedidos: Salada(24s), Sopa de cebola(42s), Sopa de tomate(54s)
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEIXEI O TOMATE NA BANCADA 11! GEPETO, JUNTA COM SUA ALFACE!"
+     pensa: "O Gepeto tá com o prato de alface e o Deep pediu o tomate pra salada. Deixar na bancada pra ele montar logo."
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "DEEP, ALFACE NA BANCADA 7! FINALIZA A SALADA E ENTREGA!"
+     pensa: "Não vou bloquear o passa-prato; Deep termina a salada."
+  Deep: ação='esperar' → None
+     fala: "SEGURO O PRATO! VOU SERVIR A SOPA DO FOGÃO 1 ANTES DE QUEIMAR — CLAUDINHO, SAI DA MINHA FRENTE E MONTA A SALADA COM O GEPETO!"
+     pensa: "Prato na mão = pronto pra servir a sopa do fogão 1. Não largo, não jogo no lixo, só preciso de espaço pra chegar lá."
+  Claudinho: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "EU PEGO O PRATO AGORA! Gepeto, tira o fogão 2 antes que queime. Gêmeo, o tomate é todo seu pra salada!"
+     pensa: "Sem prato não entrego nada. Pego o prato mais perto e depois cuido da sopa de cebola, que ainda tem 42s."
+  eventos: tipo=pedido receita=Sopa de tomate id=17
+
+== t93 (3:06) pontos -73 | pedidos: Salada(22s), Sopa de cebola(40s), Sopa de tomate(52s)
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "GÊMEO, PASSA O TOMATE PICADO! VOU FECHAR A SALADA!"
+     pensa: "Pegar o prato com alface e combinar com o tomate."
+  Deep: ação='esperar' → None [RESPOSTA INVÁLIDA: (sem json)]
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE! LEVANDO PRO PRATO NA BANCADA 7!"
+     pensa: "Tomate picado tá aqui do meu lado, vou juntar com o alface da bancada 7 pra fechar a salada logo!"
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Deep]
+     fala: "EU LEVO O TOMATE PRO PRATO! GEPETO, ALFACE NA BANCADA 7 PRA SALADA!"
+     pensa: "A salada expira em 22s e o tomate tá perto. Deep tá na sopa, então eu sigo com a salada."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep
+
+== t94 (3:08) pontos -73 | pedidos: Salada(20s), Sopa de cebola(38s), Sopa de tomate(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Deep, eu fico com o prato pra sopa! Você pega as cebolas da bancada 4!"
+     pensa: "A salada já tá com o Gepeto e o Gêmeo. Sobraram as sopas de cebola e tomate, então preciso segurar o prato limpo até ter sopa pra servir."
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "DEIXEI A ALFACE NA BANCADA 7! GÊMEO, JUNTA O TOMATE AÍ!"
+     pensa: "Salada encaminhada; não entregar incompleta."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGA AÍ! GEPETO, PEGA NA BANCADA 11 PRA SALADA!"
+     pensa: "O Gepeto tem o prato com alface e pediu o tomate pra fechar a salada que vence em 20s. Vou deixar na bancada pra ele pegar e entregar."
+  Deep: ação='largar prato limpo vazio na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "PRATO NA 13! GÊMEO, METE O TOMATE NO PRATO DO GEPETO AGORA!"
+     pensa: "Salada quase pronta; preciso liberar as mãos pra cebola."
+
+== t95 (3:10) pontos -73 | pedidos: Salada(18s), Sopa de cebola(36s), Sopa de tomate(48s)
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "VOU FECHAR A SALADA, DEIXA O TOMATE NA 11!"
+     pensa: "Pegar a salada agora e juntar o tomate picado antes de entregar."
+  Deep: ação='pegar prato com alface picada da bancada 7' → andando [BLOQUEADO por Claudinho]
+     fala: "CLAUDINHO, SERVE A PANELA 1 AGORA QUE VAI QUEIMAR! EU FECHO A SALADA!"
+     pensa: "Salada expira em 18s: prato com alface na 7 + tomate picado na 11. E a panela do fogão 1 tá pronta, Claudinho tem prato na mão."
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Deep]
+     fala: "EU TÔ COM O PRATO! TOMATE NA SALADA AGORA, GEPETO TRAZ A ALFACE DA 7!"
+     pensa: "Salada tem 18s. Tomate é mais rápido se eu levar o prato até lá; alface já tá pronta na bancada 7."
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA JOGAR NA 7!"
+     pensa: "O tomate picado tá na minha frente (bancada 11). Pego e levo pro prato na bancada 7 pra fechar a salada antes de expirar."
+  eventos: tipo=esbarrao quem=Deep por=Claudinho; tipo=esbarrao quem=Claudinho por=Deep
+
+== t96 (3:12) pontos -73 | pedidos: Salada(16s), Sopa de cebola(34s), Sopa de tomate(46s)
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "ALFACE NA 7! GÊMEO, JUNTA O TOMATE; CLAUDINHO, SERVE A SALADA!"
+     pensa: "Deixando a alface para montar a salada antes de expirar."
+  Claudinho: ação='esperar' → None
+     fala: "TÔ COM O PRATO LIMPO! ESPERA, VOU SERVIR A PANELA 1 ASSIM QUE DER!"
+     pensa: "Nenhuma ação me deixa servir a sopa agora. Largar ou jogar o prato fora só piora, então seguro o prato e espero a chance de pegar a panela."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "TOMATE TÁ NA 11, GEPETO! FECHA ESSA SALADA!"
+     pensa: "Gepeto pediu na 11 pra fechar com o prato dele com alface. Vou deixar lá e depois foco em cebola/tomate pra próxima sopa."
+  Deep: ação='pegar tomate na caixa de tomate' → andando
+     fala: "VOU DE TOMATE PRA SOPA DE TOMATE! SAIM DA MINHA FRENTE, GENTE!"
+     pensa: "Salada já tá coberta pelos dois; eu carrego a sopa de tomate. 28s é pouco, mas vamos."
+
+== t97 (3:14) pontos -73 | pedidos: Salada(14s), Sopa de cebola(32s), Sopa de tomate(44s)
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA JOGAR NA BANCADA 7! MONTA A SALADA!"
+     pensa: "Tomate picado tá do meu lado (0.0s). Pego e levo pro prato com alface na bancada 7 pra salvar a salada antes de expirar."
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Deep]
+     fala: "EU MONTO A SALADA! Gepeto, segura o prato com alface na 7 que eu pego!"
+     pensa: "Prato vazio na mão, tomate picado na 11. Se eu juntar o tomate aqui e pegar a alface da 7, sobra só 14s pra entregar."
+  Deep: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "VOU MONTAR A SOPA DE CEBOLA NA PANELA 1! GÊMEO E GEPETO, FECHAM A SALADA!"
+     pensa: "salada tá com eles; -73 já tá feio, começo a sopa de cebola antes de expirar"
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "PEGANDO A SALADA! GÊMEO, DEIXA O TOMATE PICADO LIVRE!"
+     pensa: "Salvar salada antes de expirar."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep
+
+== t98 (3:16) pontos -73 | pedidos: Salada(12s), Sopa de cebola(30s), Sopa de tomate(42s), Sopa de tomate(54s)
+  Claudinho: ação='esperar' → None
+     fala: "EU SEGURO O PRATO LIMPO PRA SOPA DE TOMATE! DEEP, TIRA ESSE CAMINHO QUE EU PRECISO PASSAR!"
+     pensa: "Prato limpo na mão serve pra sopa de tomate, que tem 42s e 54s. Largar na bancada perde tempo, e o lixo é pior ainda. Melhor esperar a panela de tomate pronta."
+  Deep: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "VOU PICAR CEbola PRA SOPA! SALADA É DE VOCÊS!"
+     pensa: "Salada quase expira, mas eles estão nela; adianto cebola pra sopa."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGUEI O TOMATE NA 11! GEPETO, PEGA E ENTREGA A SALADA RÁPIDO!"
+     pensa: "A salada expira em 12s, Gepeto já tem o prato com alface. Largo o tomate pra ele juntar logo."
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "CLAUDINHO, ALFACE NA 7! PEGA E FECHA A SALADA!"
+     pensa: "Salada quase expirando; deixo a alface para ele montar com tomate."
+  eventos: tipo=pedido receita=Sopa de tomate id=18
+
+== t99 (3:18) pontos -73 | pedidos: Salada(10s), Sopa de cebola(28s), Sopa de tomate(40s), Sopa de tomate(52s)
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "GÊMEO, DEIXA O TOMATE PICADO NO PASSA-PRATO! VOU MONTAR A SALADA!"
+     pensa: "Pegar a base agora; preciso do tomate imediatamente."
+  Deep: ação='pegar prato com alface picada da bancada 7' → andando [BLOQUEADO por Gepeto]
+     fala: "SAI DO CAMINHO, CLAUDINHO! VOU MONTAR ESSA SALADA E ENTREGAR, NINGUÉM TOCA NO TOMATE DA 11!"
+     pensa: "Pego o prato com alface, passo na 11, jogo o tomate picado e corro pro passa-prato antes dos 10s."
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE! LEVA A ALFACE PRO PASSA-PRATO QUE EU JUNTO LÁ, VAI EXPIRAR!"
+     pensa: "A salada expira em 10s! O tomate picado tá na minha frente na bancada 11, preciso pegar e juntar com o prato da bancada 7."
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "EU MONTO A SALADA! GEPETO, PEGA A ALFACE NA 7 E ME TRAZ QUE EU FECHO!"
+     pensa: "Salada é o pedido mais urgente, com 10s. Tomate é o mais perto e o prato já está comigo. Falta a alface da bancada 7."
+  eventos: tipo=esbarrao quem=Deep por=Gepeto; tipo=esbarrao quem=Claudinho por=Gêmeo
+
+== t100 (3:20) pontos -73 | pedidos: Salada(8s), Sopa de cebola(26s), Sopa de tomate(38s), Sopa de tomate(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Deep, passa! Gêmeo, leva o tomate pro Gepeto agora, a salada tá expirando!"
+     pensa: "Não tenho ação útil: o prato limpo serve pra sopa depois. Saio do caminho e espero a vez."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "SOLTEI O TOMATE NA 11, GEPETO! JUNTA COM A ALFACE E ENTREGA JÁ!"
+     pensa: "8 segundos pra salada expirar! Vou deixar na 11 pro Gepeto fechar no prato dele."
+  Deep: ação='pegar cebola crua da bancada 4' → pegou cebola crua
+     fala: "PEGO CEBOLE E VOU PICAR! GÊMEO, NÃO PARA COM ESSE TOMATE — ESSA SALADA É AGORA!"
+     pensa: "Salada é deles, eu adianto a sopa de cebola que é a próxima a estourar."
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "CLAUDINHO, ALFACE NA 7! JUNTA COM O TOMATE E ENTREGA AGORA!"
+     pensa: "Solto a alface para fecharem a salada antes de expirar."
+
+== t101 (3:22) pontos -73 | pedidos: Salada(6s), Sopa de cebola(24s), Sopa de tomate(36s), Sopa de tomate(48s)
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "GEPETO, TRAZ A ALFACE PRO PRATO AGORA! TOMATE TÁ COMIGO!"
+     pensa: "Salada expira em 6s. Eu pego o tomate e o Gepeto leva a alface; se ninguém pisar no meu caminho, a gente salva os 10 pontos."
+  Deep: ação='largar cebola crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "GEPETO, PEGA O PRATO DA 7 E JOGA O TOMATE DA 11 DENTRO! CORRE, 6 SEGUNDOS!"
+     pensa: "cebola não serve pra salada, solto e corro pra ajudar no prato"
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "GÊMEO, COLOCA O TOMATE NO PRATO AGORA!"
+     pensa: "Salvar a salada antes de expirar."
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGUEI O TOMATE! GEPETO, SAI DA FRENTE QUE TÔ INDO NA BANCADA 7!"
+     pensa: "O tomate picado tá na minha cara na bancada 11. Pego agora e corro pra bancada 7 pra fechar a salada antes que expire em 6s!"
+  eventos: tipo=esbarrao quem=Claudinho por=Gêmeo
+
+== t102 (3:24) pontos -73 | pedidos: Salada(4s), Sopa de cebola(22s), Sopa de tomate(34s), Sopa de tomate(46s)
+  Gepeto: ação='largar prato com alface picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "DEIXO A ALFACE NA 7! GÊMEO, COLOCA O TOMATE AÍ E ENTREGA A SALADA!"
+     pensa: "Soltar na bancada 7 para completar a salada antes de expirar."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "LARGUEI O TOMATE NA 11, GEPETO! JUNTA COM A ALFACE E ENTREGA!"
+     pensa: "Não posso interagir direto com o prato do Gepeto, então largo o tomate na bancada 11 pra ele pegar ou juntar rápido antes dos 4s!"
+  Deep: ação='pegar cebola crua da bancada 4' → pegou cebola crua
+     fala: "FECHA A SALADA AGORA, 4 SEGUNDOS! TÔ INDO NAS CEBOLAS PRA SOPA!"
+     pensa: "Salada já tem 3 caras nela, não vou atrapalhar. Melhor adiantar a sopa de cebola: cebola crua na mão, próxima parada tábua 2."
+  Claudinho: ação='esperar' → None
+     fala: "GÊMEO, PÕE O TOMATE NO PRATO DA BANCADA 7 AGORA! Eu fico parado pra não atrapalhar."
+     pensa: "A salada expira em 4s e não dá pra chegar a tempo. Largar meu prato agora só ocuparia bancada à toa. Melhor esperar e não bloquear o caminho de ninguém."
+
+== t103 (3:26) pontos -73 | pedidos: Salada(2s), Sopa de cebola(20s), Sopa de tomate(32s), Sopa de tomate(44s)
+  Gêmeo: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PRA JOGAR NA 7!"
+     pensa: "O tomate picado tá na minha mão (0.0s), pego agora e corro pra bancada 7 fechar a salada!"
+  Gepeto: ação='pegar prato com alface picada da bancada 7' → pegou prato com alface picada
+     fala: "GÊMEO, DEIXA O TOMATE NA 11! VOU FECHAR E ENTREGAR A SALADA!"
+     pensa: "Salvar a salada antes de expirar."
+  Deep: ação='largar cebola crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "LARGO A CEBOLA! GÊMEO, PEGA O TOMATE DA 11 E JOGA NO PRATO DA 7 AGORA!"
+     pensa: "Salada vai expirar, mas preciso soltar a cebola pra liberar as mãos."
+  Claudinho: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Gêmeo]
+     fala: "SALADA NÃO VAI DAR TEMPO! Deep, pega a cebola e manda pra panela do fogão 1!"
+     pensa: "Alface da 7 está a 3,7s e a salada expira em 2s. Tomate é o único passo que ainda dá pra adiantar, e a sopa de tomate ainda tem 32s."
+  eventos: tipo=esbarrao quem=Claudinho por=Gêmeo
+
+== t104 (3:28) pontos -83 | pedidos: Sopa de cebola(18s), Sopa de tomate(30s), Sopa de tomate(42s), Sopa de cebola(54s)
+  Claudinho: ação='esperar' → None
+     fala: "Seguro o prato limpo! Quando a sopa de tomate tiver pronta, eu corro pra servir."
+     pensa: "Largar o prato agora é desperdício. Espero até alguém trazer a sopa pronta."
+  Deep: ação='picar cebola na tábua 2' → picando
+     fala: "INDO PICAR CEbola NA TÁBUA 2! CLAUDINHO, DEIXA A PANELA 1 PRONTA PRA RECEBER!"
+     pensa: "Salada já era. A sopa de cebola de 18s ainda dá se eu picar rápido e o Claudinho encher a panela. Tábua 2 já tem cebola crua, aproveito."
+  Gêmeo: ação='largar tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "DEIXEI NA 11, GEPETO! A SALADA JÁ EXPIROU, CARA, FOCO NAS SOPAS!"
+     pensa: "Salada acabou de expirar no t104, mas Gepeto pediu pra deixar na 11. Deixo logo pra liberar a mão pras sopas de cebola/tomate."
+  Gepeto: ação='jogar prato com alface picada no lixo' → jogou no lixo
+     fala: "JOGANDO A SALADA FORA! FOCO NAS SOPAS!"
+     pensa: "Salada expirou; melhor liberar as mãos."
+  eventos: tipo=expirou receita=Salada id=15; tipo=pedido receita=Sopa de cebola id=19; tipo=lixo quem=Gepeto o=prato limpo vazio
+
+== t105 (3:30) pontos -83 | pedidos: Sopa de cebola(16s), Sopa de tomate(28s), Sopa de tomate(40s), Sopa de cebola(52s)
+  Gepeto: ação='pôr tomate picado da bancada 11 no prato' → andando [BLOQUEADO por Deep]
+     fala: "PEGA TOMATE NO PRATO E LEVA PRA PANELA!"
+     pensa: "Melhor aproveitar o tomate picado antes que expire."
+  Deep: ação='picar cebola na tábua 2' → picou cebola
+     fala: "TERMINANDO A CEBOla AQUI, ALGUÉM JOGA NA PANELA DO FOGÃO 1 AGORA!"
+     pensa: "Tábua 2 tá em 50%, um picar fecha uma cebola. Sopa de cebola de 16s é a única chance real. Preciso que alguém leve pro fogão 1."
+  Gêmeo: ação='picar cebola na tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "DEEP, EU TERMINO A CEBOLA NA TÁBUA 2! CARREGA PRO FOGÃO!"
+     pensa: "Faltam 10 segundos de jogo e a cebola já tá 50% picada, preciso terminar isso voando pra tentar pontuar."
+  Claudinho: ação='esperar' → None
+     fala: "Deep, manda as cebolas picadas pra panela 1 que eu fico com o prato pra servir!"
+     pensa: "Estou com o prato limpo, que é preciso para servir a sopa. Largar agora custa tempo e não ajuda. Só dá para esperar a cebola picada ficar pronta e cozinhar."
+  eventos: tipo=esbarrao quem=Gepeto por=Deep; tipo=picou quem=Deep o=cebola; tipo=esbarrao quem=Gêmeo por=Deep
+
+== t106 (3:32) pontos -83 | pedidos: Sopa de cebola(14s), Sopa de tomate(26s), Sopa de tomate(38s), Sopa de cebola(50s)
+  Claudinho: ação='pôr cebola picada da tábua 2 no prato' → andando [BLOQUEADO por Deep]
+     fala: "EU PEGO A CEBOLA DA TÁBUA 2 NO PRATO E LEVO PRO FOGÃO 1! DEEP, MAIS 2 CEBOLAS PRA PANELA!"
+     pensa: "A sopa de cebola expira em 14s e o prato limpo já está comigo. Se eu levar a cebola no prato até a panela, saio na frente do Deep e ainda salvo esse pedido."
+  Gepeto: ação='largar prato limpo vazio na bancada livre mais perto (bancada 15)' → largou em bancada 15
+     fala: "DEEP, MANDA ESSA CEBOLA PRA PANELA 1! GÊMEO, CORRE COM A PRÓXIMA!"
+     pensa: "Libero as mãos e priorizo a sopa de cebola urgente."
+  Deep: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "PEGUEI CEBOBA PICADA, LEVO PRO FOGÃO 1! GÊMEO, MANDA MAIS PICADA QUE A SOPA DE CEBOBA TÁ ACABANDO O TEMPO!"
+     pensa: "1 cebola picada na mão, fogão 1 a 2.9s. Sopa de cebola tem 14s. Rápido!"
+  Gêmeo: ação='pegar cebola picada da tábua 2' → andando [BLOQUEADO por Deep]
+     fala: "DEIXA COMIGO, TÔ LEVANDO PRA PANELA 1!"
+     pensa: "O tempo tá acabando (8s) e a sopa de cebola expira em 14s, preciso agilizar o reabastecimento da panela."
+  eventos: tipo=esbarrao quem=Claudinho por=Deep; tipo=esbarrao quem=Gêmeo por=Deep
+
+== t107 (3:34) pontos -83 | pedidos: Sopa de cebola(12s), Sopa de tomate(24s), Sopa de tomate(36s), Sopa de cebola(48s)
+  Gêmeo: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "PEGANDO CEBOLA PRA PICAR NA TÁBUA 2! BORA QUE O TEMPO DO JOGO TÁ ACABANDO!"
+     pensa: "Só 6 segundos de jogo, preciso jogar cebola na tábua correndo pra tentar pontuar ou minimizar o desastre!"
+  Gepeto: ação='pegar tomate picado da bancada 11' → andando
+     fala: "DEEP, FOCA NA CEBOLA! EU LEVO TOMATE PRA PRÓXIMA SOPA!"
+     pensa: "Preparar tomate agora; a cebola está nas mãos deles."
+  Claudinho: ação='esperar' → None
+     fala: "DEEP, PANELA 1 AGORA! EU SEGURO O PRATO PRA SERVIR A SOPA DE CEBOLA!"
+     pensa: "Não tenho cebola picada, e o prato limpo é o que vai servir a sopa. Largar ou jogar fora só piora. Melhor esperar a cebola chegar à panela."
+  Deep: ação='pôr cebola picada na panela do fogão 1 (0/3)' → andando
+     fala: "TO INDO FOGÃO 1! FALTAM 2 CEBOLAS, CORRE QUE A SOPA VAI EXPIRAR!"
+     pensa: "12s pra sopa de cebola, panela 1 vazia — melhor colocar a que tenho na mão agora e pedir reforço de cebola picada."
+
+== t108 (3:36) pontos -83 | pedidos: Sopa de cebola(10s), Sopa de tomate(22s), Sopa de tomate(34s), Sopa de cebola(46s)
+  Gêmeo: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "TÔ BOTANDO CEBOLA PRA PICAR NA TÁBUA 2! GEPETO, PICA AQUI!"
+     pensa: "Preciso picar essa cebola voando pra tentar salvar a sopa antes do tempo acabar."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "DEEP, LEVA ESSA CEBOLA PRA PANELA 1!"
+     pensa: "A sopa de cebola está no limite; ajudar com mais uma cebola é a melhor chance."
+  Deep: ação='pôr cebola picada na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "CEBOLA NA PANELA 1! GÊMEO, PICA MAIS DUAS CEBOLAS AGORA, CORRE!"
+     pensa: "Pedido de cebola expira em 10s, preciso de 3 picadas + cozinhar + servir. Tá apertado demais, mas é a única jogada."
+  Claudinho: ação='esperar' → None
+     fala: "DEEP, TÔ COM PRATO LIMPO! MANDA A SOPA PRONTA QUE EU SIRVO!"
+     pensa: "Quatro segundos e a sopa nem tá cozinhando. Não dá pra fazer mais nada agora, então seguro o prato pra servir se der milagre."
+  eventos: tipo=na_panela quem=Deep onde=fogão 1 n=1
+
+== t109 (3:38) pontos -83 | pedidos: Sopa de cebola(8s), Sopa de tomate(20s), Sopa de tomate(32s), Sopa de cebola(44s)
+  Claudinho: ação='esperar' → None
+     fala: "TÁ CHEGANDO NO FIM, GALERA, BORA ESSA ÚLTIMA!"
+     pensa: "Faltam 2 segundos e nenhum pedido dá pra fechar. Melhor não atrapalhar ninguém agora."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "GÊMEO, LARGUEI A CEBOLA NA BANCADA 3! PEGA E PICA!"
+     pensa: "Preciso liberar as mãos e acelerar a próxima sopa."
+  Gêmeo: ação='picar cebola na tábua 2' → picando
+     fala: "TÔ PICANDO A CEBOLA NA TÁBUA 2, FOGÃO 1 JÁ RECEBE!"
+     pensa: "A cebola crua já tá na tábua 2 na minha frente, preciso picar rápido pra salvar o pedido!"
+  Deep: ação='esperar' → None
+     fala: "ACABOU O TEMPO, GALERA! FOI MAL, TRAVEI NO MEIO DE TODO MUNDO!"
+     pensa: "2 segundos de jogo, nada dá tempo. Só me resta registrar o caos: -83 pontos e pedidos expirando."

@@ -490,6 +490,7 @@ async function rodar() {
     tiques: []}
   console.log(`🍳 ${fase.titulo} · ${modo} · semente ${seed}`)
   for (let tq = 0; tq < fase.duracao; tq++) {
+    const ev0s = new Map(partidas.map((pt) => [pt, pt.eventos.length]))
     for (const pt of partidas) { pt.tique = tq; pt.atualizarPedidos() }
     const placar = versus ? partidas.map((p) => `${p.nome} ${p.pontos}`).join(' | ') : null
     const reqs = []
@@ -513,7 +514,7 @@ async function rodar() {
     const linha = {tique: tq, cozinhas: []}
     for (const pt of partidas) {
       const esc = new Map(res.filter((r) => r[0] === pt).map((r) => [r[1], r[2]]))
-      const ev0 = pt.eventos.length
+      const ev0 = ev0s.get(pt)  // inclui os pedidos novos e expirados deste tique
       const quadro = pt.executar(esc)
       pt.passarTempo()
       linha.cozinhas.push({nome: pt.nome, chefs: quadro, eventos: pt.eventos.slice(ev0), estado: pt.estado()})

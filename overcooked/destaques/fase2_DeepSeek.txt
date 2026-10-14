@@ -1,0 +1,704 @@
+COZINHA DeepSeek · fase v2 (versus) · chefs: Deep (DeepSeek), Seek (DeepSeek)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de cebola(58s), Salada(52s)
+  Seek: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Deep, eu cubro fogão e passa-prato! Pica 3 cebolas na panela 1, depois alface e tomate picados juntos pro prato!"
+     pensa: "Sem acesso às caixas, pego prato e fico de prontidão pra servir a sopa."
+  Deep: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "SEEK, PEGA PRATO E CUIDA DAS PANELAS, EU PICADOS!"
+     pensa: "Cebola primeiro pra sopa de 58s; eu corto, ele cozinha e serve."
+  eventos: tipo=pedido receita=Sopa de cebola id=1; tipo=pedido receita=Salada id=2
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de cebola(56s), Salada(50s)
+  Seek: ação='esperar' → None
+     fala: "TÔ COM PRATO NA MÃO! PICA AS 3 CEBOLAS E JOGA NA PANELA 2, EU LIGO E SERVO!"
+     pensa: "Sem cebola picada não posso fazer nada. Melhor segurar o prato e já ficar pronto pra servir a sopa e depois montar a salada."
+  Deep: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Fechado! Mas fogão tá fora do meu alcance — vou picar e deixar na bancada 7 pra você jogar na panela 1!"
+     pensa: "Panela fora de alcance, então eu pico e ele põe. Cebola primeiro, corre."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de cebola(54s), Salada(48s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Larguei o prato na 9! Manda cebola na 7 que eu ponho na panela 1!"
+     pensa: "Preciso liberar as mãos pra pegar cebola picada e não atrapalhar a bancada 7 que o Deep vai usar."
+  Deep: ação='picar cebola na tábua 1' → picando
+     fala: "PICANDO A PRIMEIRA! VAI LIGANDO A PANELA 2, JÁ VOU MANDANDO!"
+     pensa: "Tábua 1 já tem cebola crua, 0.0s. Pico aqui e depois pego mais 2 na caixa de cebola (0.6s cada viagem). Sopa em 54s dá."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de cebola(52s), Salada(46s)
+  Deep: ação='picar cebola na tábua 1' → picou cebola
+     fala: "Tô picando cebola na tábua 1! Já traz mais cebola crua e adianta a alface pra salada!"
+     pensa: "Sopa tá em 52s, preciso de 3 cebolas picadas rápido. Termino essa e já pego mais."
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "PEGUEI UM PRATO LIMPO! PICA AS 3 CEBOLAS QUE EU LEVO NA PANELA E JÁ DEIXO O PRATO PRONTO!"
+     pensa: "Ele tá picando cebola, eu seguro o prato pra servir a sopa na hora. Não posso ligar panela, só colocar ingrediente."
+  eventos: tipo=picou quem=Deep o=cebola
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de cebola(50s), Salada(44s)
+  Deep: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "VOU PICAR MAIS CEBOA NA TÁBUA 2! A PICADA DA TÁBUA 1 JÁ PODE IR PRA PANELA!"
+     pensa: "Panela fora do meu alcance, então foco em picar e deixar pronto pra ele levar."
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "Não alcanço as caixas! Pega você cebola e alface. Deixei prato na bancada 7 pra servir a sopa."
+     pensa: "Preciso liberar as mãos, mas só posso largar o prato. O parceiro tem acesso aos ingredientes, então ele que pegue."
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de cebola(48s), Salada(42s)
+  Deep: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Vou picar cebola! Pega a da tábua 1 e joga na panela!"
+     pensa: "Preciso de 3 cebolas picadas. Já tem 1 na tábua 1; parceiro deve cuidar do fogão."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "DEEP, LARGA ESSA CEBOA E CORRE PRA TÁBUA 1! JOGA A PICADA NA PANELA E ACENDE! EU PEGO OS PRATOS!"
+     pensa: "Ele tá longe da tábua 1, tem que voltar correndo. Eu adianto o prato pra servir assim que a sopa ficar pronta, e ainda uso pra salada depois."
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de cebola(46s), Salada(40s)
+  Deep: ação='picar cebola na tábua 2' → picando
+     fala: "TÔ PICANDO! PEGA A PICADA DA TÁBUA 1 E JOGA NA PANELA, O FOGÃO TÁ DO TEU LADO!"
+     pensa: "Fogão fora do meu alcance, então eu produzo picada e o Seek cozinha/serve. Depois faço a salada."
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "Larguei o prato! Joga a cebola picada na panela e eu já volto com outra!"
+     pensa: "Preciso das mãos livres pra pegar cebola picada e encher a panela."
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de cebola(44s), Salada(38s)
+  Deep: ação='picar cebola na tábua 2' → picou cebola
+     fala: "PANELA TÁ FORA DO MEU ALCANCE! PICO AQUI E VOCÊ JOGA NA PANELA — TÁBUAS 1 E 2 QUASE PRONTAS!"
+     pensa: "Ele achou que eu alcanço o fogão 1, mas não. Melhor eu adiantar a cebola picada e avisar rápido pra ele não ficar esperando parado."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "TÁBUA 1 TÁ DO TEU LADO, NÃO ALCANÇO! JOGA VOCÊ NA PANELA — PEGUEI UM PRATO PRA SALADA"
+     pensa: "Ele tá picando, eu pego prato e fico no fogão pronto pra jogar cebola quando ele passar"
+  eventos: tipo=picou quem=Deep o=cebola
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de cebola(42s), Salada(36s)
+  Deep: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "VOU PICAR ALFACE E TOMATE PRA SALADA! SEGURA O PRATO E JÁ JOGA AS CEBOULAS NA PANELA, TÁ QUASE!"
+     pensa: "Panela fora do meu alcance, então meu papel é picar. Salada expira antes, prioridade."
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "LARGA AS CEBOLAS PICADAS NA BANCADA 9, EU NÃO ALCANÇO SUAS TÁBUAS! EU JOGO NA PANELA 1!"
+     pensa: "Solto o prato, pego cebola na divisória e ponho na panela 1. Depois prato de volta e salada no prato."
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de cebola(40s), Salada(34s), Salada(52s)
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI PRATO! AS CEBOULAS JÁ TÃO PICADAS NA TUA TÁBUA, JOGA NA PANELA AGORA! EU NÃO ALCANÇO!"
+     pensa: "Ele tá com alface na mão e as cebolas picadas paradas nas tábuas 1 e 2. Sopa expira em 40s, preciso do prato pronto pra servir assim que cozinhar. Salada depende dele picar alface e tomate — não dá pra eu fazer nada do meu lado além de segurar prato e cobrar."
+  Deep: ação='largar alface crua na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "NÃO TENHO CEbola NA MÃO, TENHO ALFACE! EU LARGO A ALFACE E LEVO AS CEBOLAS PICADAS PRA BANCADA 9, SEGURA AÍ!"
+     pensa: "Preciso esvaziar as mãos pra pegar cebola picada e entregar na divisória. A sopa expira em 40s, é prioridade."
+  eventos: tipo=pedido receita=Salada id=3
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de cebola(38s), Salada(32s), Salada(50s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "LARGUEI O PRATO NA 7! TRAZ AS CEBOLAS PRA 9 QUE EU BOTO NA PANELA!"
+     pensa: "Preciso de mãos livres pra pegar as cebolas na 9. Deixo o prato na 7 pra não atrapalhar."
+  Deep: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "PEGUEI A CEBOla! NÃO ALCANÇO A PANELA, VEM VOCÊ OU JOGA O PRATO?"
+     pensa: "Seek tá com prato e não pode pegar cebola. Preciso levar, mas não posso entregar. Ele tem que vir ou largar o prato."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de cebola(36s), Salada(30s), Salada(48s)
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "EU PEGO O PRATO! TRAZ A CEbola PICADA PRO FOGÃO 1 AGORA!"
+     pensa: "Preciso de 3 cebolas na panela; se ele não alcança, que venha até mim. Já adianto o prato."
+  Deep: ação='largar cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "DEIXEI NA 9! BOTA NA PANELA E VAI BUSCANDO MAIS CEBOLA!"
+     pensa: "Parceiro pediu cebola na 9; entrego e sigo pra picar mais."
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de cebola(34s), Salada(28s), Salada(46s)
+  Deep: ação='pegar cebola picada da bancada 9' → pegou cebola picada
+     fala: "PEGUEI A CEBOla PICADA! VOU PRO FOGÃO 1!"
+     pensa: "Seek tem prato, sopa primeiro. Levo cebola pro fogão 1."
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "LARGUEI NA 7, TÔ LIVRE! JOGA AS 3 CEBOLA NA PANELA 1 E JÁ MANDA ALFACE E TOMATE QUE AS SALADAS VÃO EXPIRAR!"
+     pensa: "Só dá pra chegar nas caixas sendo o Deep, ele tem que picar. Eu fico de suporte e no fogão."
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de cebola(32s), Salada(26s), Salada(44s)
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA NA 11, PEGA E JOGA NA PANELA 1! EU VOU DE ALFACE E TOMATE PRAS SALADAS!"
+     pensa: "Fogão é do lado dele. Deixo a cebola na divisória e parto pras saladas que estão estourando."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! TRAZ MAIS 2 CEBOIAS PICADAS, CORRE!"
+     pensa: "Vou ficar pronto pra servir a sopa; Deep precisa picar mais cebola."
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de cebola(30s), Salada(24s), Salada(42s)
+  Deep: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "PEGUEI UMA PICADA! TÔ INDO PRO SEU LADO, VEM PEGAR!"
+     pensa: "Tenho 1 cebola picada na mão, tem outra na tábua 2. Faltam 3 pra panela. Preciso passar pro Seek que tá no fogão."
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "LARGANDO PRATO NA 9, JÁ PEGO A CEBOLA E JOGO NA PANELA 1! SEGURA AS SALADAS!"
+     pensa: "Preciso soltar o prato pra pegar a cebola. O parceiro tá indo pras saladas, então eu foco na sopa de cebola."
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de cebola(28s), Salada(22s), Salada(40s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "PEGA O PRATO! JOGA A CEBOLLA NA PANELA 1 E VOLTA PRA CAIXA, PRECISAMOS DE 3!"
+     pensa: "Panela vazia, só 1 cebola picada. Preciso do prato pra servir, mas o gargalo é cebola picada — mando ele repetir."
+  Deep: ação='largar cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "CEBOLA NA 13! JOGA NA PANELA, EU VOU NAS SALADAS!"
+     pensa: "Panela é do lado dele; deixo na divisória e parto pra salada."
+
+== t16 (0:32) pontos 0 | pedidos: Sopa de cebola(26s), Salada(20s), Salada(38s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "LARGUEI O PRATO NA 9, VOU PÔR CEBOLA NA PANELA! SEGURA AS SALADAS!"
+     pensa: "Preciso das mãos livres pra pegar cebola picada da 13 e encher a panela. Prato guardado perto pra servir depois."
+  Deep: ação='pegar cebola picada da bancada 13' → pegou cebola picada
+     fala: "PEGUEI A CEBOla PICADA! MAS A PANELA TÁ DO SEU LADO, ME ABRE CAMINHO OU JOGA VOCÊ!"
+     pensa: "Tenho 2 cebolas picadas (bancada 13 e tábua 2), falta 1 pra sopa. Panelas estão fora do meu alcance, então o parceiro precisa ajudar a colocar."
+
+== t17 (0:34) pontos 0 | pedidos: Sopa de cebola(24s), Salada(18s), Salada(36s)
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "DEIXEI A CEBOLA NA 11! VOU FAZER AS SALADAS!"
+     pensa: "Saladas são prioridade, ele pega a cebola pra sopa."
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "JOGA A CEBOLA NA PANELA 1, TÔ PEGANDO PRATO!"
+     pensa: "Ele põe a cebola, eu seguro prato pra servir."
+
+== t18 (0:36) pontos 0 | pedidos: Sopa de cebola(22s), Salada(16s), Salada(34s), Sopa de tomate(58s)
+  Deep: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "PANELA 1 É DO SEU LADO! PEGUEI CEBOLA, VEM PEGAR!"
+     pensa: "Só 1 cebola picada, faltam 2. Salada urgente 16s."
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "DEEP, PEGA O PRATO NA 7 E FAZ AS SALADAS! EU VOU NA SOPA DE CEBOLA!"
+     pensa: "Libero as mãos e deixo prato pro Deep. Depois pego cebola no 11 e ponho na panela."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t19 (0:38) pontos 0 | pedidos: Sopa de cebola(20s), Salada(14s), Salada(32s), Sopa de tomate(56s)
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "JOGA A CEBOJA NA PANELA 1 E CORTA MAIS DUAS! EU PEGO O PRATO E JÁ VOLTO PRA SERVIR!"
+     pensa: "Sopa de cebola em 20s tá apertado, mas se ele encher a panela agora dá tempo. Prato na mão pra não perder tempo depois."
+  Deep: ação='largar cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "DEIXEI A CEBOLA NA 9, PEGA PRA SOPA! JÁ VOU NA SALADA!"
+     pensa: "Salada de 14s é prioridade. Livro as mãos pra pegar prato e picar alface/tomate."
+
+== t20 (0:40) pontos 0 | pedidos: Sopa de cebola(18s), Salada(12s), Salada(30s), Sopa de tomate(54s)
+  Seek: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "PRATO NA 11 PRA TUA SALADA! EU VOU DE CEbola NA PANELA, SEGURA A SALADA!"
+     pensa: "Preciso liberar as mãos: deixo o prato na divisória pro Deep servir a salada que expira, e corro pegar a cebola pra panela."
+  Deep: ação='pegar cebola picada da bancada 9' → pegou cebola picada
+     fala: "ESSA PANELA É DO SEU LADO, NÃO ALCANÇO! CORRE NA SALADA QUE VAI EXPIRAR, ALFACE+TOMATE NO PRATO!"
+     pensa: "Fogão fora de alcance. Pego cebola picada pronta e cobro o parceiro da salada urgente."
+
+== t21 (0:42) pontos 0 | pedidos: Sopa de cebola(16s), Salada(10s), Salada(28s), Sopa de tomate(52s)
+  Seek: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! EU NÃO ALCANÇO AS CAIXAS NEM A TÁBUA, A SALADA É SUA — E MANDA AS CEBOLAS PRA PANELA DO MEU LADO QUE EU COZINHO!"
+     pensa: "Tô preso do lado do fogão: só sirvo, cozinho e entrego. Salada de 10s já era, foco na de 28s e na sopa de cebola."
+  Deep: ação='largar cebola picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "CEBOLA NA 7! VOU DE ALFACE, PEGA TOMATE PRA SALADA!"
+     pensa: "Salada quase expirando, solto a cebola pro Seek e corro pro alface."
+
+== t22 (0:44) pontos 0 | pedidos: Sopa de cebola(14s), Salada(8s), Salada(26s), Sopa de tomate(50s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "PRATO NA 9 PRA VOCÊ! CORRE NA SALADA DE 8s, EU NÃO ALCANÇO AS CAIXAS!"
+     pensa: "Tô preso no lado sem caixa nem tábua. Deixo o prato na divisória e cobro o Deep pra fechar a salada urgente."
+  Deep: ação='pegar cebola picada da bancada 7' → pegou cebola picada
+     fala: "CEBOLA PICADA NA MÃO! JÁ LEVO PRA PANELA — SEGURA O FOGO QUE A SOPA SAI!"
+     pensa: "Salada em 8s é impossível, são dois cortes. Cebola já picada na bancada é de graça, foco na sopa de cebola (14s) e depois volto pra salada de 26s."
+
+== t23 (0:46) pontos 0 | pedidos: Sopa de cebola(12s), Salada(6s), Salada(24s), Sopa de tomate(48s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! CORRE COM A CEbola NA PANELA E JÁ SERVE A SOPA!"
+     pensa: "Sopa de cebola expira em 12s; ficar com prato pronto pra entregar assim que cozinhar."
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA PICADA NA 11, JOGA NA PANELA! EU VOU DE ALFACE E TOMATE, ENTREGA VOCÊ!"
+     pensa: "Salada de 6s já era. Vou montar a de 24s e deixar a cebola na divisória pro parceiro tentar a sopa."
+
+== t24 (0:48) pontos 0 | pedidos: Sopa de cebola(10s), Salada(4s), Salada(22s), Sopa de tomate(46s)
+  Deep: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "SEGURO ESSA CEbola — NÃO ALCANÇO O FOGÃO! VOCÊ JOGA NA PANELA E ACENDE, EU LEVO MAIS TRÊS!"
+     pensa: "Fogão tá fora do meu alcance, então sirvo de mula: levo cebola picada o mais perto que der e grito pro Seek abastecer a panela. Salada de 4s já era."
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "LARGO O PRATO NA 7, MONTA A SALADA E ENTREGA! EU VOU PRA CEBOLA!"
+     pensa: "Sopa de cebola impossível com 10s. Libero o prato pro Deep montar a salada e tento adiantar a panela."
+
+== t25 (0:50) pontos 0 | pedidos: Sopa de cebola(8s), Salada(2s), Salada(20s), Sopa de tomate(44s)
+  Deep: ação='largar cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "CEBOLA PICADA NA 9, PEGA E JOGA NA PANELA! CORRE QUE A SOPA TÁ EM 8s!"
+     pensa: "Sopa de cebola é prioridade absurda, preciso de 3 cebolas na panela e a panela é do lado dele. Salada de 2s já era, esquece."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "NÃO CONSIGO TIRAR DA SUA MÃO, DEEP! JOGA NA PANELA 1 SOZINHO QUE EU JÁ PEGO PRATO PRA SALADA!"
+     pensa: "Sopa de cebola em 8s já era, salada em 2s já era. Vou garantir prato pra salada de 20s e deixar caminho pro Deep."
+
+== t26 (0:52) pontos -10 | pedidos: Sopa de cebola(6s), Salada(18s), Sopa de tomate(42s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "PERDE ESSA CEBOJA, NÃO DÁ TEMPO! LARGA E VAI PRO TOMATE, SOPA DE TOMATE É O QUE IMPORTA AGORA!"
+     pensa: "Sopa de cebola tá perdida: 6s, sem 3 cebolas na panela e ainda falta cozinhar. Largo o prato pra liberar a mão e foco no tomate antes que o resto afunde."
+  Deep: ação='pegar cebola picada da bancada 9' → pegou cebola picada
+     fala: "PEGUEI CEbola PICADA, SEGURA A PANELA 1 QUE EU ENCHO AGORA!"
+     pensa: "Sopa de cebola expira em 6s, tenho 2 cebolas picadas prontas nas bancadas. Pego a de 0.0s e corro pra panela."
+  eventos: tipo=expirou receita=Salada id=2
+
+== t27 (0:54) pontos -10 | pedidos: Sopa de cebola(4s), Salada(16s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "DEIXO A CEbola NA DIVISÓRIA, PEGA E JOGA NA PANELA! ESSA SOPA AINDA DÁ PRA SALVAR DEPOIS!"
+     pensa: "O pedido de 4s já era. Mas tem outra sopa de cebola em 58s, então guardo a cebola pra ele. Tomate fica pro próximo ciclo."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "DEIXA A DE 4s, NÃO DÁ TEMPO! VAI PRA SALADA: ALFACE E TOMATE PICADOS NO MESMO PRATO. EU SEGURO OS PRATOS E ENTREGO!"
+     pensa: "4s pra picar 3 cebolas, cozinhar e servir é impossível. Salva a salada de 16s e depois a sopa de tomate. Eu não alcanço nada do lado dele, então viro o cara dos pratos e das entregas."
+  eventos: tipo=pedido receita=Sopa de cebola id=5
+
+== t28 (0:56) pontos -10 | pedidos: Sopa de cebola(2s), Salada(14s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "PERDEMOS ESSA! DEIXO O PRATO NA DIVISÓRIA, VAI PRO TOMATE!"
+     pensa: "Sem sopa pronta, 2s é impossível. Livro as mãos e preparo o próximo."
+  Deep: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "BELEZA, DEIXA A DE 4s MORRER! PEGUEI CEBOAL PICADA, JÁ VOU PRO TOMATE EM SEGUIDA — SEGURA O FOGÃO!"
+     pensa: "A de 2s já era, foco na salada perdida. Pego cebola picada de graça e já monto a sopa de cebola de 56s no fogão do parceiro."
+
+== t29 (0:58) pontos -20 | pedidos: Salada(12s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "PEGUEI PRATO! JOGA 3 TOMATES PICADOS NA PANELA 1 QUE EU SERVO A SOPA!"
+     pensa: "Salada já era, foco na sopa de tomate. Prato na mão pra agilizar a entrega."
+  Deep: ação='largar cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "LARGO A CEBO NA DIVISÓRIA PRA VC! VOU PEGAR A ALFACE, CORRE NO TOMATE QUE A SALADA TA ESTOURANDO!"
+     pensa: "Salada expira em 12s, prioridade total. Solto a cebola pro parceiro usar na sopa de cebola depois e voo pra alface."
+  eventos: tipo=expirou receita=Sopa de cebola id=1
+
+== t30 (1:00) pontos -20 | pedidos: Salada(10s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "NÃO ALCANÇO NENHUMA CAIXA! DEIXEI O PRATO NA DIVISÓRIA, MONTA A SALADA VOCÊ!"
+     pensa: "salada em 10s, só o parceiro alcança as caixas. deixo prato e ele monta alface+tomate."
+  Deep: ação='pegar cebola picada da bancada 13' → pegou cebola picada
+     fala: "NÃO TEM TOMATE PICADO NENHUM! SEGURA ESSE PRATO, VAMOS DE SOPA DE CEBOBA — EU PICHO!"
+     pensa: "Sem tomate picado e sem alcance no fogão, não dá pra sopa de tomate agora. Salada em 10s é impossível. Vou de cebola: já tenho 3 picadas quase prontas nas bancadas."
+
+== t31 (1:02) pontos -20 | pedidos: Salada(8s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA PICADA NA DIVISÓRIA! JOGA NA PANELA E METE TOMATE PICADO TAMBÉM — TÁBUAS SÃO MINHAS, PANELA É SUA!"
+     pensa: "Salada já era. Foco em encher as duas panelas: eu corto tudo, ele só cozinha e serve. Não posso desperdiçar prato com cebola crua."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! JOGA AS 3 CEBOLAS NA PANELA 1 E ACENDE — EU SIRVO!"
+     pensa: "Salada já era, sem tomate picado. Foco total na sopa de cebola, prato na mão pra servir na hora."
+
+== t32 (1:04) pontos -20 | pedidos: Salada(6s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "PRATO NA BANCADA 9! JOGA ALFACE E TOMATE PICADO NELE AGORA, SALADA TÁ MORRENDO!"
+     pensa: "Solto o prato na divisória pra ele montar a salada; eu pego a panela depois."
+  Deep: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PANELA TÁ DO SEU LADO, NÃO ALCANÇO! TEM CEBOLA PICADA NA BANCADA 11 — JOGA VOCÊ E ACENDE! EU VOU DE TOMATE!"
+     pensa: "Cebola picada já existe na bancada 11 (0.0s), mas fogão fora do meu alcance. Partner segura prato e está no fogão. Vou montar a sopa de tomate: 3 tomates picados."
+
+== t33 (1:06) pontos -20 | pedidos: Salada(4s), Sopa de tomate(28s), Sopa de cebola(46s)
+  Deep: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "NÃO DÁ TEMPO DA SALADA! VOU PICAR PRA SOPA DE TOMATE — JOGA O TOMATE PICADO DA BANCADA 11 NO PRATO E CORRE!"
+     pensa: "Salada tá perdida, 4s não dá pra picar e entregar. Melhor garantir a sopa de tomate que render mais."
+  Seek: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "PEGO A CEBOLLA E JOGO NA PANELA 1! TRAZ MAIS CEBOLLA PICADA, RÁPIDO!"
+     pensa: "Salada já era. Foco na sopa de cebola: pegar cebola picada e acender panela 1."
+
+== t34 (1:08) pontos -20 | pedidos: Salada(2s), Sopa de tomate(26s), Sopa de cebola(44s)
+  Seek: ação='pôr cebola picada na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "CEBOLA NO FOGÃO 1! DEPOIS ME AJUDA COM MAIS CEBOla!"
+     pensa: "Salada já era. Começo a sopa de cebola com o que tenho na mão."
+  Deep: ação='picar tomate na tábua 1' → picando
+     fala: "CEBOLA EXPIROU! LARGA A CEBOLLA E VAI DE TOMATE! EU PICO AQUI E TE MANDO PICADO!"
+     pensa: "Salada já era, 2s. Foco na sopa de tomate: 26s, preciso de 3 picados. Tábua 1 já tem tomate cru, pico agora."
+  eventos: tipo=na_panela quem=Seek onde=fogão 1 n=1
+
+== t35 (1:10) pontos -30 | pedidos: Sopa de tomate(24s), Sopa de cebola(42s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "FOGÃO 1 JÁ TEM CEBOLA NA PANELA! MANDA MAIS CEBOLA PICADA PRA COMPLETAR 3! EU PEGO PRATO E FICO NO PASSA-PRATO!"
+     pensa: "Tô sem ação útil de ingrediente aqui (caixas são do lado do Deep). Melhor adiantar prato e ficar pronto pra servir a sopa de cebola do fogão 1 assim que encher a panela."
+  Deep: ação='picar tomate na tábua 1' → picou tomate
+     fala: "PICANDO TOMATE AQUI! SEGURA A CEbola NO FOGÃO 1, JÁ VOU MANDAR MAIS!"
+     pensa: "Sopa de tomate expira em 24s, preciso picar 3 tomates. O parceiro segura a cebola enquanto isso."
+  eventos: tipo=expirou receita=Salada id=3; tipo=picou quem=Deep o=tomate
+
+== t36 (1:12) pontos -30 | pedidos: Sopa de tomate(22s), Sopa de cebola(40s), Sopa de cebola(58s)
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "DEIXEI O PRATO NA 7, PEGA PRA SERVIR A CEbola!"
+     pensa: "Preciso de mãos livres; o parceiro alcança a bancada 7."
+  Deep: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "PEGUEI CEBOLA PICADA! FOGÃO 1 TÁ QUASE — VOU LEVAR, SEGURA O PRATO E NÃO DEIXA QUEIMAR!"
+     pensa: "Tomate expira em 22s e não tem nada na panela de tomate, já era. Foco total na cebola: 2 pedidos e a panela já tem 1 cebola. Pego a picada da tábua 2 e corro."
+  eventos: tipo=pedido receita=Sopa de cebola id=6
+
+== t37 (1:14) pontos -30 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de cebola(56s)
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! FOGÃO 1 SÓ TÁ COM 1 CEbola, PRECISA DE MAIS 2 — CORRE NA CAIXA!"
+     pensa: "Pegar prato agora é grátis (0.0s). O parceiro acha que fogão 1 está pronto mas só tem 1 cebola na panela — vou avisar. Prioridade: sopa de tomate expira em 20s e tábua 1 já tem tomate picado."
+  Deep: ação='largar cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "CEbola PICADA NA 13! PÕE NA PANELA! PRATO 7 SÓ RECEBE SOPA PRONTA, NÃO JOGAR CEbola CRUA!"
+     pensa: "Panela de cebola é prioridade agora. Preciso virar tomate depois: tábua 1 já tem tomate picado, é rápido."
+
+== t38 (1:16) pontos -30 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de cebola(54s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "Larguei o prato na 7! Vou pegar a cebola da 13 e encher a panela do fogão 1 — CONTINUA PICANDO CEbola, precisamos de 3 pra sopa!"
+     pensa: "Preciso de mãos livres. Fogão 1 já tem cebola, faltam 2. Tomate de 18s já era."
+  Deep: ação='pegar cebola picada da bancada 13' → pegou cebola picada
+     fala: "PEGUEI CEbola PICADA PRONTA, MANDA ONDE EU JOGO!"
+     pensa: "Bancada 13 já tem cebola picada, é o mais rápido. Não alcanço o fogão, preciso achar como passar pro Seek."
+
+== t39 (1:18) pontos -30 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de cebola(52s)
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "JOGA A CEbola NA PANELA 2, RÁPIDO! VOU PEGAR PRATO!"
+     pensa: "Fogão 2 vazio e ele tem cebola picada. Melhor adiantar prato pra servir as sopas de cebola depois."
+  Deep: ação='largar cebola picada na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "DEIXEI NA 13! CORRE PRA PANELA, TÁ -30!"
+     pensa: "Preciso entregar essa cebola pro Seek e voltar a picar, senão a sopa de cebola expira."
+
+== t40 (1:20) pontos -30 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de cebola(50s)
+  Deep: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "TOМATE PICADO NA MÃO! VEM ME ENCONTRAR OU MANDA A PANELA 1 PRA CÁ, TÁ EM 14s!"
+     pensa: "Sopa de tomate expira em 14s e só tem 1 tomate picado pronto. A panela dele já tem cebola. Preciso garantir o tomate e avisar rápido."
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "DEIXEI PRATO NA 9! JOGA O TOMATE PICADO DA TÁBUA 1 NA PANELA AGORA, O DE TOMATE EXPIRA EM 14s!"
+     pensa: "Tô travado com prato na mão e sem ação de servir. Solto na 9 pro parceiro alcançar e foco em destravar a sopa de tomate urgente."
+
+== t41 (1:22) pontos -30 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de cebola(48s)
+  Seek: ação='pegar cebola picada da bancada 13' → pegou cebola picada
+     fala: "DEIXA O TOMATE, FOCO NA CEBOLA! VOU JOGAR ESSA NA PANELA 1 E VOCÊ CORTA MAIS CEBOLA!"
+     pensa: "Tomate em 12s é impossível com só 1 picado. Melhor garantir a cebola: pego a cebola picada da bancada 13 e coloco na panela 1."
+  Deep: ação='largar tomate picado na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "NÃO ALCANÇO O FOGÃO! TOMATE PICADO NA 7, PEGA E JOGA NA PANELA AGORA! CORRE!"
+     pensa: "Fogão é do lado dele, só posso deixar na divisória. Tomate expira em 12s, preciso que ele pegue rápido."
+
+== t42 (1:24) pontos -30 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de cebola(46s)
+  Deep: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "TOMATE JÁ ERA, 10s não dá! Vou de cebola, segura a panela 1!"
+     pensa: "3 tomates picados + cozinhar em 10s = impossível. Melhor garantir as duas sopas de cebola."
+  Seek: ação='pôr cebola picada na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "TO JOGANDO CEBOla NA PANELA 1! TOMATE TÁ PERDIDO, ESQUECE! PICA CEBOla E JOGA AÍ PRA FECHAR 3!"
+     pensa: "Panela 1 já tem 1 cebola, com a minha vira 2/3. Tomate em 10s é impossível (3 tomates + cozinhar + servir). Foco nas duas sopas de cebola que ainda dão pontos."
+  eventos: tipo=na_panela quem=Seek onde=fogão 1 n=2
+
+== t43 (1:26) pontos -30 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de cebola(44s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "TOMATE JÁ ERA, ESQUECE! PEGO PRATO E SIRVO A CEbola DO FOGÃO 1 ASSIM QUE FECHAR 3!"
+     pensa: "8s de tomate é impossível, foco nas cebolas: fogão 1 quase pronto, preciso de prato na mão."
+  Deep: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "CEBOLA CRUA NA PANELA NAO VALE! TO PICANDO NA TABUA 1, SEGURA AÍ!"
+     pensa: "tomate em 8s é impossível, foco nas duas sopas de cebola"
+
+== t44 (1:28) pontos -30 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de cebola(42s)
+  Deep: ação='picar cebola na tábua 1' → picando
+     fala: "PICANDO CEBOla! TOMATE JÁ ERA, FOCO NAS CEBOlas!"
+     pensa: "Sopa de tomate impossível em 6s. Melhor adiantar cebola picada para os próximos pedidos."
+  Seek: ação='esperar' → None
+     fala: "BOTA A TERCEIRA CEBOLA NA PANELA 1! EU SEGURO O PRATO PRA SERVIR!"
+     pensa: "Tomate já era, foco na sopa de cebola. Seguro prato e espero a panela."
+
+== t45 (1:30) pontos -30 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de cebola(40s), Salada(52s)
+  Seek: ação='pôr tomate picado da bancada 7 no prato' → pôs no prato
+     fala: "DEEP, BOTA A 3ª CEbola NA PANELA 1 JÁ! EU MONTO A SALADA COM TOMATE, TRAZ ALFACE!"
+     pensa: "Tomate expirou, ignora. Panela 1 tá com 2 cebolas, só falta uma. Salada de 52s é nossa melhor chance, adianto o tomate."
+  Deep: ação='picar cebola na tábua 1' → picou cebola
+     fala: "EU NÃO ALCANÇO O FOGÃO 1! TERMINA A CEBOLA E JOGA VOCÊ MESMO NA PANELA! TOMATE TÁ PERDIDO, FOCO NA CEBOla!"
+     pensa: "Sopa de tomate expira em 4s, impossível: 2s pra pegar tomate + picar + cozinhar. Melhor garantir a cebola de 22s. Tábua 1 já tá 50%, pico e ele coloca na panela 1 que já tem 2."
+  eventos: tipo=pedido receita=Salada id=7; tipo=picou quem=Deep o=cebola
+
+== t46 (1:32) pontos -30 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de cebola(38s), Salada(50s)
+  Seek: ação='largar prato com tomate picado na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "JOGA A CEBOla PICADA NA BANCADA 9 QUE EU COLOCO NA PANELA! CORRE!"
+     pensa: "Tomate expirou, foco na cebola: falta 1 na panela. Preciso das mãos livres."
+  Deep: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "SEEK, NÃO ALCANÇO A PANELA 1! PEGA ESSA CEbola PICADA DA MINHA MÃO OU PÕE NA PANELA, CORRE! TOMATE JÁ ERA!"
+     pensa: "Sopa de tomate com 2s é impossível. Tábua 1 está no meu lado, panela 1 no lado dele. Pego a 3ª cebola picada e passo pro Seek terminar a sopa de cebola que tem 20s."
+
+== t47 (1:34) pontos -40 | pedidos: Sopa de cebola(18s), Sopa de cebola(36s), Salada(48s)
+  Deep: ação='largar cebola picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "DEIXEI NA BANCADA 7, NÃO NA 9! A 9 TEM PRATO COM TOMATE DA SALADA, NÃO MISTURA! PEGA E JOGA NA PANELA!"
+     pensa: "Bancada 9 tem prato com tomate pra salada - se jogar cebola ali estraga. Jogo na divisória 7 que ele alcança."
+  Seek: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "PÕE ESSA CEBOla NA PANELA 1 AGORA, EU PEGO PRATO E SERVO! CORRE QUE SÃO 18s!"
+     pensa: "Panela 1 tem 2 cebolas, falta só a dele. Pego prato limpo pra entregar a sopa assim que cozinhar."
+  eventos: tipo=expirou receita=Sopa de tomate id=4
+
+== t48 (1:36) pontos -40 | pedidos: Sopa de cebola(16s), Sopa de cebola(34s), Salada(46s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO O PRATO NA 8! VOU PEGAR A CEBOla DA 7 E JOGAR NA PANELA 1!"
+     pensa: "Preciso liberar a mão pra pegar a cebola da bancada 7 e completar a panela 1. 16s, corre!"
+  Deep: ação='pegar cebola picada da bancada 7' → pegou cebola picada
+     fala: "CEBOLA PICADA NA MÃO! MAS A PANELA 1 TÁ DO TEU LADO, NÃO ALCANÇO! JOGA A 3ª E SERVE LOGO QUE SÃO 16s!!"
+     pensa: "Peguei a cebola picada pronta. Se ele não conseguir a 3ª cebola, pelo menos eu levo essa pra perto do fogão. Salada de 46s fica pra depois."
+
+== t49 (1:38) pontos -40 | pedidos: Sopa de cebola(14s), Sopa de cebola(32s), Salada(44s)
+  Deep: ação='largar cebola picada na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "DEIXEI NA 7! JOGA NA PANELA 1, CORRE!"
+     pensa: "Terceira cebola na panela 1 já, senão a sopa de 14s expira!"
+  Seek: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PRATO NA MÃO! JOGA A 3ª CEBOLA NA PANELA 1 AGORA, EU SERVO!"
+     pensa: "Panela 1 tá a 1.1s de mim e já tem 2 cebolas — se o Deep não colocar a terceira, essa sopa de 14s morre. Eu pego prato agora (0.0s) e fico colado no passa-prato pra servir na hora."
+
+== t50 (1:40) pontos -40 | pedidos: Sopa de cebola(12s), Sopa de cebola(30s), Salada(42s)
+  Deep: ação='pegar cebola picada da bancada 7' → pegou cebola picada
+     fala: "PEGUEI A CEbola! VOU CORRER PRO FOGÃO 1, SEGURA O PRATO!"
+     pensa: "sopa de cebola em 12s, panela com 2 cebolas, bancada 7 tem a terceira picada a 0.0s - pego e corro"
+  Seek: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "PRATO NA 11! EU PEGO A CEbola DA 7 E JOGO NA PANELA 1, JÁ VAI!"
+     pensa: "Sopa de cebola expira em 12s — falta 1 cebola na panela 1. Solto o prato e corro pra bancada 7."
+
+== t51 (1:42) pontos -40 | pedidos: Sopa de cebola(10s), Sopa de cebola(28s), Salada(40s)
+  Deep: ação='largar cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "SOLTEI CEBOLA NA 13 PRA PRÓXIMA! CORRE NA PANELA 1 QUE A SOPA DE 10s TÁ QUASE!"
+     pensa: "Panela 1 já tem 2 cebolas, parceiro põe a terceira da 7. Deixo a minha na 13 pra segunda sopa e vou ajudar na salada."
+  Seek: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "VOU PRO FOGÃO 1 COM PRATO! JOGA A CEbola E SAI DA FRENTE!"
+     pensa: "pego prato limpo já que tô em cima da bancada 11, corro pro fogão 1 e sirvo assim que a sopa ficar pronta"
+
+== t52 (1:44) pontos -40 | pedidos: Sopa de cebola(8s), Sopa de cebola(26s), Salada(38s)
+  Deep: ação='pegar cebola picada da bancada 13' → pegou cebola picada
+     fala: "TÔ COM A 3ª CEbola! SEEK, FALA O QUE FAÇO — NÃO ALCANÇO O FOGÃO!"
+     pensa: "sopa de 8s precisa da 3ª cebola; pego rápido no 13 e grito pro Seek."
+  Seek: ação='esperar' → None
+     fala: "NÃO TÁ PRONTA! BOTA A CEBOLA DA 13 NA PANELA 1 AGORA! EU SEGURO O PRATO!"
+     pensa: "Deixa o Deep completar a panela, eu seguro o prato pra servir assim que cozinhar."
+
+== t53 (1:46) pontos -40 | pedidos: Sopa de cebola(6s), Sopa de cebola(24s), Salada(36s)
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "NÃO ALCANÇO A PANELA! CEbola NA 11 AGORA, VOCÊ JOGA NA PANELA 1!"
+     pensa: "Panela tá no lado dele, 2 cebolas já. Jogo a terceira na divisória que ele pega na hora. Primeiro pedido já era, mas o de 24s dá."
+  Seek: ação='largar prato limpo vazio na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "LARGA A CEbola NA 13, EU JOGO NO FOGÃO 1! RÁPIDO!"
+     pensa: "Preciso das mãos livres pra pegar a cebola e salvar essa sopa."
+
+== t54 (1:48) pontos -40 | pedidos: Sopa de cebola(4s), Sopa de cebola(22s), Salada(34s), Salada(52s)
+  Deep: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "PEGUEI A CEbola! Vou largar na 13, põe no fogão 1 que a sopa de 22s sai!"
+     pensa: "O pedido de 4s já era, não dá tempo de cozinhar. Foco no de 22s: fogão 1 precisa da 3ª cebola."
+  Seek: ação='pegar cebola picada da bancada 11' → bancada 11 já estava vazia.
+     fala: "PEGUEI A CEbola! VOU NA PANELA 1 AGORA!"
+     pensa: "Pego a cebola pra completar a panela 1 e tentar salvar a sopa de 4s. Se não der tempo, pelo menos adianta a próxima."
+  eventos: tipo=pedido receita=Salada id=8
+
+== t55 (1:50) pontos -40 | pedidos: Sopa de cebola(2s), Sopa de cebola(20s), Salada(32s), Salada(50s)
+  Seek: ação='pegar prato limpo vazio da bancada 13' → pegou prato limpo vazio
+     fala: "Larga a cebola no 13 e joga no fogão 1 AGORA! Já tem 2 lá, falta 1! Eu seguro o prato e sirvo!"
+     pensa: "Sopa de 2s já era, não dá. Prato vazio do 13 é o mais rápido: libero espaço pro Deep e fico pronto pra servir a sopa de 20s assim que sair."
+  Deep: ação='largar cebola picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "LARGOU CEbola NA 7! PEGA E JOGA NA PANELA 1, JÁ TEM 2 LÁ! CORRE!"
+     pensa: "Panela 1 tem 2 cebolas, minha cebola fecha as 3. Mas o pedido de 2s já era... foco no de 20s."
+
+== t56 (1:52) pontos -50 | pedidos: Sopa de cebola(18s), Salada(30s), Salada(48s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "TÔ COM PRATO! SOLTO NA 13 E PEGO A CEBOla PRA PANELA 1!"
+     pensa: "Liberar as mãos rápido pra colocar a 3ª cebola na panela 1 antes de acabar o tempo."
+  Deep: ação='pegar cebola picada da bancada 7' → pegou cebola picada
+     fala: "PEGUEI A CEBOLA PICADA! VEM PEGAR, NÃO ALCANÇO O FOGÃO!"
+     pensa: "Se eu pegar a cebola picada, o parceiro pode botar na panela e servir a sopa antes de expirar."
+  eventos: tipo=expirou receita=Sopa de cebola id=5
+
+== t57 (1:54) pontos -50 | pedidos: Sopa de cebola(16s), Salada(28s), Salada(46s)
+  Seek: ação='pegar prato com tomate picado da bancada 9' → pegou prato com tomate picado
+     fala: "DEIXA A CEbola, PEGA ALFACE E PICA! EU PEGO O TOMATE!"
+     pensa: "Sopa tá difícil, melhor garantir uma salada."
+  Deep: ação='largar cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA NA 11! JOGA NA PANELA 1 AGORA!"
+     pensa: "Completa a sopa de cebola, corre!"
+
+== t58 (1:56) pontos -50 | pedidos: Sopa de cebola(14s), Salada(26s), Salada(44s)
+  Seek: ação='largar prato com tomate picado na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "LARGUEI O PRATO NA 7! VOU PÔR A CEBOLA NA PANELA 1! PEGA ALFACE E PICHA PRA SALADA!"
+     pensa: "Libero as mãos pra salvar a sopa e deixo o prato pro parceiro completar a salada."
+  Deep: ação='pegar alface crua da bancada 2' → pegou alface crua
+     fala: "ALFACE PRA PICAR! CORRE COM A SOPA DE CEbola!"
+     pensa: "Sopa expira em 14s, mas não alcanço o fogão. Sigo a ordem: alface."
+
+== t59 (1:58) pontos -50 | pedidos: Sopa de cebola(12s), Salada(24s), Salada(42s)
+  Seek: ação='pegar cebola picada da bancada 11' → pegou cebola picada
+     fala: "EU FECHO A PANELA 1, LEVA ESSA ALFACE PRA TÁBUA E PICA! CORRE!"
+     pensa: "falta 1 cebola na panela 1, sopa expira em 12s; depois sirvo no prato 13"
+  Deep: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "VOU PICAR ALFACE! O PRATO DA 7 JÁ TEM TOMATE, SÓ FALTA A ALFACE PICADA PRA ENTREGAR A SALADA! MANDA A SOPA QUE TÁ QUASE EXPIRANDO!"
+     pensa: "Sopa expira em 12s, panela 1 com 2 cebolas, Seek vai completar. Eu foco nas saladas: picar alface e completar a salada do prato da 7."
+
+== t60 (2:00) pontos -50 | pedidos: Sopa de cebola(10s), Salada(22s), Salada(40s)
+  Seek: ação='pôr cebola picada na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "COMPLETEI A SOPA! DEPOIS PEGA PRATO E SERVE, ALFACE ESPERA!"
+     pensa: "Sopa de cebola expira em 10s: prioridade máxima é fechar 3/3 na panela 1."
+  Deep: ação='picar alface na tábua 1' → picando
+     fala: "TÔ PICANDO A ALFACE! CORRE COM A SOPA, ELA VAI EXPIRAR!"
+     pensa: "Sopa em 10s é quase impossível, foco nas saladas. Preciso do prato com tomate da bancada 7 depois."
+  eventos: tipo=na_panela quem=Seek onde=fogão 1 n=3
+
+== t61 (2:02) pontos -50 | pedidos: Sopa de cebola(8s), Salada(20s), Salada(38s)
+  Seek: ação='pegar prato limpo vazio da bancada 13' → pegou prato limpo vazio
+     fala: "PEGUEI PRATO! SOPA DE CEBOLA TÁ PRONTA? 8 SEGUNDOS!"
+     pensa: "Preciso de prato pra tirar a sopa da panela antes de expirar. Depois entrego correndo no passa-prato."
+  Deep: ação='pegar prato limpo vazio da bancada 13' → bancada 13 já estava vazia.
+     fala: "PEGUEI PRATO LIMPO! LEVO PRA VOCÊ SERVIR A SOPA AGORA, NÃO DEIXA QUEIMAR!"
+     pensa: "Sopa com 8s, parceiro no fogão. Prato limpo é o gargalo. Saladas depois: bancada 7 já tem tomate picado, falta alface na tábua 1."
+
+== t62 (2:04) pontos -50 | pedidos: Sopa de cebola(6s), Salada(18s), Salada(36s)
+  Seek: ação='esperar' → None [RESPOSTA INVÁLIDA: largar prato limpo vazio na bancada 13]
+     fala: "DEEP, PEGA ESSE PRATO NA 13 E SERVE A SOPA DE CEbola NO FOGÃO 1 AGORA, VAI QUEIMAR!!!"
+     pensa: "sopa de cebola expira em 6s, fogão 1 a 0.9s de mim — preciso do prato no fogão já, e o Deep tá colado na 13"
+  Deep: ação='picar alface na tábua 1' → picou alface
+     fala: "SERVE ESSA CEbola AGORA SEEK, CORRE! EU FECHO AS SALADAS!"
+     pensa: "Sopa expira em 6s e é do lado dele. Tomate picado já tá no prato 7, só falta a alface."
+  eventos: tipo=picou quem=Deep o=alface
+
+== t63 (2:06) pontos -50 | pedidos: Sopa de cebola(4s), Salada(16s), Salada(34s), Salada(52s)
+  Seek: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "PANELA AINDA COZINHANDO, NÃO DÁ PRA SERVIR! DEIXEI PRATO NA DIVISÓRIA, MONTA AS SALADAS QUE EU VOLTO NA CEbola!"
+     pensa: "Sopa não está pronta, perdi pontos à toa. Foco nas saladas pra não afundar mais."
+  Deep: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "BANCADA 13 TÁ VAZIA, DEEP! VOCÊ MESMO SERVE A SOPA — TÁ COM O PRATO NA MÃO, CORRE NO FOGÃO 1!"
+     pensa: "Não alcanço o fogão 1 nem o passa-prato. Vou montar a salada: alface da tábua 1 no prato com tomate da bancada 7 e o Seek entrega."
+  eventos: tipo=pedido receita=Salada id=9; tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de cebola)
+
+== t64 (2:08) pontos -50 | pedidos: Sopa de cebola(2s), Salada(14s), Salada(32s), Salada(50s)
+  Deep: ação='pôr alface picada no prato da bancada 7' → montou no prato
+     fala: "PARA TUDO! SOPA PRONTA NO FOGÃO 1, VAI QUEIMAR! SERVE AGORA! EU FECHO A SALADA 7!"
+     pensa: "Panela pronta vai virar fogo. Salada 7 fecha em 1.1s. Parceiro tem que correr na panela."
+  Seek: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "DEEP, DEIXA A ALFACE E VEM PRO FOGÃO 1! EU PEGO PRATO E SERVO A SOPA, CORRE!"
+     pensa: "panela no fogo 1 vai queimar, preciso de prato já — bancada 11 tá do meu lado"
+
+== t65 (2:10) pontos -60 | pedidos: Salada(12s), Salada(30s), Salada(48s)
+  Deep: ação='pegar prato com tomate picado + alface picada da bancada 7' → pegou prato com tomate picado + alface picada
+     fala: "TEM SALADA PRONTA NA BANCADA 7, PEGUEI! SEGURA O FOGÃO 1 QUE A SOPA VAI QUEIMAR!"
+     pensa: "Salada pronta a 0.0s e o pedido expira em 12s. Pego agora e corro pro passa-prato. A sopa o Seek resolve."
+  Seek: ação='servir sopa de cebola do fogão 1 no prato' → serviu no prato
+     fala: "ESTOU SERVINDO A SOPA! SEGURA A SALADA 7!"
+     pensa: "Sopa vai queimar; sirvo agora e evito o fogo. A salada 7 fica com o Deep."
+  eventos: tipo=expirou receita=Sopa de cebola id=6; tipo=serviu quem=Seek onde=fogão 1
+
+== t66 (2:12) pontos -60 | pedidos: Salada(10s), Salada(28s), Salada(46s)
+  Deep: ação='largar prato com tomate picado + alface picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "SALADA NA 7! ENTREGA AGORA, SEEK!"
+     pensa: "Salada expira em 10s; deixo na divisória pro Seek pegar e servir."
+  Seek: ação='jogar prato com sopa de cebola no lixo' → andando
+     fala: "ENTREGA A SALADA AGORA, PARCEIRO! JOGUEI A SOPA, NINGUÉM PEDIU!"
+     pensa: "Sopa sem pedido não vale nada e ocupa minha mão. Preciso liberar pra ajudar nas saladas. Fogão 1 já está vazio, sem risco de queimar."
+
+== t67 (2:14) pontos -60 | pedidos: Salada(8s), Salada(26s), Salada(44s)
+  Seek: ação='largar prato com sopa de cebola na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "DEEP, ENTREGA A SALADA DA 7 VOCÊ MESMO, TÔ COM A MÃO CHEIA! LARGO A SOPA NA 13!"
+     pensa: "Não posso entregar a salada segurando sopa. Solto a sopa na divisória e o Deep pega a salada na 7 — 8 segundos!"
+  Deep: ação='pegar prato com tomate picado + alface picada da bancada 7' → pegou prato com tomate picado + alface picada
+     fala: "PEGUEI A SALADA! PASSA-PRATO É DO SEU LADO, ENTREGA RÁPIDO QUE TÁ EXPIRANDO!"
+     pensa: "Não alcanço o passa-prato, então preciso que o Seek entregue. Mas pegar o prato é o primeiro passo."
+
+== t68 (2:16) pontos -60 | pedidos: Salada(6s), Salada(24s), Salada(42s)
+  Seek: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "DEEP, CORRE PRO PASSA-PRATO AGORA! SALADA EXPIRA EM 6s, VAI VAI VAI! EU PEGO PRATO PRA SALVAR A PANELA DO FOGÃO 1!"
+     pensa: "Não posso entregar a salada dele, só ele pode. Pego prato limpo agora pra esvaziar a panela 1 antes de queimar e já adianto prato pra próxima salada."
+  Deep: ação='largar prato com tomate picado + alface picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "LARGO A SALADA PRONTA NA 7 AGORA! PASSA-PRATO É DO SEU LADO, ENTREGA VOCÊ, CORRE QUE EXPIRA EM 6s!"
+     pensa: "passa-prato tá fora do meu alcance, só ele entrega. E o fogão 1 vai queimar..."
+
+== t69 (2:18) pontos -60 | pedidos: Salada(4s), Salada(22s), Salada(40s)
+  Deep: ação='pegar prato com tomate picado + alface picada da bancada 7' → pegou prato com tomate picado + alface picada
+     fala: "PEGUEI A SALADA! VOU PRO PASSA-PRATO, SAI DA FRENTE! TIRA A PANELA DO FOGÃO 1 QUE VAI QUEIMAR!"
+     pensa: "Salada pronta em 4s, 10 pontos na mesa. Sopa do fogão 1 o Seek resolve."
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LIVREI O PRATO, AGORA VOU NA 7 PEGAR A SALADA E ENTREGO! SEGURA OS OUTROS PEDIDOS, DEEP!"
+     pensa: "Preciso das mãos livres pra pegar a salada da 7. Largo o prato vazio na 8 e corro."
+
+== t70 (2:20) pontos -60 | pedidos: Salada(2s), Salada(20s), Salada(38s)
+  Deep: ação='largar prato com tomate picado + alface picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "SALADA PRONTA NA 7!!! CORRE E ENTREGA, EXPIRA EM 2s!!!"
+     pensa: "Largo na divisória que ele já está indo, entrega rápida antes de expirar."
+  Seek: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "VAI VAI VAI, ENTREGA ESSA SALADA! TÔ SAINDO DA FRENTE E PEGANDO PRATO PRA PRÓXIMA!"
+     pensa: "Fogão 1 vai queimar e não tenho ação de panela... prioridade é não travar o Deep e garantir prato pra salada de 20s."
+
+== t71 (2:22) pontos -70 | pedidos: Salada(18s), Salada(36s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 12)' → largou em bancada 12
+     fala: "LARGO O PRATO E PEGO A SALADA DA 7, SEGURA A OUTRA!"
+     pensa: "Mãos ocupadas, preciso soltar o prato vazio perto da 7 pra pegar a salada e entregar já. A outra salada o Deep faz."
+  Deep: ação='pegar prato com tomate picado + alface picada da bancada 7' → pegou prato com tomate picado + alface picada
+     fala: "PEGUEI A SALADA! VEM NA DIVISA AGORA, ENTREGA VOCÊ — PASSA-PRATO É TEU LADO!"
+     pensa: "Salada pronta a 0s, 18s pra expirar. Passa-prato fora do meu alcance, então pego e levo até o parceiro na divisa pra ele entregar correndo."
+  eventos: tipo=expirou receita=Salada id=7
+
+== t72 (2:24) pontos -70 | pedidos: Salada(16s), Salada(34s), Salada(52s)
+  Deep: ação='largar prato com tomate picado + alface picada na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "ESSE PRATO JÁ É SALADA PRONTA! PEGA NA 7 E CORRE PRO PASSA-PRATO, TEM 16s PRA ENTREGAR!"
+     pensa: "Meu prato já é salada completa, é só entregar. O parceiro tá perto da 7 e alcança o passa-prato, então passo pra ele em vez de perder tempo."
+  Seek: ação='esperar' → None [RESPOSTA INVÁLIDA: (sem json)]
+  eventos: tipo=pedido receita=Salada id=10
+
+== t73 (2:26) pontos -70 | pedidos: Salada(14s), Salada(32s), Salada(50s)
+  Seek: ação='pegar prato com tomate picado + alface picada da bancada 7' → pegou prato com tomate picado + alface picada
+     fala: "PEGUEI A SALADA DA 7, INDO PRO PASSA-PRATO AGORA!"
+     pensa: "Pega a salada da 7 e corre pro passa-prato, 14s no relógio, dá tempo."
+  Deep: ação='pegar prato com tomate picado + alface picada da bancada 7' → bancada 7 já estava vazia.
+     fala: "PEGUEI A SALADA PRONTA! SEEK, TIRA A SOPA DO FOGÃO 1 ANTES QUE QUEIME E ME ABRE O PASSA-PRATO!"
+     pensa: "Prato pronto na bancada 7 = salada de graça pro pedido de 14s. E o fogão 1 tá queimando do lado dele."
+
+== t74 (2:28) pontos -53 | pedidos: Salada(30s), Salada(48s)
+  Deep: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Manda essa salada no passa-prato AGORA, a de 12s tá no limite! Eu já pego alface pra próxima, capricha que a sopa da 13 tá parada."
+     pensa: "Salada 1 tá na mão do Seek. Eu adianto a alface da salada 2 pra não perder tempo depois."
+  Seek: ação='ENTREGAR prato com tomate picado + alface picada no passa-prato' → entregou Salada
+     fala: "ENTREGANDO A SALADA AGORA! Deep, fogão 1 tá pronto, TIRA DO FOGO ANTES QUE QUEIME!"
+     pensa: "Salada na mão, pedido quase expirando — entrego primeiro, sopa depois."
+  eventos: tipo=entregou quem=Seek receita=Salada pontos=17 gorjeta=2
+
+== t75 (2:30) pontos -53 | pedidos: Salada(28s), Salada(46s)
+  Seek: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "DEEP, PICA ALFACE E TOMATE AGORA E JOGA NO PRATO! EU SEGURO OS PRATOS, A DE 28s TÁ NO FIO!"
+     pensa: "Sopa na bancada 13 não tem pedido ativo; melhor garantir prato limpo pra montar as duas saladas antes que expirem."
+  Deep: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "FOGÃO 1 TÁ FORA DO MEU ALCANCE! TIRA DO FOGO VOCÊ, SEEK, VAI QUEIMAR! EU PICANDO ALFACE AQUI!"
+     pensa: "Não alcanço o fogão, então aviso e começo a picar alface pro pedido de salada. Preciso de prato limpo depois."
+
+== t76 (2:32) pontos -53 | pedidos: Salada(26s), Salada(44s)
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "LARGUEI O PRATO NA BANCADA 7! TIRA A SOPA DO FOGÃO 1 AGORA, VAI QUEIMAR! EU PEGO NO PRÓXIMO TURNO!"
+     pensa: "Mãos livres primeiro, prato na divisória pro Deep. Depois pego a sopa do fogão 1 e sirvo - tem salada de 26s e 44s esperando ainda."
+  Deep: ação='picar alface na tábua 1' → picando
+     fala: "PICANDO ALFACE! SEGURA O PRATO AÍ, JÁ VOU NO TOMATE!"
+     pensa: "Alface já tá na tábua, é o mais rápido. Depois pego tomate."
+
+== t77 (2:34) pontos -53 | pedidos: Salada(24s), Salada(42s)
+  Deep: ação='picar alface na tábua 1' → picou alface
+     fala: "ESQUECE O FOGÃO 1, TÁ VAZIO! A SOPA JÁ TÁ NO PRATO NA BANCADA 13 — PEGA ELA E ENTREGA NO PASSA-PRATO! EU FINALIZO O ALFACE AQUI!"
+     pensa: "alface a 50%, termino em 1 turno; sopa já saiu do fogo, então não queima — prioridade é o parceiro entregar."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI PRATO! TERMINA ESSA ALFACE E MANDA O TOMATE, TÁ NO RELÓGIO!"
+     pensa: "Sopa expirada não vale nada, foco nas duas saladas. Prato na mão, preciso da alface picada e do tomate picado."
+  eventos: tipo=picou quem=Deep o=alface
+
+== t78 (2:36) pontos -53 | pedidos: Salada(22s), Salada(40s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "LARGUEI O PRATO NA 9! PEGA TOMATE E MONTA SALADA — SOPA NÃO TEM PEDIDO!"
+     pensa: "Preciso liberar as mãos; parceiro pega o prato e finaliza a salada."
+  Deep: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGA A ALFACE DA TÁBUA 1 E JOGA NO PRATO! EU VOU NO TOMATE, JÁ VOLTO!"
+     pensa: "sem prato não adianta pegar alface; ele tem prato, então ele monta a base e eu trago tomate picado"
+
+== t79 (2:38) pontos -53 | pedidos: Salada(20s), Salada(38s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "TÔ COM PRATO LIMPO! MANDA A ALFACE PICADA PRA BANCADA 9 QUE EU MONTO A SALADA!"
+     pensa: "12s no relógio, dois pedidos de salada vivos. Preciso de prato na mão — bancada 9 tá do meu lado, pego já e chamo o Deep pra trazer alface e tomate picados."
+  Deep: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "PICANDO TOMATE NA TÁBUA 2! PEGA ALFACE DA TÁBUA 1 E PÕE NO PRATO 9!"
+     pensa: "Salada precisa de tomate picado; alface já está picada."
+
+== t80 (2:40) pontos -53 | pedidos: Salada(18s), Salada(36s)
+  Deep: ação='picar tomate na tábua 2' → picando
+     fala: "PICANDO TOMATE! ALFACE JÁ TÁ PRONTA NA TÁBUA 1, SEGURA O PRATO AÍ!"
+     pensa: "Duas saladas pedidas, só um prato limpo. Preciso de tomate picado urgente. Alface já tá pronta."
+  Seek: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "PRATO VAZIO NA BANCADA 7! JOGA A ALFACE E O TOMATE PICADO NELE E MONTA A SALADA, CORRE!"
+     pensa: "tô com prato limpo e o parceiro tem alface picada e tomate na tábua 2 — deixo o prato no alcance dele, é a única jogada em 10s"
+
+== t81 (2:42) pontos -53 | pedidos: Salada(16s), Salada(34s), Sopa de tomate(58s)
+  Deep: ação='picar tomate na tábua 2' → picou tomate
+     fala: "TÔ TERMINANDO O TOMATE! VOCÊ PEGA A ALFACE DA TÁBUA 1 E MONTA O PRATO NA 7, AGORA!"
+     pensa: "Tomate tá em 0.0s, pico já. Salada de 16s é prioridade máxima."
+  Seek: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "PEGUEI PRATO! JOGA ALFACE E TOMATE AQUI, RÁPIDO!"
+     pensa: "Salada de 16s tá quase expirando, preciso do prato pronto pra montar"
+  eventos: tipo=pedido receita=Sopa de tomate id=11; tipo=picou quem=Deep o=tomate
+
+== t82 (2:44) pontos -53 | pedidos: Salada(14s), Salada(32s), Sopa de tomate(56s)
+  Seek: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "PRATO NA 9, MONTA A SALADA AGORA!"
+     pensa: "Sem tempo, deixa o prato na divisória pro Deep montar."
+  Deep: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "PEGUEI O TOMATE! PEGA A ALFACE NA TÁBUA 1 E MONTA A SALADA, VAI!"
+     pensa: "6s, tô na tábua do tomate, pego agora e corro. Duas saladas, precisamos de alface e tomate no mesmo prato."
+
+== t83 (2:46) pontos -53 | pedidos: Salada(12s), Salada(30s), Sopa de tomate(54s)
+  Seek: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "TÔ COM PRATO! JOGA O TOMATE E CORRE NA ALFACE, SEGURA A SALADA!"
+     pensa: "4 segundos... só dá tempo de pegar prato e rezar pro Deep fechar a salada de 12s."
+  Deep: ação='pôr tomate picado no prato da bancada 9' → sem prato
+     fala: "TOMATO NO PRATO 9! VOU PEGAR A ALFACE NA TÁBUA 1, SEGURA ESSA SALADA!"
+     pensa: "Salada de 12s: preciso fechar rápido, tomate no prato e alface já picada na tábua 1 do meu lado."
+
+== t84 (2:48) pontos -53 | pedidos: Salada(10s), Salada(28s), Sopa de tomate(52s)
+  Seek: ação='largar prato limpo vazio na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "PRATO LIMPO NA 9! CORRE COM A ALFACE QUE EU FECHO A SALADA!"
+     pensa: "deixa prato pronto pro parceiro montar, pedido de salada expira em 10s"
+  Deep: ação='largar tomate picado na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "DEIXEI O TOMATE NA BANCADA 7! PEGA E JOGA NO PRATO AGORA, VOU CORRER NA ALFACE!"
+     pensa: "Salada expira em 10s, precisamos alface+tomate no mesmo prato. Solto o tomate onde ele alcança e pego a alface da tábua 1."

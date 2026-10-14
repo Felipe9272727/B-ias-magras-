@@ -1,0 +1,641 @@
+COZINHA Gemini · fase v1 (versus) · chefs: Gêmeo (Gemini), Gêmea (Gemini)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de tomate(62s), Sopa de tomate(62s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Puxando tomate! Corta na tábua 1!"
+     pensa: "Início de jogo, duas sopas de tomate. Focar em encher as duas panelas rápido pra sair na frente."
+  Gêmea: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Gêmeo]
+     fala: "BORA! Dois de tomate! Vou pegar tomate, pega a outra tábua!"
+     pensa: "Preciso adiantar os 3 primeiros tomates pra ligar o primeiro fogão logo."
+  eventos: tipo=pedido receita=Sopa de tomate id=1; tipo=pedido receita=Sopa de tomate id=2; tipo=esbarrao quem=Gêmea por=Gêmeo
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de tomate(60s), Sopa de tomate(60s)
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô na tábua 1, pica na 2!"
+     pensa: "Vou botar o tomate na tábua 1 logo e começar a picar pro primeiro pedido."
+  Gêmea: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "SAI DA FRENTE! Vou puxar outro tomate pra tábua 2!"
+     pensa: "Precisa de 6 tomates no total, já vou adiantando outro."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de tomate(58s), Sopa de tomate(58s)
+  Gêmea: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "Tô indo pra 2, sai da frente!"
+     pensa: "Preciso botar esse tomate pra picar logo senão a sopa atrasa."
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "Tô picando na 1! Joga esse na 2 e já pega mais um!"
+     pensa: "Já estou na tábua 1 com tomate, preciso picar rápido pra adiantar a primeira sopa."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de tomate(56s), Sopa de tomate(56s)
+  Gêmea: ação='picar tomate na tábua 2' → picando
+     fala: "Piquei aqui na 2, sai da frente!"
+     pensa: "Já tô do lado da tábua 2 com o tomate cru, vou picar logo pra adiantar a sopa."
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Tô terminando o da 1, pica esse da 2!"
+     pensa: "O tomate da tábua 1 já tá na metade, vou terminar de picar pra adiantar a primeira sopa."
+  eventos: tipo=picou quem=Gêmeo o=tomate
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de tomate(54s), Sopa de tomate(54s)
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Tô levando pra panela 1, termina esse aí!"
+     pensa: "Pegar esse tomate picado e jogar no fogão rápido pra adiantar a sopa."
+  Gêmea: ação='picar tomate na tábua 2' → picou tomate
+     fala: "Picando o da 2! Leva o da 1 pra panela!"
+     pensa: "Preciso terminar esse tomate rápido pra encher o fogão 1."
+  eventos: tipo=picou quem=Gêmea o=tomate
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de tomate(52s), Sopa de tomate(52s)
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Tô jogando no fogão 1! Traz o outro pra cá!"
+     pensa: "Vou iniciar a panela 1 rápido pra adiantar a primeira sopa."
+  Gêmea: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "Peguei o segundo tomate, vou botar na panela 1!"
+     pensa: "O tomate picado já tá na tábua 2 bem na minha frente, pego e levo pra panela 1 pra adiantar a primeira sopa."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 1 n=1
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de tomate(50s), Sopa de tomate(50s)
+  Gêmea: ação='pôr tomate picado na panela do fogão 1 (1/3)' → andando [BLOQUEADO por Gêmeo]
+     fala: "SAI DA FRENTE! Tô botando no fogão 1!"
+     pensa: "Ele já me bloqueou antes, preciso enfiar esse tomate logo na panela 1 pra fechar 2/3."
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Boa! Tô pegando o terceiro tomate pra picar!"
+     pensa: "Gêmea põe o segundo na panela 1, eu pico o terceiro pra fechar a primeira sopa rápido."
+  eventos: tipo=esbarrao quem=Gêmea por=Gêmeo
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de tomate(48s), Sopa de tomate(48s)
+  Gêmea: ação='pôr tomate picado na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "Colocando o segundo no fogão 1! Traz o seu logo!"
+     pensa: "Fogão 1 vai ficar 2/3, só falta o que ele tá pegando pra começar a cozinhar."
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Bota aí! Já tô picando o próximo na tábua 1!"
+     pensa: "Precisa de 3 tomates por sopa, vou picar esse voando pra encher logo o fogão 1."
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 1 n=2
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de tomate(46s), Sopa de tomate(46s)
+  Gêmea: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Termina esse e joga na panela 1! Vou puxar tomate pra segunda sopa!"
+     pensa: "Ele termina a primeira sopa, eu já começo a abastecer a segunda pra gente não perder tempo."
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "Tô picando o último do fogão 1!"
+     pensa: "Pico esse agora e já jogo no fogão 1 pra começar a cozinhar."
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de tomate(44s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gêmea: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "Beleza, já tô adiantando o tomate da próxima sopa na tábua 2!"
+     pensa: "Ele termina a panela 1 e eu já engato a segunda sopa pra não perder ponto."
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Tô terminando de picar, já jogo na 1!"
+     pensa: "Terminar esse tomate rápido pra panela 1 começar a cozinhar logo."
+  eventos: tipo=pedido receita=Sopa de cebola id=3; tipo=picou quem=Gêmeo o=tomate
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de tomate(42s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gêmea: ação='picar tomate na tábua 2' → picando
+     fala: "Joga logo na 1 que eu tô picando o da próxima!"
+     pensa: "Ele completa a panela 1 e eu já agilizo a segunda sopa de tomate."
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Pegando o tomate pra fechar a panela 1!"
+     pensa: "Pego esse tomate picado e jogo direto na panela 1 pra começar a cozinhar logo."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de tomate(40s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gêmea: ação='picar tomate na tábua 2' → picou tomate
+     fala: "Terminando de picar outro tomate pra próxima sopa!"
+     pensa: "Ele vai fechar a panela 1, eu termino esse tomate na tábua 2 pra adiantar o segundo pedido."
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "JOGUEI! Panela 1 tá cozinhando, cata um prato!"
+     pensa: "Fechei a primeira sopa de tomate, agora ela começa a cozinhar. Já vou planejar pegar prato ou cebola."
+  eventos: tipo=picou quem=Gêmea o=tomate; tipo=na_panela quem=Gêmeo onde=fogão 1 n=3
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de tomate(38s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Gêmea: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "Tô indo buscar o prato! Não deixa queimar!"
+     pensa: "Preciso pegar o prato antes que a panela 1 exploda em fogo."
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Tô buscando o prato pra tirar a sopa 1!"
+     pensa: "A sopa de tomate já tá cozinhando no fogão 1, preciso do prato logo pra não queimar."
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de tomate(36s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Gêmea: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "Tira a sopa e entrega! Vou adiantar a segunda de tomate!"
+     pensa: "Vou pegar esse tomate já picado pra panela 2 antes que o tempo aperte."
+  Gêmeo: ação='esperar' → None
+     fala: "EU JÁ TÔ COM O PRATO! Pica cebola pra próxima!"
+     pensa: "Já tô com o prato na mão, só esperando a sopa do fogão 1 terminar de cozinhar pra tirar na hora."
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de tomate(34s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Gêmeo: ação='esperar' → None
+     fala: "Tô colado no fogão 1 com o prato, só terminar que eu entrego!"
+     pensa: "A sopa ainda tá cozinhando, vou esperar terminar pra não queimar e já jogar no prato."
+  Gêmea: ação='pôr tomate picado na panela do fogão 2 (0/3)' → andando
+     fala: "TEM OUTRA DE TOMATE! JOGANDO NA PANELA 2!"
+     pensa: "Tem dois pedidos de tomate com 34s, não dá pra ir pra cebola agora sem adiantar o segundo tomate."
+  eventos: tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de tomate)
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de tomate(32s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Gêmeo: ação='servir sopa de tomate do fogão 1 no prato' → serviu no prato
+     fala: "TIRANDO A 1 ANTES QUE QUEIME!"
+     pensa: "Pego a sopa pronta agora e já corro pro passa-prato, tá quase queimando."
+  Gêmea: ação='pôr tomate picado na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "TIRA DO FOGÃO 1 LOGO SENÃO QUEIMA! Tô adiantando a próxima!"
+     pensa: "Ele pega a sopa pronta com o prato e eu já começo o segundo pedido de tomate no fogão 2."
+  eventos: tipo=serviu quem=Gêmeo onde=fogão 1; tipo=na_panela quem=Gêmea onde=fogão 2 n=1
+
+== t16 (0:32) pontos 25 | pedidos: Sopa de tomate(30s), Sopa de cebola(48s)
+  Gêmea: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "ENTREGA ISSO! Vou pegar tomate pro segundo!"
+     pensa: "Preciso encher a panela 2 antes que o tempo aperte."
+  Gêmeo: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "TÁ NA MÃO! PICA MAIS TOMATE PRO FOGÃO 2!"
+     pensa: "Primeira entrega garantida antes que expire, agora foco em encher a panela 2."
+  eventos: tipo=entregou quem=Gêmeo receita=Sopa de tomate pontos=25 gorjeta=5
+
+== t17 (0:34) pontos 25 | pedidos: Sopa de tomate(28s), Sopa de cebola(46s)
+  Gêmea: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando! Puxa cebola pro fogão 1!"
+     pensa: "Primeiro ponto garantido! Agora é encher o fogão 2 de tomate rápido antes que expire."
+  Gêmeo: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "ENTREGUEI! Foca no tomate que eu puxo as cebolas!"
+     pensa: "Ela fecha o tomate no fogão 2, vou começar a sopa de cebola pra não acumular pedido."
+
+== t18 (0:36) pontos 25 | pedidos: Sopa de tomate(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Gêmeo: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Cebola tem que picar antes! Botei na tábua 2!"
+     pensa: "Cebola crua não entra na panela, vou botar na tábua 2 pra picar logo pra sopa de cebola."
+  Gêmea: ação='picar tomate na tábua 1' → picando
+     fala: "Tô picando tomate! Agiliza a cebola!"
+     pensa: "O tomate já tá na tábua na minha frente, preciso picar logo pra abastecer o fogão 2 e não perder o pedido de 26s."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t19 (0:38) pontos 25 | pedidos: Sopa de tomate(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Gêmeo: ação='picar cebola na tábua 2' → picando
+     fala: "Tô picando a cebola aqui!"
+     pensa: "Já tô colado na tábua 2 com a cebola crua pronta pra cortar, bora adiantar essa sopa."
+  Gêmea: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Terminando o tomate aqui, pica essa cebola aí!"
+     pensa: "Tábua 1 tá na minha frente com 50%, vou terminar esse tomate pra sopa urgente de 24s."
+  eventos: tipo=picou quem=Gêmea o=tomate
+
+== t20 (0:40) pontos 25 | pedidos: Sopa de tomate(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Gêmeo: ação='picar cebola na tábua 2' → picou cebola
+     fala: "Picando a cebola! Joga o tomate no fogão 2!"
+     pensa: "Estou em cima da tábua 2 com cebola a 50%. Termino isso rapidinho enquanto ela cuida do tomate da primeira sopa."
+  Gêmea: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Pegando tomate picado pro fogão 2!"
+     pensa: "Preciso adiantar a sopa de tomate que expira em 22s; jogar esse tomate no fogão 2."
+  eventos: tipo=picou quem=Gêmeo o=cebola
+
+== t21 (0:42) pontos 25 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Gêmeo: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "Pegando cebola picada pro fogão 1!"
+     pensa: "Gêmea tá no tomate do fogão 2, vou adiantar a sopa de cebola na panela 1 antes que aperte o tempo."
+  Gêmea: ação='pôr tomate picado na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "Tô jogando no fogão 2, falta só mais um tomate!"
+     pensa: "O pedido de sopa de tomate tá em 20s, precisamos correr com esse último tomate!"
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 2 n=2
+
+== t22 (0:44) pontos 25 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Gêmea: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Pega o fogão 1 com a cebola que eu pico o último tomate pro fogão 2!"
+     pensa: "Sopa de tomate tá quase expirando, fogão 2 precisa de só mais um tomate!"
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (0/3)' → andando
+     fala: "Comecei a sopa de cebola no fogão 1! Pega o último tomate pro 2!"
+     pensa: "O fogão 2 já tem 2 tomates, não posso estragar com cebola. Vou adiantar o pedido da sopa de cebola no fogão 1."
+
+== t23 (0:46) pontos 25 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Gêmea: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando o último tomate pra panela 2, corre com a cebola!"
+     pensa: "Faltam 16s pra primeira sopa, preciso picar esse tomate voando e já jogar no fogão 2."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Cebola 1 no fogão 1! Voa com esse tomate que falta 16s!"
+     pensa: "Botei a primeira cebola. Fogão 2 precisa fechar logo pra não expirar o primeiro pedido."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 1 n=1
+
+== t24 (0:48) pontos 25 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de tomate(50s)
+  Gêmea: ação='picar tomate na tábua 1' → picando
+     fala: "TÔ PICANDO O ÚLTIMO! PEGA UM PRATO!"
+     pensa: "Falta 14s pro primeiro pedido, tenho que picar rápido e jogar no fogão 2!"
+  Gêmeo: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Tô pegando cebola pra panela 1, joga esse tomate logo!"
+     pensa: "Gêmea pediu cebola, vou adiantar a panela de cebola enquanto o tomate cozinha."
+
+== t25 (0:50) pontos 25 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de tomate(48s)
+  Gêmea: ação='picar tomate na tábua 1' → picou tomate
+     fala: "TERMINANDO O TOMATE PRA PANELA 2, PEGA UM PRATO!"
+     pensa: "Terminar de picar esse tomate correndo senão a sopa expira em 12 segundos!"
+  Gêmeo: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "LARGANDO A CEBOLA! JÁ TÔ INDO BUSCAR O PRATO!"
+     pensa: "Preciso desocupar a mão agora pra buscar prato pro tomate de 12s!"
+  eventos: tipo=picou quem=Gêmea o=tomate
+
+== t26 (0:52) pontos 25 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de tomate(46s)
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "PEGANDO PRATO! JOGA ESSE TOMATE NA PANELA 2 RÁPIDO!"
+     pensa: "O pedido de tomate vai expirar em 10s, preciso do prato na mão agora pra servir assim que cozinhar."
+  Gêmea: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "TÔ COM O TOMATE! VOU JOGAR NA PANELA 2!"
+     pensa: "Pego o tomate picado agora pra completar a sopa do fogão 2 antes que o tempo aperte mais."
+
+== t27 (0:54) pontos 25 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gêmea: ação='pôr tomate picado na panela do fogão 2 (2/3)' → pôs na panela (3)
+     fala: "JOGANDO NA PANELA 2! FICA COM O PRATO NA MÃO!"
+     pensa: "Panela 2 tem 2 tomates, colocando o terceiro começa a cozinhar agora pro pedido crítico!"
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "JOGA LOGO NA 2 QUE EU PEGO O PRATO!"
+     pensa: "Preciso de um prato na mão urgente pra tirar a sopa assim que cozinhar ou salvar o pedido!"
+  eventos: tipo=pedido receita=Sopa de cebola id=5; tipo=na_panela quem=Gêmea onde=fogão 2 n=3
+
+== t28 (0:56) pontos 25 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ COM O PRATO NA MÃO, SÓ FALTA SAIR!"
+     pensa: "O pedido de tomate vai expirar em 6s, assim que a panela 2 apitar eu puxo no prato e jogo no passa-prato que tá do lado."
+  Gêmea: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "TIRA O TOMATE DA 2 COM ESSE PRATO, TÁ EXPIRANDO!"
+     pensa: "Ele tá de prato na mão, tem que empratar o fogão 2 voando enquanto adianto a cebola."
+
+== t29 (0:58) pontos 25 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gêmea: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "PEGA O TOMATE NO FOGÃO 2 QUE VAI SAIR!"
+     pensa: "Vou adiantar a cebola na tábua 1 enquanto ele emprata o tomate antes de expirar."
+  Gêmeo: ação='esperar' → None
+     fala: "A 2 AINDA TÁ COZINHANDO, VAI FICAR PRONTA AGORA!"
+     pensa: "O tomate ainda está cozinhando no fogão 2, faltam segundos, tenho que esperar terminar pra empratar correndo!"
+
+== t30 (1:00) pontos 25 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Gêmea: ação='picar cebola na tábua 1' → picando
+     fala: "Pega o tomate do fogão 2 com esse prato!"
+     pensa: "Ele já tá com prato e perto do fogão 2 pra salvar o tomate. Eu pico a cebola aqui na minha frente pra adiantar a próxima sopa."
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ COM O PRATO NA MÃO, SÓ ESPERANDO TERMINAR!"
+     pensa: "O tomate no fogão 2 tá quase pronto e as opções de movimento não vieram na lista, preciso esperar esse instante pra pegar e entregar correndo!"
+  eventos: tipo=pronto onde=fogão 2 o=panela PRONTA (sopa de tomate)
+
+== t31 (1:02) pontos 15 | pedidos: Sopa de cebola(18s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Gêmea: ação='picar cebola na tábua 1' → picou cebola
+     fala: "PEGA A SOPA NO FOGÃO 2 ANTES QUE QUEIME!"
+     pensa: "O fogão 2 tá pronto e pode queimar a qualquer segundo, Gêmeo já tá com prato. Eu termino de picar essa cebola pro primeiro pedido de 18s."
+  Gêmeo: ação='servir sopa de tomate do fogão 2 no prato' → serviu no prato
+     fala: "Tô tirando o tomate! Termina essa cebola!"
+     pensa: "Preciso tirar antes que queime e entregar logo pro pedido de 36s."
+  eventos: tipo=expirou receita=Sopa de tomate id=2; tipo=picou quem=Gêmea o=cebola; tipo=serviu quem=Gêmeo onde=fogão 2
+
+== t32 (1:04) pontos 40 | pedidos: Sopa de cebola(16s), Sopa de cebola(52s)
+  Gêmeo: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "JÁ PEGUEI E TÔ ENTREGANDO! PEGA UM PRATO PRO FOGÃO 1 RÁPIDO!"
+     pensa: "Entrego essa de tomate e precisamos tirar a de cebola antes que expire ou queime."
+  Gêmea: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "Tô levando pra panela 1, corre entregar isso!"
+     pensa: "Sopa de cebola vai expirar em 16s, preciso fechar essa panela AGORA."
+  eventos: tipo=entregou quem=Gêmeo receita=Sopa de tomate pontos=25 gorjeta=5
+
+== t33 (1:06) pontos 40 | pedidos: Sopa de cebola(14s), Sopa de cebola(50s)
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Pegando o prato pra tirar logo!"
+     pensa: "Preciso de um prato já pra esvaziar a panela assim que ela cozinhar e entregar o pedido de 14s."
+  Gêmea: ação='pôr cebola picada na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "FOGÃO 1 NÃO TÁ PRONTO, FALTA CEBOLA! TÔ BOTANDO!"
+     pensa: "Ele viajou, a panela ainda precisa de cebola pra não expirar o pedido de 14s!"
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 1 n=2
+
+== t34 (1:08) pontos 40 | pedidos: Sopa de cebola(12s), Sopa de cebola(48s)
+  Gêmea: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "A PANELA 1 TEM SÓ 2 CEBOLAS! VOU PICAR A ÚLTIMA CORRE!"
+     pensa: "Falta uma cebola na panela 1, preciso picar urgente pra salvar esse pedido de 12s!"
+  Gêmeo: ação='esperar' → None
+     pensa: "Estou com o prato na mão pronto pra pegar a sopa assim que ela terminar de cozinhar."
+
+== t35 (1:10) pontos 40 | pedidos: Sopa de cebola(10s), Sopa de cebola(46s)
+  Gêmeo: ação='esperar' → None
+     fala: "PICA RÁPIDO QUE TÔ COM O PRATO NA MÃO PRA PEGAR!"
+     pensa: "O primeiro pedido vai expirar em 10s! Já tô de prato pronto colado no fogão, só falta ela jogar a cebola."
+  Gêmea: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "PÕE O PRATO NO FOGÃO 1 E ENTREGA, RÁPIDO!"
+     pensa: "O fogão 1 tem 2 cebolas só? Espera, o status diz 'fogão 1: panela com cebola picada, cebola picada' mas t14 diz que ficou pronta? Não, tá quase pronta ou falta 1 cebola. Mas o pedido tá expirando em 10s! Vou botar pra picar correndo."
+
+== t36 (1:12) pontos 40 | pedidos: Sopa de cebola(8s), Sopa de cebola(44s), Sopa de cebola(62s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "NÃO TÁ PRONTA, SÓ TEM DUAS CEBOLAS! PICA A OUTRA RÁPIDO!"
+     pensa: "O fogão 1 só tem 2 cebolas picadas, não dá pra empratar ainda! Preciso liberar as mãos."
+  Gêmea: ação='picar cebola na tábua 1' → picando
+     fala: "TÔ PICANDO! JOGA ESSA NA PANELA 1 ASSIM QUE TERMINAR!"
+     pensa: "O primeiro pedido vai expirar em 8s, impossível salvar a tempo de cozinhar, mas preciso encher a panela 1 pro próximo pedido não cair também!"
+  eventos: tipo=pedido receita=Sopa de cebola id=6
+
+== t37 (1:14) pontos 40 | pedidos: Sopa de cebola(6s), Sopa de cebola(42s), Sopa de cebola(60s)
+  Gêmea: ação='picar cebola na tábua 1' → picou cebola
+     fala: "TÔ TERMINANDO DE PICAR AQUI, PEGA O PRATO!"
+     pensa: "Terminar esses 50% da cebola voando pra jogar no fogão 1 antes que o pedido expire!"
+  Gêmeo: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "TERMINA ESSA E JOGA LÁ! VOU ADIANTAR MAIS CEBOLA!"
+     pensa: "O de 6s já era, focando no pedido de 42s pra não perder ritmo."
+  eventos: tipo=picou quem=Gêmea o=cebola
+
+== t38 (1:16) pontos 40 | pedidos: Sopa de cebola(4s), Sopa de cebola(40s), Sopa de cebola(58s)
+  Gêmea: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "PEGUEI A CEBOLA! JOGANDO NO FOGÃO 1 JÁ!"
+     pensa: "Fogão 1 tem 2 cebolas picadas, tábua 1 tá na minha cara (0s). Pego e taco lá pra cozinhar, o primeiro pedido vai expirar em 4s mas foco no próximo!"
+  Gêmeo: ação='largar cebola crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "LARGA A TÁBUA, JOGA ESSA CEBOLA NA PANELA RÁPIDO!"
+     pensa: "O primeiro vai expirar, não dá tempo! Preciso liberar a mão pra pegar o prato e salvar o fogão 1."
+
+== t39 (1:18) pontos 40 | pedidos: Sopa de cebola(2s), Sopa de cebola(38s), Sopa de cebola(56s)
+  Gêmeo: ação='pegar cebola crua da bancada 4' → pegou cebola crua
+     fala: "JOGA ELA AÍ! VOU PICAR PRO PRÓXIMO!"
+     pensa: "O primeiro vai expirar, foca em encher o fogão 2 logo pro segundo pedido."
+  Gêmea: ação='pôr cebola picada na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "JOGUEI! PEGA O PRATO NA 8 PRO PRÓXIMO!"
+     pensa: "O primeiro pedido vai expirar agora, mas colocando essa cebola a panela 1 começa a cozinhar pro segundo pedido de 38s."
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 1 n=3
+
+== t40 (1:20) pontos 30 | pedidos: Sopa de cebola(36s), Sopa de cebola(54s)
+  Gêmea: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "Tô pegando o prato pra sopa do fogão 1!"
+     pensa: "O fogão 1 tá quase pronto, preciso do prato na mão pra não queimar."
+  Gêmeo: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Pega você o prato, tô picando pra segunda panela!"
+     pensa: "Já adianto o próximo pedido enquanto ela pega o prato pro fogão 1."
+  eventos: tipo=expirou receita=Sopa de cebola id=3
+
+== t41 (1:22) pontos 30 | pedidos: Sopa de cebola(34s), Sopa de cebola(52s)
+  Gêmeo: ação='picar cebola na tábua 1' → picando
+     fala: "Entrega essa do fogão 1! Já tô picando cebola pra próxima!"
+     pensa: "Gêmea cuida do fogão 1, eu preparo a segunda sopa de cebola pro fogão 2."
+  Gêmea: ação='esperar' → None
+     fala: "Tô com o prato na mão esperando a panela 1 terminar!"
+     pensa: "Só esperar cozinhar pra empratar direto e salvar esse pedido."
+
+== t42 (1:24) pontos 30 | pedidos: Sopa de cebola(32s), Sopa de cebola(50s)
+  Gêmeo: ação='picar cebola na tábua 1' → picou cebola
+     fala: "Pega a panela 1 assim que apitar! Tô adiantando o próximo pedido aqui!"
+     pensa: "Terminar de picar essa cebola pra já ir enchendo a panela 2."
+  Gêmea: ação='esperar' → None
+     fala: "Tô no fogão 1 com o prato na mão, só esperando apitar!"
+     pensa: "A sopa de cebola do fogão 1 tá quase pronta, vou segurar o prato pra empratar no segundo exato."
+  eventos: tipo=picou quem=Gêmeo o=cebola; tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de cebola)
+
+== t43 (1:26) pontos 30 | pedidos: Sopa de cebola(30s), Sopa de cebola(48s)
+  Gêmea: ação='servir sopa de cebola do fogão 1 no prato' → serviu no prato
+     fala: "PEGANDO A 1! JÁ MANDA MAIS CEBOLA NA OUTRA!"
+     pensa: "Preciso tirar essa sopa antes que queime e entregar logo!"
+  Gêmeo: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "JÁ APITOU, EMPRATA O FOGÃO 1 E ENTREGA!"
+     pensa: "Gêmea tá com o prato, só precisa empratar o fogão 1 antes que queime. Eu já levo essa cebola picada pro fogão 2."
+  eventos: tipo=serviu quem=Gêmea onde=fogão 1
+
+== t44 (1:28) pontos 55 | pedidos: Sopa de cebola(46s)
+  Gêmea: ação='ENTREGAR prato com sopa de cebola no passa-prato' → entregou Sopa de cebola
+     fala: "JÁ TÁ NA MÃO, TÔ ENTREGANDO! BOTA MAIS CEBOLA NA PANELA!"
+     pensa: "Preciso entregar logo antes que expire outra sopa, estamos liderando folgado!"
+  Gêmeo: ação='pôr cebola picada na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "JOGANDO NO FOGÃO 2! ENTREGA ESSE LOGO!"
+     pensa: "Gêmea tá com a sopa na mão pra entregar, já vou encher a panela 2 pra não perder o próximo pedido."
+  eventos: tipo=entregou quem=Gêmea receita=Sopa de cebola pontos=25 gorjeta=5; tipo=na_panela quem=Gêmeo onde=fogão 2 n=1
+
+== t45 (1:30) pontos 55 | pedidos: Sopa de cebola(44s), Sopa de tomate(62s)
+  Gêmeo: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "PEGANDO A CEBOLA DA BANCADA PRA PICAR!"
+     pensa: "Preciso encher a panela 2 com cebola pra sopa sair rápido. Tem cebola crua dando bobeira na bancada 3."
+  Gêmea: ação='pegar cebola crua da bancada 3' → andando [BLOQUEADO por Gêmeo]
+     fala: "TÔ PEGANDO ESSA CEBOLA PRA PICAR!"
+     pensa: "Vou picar essa cebola da bancada pra adiantar o fogão 2 antes que o tempo aperte."
+  eventos: tipo=pedido receita=Sopa de tomate id=7; tipo=esbarrao quem=Gêmea por=Gêmeo
+
+== t46 (1:32) pontos 55 | pedidos: Sopa de cebola(42s), Sopa de tomate(60s)
+  Gêmeo: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "JÁ BOTEI UMA CEBOLA NA TÁBUA 1, PICA A OUTRA!"
+     pensa: "Vou adiantar a cebola na tábua 1 enquanto ela pega a dela."
+  Gêmea: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Tô pegando a última cebola pra fechar a panela!"
+     pensa: "Gêmeo já tá com uma cebola, pego a terceira pra adiantar essa sopa de 42s logo."
+
+== t47 (1:34) pontos 55 | pedidos: Sopa de cebola(40s), Sopa de tomate(58s)
+  Gêmeo: ação='picar cebola na tábua 1' → picando
+     fala: "Pica a tua que eu pico essa aqui!"
+     pensa: "Cebola na tábua 1 tá na minha mão, pico agora pra adiantar a panela 2."
+  Gêmea: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Tô botando na tábua 2! Pica a da 1 que eu pico essa!"
+     pensa: "Se dividirmos as tábuas a gente enche essa panela voando."
+
+== t48 (1:36) pontos 55 | pedidos: Sopa de cebola(38s), Sopa de tomate(56s)
+  Gêmeo: ação='picar cebola na tábua 1' → picou cebola
+     fala: "Picando a 1! Joga tudo no fogão 2!"
+     pensa: "Já estou na tábua 1 com a cebola em 50%, vou terminar de picar rapidinho pra panela do fogão 2."
+  Gêmea: ação='picar cebola na tábua 2' → picando
+     fala: "Picando! Joga na panela do fogão 2!"
+     pensa: "Estou em cima da tábua 2, vou picar essa cebola pra adiantar a sopa de cebola."
+  eventos: tipo=picou quem=Gêmeo o=cebola
+
+== t49 (1:38) pontos 55 | pedidos: Sopa de cebola(36s), Sopa de tomate(54s)
+  Gêmeo: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "Peguei da tábua 1, vou jogar no fogão 2!"
+     pensa: "Pego essa cebola picada e já taco na panela 2 pra adiantar."
+  Gêmea: ação='picar cebola na tábua 2' → picou cebola
+     fala: "Terminando a cebola aqui! Pega a da sua tábua e joga na panela 2!"
+     pensa: "Estou na cara da tábua 2 com 50% pronto, termino rapidinho enquanto ele leva a outra cebola picada pro fogão 2."
+  eventos: tipo=picou quem=Gêmea o=cebola
+
+== t50 (1:40) pontos 55 | pedidos: Sopa de cebola(34s), Sopa de tomate(52s)
+  Gêmea: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "Tô com a terceira cebola, já levo pro fogão 2!"
+     pensa: "Pego a cebola da tábua 2 e completo a sopa no fogão 2 rapidinho."
+  Gêmeo: ação='pôr cebola picada na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "Joguei uma na panela 2! Traz a sua da tábua 2 pra fechar!"
+     pensa: "Fogão 2 já tem 1 cebola, colocando essa vai pra 2/3. Gêmea põe a última e já cozinha."
+  eventos: tipo=na_panela quem=Gêmeo onde=fogão 2 n=2
+
+== t51 (1:42) pontos 55 | pedidos: Sopa de cebola(32s), Sopa de tomate(50s)
+  Gêmeo: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Beleza! Vou adiantar o tomate pro fogão 1!"
+     pensa: "Ela fecha a cebola no fogão 2, eu já começo a picar tomate pra próxima sopa antes que aperte o tempo."
+  Gêmea: ação='pôr cebola picada na panela do fogão 2 (2/3)' → andando
+     fala: "Tô botando! Já pega um prato pra tirar!"
+     pensa: "Fechei a panela 2, agora é não deixar queimar."
+
+== t52 (1:44) pontos 55 | pedidos: Sopa de cebola(30s), Sopa de tomate(48s)
+  Gêmeo: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando tomate, ela ainda vai cozinhar! Pega o prato depois!"
+     pensa: "Boto o tomate na tábua rápido antes de correr atrás de prato, a sopa nem começou a ferver."
+  Gêmea: ação='pôr cebola picada na panela do fogão 2 (2/3)' → pôs na panela (3)
+     fala: "Fechando a cebola no fogão 2! Pica esse tomate logo!"
+     pensa: "Boto essa última cebola no fogão 2 pra cozinhar logo e depois pego prato."
+  eventos: tipo=na_panela quem=Gêmea onde=fogão 2 n=3
+
+== t53 (1:46) pontos 55 | pedidos: Sopa de cebola(28s), Sopa de tomate(46s)
+  Gêmeo: ação='picar tomate na tábua 1' → picando
+     fala: "Tô picando o tomate! Pega o prato pra tirar a cebola!"
+     pensa: "Estou na tábua 1 com tomate cru pronto pra picar. Depois jogo no fogão 1."
+  Gêmea: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Tô pegando o prato pra sopa de cebola do fogão 2!"
+     pensa: "A sopa de cebola tá quase pronta no fogão 2, preciso do prato na mão pra tirar logo e não queimar."
+
+== t54 (1:48) pontos 55 | pedidos: Sopa de cebola(26s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gêmeo: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Boa, entrega essa cebola que eu termino esse tomate pro fogão 1!"
+     pensa: "Gêmea cuida da cebola no fogão 2, vou terminar de picar esse tomate pra sopa de 44s."
+  Gêmea: ação='esperar' → None
+     fala: "Tô com o prato colada no fogão, só esperando terminar!"
+     pensa: "Não vou largar o prato, a sopa tá quase e já tiro direto pro passa-prato."
+  eventos: tipo=pedido receita=Sopa de cebola id=8; tipo=picou quem=Gêmeo o=tomate
+
+== t55 (1:50) pontos 55 | pedidos: Sopa de cebola(24s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gêmeo: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Pega essa cebola e entrega, tô puxando a sopa de tomate!"
+     pensa: "O fogão 2 tá quase pronto e ela entrega. Vou abastecer a panela 1 com tomate pra não perder o próximo pedido."
+  Gêmea: ação='esperar' → None
+     fala: "Tô no fogão 2 com o prato esperando a sopa de cebola sair!"
+     pensa: "O fogão 2 tá quase pronto, fico com o prato na mão pra tirar assim que apitar e já entregar."
+  eventos: tipo=pronto onde=fogão 2 o=panela PRONTA (sopa de cebola)
+
+== t56 (1:52) pontos 55 | pedidos: Sopa de cebola(22s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gêmea: ação='servir sopa de cebola do fogão 2 no prato' → serviu no prato
+     fala: "PEGANDO A CEBOLA! TÁ PRONTA NO FOGÃO!"
+     pensa: "A sopa no fogão 2 vai queimar se eu demorar, tiro agora e entrego rápido!"
+  Gêmeo: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Tira do fogão 2 logo que vai queimar! Comecei a de tomate na 1!"
+     pensa: "Fogão 2 vai queimar a qualquer segundo se ela não pegar agora. Começando a sopa de tomate na 1."
+  eventos: tipo=serviu quem=Gêmea onde=fogão 2; tipo=na_panela quem=Gêmeo onde=fogão 1 n=1
+
+== t57 (1:54) pontos 77 | pedidos: Sopa de tomate(38s), Sopa de cebola(56s)
+  Gêmea: ação='ENTREGAR prato com sopa de cebola no passa-prato' → entregou Sopa de cebola
+     fala: "Tirei, entregando! BOTA MAIS TOMATE NA 1!"
+     pensa: "Entrega rápida pra manter a liderança contra o GPT!"
+  Gêmeo: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "ENTREGA ESSA CEBOLA QUE EU PEGO O PRATO PRO TOMATE!"
+     pensa: "O tomate no fogão 1 vai queimar se eu não empratar logo, preciso de prato."
+  eventos: tipo=entregou quem=Gêmea receita=Sopa de cebola pontos=22 gorjeta=2
+
+== t58 (1:56) pontos 77 | pedidos: Sopa de tomate(36s), Sopa de cebola(54s)
+  Gêmea: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "TÔ INDO PRA CEBOLA, TIRA ESSE TOMATE LOGO SENÃO QUEIMA!"
+     pensa: "Gêmeo já tá com prato pro tomate, vou adiantar a cebola pra não perder tempo."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO PRATO! JÁ VOU PICAR TOMATE!"
+     pensa: "Preciso liberar as mãos rápido pra picar o tomate que falta pro fogão 1."
+
+== t59 (1:58) pontos 77 | pedidos: Sopa de tomate(34s), Sopa de cebola(52s)
+  Gêmea: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Tô picando cebola na 1! Traz os tomates!"
+     pensa: "Gêmeo vai no tomate, vou adiantar a sopa de cebola na tábua 1."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO, JÁ VOU TIRAR O TOMATE!"
+     pensa: "O prato tá na minha frente (0.0s), pego e emprato o fogão 1 antes que queime."
+
+== t60 (2:00) pontos 77 | pedidos: Sopa de tomate(32s), Sopa de cebola(50s)
+  Gêmeo: ação='esperar' → None
+     fala: "Tô com o prato na mão, vai sair a de tomate!"
+     pensa: "Preciso empratar essa sopa do fogão 1 antes que queime tudo!"
+  Gêmea: ação='picar cebola na tábua 1' → picando
+     fala: "TIRA O TOMATE RÁPIDO! TÔ ADIANTANDO A CEBOLA!"
+     pensa: "Ele já tá com o prato pro tomate pronto. Vou picar essa cebola na minha frente pra próxima sopa e garantir o primeiro lugar."
+
+== t61 (2:02) pontos 77 | pedidos: Sopa de tomate(30s), Sopa de cebola(48s)
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ INDO NO FOGÃO 1!"
+     pensa: "Preciso tirar essa sopa antes que queime, vou direto pro fogão 1 com esse prato."
+  Gêmea: ação='picar cebola na tábua 1' → picou cebola
+     fala: "Pega a de tomate no fogão 1 que já tô picando cebola!"
+     pensa: "Ele já tá com prato e perto do fogão, vou terminar essa cebola pra garantir a vitória."
+  eventos: tipo=picou quem=Gêmea o=cebola
+
+== t62 (2:04) pontos 77 | pedidos: Sopa de tomate(28s), Sopa de cebola(46s)
+  Gêmea: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "TIRA A DE TOMATE, EU ADIANTO A CEBOLA!"
+     pensa: "Gêmeo já vai tirar o tomate do fogão 1 com o prato. Vou pegar a cebola picada da tábua 1 e jogar no fogão 2."
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ INDO NO FOGÃO 1, TÁ QUASE QUEIMANDO!"
+     pensa: "O fogão 1 vai queimar a qualquer momento, preciso esvaziar a panela com esse prato!"
+
+== t63 (2:06) pontos 77 | pedidos: Sopa de tomate(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Gêmea: ação='pôr cebola picada na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "TIRA ESSA DO FOGÃO 1 LOGO! Tô começando a cebola no 2!"
+     pensa: "Ele vai salvar o tomate do fogão 1, eu já adianto a sopa de cebola na panela vazia."
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ COM O PRATO NA MÃO, VOU TIRAR O TOMATE!"
+     pensa: "O fogão 1 tá pronto, segurando o prato pra empratar no próximo segundo."
+  eventos: tipo=pedido receita=Sopa de tomate id=9; tipo=na_panela quem=Gêmea onde=fogão 2 n=1
+
+== t64 (2:08) pontos 77 | pedidos: Sopa de tomate(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Gêmeo: ação='esperar' → None
+     fala: "TÔ INDO NO FOGÃO 1, CALMA!"
+     pensa: "Preciso tirar a sopa de tomate antes que queime tudo, tô com o prato na mão!"
+  Gêmea: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Pega o tomate que eu tiro a cebola do fogão 2!"
+     pensa: "A cebola no fogão 2 vai queimar se ninguém tirar, vou buscar outro prato já."
+
+== t65 (2:10) pontos 77 | pedidos: Sopa de tomate(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Gêmea: ação='esperar' → None
+     fala: "PEGA O FOGÃO 1 QUE EU PEGO O 2!"
+     pensa: "Vou segurar o prato e empratar a sopa de cebola no fogão 2 antes que queime."
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "TÔ LARGANDO O PRATO PRA PEGAR TOMATE!"
+     pensa: "Preciso liberar as mãos rápido antes que o tempo acabe, faltam 20s!"
+
+== t66 (2:12) pontos 77 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO PRO FOGÃO 1!"
+     pensa: "Pego o prato aqui na bancada 8 a zero segundos e já esvazio a panela 1 antes que queime!"
+  Gêmea: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "PANELA 1 TÁ PRONTA, VOU EMPRATAR A SOPA DE TOMATE!"
+     pensa: "As opções de pegar a sopa não apareceram na lista, preciso soltar o prato ou me reposicionar pra pegar a sopa do fogão 1 antes que queime!"
+
+== t67 (2:14) pontos 77 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGA O PRATO AÍ, VAI PRO FOGÃO 1 RÁPIDO QUE VAI QUEIMAR!"
+     pensa: "Preciso desocupar as mãos para ajudar no próximo pedido ou apagar fogo se der ruim, ela já tá indo empratar."
+  Gêmea: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "PEGA O FOGÃO 1 QUE EU PEGO O 2, VAI QUEIMAR!"
+     pensa: "Ele vai no fogão 1, eu pego esse prato na bancada 14 e salvo a sopa de cebola no fogão 2 antes que queime."
+
+== t68 (2:16) pontos 77 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Gêmea: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "LARGA VOCÊ NADA, EU PRECISO DO PRATO PRA TIRAR A SOPA!"
+     pensa: "O jogo só me deixa largar o prato agora, vou largar e correr pro fogão antes que queime tudo."
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO PRA SALVAR O FOGÃO 1!"
+     pensa: "Pego o prato aqui do lado e já tiro o tomate antes que pegue fogo."
+
+== t69 (2:18) pontos 77 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de tomate(50s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGA O QUÊ, TÁ NA BANCADA 8, PEGA E TIRA O TOMATE ANTES QUE QUEIME!"
+     pensa: "Largo logo esse prato na bancada pra ela pegar e servir a sopa do fogão 1 antes do tempo acabar!"
+  Gêmea: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "Pega o fogão 1 que eu tiro o 2, corre!"
+     pensa: "O fogão 2 vai queimar com a sopa de cebola, pego o prato aqui do meu lado e esvazio ele antes que o tempo acabe."
+
+== t70 (2:20) pontos 77 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de tomate(48s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "TÔ COM O PRATO, VOU TIRAR O FOGÃO 1!"
+     pensa: "Pego o prato do meu lado agora e tiro a sopa de tomate do fogão 1 antes que queime ou expire!"
+  Gêmea: ação='esperar' → None
+     fala: "SAI DA FRENTE, EU JÁ TÔ COM O PRATO!"
+     pensa: "Já estou com prato na mão, ele só precisa sair da minha frente pro fogão 1."
+
+== t71 (2:22) pontos 77 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de tomate(46s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "PEGA A SOPA DO FOGÃO 1 RÁPIDO QUE TÁ ACABANDO!"
+     pensa: "Vou liberar minha mão e dar espaço pra ela empratar logo antes que expire."
+  Gêmea: ação='esperar' → None
+     fala: "Pega o 1 que eu pego o 2! VAI VAI VAI!"
+     pensa: "Vou segurar esse prato pra tirar a sopa de cebola do fogão 2 no próximo segundo!"
+
+== t72 (2:24) pontos 77 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de tomate(44s), Sopa de tomate(62s)
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO PRATO PRA SALVAR O TOMATE!"
+     pensa: "Preciso pegar esse prato imediatamente na bancada 8 e tirar a sopa de tomate do fogão 1 antes que expire em 8s!"
+  Gêmea: ação='esperar' → None
+     fala: "TÔ INDO NO FOGÃO 1 COM O PRATO, SAI DA FRENTE!"
+     pensa: "As opções de ação não me deixam ir pro fogão agora neste tick, vou esperar para engatar a coleta da sopa de tomate."
+  eventos: tipo=pedido receita=Sopa de tomate id=10
+
+== t73 (2:26) pontos 77 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de tomate(42s), Sopa de tomate(60s)
+  Gêmeo: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "ENTREGA LOGO, FALTA 4 SEGUNDOS! JÁ GANHAMOS!"
+     pensa: "Gêmea pega o fogão 1 e entrega, o jogo já tá no finalzinho e a liderança é nossa."
+  Gêmea: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "ENTREGA LOGO ESSE TOMATE QUE ACABOU O TEMPO!"
+     pensa: "Faltam 4 segundos pro fim de jogo e estamos na liderança absoluta, entrega esse tomate pra fechar com chave de ouro!"
+
+== t74 (2:28) pontos 77 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de tomate(40s), Sopa de tomate(58s)
+  Gêmea: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "ACABOU! É NOSSO, GG DEMAIS!"
+     pensa: "Faltam 2 segundos de partida, 77 pontos contra 36 do segundo colocado, vitória garantida!"
+  Gêmeo: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "PEGANDO O PRATO PRA SALVAR O TOMATE!"
+     pensa: "Bancada 8 tá na minha cara, pego o prato e tiro a sopa do fogão 1 no último segundo!"

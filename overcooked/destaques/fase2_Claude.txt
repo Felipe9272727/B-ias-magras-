@@ -1,0 +1,705 @@
+COZINHA Claude · fase v2 (versus) · chefs: Claudinho (Claude), Claudete (Claude)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de cebola(58s), Salada(52s)
+  Claudete: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Eu pego o prato! Você traz cebola e alface pra gente!"
+     pensa: "Sem ingrediente no meu lado. Prato agora, e a sopa e a salada dependem do Claudinho buscar os ingredientes."
+  Claudinho: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Eu pego cebola! Você cuida da alface e do tomate, Claudete!"
+     pensa: "A sopa de cebola é o pedido mais urgente (58s) e a caixa de cebola é a mais perto. Começo por ela."
+  eventos: tipo=pedido receita=Sopa de cebola id=1; tipo=pedido receita=Salada id=2
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de cebola(56s), Salada(50s)
+  Claudete: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Beleza, Claudinho! Largo o prato aqui e vou pegar a alface e o tomate pra salada. Você segura a cebola pra sopa!"
+     pensa: "Preciso das mãos livres pra pegar alface e tomate. A salada é a mais urgente, com 50s."
+  Claudinho: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Beleza, pico a cebola aqui na tábua 1! Você pega a alface que eu te passo a cebola picada depois."
+     pensa: "Sopa precisa de 3 cebolas picadas. Essa é a primeira, tábua 1 é a mais perto."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de cebola(54s), Salada(48s)
+  Claudete: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "Beleza, Claudinho! Eu pego o prato aqui. Sopa e salada precisam de prato, então já adianto isso."
+     pensa: "Bancada 8 está do meu lado, zero segundo de caminhada. Pegar prato agora evita perder tempo depois e deixa a sopa pronta para servir."
+  Claudinho: ação='picar cebola na tábua 1' → picando
+     fala: "Beleza, Claudete! Eu pico a cebola pra sopa. Você pega a alface e o tomate pra salada!"
+     pensa: "Sopa precisa de 3 cebolas picadas, então preciso ser rápido. Os dois pedidos estão correndo."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de cebola(52s), Salada(46s)
+  Claudinho: ação='picar cebola na tábua 1' → picou cebola
+     fala: "Eu pico essa cebola aqui na tábua 1! Você cuida do prato e da salada."
+     pensa: "Cebola já está meio picada, é o ingrediente mais rápido pra sopa. Preciso de 3 no total, então depois pego mais na caixa."
+  Claudete: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Claudinho, deixei um prato limpo na bancada 9! Pega ele pra salada, que eu vou pro seu lado buscar alface e tomate!"
+     pensa: "Segurar o prato me trava as mãos. Deixo na divisória pro parceiro usar na salada e fico livre pra ir buscar os ingredientes do outro lado."
+  eventos: tipo=picou quem=Claudinho o=cebola
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de cebola(50s), Salada(44s)
+  Claudinho: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "Peguei o prato! Você traz alface e tomate que eu monto a salada!"
+     pensa: "Ele já tá indo buscar os vegetais, então o prato é minha parte. A cebola da tábua 1 fica pra depois, a sopa ainda tem 50s."
+  Claudete: ação='pegar prato limpo vazio da bancada 9' → bancada 9 já estava vazia.
+     fala: "Peguei o prato! Vou montar a salada, você segue com a cebola."
+     pensa: "Bancada 9 está do meu lado, zero deslocamento. Depois preciso de alface e tomate, que estão do lado dele."
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de cebola(48s), Salada(42s)
+  Claudinho: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "Deixei o prato na 7 pra você! Eu cuido da cebola e da sopa, bora!"
+     pensa: "Ele já tem um prato, mas a sopa também precisa de um. Deixo aqui na divisória pro parceiro pegar; sem ele, a cebola fica parada."
+  Claudete: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Eu pego outro prato pra sopa! Você monta a salada, eu cuido da cebola!"
+     pensa: "Ele já tem um prato pra salada. A sopa precisa de outro, e a pilha fica a 1.1s. Melhor adiantar isso agora."
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de cebola(46s), Salada(40s)
+  Claudinho: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "Eu fico com esse prato pra salada! Você segura a sopa, a cebola é sua."
+     pensa: "Ele pega o prato da pilha pra sopa, eu uso o da bancada agora. Preciso de alface e tomate picados nele antes que o pedido expire."
+  Claudete: ação='esperar' → None
+     fala: "Beleza, cebola e sopa são com você! Eu fico com a salada, então me manda tomate e alface quando puder."
+     pensa: "Já tenho prato na mão pra salada. Largar agora só atrapalha. Espero o parceiro trazer os ingredientes de lá."
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de cebola(44s), Salada(38s)
+  Claudinho: ação='esperar' → None [RESPOSTA INVÁLIDA: largar prato limpo vazio na bancada 2]
+     fala: "Deixei o prato na bancada 2! Vou buscar cebola pra sopa, bora!"
+     pensa: "Preciso das mãos livres pra pegar as cebolas. Com 44s, a sopa é o pedido mais apertado, e o prato fica perto pra eu voltar nele depois."
+  Claudete: ação='largar prato limpo vazio na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Deixei o prato na 9, ele é seu pra salada! Passa a cebola picada da tábua 1 pra mim que eu levo pro fogão."
+     pensa: "Preciso das mãos livres pra pegar cebola e ir ao fogão. O prato limpo fica com ele e a pilha de pratos tá a um passo se eu precisar de outro."
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de cebola(42s), Salada(36s)
+  Claudinho: ação='pôr cebola picada da tábua 1 no prato' → pôs no prato
+     fala: "Beleza, Claudete! Pego a cebola da tábua 1 pra você levar pro fogão."
+     pensa: "Ele quer a cebola pra sopa. Se eu largar o prato agora, perco a salada, mas a cebola anda."
+  Claudete: ação='pegar prato limpo vazio da bancada 9' → pegou prato limpo vazio
+     fala: "Eu pego o prato da bancada 9! Você traz a cebola, eu cuido da panela!"
+     pensa: "Tenho que ser rápida: sopa e salada expiram em menos de 40s. Pegar o prato mais perto economiza tempo e o Claudinho já está indo buscar cebola."
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de cebola(40s), Salada(34s), Salada(52s)
+  Claudete: ação='esperar' → None
+     fala: "Claudinho, não pega o prato! Você leva a cebola pro fogão 1, e eu seguro esse prato pra salada."
+     pensa: "Largar o prato na bancada perde tempo. Melhor esperar e manter a pilha pronta pra salada enquanto ele cuida da sopa."
+  Claudinho: ação='largar prato com cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Deixei a cebola na bancada 9, pega e manda pra panela! Eu busco mais cebola."
+     pensa: "Ele fica com a panela, eu passo a cebola. Preciso ser rápido pra não perder a sopa de 40s."
+  eventos: tipo=pedido receita=Salada id=3
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de cebola(38s), Salada(32s), Salada(50s)
+  Claudete: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "Largo o prato aqui, pego a cebola da bancada 9 e vou pra panela!"
+     pensa: "Preciso das mãos livres pra pegar a cebola já. O prato dá pra buscar de novo na pilha."
+  Claudinho: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Beleza, Claudete! Eu levo a cebola pro fogão 1 agora. Você segura o prato limpo pra salada."
+     pensa: "O prato com cebola já está pronto na bancada 9. Ele quer o prato limpo com ele, então eu levo só a cebola até a panela. A sopa de 38s é a mais urgente."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de cebola(36s), Salada(30s), Salada(48s)
+  Claudete: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "Beleza, Claudinho! Eu seguro o prato pra salada. Leva a cebola pro fogão 1!"
+     pensa: "Pego o prato da bancada 7 agora (0s). Depois preciso do alface e do tomate, que estão do lado dele. Os pedidos de salada são os mais rápidos de entregar."
+  Claudinho: ação='largar prato com cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixo a cebola picada na bancada 11, você alcança e leva pra panela!"
+     pensa: "A bancada 9 é o Claudete que vai usar; a 11 libera ele e a cebola picada fica do lado dele pra sopa."
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de cebola(34s), Salada(28s), Salada(46s)
+  Claudinho: ação='pegar prato com cebola picada da bancada 11' → pegou prato com cebola picada
+     fala: "Peguei a cebola picada! Vou pro fogão 1, Claudete, bora na sopa!"
+     pensa: "Ele pediu a cebola no fogão 1, e a cebola já está pronta aqui do lado. Pego agora e corro. Os 34s da sopa são o mais urgente."
+  Claudete: ação='esperar' → None
+     fala: "Segura a cebola aí que eu fico com o prato pra sopa! Leva a cebola pra panela 1 que a gente não perde tempo."
+     pensa: "Largar o prato agora só me obriga a voltar pra pilha (1.4s). Melhor esperar e manter o prato pra servir a sopa."
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de cebola(32s), Salada(26s), Salada(44s)
+  Claudinho: ação='largar prato com cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Deixei a cebola na bancada 9, pega aí que eu vou buscar alface!"
+     pensa: "A Claudete tá perto do fogão, então a bancada 9 é o jeito mais rápido de ele pegar a cebola. Eu vou atrás de alface pra salada."
+  Claudete: ação='esperar' → None
+     fala: "Beleza, Claudinho! Eu fico com o prato limpo pra salada. Quando picar alface e tomate, joga no meu prato!"
+     pensa: "Ele leva a cebola pra sopa. Eu seguro o prato, que salada não cozinha e os pedidos de salada têm mais tempo. Não dá pra pegar ingrediente agora, então espero."
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de cebola(30s), Salada(24s), Salada(42s)
+  Claudinho: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Eu pego alface agora pra salada! Você segura o prato, eu pico e mando pra você."
+     pensa: "Salada tem 24s e a alface é a estação mais perto. Com as mãos vazias, o alface é o passo que destrava o pedido."
+  Claudete: ação='largar prato limpo vazio na bancada livre mais perto (bancada 7)' → largou em bancada 7
+     fala: "Largo o prato aqui! Eu pego a cebola da 9 pra sopa, você traz alface e tomate pras saladas!"
+     pensa: "Tô com as mãos cheias de prato. Largo ele na 7, pego a cebola e começo a sopa antes que o pedido de 30s expire."
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de cebola(28s), Salada(22s), Salada(40s)
+  Claudete: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "Peguei o prato! Manda a alface picada que eu monto a salada aqui."
+     pensa: "Os pedidos de salada precisam de prato, e a bancada 7 está do lado. Assim já seguro o prato e ganho tempo para a sopa depois."
+  Claudinho: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Vou picar a alface na tábua 1! Você traz o tomate, que eu monto as saladas!"
+     pensa: "Tábua 1 é a mais perto e a salada tem pressa. Depois pego o prato limpo da bancada 7."
+
+== t16 (0:32) pontos 0 | pedidos: Sopa de cebola(26s), Salada(20s), Salada(38s)
+  Claudete: ação='esperar' → None
+     fala: "Claudinho, não consigo pegar o tomate daqui, a caixa tá do seu lado! Pega o tomate e joga pra mim na bancada 11, que eu monto a salada com o prato."
+     pensa: "Não tenho como ir até a caixa de tomate. Segurar o prato é o certo, porque a sopa de cebola também precisa dele. Melhor esperar ele trazer o tomate."
+  Claudinho: ação='picar alface na tábua 1' → picando
+     fala: "Bora, Claudete! Tô picando a alface agora, prepara a salada!"
+     pensa: "A alface crua já está na minha tábua. Picar agora atende o pedido de salada que expira em 20s."
+
+== t17 (0:34) pontos 0 | pedidos: Sopa de cebola(24s), Salada(18s), Salada(36s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Pegando o tomate! Vou jogar pra você na bancada 11."
+     pensa: "Ela não alcança a caixa. Pego o tomate e levo pra bancada 11, o tempo tá correndo e tem duas saladas pedidas."
+  Claudete: ação='esperar' → None
+     fala: "Beleza, Claudinho! Eu seguro o prato pra salada. Pega o tomate também e me passa a alface picada!"
+     pensa: "Largar o prato agora seria perder tempo. Tenho que manter o prato na mão até a alface e o tomate chegarem."
+
+== t18 (0:36) pontos 0 | pedidos: Sopa de cebola(22s), Salada(16s), Salada(34s), Sopa de tomate(58s)
+  Claudinho: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "Vou picar o tomate na tábua 2! Você pega a alface da tábua 1 e termina de picar, valendo!"
+     pensa: "Salada de 16s está apertada. Tomate picado primeiro, depois a alface do Claudete."
+  Claudete: ação='esperar' → None
+     fala: "Manda o tomate na 11 que eu já tô com o prato! Depois monto a salada, bora!"
+     pensa: "Ainda não alcanço a tábua 1 nem a caixa de tomate, então largar o prato agora só atrapalharia a bancada 11. Vou segurar o prato limpo, que serve pra salada, e esperar o Claudinho."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t19 (0:38) pontos 0 | pedidos: Sopa de cebola(20s), Salada(14s), Salada(32s), Sopa de tomate(56s)
+  Claudete: ação='esperar' → None
+     fala: "Fico com o prato pra salada! Termina a alface e manda o tomate, Claudinho!"
+     pensa: "Prato limpo é o que falta pra salada de 14s. Largar agora perde tempo. Espero a alface ficar picada."
+  Claudinho: ação='picar tomate na tábua 2' → picando
+     fala: "Tô picando o tomate aqui na tábua 2! Tu segura o prato que eu já mando."
+     pensa: "Pedido de salada com 14s; sem tomate picado não sai nada. Preciso picar já."
+
+== t20 (0:40) pontos 0 | pedidos: Sopa de cebola(18s), Salada(12s), Salada(30s), Sopa de tomate(54s)
+  Claudete: ação='esperar' → None
+     fala: "Segura o prato comigo! Termina o tomate e me manda, a salada de 12s é nossa, BORA!"
+     pensa: "Já tô com o prato e a salada expira em 12s. Largar agora só atrasa. Preciso do tomate e da alface picados aqui."
+  Claudinho: ação='picar tomate na tábua 2' → picou tomate
+     fala: "Tomate na tábua 2 já! Termina e eu mando pra salada, segura o prato aí!"
+     pensa: "A salada expira em 12s e o tomate já está comigo a 0s. Preciso picar logo, depois a alface na tábua 1."
+  eventos: tipo=picou quem=Claudinho o=tomate
+
+== t21 (0:42) pontos 0 | pedidos: Sopa de cebola(16s), Salada(10s), Salada(28s), Sopa de tomate(52s)
+  Claudete: ação='esperar' → None
+     fala: "Beleza, seguro o prato! Manda o tomate da tábua 2 que eu monto a salada."
+     pensa: "Ele pediu pra eu segurar o prato, então fico com ele. A salada de 10s tá pegando fogo e o tomate já tá picado."
+  Claudinho: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! Indo pra você, segura o prato que a salada de 10s é nossa!"
+     pensa: "Salada quase expirando. Tomate picado ao alcance, e o prato tá com ela. Só levar sem perder tempo."
+
+== t22 (0:44) pontos 0 | pedidos: Sopa de cebola(14s), Salada(8s), Salada(26s), Sopa de tomate(50s)
+  Claudete: ação='esperar' → None
+     fala: "Manda o tomate! Eu seguro o prato. A alface tá na tábua 1 pela metade, pica ela antes que expire a salada de 8s!"
+     pensa: "Não largo o prato, ele é a base da salada. Tomate vem do Claudinho, mas a alface tá com ele também. Se não sair logo, perco 10 pontos."
+  Claudinho: ação='largar tomate picado na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "TOMATE NA BANCADA 11, PEGA AGORA! A salada tá expirando!"
+     pensa: "A salada de 8s provavelmente não sai, mas o tomate precisa chegar nele já. Depois a alface da tábua 1."
+
+== t23 (0:46) pontos 0 | pedidos: Sopa de cebola(12s), Salada(6s), Salada(24s), Sopa de tomate(48s)
+  Claudete: ação='pôr tomate picado da bancada 11 no prato' → pôs no prato
+     fala: "EU PEGO O TOMATE! Você traz a alface da tábua 1 pra salada!"
+     pensa: "Salada de 6s: prato com tomate agora, o Claudinho que busque a alface."
+  Claudinho: ação='pegar tomate picado da bancada 11' → bancada 11 já estava vazia.
+     fala: "Tomate picado na mão! Chega mais com o prato, que a salada de 6s tá queimando!"
+     pensa: "Tomate picado tá do meu lado (0.0s). Sem ele a salada de 6s morre. A alface meio picada fica pra depois."
+
+== t24 (0:48) pontos 0 | pedidos: Sopa de cebola(10s), Salada(4s), Salada(22s), Sopa de tomate(46s)
+  Claudinho: ação='picar alface na tábua 1' → picou alface
+     fala: "BELEZA, TÔ PICANDO A ALFACE AGORA! Vai pra salada que tá expirando!"
+     pensa: "Claudete tem o tomate. Se eu terminar essa alface, a salada de 4s pode sair."
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixa o prato na 11! Pega a alface da tábua 1 e põe em cima, a salada de 4s tá EXPIRANDO!"
+     pensa: "Sem alface eu não entrego nada. O Claudinho tá do lado da 11, então ele monta a salada enquanto eu vou buscar a próxima."
+  eventos: tipo=picou quem=Claudinho o=alface
+
+== t25 (0:50) pontos 0 | pedidos: Sopa de cebola(8s), Salada(2s), Salada(20s), Sopa de tomate(44s)
+  Claudinho: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "Peguei a alface! Já vou pra 11 montar a salada!"
+     pensa: "Dois segundos pro pedido estourar. Alface agora, tomate já tá no prato da 11. Se eu errar o tempo, perco 10 pontos."
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado
+     fala: "EU PEGO O TOMATE! Você traz a alface pro meu prato, rápido, a salada de 2s tá expirando!"
+     pensa: "Prato com tomate já na mão; falta só a alface do Claudinho pra salvar essa salada antes de expirar."
+
+== t26 (0:52) pontos -10 | pedidos: Sopa de cebola(6s), Salada(18s), Sopa de tomate(42s)
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixei o prato de tomate na bancada 11! Monta a SALADA aí, Claudinho, vai!"
+     pensa: "Ele já vai pra 11 com a alface; deixo o tomate lá e a salada sai rápido. A sopa de cebola tá quase expirando, mas só tenho 1 cebola picada, não dá pra salvar agora."
+  Claudinho: ação='largar alface picada na bancada 11 (divisória, o parceiro alcança)' → bancada 11 já estava ocupada.
+     fala: "Alface na bancada 11, pega rápido!"
+     pensa: "Ele segura o prato do tomate e não consegue pegar a alface sozinho. Largo a alface na divisória pra ele alcançar. A salada ainda pode salvar 10 pontos."
+  eventos: tipo=expirou receita=Salada id=2
+
+== t27 (0:54) pontos -10 | pedidos: Sopa de cebola(4s), Salada(16s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Claudinho: ação='pôr alface picada no prato da bancada 11' → montou no prato
+     fala: "Boa, Claudete! Já estou montando a salada na bancada 11!"
+     pensa: "O prato de tomate está ao meu alcance agora. Alface + tomate no mesmo prato dá a salada antes de expirar em 16s."
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado + alface picada
+     fala: "EU PEGO o prato com tomate! Você joga a alface nele aqui na bancada 11, a salada sai já!"
+     pensa: "A salada ainda dá tempo e a alface está na mão dele. Tomate está do meu lado. Vamos montar o prato juntos."
+  eventos: tipo=pedido receita=Sopa de cebola id=5
+
+== t28 (0:56) pontos 7 | pedidos: Sopa de cebola(2s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Claudete: ação='ENTREGAR prato com tomate picado + alface picada no passa-prato' → entregou Salada
+     fala: "SALADA NO PASSA-PRATO, VAI! Claudinho, corre pra cebola da bancada 9 pra sopa!"
+     pensa: "A sopa de cebola vai expirar em 2s, mas a salada é o que dá para salvar agora. Depois puxo a cebola."
+  Claudinho: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Beleza, pego alface agora! Segura o prato aí na bancada 11 que eu jogo!"
+     pensa: "A salada ainda tem 14s e o cara já montou o prato. Se eu demorar, perco mais 10 pontos."
+  eventos: tipo=entregou quem=Claudete receita=Salada pontos=17 gorjeta=2
+
+== t29 (0:58) pontos -3 | pedidos: Sopa de tomate(36s), Sopa de cebola(54s)
+  Claudete: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Peguei a cebola picada! Foco na sopa de cebola, Claudinho, a de tomate você pega depois!"
+     pensa: "A alface não serve pra nenhum pedido. Cebola picada já pronta vale mais agora, e o tempo da sopa de cebola é o mais apertado."
+  Claudinho: ação='largar alface crua na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "Alface na bancada 7 pra você! Cebola já expirou, então eu vou de tomate pra sopa, bora que sobram 36s!"
+     pensa: "Largo a alface pra liberar a mão. Sopa de cebola já era; o tomate é a última chance de não perder mais 10 pontos."
+  eventos: tipo=expirou receita=Sopa de cebola id=1
+
+== t30 (1:00) pontos -3 | pedidos: Sopa de tomate(34s), Sopa de cebola(52s)
+  Claudete: ação='largar prato com cebola picada na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "Cebola expirou, vou liberar a mão! Pego prato limpo pra sua sopa de tomate, bora!"
+     pensa: "A sopa de cebola já era e ninguém pediu mais cebola. Largo o prato, pego um prato limpo e ajudo no tomate antes que o tempo acabe."
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu pego os tomates pra sopa de tomate, você cuida da cebola!"
+     pensa: "Sopa de tomate expira em 34s e preciso de 3 tomates picados. Cebola é com o Claudete; eu começo pelos tomates."
+
+== t31 (1:02) pontos -3 | pedidos: Sopa de tomate(32s), Sopa de cebola(50s)
+  Claudinho: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Tábua 1 é minha, picando tomate! Você traz o prato e a panela!"
+     pensa: "Sopa de tomate tem 32s. Preciso de 3 tomates picados na panela já. Tábua 1 está perto e livre."
+  Claudete: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Pego a cebola picada, você segue nos tomates! Bora, não deixa a sopa de tomate expirar!"
+     pensa: "A cebola já tá pronta aqui do lado, 0 segundo. Se eu pegar agora, ganho tempo na sopa de cebola. O placar tá feio, a gente precisa de pedido entregue."
+
+== t32 (1:04) pontos -3 | pedidos: Sopa de tomate(30s), Sopa de cebola(48s)
+  Claudete: ação='largar prato com cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA NA BANCADA 11, PEGA E LEVA PRA PANELA! Eu vou pro fogão 1!"
+     pensa: "Entregar agora não vale nada. Deixo a cebola onde ele alcança e garanto a panela da sopa de cebola antes de expirar."
+  Claudinho: ação='picar tomate na tábua 1' → picando
+     fala: "Beleza, tomate na tábua! Pega a panela logo depois que eu terminar esse!"
+     pensa: "Tábua 1 já tem tomate cru, é só picar. Sopa de tomate tem 30s, preciso de 3 picados na panela antes de expirar."
+
+== t33 (1:06) pontos -3 | pedidos: Sopa de tomate(28s), Sopa de cebola(46s)
+  Claudinho: ação='picar tomate na tábua 1' → picou tomate
+     fala: "EU PICO O TOMATE AQUI, TU LEVA A CEBOLA PRA PANELA!"
+     pensa: "Tomate já tá na tábua, eu tô colado nela. Sopa de tomate expira em 28s, preciso ser rápido."
+  Claudete: ação='pegar prato com cebola picada da bancada 11' → pegou prato com cebola picada
+     fala: "Eu pego esse prato de cebola aqui, você termina o tomate e depois me passa o próximo!"
+     pensa: "Está a 0.0s, ninguém disputa. Sopa de tomate expira em 28s, preciso ser rápida com a panela."
+  eventos: tipo=picou quem=Claudinho o=tomate
+
+== t34 (1:08) pontos -3 | pedidos: Sopa de tomate(26s), Sopa de cebola(44s)
+  Claudete: ação='largar prato com cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "CEBOLA NÃO VALE MAIS, O PEDIDO EXPIROU! Deixei o prato na bancada 9. FOCA NO TOMATE, CLAUDINHO!"
+     pensa: "Sopa de cebola já expirou. Essa cebola não serve para nada agora. Melhor liberar as mãos e ajudar com o tomate, que ainda tem 26s."
+  Claudinho: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Beleza, eu levo o tomate pro fogão! Pode mandar o próximo."
+     pensa: "Tomate picado já está na tábua, é só pegar. Preciso de 3 na panela pra sopa de tomate, que expira em 26s."
+
+== t35 (1:10) pontos -3 | pedidos: Sopa de tomate(24s), Sopa de cebola(42s)
+  Claudete: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Beleza! Eu pego o prato limpo pra servir a sopa de tomate, manda o tomate pro fogão rápido!"
+     pensa: "Sopa de tomate tem 24s. Preciso de prato limpo pra servir, e o Claudinho cuida dos tomates."
+  Claudinho: ação='largar tomate picado na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei tomate picado na bancada 11! Pega e joga na panela, bora fechar a sopa de tomate!"
+     pensa: "Preciso de 3 tomates na panela e só tenho 24s. A bancada 11 é a ponte até o Claudete. Não dá pra usar o prato da cebola."
+
+== t36 (1:12) pontos -3 | pedidos: Sopa de tomate(22s), Sopa de cebola(40s), Sopa de cebola(58s)
+  Claudete: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "Largo o prato e vou pegar o tomate da 11! Você traz os outros dois tomates pra panela!"
+     pensa: "Estou com as mãos ocupadas, então preciso largar o prato antes de pegar o tomate. Os pedidos estão correndo e a sopa de tomate tem só 22s."
+  Claudinho: ação='pegar tomate picado da bancada 11' → pegou tomate picado
+     fala: "Pego o tomate picado agora! Você libera o fogão e eu passo o tomate pra panela."
+     pensa: "Tomate tá a 0s, é o mais rápido. Preciso de 3 picados iguais pra sopa; o pedido de 22s tá apertando."
+  eventos: tipo=pedido receita=Sopa de cebola id=6
+
+== t37 (1:14) pontos -3 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de cebola(56s)
+  Claudete: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "Pego o prato limpo aqui! Passa o tomate pra panela, eu libero o fogão 1 pra você."
+     pensa: "Sopa de tomate tem 20s. Preciso do prato pronto antes da panela ficar cheia. Se o Claudinho errar a panela, perdemos a sopa."
+  Claudinho: ação='largar tomate picado na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Beleza! Deixo o tomate na 13 pra você levar pra panela. A sopa de tomate tá com 20s!"
+     pensa: "Não dá pra carregar dois tomates. A 13 deixa ele pegar sem eu atravessar a divisória. Pedido de tomate expira logo."
+
+== t38 (1:16) pontos -3 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de cebola(54s)
+  Claudete: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei o prato na 11! Vou pegar o tomate da 13 pro fogão 2, bora!"
+     pensa: "Tenho 18s pra sopa de tomate. Se eu largar o prato, as mãos ficam livres pro tomate, e eu pego outro prato depois, a pilha está a 0.3s."
+  Claudinho: ação='pegar tomate picado da bancada 13' → pegou tomate picado
+     fala: "Peguei o tomate picado! Vou levar pra panela agora, bora pela sopa de tomate!"
+     pensa: "Só 18s pro pedido de tomate. Preciso de mais 2 tomates picados e a panela tem que estar pronta a tempo."
+
+== t39 (1:18) pontos -3 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de cebola(52s)
+  Claudete: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "Eu pego o prato pra servir a sopa! Você segura os tomates, eu cuido da entrega!"
+     pensa: "Prato na bancada 11 está do meu lado. Se a sopa de tomate sair a tempo, ganho pontos. Preciso ficar de olho nos 16s."
+  Claudinho: ação='largar tomate picado na bancada 15 (divisória, o parceiro alcança)' → largou em bancada 15
+     fala: "Claudete, deixei o tomate picado na bancada 15, pega ele pro fogão 2! Eu corro pra pegar mais tomate na caixa."
+     pensa: "O pedido de sopa de tomate tem só 16s. Na divisória ele alcança o tomate sem eu atravessar a cozinha; eu volto pra caixa de tomate."
+
+== t40 (1:20) pontos -3 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de cebola(50s)
+  Claudinho: ação='pegar tomate picado da bancada 15' → pegou tomate picado
+     fala: "Peguei o tomate picado! Só um por vez, então bora cada um pra panela, o pedido de tomate tá com 14s!"
+     pensa: "Tomate picado tá do meu lado, 0 segundos. Preciso de três, e o pedido mais urgente é o de tomate."
+  Claudete: ação='largar prato limpo vazio na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Largo o prato aqui e pego o tomate da 15 pro fogão 2!"
+     pensa: "Não dá pra carregar prato e tomate juntos. Libero as mãos agora, o pedido de tomate tem só 14s."
+
+== t41 (1:22) pontos -3 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de cebola(48s)
+  Claudete: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Peguei a cebola picada! Vou pro fogão 1 pra sopa de cebola. Você leva o tomate pro fogão 2, BORA que o de tomate tá com 12s!"
+     pensa: "Cebola tá a 0.3s, a mais perto. Tomate é com o Claudinho; eu cuido da cebola antes que o pedido de 30s expire."
+  Claudinho: ação='largar tomate picado na bancada livre mais perto (bancada 15)' → largou em bancada 15
+     fala: "Deixo o meu na 15! Pega ele junto e leva pro fogão 2, bora!"
+     pensa: "A sopa de tomate tá com 12s; sem 3 tomates na panela ela expira, mas o tomate na 15 ainda salva a sopa de cebola."
+
+== t42 (1:24) pontos -3 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de cebola(46s)
+  Claudinho: ação='pegar tomate picado da bancada 15' → pegou tomate picado
+     fala: "Peguei o tomate picado! Levo pro fogão 2 agora, cuida da cebola!"
+     pensa: "Tomate tá a 0s de mim e o pedido de tomate tá com 10s. Se eu demorar, perco 10 pontos."
+  Claudete: ação='largar prato com cebola picada na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "Largo a cebola na 9 pra liberar a mão! Pego o tomate da 15 e a gente leva pro fogão 2, bora!"
+     pensa: "Prato de cebola não serve pra sopa de tomate e tá ocupando minha mão. Libero ela e pego o tomate da 15 antes que o pedido expire."
+
+== t43 (1:26) pontos -3 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de cebola(44s)
+  Claudete: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Peguei a cebola picada da bancada 9! Vou pro fogão 1, você segura a sopa de tomate!"
+     pensa: "Pedido de tomate com 8s; a cebola está a 0.0s, então é a ação mais rápida. Preciso que o Claudinho chegue ao fogão 2 logo."
+  Claudinho: ação='largar tomate picado na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Deixei o tomate na 13 pra você! Leva pro fogão 2, BORA, o pedido de tomate tá quase expirando!"
+     pensa: "Não dá pra eu levar o tomate até a panela do outro lado, então passo pro Claudete pela divisória. A sopa de tomate tem só 8s."
+
+== t44 (1:28) pontos -3 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de cebola(42s)
+  Claudinho: ação='pegar tomate picado da bancada 13' → pegou tomate picado
+     fala: "Peguei o tomate picado! Bora, a sopa de tomate tá quase expirando!"
+     pensa: "Tomate picado tá de graça ao lado; preciso de mais dois na panela pra sopa sair antes do pedido expirar."
+  Claudete: ação='largar prato com cebola picada na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "Largo a cebola na 9 pra pegar o tomate! Vou de tomate pro fogão 2, segura o relógio!"
+     pensa: "Tô com as mãos ocupadas com cebola e o tomate tá com 6s. Largo o prato na 9, pego o tomate na 13 e corro pra panela."
+
+== t45 (1:30) pontos -3 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de cebola(40s), Salada(52s)
+  Claudete: ação='pegar prato com cebola picada da bancada 9' → pegou prato com cebola picada
+     fala: "Eu pego a cebola da bancada 9! Você leva o tomate pro fogão 1, bora!"
+     pensa: "A sopa de tomate deve expirar, mas a de cebola ainda dá tempo. Preciso da cebola picada já."
+  Claudinho: ação='largar tomate picado na bancada 15 (divisória, o parceiro alcança)' → largou em bancada 15
+     fala: "DEIXA O TOMATE NA 15, PEGA AÍ! A SOPA DE TOMATE TÁ EXPIRANDO!"
+     pensa: "Ele quer tomate pro fogão 2 e eu não alcanço a panela. Na divisória ele pega e a sopa de tomate ainda pode sair a tempo."
+  eventos: tipo=pedido receita=Salada id=7
+
+== t46 (1:32) pontos -3 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de cebola(38s), Salada(50s)
+  Claudete: ação='largar prato com cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "CLAUDINHO, DEIXA A CEBOLA NA 13, TÁ COM VOCÊ! Eu não consigo pegar o tomate a tempo, a sopa de tomate já era. Foca na sopa de cebola de 20s!"
+     pensa: "Não dá tempo de salvar a sopa de tomate, e o prato com cebola sozinho não entrega nada. Melhor passar pro Claudinho, que está mais perto das caixas."
+  Claudinho: ação='pegar tomate picado da bancada 15' → pegou tomate picado
+     fala: "Peguei o tomate picado! Vou levar pro fogão 1, você segura a cebola!"
+     pensa: "A sopa de tomate tá expirando em 2s, mas o tomate picado tá do meu lado. Pego agora e corro pro fogão."
+
+== t47 (1:34) pontos -13 | pedidos: Sopa de cebola(18s), Sopa de cebola(36s), Salada(48s)
+  Claudinho: ação='pôr tomate picado no prato da bancada 11' → montou no prato
+     fala: "Beleza, Claudete! Vou montar a salada aqui na 11 com o tomate. Você cuida da sopa de cebola e eu pego a alface depois!"
+     pensa: "Tomate no prato da 11 garante a salada de 48s. Se eu for pra cebola agora, perco a salada e a sopa."
+  Claudete: ação='pegar prato limpo vazio da bancada 11' → pegou prato com tomate picado
+     fala: "Espera, Claudinho! Tomate não vai pro fogão, é pra SALADA. Leva o tomate pro prato que eu tô pegando agora!"
+     pensa: "A cebola da bancada 13 tá num prato, não na panela. Salada expira em 48s e precisa de prato, então pego o prato vazio e corrijo o plano do Claudinho."
+  eventos: tipo=expirou receita=Sopa de tomate id=4
+
+== t48 (1:36) pontos -13 | pedidos: Sopa de cebola(16s), Sopa de cebola(34s), Salada(46s)
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixei o tomate na 11 pra você montar a salada! Eu corro pras cebolas."
+     pensa: "Os pedidos de sopa estão correndo. Ele monta a salada e eu foco nas duas sopas."
+  Claudinho: ação='pegar prato com cebola picada da bancada 13' → pegou prato com cebola picada
+     fala: "Pego a cebola picada pra sopa! Você segura o tomate da salada, bora!"
+     pensa: "Sopa de 16s é a mais urgente e a bancada 13 está pertinho. Tomate fica com ele."
+
+== t49 (1:38) pontos -13 | pedidos: Sopa de cebola(14s), Sopa de cebola(32s), Salada(44s)
+  Claudinho: ação='largar prato com cebola picada na bancada 15 (divisória, o parceiro alcança)' → largou em bancada 15
+     fala: "Deixei a cebola na 15 pra você! Pega e leva pro fogão, a sopa precisa de 3."
+     pensa: "Fogão e passa-prato ficam do lado dela. Se eu largar na 13, ninguém pega. Na 15 ela alcança, e eu corro pra tábua 1 pra cortar mais cebola."
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado
+     fala: "Fechado, eu seguro o tomate da salada! Você cuida da cebola nas sopas, bora!"
+     pensa: "Tomate já picado, bem do meu lado. Salada tem 44s. Depois preciso de alface picada no mesmo prato, e o Claudinho está com as duas sopas."
+
+== t50 (1:40) pontos -13 | pedidos: Sopa de cebola(12s), Sopa de cebola(30s), Salada(42s)
+  Claudinho: ação='pegar prato com cebola picada da bancada 15' → pegou prato com cebola picada
+     fala: "Eu pego a cebola da bancada 15 agora, vou pra panela! Você segura a salada."
+     pensa: "A sopa de 12s tá quase expirando. A cebola tá do meu lado, então pego já e levo pro fogão. Se eu demorar, perco 10 pontos."
+  Claudete: ação='largar prato com tomate picado na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Claudinho, deixei o prato com tomate na bancada 9! Eu pego a alface e monto a salada. Bora!"
+     pensa: "Salada tem 42s e precisa de alface + tomate no mesmo prato. Sopa de 12s já deve estourar, não tenho tempo pra ela."
+
+== t51 (1:42) pontos -13 | pedidos: Sopa de cebola(10s), Sopa de cebola(28s), Salada(40s)
+  Claudinho: ação='largar prato com cebola picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Claudete, deixei a cebola picada na bancada 13! Pega e joga na panela, a sopa de 10 segundos tá expirando!"
+     pensa: "Não consigo chegar no fogão, então deixo a cebola no lado dele. A salada é com ele, mas eu não posso deixar a sopa expirar."
+  Claudete: ação='pegar prato com tomate picado da bancada 9' → pegou prato com tomate picado
+     fala: "Beleza, eu seguro a salada! Pego o prato com tomate que já tá na bancada 9, depois a alface."
+     pensa: "Tomate já picado e no prato, é o atalho pra salada de 40s. Falta alface picada, e a tábua 1 é do lado dele. Sopa de 10s é prioridade dele, não posso vacilar."
+
+== t52 (1:44) pontos -13 | pedidos: Sopa de cebola(8s), Sopa de cebola(26s), Salada(38s)
+  Claudinho: ação='pegar prato com cebola picada da bancada 13' → pegou prato com cebola picada
+     fala: "Eu pego a cebola picada da bancada 13 pra sopa! Você segura a salada, Claudete."
+     pensa: "A sopa de 8s provavelmente não sai a tempo, mas a de 26s ainda dá. Cebola picada já está pronta aqui do lado, então é a ação mais rápida."
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "Beleza, Claudinho! Largo o tomate na 9 e pego a cebola da 13 já! Você segura a panela!"
+     pensa: "Preciso das mãos livres pra cebola. A sopa de 8s é prioridade, a salada espera o tomate."
+
+== t53 (1:46) pontos -13 | pedidos: Sopa de cebola(6s), Sopa de cebola(24s), Salada(36s)
+  Claudinho: ação='largar prato com cebola picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "CEBOLA NA 11, VAI! Pega aí e leva pra panela, a sopa tá expirando!"
+     pensa: "A sopa de 6s não pode morrer. Ele alcança a 11 e eu corro pra pegar mais cebola."
+  Claudete: ação='pegar prato com tomate picado da bancada 9' → pegou prato com tomate picado
+     fala: "Beleza, Claudinho! Peguei o prato com tomate picado. Vou montar a salada com a alface da bancada 7."
+     pensa: "A salada tem 36s e o tomate já está pronto e ao meu lado. Depois alface picada no mesmo prato. Sopa é com ele."
+
+== t54 (1:48) pontos -13 | pedidos: Sopa de cebola(4s), Sopa de cebola(22s), Salada(34s), Salada(52s)
+  Claudinho: ação='pegar prato com cebola picada da bancada 11' → pegou prato com cebola picada
+     fala: "Peguei a cebola picada! Vou levar pro fogão, a sopa de 4s tá expirando! Você segura a salada!"
+     pensa: "Sopa de 4s vai expirar; a cebola tá do meu lado, é a ação mais rápida."
+  Claudete: ação='largar prato com tomate picado na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Deixei o tomate picado na 13! Você pica a alface e monta a salada nesse prato, a de 34s ainda dá!"
+     pensa: "Não consigo picar alface sozinha, as tábuas estão do lado dele. Melhor deixar o tomate pronto pra ele combinar."
+  eventos: tipo=pedido receita=Salada id=8
+
+== t55 (1:50) pontos -13 | pedidos: Sopa de cebola(2s), Sopa de cebola(20s), Salada(32s), Salada(50s)
+  Claudete: ação='pegar prato com tomate picado da bancada 13' → pegou prato com tomate picado
+     fala: "Beleza, eu seguro a salada! Peguei o prato com tomate picado, agora falta a alface picada."
+     pensa: "Esse prato já é metade da salada e está do meu lado. Vou pegar agora e depois buscar alface."
+  Claudinho: ação='largar prato com cebola picada na bancada 9 (divisória, o parceiro alcança)' → largou em bancada 9
+     fala: "Deixei a cebola picada na 9, leva pra panela! Eu pego a alface pra salada."
+     pensa: "Não dá pra montar salada com esse prato de cebola. Passo pro parceiro a sopa e libero minhas mãos pra alface."
+
+== t56 (1:52) pontos -23 | pedidos: Sopa de cebola(18s), Salada(30s), Salada(48s)
+  Claudete: ação='largar prato com tomate picado na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixa a salada aqui na 11! Você bota a alface nesse prato, eu cuido da sopa de cebola!"
+     pensa: "Entregar só tomate não serve pra salada. Largo na 11 pro Claudinho completar com a alface e ainda sobra tempo pro pedido de 30s."
+  Claudinho: ação='pegar alface crua da bancada 7' → pegou alface crua
+     fala: "Eu pego a alface crua, pico na tábua e te levo! Segura o prato aí, Claudete!"
+     pensa: "Mais perto e mais rápido: alface crua na bancada 7 a 0.3s. Picando, o prato dele fecha a salada de 30s."
+  eventos: tipo=expirou receita=Sopa de cebola id=5
+
+== t57 (1:54) pontos -23 | pedidos: Sopa de cebola(16s), Salada(28s), Salada(46s)
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado
+     fala: "Peguei o tomate! Traz a alface picada que eu monto a salada no prato!"
+     pensa: "Tomate tá na mão em 0.0s. A salada de 28s depende da alface do Claudinho, então ele precisa chegar logo."
+  Claudinho: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Claudete, alface TEM que ir picada! Pico aqui na tábua 1, depois levo pra 11 com o tomate."
+     pensa: "Se eu largar a alface crua no prato da 11, não conta como salada. Tem que picar primeiro. Salada de 28s ainda dá tempo."
+
+== t58 (1:56) pontos -23 | pedidos: Sopa de cebola(14s), Salada(26s), Salada(44s)
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixo o tomate na 11, Claudinho! Monta a salada com a alface e manda ver!"
+     pensa: "Entregar agora seria meia salada e perderia o pedido. Ele pica a alface e junta tudo na 11."
+  Claudinho: ação='picar alface na tábua 1' → picando
+     fala: "Beleza, Claudete! Tô picando a alface agora, sai já pro prato!"
+     pensa: "A alface já está na tábua 1 ao meu lado. Picar agora libera a salada que ele precisa montar, e o pedido de 26s ainda dá tempo."
+
+== t59 (1:58) pontos -23 | pedidos: Sopa de cebola(12s), Salada(24s), Salada(42s)
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado
+     fala: "PEGUEI O PRATO DO TOMATE! Manda a alface picada que eu monto a salada AGORA, tá com 24s!"
+     pensa: "Sopa de cebola tá morrendo (12s) e não dá tempo de cozinhar 3 cebolas. Salada de 24s é o que dá pra salvar. Prato de tomate tá a 0s, então é o mais rápido."
+  Claudinho: ação='picar alface na tábua 1' → picou alface
+     fala: "Beleza, Claudete! Eu piso a alface agora, você pega o prato com tomate na 11 e prepara a salada!"
+     pensa: "Alface já tá na tábua, 50% pronta. Sopa de cebola tá quase expirando, mas com 12s não dá tempo de cozinhar. Salada primeiro."
+  eventos: tipo=picou quem=Claudinho o=alface
+
+== t60 (2:00) pontos -23 | pedidos: Sopa de cebola(10s), Salada(22s), Salada(40s)
+  Claudete: ação='largar prato com tomate picado na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Deixa o prato na 13! Pega a alface da tábua 1 e põe nele, a salada sai daí!"
+     pensa: "Prato só com tomate não entrega nada. O Claudinho já tem a alface na tábua 1, então o prato tem que ficar onde ele alcança. A sopa de cebola tá quase expirando, mas não tenho cebola nas mãos."
+  Claudinho: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "PEGANDO A ALFACE PICADA AGORA! Segura a salada que eu já levo!"
+     pensa: "Ele precisa da alface para a salada de 22s. A tábua 1 está a 0.0s, então é a jogada mais rápida."
+
+== t61 (2:02) pontos -23 | pedidos: Sopa de cebola(8s), Salada(20s), Salada(38s)
+  Claudete: ação='pegar prato com tomate picado da bancada 13' → pegou prato com tomate picado
+     fala: "PEGUEI O PRATO DE TOMATE! Traz a alface pra cá que a salada sai agora!"
+     pensa: "Tomate tá na mão, falta a alface do Claudinho. Salada de 20s é a prioridade; a sopa de cebola tá quase expirando, mas não dá pra salvar tudo."
+  Claudinho: ação='pôr alface picada no prato da bancada 13' → sem prato
+     fala: "Beleza, Claudete! Montando a salada agora!"
+     pensa: "Prato com tomate já está lá na 13. Alface nele fecha a salada antes que o pedido expire."
+
+== t62 (2:04) pontos -23 | pedidos: Sopa de cebola(6s), Salada(18s), Salada(36s)
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "Claudinho, deixei o prato com tomate aqui na 13! Põe a alface nele que a gente entrega a salada!"
+     pensa: "Não dá pra entregar só tomate. Preciso que ele complete o prato com a alface dele, e os 18s da salada estão correndo."
+  Claudinho: ação='largar alface picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei a alface na bancada 11, pega aí! BORA, salada!"
+     pensa: "Ele tem o prato de tomate; sem a alface na mão dele, a salada não sai. A divisória é o jeito mais rápido de passar."
+
+== t63 (2:06) pontos -23 | pedidos: Sopa de cebola(4s), Salada(16s), Salada(34s), Salada(52s)
+  Claudete: ação='pegar prato com tomate picado da bancada 13' → pegou prato com tomate picado
+     fala: "PEGUEI o tomate! Você pega a alface na bancada 11 e a gente monta a salada, BORA!"
+     pensa: "Tomate está do meu lado, zero segundos. A alface é do Claudinho, então a salada depende de nós dois. Sopa de cebola já deve estourar."
+  Claudinho: ação='pegar alface picada da bancada 11' → pegou alface picada
+     fala: "Pego a alface já picada! Vou pôr no prato do tomate da 13, a salada sai!"
+     pensa: "Alface picada está do meu lado, 0.0s. Salada tem 16s pra expirar. Pego a alface agora e monto o prato com o tomate."
+  eventos: tipo=pedido receita=Salada id=9
+
+== t64 (2:08) pontos -23 | pedidos: Sopa de cebola(2s), Salada(14s), Salada(32s), Salada(50s)
+  Claudinho: ação='largar alface picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Deixei a alface na 13! Pega e monta a salada no seu prato!"
+     pensa: "Ele já tá do lado da 13 com o prato do tomate; assim sai mais rápido do que eu ir até a 11. A sopa de cebola vai expirar, não dá mais pra salvar."
+  Claudete: ação='largar prato com tomate picado na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixa o prato aqui na bancada 11, Claudinho! Põe a alface em cima e a salada sai!"
+     pensa: "Ele tem a alface agora. Se eu levar o tomate ao passa-prato sozinha, a salada não fica pronta. Divisória é o jeito mais rápido."
+
+== t65 (2:10) pontos -33 | pedidos: Salada(12s), Salada(30s), Salada(48s)
+  Claudinho: ação='pegar alface picada da bancada 13' → pegou alface picada
+     fala: "PEGUEI A ALFACE! Vou montar a salada no prato da bancada 11, segura o pedido de 12s!"
+     pensa: "Alface pronta bem do meu lado. Prato com tomate já está na 11, é só juntar e entregar antes que o de 12s expire."
+  Claudete: ação='pegar prato com tomate picado da bancada 11' → pegou prato com tomate picado
+     fala: "PEGUEI O PRATO DO TOMATE! Traz a alface da 13 pra cá que eu monto a salada!"
+     pensa: "Prato com tomate já está a 0s de mim. Se eu pegar agora, ganho tempo e o pedido de 12s ainda dá pra salvar."
+  eventos: tipo=expirou receita=Sopa de cebola id=6
+
+== t66 (2:12) pontos -33 | pedidos: Salada(10s), Salada(28s), Salada(46s)
+  Claudinho: ação='largar alface picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei a alface na 11, pega aí e monta! Salada de 10 segundos, VAI!"
+     pensa: "Ele tá parado com o prato do tomate perto da 11. Largar ali é o mais rápido. Se eu for atrás de prato limpo agora, a salada de 10s expira."
+  Claudete: ação='largar prato com tomate picado na bancada livre mais perto (bancada 11)' → bancada 11 já estava ocupada.
+     fala: "Deixei o tomate na bancada 11, bota a alface aí que a salada sai!"
+     pensa: "Ele vai montar ali mesmo; é mais rápido que levar pro passa-prato, e o pedido de 10s não pode expirar."
+
+== t67 (2:14) pontos -33 | pedidos: Salada(8s), Salada(26s), Salada(44s)
+  Claudete: ação='pôr alface picada da bancada 11 no prato' → pôs no prato
+     fala: "PEGA! Montando a salada agora, o pedido de 8s tá quase expirando!"
+     pensa: "Prato com tomate + alface da bancada 11 vira salada em um turno. Depois entrego no passa-prato antes do pedido de 8s expirar."
+  Claudinho: ação='pegar alface picada da bancada 11' → bancada 11 já estava vazia.
+     fala: "PEGUEI A ALFACE! Claudete, segura o prato que eu levo a alface pra você agora!"
+     pensa: "Tem pedido de salada com 8s. Se eu pegar a alface, ele monta e entrega. Tomara que ele não saia da bancada."
+
+== t68 (2:16) pontos -16 | pedidos: Salada(24s), Salada(42s)
+  Claudete: ação='ENTREGAR prato com tomate picado + alface picada no passa-prato' → entregou Salada
+     fala: "NÃO TRAZ ALFACE, JÁ TÁ NO PRATO! Entregando a salada agora, o pedido de 6s não pode expirar!"
+     pensa: "O prato já tem alface e tomate. Se eu esperar pelo Claudinho, perco o pedido de 6s. Entrego já e depois peço pra ele trazer a cebola pro próximo."
+  Claudinho: ação='pegar alface na caixa de alface' → pegou alface
+     fala: "Eu pego alface pra próxima salada, você entrega essa!"
+     pensa: "Claudete já tem tomate e alface picados no prato. Preciso abastecer as próximas duas saladas."
+  eventos: tipo=entregou quem=Claudete receita=Salada pontos=17 gorjeta=2
+
+== t69 (2:18) pontos -16 | pedidos: Salada(22s), Salada(40s)
+  Claudinho: ação='pôr alface crua na tábua 1 para picar' → largou em tábua 1
+     fala: "BELEZA, VOU PICAR ESSA ALFACE NA TÁBUA 1! Você entrega, eu já preparo a próxima salada."
+     pensa: "Ele já entregou a salada do pedido de 22s, então sobra o de 40s. Picar a alface na tábua 1 é o caminho mais curto."
+  Claudete: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Beleza, eu pego o prato limpo pra montar a salada! Você traz a alface picada e eu monto com o tomate."
+     pensa: "Sem prato não monto salada. Pego o prato agora e depois resolvo o tomate, que está do lado do parceiro."
+
+== t70 (2:20) pontos -16 | pedidos: Salada(20s), Salada(38s)
+  Claudinho: ação='picar alface na tábua 1' → picando
+     fala: "Bora! Piquei a alface agora, você monta com o tomate!"
+     pensa: "Tábua 1 é a minha. Alface picada e entrega rápida; o pedido de 20s é o mais urgente."
+  Claudete: ação='largar prato limpo vazio na bancada 7 (divisória, o parceiro alcança)' → largou em bancada 7
+     fala: "CLAUDINHO, deixei prato limpo na bancada 7! Bota a alface picada nele e eu vou atrás do tomate."
+     pensa: "Ele tá com a alface na tábua 1 e eu seguro o prato. Largando na divisória, ele monta a salada sem perder tempo. Se eu ficar parado, perco o pedido de 20s."
+
+== t71 (2:22) pontos -16 | pedidos: Salada(18s), Salada(36s)
+  Claudete: ação='pegar prato limpo vazio da bancada 7' → pegou prato limpo vazio
+     fala: "Peguei o prato! Pica o tomate e me passa que monto a salada já."
+     pensa: "Pedido de 18s é o mais urgente. Sem prato na mão não monto nada. A alface ainda tá 50%, então o parceiro precisa terminar e trazer o tomate."
+  Claudinho: ação='picar alface na tábua 1' → picou alface
+     fala: "Deixa comigo, termino a alface aqui na tábua! Você pega o tomate e a gente salva essas saladas!"
+     pensa: "A alface já está meio picada e eu estou em cima dela. Terminar aqui é o caminho mais rápido, e o pedido de 18s não pode expirar."
+  eventos: tipo=picou quem=Claudinho o=alface
+
+== t72 (2:24) pontos -16 | pedidos: Salada(16s), Salada(34s), Salada(52s)
+  Claudinho: ação='pegar alface picada da tábua 1' → pegou alface picada
+     fala: "Eu pego a alface picada agora! Você pica o tomate, a gente monta a salada no seu prato antes do pedido de 16s estourar!"
+     pensa: "Alface já está pronta e a 0 segundos. Se eu levar isso pro prato dele, sobra só o tomate pra fechar a salada, e o pedido de 16s não pode expirar."
+  Claudete: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei o prato na 11 pra você! Põe a alface nele que eu pego o tomate!"
+     pensa: "Sem as duas mãos livres não dá pra montar a salada. O prato na divisória é o jeito mais rápido de juntar alface e tomate, e ainda sobra tempo pro pedido de 16s."
+  eventos: tipo=pedido receita=Salada id=10
+
+== t73 (2:26) pontos -16 | pedidos: Salada(14s), Salada(32s), Salada(50s)
+  Claudete: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "Pego o prato limpo agora! Você traz o tomate picado pra gente montar a salada rápido!"
+     pensa: "Sem prato não tem salada. Pego o prato já e torço pro Claudinho chegar com o tomate antes do pedido de 14s expirar."
+  Claudinho: ação='pôr alface picada no prato da bancada 11' → sem prato
+     fala: "Beleza! Alface no prato, pega o tomate que eu tô de olho no tempo!"
+     pensa: "A salada de 14s é a mais urgente. O prato da 11 é o certo, e o tomate com a Claudete fecha o pedido."
+
+== t74 (2:28) pontos -16 | pedidos: Salada(12s), Salada(30s), Salada(48s)
+  Claudinho: ação='largar alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixo a alface aqui na bancada 11! Você segura o prato e eu corro pro tomate!"
+     pensa: "Largo a alface agora pra pegar o tomate rápido. O pedido de 12s tá quase expirando, não pode vacilar."
+  Claudete: ação='largar prato limpo vazio na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "Prato na divisória 13! Põe a alface nele que eu pego o tomate, a salada de 12s não pode expirar!"
+     pensa: "Ele precisa do prato pra alface, e a bancada 11 tá com ele. Deixo na 13 pra ele alcançar sem perder tempo."
+
+== t75 (2:30) pontos -16 | pedidos: Salada(10s), Salada(28s), Salada(46s)
+  Claudete: ação='pegar prato limpo vazio da bancada 13' → pegou prato limpo vazio
+     fala: "PEGUEI O PRATO! Bora, traz o tomate picado que eu monto a salada!"
+     pensa: "Prato na mão é o gargalo agora. Pedido de 10s tá morrendo; se o tomate não chegar logo, perco mais 10 pontos."
+  Claudinho: ação='pegar alface picada da bancada 11' → pegou alface picada
+     fala: "Peguei a alface! Você pega o tomate, eu monto a salada no prato 13!"
+     pensa: "Alface está do meu lado, 0 segundos. Se o tomate chegar a tempo, salva a salada de 10s."
+
+== t76 (2:32) pontos -16 | pedidos: Salada(8s), Salada(26s), Salada(44s)
+  Claudete: ação='largar prato limpo vazio na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "Deixei o prato na 11! Monta a salada logo, o pedido de 8s tá expirando!"
+     pensa: "Na divisória ele alcança o prato e a alface já está com ele. Eu não consigo chegar no tomate a tempo; ele precisa do prato agora."
+  Claudinho: ação='largar alface picada na bancada 13 (divisória, o parceiro alcança)' → largou em bancada 13
+     fala: "ALFACE NA 13! Vou correr pro tomate, monta a salada quando eu voltar!"
+     pensa: "Ele já tá com o prato, então a alface tem que chegar nele agora. Depois busco o tomate, mas o pedido de 8s tá quase estourando."
+
+== t77 (2:34) pontos -16 | pedidos: Salada(6s), Salada(24s), Salada(42s)
+  Claudinho: ação='pegar prato limpo vazio da bancada 11' → pegou prato limpo vazio
+     fala: "Peguei o prato! Você pega a alface picada na 13 e corre pro tomate, a salada de 6s NÃO pode expirar!"
+     pensa: "Sem prato não tem salada. Tomate ainda precisa ser picado, então o tempo tá apertado demais."
+  Claudete: ação='pegar alface picada da bancada 13' → pegou alface picada
+     fala: "Peguei a alface! Pedido de 6s tá expirando, bota o tomate picado no prato da bancada 11 que eu monto a salada!"
+     pensa: "Ele já deixou a alface pronta e o prato limpo está do meu lado. Pego a alface agora e monto a salada no prato da 11 antes de expirar o pedido de 6s."
+
+== t78 (2:36) pontos -16 | pedidos: Salada(4s), Salada(22s), Salada(40s)
+  Claudete: ação='largar alface picada na bancada 11 (divisória, o parceiro alcança)' → largou em bancada 11
+     fala: "ALFACE NA DIVISÓRIA, PEGA! Eu já tenho a alface, você põe no prato e busca o tomate!"
+     pensa: "Ele já tem o prato e o tomate é do lado dele. Largar a alface na 13 não adianta, então a divisória é a única jogada que salva a salada de 4s."
+  Claudinho: ação='largar prato limpo vazio na bancada livre mais perto (bancada 11)' → bancada 11 já estava ocupada.
+     fala: "Prato na bancada 11! Põe a alface aí que eu corro pro tomate!"
+     pensa: "Não tenho tomate picado ainda; o prato limpo na 11 já deixa a salada montável. Tempo curto, o pedido de 4s está quase expirando."
+
+== t79 (2:38) pontos -16 | pedidos: Salada(2s), Salada(20s), Salada(38s)
+  Claudete: ação='pegar alface picada da bancada 11' → pegou alface picada
+     fala: "PEGUEI A ALFACE! Corre pro tomate que eu monto a salada, o pedido de 2s tá expirando!"
+     pensa: "Pedido com 2s e eu não tenho prato nem tomate. A alface é o que eu consigo pegar agora, e o Claudinho cuida do tomate."
+  Claudinho: ação='pôr alface picada da bancada 11 no prato' → bancada 11 já estava vazia.
+     fala: "BORA! Alface no prato, eu busco o tomate!"
+     pensa: "Pedido de 2s vai expirar; o prato limpo tem que receber a alface já. Depois tomate da caixa, longe, mas dá tempo do próximo."
+
+== t80 (2:40) pontos -26 | pedidos: Salada(18s), Salada(36s)
+  Claudinho: ação='largar prato limpo vazio na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "PRATO NA 11! Monta a salada aí mesmo, eu vou buscar o tomate!"
+     pensa: "Ele tem a alface e eu tenho o prato. Deixo o prato do lado dele e corro pro tomate. Pedido de 18s não pode expirar de novo."
+  Claudete: ação='largar alface picada na bancada livre mais perto (bancada 11)' → bancada 11 já estava ocupada.
+     fala: "Largando a alface na 11! Pega o tomate e monta a salada ali, falta pouco!"
+     pensa: "Só 10s e o prato dele não aceita alface sem ele. Melhor deixar perto para ele montar sem perder tempo."
+  eventos: tipo=expirou receita=Salada id=8
+
+== t81 (2:42) pontos -26 | pedidos: Salada(16s), Salada(34s), Sopa de tomate(58s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGUEI O TOMATE! Vou picar na tábua 1, você segura o prato na 11!"
+     pensa: "Oito segundos e a salada de 16s ainda dá pra salvar se ele não derrubar a alface. Tomate primeiro, prato depois."
+  Claudete: ação='pôr alface picada no prato da bancada 11' → montou no prato
+     fala: "BORA! Alface no prato da 11, traz o tomate que a gente fecha a salada!"
+     pensa: "Pedido de 16s tá correndo. Alface já no prato, falta só o tomate do Claudinho."
+  eventos: tipo=pedido receita=Sopa de tomate id=11
+
+== t82 (2:44) pontos -26 | pedidos: Salada(14s), Salada(32s), Sopa de tomate(56s)
+  Claudete: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "PEGUEI A ALFACE! Manda o tomate picado pra cá que eu monto a salada!"
+     pensa: "Tá colado em mim, 0.0s. Salada de 14s é o que dá pra salvar agora; o tomate do Claudinho fecha o prato."
+  Claudinho: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Vou picar o tomate na tábua 1 agora! Segura a alface no prato da 11 que eu já levo."
+     pensa: "Tomate cru não entra no prato. Pica primeiro na tábua 1, que é a mais perto, senão a salada de 14s expira."
+
+== t83 (2:46) pontos -26 | pedidos: Salada(12s), Salada(30s), Sopa de tomate(54s)
+  Claudete: ação='largar prato com alface picada na bancada livre mais perto (bancada 11)' → largou em bancada 11
+     fala: "Deixei a alface na 11! Pega e manda o tomate, faltam 4 segundos!"
+     pensa: "Ele pediu a 11 e é a bancada mais perto. Se o tomate chegar a tempo, salva a salada de 12s."
+  Claudinho: ação='picar tomate na tábua 1' → picando
+     fala: "Tomate na tábua 1, picando agora! Segura a salada, Claudete!"
+     pensa: "Só 4 segundos e a salada de 12s tá quase expirando. Pico o tomate e mando pra ele montar."
+
+== t84 (2:48) pontos -26 | pedidos: Salada(10s), Salada(28s), Sopa de tomate(52s)
+  Claudete: ação='pegar prato com alface picada da bancada 11' → pegou prato com alface picada
+     fala: "PEGUEI A ALFACE! Manda o tomate picado na tábua 1 que eu monto a salada!"
+     pensa: "Tempo quase zerado e a salada de 10s vai expirar, mas o prato com alface está do meu lado. Se o tomate sair a tempo, ainda dá pra salvar um pedido."
+  Claudinho: ação='pegar prato com alface picada da bancada 11' → bancada 11 já estava vazia.
+     fala: "PEGUEI A ALFACE! Tomate tá meio picado na tábua, bora!"
+     pensa: "Pouco tempo, mas a alface é metade da salada. Se der, termino o tomate."

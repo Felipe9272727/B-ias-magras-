@@ -33,9 +33,30 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
       flash = Math.max(flash, 0.45 * Math.exp(-d / 2.5));
     }
   }
+  // "TRIGGERED" (vermelho tremendo, faixa embaixo) e tremidas de câmera
+  let tremor = 0;
+  let trig: {text: string; d: number; dur: number} | null = null;
+  for (const e of scene.events) {
+    if (e.type === 'trig') {
+      const d = frame - e.at;
+      if (d >= 0 && d < e.dur) {
+        trig = {text: e.text ?? 'TRIGGERED', d, dur: e.dur};
+        tremor = Math.max(tremor, 16);
+      }
+    }
+    if (e.type === 'shake') {
+      const d = frame - e.at;
+      if (d >= 0 && d < e.dur) tremor = Math.max(tremor, (e.force ?? 14) * (1 - d / e.dur));
+    }
+  }
+  const rnd = (k: number) => {
+    const x = Math.sin(frame * 12.9898 + k * 78.233) * 43758.5453;
+    return x - Math.floor(x) - 0.5;
+  };
+  const tx = tremor * rnd(1) * 2, ty = tremor * rnd(2) * 2;
   return (
     <AbsoluteFill style={{background: C.bg}}>
-      <AbsoluteFill style={{transform: `scale(${1 + bump})`}}>
+      <AbsoluteFill style={{transform: `translate(${tx}px, ${ty}px) scale(${1 + bump + (trig ? 0.06 : 0)})`}}>
       {scene.segments.map((sg, i) => (
         <Sequence key={i} from={sg.start} durationInFrames={Math.max(1, sg.end - sg.start)} name={`${sg.clip}@${sg.from}`}>
           <ClipView seg={sg} info={timeline.clips[sg.clip] as ClipInfo | undefined} />
@@ -44,6 +65,15 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
       {scene.visual.type !== 'clip' ? <SceneVisual scene={scene} timeline={timeline} highlights={hl} /> : null}
       </AbsoluteFill>
       {flash > 0.01 ? <AbsoluteFill style={{background: '#fff', opacity: flash}} /> : null}
+      {trig ? (
+        <AbsoluteFill style={{pointerEvents: 'none'}}>
+          <AbsoluteFill style={{background: '#ff1a1a', mixBlendMode: 'multiply', opacity: 0.55 * Math.min(1, trig.d / 3) * Math.min(1, (trig.dur - trig.d) / 4)}} />
+          <AbsoluteFill style={{background: 'radial-gradient(circle, transparent 45%, #8a0000cc 100%)', opacity: Math.min(1, (trig.dur - trig.d) / 4)}} />
+          <div style={{position: 'absolute', left: 0, right: 0, bottom: 70 + rnd(3) * 16, height: 150, background: '#e01010', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `translateX(${rnd(4) * 26}px)`, borderTop: '6px solid #000', borderBottom: '6px solid #000', opacity: Math.min(1, (trig.dur - trig.d) / 3)}}>
+            <span style={{fontFamily: 'Poppins, sans-serif', fontWeight: 900, fontSize: 112, letterSpacing: 10, fontStyle: 'italic', color: '#fff', textShadow: '5px 5px 0 #000', transform: `translate(${rnd(5) * 10}px, ${rnd(6) * 8}px)`}}>{trig.text}</span>
+          </div>
+        </AbsoluteFill>
+      ) : null}
       {scene.events.map((e, i) => {
         if (e.type === 'meme') {
           const info = timeline.memes[e.id];
@@ -69,7 +99,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
         if (e.type === 'sfx')
           return (
             <Sequence key={i} from={e.at} name={`sfx ${e.id}`}>
-              <Audio src={staticFile(`sfx/${e.file ?? e.id + '.wav'}`)} volume={e.vol ?? 0.3} />
+              <Audio src={staticFile(e.file?.includes('/') ? e.file : `sfx/${e.file ?? e.id + '.wav'}`)} volume={e.vol ?? 0.3} />
             </Sequence>
           );
         return null;

@@ -24,7 +24,9 @@ export type SceneEvent =
   | {type: 'txt'; at: number; dur: number; text: string; color?: string}
   | {type: 'punch'; at: number}
   | {type: 'voz'; at: number; src: string}
-  | {type: 'tk'; at: number; tick: number};
+  | {type: 'tk'; at: number; tick: number}
+  | {type: 'trig'; at: number; dur: number; text?: string}
+  | {type: 'shake'; at: number; dur: number; force?: number};
 
 export type Visual =
   | {type: 'clip'}

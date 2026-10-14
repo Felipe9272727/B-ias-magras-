@@ -13,7 +13,7 @@ const ELEV = (52 * Math.PI) / 180;
 const SIN = Math.sin(ELEV);
 const COS = Math.cos(ELEV);
 const ALT = 0.9;
-const ANDAR = 0.55;
+export const ANDAR = 0.55;
 const COZ: Record<string, number> = {panela: 4, frigideira: 3};
 const PECA: Record<string, string> = {'#': 'bancada', X: 'bancada', T: 'caixa_tomate', O: 'caixa_cebola', M: 'caixa_cogumelo', A: 'caixa_alface', P: 'caixa_pao', K: 'caixa_carne', B: 'tabua', F: 'fogao', G: 'grelha', D: 'pratos', R: 'retorno', S: 'pia', E: 'entrega', L: 'lixo'};
 type Meta = {w: number; h: number; ancora: [number, number]};
@@ -58,7 +58,7 @@ export function spriteItem(o: Obj | null | undefined): string[] {
 }
 
 // um sprite de peça/item colocado pelo ponto de referência (base) em (x, y) da tela
-const Sprite: React.FC<{nome: string; grupo: 'pecas' | 'itens'; x: number; y: number; k: number; z?: number; esc?: number}> = ({nome, grupo, x, y, k, z, esc = 1}) => {
+export const Sprite: React.FC<{nome: string; grupo: 'pecas' | 'itens'; x: number; y: number; k: number; z?: number; esc?: number}> = ({nome, grupo, x, y, k, z, esc = 1}) => {
   const m = META[grupo][nome];
   if (!m) return null;
   const s = k * esc;
@@ -66,7 +66,7 @@ const Sprite: React.FC<{nome: string; grupo: 'pecas' | 'itens'; x: number; y: nu
 };
 
 // um chef só (corpo branco) pintado na cor da empresa: a cor é multiplicada só onde a máscara marca o corpo
-const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: number; y: number; k: number; frame: number; z: number}> = ({cor, anim, dir, x, y, k, frame, z}) => {
+export const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: number; y: number; k: number; frame: number; z: number}> = ({cor, anim, dir, x, y, k, frame, z}) => {
   const a = CM.anims[anim] ?? CM.anims.parado;
   const idx = Math.floor((frame / 30) * (a.n / a.dur)) % a.n;
   const [qw, qh] = CM.quadro;
@@ -95,21 +95,53 @@ const Balao: React.FC<{txt: string; t: number; idade: number; embaixo?: boolean}
   );
 };
 
-export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; h: number; hud?: boolean; titulo?: boolean; falas?: boolean; Pedidos?: React.FC<any>}> = ({log, cz, t, w, h, hud = true, titulo = true, falas = true, Pedidos}) => {
-  const frame = useCurrentFrame();
-  const mapa = log.mapa;
+// onde cada casa do mapa cai na tela (a mesma conta do desenho; usada também pelo zoom das cenas)
+export const geometria = (mapa: string[], w: number, h: number, hud = true) => {
   const cols = Math.max(...mapa.map((l) => l.length));
   const rows = mapa.length;
   // tamanho da casa: a cozinha (com a parede e a altura das bancadas) cabe na área útil
   const areaH = h * (hud ? 0.8 : 0.94);
   const T = Math.floor(Math.min((w * 0.95) / cols, areaH / (rows * SIN + ALT * COS + 0.9)));
-  const k = T / META.px_m;
   const D = T * SIN;
   const topo = ALT * T * COS;
   const ox = (w - T * cols) / 2;
   const oy = (hud ? h * 0.17 : h * 0.03) + topo + T * 0.75 + (areaH - (rows * D + topo + T * 0.9)) / 2;
-  const cx = (x: number) => ox + (x + 0.5) * T;
-  const cy = (y: number) => oy + (y + 0.5) * D;
+  return {cols, rows, T, D, topo, ox, oy, cx: (x: number) => ox + (x + 0.5) * T, cy: (y: number) => oy + (y + 0.5) * D};
+};
+
+// posição de um chef no tempo t (fracionário, em tiques), em casas do mapa
+export const posChef = (log: LogOC, cz: number, nome: string, t: number) => {
+  const i = Math.max(0, Math.min(Math.floor(t), log.tiques.length - 1));
+  const f = Math.max(0, Math.min(1, t - Math.floor(t)));
+  const tq = log.tiques[i].cozinhas[cz];
+  const q = tq.chefs[nome];
+  const cam = q?.caminho?.length ? q.caminho : [tq.estado.chefs.find((x) => x.nome === nome)?.pos ?? {x: 0, y: 0}];
+  if (f >= ANDAR || cam.length < 2) return cam[cam.length - 1];
+  const u = (f / ANDAR) * (cam.length - 1);
+  const a = cam[Math.floor(u)], b = cam[Math.min(cam.length - 1, Math.floor(u) + 1)];
+  const r = u - Math.floor(u);
+  return {x: a.x + (b.x - a.x) * r, y: a.y + (b.y - a.y) * r};
+};
+
+// balão de pensamento (o "pensa" secreto do log): nuvem cinza em itálico
+const Nuvem: React.FC<{txt: string; t: number; idade: number}> = ({txt, t, idade}) => {
+  const ap = Math.min(1, idade / 8);
+  return (
+    <div style={{position: 'absolute', left: -t * 2.3, width: t * 4.6, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: ap, transform: `scale(${0.7 + 0.3 * ap})`, transformOrigin: '50% 100%'}}>
+      <div style={{background: '#eef1f7', border: '3px solid #5b6577', borderRadius: t * 0.3, padding: `${t * 0.06}px ${t * 0.12}px`, fontFamily: FONT.display, fontStyle: 'italic', fontWeight: 600, fontSize: t * 0.15, lineHeight: 1.18, color: '#2d3442', textAlign: 'center', boxShadow: '0 4px 0 #0005'}}>
+        <span style={{fontSize: t * 0.12, fontWeight: 900, color: '#7b5cff', fontStyle: 'normal', marginRight: 6}}>PENSA:</span>{txt}
+      </div>
+      <div style={{width: t * 0.16, height: t * 0.16, borderRadius: '50%', background: '#eef1f7', border: '3px solid #5b6577', marginTop: 4}} />
+      <div style={{width: t * 0.09, height: t * 0.09, borderRadius: '50%', background: '#eef1f7', border: '3px solid #5b6577', marginTop: 3, marginLeft: t * 0.12}} />
+    </div>
+  );
+};
+
+export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; h: number; hud?: boolean; titulo?: boolean; falas?: boolean; pensa?: string[]; so?: string[]; camera?: {s: number; tx: number; ty: number}; Pedidos?: React.FC<any>}> = ({log, cz, t, w, h, hud = true, titulo = true, falas = true, pensa = [], so, camera, Pedidos}) => {
+  const frame = useCurrentFrame();
+  const mapa = log.mapa;
+  const {cols, T, D, topo, ox, cx, cy} = geometria(mapa, w, h, hud);
+  const k = T / META.px_m;
   const i = Math.max(0, Math.min(Math.floor(t), log.tiques.length - 1));
   const f = Math.max(0, Math.min(1, t - Math.floor(t)));
   const tq = log.tiques[i].cozinhas[cz];
@@ -198,14 +230,16 @@ export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; 
         {w >= 1200 && <span style={{marginLeft: 4, fontFamily: FONT.display, fontWeight: 800, fontSize: T * 0.13, padding: '1px 5px', borderRadius: 5, background: COR_EMPRESA[c.empresa] ?? '#888', color: '#fff', verticalAlign: 'middle', border: '2px solid #000'}}>{c.empresa}</span>}
       </div>,
     );
-    const embaixo = pos.y < 2.6;
+    const embaixo = pos.y < 2.6 || !!(pensa.includes(c.nome) && q?.pensa);
     const bx = Math.max(ox + T * 2.1, Math.min(ox + cols * T - T * 2.1, x));
-    if (falas && q?.fala) els.push(<div key={`f${c.nome}`} style={{position: 'absolute', left: bx, top: embaixo ? y + T * 0.3 : y - T * 1.62, width: 0, height: 0, zIndex: 700}}><Balao txt={q.fala} t={T} idade={f * 60} embaixo={embaixo} /></div>);
+    const nuvem = pensa.includes(c.nome) && q?.pensa;
+    if (nuvem) els.push(<div key={`pz${c.nome}`} style={{position: 'absolute', left: bx, top: y - T * 1.62, width: 0, height: 0, zIndex: 720}}><Nuvem txt={q!.pensa} t={T} idade={f * 60} /></div>);
+    if (falas && q?.fala && (!so || so.includes(c.nome))) els.push(<div key={`f${c.nome}`} style={{position: 'absolute', left: bx, top: embaixo ? y + T * 0.3 : y - T * 1.62, width: 0, height: 0, zIndex: 700}}><Balao txt={q.fala} t={T} idade={f * 60} embaixo={embaixo} /></div>);
     if (q?.bloqueado && f < 0.9) els.push(<div key={`bl${c.nome}`} style={{position: 'absolute', left: x + T * 0.2, top: y - T * 1.2, fontSize: T * 0.32, zIndex: 650}}>💢</div>);
   }
   return (
     <div style={{position: 'absolute', left: 0, top: 0, width: w, height: h, overflow: 'hidden', background: 'radial-gradient(circle at 50% 35%, #34708a, #0f2433 85%)'}}>
-      {els}
+      <div style={{position: 'absolute', left: 0, top: 0, width: w, height: h, transformOrigin: '0 0', transform: camera ? `translate(${camera.tx}px, ${camera.ty}px) scale(${camera.s})` : undefined}}>{els}</div>
       {hud && Pedidos && <div style={{position: 'absolute', left: 24 * esc, top: 16 * esc, zIndex: 900}}><Pedidos e={est} esc={esc * 1.15} frame={frame} /></div>}
       {hud && (
         <>

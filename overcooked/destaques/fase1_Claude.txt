@@ -1,0 +1,635 @@
+COZINHA Claude · fase v1 (versus) · chefs: Claudinho (Claude), Claudete (Claude)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de tomate(62s), Sopa de tomate(62s)
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Claudete, eu pego os tomates! Você pega a tábua e começa a picar!"
+     pensa: "Dois pedidos de sopa de tomate com 62s: preciso de 6 tomates picados. Começo pela caixa, que é a mais perto."
+  Claudete: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Claudinho]
+     fala: "Eu pego os tomates! Você pega os pratos limpos pra gente já ir adiantando."
+     pensa: "São 6 tomates pra duas sopas e 62 segundos. A caixa de tomate é a estação mais longe, então preciso começar já."
+  eventos: tipo=pedido receita=Sopa de tomate id=1; tipo=pedido receita=Sopa de tomate id=2; tipo=esbarrao quem=Claudete por=Claudinho
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de tomate(60s), Sopa de tomate(60s)
+  Claudinho: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Já tô com um tomate! Eu piso na tábua 1, você pega os pratos limpos!"
+     pensa: "Ele pegou os tomates, eu cuido de picar e ainda faltam os pratos. Tábua 1 é a mais perto, bora."
+  Claudete: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu pego um tomate também, assim saem mais rápido! Você segue com a tábua 2, combinado?"
+     pensa: "Ele ficou no meu caminho antes. Se eu pegar tomate agora, ganho tempo, mas preciso avisar pra ele não travar de novo."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de tomate(58s), Sopa de tomate(58s)
+  Claudete: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "Eu pico na tábua 2, você fica na 1! Sem bloquear o caminho dessa vez, beleza?"
+     pensa: "Ele quase me travou no corredor. Preciso de três tomates picados e não posso perder mais tempo com essa briga de espaço."
+  Claudinho: ação='picar tomate na tábua 1' → picando
+     fala: "Beleza, eu pico o tomate da tábua 1 agora, você fica com a tábua 2. Bora, que o tempo tá voando!"
+     pensa: "A Claudete pegou tomate e eu tô sem nada, mas o da tábua 1 já tá aqui do meu lado. Picar isso agora é o mais rápido pra começar a sopa."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de tomate(56s), Sopa de tomate(56s)
+  Claudete: ação='picar tomate na tábua 2' → picando
+     fala: "Beleza, tábua 2 é minha! Você pica a 1."
+     pensa: "Ele pega a 1, eu pico a 2. Depois preciso de 3 tomates picados na panela antes do tempo acabar."
+  Claudinho: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Beleza, eu fico na 1! Você pega a 2, eu termino esses tomates."
+     pensa: "Ele pica na 2 e eu na 1, sem cruzar o caminho. Tábua 1 já está na metade, então é só continuar."
+  eventos: tipo=picou quem=Claudinho o=tomate
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de tomate(54s), Sopa de tomate(54s)
+  Claudinho: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Bora! Peguei o tomate da tábua 1, vou pro fogão 1. Manda ver aí na 2!"
+     pensa: "Dois pedidos de sopa de tomate com 54s. Preciso de 6 tomates picados e a tábua 2 já está na metade. Pego o que está pronto e levo pra panela."
+  Claudete: ação='picar tomate na tábua 2' → picou tomate
+     fala: "Beleza, eu termino esse da 2! Você tá com o picado da 1, né?"
+     pensa: "Ele tá na 1 com os tomates. Fecho a 2 e preparo a panela sem atrapalhar o caminho dele, dessa vez."
+  eventos: tipo=picou quem=Claudete o=tomate
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de tomate(52s), Sopa de tomate(52s)
+  Claudinho: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Vou levar esse pro fogão 1! Você manda o da tábua 2 pra panela também, bora!"
+     pensa: "Preciso de 6 tomates picados no total, então cada um que eu colocar na panela conta. Fogão 1 primeiro."
+  Claudete: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "Peguei o tomate picado da tábua 2! Você vai pro fogão 1, eu levo o próximo pro fogão 2."
+     pensa: "Dois pedidos de sopa de tomate, preciso de três tomates picados por panela. Tenho que correr antes que expirem."
+  eventos: tipo=na_panela quem=Claudinho onde=fogão 1 n=1
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de tomate(50s), Sopa de tomate(50s)
+  Claudete: ação='pôr tomate picado na panela do fogão 1 (1/3)' → andando [BLOQUEADO por Claudinho]
+     fala: "Beleza, Claudinho! Jogo meu tomate na panela 1 agora. Você traz o próximo pra tábua 2, bora!"
+     pensa: "Ele tá perto do fogão 1 e a panela já tem 1/3. Se eu completar essa, ganho tempo. Mas ele tá sem nada na mão, então a fala dele pode ser furada."
+  Claudinho: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu busco mais tomate na caixa! Você leva o seu pro fogão 2, bora montar essas duas sopas!"
+     pensa: "Estou de mãos vazias e a panela do fogão 1 ainda precisa de tomates. Pegar mais na caixa é o movimento certo agora."
+  eventos: tipo=esbarrao quem=Claudete por=Claudinho
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de tomate(48s), Sopa de tomate(48s)
+  Claudete: ação='pôr tomate picado na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "Vou no fogão 1, que já tem um tomate e está mais perto! Você enche o fogão 2 com os próximos."
+     pensa: "Fogão 1 está a 0.3s e já tem 1/3. Pôr aqui adianta uma sopa e o Claudinho pode focar no fogão 2."
+  Claudinho: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "Beleza, Claudete! Eu pico na tábua 2, você cuida da panela 1!"
+     pensa: "Dois pedidos de sopa de tomate com 48s. Preciso de três tomates picados na panela 2 também."
+  eventos: tipo=na_panela quem=Claudete onde=fogão 1 n=2
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de tomate(46s), Sopa de tomate(46s)
+  Claudete: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu pego tomate na caixa e levo pra tábua 1! Você pica o da tábua 2, e cuidado pra não atravessar meu caminho!"
+     pensa: "Falta só 1 tomate picado pra panela 1 ficar com 3. Claudinho vai picar o da tábua 2, então eu fico com o da caixa. Se ele me travar de novo, perco os pedidos."
+  Claudinho: ação='picar tomate na tábua 2' → picando
+     fala: "Beleza, Claudete! Pico esse tomate agora e levo pro fogão 2. Você fecha o fogão 1 com o terceiro!"
+     pensa: "Ele tem dois tomates picados no fogão 1, falta um. Eu pico o da tábua 2 e começo o fogão 2 sem perder tempo."
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de tomate(44s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Claudete: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Eu pico esse na tábua 1 e levo pro fogão 1! Você fica na tábua 2, não me bloqueia!"
+     pensa: "Fogão 1 já tem 2 tomates picados; esse é o terceiro. Tábua 1 é a mais perto e livre."
+  Claudinho: ação='picar tomate na tábua 2' → picou tomate
+     fala: "Beleza, eu pico o da tábua 2! Você fica com a 1."
+     pensa: "Estou em cima da tábua 2 com o tomate meio picado. Terminar ele agora é o caminho mais rápido pra sopa."
+  eventos: tipo=pedido receita=Sopa de cebola id=3; tipo=picou quem=Claudinho o=tomate
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de tomate(42s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Claudete: ação='picar tomate na tábua 1' → picando
+     fala: "Beleza! Eu pico o da 1 agora. Você leva o picado da tábua 2 pro fogão 1, a panela tá quase lá!"
+     pensa: "A panela tem 2 de 3. Pego o da tábua 1 e torço pro Claudinho não bloquear o caminho de novo."
+  Claudinho: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "Beleza, Claudete! Eu pego o tomate picado da tábua 2 e levo pro fogão 1 agora pra fechar a sopa. Seu tomate fica pra próxima."
+     pensa: "A panela já tem 2 tomates; esse picado é o terceiro e está do meu lado. Se eu demorar, o pedido expira."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de tomate(40s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Claudete: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Beleza, Claudinho! Leva o seu pro fogão 1. Eu picho o tomate da tábua 1 pra segunda sopa, bora!"
+     pensa: "Ele fecha a primeira sopa com 3 no fogão 1. Eu adianto a segunda: tomate na tábua 1 já está meio picado. Preciso reabastecer a tábua 2 depois."
+  Claudinho: ação='pôr tomate picado na panela do fogão 1 (2/3)' → andando
+     fala: "Já tô indo! Esse completa a panela, bora!"
+     pensa: "Fogão 1 com 2/3 é a sopa mais perto de sair. Fecho a panela agora e depois pego a próxima cebola."
+  eventos: tipo=picou quem=Claudete o=tomate
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de tomate(38s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Claudete: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Eu pego esse aqui pra segunda sopa, você fecha a panela! NÃO fica no meu caminho desta vez!"
+     pensa: "Ele já tem o terceiro tomate pra panela 1. Este vai pra segunda sopa, e preciso evitar a fila de novo."
+  Claudinho: ação='pôr tomate picado na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "Já tô no fogão 1! Completa a sopa de tomate, Claudete!"
+     pensa: "Fogão 1 já tem 2 tomates; com o meu fica 3 e a sopa começa a cozinhar. Depois preciso cuidar do fogo pra não queimar."
+  eventos: tipo=na_panela quem=Claudinho onde=fogão 1 n=3
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de tomate(36s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Claudete: ação='pôr tomate picado na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "Eu monto a segunda sopa no fogão 2! Tu pega um prato e serve a do fogão 1 antes que queime!"
+     pensa: "A panela do 1 já tem 3 tomates e vai queimar se ninguém tirar. Eu começo a do 2 e o Claudinho cuida do prato."
+  Claudinho: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Beleza, eu fecho a panela! Vou pegar prato pra sopa de tomate já."
+     pensa: "A panela do fogão 1 já tá cozinhando e vai queimar se eu demorar. Sem prato não sirvo, então pego um agora."
+  eventos: tipo=na_panela quem=Claudete onde=fogão 2 n=1
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de tomate(34s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Segura o fogão 2 que eu levo esse prato pro fogão 1 assim que puder. NÃO DEIXA QUEIMAR!"
+     pensa: "Tô com o prato limpo na mão e a sopa de tomate do fogão 1 já cozinhando. Se eu largar agora, perco tempo. Preciso chegar lá antes que vire fogo."
+  Claudete: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Eu pego tomate pra panela 2! Você serve a sopa do fogão 1 no prato, rápido, senão queima!"
+     pensa: "Ele já tem o prato, então o gargalo é a panela 2 com um tomate só. Preciso de mais dois tomates nela e não posso deixar a panela 1 queimar."
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de tomate(32s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o tomate! Eu levo o prato pro fogão 1 agora, vou servir a sopa antes que queime."
+     pensa: "Tenho o prato limpo, a sopa do fogão 1 já tá pronta e vai queimar se eu demorar. Claudete cuida dos tomates pra panela 2."
+  Claudete: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Vou picar o tomate na tábua 1! Você pega o prato e serve a sopa do fogão 1 antes de queimar!"
+     pensa: "A tábua 1 é a mais perto, e a panela do fogão 1 já está cozinhando. Se eu não tirar ela logo, queima."
+  eventos: tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de tomate)
+
+== t16 (0:32) pontos 0 | pedidos: Sopa de tomate(30s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Claudete: ação='picar tomate na tábua 1' → picando
+     fala: "Beleza, pico o tomate aqui! Serve a sopa logo, Claudinho!"
+     pensa: "Ele vai servir a sopa do fogão 1 e eu fico com o tomate. Estou na tábua 1, então picar agora é o mais rápido. Se a sopa queimar, chamo o extintor."
+  Claudinho: ação='servir sopa de tomate do fogão 1 no prato' → serviu no prato
+     fala: "Beleza, eu sirvo a sopa do fogão 1 agora, antes de queimar!"
+     pensa: "A panela está pronta e vai queimar. Servir agora salva o pedido de 30s. Depois levo o prato pro passa-prato."
+  eventos: tipo=serviu quem=Claudinho onde=fogão 1
+
+== t17 (0:34) pontos 25 | pedidos: Sopa de tomate(28s), Sopa de cebola(46s)
+  Claudete: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Eu termino o tomate da tábua 1! Você serve a sopa, vai que não dá tempo de queimar!"
+     pensa: "Pedido de tomate expira em 28s. Preciso de mais 3 tomates picados, e a panela do fogão 2 já tem 1."
+  Claudinho: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "Pedido de tomate saindo! Bora, Claudete, pega o próximo tomate!"
+     pensa: "Tenho sopa de tomate pronta na mão; entregar agora vale pontos antes que expire o pedido de 28s."
+  eventos: tipo=picou quem=Claudete o=tomate; tipo=entregou quem=Claudinho receita=Sopa de tomate pontos=25 gorjeta=5
+
+== t18 (0:36) pontos 25 | pedidos: Sopa de tomate(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Claudinho: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Beleza, pego o prato! Você fica nos tomates, a sopa do fogão 2 sai daqui a pouco."
+     pensa: "Sem prato não entrego nada. Pedido de tomate tem 26s; o prato é a coisa mais perto que eu posso pegar agora."
+  Claudete: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Peguei o tomate picado da tábua! Você pega o próximo na caixa, eu levo pra panela."
+     pensa: "Tomate picado na mão em 0s. A sopa de tomate tem 26s, preciso de 3 picados na panela. Melhor começar já."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t19 (0:38) pontos 25 | pedidos: Sopa de tomate(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Claudinho: ação='esperar' → None
+     fala: "Peraí, to com o prato limpo na mão, não consigo pegar tomate! Fico com ele pra servir a sopa. Você traz o próximo tomate pra panela."
+     pensa: "Largar o prato na bancada perde tempo. Vou esperar a panela ficar pronta e servir com ele."
+  Claudete: ação='pôr tomate picado na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "Beleza, tô indo pro fogão 2 com o tomate! Pega o prato rápido!"
+     pensa: "Fogão 2 já tem um tomate. Se eu colocar agora, a sopa de tomate de 24s fica viável."
+  eventos: tipo=na_panela quem=Claudete onde=fogão 2 n=2
+
+== t20 (0:40) pontos 25 | pedidos: Sopa de tomate(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Já tô com o prato na mão. Coloca o terceiro tomate no fogão 2 que eu fico pronto pra servir."
+     pensa: "Já tenho o prato, então largar ou jogar fora só atrasaria. Preciso esperar a sopa de tomate ficar pronta no fogão 2 e não deixar a de cebola esquecer."
+  Claudete: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "Beleza, eu pego o tomate! Falta só um pra panela 2. Você segura o prato!"
+     pensa: "A panela 2 tem 2 tomates picados, falta 1. Pego o tomate, levo pra tábua 1 picar e depois pro fogão 2. O tempo tá correndo."
+
+== t21 (0:42) pontos 25 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Eu seguro o prato. Pica esse tomate rápido e joga na panela 2, que eu levo a sopa pro passa-prato assim que ficar pronta!"
+     pensa: "Sem prato na mão agora, eu não consigo servir nada. A sopa de tomate tem só 20s, então preciso estar pronto pra pegar a sopa assim que ficar no ponto."
+  Claudete: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "Esse tomate ainda tá cru! Vou picar na tábua 1 e já levo pro fogão 2."
+     pensa: "Preciso picar antes de colocar na panela. A tábua 1 é a mais perto e está vazia, então o fogão 2 fica com o terceiro tomate logo."
+
+== t22 (0:44) pontos 25 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Claudete: ação='picar tomate na tábua 1' → picando
+     fala: "Pico esse tomate agora, Claudinho! Terceiro tomate no fogão 2 e a sopa sai!"
+     pensa: "Já tem dois picados na panela 2. Esse é o terceiro. Depois é correr pro fogão antes que o pedido de 18s expire."
+  Claudinho: ação='esperar' → None
+     fala: "Eu seguro o prato! Você pica o tomate, eu espero a sopa ficar pronta no fogão 2."
+     pensa: "Já estou com o prato limpo; largar ou jogar fora só perderia tempo. Melhor esperar a sopa do fogão 2 ficar pronta para servir."
+
+== t23 (0:46) pontos 25 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Claudete: ação='picar tomate na tábua 1' → picou tomate
+     fala: "Eu pico o tomate da tábua 1! Fogão 2 já tem dois, o terceiro é o meu. Segura o prato!"
+     pensa: "Tábua 1 está a 0s e o tomate já está pela metade. Dois picados no fogão 2, falta um. Preciso terminar logo para não perder o pedido de 16s."
+  Claudinho: ação='esperar' → None
+     fala: "Pode picar, Claudete! Eu vou levar o prato pro fogão 1 assim que puder."
+     pensa: "Tenho prato limpo na mão, mas a sopa do fogão 1 já está pronta e pode queimar. Preciso chegar lá logo, e o tempo do pedido de 16s está correndo."
+  eventos: tipo=picou quem=Claudete o=tomate
+
+== t24 (0:48) pontos 25 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de tomate(50s)
+  Claudete: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "Peguei o tomate picado! Vou pro fogão 2 completar a sopa, você segura o prato!"
+     pensa: "Fogão 2 já tem dois tomates. Um terceiro e começa a cozinhar. O pedido de 14s é o mais urgente."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Seguro o prato e sirvo a sopa do fogão 2 assim que ficar pronta."
+     pensa: "Ele pica o terceiro tomate e eu fico com o prato. Se eu largar agora, perco tempo. Espero a panela ficar pronta."
+
+== t25 (0:50) pontos 25 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de tomate(48s)
+  Claudete: ação='pôr tomate picado na panela do fogão 2 (2/3)' → pôs na panela (3)
+     fala: "Claudinho, panela 2 com 3 tomates agora! Sopa de tomate pronta em seguida, pega o prato que é pra já!"
+     pensa: "Fogão 2 tem 2 tomates; o meu completa a sopa. O pedido de 12s está quase estourando, então não posso perder tempo."
+  Claudinho: ação='esperar' → None
+     fala: "Seguro o prato! Me avisa quando a sopa de tomate estiver pronta pra eu servir."
+     pensa: "Ele pediu pra eu segurar o prato, e as ações disponíveis não me deixam ir ao fogão. Largar ou jogar fora seria desperdício. Espero e sirvo assim que der."
+  eventos: tipo=na_panela quem=Claudete onde=fogão 2 n=3
+
+== t26 (0:52) pontos 25 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de tomate(46s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, tô com o prato na mão! Assim que a sopa de tomate ficar pronta no fogão 2, eu sirvo e corro pro passa-prato!"
+     pensa: "Não dá pra largar o prato agora, ele é o que serve a sopa. O pedido de 10s está apertado, mas a panela ainda cozinha. Espero e sirvo na hora certa."
+  Claudete: ação='esperar' → None
+     fala: "VEM PRO FOGÃO 2 COM O PRATO, a sopa de tomate tá quase pronta e o pedido de 10s tá expirando!"
+     pensa: "Sem prato na mão eu não sirvo nada. Tenho que segurar a panela no ponto e torcer pro Claudinho chegar a tempo."
+
+== t27 (0:54) pontos 25 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Claudete: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Claudinho, a sopa de tomate tá no fogão 2, fica de olho! Eu vou buscar cebola pro pedido de 26s."
+     pensa: "A sopa de tomate tá quase no ponto e o Claudinho já tem o prato. Melhor eu adiantar a cebola do próximo pedido do que ficar parada esperando."
+  Claudinho: ação='esperar' → None
+     fala: "TÔ INDO! Segura o fogão 2 aí, Claudete!"
+     pensa: "Não tenho ação de andar, então fico com o prato limpo e torço pra chegar antes do pedido de 8s expirar."
+  eventos: tipo=pedido receita=Sopa de cebola id=5
+
+== t28 (0:56) pontos 25 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o pedido de cebola, Claudete! Eu fico com o prato limpo e sirvo a sopa de tomate assim que o fogão 2 ficar pronto."
+     pensa: "Tô com o prato na mão e a sopa de tomate ainda cozinhando. Não dá pra servir agora, então espero. O pedido de 6s tá perigoso, mas largar o prato ou jogar no lixo só piora."
+  Claudete: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "Beleza, Claudinho! Fogão 2 é comigo, a sopa de tomate já tá quase pronta. Vou picar essa cebola pra sopa de cebola."
+     pensa: "Tomate tá cozinhando e o pedido de 6s vai expirar, então preciso ficar de olho no fogão 2 e não perder a sopa."
+  eventos: tipo=pronto onde=fogão 2 o=panela PRONTA (sopa de tomate)
+
+== t29 (0:58) pontos 25 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) do fogão 2' → pegou panela PRONTA (sopa de tomate)
+     fala: "EU PEGO A PANELA DO FOGÃO 2 AGORA, ela vai QUEIMAR! Você fica com o prato e serve quando eu chegar!"
+     pensa: "A sopa de tomate já está pronta e o pedido de 4s está quase expirando. Se eu esperar pelo Claudinho, perco o pedido e a panela queima. Pego a panela já."
+  Claudinho: ação='servir sopa de tomate do fogão 2 no prato' → andando [BLOQUEADO por Claudete]
+     fala: "EU PEGO A SOPA DO FOGÃO 2, Claudete! Pode picar a cebola!"
+     pensa: "O pedido de tomate tem 4s. O prato já está na mão e a sopa tá a 1.1s. Se ele for pro fogão 2, a gente perde a corrida."
+  eventos: tipo=esbarrao quem=Claudinho por=Claudete
+
+== t30 (1:00) pontos 25 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "CLAUDINHO, deixei a sopa de tomate na BANCADA 5! Pega e serve no prato AGORA, o pedido de tomate tá quase expirando!"
+     pensa: "Ele ainda tá longe do fogão 2 e a panela pronta queima se ficar no fogo. Bancada 5 é o jeito mais rápido de tirar ela da minha mão."
+  Claudinho: ação='esperar' → None
+     fala: "BORA, CLAUDETE! Traz essa panela de tomate AGORA, o pedido tá expirando! Eu seguro o prato!"
+     pensa: "Ele vai atravessar a cozinha com a panela quente. Se eu largar o prato na bancada, perco tempo. Espero e sirvo assim que ele chegar."
+
+== t31 (1:02) pontos 15 | pedidos: Sopa de cebola(18s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "PEGUEI A PANELA! Vai queimar se ficar! Chega aí com o prato, Claudinho!"
+     pensa: "Essa panela tá no ponto e a 0 segundos de mim. Se eu demorar, queima e a gente perde tudo."
+  Claudinho: ação='esperar' → None
+     fala: "Pode deixar, Claudete! Vou com o prato na mão e sirvo a sopa de tomate já. Você sai do meu caminho, tá?"
+     pensa: "Largar o prato agora seria perder tempo. Preciso dele na mão pra servir a sopa. Vou até a bancada 5 sem bater na Claudete."
+  eventos: tipo=expirou receita=Sopa de tomate id=2
+
+== t32 (1:04) pontos 15 | pedidos: Sopa de cebola(16s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato na mão! Vem pra cá com a panela, Claudete, rápido!"
+     pensa: "Largar o prato agora perde tempo; ele precisa vir até mim com a sopa antes de queimar."
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Beleza, Claudinho! Largo a panela na bancada 5 e saio do seu caminho. Serve daí, rápido!"
+     pensa: "Ele vai servir a sopa e eu não posso segurar a panela enquanto ele passa. Na bancada 5 ela não queima, e o pedido de tomate ainda tem 34s."
+
+== t33 (1:06) pontos 15 | pedidos: Sopa de cebola(14s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, fica fora do caminho! Vou servir a sopa da bancada 5 com o prato na mão!"
+     pensa: "A sopa de tomate na bancada 5 está pronta e queima se demorar. Já estou com o prato, então largar na bancada 13 só me atrasa. Preciso chegar lá sem trombar na Claudete."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "Peguei a panela! Segura o prato aí, já tô indo!"
+     pensa: "A sopa de tomate tá queimando o tempo todo. Pego agora e levo pro Claudinho servir antes que estrague."
+
+== t34 (1:08) pontos 15 | pedidos: Sopa de cebola(12s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Deixei a panela na bancada 5 pra você servir! Saio do caminho e vou buscar cebola pro pedido de 12s!"
+     pensa: "Não posso devolver ao fogão, a sopa queimaria. Largando na bancada 5, ele serve já e eu libero a área pra cebola."
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato! Vem logo com a panela, Claudete, senão queima!"
+     pensa: "Ele pegou a panela pronta e eu seguro o prato. Largar agora perde tempo. Espero ele chegar e sirvo direto."
+
+== t35 (1:10) pontos 15 | pedidos: Sopa de cebola(10s), Sopa de tomate(28s), Sopa de cebola(46s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, fica fora do meu caminho! Vou pra bancada 5 servir a sopa de tomate com esse prato."
+     pensa: "Segurar o prato limpo é o certo: ele é o que preciso pra servir a sopa pronta na bancada 5 antes de queimar. Largar ou jogar fora perderia isso."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "PEGUEI a panela de tomate! Não deixa o prato cair, Claudinho, vou servir já!"
+     pensa: "A sopa de tomate tá pronta e queima se eu demorar. Pego agora, o Claudinho tem o prato, e a cebola expirando fica pra depois."
+
+== t36 (1:12) pontos 15 | pedidos: Sopa de cebola(8s), Sopa de tomate(26s), Sopa de cebola(44s), Sopa de cebola(62s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, segura aí! Te passo o prato, serve nele. Tô de olho nessa cebola de 8s!"
+     pensa: "Se eu largar o prato agora, perco tempo buscando de novo. Melhor ficar com ele e deixar o Claudete servir a sopa de tomate."
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Claudinho, deixo a panela na bancada 5 pra você servir! Eu saio do caminho, vai!"
+     pensa: "Ele já vai pra bancada 5 com o prato. Deixando a panela lá, ele serve direto e eu não atrapalho. Não posso deixar queimar nem expirar."
+  eventos: tipo=pedido receita=Sopa de cebola id=6
+
+== t37 (1:14) pontos 15 | pedidos: Sopa de cebola(6s), Sopa de tomate(24s), Sopa de cebola(42s), Sopa de cebola(60s)
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "Peguei a panela de tomate, tá quase queimando! Manda o prato aí, Claudinho!"
+     pensa: "Ela tá do meu lado e pode queimar a qualquer segundo. Pego agora e sirvo no prato que ele trouxer."
+  Claudinho: ação='esperar' → None
+     fala: "Valeu, Claudete! Deixa comigo, já vou servir a sopa da bancada 5!"
+     pensa: "Tô com o prato limpo na mão, então largar agora seria perder tempo. A sopa de tomate da bancada 5 precisa sair antes de queimar, e o pedido de cebola com 6s já tá quase estourando."
+
+== t38 (1:16) pontos 15 | pedidos: Sopa de cebola(4s), Sopa de tomate(22s), Sopa de cebola(40s), Sopa de cebola(58s)
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Claudinho, deixei a panela na bancada 5! Pega seu prato e serve já, o pedido de tomate tá quase no fim!"
+     pensa: "Se eu voltar pro fogão ela queima. Na bancada 5 ele serve com o prato limpo dele sem perder tempo."
+  Claudinho: ação='largar prato limpo vazio na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "Claudete, deixei o prato na bancada 13! Põe a sopa nele e entrega rápido!"
+     pensa: "Não consigo levar o prato até ele a tempo. Se eu deixar na bancada, ele pega com a panela na mão e a sopa não queima."
+
+== t39 (1:18) pontos 15 | pedidos: Sopa de cebola(2s), Sopa de tomate(20s), Sopa de cebola(38s), Sopa de cebola(56s)
+  Claudinho: ação='pegar prato limpo vazio da bancada 13' → pegou prato limpo vazio
+     fala: "Beleza, Claudete! Peguei o prato, vou servir a sopa de tomate já!"
+     pensa: "A panela de tomate tá pronta na bancada 5 e o pedido de 20s ainda dá tempo. Prato primeiro, depois a sopa."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "EU PEGO A PANELA AGORA, ela queima se ficar! Você pega o prato na 13 e me espera no passa-prato!"
+     pensa: "A sopa de tomate tem 20s e a panela já está pronta. A de cebola com 2s não dá tempo, então foco nessa."
+
+== t40 (1:20) pontos 5 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de cebola(54s)
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Claudinho, deixei a panela na bancada 5! Pega ela e serve AGORA, o pedido de tomate tá com 18s!"
+     pensa: "Não posso servir daqui com ele com o prato. Tirar a panela do fogo evita queimar, e ele serve mais rápido."
+  Claudinho: ação='esperar' → None
+     fala: "Já tô com o prato limpo! Traz a panela pro passa-prato, eu sirvo lá!"
+     pensa: "Ele já pegou a panela e eu tô com o prato na mão. Melhor segurar e não cruzar o caminho dele de novo, senão perco o pedido de novo."
+  eventos: tipo=expirou receita=Sopa de cebola id=3
+
+== t41 (1:22) pontos 5 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de cebola(52s)
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato! Pega a panela da bancada 5 e me passa, eu sirvo e levo pro passa-prato!"
+     pensa: "Segurar o prato é necessário pra servir a sopa. Largar ou jogar fora só atrasa o pedido de tomate, que tem 16s. Melhor deixar a Claudete pegar a panela enquanto eu espero a vez."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "Peguei a panela! Vou pro passa-prato agora, segura o prato aí!"
+     pensa: "A sopa de tomate tá prestes a queimar e o pedido só tem 16s. Pego a panela já, antes que vire carvão."
+
+== t42 (1:24) pontos 5 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de cebola(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, eu seguro o prato! Vem que eu te espero aqui, não vou atrapalhar teu caminho dessa vez."
+     pensa: "Ele quer que eu segure o prato pra servir a sopa de tomate. Se eu largar ou jogar fora, perco o prato. Pedido de tomate tem 14s; preciso manter a rota livre."
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Deixei na bancada 5! Pega e serve logo, o pedido de tomate tá com 14s!"
+     pensa: "Ele tá com o prato e eu tô com a panela. Largar na bancada 5 é o mais rápido. Se eu voltar pro fogão 2 perco tempo, e o lixo é desperdício."
+
+== t43 (1:26) pontos 5 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de cebola(48s)
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "Peguei a panela de tomate! Claudinho, bora servir logo, ela queima se ficar parada!"
+     pensa: "Tomate tem 12s e a panela já tá pronta. Se eu pegar agora, ele traz o prato e salvamos esse pedido."
+  Claudinho: ação='esperar' → None
+     fala: "EU TÔ COM O PRATO! Você pega a panela da bancada 5 e me passa, Claudete!"
+     pensa: "Se largar o prato agora, perco tempo buscando de novo. Melhor segurar e esperar a panela chegar pra servir."
+
+== t44 (1:28) pontos 5 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de cebola(46s)
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "JÁ TÁ COMIGO! Largo a panela na bancada 5 pra você! Pega e serve logo, o tomate expira em 10s!"
+     pensa: "Ele pediu a panela, mas eu já estou segurando. Deixo na bancada 5 pra ele pegar e servir antes que o pedido expire."
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, segura aí! Eu tô com o prato, vem pra cá que eu sirvo a sopa!"
+     pensa: "Só tenho um prato e a sopa tá com ele. Se eu largar o prato agora, perco a sopa. Melhor esperar ele chegar perto."
+
+== t45 (1:30) pontos 5 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o tomate, Claudete! Eu tô com o prato, já vou pra bancada 5!"
+     pensa: "Preciso do prato na mão pra servir a sopa de tomate. Largar aqui seria perder tempo, e o pedido de 8s tá quase estourando."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "PEGUEI A PANELA! Segura o prato que eu levo a sopa até você!"
+     pensa: "Pedido de tomate com 8s. Se eu demorar, perde 10 pontos. Panela pronta sem queimar, vai rápido."
+  eventos: tipo=pedido receita=Sopa de tomate id=7
+
+== t46 (1:32) pontos 5 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Claudinho: ação='esperar' → None
+     fala: "TÔ COM O PRATO! MANDA A SOPA, Claudete!"
+     pensa: "Ele precisa da minha mão livre pro prato. Se eu largar agora, perco a sopa de tomate que tá quase expirando."
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Deixei a panela na bancada 5! Chega com o prato e serve logo, o pedido de tomate tá quase expirando!"
+     pensa: "Não dá tempo de levar o prato até o passa-prato sozinha; o Claudinho chega na bancada 5 com o prato e a sopa já tá lá. Se eu devolver pro fogão 2 ela volta a cozinhar e queima."
+
+== t47 (1:34) pontos 5 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, sai do caminho! Vou pegar a sopa de tomate da bancada 5 agora!"
+     pensa: "Preciso do prato pra servir. Largar ou jogar fora agora perde tempo. Se o caminho ficar livre, dá tempo de servir o tomate antes de expirar."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "PEGUEI A SOPA! Segura o prato aí, Claudinho, vou servir já!"
+     pensa: "Pedido de tomate com 4s. A panela queima se eu demorar, e o prato do Claudinho já está pronto."
+
+== t48 (1:36) pontos 5 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato na mão, Claudete! Serve aí que eu levo pro passa-prato!"
+     pensa: "Ele precisa de um prato, e eu já tenho um. Se eu largar agora, perco tempo. Melhor esperar ele servir e pegar a sopa pronta pra entregar no passa-prato antes que o pedido de 2s expire."
+  Claudete: ação='largar panela PRONTA (sopa de tomate) na bancada livre mais perto (bancada 5)' → largou em bancada 5
+     fala: "Deixei a sopa na bancada 5! Pega e serve no prato, rápido, o pedido tá expirando!"
+     pensa: "O Claudinho já tá indo pra bancada 5 com prato limpo. Largar ali é o único jeito de ele servir antes de expirar e não queimar a panela."
+
+== t49 (1:38) pontos -5 | pedidos: Sopa de cebola(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Claudinho: ação='largar prato limpo vazio na bancada livre mais perto (bancada 13)' → largou em bancada 13
+     fala: "LARGUEI O PRATO NA 13! Eu vou pegar a sopa da bancada 5, ninguém passa na minha frente!"
+     pensa: "Não dá para segurar prato e panela ao mesmo tempo. Libero as mãos agora e depois busco um prato limpo. Tempo curto, sem erro."
+  Claudete: ação='pegar panela PRONTA (sopa de tomate) da bancada 5' → pegou panela PRONTA (sopa de tomate)
+     fala: "Peguei a sopa! Vem com o prato pra cá, Claudinho, rápido!"
+     pensa: "A panela tá no ponto e queima se esperar. Se eu levar a sopa pro prato dele, salvo os 54s do pedido de tomate."
+  eventos: tipo=expirou receita=Sopa de tomate id=4
+
+== t50 (1:40) pontos -5 | pedidos: Sopa de cebola(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Claudete: ação='servir no prato da bancada 13' → serviu no prato
+     fala: "Deixa o prato da 13 comigo, eu sirvo a sopa! Pega a da 5 e leva pro passa-prato!"
+     pensa: "A panela está pronta e vai queimar. Servir agora salva o pedido de tomate com 52s. Ele quer a sopa da 5, então preciso separar as tarefas."
+  Claudinho: ação='pegar prato limpo vazio da bancada 13' → pegou prato com sopa de tomate
+     fala: "Peguei o prato! Tô indo pra você, segura essa sopa!"
+     pensa: "Ele tá com a sopa pronta e o pedido de tomate com 52s. Se eu demorar, perco de novo."
+
+== t51 (1:42) pontos 23 | pedidos: Sopa de cebola(14s), Sopa de cebola(32s)
+  Claudinho: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "Beleza, Claudete, eu entrego essa sopa de tomate agora! Você sirva a da 13 e depois pega a 5!"
+     pensa: "Pedido de tomate com 50s, dá tempo. Se eu largar na 13 perco tempo. Entrego logo e não deixo expirar outro pedido."
+  Claudete: ação='devolver a panela ao fogão 2' → largou em fogão 2
+     fala: "Panela no fogão 2! Você traz a cebola picada que eu cozinho!"
+     pensa: "Fogão 2 está sem panela e os pedidos de cebola estão correndo. Melhor preparar o fogão agora do que ficar parado."
+  eventos: tipo=entregou quem=Claudinho receita=Sopa de tomate pontos=28 gorjeta=8
+
+== t52 (1:44) pontos 23 | pedidos: Sopa de cebola(12s), Sopa de cebola(30s)
+  Claudinho: ação='picar cebola na tábua 1' → andando
+     fala: "Bora! Vou picar a cebola da tábua 1 agora, prepara a panela do fogão 2!"
+     pensa: "Pedido de 12s tá quase expirando e a cebola crua já está na tábua. Picar primeiro, senão perco mais 10 pontos."
+  Claudete: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "BORA! Pego cebola agora, a sopa de 12s não pode expirar. Você pega o prato limpo!"
+     pensa: "Estou com as mãos vazias e o pedido de 12s está quase expirando. Preciso de cebolas picadas logo, senão perco 10 pontos."
+
+== t53 (1:46) pontos 23 | pedidos: Sopa de cebola(10s), Sopa de cebola(28s)
+  Claudinho: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "Beleza, pego o prato! Você segura a cebola e não deixa a panela esfriar!"
+     pensa: "Ele pega a cebola, eu pego o prato. Se eu chegar rápido, ainda dá pra salvar o pedido de 10s."
+  Claudete: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Eu pico na tábua 2, você segue na 1! Panela do fogão 2 tá vazia, bora!"
+     pensa: "Pedido de 10s tá expirando e a panela tá vazia. Preciso de 3 cebolas picadas rápido."
+
+== t54 (1:48) pontos 23 | pedidos: Sopa de cebola(8s), Sopa de cebola(26s), Sopa de cebola(62s)
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, segura a panela 2 que eu fico com o prato. Quando tiver cebola picada, eu monto a sopa!"
+     pensa: "Não dá pra pegar cebola com o prato na mão. Melhor esperar ele picar as cebolas e não largar o prato agora."
+  Claudete: ação='picar cebola na tábua 2' → picando
+     fala: "Pico aqui na tábua 2! Pedido de 8s tá vencendo, bora!"
+     pensa: "A tábua 2 tá do meu lado. Depois de picar, vou pro fogão e preparar a sopa mais urgente."
+  eventos: tipo=pedido receita=Sopa de cebola id=8
+
+== t55 (1:50) pontos 23 | pedidos: Sopa de cebola(6s), Sopa de cebola(24s), Sopa de cebola(60s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o prato que eu vou pro passa-prato assim que a sopa sair. Pica cebola e leva pro fogão 2!"
+     pensa: "Preciso do prato na mão pra servir a sopa. Largar ou jogar fora só atrasa. Ele pica, eu aguardo a panela."
+  Claudete: ação='picar cebola na tábua 2' → picou cebola
+     fala: "Tô na tábua 2, já tá meio picada! Termino essa e levo pra panela 2, segura aí!"
+     pensa: "Pedido de 6s tá quase estourando. Essa cebola tá a 50%, é o mais rápido. Preciso de 3 picadas na panela."
+  eventos: tipo=picou quem=Claudete o=cebola
+
+== t56 (1:52) pontos 23 | pedidos: Sopa de cebola(4s), Sopa de cebola(22s), Sopa de cebola(58s)
+  Claudete: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "Peguei a cebola picada! Vou pro fogão 2, bora!"
+     pensa: "Pedido de 4s está quase estourando. Preciso da sopa cozinhando já, e o prato eu pego depois."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, você leva pra panela 2! Eu seguro o prato e espero a sopa ficar pronta."
+     pensa: "Não adianta largar o prato agora. Se eu pegar a cebola da tábua 2 e ele também, a gente trava. Deixa ele fazer a parte dele."
+
+== t57 (1:54) pontos 23 | pedidos: Sopa de cebola(2s), Sopa de cebola(20s), Sopa de cebola(56s)
+  Claudete: ação='pôr cebola picada na panela do fogão 2 (0/3)' → andando
+     fala: "Indo pra panela 2! Bora, a primeira sopa tá expirando!"
+     pensa: "Ele pediu panela 2, então vou nela. Preciso de três cebolas picadas antes que o pedido de 2s estoure."
+  Claudinho: ação='esperar' → None
+     fala: "Claudete, leva essas cebolas pro fogão 2 e não para no meu caminho! Eu seguro o prato pra sopa."
+
+== t58 (1:56) pontos 13 | pedidos: Sopa de cebola(18s), Sopa de cebola(54s)
+  Claudete: ação='pôr cebola picada na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "Fogão 1 tá mais perto, vou nele! Você pega o prato que eu cuido das cebolas."
+     pensa: "O fogão 1 fica a meio segundo do fogão 2. Com 18s no pedido, cada décimo conta. Ele pediu o 2, mas eu explico e sigo."
+  Claudinho: ação='esperar' → None
+     fala: "Segura o fogo, Claudete! Eu fico com o prato pra servir a sopa assim que sair da panela."
+     pensa: "Preciso do prato limpo pra servir. Largar ou jogar fora agora só atrasa a entrega."
+  eventos: tipo=expirou receita=Sopa de cebola id=5; tipo=na_panela quem=Claudete onde=fogão 1 n=1
+
+== t59 (1:58) pontos 13 | pedidos: Sopa de cebola(16s), Sopa de cebola(52s)
+  Claudete: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Eu pego mais cebola! Você fica com o prato, e não deixa a panela queimar!"
+     pensa: "A panela tem pouca cebola picada e o pedido de 16s está correndo. Preciso de três picadas, então começo pela caixa mais perto."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, fico com o prato! Quando a sopa sair do fogão 1, me avisa que eu pego e levo pro passa-prato."
+     pensa: "Largar o prato agora desperdiça a única coisa que serve pra entregar. Vou segurar e esperar a sopa dela."
+
+== t60 (2:00) pontos 13 | pedidos: Sopa de cebola(14s), Sopa de cebola(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Eu fico com o prato e cuido da panela do fogão 1. Traz a cebola!"
+     pensa: "Largar ou jogar esse prato seria perder ponto. Seguro ele e espero a sopa ficar pronta pra servir."
+  Claudete: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Eu pico essa aqui na tábua 2! Você segura o prato e o fogão 1, a gente não pode deixar a sopa queimar."
+     pensa: "Tábua 1 já tem cebola crua esperando. Preciso de três picadas pro pedido de 14s, então é picar já e não perder tempo."
+
+== t61 (2:02) pontos 13 | pedidos: Sopa de cebola(12s), Sopa de cebola(48s)
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato! Vou pro fogão 1 assim que der, não deixa a sopa queimar!"
+     pensa: "Não tenho ação de andar agora, então seguro o prato e espero. Soltar ou jogar fora perderia o prato que a sopa precisa."
+  Claudete: ação='picar cebola na tábua 2' → picando
+     fala: "Tô picando a cebola aqui na tábua 2! Já levo pra panela!"
+     pensa: "Estou em cima da tábua 2, então é a cebola mais rápida. O pedido de 12s tá no fio da navalha, e o Claudinho já tem o prato, falta a cebola picada chegar ao fogão 1."
+
+== t62 (2:04) pontos 13 | pedidos: Sopa de cebola(10s), Sopa de cebola(46s)
+  Claudete: ação='picar cebola na tábua 2' → picou cebola
+     fala: "Eu termino a cebola da tábua 2, você segura o fogão!"
+     pensa: "Pedido de 10s está quase expirando. Preciso de 3 cebolas picadas na panela, e a da tábua 2 já está na metade."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, Claudete! Manda a cebola picada pro fogão 1 que eu fico com o prato pra servir a sopa!"
+     pensa: "Prato na mão é o que falta pra sopa sair. Largar ou jogar fora só perde tempo, então seguro e espero a cebola chegar na panela."
+  eventos: tipo=picou quem=Claudete o=cebola
+
+== t63 (2:06) pontos 13 | pedidos: Sopa de cebola(8s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Claudete: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "Peguei a cebola picada! Indo pro fogão 1, Claudinho, pega o prato!"
+     pensa: "Pedido de 8s tá quase expirando. Preciso da panela cheia com 3 cebolas agora."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, eu vou pro fogão! Manda essa cebola picada logo, o pedido de 8s tá quase estourando!"
+     pensa: "Preciso do prato pra servir a sopa, então não largo. Esperar é o certo agora, e a cebola da tábua 2 tem que chegar à panela já."
+  eventos: tipo=pedido receita=Sopa de tomate id=9
+
+== t64 (2:08) pontos 13 | pedidos: Sopa de cebola(6s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Claudinho: ação='esperar' → None
+     fala: "Já tenho o prato! Vai pro fogão 1, Claudete, a sopa de cebola de 6s não pode expirar!"
+     pensa: "Tenho o prato limpo, então largar ou jogar fora só desperdiça. Melhor esperar e manter o prato pronto pra servir a sopa."
+  Claudete: ação='pôr cebola picada na panela do fogão 1 (1/3)' → andando
+     fala: "Indo pro fogão 1 agora, segura o pedido de 6s!"
+     pensa: "Fogão 1 já tem cebola; se eu encher ele, a sopa de 6s sai antes de expirar. Depois preciso pegar mais cebola pras outras duas."
+
+== t65 (2:10) pontos 13 | pedidos: Sopa de cebola(4s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Claudete: ação='pôr cebola picada na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "Vou colocar no fogão 1, Claudinho! Pega a próxima cebola!"
+     pensa: "A panela do fogão 1 já tem uma cebola; essa é a segunda. O pedido de 4s está quase expirando e a conta precisa fechar agora."
+  Claudinho: ação='esperar' → None
+     fala: "Beleza, segura o pedido de 6s! Eu fico com o prato e pego a sopa quando ficar pronta."
+     pensa: "Sopa de cebola precisa de 3 cebolas e ainda tem só uma na panela. O prato limpo já está na mão, então é só esperar a hora certa."
+  eventos: tipo=na_panela quem=Claudete onde=fogão 1 n=2
+
+== t66 (2:12) pontos 13 | pedidos: Sopa de cebola(2s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o fogão 1, Claudete! Eu fico com o prato e pego a cebola pra terminar essa sopa!"
+     pensa: "Preciso de mais uma cebola picada na panela e o prato já está comigo. O pedido de 2s provavelmente expira, mas a sopa de 38s ainda dá pra salvar. Não largo o prato."
+  Claudete: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "Eu pego cebola pra panela, que tá com 2! Você segura o prato e pega a sopa quando ficar pronta."
+     pensa: "O pedido de 2s já tá perdido. A panela tem 2 cebolas picadas, falta 1 pra sopa de 38s. Vou buscar a cebola agora, mas ela ainda precisa ser picada."
+
+== t67 (2:14) pontos 3 | pedidos: Sopa de cebola(36s), Sopa de tomate(54s)
+  Claudinho: ação='esperar' → None
+     fala: "Segura o prato aí, Claudete! Quando a sopa sair do fogão, eu pego e levo pro passa-prato."
+     pensa: "Ele vai trazer a terceira cebola. Se eu largar o prato agora, perco a sopa de cebola, que ainda tem 36s."
+  Claudete: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "Eu pico a cebola na tábua 2! Você pega o prato, Claudinho, e a gente fecha essa sopa AGORA!"
+     pensa: "Preciso de 3 cebolas picadas no fogão 1 e só tenho 2 no caminho. Esta cebola vai completar a panela, mas o tempo está quase no fim."
+  eventos: tipo=expirou receita=Sopa de cebola id=6
+
+== t68 (2:16) pontos 3 | pedidos: Sopa de cebola(34s), Sopa de tomate(52s)
+  Claudete: ação='picar cebola na tábua 2' → picando
+     fala: "Eu pico a cebola da tábua 2! Fogão 1 já tem duas, falta só uma!"
+     pensa: "Falta uma cebola picada pra sopa ficar pronta. Com 14s, não dá pra errar."
+  Claudinho: ação='esperar' → None
+     fala: "Fechado, Claudete! Pica a terceira cebola que eu fico com o prato. Quando a sopa tiver pronta, eu sirvo e levo pro passa-prato!"
+     pensa: "Já tenho 2 cebolas na panela, falta 1. Segurar o prato é o certo: largar ou jogar fora só me faz perder tempo."
+
+== t69 (2:18) pontos 3 | pedidos: Sopa de cebola(32s), Sopa de tomate(50s)
+  Claudinho: ação='esperar' → None
+     fala: "Boa, Claudete! Pica essa cebola logo que eu seguro o prato pra servir a sopa de cebola."
+     pensa: "Preciso do prato limpo pra servir; largar ou jogar fora perde tempo. Só falta a terceira cebola no fogão 1."
+  Claudete: ação='picar cebola na tábua 2' → picou cebola
+     fala: "Bora, termino essa cebola na tábua 2 agora! Ela já tá na metade."
+     pensa: "A panela do fogão 1 já tem duas cebolas picadas. Essa terceira fecha a sopa de cebola, e o pedido ainda tem 32s."
+  eventos: tipo=picou quem=Claudete o=cebola
+
+== t70 (2:20) pontos 3 | pedidos: Sopa de cebola(30s), Sopa de tomate(48s)
+  Claudinho: ação='esperar' → None
+     fala: "Bora, Claudete, termina essa cebola! Eu seguro o prato pra sopa sair antes do tempo acabar!"
+     pensa: "Dez segundos, duas sopas pendentes e as duas mãos vazias. Não dá pra cuidar de tudo, então prioridade: a cebola da tábua 2 vai pra panela."
+  Claudete: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "Peguei a cebola picada! Bora, falta pouco: panela do fogão 1 agora!"
+     pensa: "Só tenho 10 segundos. Essa cebola é a peça que falta pra sopa; se eu demorar, o pedido expira e perco mais 10 pontos."
+
+== t71 (2:22) pontos 3 | pedidos: Sopa de cebola(28s), Sopa de tomate(46s)
+  Claudinho: ação='esperar' → None
+     fala: "Falta pouco, Claudete! Eu seguro o prato, você cuida da panela do fogão 1."
+     pensa: "Com 8 segundos não dá pra fechar sopa nenhuma. Melhor não gastar movimento à toa."
+  Claudete: ação='pôr cebola picada na panela do fogão 1 (2/3)' → andando
+     fala: "BORA! Fecha a panela com essa cebola, Claudinho, e pega o prato!"
+     pensa: "Com 2/3 já na panela, essa cebola completa a sopa. Preciso ser rápida para não queimar nem perder o pedido."
+
+== t72 (2:24) pontos 3 | pedidos: Sopa de cebola(26s), Sopa de tomate(44s), Sopa de tomate(62s)
+  Claudinho: ação='esperar' → None
+     fala: "Já tô com o prato! Bota a cebola na panela e eu pego a sopa quando ficar pronta!"
+     pensa: "Não tenho ação de ir ao fogão agora, então seguro o prato e espero o Claudete fechar a panela. Restam 6s e a sopa de cebola ainda dá tempo."
+  Claudete: ação='pôr cebola picada na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "Coloquei! Panela 1 com 3 cebolas, vai cozinhar. Pega o prato que já tá na mão!"
+     pensa: "Fogão 1 já tem 2 cebolas; a terceira fecha a sopa agora. Sopa de cebola (26s) é a mais urgente, e o tempo tá acabando."
+  eventos: tipo=pedido receita=Sopa de tomate id=10; tipo=na_panela quem=Claudete onde=fogão 1 n=3
+
+== t73 (2:26) pontos 3 | pedidos: Sopa de cebola(24s), Sopa de tomate(42s), Sopa de tomate(60s)
+  Claudinho: ação='esperar' → None
+     fala: "Tô com o prato na mão! Quando a sopa ficar pronta, eu pego."
+     pensa: "Prato já é meu, então é só esperar a panela 1 terminar. Largar ou jogar fora perde tempo."
+  Claudete: ação='esperar' → None
+     fala: "Beleza! Eu fico de olho na panela. Quando ficar pronta, tu pega a sopa, mas não deixa queimar!"
+     pensa: "Faltam 4s e a sopa já está no fogo. Pegar mais ingrediente não sai a tempo, então o melhor é segurar o fogo e garantir a entrega."
+
+== t74 (2:28) pontos 3 | pedidos: Sopa de cebola(22s), Sopa de tomate(40s), Sopa de tomate(58s)
+  Claudete: ação='esperar' → None
+     fala: "Falta 2 segundos! Fica de olho na panela, se ficar pronta eu sirvo!"
+     pensa: "Não dá tempo de pegar mais nada. Se a sopa ficar pronta agora, quem serve é o Claudinho com o prato que já tem na mão."
+  Claudinho: ação='esperar' → None
+     fala: "FALTA 2 SEGUNDOS! Segura o prato, eu vou em direção ao fogão 1!"
+     pensa: "Não dá tempo de servir nada agora. Melhor manter o prato na mão e não perder tempo largando ou jogando fora."

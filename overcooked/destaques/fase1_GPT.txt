@@ -1,0 +1,648 @@
+COZINHA GPT · fase v1 (versus) · chefs: Gepeto (GPT), Gepeta (GPT)
+
+== t0 (0:00) pontos 0 | pedidos: Sopa de tomate(62s), Sopa de tomate(62s)
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "EU PEGO OS TOMATES; VOCÊ PICOTA E COLOCA NA PANELA!"
+     pensa: "Começar imediatamente com tomates."
+  Gepeta: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Gepeto]
+     fala: "VOU FAZER A PRIMEIRA SOPA; PEGA TOMATES E LEVA PRA OUTRA TÁBUA!"
+     pensa: "Começo pegando tomate e priorizo uma panela."
+  eventos: tipo=pedido receita=Sopa de tomate id=1; tipo=pedido receita=Sopa de tomate id=2; tipo=esbarrao quem=Gepeta por=Gepeto
+
+== t1 (0:02) pontos 0 | pedidos: Sopa de tomate(60s), Sopa de tomate(60s)
+  Gepeto: ação='pôr tomate cru na tábua 2 para picar' → largou em tábua 2
+     fala: "LEVO ESTE PRA TÁBUA 2; BUSCA MAIS TRÊS TOMATES!"
+     pensa: "Coloco rápido na outra tábua para Gepeta picar."
+  Gepeta: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGA OS OUTROS; EU JÁ LEVO ESTE PRA TÁBUA!"
+     pensa: "Preciso garantir tomates e começar a picar."
+
+== t2 (0:04) pontos 0 | pedidos: Sopa de tomate(58s), Sopa de tomate(58s)
+  Gepeta: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "PICO ESTE! VOCÊ BUSCA OS OUTROS TRÊS!"
+     pensa: "Dividir as tábuas acelera a primeira sopa."
+  Gepeto: ação='picar tomate na tábua 2' → picando
+     fala: "PICO ESTE! VOCÊ LEVA O SEU PRA PANELA DEPOIS."
+     pensa: "Garantir dois tomates picados rapidamente; ainda faltará um para cada sopa."
+
+== t3 (0:06) pontos 0 | pedidos: Sopa de tomate(56s), Sopa de tomate(56s)
+  Gepeta: ação='picar tomate na tábua 1' → picando
+     fala: "PICO NA TÁBUA 1; DEPOIS LEVO PRA PANELA!"
+     pensa: "Vou completar três tomates enquanto Gepeto termina o outro."
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "BUSCO OS TRÊS TOMATES! VOCÊ TERMINA ESSE E PICA O DA TÁBUA 1!"
+     pensa: "Vou trazer tomates rápido para completar as duas sopas."
+
+== t4 (0:08) pontos 0 | pedidos: Sopa de tomate(54s), Sopa de tomate(54s)
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 2)' → largou em bancada 2
+     fala: "TOMATE NA BANCADA 2! PEGA E PICA, EU BUSCO MAIS!"
+     pensa: "Deixo o tomate acessível para acelerar a segunda sopa."
+  Gepeta: ação='picar tomate na tábua 1' → picou tomate
+     fala: "PICO A TÁBUA 1! VOCÊ TRAZ OS OUTROS TRÊS!"
+     pensa: "Finalizo este tomate para acelerar a primeira panela."
+  eventos: tipo=picou quem=Gepeta o=tomate
+
+== t5 (0:10) pontos 0 | pedidos: Sopa de tomate(52s), Sopa de tomate(52s)
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "LEVO TOMATE PRA TÁBUA 1!"
+     pensa: "Buscar o próximo tomate para Gepeta picar."
+  Gepeta: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGUEI O TOMATE PICADO! VOU LEVAR PRA PANELA!"
+     pensa: "Acelerar: já há um tomate pronto."
+
+== t6 (0:12) pontos 0 | pedidos: Sopa de tomate(50s), Sopa de tomate(50s)
+  Gepeta: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "MANDA ESSE TOMATE PRA PANELA 1! EU COMPLETO OS TRÊS!"
+     pensa: "Começar a primeira sopa agora; precisamos evitar o gargalo da tábua."
+  Gepeto: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "PEGA ESSE TOMATE E PICA! EU BUSCO MAIS UM."
+     pensa: "Acelerar a segunda sopa enquanto Gepeta leva o primeiro tomate à panela."
+  eventos: tipo=na_panela quem=Gepeta onde=fogão 1 n=1
+
+== t7 (0:14) pontos 0 | pedidos: Sopa de tomate(48s), Sopa de tomate(48s)
+  Gepeta: ação='picar tomate na tábua 1' → andando [BLOQUEADO por Gepeto]
+     fala: "PICANDO! VOCÊ BUSCA MAIS TOMATES E DEIXA A PANELA NO FOGO!"
+     pensa: "Acelerar para completar a primeira sopa."
+  Gepeto: ação='picar tomate na tábua 1' → picando
+     fala: "PICANDO UM! VOCÊ COMPLETA A PANELA 1!"
+     pensa: "Acelerar a primeira sopa."
+  eventos: tipo=esbarrao quem=Gepeta por=Gepeto
+
+== t8 (0:16) pontos 0 | pedidos: Sopa de tomate(46s), Sopa de tomate(46s)
+  Gepeta: ação='picar tomate na tábua 1' → andando [BLOQUEADO por Gepeto]
+     fala: "VOU TERMINAR ESSE TOMATE E COMPLETAR A PANELA 1!"
+     pensa: "Acelerar a primeira sopa antes que queime."
+  Gepeto: ação='picar tomate na tábua 1' → picou tomate
+     fala: "PICANDO ESTE; VOCÊ BUSCA OS TOMATES!"
+     pensa: "Completar o tomate agora para alimentar a panela."
+  eventos: tipo=esbarrao quem=Gepeta por=Gepeto; tipo=picou quem=Gepeto o=tomate
+
+== t9 (0:18) pontos 0 | pedidos: Sopa de tomate(44s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gepeta: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGANDO TOMATES! NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Vou abastecer a sopa de tomate rapidamente."
+  Gepeto: ação='pegar tomate na caixa de tomate' → andando [BLOQUEADO por Gepeta]
+     fala: "EU PEGO TOMATE PRA SEGUNDA SOPA!"
+     pensa: "Garantir os tomates enquanto Gepeta fecha a panela 1."
+  eventos: tipo=pedido receita=Sopa de cebola id=3; tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t10 (0:20) pontos 0 | pedidos: Sopa de tomate(42s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gepeta: ação='largar tomate cru na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "DEIXEI O TOMATE NA BANCADA 3! PEGA E PICA PRA PRIMEIRA SOPA!"
+     pensa: "Libero minhas mãos sem bloquear o caminho."
+  Gepeto: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGA TOMATES; EU CARREGO E CUIDO DAS PANELAS!"
+     pensa: "Vou completar a primeira sopa de tomate rapidamente."
+
+== t11 (0:22) pontos 0 | pedidos: Sopa de tomate(40s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gepeta: ação='pegar tomate cru da bancada 3' → pegou tomate cru
+     fala: "PEGANDO TOMATE PRA COMPLETAR A SOPA!"
+     pensa: "Vou abastecer a próxima leva de tomate."
+  Gepeto: ação='pôr tomate picado na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "COLOQUEI O PRIMEIRO! PEGA E PICA MAIS DOIS TOMATES PRA SOPA!"
+     pensa: "A panela já começou; preciso acelerar os próximos dois."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 1 n=2
+
+== t12 (0:24) pontos 0 | pedidos: Sopa de tomate(38s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Gepeta: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "PICO ESTE TOMATE; NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Vou completar a panela rapidamente."
+  Gepeto: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "EU PEGO O PRATO; VOCÊ COMPLETA E VIGIA A SOPA DE TOMATE!"
+     pensa: "Preparar o prato para entregar assim que cozinhar."
+
+== t13 (0:26) pontos 0 | pedidos: Sopa de tomate(36s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Gepeta: ação='picar tomate na tábua 1' → picando
+     fala: "VOU COMPLETAR A SOPA DE TOMATE; FICA FORA DO MEU CAMINHO!"
+     pensa: "Falta um tomate picado para fechar a panela."
+  Gepeto: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "DEIXO O PRATO NA BANCADA; TERMINA ESSE TOMATE E EU LEVO!"
+     pensa: "Não desperdiço o prato; preciso liberar as mãos."
+
+== t14 (0:28) pontos 0 | pedidos: Sopa de tomate(34s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "EU FAÇO A SOPA DE CEBOLA! NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Garantir a cebola enquanto Gepeta termina tomate."
+  Gepeta: ação='picar tomate na tábua 1' → picou tomate
+     fala: "TERMINANDO O TOMATE! DEPOIS LEVA A PANELA E ENTREGA!"
+     pensa: "Completar o terceiro tomate da panela para liberar a sopa."
+  eventos: tipo=picou quem=Gepeta o=tomate
+
+== t15 (0:30) pontos 0 | pedidos: Sopa de tomate(32s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "DEIXO A CEBOLA NA BANCADA 3! FINALIZA O TOMATE E ENTREGA!"
+     pensa: "Libero as mãos e evito bloquear a passagem."
+  Gepeta: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "VOU FECHAR OS TOMATES; DEIXA A PASSAGEM LIVRE!"
+     pensa: "Pegar o tomate pronto e completar a panela rapidamente."
+
+== t16 (0:32) pontos 0 | pedidos: Sopa de tomate(30s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Gepeta: ação='pôr tomate picado na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "TOMATE COMPLETO! PEGA UM PRATO E FICA NO PASSA-PRATO!"
+     pensa: "Completo a panela agora; ele deve cuidar do serviço enquanto busco mais tomates."
+  Gepeto: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "PEGO AS CEBOLAS! LIBERA A TÁBUA 2 DEPOIS DOS TOMATES!"
+     pensa: "Vou iniciar a sopa de cebola enquanto Gepeta fecha os tomates."
+  eventos: tipo=na_panela quem=Gepeta onde=fogão 1 n=3
+
+== t17 (0:34) pontos 0 | pedidos: Sopa de tomate(28s), Sopa de tomate(28s), Sopa de cebola(46s)
+  Gepeta: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "VOU PEGAR O PRATO E SERVIR A SOPA DE TOMATE!"
+     pensa: "Prioridade é entregar a sopa pronta antes de queimar."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "ENTREGA A SOPA DE TOMATE! VOU PREPARAR A CEBOLA."
+     pensa: "Libero as mãos e priorizo a entrega urgente."
+
+== t18 (0:36) pontos 0 | pedidos: Sopa de tomate(26s), Sopa de tomate(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGO TOMATE PRA PRÓXIMA SOPA! NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Acelerar a segunda sopa de tomate antes dos pedidos expirarem."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "VOU BUSCAR A SOPA DE TOMATE; NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Libero as mãos para entregar a sopa assim que ficar pronta."
+  eventos: tipo=pedido receita=Sopa de tomate id=4
+
+== t19 (0:38) pontos 0 | pedidos: Sopa de tomate(24s), Sopa de tomate(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Gepeto: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "VOU PICAR ESTE TOMATE; PASSAGEM LIVRE PRA VOCÊ!"
+     pensa: "Começar outra sopa de tomate enquanto ele entrega a primeira."
+  Gepeta: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "VOU PEGAR O PRATO E SERVIR A SOPA ASSIM QUE FICAR PRONTA!"
+     pensa: "Prioridade: preparar entrega da sopa de tomate que está cozinhando."
+  eventos: tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de tomate)
+
+== t20 (0:40) pontos 0 | pedidos: Sopa de tomate(22s), Sopa de tomate(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Gepeto: ação='picar tomate na tábua 1' → picando
+     fala: "GEPETA, PEGA A PANELA PRONTA E ENTREGA AGORA! EU PICO TOMATE PRA PRÓXIMA."
+     pensa: "Ele está perto da entrega; preciso acelerar a próxima sopa."
+  Gepeta: ação='servir sopa de tomate do fogão 1 no prato' → serviu no prato
+     fala: "VOU SERVIR A SOPA PRONTA!"
+     pensa: "Prioridade: evitar queimar e entregar imediatamente."
+  eventos: tipo=serviu quem=Gepeta onde=fogão 1
+
+== t21 (0:42) pontos 22 | pedidos: Sopa de tomate(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Gepeto: ação='picar tomate na tábua 1' → picou tomate
+     fala: "VOCÊ SERVE! EU TERMINO O PRÓXIMO TOMATE!"
+     pensa: "Aproveitar a tábua já meio picada enquanto Gepeta entrega."
+  Gepeta: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "ENTREGANDO AGORA! SEGURA A PRÓXIMA PANELA!"
+     pensa: "Prioridade é salvar o pedido prestes a queimar."
+  eventos: tipo=picou quem=Gepeto o=tomate; tipo=entregou quem=Gepeta receita=Sopa de tomate pontos=22 gorjeta=2
+
+== t22 (0:44) pontos 22 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Gepeta: ação='picar tomate na tábua 2' → andando
+     fala: "TERMINO ESSE TOMATE E VOCÊ PEGA O PRÓXIMO PRATO!"
+     pensa: "Acelerar o próximo pedido de tomate antes do prazo."
+  Gepeto: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "VOU LEVAR O PRIMEIRO TOMATE PRA PANELA! PREPARA O FOGÃO!"
+     pensa: "Pedido de tomate expira em 18s; pego o ingrediente pronto agora."
+
+== t23 (0:46) pontos 22 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Gepeta: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGO TOMATE! VOCÊ LEVA PRA PANELA E NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Acelerar a segunda sopa de tomate antes do prazo."
+  Gepeto: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "COLOCO O PRIMEIRO TOMATE; PEGUE MAIS DOIS PRA PANELA 1!"
+     pensa: "Priorizar a sopa com 16 segundos restantes."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 1 n=1
+
+== t24 (0:48) pontos 22 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de tomate(50s)
+  Gepeta: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "VOU PICAR ESTE TOMATE; PEGUE O PRÓXIMO!"
+     pensa: "Priorizar a próxima sopa de tomate."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "EU PEGO CEBOLA E LEVO PRA TÁBUA; MANTÉM TOMATE NO FOGÃO!"
+     pensa: "A sopa de tomate já saiu; adianto a cebola antes do próximo prazo."
+
+== t25 (0:50) pontos 22 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de tomate(48s)
+  Gepeta: ação='picar tomate na tábua 2' → picou tomate
+     fala: "TERMINA ESSE TOMATE AGORA, EU GARANTO A SOPA URGENTE!"
+     pensa: "A sopa de tomate está no limite; preciso completar os tomates rápido."
+  Gepeto: ação='largar cebola crua na bancada livre mais perto (bancada 4)' → largou em bancada 4
+     fala: "DEIXEI A CEBOLA NA BANCADA 4! FOCA NOS TOMATES!"
+     pensa: "Libero as mãos e preservo a cebola para a próxima sopa."
+  eventos: tipo=picou quem=Gepeta o=tomate
+
+== t26 (0:52) pontos 22 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de tomate(46s)
+  Gepeto: ação='pegar tomate picado da tábua 2' → andando [BLOQUEADO por Gepeta]
+     fala: "PEGO O TOMATE PICADO! PREPARA A PANELA!"
+     pensa: "A sopa urgente precisa avançar agora."
+  Gepeta: ação='pegar tomate picado da tábua 2' → pegou tomate picado
+     fala: "PEGANDO O TOMATE PICADO! PREPARA A PANELA!"
+     pensa: "Priorizar o pedido de tomate que expira em 10 segundos."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t27 (0:54) pontos 22 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gepeta: ação='pôr tomate picado na panela do fogão 1 (1/3)' → andando
+     fala: "PEGA E PICA MAIS DOIS TOMATES PRA PANELA 1!"
+     pensa: "Acelerar a próxima sopa de tomate antes de expirar."
+  Gepeto: ação='picar tomate na tábua 1' → picando
+     fala: "EU PICO O TOMATE! GE esta pan­ela!"
+     pensa: "Preparar o próximo tomate antes que expire."
+  eventos: tipo=pedido receita=Sopa de cebola id=5
+
+== t28 (0:56) pontos 22 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gepeto: ação='picar tomate na tábua 1' → picou tomate
+     fala: "FINALIZO ESTE TOMATE E JÁ BUSCO OUTRO!"
+     pensa: "Prioridade absoluta: completar os três tomates da panela 1 antes de expirar."
+  Gepeta: ação='pôr tomate picado na panela do fogão 1 (1/3)' → pôs na panela (2)
+     fala: "VOU COMPLETAR O TOMATE! PEGA MAIS UM TOMATE E PICA!"
+     pensa: "Adicionar agora para deixar a panela com 2 de 3."
+  eventos: tipo=picou quem=Gepeto o=tomate; tipo=na_panela quem=Gepeta onde=fogão 1 n=2
+
+== t29 (0:58) pontos 22 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gepeta: ação='pegar cebola crua da bancada 4' → pegou cebola crua
+     fala: "PEGO A CEBOLA; VOCÊ FINALIZA O TOMATE!"
+     pensa: "Garantir o próximo lote de sopa de cebola."
+  Gepeto: ação='pegar tomate cru da bancada 2' → pegou tomate cru
+     fala: "PEGO O TOMATE, PICO E COMPLETO!"
+     pensa: "Prioridade: salvar a sopa de tomate quase expirando."
+
+== t30 (1:00) pontos 22 | pedidos: Sopa de tomate(2s), Sopa de cebola(20s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Gepeta: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "PICO A CEBOLA! VOCÊ CUIDA DO TOMATE E ENTREGA!"
+     pensa: "Priorizar a sopa de cebola dos 20 segundos."
+  Gepeto: ação='pôr tomate cru na tábua 2 para picar' → andando [BLOQUEADO por Gepeta]
+     fala: "VOU PICAR ESTE TOMATE; PREPARA A PRÓXIMA PANELA!"
+     pensa: "Garantir os tomates da próxima sopa."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t31 (1:02) pontos 12 | pedidos: Sopa de cebola(18s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Gepeta: ação='picar cebola na tábua 2' → picando
+     fala: "PICO ESTA CEBOLA! GEPETO, TERMINE O TOMATE E LEVE À PANELA!"
+     pensa: "Priorizar a sopa de cebola mais urgente."
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "DEIXEI O TOMATE NA BANCADA 9! TERMINA A CEBOLA E LIBERA A TÁBUA!"
+     pensa: "Organizo o tomate para picar depois; agora não posso perder as sopas de cebola."
+  eventos: tipo=expirou receita=Sopa de tomate id=2
+
+== t32 (1:04) pontos 12 | pedidos: Sopa de cebola(16s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Gepeto: ação='picar cebola na tábua 2' → andando [BLOQUEADO por Gepeta]
+     fala: "TERMINO ESSA CEBOLA E LEVO À PANELA!"
+     pensa: "Prioridade é fechar a sopa de cebola antes de expirar."
+  Gepeta: ação='picar cebola na tábua 2' → picou cebola
+     fala: "TERMINANDO A CEBOLA! PEGA OUTRA E LIBERA A TÁBUA!"
+     pensa: "Preciso concluir esta cebola urgente."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta; tipo=picou quem=Gepeta o=cebola
+
+== t33 (1:06) pontos 12 | pedidos: Sopa de cebola(14s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Gepeto: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "PEGUEI OUTRA CEBOLA! LIBERA A TÁBUA E CORRE PRA PANELA!"
+     pensa: "Prioridade é fechar a sopa de cebola urgente."
+  Gepeta: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "PEGO ESSA CEBOLA E LEVO PRA PANELA!"
+     pensa: "A sopa de cebola está no limite; preciso liberar a tábua e completar a panela."
+
+== t34 (1:08) pontos 12 | pedidos: Sopa de cebola(12s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Gepeta: ação='pôr cebola picada na panela do fogão 1 (2/3)' → andando
+     fala: "VOU COMPLETAR A SOPA DE CEBOLA NO FOGÃO 1! PEGA MAIS UMA CEBOLA PICADA!"
+     pensa: "A sopa urgente precisa de uma terceira cebola agora."
+  Gepeto: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "LEVA ESSA CEBOLA PRA PANELA 2, EU JÁ PICO OUTRA!"
+     pensa: "Prioridade: completar a sopa de cebola urgente."
+
+== t35 (1:10) pontos 12 | pedidos: Sopa de cebola(10s), Sopa de tomate(28s), Sopa de cebola(46s)
+  Gepeto: ação='picar cebola na tábua 2' → picando
+     fala: "PICANDO A CEBOLA AGORA! LEVA PRA PANELA 1!"
+     pensa: "Salvar a sopa urgente antes que expire."
+  Gepeta: ação='pôr cebola picada na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "VAI PRA PANELA 2! PICA MAIS DUAS CEBOLAS AGORA!"
+     pensa: "Salvar o pedido de cebola quase expirando."
+  eventos: tipo=na_panela quem=Gepeta onde=fogão 2 n=1
+
+== t36 (1:12) pontos 12 | pedidos: Sopa de cebola(8s), Sopa de tomate(26s), Sopa de cebola(44s), Sopa de cebola(62s)
+  Gepeto: ação='picar cebola na tábua 2' → picou cebola
+     fala: "PICANDO A CEBOLA! DEIXA A PANELA 2 LIVRE!"
+     pensa: "Terminar esta cebola é a única chance do pedido urgente."
+  Gepeta: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "PEGA ESSA CEBOLA E PICAMOS RÁPIDO! NÃO DEIXA A SOPA QUEIMAR!"
+     pensa: "Garantir cebolas para completar a panela 2 e salvar o pedido urgente."
+  eventos: tipo=pedido receita=Sopa de cebola id=6; tipo=picou quem=Gepeto o=cebola
+
+== t37 (1:14) pontos 12 | pedidos: Sopa de cebola(6s), Sopa de tomate(24s), Sopa de cebola(42s), Sopa de cebola(60s)
+  Gepeta: ação='largar cebola crua na bancada livre mais perto (bancada 3)' → largou em bancada 3
+     fala: "DEIXEI A CEBOLA NA BANCADA 3! PEGA E PICA PRA FECHAR A SOPA!"
+     pensa: "Salvando a cebola para acelerar os próximos pedidos."
+  Gepeto: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "PEGO ESSA CEBOLA! LEVA A OUTRA PRA TÁBUA E CORRE COM A PANELA!"
+     pensa: "Salvar a sopa de cebola urgente."
+
+== t38 (1:16) pontos 12 | pedidos: Sopa de cebola(4s), Sopa de tomate(22s), Sopa de cebola(40s), Sopa de cebola(58s)
+  Gepeta: ação='pegar cebola crua da bancada 3' → pegou cebola crua
+     fala: "EU LEVO OUTRA CEBOLA PRA TÁBUA 2!"
+     pensa: "Garantir a próxima sopa de cebola antes que expire."
+  Gepeto: ação='pôr cebola picada na panela do fogão 2 (1/3)' → andando
+     fala: "FECHA A SOPA DE CEBOLA AGORA!"
+     pensa: "Adicionar à panela 2 é o melhor caminho para completar a sopa urgente."
+
+== t39 (1:18) pontos 12 | pedidos: Sopa de cebola(2s), Sopa de tomate(20s), Sopa de cebola(38s), Sopa de cebola(56s)
+  Gepeto: ação='pôr cebola picada na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "EU COLOCO A CEBOLA NA PANELA 2! TRAZ MAIS DUAS CEBOLAS PICADAS, RÁPIDO!"
+     pensa: "A sopa quase expirou; preciso completar a panela imediatamente."
+  Gepeta: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "PICANDO A TERCEIRA! CORRE COM A PANELA!"
+     pensa: "A entrega já está quase perdida; preciso completar a próxima sopa."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 2 n=2
+
+== t40 (1:20) pontos 2 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de cebola(54s)
+  Gepeta: ação='picar cebola na tábua 2' → picando
+     fala: "PICANDO A TERCEIRA CEBOLA! SEGURA A PANELA 2 E SERVE ASSIM QUE FICAR PRONTA!"
+     pensa: "Completar a sopa de cebola rápido."
+  Gepeto: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "LEVO O TERCEIRO TOMATE! SEGURA A PANELA!"
+     pensa: "Completar a sopa de tomate antes que queime."
+  eventos: tipo=expirou receita=Sopa de cebola id=3
+
+== t41 (1:22) pontos 2 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de cebola(52s)
+  Gepeto: ação='pôr tomate picado na panela do fogão 1 (2/3)' → pôs na panela (3)
+     fala: "COLOCO O TERCEIRO TOMATE! DESOBSTRUI O CAMINHO E CUIDA DA PANELA 2!"
+     pensa: "Fechar a sopa de tomate ainda pode render pontos."
+  Gepeta: ação='picar cebola na tábua 2' → picou cebola
+     fala: "TERMINO ESSA CEBOLA; VOCÊ LEVA PRA PANELA!"
+     pensa: "Finalizar a cebola é a melhor chance de salvar o próximo pedido."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 1 n=3; tipo=picou quem=Gepeta o=cebola
+
+== t42 (1:24) pontos 2 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de cebola(50s)
+  Gepeto: ação='pegar cebola picada da tábua 2' → andando [BLOQUEADO por Gepeta]
+     fala: "PEGO ESSA CEBOLA E LEVO PRA PANELA 2!"
+     pensa: "Completar a sopa de cebola é a prioridade."
+  Gepeta: ação='pegar cebola picada da tábua 2' → pegou cebola picada
+     fala: "VOU COMPLETAR A PANELA 2! PREPARA O PRATO!"
+     pensa: "Pegar a cebola agora é essencial para salvar a próxima sopa."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t43 (1:26) pontos 2 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de cebola(48s)
+  Gepeta: ação='pôr cebola picada na panela do fogão 2 (2/3)' → andando
+     fala: "COLOQUEI A TERCEIRA! PEGA A SOPA DE CEBOLA ASSIM QUE FICAR PRONTA!"
+     pensa: "Fechar a panela agora; ainda dá para salvar os dois pedidos de cebola."
+  Gepeto: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "PEGANDO O PRATO! DEIXA A PANELA 2 PRONTA E NÃO BLOQUEIA A PASSAGEM!"
+     pensa: "Priorizar servir a cebola antes que expire."
+
+== t44 (1:28) pontos 2 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de cebola(46s)
+  Gepeta: ação='pôr cebola picada na panela do fogão 2 (2/3)' → pôs na panela (3)
+     fala: "COMPLETO A PANELA 2! PEGA O PRATO E FICA NO PASSA-PRATO!"
+     pensa: "Mais uma cebola e deixo cozinhar."
+  Gepeto: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "PEGO O PRATO E SIRVO A SOPA DE CEBOLA! ABRE CAMINHO!"
+     pensa: "Priorizar a sopa de cebola antes que expire."
+  eventos: tipo=na_panela quem=Gepeta onde=fogão 2 n=3; tipo=pronto onde=fogão 1 o=panela PRONTA (sopa de tomate)
+
+== t45 (1:30) pontos 2 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Gepeto: ação='servir sopa de tomate do fogão 1 no prato' → serviu no prato
+     fala: "SERVINDO TOMATE! PEGA NO PASSA-PRATO AGORA!"
+     pensa: "Salvar esse pedido antes que queime."
+  Gepeta: ação='pegar panela PRONTA (sopa de tomate) do fogão 1' → andando [BLOQUEADO por Gepeto]
+     fala: "PEGO A SOPA DE TOMATE! VOCÊ SERVE A CEBOLA!"
+     pensa: "Salvar a sopa pronta antes que queime."
+  eventos: tipo=pedido receita=Sopa de tomate id=7; tipo=serviu quem=Gepeto onde=fogão 1; tipo=esbarrao quem=Gepeta por=Gepeto
+
+== t46 (1:32) pontos 24 | pedidos: Sopa de cebola(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Gepeto: ação='ENTREGAR prato com sopa de tomate no passa-prato' → entregou Sopa de tomate
+     fala: "ENTREGANDO TOMATE AGORA! PEGA A CEBOLA E NÃO BLOQUEIA!"
+     pensa: "Salvar o pedido antes que expire."
+  Gepeta: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "ENTREGA O TOMATE, EU PEGO PRATO PRA CEBOLA!"
+     pensa: "Garantir o prato enquanto ele entrega."
+  eventos: tipo=entregou quem=Gepeto receita=Sopa de tomate pontos=22 gorjeta=2
+
+== t47 (1:34) pontos 24 | pedidos: Sopa de cebola(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Gepeto: ação='pegar tomate na caixa de tomate' → pegou tomate
+     fala: "PEGA A SOPA DE CEBOLA PRONTA E ENTREGA AGORA! EU FAÇO O TOMATE."
+     pensa: "Priorizar o tomate enquanto Gepeta salva a panela pronta."
+  Gepeta: ação='esperar' → None
+     fala: "PEGA A SOPA DE CEBOLA PRONTA AGORA!"
+     pensa: "Não largo o prato; Gepeto precisa entregar a panela pronta."
+  eventos: tipo=pronto onde=fogão 2 o=panela PRONTA (sopa de cebola)
+
+== t48 (1:36) pontos 24 | pedidos: Sopa de cebola(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Gepeto: ação='pôr tomate cru na tábua 1 para picar' → largou em tábua 1
+     fala: "SERVE A SOPA DE CEBOLA AGORA! EU COMEÇO O TOMATE!"
+     pensa: "Preciso liberar as mãos e adiantar a próxima sopa."
+  Gepeta: ação='servir sopa de cebola do fogão 2 no prato' → serviu no prato
+     fala: "PEGANDO A SOPA! ABRE O PASSA-PRATO!"
+     pensa: "Salvar a sopa antes que queime."
+  eventos: tipo=serviu quem=Gepeta onde=fogão 2
+
+== t49 (1:38) pontos 46 | pedidos: Sopa de cebola(36s), Sopa de tomate(54s)
+  Gepeto: ação='picar tomate na tábua 1' → picando
+     fala: "ENTREGA ESSA SOPA AGORA! VOU PICAR TOMATE."
+     pensa: "Preparar tomate enquanto Gepeta entrega a sopa."
+  Gepeta: ação='ENTREGAR prato com sopa de cebola no passa-prato' → entregou Sopa de cebola
+     fala: "ENTREGANDO A SOPA DE CEBOLA!"
+     pensa: "Prioridade é entregar antes de queimar."
+  eventos: tipo=entregou quem=Gepeta receita=Sopa de cebola pontos=22 gorjeta=2
+
+== t50 (1:40) pontos 46 | pedidos: Sopa de cebola(34s), Sopa de tomate(52s)
+  Gepeta: ação='esperar' → None
+     fala: "TUDO ENTREGUE! VAMOS SEGURAR A COZINHA."
+     pensa: "As duas sopas foram entregues; aguardo novos pedidos."
+  Gepeto: ação='picar tomate na tábua 1' → picou tomate
+     fala: "BOA, AS DUAS SOPAS SAÍRAM! VOU ADIANTAR O PRÓXIMO TOMATE."
+     pensa: "Terminar o tomate já meio picado pode preparar o próximo pedido."
+  eventos: tipo=picou quem=Gepeto o=tomate
+
+== t51 (1:42) pontos 46 | pedidos: Sopa de cebola(32s), Sopa de tomate(50s)
+  Gepeto: ação='esperar' → None
+     fala: "BOA! COZINHA SEGURA, VAMOS SEGURAR!"
+     pensa: "Pedidos entregues; não vale arriscar."
+  Gepeta: ação='pegar tomate picado da tábua 1' → andando [BLOQUEADO por Gepeto]
+     fala: "PEGO O TOMATE PICADO E LEVO PRA PANELA; VOCÊ ADIANTA MAIS DOIS!"
+     pensa: "Garantir a próxima sopa antes que a panela queime."
+  eventos: tipo=esbarrao quem=Gepeta por=Gepeto
+
+== t52 (1:44) pontos 46 | pedidos: Sopa de cebola(30s), Sopa de tomate(48s)
+  Gepeto: ação='pegar tomate picado da tábua 1' → pegou tomate picado
+     fala: "PEGO O TOMATE PICADO! VOU ADIANTAR A PRÓXIMA SOPA!"
+     pensa: "Vou manter o fluxo e não deixar ingrediente parado."
+  Gepeta: ação='pegar tomate picado da tábua 1' → andando [BLOQUEADO por Gepeto]
+     fala: "VOU LEVAR TOMATE PRA PANELA! NÃO BLOQUEIA!"
+     pensa: "Garantir estoque de tomate picado para o próximo pedido."
+  eventos: tipo=esbarrao quem=Gepeta por=Gepeto
+
+== t53 (1:46) pontos 46 | pedidos: Sopa de cebola(28s), Sopa de tomate(46s)
+  Gepeto: ação='pôr tomate picado na panela do fogão 1 (0/3)' → pôs na panela (1)
+     fala: "VOU RECOMEÇAR TOMATE NO FOGÃO 1!"
+     pensa: "Adianto a próxima sopa de tomate."
+  Gepeta: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "PEGO CEBOLA! GEPETO, NÃO BLOQUEIA A TÁBUA!"
+     pensa: "A sopa de cebola vence primeiro; vou acelerar essa produção."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 1 n=1
+
+== t54 (1:48) pontos 46 | pedidos: Sopa de cebola(26s), Sopa de tomate(44s), Sopa de cebola(62s)
+  Gepeto: ação='pegar cebola na caixa de cebola' → andando [BLOQUEADO por Gepeta]
+     fala: "PEGA A TÁBUA 1, EU TRAGO MAIS CEBOLA!"
+     pensa: "Acelerar a próxima sopa de cebola antes do prazo."
+  Gepeta: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "EU PICO A CEBOLA; VOCÊ CUIDA DO TOMATE E DAS PANELAS!"
+     pensa: "Preparar a próxima sopa de cebola enquanto ele finaliza o tomate."
+  eventos: tipo=pedido receita=Sopa de cebola id=8; tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t55 (1:50) pontos 46 | pedidos: Sopa de cebola(24s), Sopa de tomate(42s), Sopa de cebola(60s)
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "VOU PEGAR CEBOLA PRA ACELERAR A TERCEIRA SOPA!"
+     pensa: "A sopa de cebola é a próxima prioridade; vou abastecer a tábua."
+  Gepeta: ação='picar cebola na tábua 1' → picando
+     fala: "PICANDO A CEBOLA! TRAZ MAIS UMA PRA TÁBUA 2!"
+     pensa: "Priorizar a sopa de cebola antes que expire."
+
+== t56 (1:52) pontos 46 | pedidos: Sopa de cebola(22s), Sopa de tomate(40s), Sopa de cebola(58s)
+  Gepeta: ação='picar cebola na tábua 1' → picou cebola
+     fala: "GE PETO, SIRVA A SOPA PRONTA AGORA! EU TERMINO A CEBOLA!"
+     pensa: "Priorizar a sopa de cebola com prazo curto."
+  Gepeto: ação='pôr cebola crua na tábua 2 para picar' → largou em tábua 2
+     fala: "DEIXEI NA TÁBUA 2! TERMINA A DA TÁBUA 1 E CORRE PRA PICAR ESSA!"
+     pensa: "Acelerar a próxima sopa de cebola antes do prazo."
+  eventos: tipo=picou quem=Gepeta o=cebola
+
+== t57 (1:54) pontos 46 | pedidos: Sopa de cebola(20s), Sopa de tomate(38s), Sopa de cebola(56s)
+  Gepeta: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "PEGUEI A CEBOLA DA TÁBUA 1! LIBERA O CAMINHO PRA PANELA!"
+     pensa: "Levar esta cebola à panela e depois finalizar a próxima."
+  Gepeto: ação='pegar prato limpo na pilha de pratos limpos' → andando
+     fala: "PEGANDO PRATO! DEIXA A PASSAGEM LIVRE, GEPETA!"
+     pensa: "Preciso levar o prato à sopa pronta antes que queime."
+
+== t58 (1:56) pontos 46 | pedidos: Sopa de cebola(18s), Sopa de tomate(36s), Sopa de cebola(54s)
+  Gepeta: ação='pôr cebola picada na panela do fogão 2 (0/3)' → pôs na panela (1)
+     fala: "GEPETO, BUSCA DUAS CEBOLAS E TRAZ PRATO! EU COMEÇO A PANELA 2!"
+     pensa: "Priorizar a sopa de cebola com 18 segundos restantes."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "VOU BUSCAR CEBOLA PRA FECHAR A PRÓXIMA SOPA!"
+     pensa: "Preciso acelerar a terceira sopa de cebola antes do prazo."
+  eventos: tipo=na_panela quem=Gepeta onde=fogão 2 n=1
+
+== t59 (1:58) pontos 46 | pedidos: Sopa de cebola(16s), Sopa de tomate(34s), Sopa de cebola(52s)
+  Gepeta: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "PEGA A PANELA DE CEBOLA, VOU SERVIR AGORA!"
+     pensa: "Priorizar a sopa pronta antes que queime."
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "PICANDO ESTA! BUSCO AS OUTRAS DUAS E UM PRATO!"
+     pensa: "Adianto o corte enquanto ela prepara a panela."
+
+== t60 (2:00) pontos 46 | pedidos: Sopa de cebola(14s), Sopa de tomate(32s), Sopa de cebola(50s)
+  Gepeto: ação='picar cebola na tábua 1' → picando
+     fala: "VOU PICAR A PRÓXIMA CEBOLA! SEGURA ESSA PANELA!"
+     pensa: "Adianto a próxima sopa enquanto Gepeta entrega a panela pronta."
+  Gepeta: ação='esperar' → None
+     fala: "SEGURA A SOPA DE CEBOLA PRONTA! VOU LEVAR O PRATO!"
+     pensa: "Não vou largar o prato; preciso alcançar o fogão assim que liberar."
+
+== t61 (2:02) pontos 46 | pedidos: Sopa de cebola(12s), Sopa de tomate(30s), Sopa de cebola(48s)
+  Gepeto: ação='picar cebola na tábua 1' → picou cebola
+     fala: "ENTREGA A SOPA DE CEBOLA AGORA! EU TERMINO A PRÓXIMA!"
+     pensa: "A sopa pronta precisa sair antes de queimar; adianto a próxima cebola."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "PEGA O PRATO NA BANCADA 8 E ENTREGA A SOPA DE CEBOLA AGORA!"
+     pensa: "Deixo o prato acessível para salvar o pedido quase expirando."
+  eventos: tipo=picou quem=Gepeto o=cebola
+
+== t62 (2:04) pontos 46 | pedidos: Sopa de cebola(10s), Sopa de tomate(28s), Sopa de cebola(46s)
+  Gepeta: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "SEGURA O CAMINHO! VOU SERVIR A CEBOLA AGORA!"
+     pensa: "Pegar o prato é o primeiro passo para salvar a sopa antes de queimar."
+  Gepeto: ação='pegar prato limpo vazio da bancada 8' → andando [BLOQUEADO por Gepeta]
+     fala: "PEGANDO O PRATO! ENTREGA A SOPA DE CEBOLA ASSIM QUE EU CHEGAR!"
+     pensa: "Prioridade total: salvar a sopa quase expirando."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta
+
+== t63 (2:06) pontos 46 | pedidos: Sopa de cebola(8s), Sopa de tomate(26s), Sopa de cebola(44s), Sopa de tomate(62s)
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "PRATO NA BANCADA! PEGA E ENTREGA A SOPA DE CEBOLA AGORA!"
+     pensa: "Deixando o prato para ele servir antes de queimar."
+  Gepeto: ação='pegar cebola picada da tábua 1' → pegou cebola picada
+     fala: "PEGA A CEBOLA PRONTA; VOU LEVAR PRA PRÓXIMA PANELA!"
+     pensa: "A sopa pronta é prioridade; preparo a próxima cebola sem bloquear a entrega."
+  eventos: tipo=pedido receita=Sopa de tomate id=9
+
+== t64 (2:08) pontos 46 | pedidos: Sopa de cebola(6s), Sopa de tomate(24s), Sopa de cebola(42s), Sopa de tomate(60s)
+  Gepeto: ação='pôr cebola picada na panela do fogão 2 (1/3)' → pôs na panela (2)
+     fala: "PEGA A SOPA PRONTA E ENTREGA! EU JÁ PREPARO A PRÓXIMA!"
+     pensa: "A sopa pronta precisa sair agora; vou adiantar a próxima."
+  Gepeta: ação='pegar prato limpo vazio da bancada 8' → pegou prato limpo vazio
+     fala: "VOU PEGAR O PRATO E SERVIR A CEBOLA PRONTA!"
+     pensa: "Priorizar a sopa de cebola quase queimando."
+  eventos: tipo=na_panela quem=Gepeto onde=fogão 2 n=2
+
+== t65 (2:10) pontos 46 | pedidos: Sopa de cebola(4s), Sopa de tomate(22s), Sopa de cebola(40s), Sopa de tomate(58s)
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 8)' → largou em bancada 8
+     fala: "LARGANDO O PRATO, PEGO A SOPA DE CEBOLA AGORA!"
+     pensa: "Prioridade: servir antes de expirar."
+  Gepeto: ação='pegar cebola na caixa de cebola' → pegou cebola
+     fala: "ENTREGA A SOPA AGORA! JÁ VOU PREPARAR A PRÓXIMA CEBOLA!"
+     pensa: "A sopa pronta precisa sair imediatamente; começo a próxima enquanto Gepeta entrega."
+
+== t66 (2:12) pontos 46 | pedidos: Sopa de cebola(2s), Sopa de tomate(20s), Sopa de cebola(38s), Sopa de tomate(56s)
+  Gepeto: ação='pôr cebola crua na tábua 1 para picar' → largou em tábua 1
+     fala: "GEPEta, PEGA A SOPA DE CEBOLA E ENTREGA AGORA! EU PICO A PRÓXIMA!"
+     pensa: "Salvar a sopa pronta e já preparar a próxima."
+  Gepeta: ação='pegar prato limpo na pilha de pratos limpos' → pegou prato
+     fala: "PEGA A SOPA DE CEBOLA E ENTREGA AGORA!"
+     pensa: "Prato primeiro; a sopa está pronta e queimando."
+
+== t67 (2:14) pontos 36 | pedidos: Sopa de tomate(18s), Sopa de cebola(36s), Sopa de tomate(54s)
+  Gepeto: ação='pegar tomate cru da bancada 9' → pegou tomate cru
+     fala: "ENTREGA A SOPA DE TOMATE AGORA! EU PREPARO A PRÓXIMA."
+     pensa: "Gepeta já está com prato; preciso manter a próxima sopa em andamento."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "DEIXO O PRATO AQUI E VOU PRA SOPA DE TOMATE!"
+     pensa: "Preciso liberar as mãos e correr para o próximo pedido."
+  eventos: tipo=expirou receita=Sopa de cebola id=6
+
+== t68 (2:16) pontos 36 | pedidos: Sopa de tomate(16s), Sopa de cebola(34s), Sopa de tomate(52s)
+  Gepeta: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "GEPPETO, DEIXA O CAMINHO LIVRE! PEGUEI O PRATO, VOU ENTREGAR A SOPA!"
+     pensa: "Prioridade absoluta: prato e entrega da sopa de tomate antes de expirar."
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "TOMATE NA BANCADA 9! PEGA E PICA PRA SOPA!"
+     pensa: "Deixo o tomate acessível para Gepeta continuar a sopa."
+
+== t69 (2:18) pontos 36 | pedidos: Sopa de tomate(14s), Sopa de cebola(32s), Sopa de tomate(50s)
+  Gepeto: ação='pegar tomate cru da bancada 9' → pegou tomate cru
+     fala: "ENTREGA A SOPA E DEIXA O CAMINHO LIVRE! EU PREPARO O PRÓXIMO TOMATE."
+     pensa: "Pegar tomate agora; é a melhor chance de engatar o próximo pedido."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "LARGO O PRATO E VOU NO TOMATE!"
+     pensa: "Preciso liberar as mãos e correr para a sopa de tomate."
+
+== t70 (2:20) pontos 36 | pedidos: Sopa de tomate(12s), Sopa de cebola(30s), Sopa de tomate(48s)
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "TOMATE NA BANCADA 9! PICHA E CORRE PRA PANELA!"
+     pensa: "Deixo o tomate acessível para Gepeta agilizar a sopa quase expirando."
+  Gepeta: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "ABRE O CAMINHO, GEPETO! VOU SERVIR A SOPA DE TOMATE AGORA!"
+     pensa: "Pegar o prato e correr ao fogão."
+
+== t71 (2:22) pontos 36 | pedidos: Sopa de tomate(10s), Sopa de cebola(28s), Sopa de tomate(46s)
+  Gepeto: ação='pegar tomate cru da bancada 9' → pegou tomate cru
+     fala: "VAI SERVINDO! PEGUEI TOMATE PRA PRÓXIMA!"
+     pensa: "Acelerar a próxima sopa de tomate antes de expirar."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "DEIXEI O PRATO NA BANCADA 14! CORRE COM A SOPA DE TOMATE!"
+     pensa: "Libero minhas mãos e salvo o pedido urgente."
+
+== t72 (2:24) pontos 36 | pedidos: Sopa de tomate(8s), Sopa de cebola(26s), Sopa de tomate(44s), Sopa de tomate(62s)
+  Gepeto: ação='largar tomate cru na bancada livre mais perto (bancada 9)' → largou em bancada 9
+     fala: "DEIXO O TOMATE AQUI; PEGA A SOPA NO PRATO 14!"
+     pensa: "Preciso liberar as mãos e salvar a entrega."
+  Gepeta: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "PEGA O TOMATE E NÃO BLOQUEIA! VOU SERVIR AGORA!"
+     pensa: "Pegar o prato é o único passo imediato para salvar a sopa de tomate."
+  eventos: tipo=pedido receita=Sopa de tomate id=10
+
+== t73 (2:26) pontos 36 | pedidos: Sopa de tomate(6s), Sopa de cebola(24s), Sopa de tomate(42s), Sopa de tomate(60s)
+  Gepeto: ação='pegar tomate cru da bancada 9' → pegou tomate cru
+     fala: "PEGANDO O TOMATE! LIBERA A PASSAGEM!"
+     pensa: "Priorizar a sopa de tomate quase expirando."
+  Gepeta: ação='largar prato limpo vazio na bancada livre mais perto (bancada 14)' → largou em bancada 14
+     fala: "DEIXEI O PRATO NA BANCADA 14! PEGA A SOPA DE TOMATE AGORA!"
+     pensa: "Priorizar a sopa de tomate antes de expirar."
+
+== t74 (2:28) pontos 36 | pedidos: Sopa de tomate(4s), Sopa de cebola(22s), Sopa de tomate(40s), Sopa de tomate(58s)
+  Gepeta: ação='pegar prato limpo vazio da bancada 14' → pegou prato limpo vazio
+     fala: "GEpETO, ENTREGA A SOPA DE TOMATE AGORA!"
+     pensa: "Pego o prato mais perto e tento salvar a entrega."
+  Gepeto: ação='pôr tomate cru no prato da bancada 14' → andando [BLOQUEADO por Gepeta]
+     fala: "PEGA A SOPA E ENTREGA AGORA!"
+     pensa: "Preciso liberar as mãos e salvar o pedido urgente."
+  eventos: tipo=esbarrao quem=Gepeto por=Gepeta
