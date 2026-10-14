@@ -81,13 +81,15 @@ def main():
                 remotion(bundle, tmp / 'r.mp4', ini, fim, ['--crf=18'])
                 # mesma codificação dos trechos reaproveitados, para o concat final sem recodificar
                 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp / 'r.mp4', '-map', '0:v', '-map', '0:a', '-c:v', 'libx264', '-crf', '18',
-                                '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS), '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-ac', '2', arq], check=True)
+                                '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS), '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-ac', '2', tmp / 'pronto.mp4'], check=True)
             else:
                 remotion(bundle, tmp / 'a.wav', ini, fim, ['--codec=wav'])
                 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini_v / FPS:.6f}', '-i', VELHO, '-i', tmp / 'a.wav',
                                 '-map', '0:v', '-map', '1:a', '-frames:v', str(n), '-c:v', 'libx264', '-crf', '18', '-preset', 'veryfast',
                                 '-pix_fmt', 'yuv420p', '-r', str(FPS), '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-ac', '2',
-                                '-af', f'apad,atrim=0:{n / FPS:.6f}', arq], check=True)
+                                '-af', f'apad,atrim=0:{n / FPS:.6f}', tmp / 'pronto.mp4'], check=True)
+            # só ganha o nome final quando terminou (um trecho cortado no meio não é pulado na retomada)
+            shutil.move(tmp / 'pronto.mp4', arq)
     (OUT / 'lista.txt').write_text(''.join(f"file '{a}'\n" for a in arqs))
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', OUT / 'lista.txt', '-c', 'copy', saida], check=True)
     print('PRONTO', saida, flush=True)
