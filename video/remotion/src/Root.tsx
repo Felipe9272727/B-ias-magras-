@@ -10,7 +10,7 @@ import {AU2Papeis} from './amongus2/Papeis';
 import {AU2Sorteio} from './amongus2/Sorteio';
 import {AU2Manual} from './amongus2/Manual';
 import {ThumbAU2} from './amongus2/ThumbAU2';
-import {ShortAU2, duracaoShortAU2} from './amongus2/ShortAU2';
+import {ShortAU2, calcShortAU2} from './amongus2/ShortAU2';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -132,7 +132,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AU2AberturaPrevia" component={AU2AberturaPrevia} width={1920} height={1080} fps={30} durationInFrames={550} />
       <Composition id="AU2Teste" component={AU2Teste} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, de: 200, foco: 'Marrom', partida: 1} as PropsTeste} calculateMetadata={calcTeste} />
       <Composition id="AmongUs2" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU2} />
-      <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={duracaoShortAU2} />
+      <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortAU2} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="AU2Tela" component={AU2Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 2, tela: 'shhh'} as PropsTela} calculateMetadata={calcTela} />
       <Composition id="AU2Papeis" component={AU2Papeis} width={1920} height={1080} fps={30} durationInFrames={330} />

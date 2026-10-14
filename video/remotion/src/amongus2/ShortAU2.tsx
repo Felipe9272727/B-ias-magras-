@@ -1,89 +1,113 @@
-// Shorts do Among Us 2 (1080×1920): "O Detetive falou a verdade e foi expulso. Duas vezes."
-// Trechos do vídeo final (out/among_us_2.mp4) cortados em public/short_au2/*.mp4; aqui só o enquadramento vertical:
-// nas reuniões aparece o painel do chat (já é quase vertical), nas ejeções o centro da tela.
+// Shorts do Among Us 2 (1080×1920), no molde do primeiro Shorts (amongus/ShortAzul.tsx): gancho narrado no começo,
+// título grande no topo, o vídeo numa faixa no meio e legenda palavra a palavra embaixo, com o nome de quem fala
+// quando é uma IA. Dados e trechos (sem legenda) vêm de scripts/short_au2.py → public/short_au2/.
 import React, {useEffect, useState} from 'react';
-import {AbsoluteFill, continueRender, delayRender, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import type {CalculateMetadataFunction} from 'remotion';
+import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
+import {strokeText} from '../components/basics';
+import {COR} from '../amongus/Crewmate';
 
-type Trecho = {arq: string; dur: number; tipo: 'chat' | 'centro'; rotulo: string; nota?: string};
-export const TRECHOS: Trecho[] = [
-  {arq: 'a1', dur: 268, tipo: 'chat', rotulo: 'PARTIDA 2 · O DETETIVE'},
-  {arq: 'a2', dur: 415, tipo: 'chat', rotulo: 'PARTIDA 2 · "ISSO NÃO EXISTE"'},
-  {arq: 'b', dur: 283, tipo: 'centro', rotulo: 'EXPULSO'},
-  {arq: 'c', dur: 462, tipo: 'chat', rotulo: 'PARTIDA 3 · OUTRO DETETIVE'},
-  {arq: 'd', dur: 315, tipo: 'chat', rotulo: 'PENSAMENTO SECRETO DO ASSASSINO', nota: '"o pior é que ela acertou: o assassino do Marrom fui eu"'},
-  {arq: 'e', dur: 285, tipo: 'centro', rotulo: 'EXPULSO DE NOVO'},
-];
-const FINAL = 75;
-export const duracaoShortAU2 = TRECHOS.reduce((a, t) => a + t.dur, 0) + FINAL;
+type Palavra = {w: string; s: number; e: number; quem: string};
+type Trecho = {arq: string; dur: number; enq: 'chat' | 'centro'; palavras: Palavra[]};
+export type DadosShortAU2 = {intro: number; gancho: Palavra[]; trechos: Trecho[]};
 
+export const calcShortAU2: CalculateMetadataFunction<{dados: DadosShortAU2 | null}> = async () => {
+  const dados = (await (await fetch(staticFile('short_au2/dados.json'))).json()) as DadosShortAU2;
+  return {durationInFrames: dados.intro + dados.trechos.reduce((a, t) => a + t.dur, 0) + 45, props: {dados}};
+};
+
+const VIDEO_Y = 560;
+const VIDEO_H = 810;
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
-// recorte do quadro 1920×1080: chat = painel da direita (x 1190..1880, y 40..1040); centro = faixa do meio
-const Recorte: React.FC<{t: Trecho}> = ({t}) => {
-  const src = staticFile(`short_au2/${t.arq}.mp4`);
-  if (t.tipo === 'chat') {
-    const k = 1000 / 690; // painel de 690 px vira 1000 px de largura
-    return (
-      <div style={{position: 'absolute', left: 40, top: 360, width: 1000, height: 1000 * k, overflow: 'hidden', borderRadius: 28, boxShadow: '0 20px 60px #000c'}}>
-        <OffthreadVideo src={src} style={{position: 'absolute', left: -1190 * k, top: -40 * k, width: 1920 * k, height: 1080 * k}} />
-      </div>
-    );
-  }
-  const k = 1080 / 1080;
-  return (
-    <div style={{position: 'absolute', left: 0, top: 420, width: 1080, height: 1080, overflow: 'hidden'}}>
-      <OffthreadVideo src={src} style={{position: 'absolute', left: -420 * k, top: 0, width: 1920 * k, height: 1080 * k}} />
-    </div>
-  );
-};
-
-const Topo: React.FC<{rotulo: string}> = ({rotulo}) => {
+// legenda: grupos de até 3 palavras do mesmo falante, quebrando em pontuação
+const Legenda: React.FC<{palavras: Palavra[]}> = ({palavras}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const e = spring({frame: f, fps, config: {damping: 14}});
+  const grupos: Palavra[][] = [];
+  let g: Palavra[] = [];
+  for (const p of palavras) {
+    if (g.length && (g.length === 3 || g[0].quem !== p.quem)) { grupos.push(g); g = [] }
+    g.push(p);
+    if (/[.,!?…"]$/.test(p.w)) { grupos.push(g); g = [] }
+  }
+  if (g.length) grupos.push(g);
+  const atual = grupos.find((gr, i) => f >= gr[0].s - 2 && f < (grupos[i + 1]?.[0].s ?? gr[gr.length - 1].e + 20) - 2);
+  if (!atual) return null;
+  const pop = spring({frame: f - (atual[0].s - 2), fps, config: {damping: 12, stiffness: 260, mass: 0.5}});
+  const quem = atual[0].quem;
+  const cor = COR[quem];
   return (
-    <div style={{position: 'absolute', left: 0, right: 0, top: 150, textAlign: 'center', transform: `scale(${0.85 + 0.15 * e})`}}>
-      <span style={{display: 'inline-block', padding: '10px 26px', borderRadius: 16, background: '#ff2a2a', border: '5px solid #000', fontFamily: FONT.display, fontWeight: 900, fontSize: 46, color: '#fff', WebkitTextStroke: '1px #000'}}>{rotulo}</span>
+    <div style={{position: 'absolute', top: VIDEO_Y + VIDEO_H + 60, left: 40, right: 40, textAlign: 'center'}}>
+      {quem !== 'N' && cor && (
+        <div style={{display: 'inline-block', marginBottom: 14, padding: '6px 22px', borderRadius: 14, background: cor.body, border: '5px solid #000', fontFamily: FONT.comic, fontSize: 52, letterSpacing: 2, color: '#fff', ...strokeText(6)}}>{quem.toUpperCase()}</div>
+      )}
+      <div style={{transform: `scale(${0.85 + 0.15 * pop})`}}>
+        {atual.map((p, i) => (
+          <span key={i} style={{fontFamily: FONT.comic, fontSize: 104, lineHeight: 1.05, letterSpacing: 2, margin: '0 14px', color: f >= p.s - 2 ? '#ffd84d' : '#fff', ...strokeText(12)}}>
+            {p.w.replace(/["“”]/g, '').toUpperCase()}
+          </span>
+        ))}
+      </div>
     </div>
   );
 };
 
-export const ShortAU2: React.FC = () => {
-  const [h] = useState(() => delayRender('fontes'));
+export const ShortAU2: React.FC<{dados: DadosShortAU2 | null}> = ({dados}) => {
+  const [handle] = useState(() => delayRender('fontes'));
   useEffect(() => {
-    fontsReady.then(() => continueRender(h));
-  }, [h]);
+    fontsReady.then(() => continueRender(handle));
+  }, [handle]);
   const f = useCurrentFrame();
-  let ini = 0;
-  const seqs = TRECHOS.map((t) => {
-    const de = ini;
-    ini += t.dur;
-    return {t, de};
-  });
+  const {durationInFrames, fps} = useVideoConfig();
+  if (!dados) return <AbsoluteFill style={{background: '#0b0f1a'}} />;
+  const tituloIn = spring({frame: f, fps, config: {damping: 12, stiffness: 180}});
+  const caixa: React.CSSProperties = {position: 'absolute', top: VIDEO_Y, left: 0, width: 1080, height: VIDEO_H, overflow: 'hidden', borderTop: '6px solid #ff3b30', borderBottom: '6px solid #ff3b30'};
+  const video: React.CSSProperties = {position: 'absolute', top: 0, width: 1440, height: 810};
+  const zoomGancho = interpolate(f, [0, dados.intro], [1.25, 1.05], cl);
+  let ini = dados.intro;
+  const seqs = dados.trechos.map((t) => { const de = ini; ini += t.dur; return {t, de} });
+  const palavras = [...dados.gancho, ...dados.trechos.flatMap((t) => t.palavras)];
   return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #1b2440, #05070d 80%)'}}>
-      {/* título fixo no alto */}
-      <div style={{position: 'absolute', left: 40, right: 40, top: 30, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 58, lineHeight: 1.05, color: '#fff', WebkitTextStroke: '2px #000', textShadow: '0 6px 0 #000'}}>
-        O DETETIVE FALOU A VERDADE E FOI EXPULSO
-      </div>
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #1c2340 0%, #0b0f1a 60%, #05070d 100%)'}}>
+      {/* gancho: a ejeção do primeiro Detetive, em zoom lento, com a narração do gancho */}
+      <Sequence durationInFrames={dados.intro} name="gancho">
+        <div style={caixa}>
+          <OffthreadVideo src={staticFile('short_au2/base_2.mp4')} muted style={{...video, left: -180, transform: `scale(${zoomGancho})`}} />
+        </div>
+        <Sequence from={15}><Audio src={staticFile('short_au2/gancho.mp3')} /></Sequence>
+      </Sequence>
       {seqs.map(({t, de}) => (
-        <Sequence key={t.arq} from={de} durationInFrames={t.dur}>
-          <Recorte t={t} />
-          <Topo rotulo={t.rotulo} />
-          {t.nota && (
-            <div style={{position: 'absolute', left: 50, right: 50, bottom: 120, padding: '22px 28px', borderRadius: 24, background: '#fffdf2', border: '6px solid #c00', fontFamily: FONT.display, fontWeight: 800, fontSize: 46, lineHeight: 1.2, color: '#111', textAlign: 'center'}}>{t.nota}</div>
-          )}
+        <Sequence key={t.arq} from={de} durationInFrames={t.dur} name={t.arq}>
+          <div style={caixa}>
+            <OffthreadVideo src={staticFile(`short_au2/${t.arq}`)} style={{...video, left: t.enq === 'chat' ? -360 : -180}} />
+          </div>
         </Sequence>
       ))}
+      <Audio src={staticFile('music/sneaky-snitch.mp3')} volume={0.09} />
+      {/* flash em cada virada de trecho */}
+      {[dados.intro, ...seqs.map((x) => x.de)].map((q, i) => (
+        <AbsoluteFill key={i} style={{background: '#fff', opacity: interpolate(f, [q - 2, q, q + 6], [0, 0.45, 0], cl), pointerEvents: 'none'}} />
+      ))}
       {/* fechamento */}
-      <Sequence from={ini} durationInFrames={FINAL}>
-        <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', gap: 30}}>
-          <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 84, color: '#ffd84d', WebkitTextStroke: '3px #000', textAlign: 'center', lineHeight: 1.05, opacity: interpolate(f - ini, [0, 8], [0, 1], cl)}}>DUAS VEZES.</div>
-          <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 48, color: '#fff', textAlign: 'center', padding: '0 60px'}}>12 IAs no Among Us · vídeo completo no canal</div>
-        </AbsoluteFill>
+      <Sequence from={ini} name="fim">
+        <div style={{position: 'absolute', top: VIDEO_Y + 220, left: 0, right: 0, textAlign: 'center', fontFamily: FONT.comic, fontSize: 150, color: '#ffd84d', ...strokeText(14)}}>DUAS VEZES.</div>
       </Sequence>
+
+      {/* topo: selo + título fixo */}
+      <div style={{position: 'absolute', top: 150, left: 0, right: 0, display: 'flex', justifyContent: 'center'}}>
+        <div style={{fontFamily: FONT.pixel, fontSize: 28, color: '#fff', background: '#111c', padding: '12px 18px', borderRadius: 10, border: '3px solid #ffffff55'}}>12 IAs JOGANDO AMONG US</div>
+      </div>
+      <div style={{position: 'absolute', top: 230, left: 30, right: 30, textAlign: 'center', fontFamily: FONT.comic, fontSize: 118, lineHeight: 0.98, color: '#ff3b30', letterSpacing: 2, ...strokeText(14), transform: `scale(${0.6 + 0.4 * tituloIn})`}}>
+        O DETETIVE QUE <span style={{color: '#ffd84d'}}>NINGUÉM</span> OUVIU
+      </div>
+
+      <Legenda palavras={palavras} />
+
+      {/* barra de progresso */}
+      <div style={{position: 'absolute', bottom: 0, left: 0, height: 12, width: `${(100 * f) / durationInFrames}%`, background: '#ff3b30'}} />
     </AbsoluteFill>
   );
 };
