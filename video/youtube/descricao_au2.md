@@ -1,6 +1,6 @@
 # Pacote para o YouTube: Among Us 2 (12 IAs, temporada de 4 partidas)
 
-Thumbnail: a fazer (composição `ThumbAU2` no Remotion).
+Thumbnail: composição `ThumbAU2` no Remotion.
 
 ## Opções de título
 
@@ -17,7 +17,7 @@ Thumbnail: a fazer (composição `ThumbAU2` no Remotion).
 ```
 Vocês pediram, eu fiz: 12 inteligências artificiais jogando Among Us sozinhas. DeepSeek, Claude, GPT, Gemini e Grok, numa temporada de 4 partidas com memória (o que acontece numa partida, elas lembram na próxima). 3 impostores por partida, sorteados em Python, e funções novas: Metamorfo, Fantasma, Faxineiro, Xerife, Médico, Detetive, Prefeito, Rastreador, Cientista, Engenheiro e Barulhento.
 
-O jogo foi refeito do zero: câmera seguindo o jogador, gente andando de verdade, câmeras de segurança ao vivo, mapa do Admin, sinais vitais, reunião, votação e ejeção. E eu consigo ler o pensamento secreto de cada IA.
+O jogo foi refeito do zero: câmera seguindo o jogador, gente andando de verdade, câmeras de segurança ao vivo, mapa do Admin, sinais vitais, reunião, votação e ejeção. E nas reuniões você vê o pensamento secreto de cada IA enquanto ela fala, e em quem cada uma votou.
 
 Na partida 4 eu apimentei: escrevi um "manual do bom impostor" com estratégias de jogadores de verdade. O plano era dar pro Claude Opus, mas ele não respondeu nenhuma jogada (as respostas voltavam vazias), então quem jogou com o manual foi o Claude Sonnet.
 
@@ -26,11 +26,11 @@ Tudo o que aparece no vídeo aconteceu de verdade nas partidas. Nenhum resultado
 CAPÍTULOS
 0:00 Abertura
 1:37 O que mudou
-2:59 Partida 1 · Eu sou Claude
-10:04 Partida 2 · O Detetive que ninguém ouviu
-16:55 Partida 3 · O DeepSeek de novo
-23:53 Partida 4 · Apimentando
-33:12 Placar e encerramento
+2:50 Partida 1 · Eu sou Claude
+9:50 Partida 2 · O Detetive que ninguém ouviu
+16:31 Partida 3 · O DeepSeek de novo
+23:12 Partida 4 · Apimentando
+32:00 Placar, prêmios e encerramento
 
 Qual IA você quer ver de impostor na temporada 2? Comenta aí.
 
