@@ -1,4 +1,4 @@
-// "Manual do bom impostor": o caderno que só o Claude Opus recebeu na partida 4. As 12 regras (resumidas do texto que
+// "Manual do bom impostor": o caderno que só um impostor recebeu na partida 4 (era pro Opus; quem jogou foi o Sonnet). As 12 regras (resumidas do texto que
 // foi no prompt, amongus/jogo2.mjs MANUAL_IMPOSTOR) entram uma a uma; `destaque` marca com caneta as que ele usou.
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
@@ -23,7 +23,7 @@ export const REGRAS_MANUAL: {secao: string; txt: string}[] = [
 
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
-export const AU2Manual: React.FC<{destaque?: number[]; passo?: number}> = ({destaque = [], passo = 16}) => {
+export const AU2Manual: React.FC<{destaque?: number[]; passo?: number; modelo?: string}> = ({destaque = [], passo = 16, modelo = 'Claude Sonnet'}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const abre = spring({frame: f, fps, config: {damping: 15}});
@@ -33,7 +33,7 @@ export const AU2Manual: React.FC<{destaque?: number[]; passo?: number}> = ({dest
       {/* o Opus (Ciano) lendo, de canto */}
       <div style={{position: 'absolute', left: 60, top: 560, transform: `translateY(${(1 - abre) * 300}px)`}}>
         <Crewmate cor="Ciano" size={340} t={f} />
-        <div style={{position: 'absolute', left: 30, top: -70, padding: '6px 16px', borderRadius: 10, background: '#d97a47', fontFamily: FONT.display, fontWeight: 800, fontSize: 28, color: '#fff', border: '3px solid #000'}}>Claude Opus</div>
+        <div style={{position: 'absolute', left: 30, top: -70, padding: '6px 16px', borderRadius: 10, background: '#d97a47', fontFamily: FONT.display, fontWeight: 800, fontSize: 28, color: '#fff', border: '3px solid #000'}}>{modelo}</div>
       </div>
       {/* caderno */}
       <div style={{position: 'absolute', left: 470, top: 50, width: 1390, height: 980, transform: `rotate(${-1.2 + (1 - abre) * 6}deg) scale(${0.8 + 0.2 * abre})`, opacity: abre, borderRadius: 14, background: 'repeating-linear-gradient(#fbf6e6 0 54px, #c9d7ef 54px 56px)', boxShadow: '0 30px 80px #000d', border: '3px solid #3a2a1a', overflow: 'hidden'}}>

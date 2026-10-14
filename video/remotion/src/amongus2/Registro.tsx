@@ -3,7 +3,7 @@ import React from 'react';
 import {useCurrentFrame} from 'remotion';
 import type {Scene, Timeline} from '../types';
 import {Jogo} from './Jogo';
-import {CenaMorte, Chamado, Ejecao2, Fim2, Revela, Shhh, Som, Votacao} from './Telas';
+import {CenaMorte, Chamado, Ejecao2, Fim2, Frase, Revela, Shhh, Som, Votacao} from './Telas';
 import {AU2Comentarios} from './Comentarios';
 import {COMENTARIOS} from './AberturaPrevia';
 import {AU2AntesDepois} from './AntesDepois';
@@ -34,9 +34,16 @@ export const AU2Visual: React.FC<{name: string; props: Record<string, any>; scen
     case 'AU2Jogo': {
       const pt = P(p.partida);
       const s = simular(pt);
-      const de = (s.inicioTique[p.tique ?? 1] ?? 0) + Math.round((p.seg ?? 0) * 30);
+      // começa no início do tique `tique` (+ seg) ou `antes` segundos antes de um evento (ex.: {tipo: 'morte', vitima: 'Amarelo'})
+      let de = (s.inicioTique[p.tique ?? 1] ?? 0) + Math.round((p.seg ?? 0) * 30);
+      if (p.evento) {
+        const e = s.eventos.find((x) => Object.entries(p.evento as Record<string, unknown>).every(([k, v]) => x[k] === v));
+        if (e) de = Math.max(0, e.quadro - Math.round((p.antes ?? 3) * 30));
+      }
       return <Jogo p={pt} de={de} foco={p.foco} papeis={p.papeis ?? true} hud={p.hud ?? true} />;
     }
+    case 'AU2Frase':
+      return <Frase p={P(p.partida)} cor={p.cor} texto={p.texto} modo={p.modo} />;
     case 'AU2Shhh':
       return <Shhh />;
     case 'AU2Revela':
@@ -64,7 +71,7 @@ export const AU2Visual: React.FC<{name: string; props: Record<string, any>; scen
     case 'AU2Sorteio':
       return <AU2Sorteio />;
     case 'AU2Manual':
-      return <AU2Manual destaque={p.destaque} passo={p.passo} />;
+      return <AU2Manual destaque={p.destaque} passo={p.passo} modelo={p.modelo} />;
     case 'AU2Placar':
       return <AU2Placar ps={ps} ate={p.ate ?? 4} />;
     default:

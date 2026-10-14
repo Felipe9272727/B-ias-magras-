@@ -344,3 +344,31 @@ export const CenaMorte: React.FC<{assassino: string; vitima: string; aparente?: 
     </AbsoluteFill>
   );
 };
+
+// ---------- 8. Pensamento secreto / fala ----------
+// o tripulante grande à esquerda (com o selo da empresa) e o balão com o texto; impostor com borda vermelha
+export const Frase: React.FC<{p: Partida2; cor: string; texto: string; modo?: 'pensa' | 'fala' | 'nota'}> = ({p, cor, texto, modo = 'pensa'}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const j = info(p, cor);
+  const imp = j.time === 'impostor';
+  const emp = empresa(p, cor);
+  const s = spring({frame: f, fps, config: {damping: 13}});
+  const rotulo = modo === 'pensa' ? 'PENSAMENTO SECRETO' : modo === 'fala' ? 'NO CHAT' : 'NOTA';
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 35%, #1b2550 0%, #05060c 75%)', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 60, padding: 100}}>
+      <Estrelas vel={1} n={120} />
+      <div style={{transform: `scale(${s}) translateY(${Math.sin(f / 12) * 8}px)`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14}}>
+        <Crewmate cor={cor} size={300} t={f} />
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: imp ? '#ff4d4d' : '#fff'}}>{cor}</div>
+        <span style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 24, padding: '3px 12px', borderRadius: 9, background: emp.cor, color: '#fff'}}>{emp.nome}</span>
+      </div>
+      <div style={{position: 'relative', maxWidth: 1060, background: '#fffdf2', border: `8px solid ${imp ? '#c00' : '#000'}`, borderRadius: 40, padding: '40px 50px', boxShadow: '0 14px 0 rgba(0,0,0,.45)', transform: `scale(${s})`}}>
+        {/* bolinhas de pensamento até o tripulante */}
+        {modo === 'pensa' && [0, 1, 2].map((k) => <div key={k} style={{position: 'absolute', left: -40 - k * 34, top: 120 + k * 24, width: 30 - k * 8, height: 30 - k * 8, borderRadius: '50%', background: '#fffdf2', border: '5px solid #000'}} />)}
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 3, color: imp ? '#c00' : '#555', marginBottom: 12}}>{rotulo}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: texto.length > 140 ? 40 : 48, lineHeight: 1.25, color: '#111'}}>“{texto}”</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
