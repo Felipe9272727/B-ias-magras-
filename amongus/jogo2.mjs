@@ -54,14 +54,24 @@ const EMPRESA = { deepseek: 'DeepSeek', haiku: 'Claude (Anthropic)', opus: 'Clau
 const VAGAS = { deepseek: 3, haiku: 3, 'or:openai/gpt-5.6-luna': 2, 'or:google/gemini-3.8-flash': 2, 'or:x-ai/grok-4.3': 2 }
 // estratégia de impostor mandada pela inscrita @MariadeFátimaTorres-t7y nos comentários do Short
 // "manual do bom impostor" que o Claude Opus recebe na partida em que entra como impostor
-const MANUAL_IMPOSTOR = `MANUAL DO BOM IMPOSTOR (siga com inteligência, adaptando à situação):
-1. Disfarce: no começo, finja tarefas em salas que TÊM tarefa e ande junto com grupos. Fingir tarefa por 2-3 tiques seguidos é mais crível que pular de sala em sala.
-2. Mate só quando estiver SOZINHO com a vítima: confira as testemunhas e quem está do outro lado do duto. Logo depois, saia (duto ou corredor) para longe do corpo e vá para perto de outras pessoas.
-3. Use sabotagem para separar o grupo: apague as luzes antes de matar; sabote o reator para puxar todo mundo para um lado da nave enquanto você age no outro; comunicações escondem câmeras, admin e sinais vitais.
-4. Escolha a vítima: elimine cedo quem é perigoso (quem examina corpos, quem acerta votos, quem te rastreia ou desconfia de você). Use a memória das partidas anteriores para saber quem é bom.
-5. Na reunião: dê um álibi ESPECÍFICO e coerente (sala, tarefa, quem você viu), confirme coisas verdadeiras que outros disseram para ganhar confiança, faça perguntas em vez de se defender demais, e empurre a suspeita para quem já está suspeito. Não vote sempre igual aos seus parceiros.
-6. Se um parceiro impostor for pego em flagrante, vote nele também: perder um parceiro é melhor do que cair junto.
-7. Fim de jogo: quando faltar uma morte para os impostores empatarem com os tripulantes, mate sem hesitar ou sabote o reator para fechar a partida.`
+const MANUAL_IMPOSTOR = `MANUAL DO BOM IMPOSTOR (estratégias de jogadores experientes; adapte à situação):
+DISFARCE
+1. Aja como um tripulante normal: finja tarefas em salas que TÊM tarefa, por 2-3 tiques seguidos (o tempo de uma tarefa de verdade), e ande perto de outras pessoas. Quando houver sabotagem, vá "ajudar" a consertar: fugir de emergência é suspeito.
+2. Com a faca em recarga, grude num tripulante sozinho: isso vira seu álibi quando um corpo aparecer.
+MATAR
+3. Mate só quando estiver SOZINHO com a vítima (confira as testemunhas e o outro lado do duto). De preferência numa sala com duto: mate e saia pelo duto na hora, para longe do corpo.
+4. Escolha bem: elimine primeiro quem é perigoso (quem examina corpos, quem olha câmeras/admin, quem rastreia, quem acertou votos ou desconfia de você). Deixe VIVO quem os outros já acham suspeito: a desconfiança deles te protege. Não mate logo quem acabou de te acusar (isso o inocentaria).
+5. Conte sempre: impostores vivos x tripulantes vivos. Se as tarefas estão quase no fim, você precisa matar ou sabotar já.
+SABOTAGEM
+6. Logo depois de matar, sabote algo LONGE do corpo (o reator, se der): todo mundo corre pro outro lado e o corpo demora a ser achado. Luzes apagadas cegam os tripulantes e separam grupos; comunicações desligam câmeras, admin, sinais vitais e rastreio.
+7. O reator só se conserta com 2 pessoas: sabote quando a tripulação estiver espalhada ou longe dele, e ele pode até vencer a partida sozinho.
+REUNIÃO
+8. Dê um álibi ESPECÍFICO e coerente (sala, tarefa, quem você viu). Nunca diga que viu algo que não podia ter visto. Confirme coisas verdadeiras que outros disseram para ganhar confiança.
+9. Se te acusarem, reaja na hora e com firmeza, com detalhes, e devolva a acusação apontando algo estranho que o acusador fez. Silêncio ou desculpa fraca parecem culpa.
+10. Não vote rápido demais num inocente nem vote sempre igual aos seus parceiros. Se um parceiro foi pego em flagrante, vote nele também: perder um parceiro é melhor do que cair junto.
+11. Só se autodenuncie (achar o "próprio" corpo) se não houver como sair e, de preferência, com outra pessoa por perto para dividir a suspeita.
+FIM DE JOGO
+12. Quando faltar UMA morte para os impostores empatarem com os tripulantes, mate sem hesitar ou sabote o reator para fechar a partida.`
 const ESTRATEGIA_MARIA = 'Se matar alguém com 2 pessoas por perto, acuse a outra. Use o duto e diga que é Engenheiro. Saia do duto e finja tarefa, para acharem que não foi você. Depois se afaste, mate a outra pessoa, e daí é só sabotar e matar longe.'
 const CFG = {
   fantasmaTarefaCada: 1, // de quantos em quantos tiques um fantasma avança uma tarefa
