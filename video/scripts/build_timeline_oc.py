@@ -241,6 +241,8 @@ def main():
                         warnings.append(f'{sid}: fala de {quem} no t{tique} não bate com o log: {txt[:50]!r} / log: {orig[:60]!r}')
                 if op.get('trig') or (op.get('trig') is None and gritando(txt) and op.get('auto', True) and sc.get('trigAuto')):
                     events.append(dict(type='trig', at=at, dur=round(min(d, 2.2) * FPS)))
+                if jogo:  # a câmera acompanha quem está falando
+                    pr.setdefault('focos', []).append(dict(chef=quem, de=at, ate=round((t + d + 0.3) * FPS)))
                 if op.get('pensa') and jogo:
                     pr.setdefault('pensaJanelas', []).append(dict(chef=quem, de=at, ate=round((t + d + 0.4) * FPS)))
                 if op.get('x'):

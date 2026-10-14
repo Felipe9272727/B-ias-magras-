@@ -88,7 +88,7 @@ const Sons: React.FC<{log: LogOC; czs: number[]; de: number; vel: number; chaves
 
 // ---------------------------------------------------------------- a partida
 export type PropsJogo = {
-  log: string; modo?: 'um' | 'grade' | 'dupla'; cz?: number; czs?: number[]; de?: number; vel?: number;
+  log: string; modo?: 'um' | 'grade' | 'dupla' | 'auto'; cz?: number; czs?: number[]; de?: number; vel?: number; focos?: {chef: string; de: number; ate: number}[]; perto?: number;
   zoom?: {chef?: string; x?: number; y?: number; s: number; entra?: number}; pensa?: string[]; so?: string[];
   sons?: boolean; volume?: number; rotulo?: string; falas?: boolean; congela?: number; pensaJanelas?: {chef: string; de: number; ate: number}[];
 };
@@ -104,23 +104,106 @@ const camera = (log: LogOC, cz: number, t: number, w: number, h: number, zoom: N
   return {s, tx, ty};
 };
 
+// "caos" de um tique numa cozinha: o que rende cena (esbarrão, pedido perdido, entrega, grito...)
+const PESO: Record<string, number> = {esbarrao: 3, expirou: 5, recusado: 6, entregou: 5, pronto: 1, lixo: 3, queimando: 4, fogo: 8, apagou: 4};
+const gritou = (s: string) => {
+  const l = (s ?? '').replace(/[^A-Za-zÀ-ú]/g, '');
+  return l.length > 6 && l.replace(/[^A-ZÀ-Ý]/g, '').length / l.length > 0.6;
+};
+export const caos = (log: LogOC, cz: number, i: number) => {
+  const c = log.tiques[Math.max(0, Math.min(log.tiques.length - 1, i))].cozinhas[cz];
+  let n = 0;
+  for (const e of c.eventos) n += PESO[e.tipo] ?? 0;
+  for (const q of Object.values(c.chefs)) {
+    if (q.fala && gritou(q.fala)) n += 1;
+    if (q.bloqueado) n += 1;
+    if ((q as any).invalida) n += 3;
+  }
+  return n;
+};
+
+// alvo da câmera (em pixels da cozinha desenhada em w×h) num tempo t
+const alvoCam = (log: LogOC, cz: number, t: number, w: number, h: number, chef?: string) => {
+  const g = geometria(log.mapa, w, h, true);
+  const nomes = chef ? [chef] : log.cozinhas[cz].chefs.map((c) => c.nome);
+  let x = 0, y = 0;
+  for (const n of nomes) {
+    const q = posChef(log, cz, n, t);
+    x += g.cx(q.x);
+    y += g.cy(q.y) - g.T * 0.5;
+  }
+  return {x: x / nomes.length, y: y / nomes.length};
+};
+// câmera que acompanha: média dos alvos dos últimos quadros (anda macio, sem tranco)
+const cameraSegue = (log: LogOC, cz: number, tDe: (f: number) => number, frame: number, w: number, h: number, s: number, chefEm: (f: number) => string | undefined, desde = 0) => {
+  let x = 0, y = 0, n = 0;
+  for (let k = Math.max(desde, frame - 14); k <= frame; k++) {
+    const a = alvoCam(log, cz, Math.min(log.tiques.length - 0.001, tDe(k)), w, h, chefEm(k));
+    x += a.x; y += a.y; n++;
+  }
+  x /= n; y /= n;
+  return {s, tx: Math.min(0, Math.max(w - w * s, w / 2 - x * s)), ty: Math.min(0, Math.max(h - h * s, h / 2 - y * s))};
+};
+
+// roteiro de cortes do modo automático (um trecho = SEG quadros); -1 = as 4 cozinhas juntas
+const SEG = 96;
+export const cortesAuto = (log: LogOC, tDe: (f: number) => number, dur: number) => {
+  const out: number[] = [-1];
+  const visto = log.cozinhas.map(() => -10);
+  for (let k = 1; k * SEG < dur; k++) {
+    const t0 = Math.floor(tDe(k * SEG)), t1 = Math.ceil(tDe((k + 1) * SEG)) + 1;
+    let melhor = 0, nota = -Infinity;
+    log.cozinhas.forEach((_, cz) => {
+      if (cz === out[k - 1]) return;
+      let n = 3 * Math.min(4, k - visto[cz]);
+      for (let i = t0; i <= t1; i++) n += caos(log, cz, i);
+      if (n > nota) { nota = n; melhor = cz; }
+    });
+    out.push(melhor);
+    visto[melhor] = k;
+  }
+  return out;
+};
+
 export const OCJogo: React.FC<PropsJogo & {logs: Record<string, LogOC>; chaves: Chave[]}> = (p) => {
   const frame = useCurrentFrame();
+  const {durationInFrames} = useVideoConfig();
   const log = p.logs[p.log];
   if (!log) return <AbsoluteFill style={{background: '#000'}} />;
   const vel = p.vel ?? 1;
   const de = p.de ?? 0;
-  const t = Math.min(log.tiques.length - 0.001, p.congela ?? tempoEm(frame, de, vel, p.chaves));
+  const tDe = (f: number) => p.congela ?? tempoEm(f, de, vel, p.chaves);
+  const t = Math.min(log.tiques.length - 0.001, tDe(frame));
   const modo = p.modo ?? (log.cozinhas.length > 1 ? 'grade' : 'um');
+  const perto = p.perto ?? (log.mapa[0].length > 14 ? 1.3 : 1.18);
+  const chefEm = (f: number) => p.focos?.find((j) => f >= j.de && f < j.ate)?.chef;
   const pensa = [...(p.pensa ?? []), ...(p.pensaJanelas ?? []).filter((j) => frame >= j.de && frame < j.ate).map((j) => j.chef)];
   const comum = {Pedidos, pensa, so: p.so, falas: p.falas ?? true};
   let corpo: React.ReactNode;
   let czs: number[];
+  let corte = -99;
   if (modo === 'um') {
     const cz = p.cz ?? 0;
     czs = [cz];
-    const cam = p.zoom ? camera(log, cz, t, 1920, 1080, p.zoom, frame) : undefined;
+    const cam = p.zoom ? camera(log, cz, t, 1920, 1080, p.zoom, frame) : cameraSegue(log, cz, tDe, frame, 1920, 1080, perto, chefEm);
     corpo = <Cozinha3D log={log} cz={cz} t={t} w={1920} h={1080} camera={cam} {...comum} />;
+  } else if (modo === 'auto') {
+    // rodízio: começa com as 4 juntas; depois cada trecho mostra uma cozinha. Preferência pra que tem mais caos,
+    // mas quem está há mais tempo sem aparecer ganha bônus e ninguém repete o trecho seguinte (todas aparecem)
+    const plano = cortesAuto(log, tDe, durationInFrames);
+    const k = Math.min(plano.length - 1, Math.floor(frame / SEG));
+    corte = k * SEG;
+    czs = log.cozinhas.map((_, i) => i);
+    if (plano[k] < 0) {
+      corpo = log.cozinhas.map((_, i) => (
+        <div key={i} style={{position: 'absolute', left: (i % 2) * 960, top: Math.floor(i / 2) * 540, width: 960, height: 540, overflow: 'hidden', border: '3px solid #000', boxSizing: 'border-box'}}>
+          <Cozinha3D log={log} cz={i} t={t} w={960} h={540} {...comum} falas={p.falas ?? false} />
+        </div>
+      ));
+    } else {
+      const cam = cameraSegue(log, plano[k], tDe, frame, 1920, 1080, perto, chefEm, corte);
+      corpo = <Cozinha3D log={log} cz={plano[k]} t={t} w={1920} h={1080} camera={cam} {...comum} />;
+    }
   } else if (modo === 'dupla') {
     czs = p.czs ?? [0, 1];
     corpo = czs.map((cz, i) => (
@@ -139,12 +222,13 @@ export const OCJogo: React.FC<PropsJogo & {logs: Record<string, LogOC>; chaves: 
   return (
     <AbsoluteFill style={{background: '#0b1720'}}>
       {corpo}
+      {modo === 'auto' && frame - corte >= 0 && frame - corte < 6 && corte > 0 && <AbsoluteFill style={{background: '#fff', opacity: 0.5 * (1 - (frame - corte) / 6), zIndex: 1900}} />}
       {p.rotulo && (
         <div style={{position: 'absolute', left: 0, right: 0, ...(modo === 'grade' ? {top: 500} : {bottom: 26}), display: 'flex', justifyContent: 'center', zIndex: 2000}}>
           <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', background: '#e8411899', border: '3px solid #000', borderRadius: 12, padding: '2px 18px'}}>{p.rotulo}</div>
         </div>
       )}
-      {p.sons !== false && p.congela === undefined && <Sons log={log} czs={czs} de={de} vel={vel} chaves={p.chaves} grade={modo === 'grade'} volume={p.volume ?? 1} />}
+      {p.sons !== false && p.congela === undefined && <Sons log={log} czs={czs} de={de} vel={vel} chaves={p.chaves} grade={modo === 'grade' || modo === 'auto'} volume={p.volume ?? 1} />}
     </AbsoluteFill>
   );
 };

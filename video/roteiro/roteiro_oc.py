@@ -84,7 +84,7 @@ SCENES = [
         ('Deep', 'SAI DA FRENTE! Larguei a carne pronta na bancada 4, PEGA E MONTA O PRATO 3 AGORA! E para de travar meu caminho, porra!', 73, {'trig': True}),
         ('Seek', 'PEGUEI O PRATO VOU NA FRIGIDEIRA PRONTA, DEEP SAI DA PORRA DO MEIO DA COZINHA!!!', 74, {'trig': True}),
     ], pad=0.3),
-    N('a03', 'abertura', J('fase1', modo='grade', de=10, vel=2, replay=True, sons=False),
+    N('a03', 'abertura', J('fase1', modo='auto', de=10, vel=2, replay=True, sons=False),
       'Eu recriei o Overcooked do zero, numa versão que IA consegue jogar. [[s:whoosh:0.4]] Quatro cozinhas, oito chefs, e um relógio que não para. Teve briga, teve palavrão, teve sopa que só existia na cabeça de uma IA... [[m:gordon-ramsay-angry:right:2.4]] e teve uma cozinha que entregou um pão. Só um pão. Como prato.'),
     N('a04', 'abertura', titulo('DeepSeek · Claude · GPT · Gemini', 'COLOQUEI 4 IAs PRA JOGAR OVERCOOKED', 'versus e coop · 3 fases + a cozinha do caos'),
       '[[s:impact-epic:0.6]] Coloquei quatro IAs pra jogar Overcooked. Primeiro, cada uma na sua cozinha, competindo. Depois... todas juntas, na mesma cozinha. Bora.'),
@@ -112,7 +112,7 @@ SCENES = [
         ('Gepeto', 'PICANDO UM! VOCÊ COMPLETA A PANELA 1!', 7),
         ('N', 'Cada um mandando o outro completar a panela. [[m:spiderman-pointing:right:2]] E repara: o GPT grita tudo. TUDO. De quinhentas falas no versus, quatrocentas e noventa e nove foram em caixa alta.'),
     ]),
-    N('f104', 'f1', J('fase1', modo='grade', de=12, rotulo='auto'),
+    N('f104', 'f1', J('fase1', modo='auto', de=12, rotulo='auto'),
       'Tique catorze: as primeiras panelas ficam prontas. [[s:pronto:0.4]] E a primeira entrega da fase é... do Gemini, no tique dezesseis. O Claude entrega no dezessete, o DeepSeek no dezoito. E o GPT, que gritou mais que todo mundo, só no vinte e um.'),
     CH('f105', 'f1', J('fase1', CL, de=19, vel=1), [
         ('N', 'Agora olha o Claudinho.'),
@@ -146,7 +146,7 @@ SCENES = [
     ]),
     N('f111', 'f1', J('fase1', DS, de=40.5, zoom=dict(x=6, y=0, s=1.9), congela=40.9),
       '"Para de gritar e anda." [[p]] Só que eu fui olhar o log. [[s:typing:0.4]] Essa panela... tinha uma cebola. [[t:1 CEBOLA DE 3:2:#ff5a3c]] Uma. Do tique vinte e quatro até o tique quarenta e oito, ela teve uma cebola só. Os dois passaram trinta segundos brigando pra servir uma sopa que não existia. [[m:nazare-confusa:right:2.6]]', pad=0.8),
-    N('f112', 'f1', J('fase1', modo='grade', de=41, rotulo='auto'),
+    N('f112', 'f1', J('fase1', modo='auto', de=41, rotulo='auto'),
       'Enquanto o DeepSeek discutia com uma panela vazia, o GPT acordou. Entrega no tique quarenta e seis, entrega no quarenta e nove. [[s:moeda:0.5]] Quarenta e seis pontos. E o Gemini? Entregando uma atrás da outra, sem gritar quase nada, já com cinquenta e cinco.'),
     CH('f113', 'f1', J('fase1', CL, de=56.5), [
         ('N', 'No Claude, o Claudinho pede uma coisa simples: leva as cebolas pro fogão dois.'),
@@ -219,7 +219,7 @@ SCENES = [
         ('Seek', 'ENTREGA A SALADA AGORA, PARCEIRO! JOGUEI A SOPA, NINGUÉM PEDIU!', 66, {'trig': True}),
         ('N', '"Joguei a sopa, ninguém pediu." [[m:this-is-fine:right:2.4]] Trinta tiques fazendo essa sopa. Direto pro lixo.'),
     ]),
-    N('f210', 'f2', J('fase2', modo='grade', de=68, vel=2, rotulo='ACELERADO 2×'),
+    N('f210', 'f2', J('fase2', modo='auto', de=68, vel=2, rotulo='ACELERADO 2×'),
       'Reta final. O Claude entrega mais uma salada, o DeepSeek finalmente entrega a primeira... [[s:moeda:0.4]] e o GPT termina a fase do jeito que começou: oito pedidos perdidos, zero entregas.'),
     N('f211', 'f2', placar(['fase1', 'fase2'], 'RESULTADO DA FASE 2'),
       '[[s:drumroll:0.4]] Fase dois: todo mundo no negativo. Claude e Gemini empatados com menos vinte e seis. [[p]] DeepSeek, menos cinquenta e três. E o GPT, [[s:sad-trombone:0.4]] menos oitenta. No acumulado, o Gemini continua na frente, e o GPT despencou pro último lugar. [[m:not-stonks:right:2.2]]', pad=0.8),
@@ -229,7 +229,7 @@ SCENES = [
       '[[s:largada:0.5]] Fase três, a mais difícil. Agora tem hambúrguer, com carne que vai na frigideira, e se esquecer, ela queima e pega fogo. [[m:elmo-fire:right:2.2]] Os pratos voltam sujos e precisam ser lavados na pia. E os pedidos chegam mais rápido.'),
     N('f302', 'f3', comp('OCReceitas', receitas=['Hambúrguer', 'Salada']),
       'Hambúrguer: pega a carne, pica, grelha, e monta com o pão no prato. Tem também a versão com alface. Ah, e pra quem tá preocupado com o fogo... [[s:drumroll:0.3]] guarda essa preocupação pra depois.'),
-    N('f303', 'f3', J('fase3', modo='grade', de=14, rotulo='auto'),
+    N('f303', 'f3', J('fase3', modo='auto', de=14, rotulo='auto'),
       'O começo é só sopa e salada. O DeepSeek sai na frente: [[s:moeda:0.5]] entrega no tique vinte e um. E aí, no tique vinte e cinco, o mesmo pedido expira nas quatro cozinhas. De novo. No vinte e oito, em três delas: só o DeepSeek tinha entregue aquele.'),
     CH('f304', 'f3', J('fase3', GP, de=34.6), [
         ('N', 'No GPT, uma sopa fica pronta. E os dois correm.'),
@@ -239,7 +239,7 @@ SCENES = [
         ('Gepeta', 'SERVI! LEVA PRO PASSA-PRATO AGORA!', 36),
         ('N', 'Ela não serviu. [[s:buzzer:0.4]] Não tinha prato. E o pedido expirou no mesmo tique.'),
     ]),
-    N('f305', 'f3', J('fase3', modo='grade', de=38, rotulo='auto'),
+    N('f305', 'f3', J('fase3', modo='auto', de=38, rotulo='auto'),
       'GPT e Gemini entregam uma sopa cada no tique trinta e nove, o Claude no quarenta e seis, e o DeepSeek no quarenta e cinco. [[s:moeda:0.4]] E aí chegam os hambúrgueres. E tudo desanda.'),
     CH('f306', 'f3', J('fase3', GM, de=64.6), [
         ('N', 'No Gemini, só tem hambúrguer nos pedidos, e o Gêmeo tá segurando tomate. A Gêmea fala:'),
@@ -280,7 +280,7 @@ SCENES = [
     N('f313', 'f3', comp('OCNumeros', titulo='QUANTO CADA UMA GRITOU', sub='falas em CAIXA ALTA no versus (de 500)',
                          valores=[dict(empresa='GPT', valor=499), dict(empresa='DeepSeek', valor=455), dict(empresa='Gemini', valor=320), dict(empresa='Claude', valor=6)]),
       'E já que eu pedi pra elas gritarem... [[s:pop:0.4]] o GPT gritou quatrocentas e noventa e nove de quinhentas falas. O DeepSeek, quatrocentas e cinquenta e cinco. O Gemini, trezentas e vinte. E o Claude... seis. [[m:silvio-santos-huh:right:2.2]] Seis gritos em três fases. O Claude é o colega educado que fala "beleza", "bora", "combinado"... enquanto a cozinha pega fogo. Bom... guarda esse número.'),
-    N('f314', 'f3', J('fase3', modo='grade', de=80, vel=2, sons=False, replay=True),
+    N('f314', 'f3', J('fase3', modo='auto', de=80, vel=2, sons=False, replay=True),
       'Ah, e o fogo? [[s:drumroll:0.3]] Em três fases, com panela e frigideira que queimam... nenhuma pegou fogo. Ninguém deixou queimar. [[m:surprised-pikachu:right:2.2]] Mas também ninguém lavou um prato sequer. A fase se chamava "Hambúrguer em chamas", e as chamas não vieram. Mas o caos ainda não chegou no máximo.'),
 
     # ================================================================== COOP
