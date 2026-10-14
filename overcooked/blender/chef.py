@@ -19,6 +19,7 @@ SAIDA = os.path.join(C.PUBLIC, 'chefs')
 QW, QH = 1.6, 2.0  # metros do quadro (largura, altura na tela)
 EMPRESAS = {'DeepSeek': (0.25, 0.38, 0.98), 'Claude': (0.88, 0.45, 0.24), 'GPT': (0.05, 0.62, 0.46), 'Gemini': (0.55, 0.32, 0.95)}
 DIRS = [0, 90, 180]
+PX_CHEF = 140  # o chef aparece com ~200 px de altura na cozinha
 
 # nome: (quadros, duração s, laço)
 ANIMS = {'parado': (8, 1.2, True), 'andar': (8, 0.5, True), 'carregar': (8, 1.2, True), 'carregar_andar': (8, 0.5, True),
@@ -108,10 +109,10 @@ def pose(p, anim, u):
 
 def renderizar(empresas, teste=False):
     C.limpar()
-    sc = C.cena_sprite(QW, QH, teste, alvo=(0, 0, 0.62))
+    sc = C.cena_sprite(QW, QH, teste, alvo=(0, 0, 0.62), px_m=PX_CHEF, amostras=6)
     cam = sc.camera
     os.makedirs(SAIDA, exist_ok=True)
-    meta = {'quadro': [sc.render.resolution_x, sc.render.resolution_y], 'px_m': C.PX * (0.5 if teste else 1), 'anims': {}, 'dirs': DIRS}
+    meta = {'quadro': [sc.render.resolution_x, sc.render.resolution_y], 'px_m': PX_CHEF * (0.5 if teste else 1), 'anims': {}, 'dirs': DIRS}
     meta['pes'] = C.ponto_na_tela(sc, cam, (0, 0, 0))
     for nome, (n, dur, laco) in ANIMS.items():
         meta['anims'][nome] = {'n': n, 'dur': dur, 'laco': laco}
@@ -135,7 +136,7 @@ def renderizar(empresas, teste=False):
         for o in [o for o in bpy.data.objects if o.type != 'CAMERA' and o.type != 'LIGHT']:
             bpy.data.objects.remove(o)
     with open(os.path.join(SAIDA, 'chefs.json'), 'w') as fh:
-        json.dump(meta, fh)
+        json.dump(meta, fh)  # igual para todas as empresas (mesma câmera e animações)
 
 
 if __name__ == '__main__':

@@ -69,15 +69,15 @@ def cilindro(nome, loc, raio, alt, m, pai=None, rot=None, verts=40):
     return _fim(o, m, pai, rot)
 
 
-def cena_sprite(larg, alt, teste=False, alvo=(0, 0, 0.75)):
+def cena_sprite(larg, alt, teste=False, alvo=(0, 0, 0.75), px_m=None, amostras=16):
     """Câmera ortográfica olhando de frente-cima (de -Y), luz de cozinha, fundo transparente, Eevee."""
     sc = bpy.context.scene
     sc.render.engine = 'BLENDER_EEVEE_NEXT'
-    sc.eevee.taa_render_samples = 4 if teste else 16
+    sc.eevee.taa_render_samples = 4 if teste else amostras
     sc.render.film_transparent = True
     sc.render.image_settings.file_format = 'PNG'
     sc.render.image_settings.color_mode = 'RGBA'
-    px = PX * (0.5 if teste else 1)
+    px = (px_m or PX) * (0.5 if teste else 1)
     sc.render.resolution_x = int(larg * px)
     sc.render.resolution_y = int(alt * px)
     sc.render.resolution_percentage = 100
