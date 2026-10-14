@@ -73,6 +73,26 @@ function criarCozinha(fase) {
   const w = Math.max(...linhas.map((l) => l.length)), h = linhas.length
   const piso = new Set()
   linhas.forEach((l, y) => [...l].forEach((ch, x) => { if (ch === '.' || /[1-4]/.test(ch)) piso.add(`${x},${y}`) }))
+  // regiões de piso (lados da cozinha) e bancadas da divisória (tocam duas regiões: dá pra passar item por ali)
+  const regiao = new Map()
+  let nr = 0
+  for (const kp of piso) {
+    if (regiao.has(kp)) continue
+    nr++
+    const fila = [kp]
+    regiao.set(kp, nr)
+    while (fila.length) {
+      const [x, y] = fila.shift().split(',').map(Number)
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const kq = `${x + dx},${y + dy}`
+        if (piso.has(kq) && !regiao.has(kq)) { regiao.set(kq, nr); fila.push(kq) }
+      }
+    }
+  }
+  for (const t of tiles) {
+    const rs = new Set([[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => regiao.get(`${t.x + dx},${t.y + dy}`)).filter(Boolean))
+    t.divisoria = t.ch === '#' && rs.size >= 2
+  }
   return {w, h, tiles, piso, inicio, mapa: linhas}
 }
 
@@ -255,7 +275,7 @@ export class Partida {
     if (livres.length) {
       livres.sort((a, b) => distancia(c, ch.pos, a.alvo) - distancia(c, ch.pos, b.alvo))
       out.push({...livres[0], txt: `largar ${descItem(mao)} na bancada livre mais perto (${livres[0].alvo.nome})`})
-      for (const l of livres.filter((l) => (this.fase.divisoria ?? []).includes(l.alvo.nome)).slice(0, 2))
+      for (const l of livres.filter((l) => l.alvo.divisoria).slice(0, 2))
         if (l !== livres[0]) out.push({...l, txt: `largar ${descItem(mao)} ${na(l.alvo)} (divisória, o parceiro alcança)`})
     }
     out.push({txt: 'esperar', alvo: null, faz: 'esperar'})
@@ -326,7 +346,7 @@ export class Partida {
     const quadro = {}
     for (const ch of ordem) {
       const e = escolhas.get(ch)
-      const reg = {nome: ch.nome, de: {...ch.pos}, caminho: [{...ch.pos}], acao: e?.op?.txt ?? 'esperar', fala: e?.fala ?? '', pensa: e?.pensa ?? '', fez: null, bloqueado: null}
+      const reg = {nome: ch.nome, de: {...ch.pos}, caminho: [{...ch.pos}], acao: e?.op?.txt ?? 'esperar', fala: e?.fala ?? '', pensa: e?.pensa ?? '', fez: null, bloqueado: null, ...(e?.invalida ? {invalida: e.invalida} : {})}
       quadro[ch.nome] = reg
       ch.falou = e?.fala ?? ''
       const op = e?.op
@@ -476,17 +496,17 @@ async function rodar() {
     for (const pt of partidas) for (const ch of pt.chefs) {
       const ops = pt.acoes(ch)
       reqs.push((async () => {
-        let op = null, fala = '', pensa = ''
+        let op = null, fala = '', pensa = '', j = null
         if (mock) op = ops[Math.floor(Math.random() * ops.length)]
         else {
           const r = await perguntar(ch.provider, pt.sistema(ch), pt.prompt(ch, ops, placar), {maxTokens: 220})
-          const j = lerJSON(r.text)
+          j = lerJSON(r.text)
           op = escolherOp(ops, j?.acao)
           fala = String(j?.fala ?? '').slice(0, 160)
           pensa = String(j?.pensa ?? '').slice(0, 300)
           if (!op && j?.acao) pt.lembrar(ch, `Sua última resposta ("${String(j.acao).slice(0, 60)}") não era uma das ações da lista, então você ficou parado.`)
         }
-        return [pt, ch, {op, fala, pensa}]
+        return [pt, ch, {op, fala, pensa, invalida: !mock && !op ? String(j?.acao ?? '(sem json)').slice(0, 120) : undefined}]
       })())
     }
     const res = await Promise.all(reqs)

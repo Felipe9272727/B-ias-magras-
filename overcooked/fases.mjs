@@ -22,7 +22,6 @@ export const FASES = {
     titulo: 'Fase 2 · O balcão no meio',
     duracao: 85, intervalo: 9, pratos: 4, tempoPedido: 1.3,
     receitas: ['Sopa de tomate', 'Sopa de cebola', 'Salada'],
-    divisoria: ['bancada 3', 'bancada 4', 'bancada 5', 'bancada 6', 'bancada 7'],
     mapa: `
       #TOA##FF#EE#
       #....#.....#
@@ -51,7 +50,6 @@ export const FASES = {
     titulo: 'A cozinha do caos (4 IAs juntas)',
     duracao: 110, intervalo: 6, pratos: 5, tempoPedido: 1.2,
     receitas: ['Sopa de tomate', 'Sopa de cebola', 'Salada', 'Hambúrguer', 'Hambúrguer com alface'],
-    divisoria: ['bancada 9', 'bancada 10'],
     mapa: `
       ##T#O#A#FF#GG#EE#
       #...............#
