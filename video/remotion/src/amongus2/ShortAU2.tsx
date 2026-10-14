@@ -10,7 +10,7 @@ import {strokeText} from '../components/basics';
 import {COR} from '../amongus/Crewmate';
 
 type Palavra = {w: string; s: number; e: number; quem: string};
-type Trecho = {arq: string; dur: number; enq: 'chat' | 'centro'; palavras: Palavra[]};
+type Trecho = {arq: string; dur: number; enq: 'chat' | 'centro' | 'pensa'; palavras: Palavra[]};
 export type DadosShortAU2 = {intro: number; gancho: Palavra[]; trechos: Trecho[]};
 
 export const calcShortAU2: CalculateMetadataFunction<{dados: DadosShortAU2 | null}> = async () => {
@@ -75,14 +75,14 @@ export const ShortAU2: React.FC<{dados: DadosShortAU2 | null}> = ({dados}) => {
       {/* gancho: a ejeção do primeiro Detetive, em zoom lento, com a narração do gancho */}
       <Sequence durationInFrames={dados.intro} name="gancho">
         <div style={caixa}>
-          <OffthreadVideo src={staticFile('short_au2/base_2.mp4')} muted style={{...video, left: -180, transform: `scale(${zoomGancho})`}} />
+          <OffthreadVideo src={staticFile('short_au2/v2_3.mp4')} muted style={{...video, left: -180, transform: `scale(${zoomGancho})`}} />
         </div>
         <Sequence from={15}><Audio src={staticFile('short_au2/gancho.mp3')} /></Sequence>
       </Sequence>
       {seqs.map(({t, de}) => (
         <Sequence key={t.arq} from={de} durationInFrames={t.dur} name={t.arq}>
           <div style={caixa}>
-            <OffthreadVideo src={staticFile(`short_au2/${t.arq}`)} style={{...video, left: t.enq === 'chat' ? -360 : -180}} />
+            <OffthreadVideo src={staticFile(`short_au2/${t.arq}`)} style={{...video, left: t.enq === 'chat' ? -360 : t.enq === 'pensa' ? 0 : -180}} />
           </div>
         </Sequence>
       ))}

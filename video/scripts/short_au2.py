@@ -9,6 +9,7 @@
 Uso: python3 short_au2.py
 """
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -24,13 +25,14 @@ FPS = 30
 BROWSER = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
 
 # trechos em segundos do vídeo longo: (de, até, enquadramento) — 'chat' mostra o lado do chat, 'centro' o meio
-TRECHOS = [
-    (747.6, 756.5, 'chat'),    # Marrom: "examinei o corpo... Gemini"
-    (761.7, 775.5, 'chat'),    # Preto e Rosa: "isso não existe no jogo"
-    (813.1, 822.5, 'centro'),  # ejeção do Marrom
-    (1256.9, 1272.3, 'chat'),  # Verde: "assassino é da DeepSeek" / Rosa: "é blefe"
-    (1291.4, 1301.9, 'chat'),  # narrador: pensamento do Azul
-    (1312.4, 1321.9, 'centro'),  # ejeção do Verde
+TRECHOS = [  # (de, até, enquadramento): 'pensa' mostra o tablet com o balão de pensamento, 'chat' o chat, 'centro' o meio
+    (740.3, 749.6, 'pensa'),   # Marrom: "examinei o corpo... Gemini" (e o pensamento dele)
+    (762.7, 768.0, 'chat'),    # Rosa: "examinar corpo não existe no jogo"
+    (768.1, 775.2, 'pensa'),   # Verde: "Marrom tá desesperado" / pensa: "depois que matei o Lima"
+    (802.0, 808.5, 'centro'),  # ejeção do Marrom
+    (1223.7, 1233.0, 'pensa'), # Verde, Detetive na partida 3: "o assassino é da DeepSeek"
+    (1243.7, 1250.9, 'pensa'), # Azul (o assassino): "é blefe puro" / o pensamento dele
+    (1275.6, 1280.3, 'centro'),  # ejeção do Verde
 ]
 GANCHO = 'Esse Detetive descobriu quem era o assassino. E foi expulso por isso. Duas vezes.'
 
@@ -52,9 +54,9 @@ def main():
     cenas = roteiro()
     # 1) trechos sem legenda
     for i, (de, ate, _) in enumerate(TRECHOS):
-        arq = OUT / f'base_{i}.mp4'
+        arq = OUT / f'v2_{i}.mp4'
         if not arq.exists():
-            subprocess.run(['npx', 'remotion', 'render', 'src/index.ts', 'AmongUs2', str(arq), f'--frames={round(de * FPS)}-{round(ate * FPS) - 1}',
+            subprocess.run(['npx', 'remotion', 'render', os.environ.get('BUNDLE', 'src/index.ts'), 'AmongUs2', str(arq), f'--frames={round(de * FPS)}-{round(ate * FPS) - 1}',
                             '--props', json.dumps({'short': True}), '--concurrency=4', '--crf=18', f'--browser-executable={BROWSER}', '--log=error'],
                            cwd=REM, check=True)
     # 2) gancho
@@ -80,7 +82,7 @@ def main():
                     s0 = at + w['start'] * FPS
                     if f0 <= s0 < f1:
                         pal.append(dict(w=DESFAZ.get(w['word'], w['word']), s=round(cursor + s0 - f0), e=round(cursor + at + w['end'] * FPS - f0), quem=quem))
-        trechos.append(dict(arq=f'base_{i}.mp4', dur=f1 - f0, enq=enq, palavras=pal))
+        trechos.append(dict(arq=f'v2_{i}.mp4', dur=f1 - f0, enq=enq, palavras=pal))
         cursor += f1 - f0
     gancho = [dict(w=w['word'], s=round(15 + w['start'] * FPS), e=round(15 + w['end'] * FPS), quem='N') for w in palavras_g]
     (OUT / 'dados.json').write_text(json.dumps(dict(intro=intro, gancho=gancho, trechos=trechos), ensure_ascii=False))
