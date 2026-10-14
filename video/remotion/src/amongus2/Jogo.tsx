@@ -25,11 +25,21 @@ const PAPEL_NOME: Record<string, string> = {Medico: 'Médico'};
 
 type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean};
 
+// ícones dos botões, desenhados (sem emoji): branco com contorno preto grosso, como os do jogo
+const tr = {stroke: '#000', strokeWidth: 5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
+const ICONES: Record<string, React.ReactNode> = {
+  usar: (<g {...tr} fill="#fff"><path d="M30 78V40c0-5 8-5 8 0v-14c0-5 8-5 8 0v-4c0-5 8-5 8 0v6c0-5 8-5 8 0v26l4-8c3-5 10-2 8 3l-10 22c-3 6-8 9-14 9H40c-6 0-10-4-10-10z" /></g>),
+  reportar: (<g {...tr}><path d="M18 42h14l34-18v52L32 58H18z" fill="#fff" /><path d="M24 58l6 20h10l-4-20" fill="#fff" /><path d="M76 38c6 4 6 20 0 24M84 30c10 8 10 32 0 40" fill="none" stroke="#fff" strokeWidth={5} /></g>),
+  matar: (<g {...tr}><path d="M22 78l36-36 10 10-36 36c-4 4-14 0-10-10z" fill="#d8dde6" /><path d="M58 42l20-20 6 6-20 20" fill="#7a4a22" /><path d="M54 38l14 14" stroke="#000" strokeWidth={7} /></g>),
+  sabotar: (<g {...tr}><path d="M50 12L88 80H12z" fill="#ffd21f" /><path d="M54 30L40 56h12l-6 18 16-28H50l6-16z" fill="#000" stroke="none" /></g>),
+  duto: (<g {...tr}><rect x={16} y={24} width={68} height={52} rx={6} fill="#9aa3b0" />{[34, 46, 58].map((y) => <path key={y} d={`M24 ${y}h52`} stroke="#3a3f49" strokeWidth={6} />)}</g>),
+};
+
 // botão redondo do canto (desenho próprio no espírito do jogo)
 const Botao: React.FC<{rotulo: string; icone: string; ativo: boolean; numero?: number; cor?: string}> = ({rotulo, icone, ativo, numero, cor = '#fff'}) => (
   <div style={{width: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: ativo ? 1 : 0.38}}>
     <div style={{position: 'relative', width: 128, height: 128, borderRadius: 26, background: 'radial-gradient(circle at 35% 30%, #5b6170, #262a33)', border: '6px solid #0b0c10', display: 'grid', placeItems: 'center', boxShadow: '0 6px 0 #000a'}}>
-      <span style={{fontSize: 74, filter: 'drop-shadow(0 3px 0 #000)'}}>{icone}</span>
+      <svg width={96} height={96} viewBox="0 0 100 100" style={{filter: 'drop-shadow(0 3px 0 #000)'}}>{ICONES[icone]}</svg>
       {numero !== undefined && numero > 0 && (
         <span style={{position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 70, color: '#fff', WebkitTextStroke: '3px #000'}}>{numero}</span>
       )}
@@ -37,6 +47,19 @@ const Botao: React.FC<{rotulo: string; icone: string; ativo: boolean; numero?: n
     <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 2, color: cor, WebkitTextStroke: '2px #000', textShadow: '0 3px 0 #000'}}>{rotulo}</div>
   </div>
 );
+
+// tarefas falsas do impostor (como no jogo, ele recebe uma lista de mentira): 4 tarefas dos tripulantes, escolhidas pela cor
+function falsas(p: Partida2, cor: string): string[] {
+  const todas = [...new Set(p.jogadores.flatMap((j: any) => (j.tarefas ?? []).map((t: any) => t.nome as string)))].sort();
+  let h = 0;
+  for (const ch of cor + p.partida) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const out: string[] = [];
+  for (let i = 0; out.length < Math.min(4, todas.length); i++) {
+    const t = todas[(h + i * 7919) % todas.length];
+    if (!out.includes(t)) out.push(t);
+  }
+  return out;
+}
 
 const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number}> = ({p, s, f, foco, frame}) => {
   const info = p.jogadores.find((j) => j.cor === foco)!;
@@ -64,7 +87,7 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
             <>
               <div style={{color: '#ff3b3b', fontWeight: 900}}>Sabote e mate todo mundo.</div>
               <div style={{color: '#ff8a8a'}}>Tarefas falsas:</div>
-              {minhas.length ? minhas.map((t: any, i: number) => <div key={i}>{t.nome}</div>) : <div style={{opacity: 0.8}}>Elétrica: Consertar a fiação</div>}
+              {falsas(p, foco).map((t, i) => <div key={i}>{t}</div>)}
             </>
           ) : (
             <>
@@ -74,7 +97,7 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
               ))}
             </>
           )}
-          {sab && <div style={{color: frame % 30 < 15 ? '#ff3b3b' : '#fff', fontWeight: 900}}>⚠ {sab === 'Reator' ? 'Colapso do reator!' : sab === 'Luzes' ? 'Consertar as luzes' : 'Comunicações sabotadas'}</div>}
+          {sab && <div style={{color: frame % 30 < 15 ? '#ff3b3b' : '#fff', fontWeight: 900}}>{sab === 'Reator' ? 'Colapso do reator!' : sab === 'Luzes' ? 'Consertar as luzes' : 'Comunicações sabotadas'}</div>}
         </div>
       </div>
       {/* papel do jogador seguido (o jogo mostra no começo; aqui fica fixo, pequeno) */}
@@ -85,15 +108,15 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
       <div style={{position: 'absolute', right: 26, bottom: 22, display: 'flex', gap: 12, alignItems: 'flex-end'}}>
         {imp ? (
           <>
-            <Botao rotulo="SABOTAR" icone="⚡" ativo={!sab} cor="#ff5a5a" />
-            <Botao rotulo="DUTO" icone="🕳️" ativo={false} />
-            <Botao rotulo="REPORTAR" icone="📣" ativo={!!pertoCorpo} />
-            <Botao rotulo="MATAR" icone="🔪" ativo={!!alvoPerto} cor="#ff5a5a" />
+            <Botao rotulo="SABOTAR" icone="sabotar" ativo={!sab} cor="#ff5a5a" />
+            <Botao rotulo="DUTO" icone="duto" ativo={false} />
+            <Botao rotulo="REPORTAR" icone="reportar" ativo={!!pertoCorpo} />
+            <Botao rotulo="MATAR" icone="matar" ativo={!!alvoPerto} cor="#ff5a5a" />
           </>
         ) : (
           <>
-            <Botao rotulo="REPORTAR" icone="📣" ativo={!!pertoCorpo} />
-            <Botao rotulo="USAR" icone="✋" ativo={!!q?.tarefa} />
+            <Botao rotulo="REPORTAR" icone="reportar" ativo={!!pertoCorpo} />
+            <Botao rotulo="USAR" icone="usar" ativo={!!q?.tarefa} />
           </>
         )}
       </div>
