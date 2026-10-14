@@ -47,10 +47,10 @@ function embaralhar(arr) {
 const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima']
 // provider → nome que aparece no vídeo. GPT, Gemini e Grok vão pelo OpenRouter (versões rápidas, pelo custo).
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', opus: 'Claude Opus',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', sonnet: 'Claude Sonnet', opus: 'Claude Opus',
   'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3',
 }
-const EMPRESA = { deepseek: 'DeepSeek', haiku: 'Claude (Anthropic)', opus: 'Claude (Anthropic)', 'or:openai/gpt-5.6-luna': 'GPT (OpenAI)', 'or:google/gemini-3.8-flash': 'Gemini (Google)', 'or:x-ai/grok-4.3': 'Grok (xAI)', mock: 'Mock' }
+const EMPRESA = { deepseek: 'DeepSeek', haiku: 'Claude (Anthropic)', sonnet: 'Claude (Anthropic)', opus: 'Claude (Anthropic)', 'or:openai/gpt-5.6-luna': 'GPT (OpenAI)', 'or:google/gemini-3.8-flash': 'Gemini (Google)', 'or:x-ai/grok-4.3': 'Grok (xAI)', mock: 'Mock' }
 const VAGAS = { deepseek: 3, haiku: 3, 'or:openai/gpt-5.6-luna': 2, 'or:google/gemini-3.8-flash': 2, 'or:x-ai/grok-4.3': 2 }
 // estratégia de impostor mandada pela inscrita @MariadeFátimaTorres-t7y nos comentários do Short
 // "manual do bom impostor" que o Claude Opus recebe na partida em que entra como impostor
