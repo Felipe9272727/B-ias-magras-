@@ -14,6 +14,7 @@ import {ShortAU2, calcShortAU2} from './amongus2/ShortAU2';
 import {ShortFrio, calcShortFrio} from './amongus2/ShortFrio';
 import {ShortLaranja, calcShortLaranja} from './amongus2/ShortLaranja';
 import {PreviaOC, calcPreviaOC} from './overcooked/Previa';
+import {ThumbOC, calcThumbOC} from './overcooked/ThumbOC';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -141,6 +142,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortLaranja" component={ShortLaranja} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortLaranja} />
       <Composition id="ShortFrio" component={ShortFrio} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortFrio} />
       <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortAU2} />
+      <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="AU2Tela" component={AU2Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 2, tela: 'shhh'} as PropsTela} calculateMetadata={calcTela} />
       <Composition id="AU2Papeis" component={AU2Papeis} width={1920} height={1080} fps={30} durationInFrames={330} />
