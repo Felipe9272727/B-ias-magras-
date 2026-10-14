@@ -76,6 +76,10 @@ export const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: nu
   const tira = (camada: string) => staticFile(`overcooked/chefs/${camada}/${anim}_${d}.png`);
   const pos = `${-idx * qw * s}px 0px`;
   const tam = `${qw * s * a.n}px ${qh * s}px`;
+  // tiras já pintadas por empresa (overcooked/blender/pintar_chefs.py): uma imagem só, bem mais rápido de compor
+  const emp = Object.keys(COR_EMPRESA).find((k) => COR_EMPRESA[k] === cor);
+  if (emp)
+    return <div style={{position: 'absolute', left: x - CM.pes[0] * s, top: y - CM.pes[1] * s, width: qw * s, height: qh * s, zIndex: z, transform: espelho ? 'scaleX(-1)' : undefined, backgroundImage: `url(${tira(emp)})`, backgroundPosition: pos, backgroundSize: tam}} />;
   return (
     <div style={{position: 'absolute', left: x - CM.pes[0] * s, top: y - CM.pes[1] * s, width: qw * s, height: qh * s, zIndex: z, transform: espelho ? 'scaleX(-1)' : undefined, isolation: 'isolate'}}>
       <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${tira('base')})`, backgroundPosition: pos, backgroundSize: tam}} />
@@ -192,7 +196,7 @@ export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; 
     if (alarme && frame % 10 < 6) els.push(<div key={`al${x},${y}`} style={{position: 'absolute', left: cx(x) - T * 0.25, top: sy - T * 1.05, width: T * 0.5, height: T * 0.5, borderRadius: '50%', background: '#e84118', border: '3px solid #fff', color: '#fff', fontFamily: FONT.display, fontWeight: 900, fontSize: T * 0.36, textAlign: 'center', lineHeight: `${T * 0.44}px`, zIndex: 501}}>!</div>);
     if (o && (o.estado === 'cozinhando' || o.estado === 'pronta' || o.estado === 'queimando')) for (let n = 0; n < 3; n++) {
       const u = ((frame + n * 17) % 50) / 50;
-      els.push(<div key={`v${x},${y},${n}`} style={{position: 'absolute', left: cx(x) - T * 0.1 + Math.sin(u * 6 + n) * T * 0.12, top: sy - T * 0.3 - u * T * 0.6, width: T * 0.18, height: T * 0.18, borderRadius: '50%', background: o.estado === 'queimando' ? '#3338' : '#fff8', opacity: 1 - u, zIndex: z + 5, filter: 'blur(2px)'}} />);
+      els.push(<div key={`v${x},${y},${n}`} style={{position: 'absolute', left: cx(x) - T * 0.1 + Math.sin(u * 6 + n) * T * 0.12, top: sy - T * 0.3 - u * T * 0.6, width: T * 0.18, height: T * 0.18, borderRadius: '50%', background: `radial-gradient(circle, ${o.estado === 'queimando' ? '#333a' : '#fffa'} 30%, transparent 70%)`, opacity: 1 - u, zIndex: z + 5}} />);
     }
     if (tl.fogo) els.push(<div key={`f${x},${y}`} style={{position: 'absolute', left: cx(x) - T * 0.45, top: sy - T * 0.85, zIndex: z + 6}}><Fogo s={T * 0.9} frame={frame} seed={x * 3 + y} /></div>);
   }));

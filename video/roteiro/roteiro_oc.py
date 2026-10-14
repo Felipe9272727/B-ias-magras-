@@ -325,6 +325,13 @@ SCENES = [
         ('Claudinho', 'Panela 1 já tem 2 cebolas picadas. Uma a mais e a sopa sai, mas o Deep tá enroscado perto da tábua e já me travou quatro vezes.', 58, {'pensa': True}),
         ('N', '"Já me travou quatro vezes." [[m:side-eye-dog:right:2.2]] O Claude contando os esbarrões em silêncio. E ele nem sabia: no fim da partida, o Deep tinha travado alguém oitenta e nove vezes.'),
     ]),
+    CH('c08b', 'coop', J('coop1', de=61.6), [
+        ('N', 'Tique sessenta e dois. Repara: os quatro chefs estão travados ao mesmo tempo. [[x:0.6:12]] Ninguém consegue dar um passo. E o Deep, no meio do engarrafamento, grita:'),
+        ('Deep', 'GÊMEO, CORRE COM ESSA CARNE! CLAUDINHO, PÕE O PÃO NO PRATO! EU MONTO O BURGER, ME DÁ O PRATO CHEIO QUANDO TIVER PRONTO!', 62),
+        ('N', '"Eu monto o hambúrguer." E no pensamento:'),
+        ('Deep', 'Burger em 10s e eu de prato vazio na mão — não dá tempo sozinho. Uso esse prato pra adiantar alface da salada e grito pro Gêmeo largar a carne e o Claudinho botar o pão. Se ninguém se mexer, é -10 de novo.', 62, {'pensa': True}),
+        ('N', 'Ele grita "hambúrguer" e monta salada. [[m:roll-safe:right:2.2]]'),
+    ]),
     CH('c09', 'coop', J('coop1', de=70.6), [
         ('N', 'Tique setenta e um. Dois chefs, duas estratégias, no mesmo segundo:'),
         ('Deep', 'SOPA DE TOMATE TÁ PERDIDA, SÓ TEM 1 TOMATE NA PANELA! FOCO NAS SALADAS! TÔ MONTANDO UMA AGORA, GÊMEO MANDA TOMATE PICADO!', 71),
@@ -349,8 +356,15 @@ SCENES = [
         ('Claudinho', 'SOPA NO PASSA-PRATO! DEEP, PEGA O PRATO LIMPO DA PILHA PRA OUTRA SOPA!', 91),
         ('N', 'Duas entregas em seis segundos! Menos cento e vinte virou menos setenta e três. [[m:lets-go:right:2.2]]'),
     ]),
-    N('c13', 'coop', J('coop1', de=93.5, rotulo='auto'),
-      'E foi isso. As duas únicas entregas da partida. Depois disso, mais uma salada expirou, [[s:expirou:0.4]] o Gepeto jogou um prato de alface no lixo, e o relógio foi acabando.'),
+    CH('c13a', 'coop', J('coop1', de=98.6), [
+        ('N', 'Tique noventa e nove. Uma salada expira em dez segundos, e o tomate picado tá na bancada onze. O Deep avisa:'),
+        ('Deep', 'SAI DO CAMINHO, CLAUDINHO! VOU MONTAR ESSA SALADA E ENTREGAR, NINGUÉM TOCA NO TOMATE DA 11!', 99, {'trig': True}),
+        ('Gêmeo', 'PEGUEI O TOMATE! LEVA A ALFACE PRO PASSA-PRATO QUE EU JUNTO LÁ, VAI EXPIRAR!', 99),
+        ('Claudinho', 'EU MONTO A SALADA! GEPETO, PEGA A ALFACE NA 7 E ME TRAZ QUE EU FECHO!', 99),
+        ('N', '"Ninguém toca no tomate." O Gêmeo pegou o tomate. O Claudinho foi atrás do mesmo tomate. E o prato com alface que o Deep queria? O Gepeto pegou. [[m:monkey-puppet-awkward:right:2.4]] Quatro chefs, uma salada, quatro planos.'),
+    ]),
+    N('c13', 'coop', J('coop1', de=102.2, rotulo='auto'),
+      'E essa salada? [[s:expirou:0.5]] Expirou no tique cento e quatro. E no mesmo tique, o Gepeto jogou no lixo... um prato limpo. Vazio. [[m:silvio-santos-shrug:right:2.2]] E o relógio foi acabando. As duas sopas do tique oitenta e oito e do noventa e um foram as únicas entregas da partida.'),
     CH('c14', 'coop', J('coop1', de=108.5, zoom=dict(chef='Deep', s=1.5)), [
         ('N', 'E no último tique, quem fecha a partida é o Deep. O chef que mais travou os outros:'),
         ('Deep', 'ACABOU O TEMPO, GALERA! FOI MAL, TRAVEI NO MEIO DE TODO MUNDO!', 109),
