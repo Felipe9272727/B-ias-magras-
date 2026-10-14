@@ -34,7 +34,9 @@ CUES = [
     ('s32', 'heroic-age', 0),
     ('s35', 'monkeys-spinning-monkeys', 38),
 ]
-MUSIC_GAIN = 0.85  # sobre o volume sugerido de cada faixa (music.json)
+MUSIC_GAIN = 0.85
+SEM_SOBREPOR = False
+SEM_TRILHA = []  # sobre o volume sugerido de cada faixa (music.json)
 
 
 def main():
@@ -53,6 +55,9 @@ def main():
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         CUES = mod.CUES
+        global SEM_SOBREPOR, SEM_TRILHA
+        SEM_SOBREPOR = True  # roteiros novos: troca de faixa sem misturar
+        SEM_TRILHA = getattr(mod, 'SEM_TRILHA', [])
 
     tl = json.loads(Path(args.timeline).read_text())
     fps = tl['fps']
@@ -76,10 +81,14 @@ def main():
         end = scene_start[nxt[0]] if nxt and nxt[0] in scene_start else total
         next_hard = nxt is not None and len(nxt) > 4 and nxt[4]
         # crossfade de 1 s entre faixas; nos cortes secos, nada de sobreposição
-        cues.append(dict(id=mid, offset=offset, gain=gain,
-                         start=start + 0.9 if hard else max(0, start - 0.5),
-                         end=end if next_hard else min(total, end + 0.5),
-                         fade_out=0.08 if next_hard else 1.2))
+        if SEM_SOBREPOR:  # uma faixa termina (fade curto) exatamente onde a próxima começa
+            cues.append(dict(id=mid, offset=offset, gain=gain, start=start + (0.9 if hard else 0), end=end,
+                             fade_out=0.08 if next_hard else 0.7))
+        else:
+            cues.append(dict(id=mid, offset=offset, gain=gain,
+                             start=start + 0.9 if hard else max(0, start - 0.5),
+                             end=end if next_hard else min(total, end + 0.5),
+                             fade_out=0.08 if next_hard else 1.2))
 
     inputs = ['-i', args.video]
     filters = []
@@ -106,7 +115,15 @@ def main():
         labels.append(f'[m{n}]')
     if not labels:
         raise SystemExit('Nenhuma música no intervalo.')
-    filters.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:dropout_transition=0[music]")
+    filters.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:dropout_transition=0[music0]")
+    # trilha muda nas cenas cujo visual tem vinheta própria (lista SEM_TRILHA do roteiro)
+    mudos = [(sc['start'] / fps - t0, (sc['start'] + sc['duration']) / fps - t0) for sc in tl['scenes']
+             if sc['visual'].get('type') == 'component' and sc['visual'].get('name') in SEM_TRILHA]
+    if mudos:
+        expr = '+'.join(f'between(t,{a:.2f},{b:.2f})' for a, b in mudos)
+        filters.append(f"[music0]volume='if({expr},0,1)':eval=frame[music]")
+    else:
+        filters.append('[music0]anull[music]')
     if args.extra:
         n += 1
         inputs += ['-ss', f'{t0:.3f}', '-i', args.extra]

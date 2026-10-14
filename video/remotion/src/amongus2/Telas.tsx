@@ -264,6 +264,8 @@ export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       <Estrelas vel={3} />
       <Som nome="ejecao" vol={0.7} />
+      {/* bipes de digitação enquanto o texto aparece (começa no quadro 40) */}
+      {Array.from({length: Math.ceil((tl * 2) / 58)}, (_, i) => <Som key={'d' + i} nome="digitando" em={40 + i * 58} vol={0.35} />)}
       {r.expulso && (
         <div style={{position: 'absolute', left: x, top: 380, transform: `rotate(${f * 5}deg)`}}>
           <Crewmate cor={r.expulso} size={200} />

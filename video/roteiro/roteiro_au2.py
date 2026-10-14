@@ -370,26 +370,28 @@ SCENES = [
 
 # Trilha (Kevin MacLeod, CC BY 4.0) por bloco de cenas, lida por scripts/mix_audio.py --roteiro roteiro_au2:
 # (primeira cena, música, início dentro da faixa em s[, ganho extra, corte seco])
-CUES = [
+CUES = [  # uma música diferente por bloco: nenhuma faixa se repete no vídeo
     ('a01', 'decisions', 0),
     ('a03', 'monkeys-spinning-monkeys', 0, 1.0, True),
     ('a04', 'voxel-revolution', 0),
     ('n01', 'pixel-peeker-polka-faster', 0),
     ('p101', 'sneaky-snitch', 0),
     ('p105', 'thinking-music', 0),
-    ('p107', 'sneaky-snitch', 40),
+    ('p107', '8bit-dungeon-level', 0),
     ('p110', 'fluffing-a-duck', 0),
-    ('p201', '8bit-dungeon-level', 0),
-    ('p205', 'thinking-music', 30),
+    ('p201', 'itty-bitty-8-bit', 0),
+    ('p205', 'relent', 0),
     ('p207', 'mega-hyper-ultrastorm', 0),
     ('p210', 'heartbreaking', 0),
-    ('p301', 'sneaky-snitch', 70),
-    ('p305', 'thinking-music', 60),
-    ('p307', 'fluffing-a-duck', 40),
-    ('p401', 'mega-hyper-ultrastorm', 20, 1.0, True),
-    ('p406', 'decisions', 30),
-    ('p408', '8bit-dungeon-boss', 0),
+    ('p301', 'quirky-dog', 0),
+    ('p305', 'despair-and-triumph', 0),
+    ('p307', 'chill-wave', 0),
+    ('p401', '8bit-dungeon-boss', 0, 1.0, True),
+    ('p406', 'bit-shift', 0),
+    ('p408', 'call-to-adventure', 0),
     ('p410', 'heroic-age', 0),
     ('f01', 'winner-winner', 0),
-    ('f02', 'monkeys-spinning-monkeys', 38),
+    ('f02', 'chipper-doodle-v2', 0),
 ]
+# telas com vinheta própria: a trilha fica muda nelas (senão parecem duas músicas ao mesmo tempo)
+SEM_TRILHA = ['AU2Revela', 'AU2Fim', 'AU2Shhh']
