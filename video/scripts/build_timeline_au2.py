@@ -12,6 +12,9 @@ import argparse
 import base64
 import concurrent.futures as cf
 import hashlib
+import shutil
+import threading
+import urllib.error
 import importlib.util
 import json
 import re
@@ -61,6 +64,24 @@ def chave():
     return (Path.home() / '.config' / 'elevenlabs' / 'api_key').read_text().strip()
 
 
+_INDICE = None
+SEM_COTA = threading.Event()
+SO_CONTAR = False
+FALTA = []
+
+
+def _indice_vozes():
+    global _INDICE
+    if _INDICE is None:
+        _INDICE = {}
+        for w in VOZ.glob('*.words.json'):
+            try:
+                _INDICE.setdefault(json.loads(w.read_text()).get('hash'), w)
+            except Exception:  # noqa: BLE001
+                pass
+    return _INDICE
+
+
 def tts(texto, voz, base):
     """Gera base.mp3 e base.words.json (com cache por hash). Devolve (palavras, duração)."""
     mp3, wj = base.with_suffix('.mp3'), base.with_suffix('.words.json')
@@ -69,6 +90,18 @@ def tts(texto, voz, base):
         d = json.loads(wj.read_text())
         if d.get('hash') == h:
             return d['words'], d['dur']
+    # mesma fala (texto + voz) já gerada com outro nome (a cena mudou de posição): copia, não gasta crédito
+    achado = _indice_vozes().get(h)
+    if achado and achado.with_suffix('.mp3').exists():
+        shutil.copyfile(achado.with_suffix('.mp3'), mp3)
+        shutil.copyfile(achado, wj)
+        d = json.loads(wj.read_text())
+        return d['words'], d['dur']
+    if SO_CONTAR:
+        FALTA.append(len(texto))
+        return [], max(0.6, len(texto) / 15)
+    if SEM_COTA.is_set():
+        raise SystemExit('SEM_COTA')
     body = json.dumps({'text': texto, 'model_id': MODELO, 'voice_settings': AJUSTES}).encode()
     url = f'https://api.elevenlabs.io/v1/text-to-speech/{voz}/with-timestamps?output_format=mp3_44100_128'
     for tentativa in range(8):
@@ -78,6 +111,16 @@ def tts(texto, voz, base):
                 d = json.loads(r.read())
             break
         except Exception as e:  # noqa: BLE001
+            corpo = ''
+            if isinstance(e, urllib.error.HTTPError):
+                try:
+                    corpo = e.read().decode('utf-8', 'replace')
+                except Exception:  # noqa: BLE001
+                    pass
+            # cota esgotada: para tudo na hora (o que já foi gerado fica no cache)
+            if 'quota' in corpo.lower() or (isinstance(e, urllib.error.HTTPError) and e.code in (401, 402) and 'credit' in corpo.lower()):
+                SEM_COTA.set()
+                raise SystemExit(f'SEM_COTA: {corpo[:200]}')
             if tentativa == 7:
                 raise
             print(f'  {base.name}: tentativa {tentativa + 1} falhou ({e}); de novo…')
@@ -242,7 +285,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--only', default='')
     ap.add_argument('--sem-voz', action='store_true', help='não chama o ElevenLabs (estima durações)')
+    ap.add_argument('--contar', action='store_true', help='só conta os caracteres que ainda faltam gerar')
     args = ap.parse_args()
+    global SO_CONTAR
+    SO_CONTAR = args.contar
     VOZ.mkdir(parents=True, exist_ok=True)
     mod = carregar_roteiro()
     ps = partidas()
@@ -269,8 +315,19 @@ def main():
                     elif txt.strip('. '):
                         jobs.append((' '.join(bt.spoken(t) for t in txt.split()), VOZES[quem], VOZ / f"{sc['id']}_{k}"))
         print(f'Vozes: {len(jobs)} trechos, {sum(len(j[0]) for j in jobs)} caracteres (cache evita repetir)')
-        with cf.ThreadPoolExecutor(2) as ex:
-            list(ex.map(lambda j: tts(*j), jobs))
+        feitos = 0
+        try:
+            for j in jobs:  # em ordem do vídeo: se a cota acabar, o começo fica pronto
+                tts(*j)
+                feitos += 1
+        except SystemExit as e:
+            if 'SEM_COTA' not in str(e):
+                raise
+            print(f'COTA ESGOTADA depois de {feitos} de {len(jobs)} trechos; o resto fica pra quando tiver crédito.')
+            return
+        if SO_CONTAR:
+            print(f'Faltam gerar: {len(FALTA)} trechos, {sum(FALTA)} caracteres')
+            return
 
     # 2) monta as cenas
     scenes, cursor = [], 0
