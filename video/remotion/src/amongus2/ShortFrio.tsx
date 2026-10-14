@@ -13,7 +13,7 @@ import {Estrelas} from './Telas';
 import {simular, type Partida2} from './sim';
 
 type Palavra = {w: string; s: number; e: number};
-type Bloco = {id: string; dur: number; palavras: Palavra[]};
+export type Bloco = {id: string; dur: number; palavras: Palavra[]};
 export type DadosFrio = {blocos: Bloco[]; p2: Partida2; p3: Partida2};
 
 export const calcShortFrio: CalculateMetadataFunction<{dados: DadosFrio | null}> = async () => {
@@ -28,15 +28,15 @@ const H = 1920;
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 // primeiro quadro da n-ésima palavra que começa com `ini`
-const naPalavra = (b: Bloco, ini: string, n = 1) => b.palavras.filter((p) => p.w.toLowerCase().startsWith(ini.toLowerCase()))[n - 1]?.s ?? 0;
+export const naPalavra = (b: Bloco, ini: string, n = 1) => b.palavras.filter((p) => p.w.toLowerCase().startsWith(ini.toLowerCase()))[n - 1]?.s ?? 0;
 
-const Sfx: React.FC<{src: string; at: number; vol?: number}> = ({src, at, vol = 0.5}) => (
+export const Sfx: React.FC<{src: string; at: number; vol?: number}> = ({src, at, vol = 0.5}) => (
   <Sequence from={Math.max(0, Math.round(at))} durationInFrames={150}>
     <Audio src={staticFile(`sfx/${src}.mp3`)} volume={vol} />
   </Sequence>
 );
 
-const Selo: React.FC<{txt: string; cor?: string; at: number; y: number; rot?: number; size?: number}> = ({txt, cor = '#ff3b30', at, y, rot = -4, size = 74}) => {
+export const Selo: React.FC<{txt: string; cor?: string; at: number; y: number; rot?: number; size?: number}> = ({txt, cor = '#ff3b30', at, y, rot = -4, size = 74}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   if (f < at) return null;
@@ -48,8 +48,8 @@ const Selo: React.FC<{txt: string; cor?: string; at: number; y: number; rot?: nu
   );
 };
 
-// balão do pensamento secreto do Azul, com a palavra-chave em vermelho e o contador
-const Pensamento: React.FC<{texto: string; at: number; destaque: string; n?: number; top?: number}> = ({texto, at, destaque, n, top = 1300}) => {
+// balão do pensamento secreto (do Azul, por padrão), com a palavra-chave em vermelho e o contador
+export const Pensamento: React.FC<{texto: string; at: number; destaque: string; n?: number; top?: number; cor?: string}> = ({texto, at, destaque, n, top = 1300, cor = 'Azul'}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   if (f < at) return null;
@@ -58,8 +58,8 @@ const Pensamento: React.FC<{texto: string; at: number; destaque: string; n?: num
   return (
     <div style={{position: 'absolute', left: 50, right: 50, top, transform: `translateY(${(1 - k) * 80}px)`, opacity: k}}>
       <div style={{background: '#fff', borderRadius: 26, border: '6px dashed #2e5bff', padding: '26px 30px 26px 150px', boxShadow: '0 16px 40px #000a', position: 'relative'}}>
-        <div style={{position: 'absolute', left: 22, top: '50%', transform: 'translateY(-50%)'}}><Crewmate cor="Azul" size={104} /></div>
-        <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#2e5bff', letterSpacing: 2, marginBottom: 6}}>💭 PENSAMENTO SECRETO DO AZUL</div>
+        <div style={{position: 'absolute', left: 22, top: '50%', transform: 'translateY(-50%)'}}><Crewmate cor={cor} size={104} /></div>
+        <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#2e5bff', letterSpacing: 2, marginBottom: 6}}>💭 PENSAMENTO SECRETO DO {cor.toUpperCase()}</div>
         <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 40, lineHeight: 1.2, color: '#111', fontStyle: 'italic'}}>
           “{partes.map((p, i) => (p.toLowerCase() === destaque.toLowerCase() ? <span key={i} style={{color: '#e8202a', fontWeight: 900, fontStyle: 'normal', fontSize: 46}}>{p.toUpperCase()}</span> : <span key={i}>{p}</span>))}”
         </div>
@@ -71,7 +71,7 @@ const Pensamento: React.FC<{texto: string; at: number; destaque: string; n?: num
   );
 };
 
-const Legenda: React.FC<{palavras: Palavra[]; y: number}> = ({palavras, y}) => {
+export const Legenda: React.FC<{palavras: Palavra[]; y: number}> = ({palavras, y}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const grupos: Palavra[][] = [];
@@ -255,7 +255,7 @@ const Ciano: React.FC<PB> = ({d, b}) => {
   );
 };
 
-const Fala: React.FC<{cor: string; txt: string; at: number; lado: 'esq' | 'dir'; y: number; tag?: string}> = ({cor, txt, at, lado, y, tag}) => {
+export const Fala: React.FC<{cor: string; txt: string; at: number; lado: 'esq' | 'dir'; y: number; tag?: string}> = ({cor, txt, at, lado, y, tag}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   if (f < at) return null;
