@@ -169,7 +169,7 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
 
 // efeitos sonoros dos eventos da partida dentro do trecho [de, de+dur): o que acontece perto da câmera (ou com o foco)
 const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos'};
-const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string}> = React.memo(({s, de, dur, foco}) => {
+export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string}> = React.memo(({s, de, dur, foco}) => {
   const lista: {em: number; nome: string; vol: number}[] = [];
   for (const e of s.eventos) {
     const em = e.quadro - de;
