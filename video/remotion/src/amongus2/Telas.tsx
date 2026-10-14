@@ -2,13 +2,17 @@
 // Shhh no começo, revelação do papel, chamado de reunião / corpo encontrado, mesa de votação com chat,
 // ejeção no espaço e vitória/derrota. Cada uma é um componente que roda a partir do quadro 0 da sua Sequence.
 import React from 'react';
-import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Crewmate} from '../amongus/Crewmate';
 import {FONT} from '../theme';
 import {CORES, Partida2} from './sim';
 import {EMPRESA} from './Jogo';
 
 const AZUL = '#8fd3ff';
+// efeito sonoro (public/sfx_au2, sintetizados em video/scripts/sfx_au2.py) tocando a partir do quadro `em` da cena
+export const Som: React.FC<{nome: string; em?: number; vol?: number}> = ({nome, em = 0, vol = 0.8}) => (
+  <Sequence from={em} layout="none"><Audio src={staticFile(`sfx_au2/${nome}.mp3`)} volume={vol} /></Sequence>
+);
 const VERMELHO = '#ff1f1f';
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 const info = (p: Partida2, cor: string) => p.jogadores.find((j) => j.cor === cor)!;
@@ -39,6 +43,7 @@ export const Shhh: React.FC = () => {
   const n = Math.floor(interpolate(f, [8, 30], [3, txt.length], cl));
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 45%, #a1121a 0%, #4a0006 45%, #000 85%)', overflow: 'hidden'}}>
+      <Som nome="shhh" em={6} />
       <div style={{position: 'absolute', left: 960 - 230, top: 170, transform: `scale(${0.6 + 0.4 * e})`, transformOrigin: '50% 80%'}}>
         <Crewmate cor="Vermelho" size={460} />
         {/* mão com o indicador levantado na frente do visor */}
@@ -77,6 +82,7 @@ export const Revela: React.FC<{p: Partida2; foco: string}> = ({p, foco}) => {
   const papel = PAPEL[eu.papel] ?? eu.papel;
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <Som nome={imp ? 'revela_impostor' : 'revela_tripulante'} em={4} />
       {/* holofote */}
       <div style={{position: 'absolute', left: 960 - 700, top: 120, width: 1400, height: 980, background: `radial-gradient(ellipse at 50% 85%, ${imp ? 'rgba(255,40,40,.32)' : 'rgba(140,200,255,.28)'} 0%, transparent 62%)`, opacity: interpolate(f, [0, 20], [0, 1], cl)}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 70, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 170, letterSpacing: 6, color: imp ? VERMELHO : AZUL, WebkitTextStroke: '3px #000', transform: `scale(${titulo})`, textShadow: `0 0 40px ${imp ? '#ff000088' : '#8fd3ff66'}`}}>
@@ -110,6 +116,7 @@ export const Chamado: React.FC<{p: Partida2; idx: number}> = ({p, idx}) => {
   const tremor = f < 12 ? Math.sin(f * 2.3) * 14 * (1 - f / 12) : 0;
   return (
     <AbsoluteFill style={{background: corpo ? '#1b0405' : '#140a00', overflow: 'hidden', transform: `translateX(${tremor}px)`}}>
+      <Som nome={corpo ? 'corpo' : 'emergencia'} />
       {/* raios girando */}
       <div style={{position: 'absolute', left: 960 - 1400, top: 470 - 1400, width: 2800, height: 2800, transform: `rotate(${giro}deg)`, background: `repeating-conic-gradient(${corpo ? '#7c0d12' : '#a8420a'} 0deg 9deg, ${corpo ? '#3a0508' : '#5a1c02'} 9deg 18deg)`, opacity: 0.9}} />
       <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 44%, transparent 18%, rgba(0,0,0,.75) 70%)'}} />
@@ -252,6 +259,7 @@ export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       <Estrelas vel={3} />
+      <Som nome="ejecao" vol={0.7} />
       {r.expulso && (
         <div style={{position: 'absolute', left: x, top: 380, transform: `rotate(${f * 5}deg)`}}>
           <Crewmate cor={r.expulso} size={200} />
@@ -278,6 +286,7 @@ export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
   const tam = vencedores.length > 6 ? 170 : 240;
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <Som nome={ganhei ? 'vitoria' : 'derrota'} />
       <div style={{position: 'absolute', left: 260, top: 160, width: 1400, height: 920, background: `radial-gradient(ellipse at 50% 85%, ${venceu === 'impostor' ? 'rgba(255,40,40,.3)' : 'rgba(140,200,255,.26)'} 0%, transparent 62%)`}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 70, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 190, color: corTit, WebkitTextStroke: '3px #000', transform: `scale(${s})`, textShadow: `0 0 50px ${corTit}66`}}>
         {ganhei ? 'Vitória' : 'Derrota'}
@@ -308,6 +317,7 @@ export const CenaMorte: React.FC<{assassino: string; vitima: string; aparente?: 
   const tremor = golpe && f < 26 ? Math.sin(f * 3.1) * 10 : 0;
   return (
     <AbsoluteFill style={{background: `rgba(0,0,0,${0.6 * abre})`}}>
+      <Som nome="faca" em={17} vol={1} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 540 - 230 * abre, height: 460 * abre, overflow: 'hidden', background: 'linear-gradient(#3b0508, #8a0d14 50%, #3b0508)', borderTop: '8px solid #000', borderBottom: '8px solid #000', transform: `translateX(${tremor}px)`}}>
         {/* impostor (com a aparência que estava usando) */}
         <div style={{position: 'absolute', left: 560 + avanco * 230, top: 60}}>

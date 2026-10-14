@@ -3,7 +3,8 @@
 // Posições vêm da simulação em tempo real (sim.ts): cada quadro da cena é um quadro da partida, ninguém teleporta.
 // Desenho todo próprio (nada do jogo original).
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {Som} from './Telas';
 import {Crewmate, COR} from '../amongus/Crewmate';
 import {Arte} from '../amongus/nave/Arte';
 import {NAVE, salaEm} from '../amongus/nave/mapa';
@@ -23,7 +24,7 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
 };
 const PAPEL_NOME: Record<string, string> = {Medico: 'Médico'};
 
-type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean};
+type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean};
 
 // ícones dos botões, desenhados (sem emoji): branco com contorno preto grosso, como os do jogo
 const tr = {stroke: '#000', strokeWidth: 5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
@@ -164,8 +165,28 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
   );
 };
 
-export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, monitor = true}) => {
+// efeitos sonoros dos eventos da partida dentro do trecho [de, de+dur): o que acontece perto da câmera (ou com o foco)
+const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos'};
+const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string}> = React.memo(({s, de, dur, foco}) => {
+  const lista: {em: number; nome: string; vol: number}[] = [];
+  for (const e of s.eventos) {
+    const em = e.quadro - de;
+    if (em < 0 || em >= dur) continue;
+    const cam = s.q(foco, e.quadro) ?? s.corpos(e.quadro).find((c) => c.cor === foco);
+    const perto = !cam || e.x === undefined || Math.hypot(e.x - cam.x, e.y - cam.y) < 900;
+    const meu = e.cor === foco || e.vitima === foco || e.assassino === foco;
+    let nome = SOM_EVENTO[e.tipo];
+    if (e.tipo === 'tarefa') nome = e.cor === foco ? 'tarefa' : '';
+    if (e.tipo === 'sabotagem') nome = e.subtipo === 'Reator' ? 'reator' : e.subtipo === 'Luzes' ? 'luzes' : 'luzes';
+    if (!nome || (!perto && !meu && e.tipo !== 'sabotagem')) continue;
+    lista.push({em, nome, vol: e.tipo === 'limpeza' ? 0.4 : 0.8});
+  }
+  return <>{lista.map((x, i) => <Som key={i} nome={x.nome} em={x.em} vol={x.vol} />)}</>;
+});
+
+export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, monitor = true, sons = true}) => {
   const frame = useCurrentFrame();
+  const {durationInFrames} = useVideoConfig();
   const s = simular(p);
   const f = de + frame;
   // câmera: segue o foco com um leve atraso (média dos últimos quadros), como a câmera do jogo
@@ -200,6 +221,7 @@ export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, 
       {hud && infoFoco && <Hud p={p} s={s} f={f} foco={foco} frame={frame} />}
       {/* o foco está num console de vigilância: a tela dele abre por cima, como no jogo */}
       {monitor && tela && <Monitor p={p} s={s} f={f} frame={frame} aberto={tela.aberto} quem={foco} tipo={tela.tipo} />}
+      {sons && <SonsJogo s={s} de={de} dur={durationInFrames} foco={foco} />}
       {/* paleta de cores para checagem em teste */}
       <div style={{display: 'none'}}>{Object.keys(COR).join()}</div>
     </AbsoluteFill>
