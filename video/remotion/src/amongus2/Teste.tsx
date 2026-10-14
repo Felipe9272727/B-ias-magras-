@@ -3,7 +3,7 @@ import React from 'react';
 import type {CalculateMetadataFunction} from 'remotion';
 import {staticFile} from 'remotion';
 import {Jogo} from './Jogo';
-import {Chamado, Ejecao2, Fim2, Revela, Shhh, Votacao} from './Telas';
+import {CenaMorte, Chamado, Ejecao2, Fim2, Revela, Shhh, Votacao} from './Telas';
 import type {Partida2} from './sim';
 
 export type PropsTeste = {p: Partida2 | null; de: number; foco: string; partida: number};
@@ -22,6 +22,7 @@ export const calcTela: CalculateMetadataFunction<PropsTela> = async ({props}) =>
 export const AU2Tela: React.FC<PropsTela> = ({p, tela, foco = 'Vermelho', idx = 0, fase = 'discussao', falas = 5, votos = 1}) => {
   if (!p) return null;
   if (tela === 'shhh') return <Shhh />;
+  if (tela === 'morte') return <CenaMorte assassino={foco} vitima="Branco" />;
   if (tela === 'revela') return <Revela p={p} foco={foco} />;
   if (tela === 'chamado') return <Chamado p={p} idx={idx} />;
   if (tela === 'votacao') return <Votacao p={p} idx={idx} fase={fase} falas={falas} votos={votos} />;

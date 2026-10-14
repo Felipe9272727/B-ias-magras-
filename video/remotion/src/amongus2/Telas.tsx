@@ -296,3 +296,37 @@ export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
     </AbsoluteFill>
   );
 };
+
+// ---------- 7. Cena da morte ----------
+// faixa no meio da tela (como a animação de morte do jogo): o impostor avança, a faca entra, a vítima vira meio corpo
+export const CenaMorte: React.FC<{assassino: string; vitima: string; aparente?: string}> = ({assassino, vitima, aparente}) => {
+  const f = useCurrentFrame();
+  const abre = interpolate(f, [0, 6, 52, 60], [0, 1, 1, 0], cl);
+  const avanco = interpolate(f, [6, 18], [0, 1], {...cl, easing: Easing.in(Easing.cubic)});
+  const golpe = f >= 18;
+  const queda = interpolate(f, [20, 30], [0, 1], cl);
+  const tremor = golpe && f < 26 ? Math.sin(f * 3.1) * 10 : 0;
+  return (
+    <AbsoluteFill style={{background: `rgba(0,0,0,${0.6 * abre})`}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 540 - 230 * abre, height: 460 * abre, overflow: 'hidden', background: 'linear-gradient(#3b0508, #8a0d14 50%, #3b0508)', borderTop: '8px solid #000', borderBottom: '8px solid #000', transform: `translateX(${tremor}px)`}}>
+        {/* impostor (com a aparência que estava usando) */}
+        <div style={{position: 'absolute', left: 560 + avanco * 230, top: 60}}>
+          <Crewmate cor={aparente ?? assassino} size={340} anim={golpe ? 'parado' : 'andando'} passo={golpe ? 0 : f / 4} t={f} />
+          {/* faca */}
+          <svg width={240} height={120} viewBox="0 0 240 120" style={{position: 'absolute', left: 250 - (golpe ? 0 : 60), top: 150, transform: `rotate(${golpe ? -4 : -24}deg)`}}>
+            <g stroke="#000" strokeWidth={6} strokeLinejoin="round">
+              <rect x={8} y={46} width={70} height={28} rx={8} fill="#6b3c1c" />
+              <path d="M78 42h20v36H78z" fill="#9aa3b0" />
+              <path d="M98 46h110l24 14-24 14H98z" fill="#e4e9f0" />
+            </g>
+          </svg>
+        </div>
+        {/* vítima: em pé até o golpe, depois meio corpo com o osso */}
+        <div style={{position: 'absolute', left: 1080, top: 50 + queda * 8}}>
+          {golpe ? <Crewmate cor={vitima} size={340} morto /> : <Crewmate cor={vitima} size={340} anim="susto" t={f} virado />}
+        </div>
+        {golpe && <div style={{position: 'absolute', inset: 0, background: '#ff0000', opacity: interpolate(f, [18, 22, 32], [0, 0.55, 0], cl)}} />}
+      </div>
+    </AbsoluteFill>
+  );
+};
