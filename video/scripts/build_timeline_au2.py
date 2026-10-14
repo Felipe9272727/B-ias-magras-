@@ -306,7 +306,9 @@ def main():
                 continue
             if 'text' in sc:
                 tokens, _ = bt.parse(re.sub(r'\s*\.\.\.\s*(?=\[\[)', ' ', sc['text']))
-                jobs.append((' '.join(bt.spoken(t) for t in tokens), NARRADOR, VOZ / sc['id']))
+                falado = ' '.join(bt.spoken(t) for t in tokens)
+                if falado.strip():  # cena sem narração (só tela de jogo): nada a gerar
+                    jobs.append((falado, NARRADOR, VOZ / sc['id']))
             else:
                 for k, (quem, txt) in enumerate(sc['falas']):
                     if quem == 'N':
