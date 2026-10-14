@@ -131,7 +131,7 @@ const Nuvem: React.FC<{txt: string; t: number; idade: number}> = ({txt, t, idade
   const ap = Math.min(1, idade / 8);
   return (
     <div style={{position: 'absolute', left: -t * 2.3, width: t * 4.6, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: ap, transform: `scale(${0.7 + 0.3 * ap})`, transformOrigin: '50% 100%'}}>
-      <div style={{background: '#eef1f7', border: '3px solid #5b6577', borderRadius: t * 0.3, padding: `${t * 0.06}px ${t * 0.12}px`, fontFamily: FONT.display, fontStyle: 'italic', fontWeight: 600, fontSize: t * 0.15, lineHeight: 1.18, color: '#2d3442', textAlign: 'center', boxShadow: '0 4px 0 #0005'}}>
+      <div style={{background: '#eef1f7', border: '3px solid #5b6577', borderRadius: t * 0.3, padding: `${t * 0.06}px ${t * 0.12}px`, fontFamily: FONT.display, fontStyle: 'italic', fontWeight: 600, fontSize: t * 0.17, lineHeight: 1.16, color: '#2d3442', textAlign: 'center', boxShadow: '0 4px 0 #0005'}}>
         <span style={{fontSize: t * 0.12, fontWeight: 900, color: '#7b5cff', fontStyle: 'normal', marginRight: 6}}>PENSA:</span>{txt}
       </div>
       <div style={{width: t * 0.16, height: t * 0.16, borderRadius: '50%', background: '#eef1f7', border: '3px solid #5b6577', marginTop: 4}} />

@@ -116,6 +116,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--sem-voz', action='store_true')
     ap.add_argument('--contar', action='store_true')
+    ap.add_argument('--parcial', action='store_true', help='usa as vozes que já existem e estima o resto (não chama a API)')
     ap.add_argument('--so', default='', help='gera voz só destas cenas (as outras ficam com a duração estimada)')
     args = ap.parse_args()
     au.SO_CONTAR = args.contar
@@ -131,7 +132,7 @@ def main():
 
     so = set(filter(None, args.so.split(',')))
     # 1) vozes, em ordem do vídeo
-    if not args.sem_voz:
+    if not args.sem_voz and not args.parcial:
         jobs = []
         for sc in mod.SCENES:
             if so and sc['id'] not in so:
@@ -163,7 +164,13 @@ def main():
             print(f'Faltam gerar: {len(au.FALTA)} trechos, {sum(au.FALTA)} caracteres')
             return
 
+    if args.parcial:
+        au.SO_CONTAR = True  # tts(): devolve o cache; sem cache, só estima (nunca chama a API)
+
     def dur_voz(texto, voz, base, sem):
+        if args.parcial and not sem:
+            w, d = au.tts(texto, voz, base)
+            return d, bool(w)
         if sem:
             mp3, wj = base.with_suffix('.mp3'), base.with_suffix('.words.json')
             if mp3.exists() and wj.exists():
@@ -185,6 +192,7 @@ def main():
         lead = sc.get('lead', 0.5 if vis.get('name') == 'OCTitulo' else 0.25)
         pad = sc.get('pad', 0.5)
         events, words, forced, voices = [], [], set(), []
+        pendente = False  # alguma voz da cena ainda não foi gerada
         if 'text' in sc:
             n = narrar(sid, sc['text'], VOZ / sid, lead, vis, memes, sfx_files, warnings, sem)
             events += n['events']
@@ -193,6 +201,8 @@ def main():
             end = lead + n['dur'] + max(0.0, n['extra'])
             if n['audio']:
                 voices.append(dict(at=round(lead * FPS), src=f'voice_oc/{sid}.mp3'))
+            elif re.sub(r'\[\[.*?\]\]', '', sc['text']).strip():
+                pendente = True
         else:
             t = lead
             for k, item in enumerate(sc['falas']):
@@ -206,6 +216,8 @@ def main():
                     forced |= {off + i for i in n['forced']}
                     if n['audio']:
                         voices.append(dict(at=round(t * FPS), src=f'voice_oc/{sid}_{k}.mp3'))
+                    elif re.sub(r'\[\[.*?\]\]', '', txt).strip():
+                        pendente = True
                     t += n['dur'] + max(0.0, n['extra']) + 0.3
                     continue
                 tique = item[2] if len(item) > 2 else None
@@ -214,6 +226,8 @@ def main():
                 at = round(t * FPS)
                 if tem:
                     voices.append(dict(at=at, src=f'voice_oc/{sid}_{k}.mp3'))
+                else:
+                    pendente = True
                 if jogo and tique is not None:
                     # a partida chega ao começo do tique quando a voz começa e fica nele enquanto a voz toca
                     events.append(dict(type='tk', at=max(1, at), tick=tique + 0.05))
@@ -258,7 +272,7 @@ def main():
         scenes.append(dict(
             id=sid, chapter=mod.CHAPTERS[sc['chapter']], chapterKey=sc['chapter'], start=cursor, duration=duration,
             audio=None, audioOffset=0, audioDuration=0, words=words, visual=vis, segments=[],
-            events=sorted(events, key=lambda e: e['at']), capGroups=cap,
+            events=sorted(events, key=lambda e: e['at']), capGroups=cap, **({'pendente': True} if pendente else {}),
         ))
         cursor += duration
 
