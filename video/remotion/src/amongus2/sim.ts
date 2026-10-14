@@ -135,6 +135,16 @@ export function simular(p: Partida2): Sim {
     // momentos dos eventos dentro do tique
     const momento = (frac: number) => f + Math.round(dur * frac);
     const mortes = ev.filter((e) => e.tipo === 'morte' || e.tipo === 'xerife');
+    // telas de vigilância (câmeras / mapa do Admin / sinais vitais): abrem quando o jogador chega no console e
+    // ficam abertas até o fim do tique; se ele continua olhando no tique seguinte, a tela não fecha
+    for (const cor of CORES) {
+      const d = dec[cor];
+      const tipo = d && ({'olhar as câmeras': 'cameras', 'olhar o mapa do Admin': 'admin', 'ver sinais vitais': 'vitais'} as Record<string, string>)[d.acao];
+      if (!tipo || !st[cor].vivo) continue;
+      const ant = eventos.find((x) => x.tipo === 'monitor' && x.cor === cor && x.subtipo === tipo && x.ate === f);
+      if (ant) ant.ate = f + dur;
+      else eventos.push({quadro: f + Math.min(dur - 20, Math.round(comprimento(st[cor]) / VEL) + 8), ate: f + dur, tipo: 'monitor', subtipo: tipo, tique: t, cor});
+    }
     const feitos = new Set<any>();
     for (let k = 0; k < dur; k++) {
       // dutos: some no duto na metade, aparece no outro

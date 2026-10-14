@@ -10,6 +10,7 @@ import {NAVE, salaEm} from '../amongus/nave/mapa';
 import type {Sala} from '../amongus/nave/spec';
 import {FONT} from '../theme';
 import {CORES, Partida2, Sim, simular} from './sim';
+import {Monitor, monitorAberto} from './Monitor';
 
 const MUNDO = {w: NAVE.cols * 48, h: NAVE.rows * 48};
 const ESCALA = 1.75; // tripulante com ~130 px de altura na tela, como no jogo
@@ -22,7 +23,7 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
 };
 const PAPEL_NOME: Record<string, string> = {Medico: 'Médico'};
 
-type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean};
+type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean};
 
 // botão redondo do canto (desenho próprio no espírito do jogo)
 const Botao: React.FC<{rotulo: string; icone: string; ativo: boolean; numero?: number; cor?: string}> = ({rotulo, icone, ativo, numero, cor = '#fff'}) => (
@@ -100,7 +101,47 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
   );
 };
 
-export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true}) => {
+// o mundo (mapa, corpos, tripulantes, efeitos) visto de um ponto (cx, cy); usado pela câmera do jogador e pelas câmeras de segurança
+export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx: number; cy: number; escala: number; w: number; h: number; papeis?: boolean; sabReator?: boolean; nomes?: boolean}> = ({p, s, f, frame, cx, cy, escala, w, h, papeis = false, sabReator = false, nomes = true}) => {
+  const vivos = CORES.map((c) => ({c, q: s.q(c, f)})).filter((x) => x.q).sort((a, b) => a.q!.y - b.q!.y);
+  return (
+      <div style={{position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0', transform: `translate(${w / 2 - cx * escala}px, ${h / 2 - cy * escala}px) scale(${escala})`}}>
+        <Arte alertaReator={sabReator ? 0.12 + 0.1 * Math.sin(frame / 4) : 0} />
+        {s.corpos(f).map((c) => (
+          <div key={'c' + c.cor} style={{position: 'absolute', left: c.x - 40 - (c.arrasto ?? 0) * 140, top: c.y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
+            <Crewmate cor={c.cor} size={80} morto />
+          </div>
+        ))}
+        {vivos.map(({c, q}) => {
+          const info = p.jogadores.find((j) => j.cor === c)!;
+          const emp = EMPRESA[info.modelo] ?? {nome: info.modelo, cor: '#555'};
+          const nome = q!.aparente;
+          const vermelho = papeis && info.time === 'impostor';
+          return (
+            <div key={c} style={{position: 'absolute', left: q!.x - 38, top: q!.y - 88, opacity: q!.alpha}}>
+              <div style={{position: 'absolute', left: 8, top: 82, width: 60, height: 14, borderRadius: '50%', background: '#00000055'}} />
+              <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (frame + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
+              <div style={{position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 19, color: vermelho ? '#ff4040' : '#fff', WebkitTextStroke: '0.8px #000', textShadow: '0 2px 0 #000, 0 0 3px #000'}}>
+                {nomes && nome}
+                {nomes && nome === c && <span style={{marginLeft: 5, fontSize: 11, padding: '1px 5px', borderRadius: 5, verticalAlign: 'middle', background: emp.cor, color: '#fff', WebkitTextStroke: '0', textShadow: 'none', border: '1px solid #fff6'}}>{emp.nome}</span>}
+              </div>
+            </div>
+          );
+        })}
+        {/* efeitos de poder no mundo */}
+        {s.eventos.filter((e) => f >= e.quadro && f < e.quadro + 40).map((e, i) => {
+          const k = (f - e.quadro) / 40;
+          const qq = e.cor ? s.q(e.cor, f) : null;
+          if (e.tipo === 'transformacao' && qq) return <div key={i} style={{position: 'absolute', left: qq.x - 80, top: qq.y - 130, width: 160, height: 160, borderRadius: '50%', background: `radial-gradient(circle, rgba(255,255,255,${0.9 * (1 - k)}) 0%, rgba(180,120,255,${0.6 * (1 - k)}) 45%, transparent 70%)`}} />;
+          if (e.tipo === 'invisivel' && qq) return <div key={i} style={{position: 'absolute', left: qq.x - 70, top: qq.y - 120, width: 140, height: 140, borderRadius: '50%', border: `${6 * (1 - k)}px solid rgba(200,220,255,${1 - k})`, transform: `scale(${0.6 + k})`}} />;
+          if (e.tipo === 'escudo') { const v = s.q(e.vitima, f); return v ? <div key={i} style={{position: 'absolute', left: v.x - 70, top: v.y - 120, width: 140, height: 140, borderRadius: '50%', border: '8px solid #6dff8a', boxShadow: '0 0 30px #6dff8a', opacity: 1 - k}} /> : null }
+          return null;
+        })}
+      </div>
+  );
+};
+
+export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, monitor = true}) => {
   const frame = useCurrentFrame();
   const s = simular(p);
   const f = de + frame;
@@ -119,46 +160,14 @@ export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true})
   const infoFoco = p.jogadores.find((j) => j.cor === foco);
   const luzes = sab === 'Luzes' && infoFoco?.time === 'tripulante';
   const raio = luzes ? 260 : 620;
-  const vivos = CORES.map((c) => ({c, q: s.q(c, f)})).filter((x) => x.q).sort((a, b) => a.q!.y - b.q!.y);
   const salaAtual = salaEm({x: cx, y: cy});
+  const tela = monitorAberto(s, foco, f);
   const sabReator = sab === 'Reator';
   // flash vermelho de morte perto da câmera
   const morteRecente = s.eventos.find((e) => (e.tipo === 'morte' || e.tipo === 'xerife') && f >= e.quadro && f < e.quadro + 12 && Math.hypot(e.x - cx, e.y - cy) < 700);
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <div style={{position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0', transform: `translate(${960 - cx * ESCALA}px, ${540 - cy * ESCALA}px) scale(${ESCALA})`}}>
-        <Arte alertaReator={sabReator ? 0.12 + 0.1 * Math.sin(frame / 4) : 0} />
-        {s.corpos(f).map((c) => (
-          <div key={'c' + c.cor} style={{position: 'absolute', left: c.x - 40 - (c.arrasto ?? 0) * 140, top: c.y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
-            <Crewmate cor={c.cor} size={80} morto />
-          </div>
-        ))}
-        {vivos.map(({c, q}) => {
-          const info = p.jogadores.find((j) => j.cor === c)!;
-          const emp = EMPRESA[info.modelo] ?? {nome: info.modelo, cor: '#555'};
-          const nome = q!.aparente;
-          const vermelho = papeis && info.time === 'impostor';
-          return (
-            <div key={c} style={{position: 'absolute', left: q!.x - 38, top: q!.y - 88, opacity: q!.alpha}}>
-              <div style={{position: 'absolute', left: 8, top: 82, width: 60, height: 14, borderRadius: '50%', background: '#00000055'}} />
-              <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (frame + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
-              <div style={{position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 19, color: vermelho ? '#ff4040' : '#fff', WebkitTextStroke: '0.8px #000', textShadow: '0 2px 0 #000, 0 0 3px #000'}}>
-                {nome}
-                {nome === c && <span style={{marginLeft: 5, fontSize: 11, padding: '1px 5px', borderRadius: 5, verticalAlign: 'middle', background: emp.cor, color: '#fff', WebkitTextStroke: '0', textShadow: 'none', border: '1px solid #fff6'}}>{emp.nome}</span>}
-              </div>
-            </div>
-          );
-        })}
-        {/* efeitos de poder no mundo */}
-        {s.eventos.filter((e) => f >= e.quadro && f < e.quadro + 40).map((e, i) => {
-          const k = (f - e.quadro) / 40;
-          const qq = e.cor ? s.q(e.cor, f) : null;
-          if (e.tipo === 'transformacao' && qq) return <div key={i} style={{position: 'absolute', left: qq.x - 80, top: qq.y - 130, width: 160, height: 160, borderRadius: '50%', background: `radial-gradient(circle, rgba(255,255,255,${0.9 * (1 - k)}) 0%, rgba(180,120,255,${0.6 * (1 - k)}) 45%, transparent 70%)`}} />;
-          if (e.tipo === 'invisivel' && qq) return <div key={i} style={{position: 'absolute', left: qq.x - 70, top: qq.y - 120, width: 140, height: 140, borderRadius: '50%', border: `${6 * (1 - k)}px solid rgba(200,220,255,${1 - k})`, transform: `scale(${0.6 + k})`}} />;
-          if (e.tipo === 'escudo') { const v = s.q(e.vitima, f); return v ? <div key={i} style={{position: 'absolute', left: v.x - 70, top: v.y - 120, width: 140, height: 140, borderRadius: '50%', border: '8px solid #6dff8a', boxShadow: '0 0 30px #6dff8a', opacity: 1 - k}} /> : null }
-          return null;
-        })}
-      </div>
+      <Mundo p={p} s={s} f={f} frame={frame} cx={cx} cy={cy} escala={ESCALA} w={1920} h={1080} papeis={papeis} sabReator={sabReator} />
       {/* visão: escuro fora do círculo (bem menor com as luzes sabotadas) */}
       <AbsoluteFill style={{background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.72}px, rgba(0,0,0,${luzes ? 0.97 : 0.62}) ${raio}px)`}} />
       {sabReator && <AbsoluteFill style={{background: '#ff0000', opacity: 0.12 + 0.1 * Math.sin(frame / 4)}} />}
@@ -166,6 +175,8 @@ export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true})
       {/* nome da sala (o jogo mostra ao entrar) */}
       {salaAtual && <div style={{position: 'absolute', left: 0, right: 0, bottom: 34, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 4, color: '#ffffffcc', WebkitTextStroke: '1.5px #000'}}>{NAVE.salas[salaAtual as Sala].nome.toUpperCase()}</div>}
       {hud && infoFoco && <Hud p={p} s={s} f={f} foco={foco} frame={frame} />}
+      {/* o foco está num console de vigilância: a tela dele abre por cima, como no jogo */}
+      {monitor && tela && <Monitor p={p} s={s} f={f} frame={frame} aberto={tela.aberto} quem={foco} tipo={tela.tipo} />}
       {/* paleta de cores para checagem em teste */}
       <div style={{display: 'none'}}>{Object.keys(COR).join()}</div>
     </AbsoluteFill>
