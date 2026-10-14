@@ -84,7 +84,10 @@ export const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: nu
   );
 };
 
-const Balao: React.FC<{txt: string; t: number; idade: number; embaixo?: boolean}> = ({txt, t, idade, embaixo}) => {
+const censura = (s: string) => s.replace(/\b([pP])orra\b/g, '$1*rra').replace(/\bPORRA\b/g, 'P*RRA');
+
+const Balao: React.FC<{txt: string; t: number; idade: number; embaixo?: boolean}> = ({txt: bruto, t, idade, embaixo}) => {
+  const txt = censura(bruto);
   const grito = gritando(txt);
   const ap = Math.min(1, idade / 6);
   const tremor = grito ? Math.sin(idade * 1.7) * 3 : 0;
