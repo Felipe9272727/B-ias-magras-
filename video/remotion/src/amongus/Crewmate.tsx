@@ -10,6 +10,10 @@ export const COR: Record<string, {body: string; shade: string}> = {
   Amarelo: {body: '#f5f557', shade: '#c38823'},
   Preto: {body: '#3f474e', shade: '#1e1f26'},
   Branco: {body: '#d6e0f0', shade: '#8394bf'},
+  Roxo: {body: '#6b2fbb', shade: '#3b177c'},
+  Marrom: {body: '#71491e', shade: '#5e2615'},
+  Ciano: {body: '#38fedc', shade: '#24a8be'},
+  Lima: {body: '#50ef39', shade: '#15a742'},
 };
 
 export type AnimCrewmate = 'parado' | 'andando' | 'tarefa' | 'susto';

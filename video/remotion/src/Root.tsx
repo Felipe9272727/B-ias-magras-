@@ -4,6 +4,7 @@ import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
 import {Thumb3} from './ilha/Thumb3';
 import {DadosShort3, ShortDS4} from './ilha/ShortDS4';
+import {AU2Teste, calcTeste, PropsTeste} from './amongus2/Teste';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -121,6 +122,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
       <Composition id="ShortAzul" component={ShortAzul} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort} />
+      <Composition id="AU2Teste" component={AU2Teste} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, de: 200, foco: 'Marrom', partida: 1} as PropsTeste} calculateMetadata={calcTeste} />
       <Composition id="ShortDS4" component={ShortDS4} width={1080} height={1920} fps={24} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort3} />
       <Composition id="ShortAzul2" component={ShortAzul2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort2} />
       <Composition id="ShortMario" component={ShortMario} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortMario} />
