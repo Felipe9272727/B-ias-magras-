@@ -84,12 +84,12 @@ const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: number; y
   );
 };
 
-const Balao: React.FC<{txt: string; t: number; idade: number}> = ({txt, t, idade}) => {
+const Balao: React.FC<{txt: string; t: number; idade: number; embaixo?: boolean}> = ({txt, t, idade, embaixo}) => {
   const grito = gritando(txt);
   const ap = Math.min(1, idade / 6);
   const tremor = grito ? Math.sin(idade * 1.7) * 3 : 0;
   return (
-    <div style={{position: 'absolute', left: -t * 2.1, width: t * 4.2, bottom: 0, display: 'flex', justifyContent: 'center', transform: `scale(${0.6 + 0.4 * ap}) translateX(${tremor}px)`, transformOrigin: '50% 100%', opacity: ap}}>
+    <div style={{position: 'absolute', left: -t * 2.1, width: t * 4.2, ...(embaixo ? {top: 0} : {bottom: 0}), display: 'flex', justifyContent: 'center', transform: `scale(${0.6 + 0.4 * ap}) translateX(${tremor}px)`, transformOrigin: embaixo ? '50% 0%' : '50% 100%', opacity: ap}}>
       <div style={{background: grito ? '#fff1a8' : '#fff', border: `${grito ? 5 : 3}px solid ${grito ? '#e01b1b' : '#000'}`, borderRadius: grito ? 8 : 18, padding: `${t * 0.05}px ${t * 0.09}px`, fontFamily: FONT.display, fontWeight: grito ? 900 : 700, fontSize: t * (grito ? 0.19 : 0.16), lineHeight: 1.15, color: '#111', textAlign: 'center', boxShadow: '0 4px 0 #0007'}}>{txt}</div>
     </div>
   );
@@ -195,10 +195,12 @@ export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; 
     els.push(
       <div key={`n${c.nome}`} style={{position: 'absolute', left: x - T * 2, width: T * 4, top: y - T * 1.55, textAlign: 'center', zIndex: 600, whiteSpace: 'nowrap'}}>
         <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: T * 0.2, color: '#fff', WebkitTextStroke: `${Math.max(1, T * 0.012)}px #000`, textShadow: '0 2px 0 #000'}}>{c.nome}</span>
-        <span style={{marginLeft: 4, fontFamily: FONT.display, fontWeight: 800, fontSize: T * 0.13, padding: '1px 5px', borderRadius: 5, background: COR_EMPRESA[c.empresa] ?? '#888', color: '#fff', verticalAlign: 'middle', border: '2px solid #000'}}>{c.empresa}</span>
+        {w >= 1200 && <span style={{marginLeft: 4, fontFamily: FONT.display, fontWeight: 800, fontSize: T * 0.13, padding: '1px 5px', borderRadius: 5, background: COR_EMPRESA[c.empresa] ?? '#888', color: '#fff', verticalAlign: 'middle', border: '2px solid #000'}}>{c.empresa}</span>}
       </div>,
     );
-    if (falas && q?.fala) els.push(<div key={`f${c.nome}`} style={{position: 'absolute', left: x, top: y - T * 1.62, width: 0, height: 0, zIndex: 700}}><Balao txt={q.fala} t={T} idade={f * 60} /></div>);
+    const embaixo = pos.y < 2.6;
+    const bx = Math.max(ox + T * 2.1, Math.min(ox + cols * T - T * 2.1, x));
+    if (falas && q?.fala) els.push(<div key={`f${c.nome}`} style={{position: 'absolute', left: bx, top: embaixo ? y + T * 0.3 : y - T * 1.62, width: 0, height: 0, zIndex: 700}}><Balao txt={q.fala} t={T} idade={f * 60} embaixo={embaixo} /></div>);
     if (q?.bloqueado && f < 0.9) els.push(<div key={`bl${c.nome}`} style={{position: 'absolute', left: x + T * 0.2, top: y - T * 1.2, fontSize: T * 0.32, zIndex: 650}}>💢</div>);
   }
   return (
