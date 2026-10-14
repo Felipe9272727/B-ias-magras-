@@ -41,7 +41,7 @@ COMO FUNCIONA
 • Modelos: DeepSeek Flash, Claude Haiku, Claude Sonnet, GPT-5.6 Luna, Gemini 3.8 Flash e Grok 4.3 (GPT, Gemini e Grok via OpenRouter).
 
 Narração e vozes do chat geradas com ElevenLabs.
-Jogo, mapa, personagens e efeitos sonoros feitos do zero (não usa arte nem sons do jogo original).
+Efeitos sonoros gerados com ElevenLabs. Jogo, mapa e personagens feitos do zero (não usa arte nem sons do jogo original).
 Among Us é marca da Innersloth. Este vídeo não tem relação com a Innersloth.
 
 MÚSICAS
@@ -51,13 +51,21 @@ MÚSICAS
 "Pixel Peeker Polka - faster" Kevin MacLeod (incompetech.com)
 "Sneaky Snitch" Kevin MacLeod (incompetech.com)
 "Thinking Music" Kevin MacLeod (incompetech.com)
-"Fluffing a Duck" Kevin MacLeod (incompetech.com)
 "8bit Dungeon Level" Kevin MacLeod (incompetech.com)
+"Fluffing a Duck" Kevin MacLeod (incompetech.com)
+"Itty Bitty 8 Bit" Kevin MacLeod (incompetech.com)
+"Relent" Kevin MacLeod (incompetech.com)
 "Mega Hyper Ultrastorm" Kevin MacLeod (incompetech.com)
 "Heartbreaking" Kevin MacLeod (incompetech.com)
+"Quirky Dog" Kevin MacLeod (incompetech.com)
+"Despair and Triumph" Kevin MacLeod (incompetech.com)
+"Chill Wave" Kevin MacLeod (incompetech.com)
 "8bit Dungeon Boss" Kevin MacLeod (incompetech.com)
+"Bit Shift" Kevin MacLeod (incompetech.com)
+"Call to Adventure" Kevin MacLeod (incompetech.com)
 "Heroic Age" Kevin MacLeod (incompetech.com)
 "Winner Winner!" Kevin MacLeod (incompetech.com)
+"Chipper Doodle v2" Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 ```
