@@ -13,11 +13,11 @@ export const uso = { chamadas: 0, falhas: 0, porProvider: {} }
 
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms))
 
-async function viaPonte(provider, system, prompt, maxTokens, timeoutMs) {
+async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort) {
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
   const res = path.join(SPOOL, 'res', `${id}.json`)
-  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: maxTokens }))
+  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: maxTokens, ...(effort ? { effort } : {}) }))
   fs.renameSync(req + '.tmp', req) // a ponte só lista .json, então nunca lê um arquivo pela metade
   const t0 = Date.now()
   while (Date.now() - t0 < timeoutMs) {
@@ -34,15 +34,17 @@ async function viaPonte(provider, system, prompt, maxTokens, timeoutMs) {
   return { ok: false, text: 'timeout' }
 }
 
-export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 180000, mock } = {}) {
+export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 180000, mock, effort } = {}) {
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0) + 1
   if (provider === 'mock') return { ok: true, text: mock ? mock() : '{}' }
   // o DeepSeek Flash raciocina antes de responder e o raciocínio consome o limite de tokens:
   // damos folga para sobrar espaço para a resposta em si
   if (provider === 'deepseek') maxTokens += 3000
+  // o Opus pensa antes de responder: esforço médio (pedido da pessoa) e folga de tokens para o pensamento
+  if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
   for (let tentativa = 0; tentativa < 3; tentativa++) {
-    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs)
+    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
     if (r.ok && r.text.trim()) {
       const c = Number(r.usage?.cost ?? 0)  // o OpenRouter informa o custo em dólar de cada chamada
       if (c) { uso.custo = uso.custo ?? {}; uso.custo[provider] = (uso.custo[provider] ?? 0) + c }
