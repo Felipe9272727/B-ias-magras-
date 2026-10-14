@@ -43,6 +43,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'deepseek') maxTokens += 3000
   // o Opus pensa antes de responder: esforço médio (pedido da pessoa) e folga de tokens para o pensamento
   if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
+  let transientes = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
     if (r.ok && r.text.trim()) {
@@ -50,6 +51,8 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
       if (c) { uso.custo = uso.custo ?? {}; uso.custo[provider] = (uso.custo[provider] ?? 0) + c }
       return r
     }
+    // 429 passageiro do OpenRouter ("could not verify ... Retry shortly"): espera e tenta de novo, não é falta de crédito
+    if (/Retry shortly|could not verify|rate.?limit/i.test(r.text) && transientes++ < 8) { await dormir(15000); tentativa--; continue }
     if (/sem cota|sem chave/.test(r.text)) throw new Error(r.text)
     await dormir(1500 * (tentativa + 1))
   }
