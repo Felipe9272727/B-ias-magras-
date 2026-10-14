@@ -437,8 +437,8 @@ export class Partida {
     return {
       tique: this.tique, pontos: this.pontos,
       pedidos: this.pedidos.map((p) => ({id: p.id, receita: p.receita, resta: p.ate - this.tique, tempo: p.tempo})),
-      chefs: this.chefs.map((ch) => ({nome: ch.nome, pos: {...ch.pos}, mao: ch.mao ? descItem(ch.mao) : null})),
-      tiles: this.c.tiles.filter((t) => t.item || t.fogo || t.ch === 'D' || t.ch === 'R' || t.ch === 'S' || t.ch === 'B').map((t) => ({x: t.x, y: t.y, item: t.item ? descItem(t.item) : null, estado: t.item?.estado, prog: t.item?.prog, n: t.item?.conteudo?.length, fogo: t.fogo, pratos: t.pratos, sujos: t.sujos, picando: t.picando})),
+      chefs: this.chefs.map((ch) => ({nome: ch.nome, pos: {...ch.pos}, mao: ch.mao ? descItem(ch.mao) : null, obj: ch.mao ? JSON.parse(JSON.stringify(ch.mao)) : null})),
+      tiles: this.c.tiles.filter((t) => t.item || t.fogo || t.ch === 'D' || t.ch === 'R' || t.ch === 'S' || t.ch === 'B').map((t) => ({x: t.x, y: t.y, item: t.item ? descItem(t.item) : null, obj: t.item ? JSON.parse(JSON.stringify(t.item)) : null, fogo: t.fogo, pratos: t.pratos, sujos: t.sujos, picando: t.picando})),
     }
   }
 }

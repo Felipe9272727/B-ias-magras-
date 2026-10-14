@@ -13,6 +13,7 @@ import {ThumbAU2} from './amongus2/ThumbAU2';
 import {ShortAU2, calcShortAU2} from './amongus2/ShortAU2';
 import {ShortFrio, calcShortFrio} from './amongus2/ShortFrio';
 import {ShortLaranja, calcShortLaranja} from './amongus2/ShortLaranja';
+import {PreviaOC, calcPreviaOC} from './overcooked/Previa';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -134,6 +135,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AU2AberturaPrevia" component={AU2AberturaPrevia} width={1920} height={1080} fps={30} durationInFrames={550} />
       <Composition id="AU2Teste" component={AU2Teste} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, de: 200, foco: 'Marrom', partida: 1} as PropsTeste} calculateMetadata={calcTeste} />
       <Composition id="AmongUs2" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU2} />
+      <Composition id="PreviaOC" component={PreviaOC} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{log: null, cz: 0, de: 0, grade: false}} calculateMetadata={calcPreviaOC} />
       <Composition id="ShortLaranja" component={ShortLaranja} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortLaranja} />
       <Composition id="ShortFrio" component={ShortFrio} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortFrio} />
       <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortAU2} />
