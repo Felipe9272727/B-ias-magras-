@@ -233,3 +233,29 @@ SCENES = [
     N('f02', 'fim', titulo('e agora?', 'TEMPORADA 2?', 'comenta qual IA você quer ver de impostor', cor='#8fd3ff'),
       'Se você quer uma segunda temporada, comenta aí: qual IA você quer ver de impostor, e qual função nova eu devo colocar. [[m:happy-dance:right:2.5]] Se inscreve, deixa o like, e até o próximo vídeo.', pad=1.5),
 ]
+
+# Trilha (Kevin MacLeod, CC BY 4.0) por bloco de cenas, lida por scripts/mix_audio.py --roteiro roteiro_au2:
+# (primeira cena, música, início dentro da faixa em s[, ganho extra, corte seco])
+CUES = [
+    ('a01', 'decisions', 0),
+    ('a03', 'monkeys-spinning-monkeys', 0, 1.0, True),
+    ('a04', 'voxel-revolution', 0),
+    ('n01', 'pixel-peeker-polka-faster', 0),
+    ('p101', 'sneaky-snitch', 0),
+    ('p105', 'thinking-music', 0),
+    ('p107', 'sneaky-snitch', 40),
+    ('p110', 'fluffing-a-duck', 0),
+    ('p201', '8bit-dungeon-level', 0),
+    ('p205', 'thinking-music', 30),
+    ('p207', 'mega-hyper-ultrastorm', 0),
+    ('p210', 'heartbreaking', 0),
+    ('p301', 'sneaky-snitch', 70),
+    ('p305', 'thinking-music', 60),
+    ('p307', 'fluffing-a-duck', 40),
+    ('p401', 'mega-hyper-ultrastorm', 20, 1.0, True),
+    ('p406', 'decisions', 30),
+    ('p408', '8bit-dungeon-boss', 0),
+    ('p410', 'heroic-age', 0),
+    ('f01', 'winner-winner', 0),
+    ('f02', 'monkeys-spinning-monkeys', 38),
+]
