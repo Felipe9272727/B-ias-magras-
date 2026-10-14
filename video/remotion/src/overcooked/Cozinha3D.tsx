@@ -65,16 +65,21 @@ const Sprite: React.FC<{nome: string; grupo: 'pecas' | 'itens'; x: number; y: nu
   return <Img src={staticFile(`overcooked/pecas/${nome}.png`)} style={{position: 'absolute', left: x - m.ancora[0] * s, top: y - m.ancora[1] * s, width: m.w * s, height: m.h * s, zIndex: z}} />;
 };
 
-const ChefSprite: React.FC<{empresa: string; anim: string; dir: number; x: number; y: number; k: number; frame: number; z: number}> = ({empresa, anim, dir, x, y, k, frame, z}) => {
+// um chef só (corpo branco) pintado na cor da empresa: a cor é multiplicada só onde a máscara marca o corpo
+const ChefSprite: React.FC<{cor: string; anim: string; dir: number; x: number; y: number; k: number; frame: number; z: number}> = ({cor, anim, dir, x, y, k, frame, z}) => {
   const a = CM.anims[anim] ?? CM.anims.parado;
   const idx = Math.floor((frame / 30) * (a.n / a.dur)) % a.n;
   const [qw, qh] = CM.quadro;
   const s = (k * META.px_m) / CM.px_m;
   const espelho = dir === 270;
   const d = espelho ? 90 : dir;
+  const tira = (camada: string) => staticFile(`overcooked/chefs/${camada}/${anim}_${d}.png`);
+  const pos = `${-idx * qw * s}px 0px`;
+  const tam = `${qw * s * a.n}px ${qh * s}px`;
   return (
-    <div style={{position: 'absolute', left: x - CM.pes[0] * s, top: y - CM.pes[1] * s, width: qw * s, height: qh * s, zIndex: z, overflow: 'hidden', transform: espelho ? 'scaleX(-1)' : undefined}}>
-      <Img src={staticFile(`overcooked/chefs/${empresa}/${anim}_${d}.png`)} style={{position: 'absolute', left: -idx * qw * s, top: 0, width: qw * s * a.n, height: qh * s}} />
+    <div style={{position: 'absolute', left: x - CM.pes[0] * s, top: y - CM.pes[1] * s, width: qw * s, height: qh * s, zIndex: z, transform: espelho ? 'scaleX(-1)' : undefined, isolation: 'isolate'}}>
+      <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${tira('base')})`, backgroundPosition: pos, backgroundSize: tam}} />
+      <div style={{position: 'absolute', inset: 0, background: cor, mixBlendMode: 'multiply', WebkitMaskImage: `url(${tira('mascara')})`, maskImage: `url(${tira('mascara')})`, WebkitMaskPosition: pos, maskPosition: pos, WebkitMaskSize: tam, maskSize: tam, WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat'}} />
     </div>
   );
 };
@@ -173,11 +178,11 @@ export const Cozinha3D: React.FC<{log: LogOC; cz: number; t: number; w: number; 
     const obj = est.chefs.find((x) => x.nome === c.nome)?.obj ?? null;
     const acao = q?.acao ?? '';
     const grita = !!q?.fala && gritando(q.fala) && !anda;
-    const anim = anda ? (obj ? 'carregar_andar' : 'andar') : /^picar/.test(acao) && depois ? 'picar' : /^lavar/.test(acao) && depois ? 'lavar' : grita && !obj ? 'panico' : obj ? 'carregar' : 'parado';
+    const anim = anda ? (obj ? 'carregar_andar' : 'andar') : /^picar/.test(acao) && depois ? 'picar' : grita && !obj ? 'panico' : obj ? 'carregar' : 'parado';
     const x = cx(pos.x), y = cy(pos.y);
     const z = 15 + Math.round(pos.y * 10);
     els.push(<div key={`sh${c.nome}`} style={{position: 'absolute', left: x - T * 0.32, top: y - T * 0.12, width: T * 0.64, height: T * 0.24, borderRadius: '50%', background: '#0004', zIndex: z - 1}} />);
-    els.push(<ChefSprite key={`c${c.nome}`} empresa={c.empresa} anim={anim} dir={dir} x={x} y={y} k={k} frame={frame + c.nome.length * 7} z={z} />);
+    els.push(<ChefSprite key={`c${c.nome}`} cor={COR_EMPRESA[c.empresa] ?? '#888'} anim={anim} dir={dir} x={x} y={y} k={k} frame={frame + c.nome.length * 7} z={z} />);
     // item na mão: na frente (de frente/de lado) ou atrás (de costas)
     const sp = spriteItem(obj);
     if (sp.length) {

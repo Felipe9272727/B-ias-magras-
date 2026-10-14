@@ -22,8 +22,10 @@ DIRS = [0, 90, 180]
 PX_CHEF = 140  # o chef aparece com ~200 px de altura na cozinha
 
 # nome: (quadros, duração s, laço)
-ANIMS = {'parado': (8, 1.2, True), 'andar': (8, 0.5, True), 'carregar': (8, 1.2, True), 'carregar_andar': (8, 0.5, True),
-         'picar': (8, 0.45, True), 'lavar': (8, 0.6, True), 'panico': (8, 0.5, True), 'comemorar': (10, 0.8, True)}
+ANIMS = {'parado': (6, 1.2, True), 'andar': (6, 0.5, True), 'carregar': (6, 1.2, True), 'carregar_andar': (6, 0.5, True),
+         'picar': (6, 0.45, True), 'panico': (6, 0.5, True)}
+# um chef só, com o corpo branco: a cor de cada empresa é pintada no Remotion (multiplicando pela máscara do corpo)
+BRANCO = (0.93, 0.93, 0.93)
 
 
 def chef(cor):
@@ -107,7 +109,7 @@ def pose(p, anim, u):
         pE.location.z += 0.3 * pulo; pD.location.z += 0.3 * pulo
 
 
-def renderizar(empresas, teste=False):
+def renderizar(dirs, teste=False):
     C.limpar()
     sc = C.cena_sprite(QW, QH, teste, alvo=(0, 0, 0.62), px_m=PX_CHEF, amostras=6)
     cam = sc.camera
@@ -116,31 +118,47 @@ def renderizar(empresas, teste=False):
     meta['pes'] = C.ponto_na_tela(sc, cam, (0, 0, 0))
     for nome, (n, dur, laco) in ANIMS.items():
         meta['anims'][nome] = {'n': n, 'dur': dur, 'laco': laco}
-    for emp in empresas:
-        raiz, partes = chef(EMPRESAS[emp])
-        for anim, (n, dur, laco) in ANIMS.items():
-            if teste and anim not in ('parado', 'andar', 'picar', 'panico'):
+    raiz, partes = chef(BRANCO)
+    corpo_objs = [o for o in bpy.data.objects if o.name.split('.')[0] in ('barriga', 'cabeca')]
+    outros = [o for o in bpy.data.objects if o.type == 'MESH' and o not in corpo_objs]
+    m_mask = C.mat('mascara', (1, 1, 1), rough=1, emit=1.0)
+    m_hold = bpy.data.materials.new('holdout'); m_hold.use_nodes = True
+    nt = m_hold.node_tree; nt.nodes.clear()
+    out = nt.nodes.new('ShaderNodeOutputMaterial'); hold = nt.nodes.new('ShaderNodeHoldout')
+    nt.links.new(hold.outputs[0], out.inputs['Surface'])
+    originais = {o.name: list(o.data.materials) for o in bpy.data.objects if o.type == 'MESH'}
+
+    def modo_mascara(lig):
+        for o in bpy.data.objects:
+            if o.type != 'MESH':
                 continue
-            for d in DIRS:
-                raiz.rotation_euler = (0, 0, math.radians(d))
+            o.data.materials.clear()
+            if not lig:
+                for m in originais[o.name]:
+                    o.data.materials.append(m)
+            else:
+                o.data.materials.append(m_mask if o in corpo_objs else m_hold)
+
+    for anim, (n, dur, laco) in ANIMS.items():
+        for d in dirs:
+            raiz.rotation_euler = (0, 0, math.radians(d))
+            for camada in ('base', 'mascara'):
+                modo_mascara(camada == 'mascara')
                 quadros = []
                 for q in range(n):
                     pose(partes, anim, q / n)
-                    f = os.path.join(C.TMP, f'{emp}_{anim}_{d}_{q:02d}.png')
+                    f = os.path.join(C.TMP, f'{camada}_{anim}_{d}_{q:02d}.png')
                     sc.render.filepath = f
                     bpy.ops.render.render(write_still=True)
                     quadros.append(f)
-                C.juntar_tira(quadros, os.path.join(SAIDA, emp, f'{anim}_{d}.png'))
-                print('tira', emp, anim, d, flush=True)
-        bpy.data.objects.remove(raiz)
-        for o in [o for o in bpy.data.objects if o.type != 'CAMERA' and o.type != 'LIGHT']:
-            bpy.data.objects.remove(o)
+                C.juntar_tira(quadros, os.path.join(SAIDA, camada, f'{anim}_{d}.png'))
+            print('tira', anim, d, flush=True)
     with open(os.path.join(SAIDA, 'chefs.json'), 'w') as fh:
-        json.dump(meta, fh)  # igual para todas as empresas (mesma câmera e animações)
+        json.dump(meta, fh)
 
 
 if __name__ == '__main__':
     args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
     teste = '--teste' in args
-    emps = [a for a in args if not a.startswith('--')]
-    renderizar(emps[0].split(',') if emps else list(EMPRESAS), teste)
+    ds = [a for a in args if not a.startswith('--')]
+    renderizar([int(x) for x in ds[0].split(',')] if ds else DIRS, teste)
