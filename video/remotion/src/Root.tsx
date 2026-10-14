@@ -8,6 +8,7 @@ import {AU2Tela, AU2Teste, calcTela, calcTeste, PropsTela, PropsTeste} from './a
 import {AU2AberturaPrevia} from './amongus2/AberturaPrevia';
 import {AU2Papeis} from './amongus2/Papeis';
 import {AU2Sorteio} from './amongus2/Sorteio';
+import {AU2Manual} from './amongus2/Manual';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -130,6 +131,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AU2Tela" component={AU2Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 2, tela: 'shhh'} as PropsTela} calculateMetadata={calcTela} />
       <Composition id="AU2Papeis" component={AU2Papeis} width={1920} height={1080} fps={30} durationInFrames={330} />
       <Composition id="AU2Sorteio" component={AU2Sorteio} width={1920} height={1080} fps={30} durationInFrames={330} />
+      <Composition id="AU2Manual" component={AU2Manual} width={1920} height={1080} fps={30} durationInFrames={330} defaultProps={{destaque: [3, 6, 10]}} />
       <Composition id="ShortDS4" component={ShortDS4} width={1080} height={1920} fps={24} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort3} />
       <Composition id="ShortAzul2" component={ShortAzul2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort2} />
       <Composition id="ShortMario" component={ShortMario} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortMario} />

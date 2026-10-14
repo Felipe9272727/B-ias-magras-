@@ -18,6 +18,7 @@ const ESCALA = 1.75; // tripulante com ~130 px de altura na tela, como no jogo
 export const EMPRESA: Record<string, {nome: string; cor: string}> = {
   'DeepSeek Flash': {nome: 'DeepSeek', cor: '#2f6bff'},
   'Claude Haiku': {nome: 'Claude', cor: '#d97a47'},
+  'Claude Opus': {nome: 'Opus', cor: '#b5532a'},
   'GPT-5.6 Luna': {nome: 'GPT', cor: '#10a37f'},
   'Gemini 3.8 Flash': {nome: 'Gemini', cor: '#8e5cf7'},
   'Grok 4.3': {nome: 'Grok', cor: '#111111'},
