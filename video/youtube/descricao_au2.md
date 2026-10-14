@@ -27,10 +27,10 @@ CAPÍTULOS
 0:00 Abertura
 1:37 O que mudou
 2:59 Partida 1 · Eu sou Claude
-7:43 Partida 2 · O Detetive que ninguém ouviu
-12:20 Partida 3 · O DeepSeek de novo
-15:48 Partida 4 · Apimentando
-21:19 Placar e encerramento
+10:04 Partida 2 · O Detetive que ninguém ouviu
+16:55 Partida 3 · O DeepSeek de novo
+23:53 Partida 4 · Apimentando
+33:12 Placar e encerramento
 
 Qual IA você quer ver de impostor na temporada 2? Comenta aí.
 
