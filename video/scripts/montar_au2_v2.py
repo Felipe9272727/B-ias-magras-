@@ -8,7 +8,9 @@ Compara a timeline nova (public/timeline_au2.json) com a antiga (public/timeline
 Cenas vizinhas do mesmo tipo viram um trecho só. Cada trecho fica salvo em out/v2/ (retomável) e no fim tudo é juntado.
 
 Uso: python3 montar_au2_v2.py <bundle do remotion> [saida.mp4]
+     python3 montar_au2_v2.py --migrar <timeline usada pela versão antiga, em public/>
 """
+import hashlib
 import json
 import shutil
 import subprocess
@@ -29,22 +31,40 @@ def assinatura(sc, ant):
                        (ant or {}).get('visual', {}).get('name')], sort_keys=True, ensure_ascii=False)
 
 
-def trechos():
+def trechos(nova='timeline_au2.json'):
     a = json.loads((PUB / 'timeline_au2_v1.json').read_text())['scenes']
-    b = json.loads((PUB / 'timeline_au2.json').read_text())['scenes']
+    b = json.loads((PUB / nova).read_text())['scenes']
     velhas = {assinatura(s, a[i - 1] if i else None): s for i, s in enumerate(a)}
-    out = []  # (tipo, ini_novo, fim_novo, ini_velho, ids)
+    out = []  # (tipo, ini_novo, fim_novo, ini_velho, ids, assinaturas)
     for i, s in enumerate(b):
         v = velhas.get(assinatura(s, b[i - 1] if i else None))
         tipo = 'reusa' if v else 'render'
         ini_v = v['start'] if v else None
         ult = out[-1] if out else None
         # junta com o trecho anterior se for do mesmo tipo (e, no reuso, contínuo no vídeo antigo)
+        sig = assinatura(s, b[i - 1] if i else None)
         if ult and ult[0] == tipo and (tipo == 'render' or ult[3] + (ult[2] - ult[1]) == ini_v):
-            out[-1] = (tipo, ult[1], s['start'] + s['duration'], ult[3], ult[4] + [s['id']])
+            out[-1] = (tipo, ult[1], s['start'] + s['duration'], ult[3], ult[4] + [s['id']], ult[5] + [sig])
         else:
-            out.append((tipo, s['start'], s['start'] + s['duration'], ini_v, [s['id']]))
+            out.append((tipo, s['start'], s['start'] + s['duration'], ini_v, [s['id']], [sig]))
     return out
+
+
+def nome(t):
+    """Nome do arquivo do trecho pelo conteúdo (cenas + origem), não pela posição: se o vídeo andar alguns segundos por
+    causa de uma mudança antes, os trechos iguais continuam reaproveitados."""
+    tipo, _, _, ini_v, ids, sigs = t
+    h = hashlib.sha1(json.dumps([tipo, ini_v, sigs], ensure_ascii=False).encode()).hexdigest()[:14]
+    return f'{tipo}_{ids[0]}_{ids[-1]}_{h}.mp4'
+
+
+def migrar(timeline_antiga):
+    """Renomeia os trechos feitos pela versão antiga do script (t000_tipo_ini_fim.mp4) para o nome por conteúdo."""
+    for k, t in enumerate(trechos(timeline_antiga)):
+        velho = OUT / f't{k:03d}_{t[0]}_{t[1]}_{t[2]}.mp4'
+        if velho.exists():
+            velho.rename(OUT / nome(t))
+            print('migrado', velho.name, '->', nome(t))
 
 
 def limpar_tmp():
@@ -61,6 +81,9 @@ def remotion(bundle, saida, ini, fim, extra):
 
 
 def main():
+    if sys.argv[1] == '--migrar':
+        migrar(sys.argv[2])
+        return
     bundle = sys.argv[1]
     saida = Path(sys.argv[2] if len(sys.argv) > 2 else REM / 'out' / 'au2_v2_sem_mix.mp4')
     OUT.mkdir(parents=True, exist_ok=True)
@@ -68,8 +91,9 @@ def main():
     tot = sum(t[2] - t[1] for t in lista if t[0] == 'render')
     print(f'{len(lista)} trechos; renderizar {tot / FPS / 60:.1f} min, reaproveitar {sum(t[2] - t[1] for t in lista if t[0] == "reusa") / FPS / 60:.1f} min', flush=True)
     arqs = []
-    for k, (tipo, ini, fim, ini_v, ids) in enumerate(lista):
-        arq = OUT / f't{k:03d}_{tipo}_{ini}_{fim}.mp4'
+    for k, t in enumerate(lista):
+        tipo, ini, fim, ini_v, ids, _ = t
+        arq = OUT / nome(t)
         arqs.append(arq)
         if arq.exists():
             continue

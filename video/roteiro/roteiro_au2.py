@@ -100,7 +100,7 @@ SCENES = [
     ]),
     N('a02', 'abertura', ejecao(4, 0), '[[s:whoosh:0.5]] Não funcionou. [[m:sad-pablo:right:3]] Mas calma, que essa história começa bem antes. Começa nos comentários de vocês.', pad=1.4),
     N('a03', 'abertura', comp('AU2Comentarios', passo=42),
-      'No último vídeo, oito IAs jogaram Among Us. E vocês pediram. O CAFEZIN pediu o ChatGPT, o Grok e o Gemini. O Futosaunte pediu mais jogadores, três impostores e mais funções. E o CAFEZIN de novo apontou um defeito real: as IAs saíam do duto na frente de todo mundo, sem pensar se tinha alguém olhando. [[m:sus-doakes:right:2.5]] E o meu favorito: impostor medroso, não. Impostor vegano, sim.'),
+      'No último vídeo, oito IAs jogaram Among Us. E vocês pediram. O CAFEZIN pediu o ChatGPT, o Grok e o Gemini. O Futosaunte pediu mais jogadores, três impostores e mais funções. E o CAFEZIN de novo apontou um defeito real: as IAs saíam do duto na frente de todo mundo, sem pensar se tinha alguém olhando. [[m:sus-doakes:right:2.5]] E o meu favorito: impostor medroso, não. [[t:IMPOSTOR VEGANO, SIM:2.2:#7ee787]] Impostor vegano, sim.'),
     N('a04', 'abertura', comp('AU2AntesDepois'),
       'Então eu fiz tudo isso. E aproveitei pra refazer o jogo inteiro. De um lado, o Among Us do vídeo passado. Do outro... [[s:riser:0.5]] o Among Us 2. Câmera seguindo o jogador, gente andando de verdade em vez de teleportar, botões, sons, reunião, ejeção. [[p]][[m:mind-blown:right:2.5]] Tudo desenhado do zero, nada tirado do jogo original.'),
     N('a05', 'abertura', titulo('12 IAs · 5 empresas · 4 partidas', 'COLOQUEI 12 IAs PRA JOGAR AMONG US', 'DeepSeek, Claude, GPT, Gemini e Grok'),
@@ -168,9 +168,9 @@ SCENES = [
         ('N', 'Agora ele conta que é Engenheiro. Na primeira reunião ele jurou que nunca tinha entrado em duto. [[m:homer-panic:right:2.5]]'),
     ]),
     N('p110v', 'p1', votos(1, 2), '', pad=1.8),
-    N('p110e', 'p1', ejecao(1, 2), 'O Preto saiu. Era inocente. O Engenheiro que mentiu sobre ser Engenheiro. [[s:sad-trombone:0.5]]', pad=1.4),
+    N('p110e', 'p1', ejecao(1, 2), 'O Preto saiu. Era inocente. O Engenheiro que jurou que nunca tinha entrado em duto. [[s:sad-trombone:0.5]]', pad=1.4),
     N('p111', 'p1', comp('AU2Fim', partida=1, foco='Rosa'),
-      'Mas no tique seguinte, a tripulação termina as tarefas. Vitória. [[m:we-did-it:right:2.5]] E o Laranja, o impostor que nunca matou ninguém, sobreviveu até o fim. Guarda o nome dele, porque na próxima partida todo mundo vai lembrar.', pad=1.0),
+      'Mas no tique seguinte, a tripulação termina as tarefas. Vitória. [[m:we-did-it:right:2.5]] E o Laranja, o impostor que nunca matou ninguém, sobreviveu até o fim. Guarda o nome dele, porque na próxima partida todo mundo vai lembrar. [[t:TRIPULANTES 1 × 0 IMPOSTORES:2.2:#8fd3ff]]', pad=1.0),
 
     # ------------------------------------------------------------------ PARTIDA 2
     N('p201', 'p2', revela(2, 'Verde'),
@@ -225,11 +225,11 @@ SCENES = [
       'O Azul vota no Preto. A Rosa, que disse que ia votar no Preto... pula. E o Preto usa o voto duplo no Laranja. [[p]]Sem o voto duplo, ia dar empate. [[s:sad-trombone:0.5]]', pad=0.8),
     N('p209x', 'p2', ejecao(2, 3), 'O Prefeito usou o superpoder dele pra expulsar o Xerife inocente.', pad=1.6),
     N('p210', 'p2', comp('AU2Fim', partida=2, foco='Laranja'),
-      'E a partida terminou com a tripulação completando as tarefas... com o Azul vivo, pensando até o último segundo: "preciso achar alguém isolado pra matar sem testemunha". [[m:crying-jordan:right:3]] E o Laranja, o Xerife, nunca atirou: "não tenho certeza absoluta". Ninguém tinha.', pad=1.0),
+      'E a partida terminou com a tripulação completando as tarefas... com o Azul vivo, pensando até o último segundo: "preciso achar alguém isolado pra matar sem testemunha". [[m:crying-jordan:right:3]] E o Laranja, o Xerife, nunca atirou: "não tenho certeza absoluta". Ninguém tinha. [[t:TRIPULANTES 2 × 0 IMPOSTORES:2.2:#8fd3ff]]', pad=1.0),
 
     # ------------------------------------------------------------------ PARTIDA 3
     N('p301', 'p3', revela(3, 'Azul'),
-      'Partida três. E o sorteio, que eu juro que é aleatório, coloca o Azul de impostor de novo. [[m:spiderman-pointing:right:3]] DeepSeek, Metamorfo, de novo. Com ele: o Preto, um Grok de Fantasma, e o Branco, um Claude de Faxineiro.'),
+      'Partida três. E o sorteio, que eu juro que é aleatório, coloca o Azul de impostor de novo. [[t:DE NOVO:1.4:#ffd84d]][[m:spiderman-pointing:right:3]] DeepSeek, Metamorfo, de novo. Com ele: o Preto, um Grok de Fantasma, e o Branco, um Claude de Faxineiro.'),
     N('p302', 'p3', jogo(3, 'Preto', tique=2),
       'O Preto fica invisível logo no começo e reaparece em Admin... na frente do Laranja. [[s:glitch:0.5]] E o Verde aperta o botão.', pad=0.8),
     CH('p302b', 'p3', reuniao(3, 0), [
@@ -266,7 +266,7 @@ SCENES = [
         *F(3, 2, 7, 8),
     ]),
     N('p305v', 'p3', votos(3, 2), '', pad=1.8),
-    N('p306', 'p3', ejecao(3, 2), 'Segunda partida seguida em que o Detetive é expulso por falar a verdade. [[s:sad-trombone:0.5]][[m:chaves-triste:center:2.5]] Detetive é a profissão mais perigosa dessa nave.', pad=1.4),
+    N('p306', 'p3', ejecao(3, 2), '[[t:DE NOVO:1.4:#ffd84d]] Segunda partida seguida em que o Detetive é expulso por falar a verdade. [[s:sad-trombone:0.5]][[m:chaves-triste:center:2.5]] Detetive é a profissão mais perigosa dessa nave.', pad=1.4),
     N('p307', 'p3', jogo(3, 'Azul', tique=39),
       'E pra fechar, o Azul vira a Rosa e sai do duto no Refeitório, na frente de quatro pessoas. [[m:michael-scott-no:right:3]]', pad=1.0),
     CH('p307b', 'p3', reuniao(3, 3), [
@@ -281,13 +281,13 @@ SCENES = [
     N('p307v', 'p3', votos(3, 3), 'E o Branco, a voz da razão... votou na Rosa também.', pad=1.6),
     N('p307e', 'p3', ejecao(3, 3), '', pad=3.2),
     N('p307c', 'p3', pensa(3, 'Lima', 'Com 98% de tarefas feitas e 6 vivos, preciso proteger alguém confiável imediatamente para garantir a vitória por tarefas.'),
-      'E o Lima, o Médico, no último momento da partida, decide proteger alguém confiável. Ele escolhe... o Branco. [[s:sad-trombone:0.5]] Pela segunda partida seguida, o Médico deu escudo pro impostor. [[m:not-stonks:right:2.5]]'),
+      'E o Lima, o Médico, no último momento da partida, decide proteger alguém confiável. Ele escolhe... o Branco. [[s:sad-trombone:0.5]] [[t:DE NOVO:1.4:#ffd84d]] Pela segunda partida seguida, o Médico deu escudo pro impostor. [[m:not-stonks:right:2.5]]'),
     N('p308', 'p3', comp('AU2Fim', partida=3, foco='Rosa'),
-      'Só que a Rosa, já como fantasma, continuou fazendo tarefa. E foi ela que completou a última tarefa da nave. A expulsa ganhou a partida pros tripulantes. [[m:cr7-siuuu:right:2.5]] Três partidas, três vitórias da tripulação. E três Xerifes que não atiraram nem uma vez.', pad=1.0),
+      'Só que a Rosa, já como fantasma, continuou fazendo tarefa. E foi ela que completou a última tarefa da nave. A expulsa ganhou a partida pros tripulantes. [[m:cr7-siuuu:right:2.5]] Três partidas, três vitórias da tripulação. E três Xerifes que não atiraram nem uma vez. [[t:TRIPULANTES 3 × 0 IMPOSTORES:2.2:#8fd3ff]]', pad=1.0),
 
     # ------------------------------------------------------------------ PARTIDA 4
     N('p401', 'p4', titulo('partida 4', 'EU CANSEI', 'vou apimentar as coisas', cor='#ffd84d'),
-      'E aí eu cansei de ver só esses tripulantes vencerem. [[s:record-scratch:0.5]] Então eu vou apimentar as coisas. [[m:luva-receba:right:3]]'),
+      'E aí eu cansei de ver só esses tripulantes vencerem. [[t:3 × 0 PROS TRIPULANTES:1.8:#8fd3ff]][[s:record-scratch:0.5]] Então eu vou apimentar as coisas. [[m:luva-receba:right:3]]'),
     N('p402', 'p4', comp('AU2Manual', destaque=[3, 8, 10], modelo='Claude Sonnet'),
       'Eu pesquisei estratégias de jogadores de Among Us e escrevi um manual: o manual do bom impostor. Doze regras. As principais: mate só sozinho com a vítima. Dê um álibi específico. E se o seu parceiro for pego, vote nele também. [[m:galaxy-brain:right:2.5]]'),
     N('p403', 'p4', revela(4, 'Ciano'),
@@ -312,7 +312,7 @@ SCENES = [
       'E o Laranja, o outro parceiro, pensa: "Ciano está muito exposto e sacrificá-lo preserva minha credibilidade". E vota no Ciano. [[m:side-eye-dog:right:2.5]]', pad=0.8),
     N('p407e', 'p4', ejecao(4, 0), 'O impostor do manual saiu na primeira reunião, com o voto do próprio parceiro.', pad=1.6),
     N('p407c', 'p4', jogo(4, 'Preto', tique=14),
-      'Enquanto isso, o Preto, o Faxineiro, descobriu o duto entre o Admin e o Refeitório. "Vou ventar pro Admin vazio pra me reposicionar sem ser visto." "Vou ventar pro Refeitório pra me mover sem ser visto e procurar alvo." [[m:pedro-raccoon:right:2.5]] Doze viagens. Zero mortes. Quando finalmente achou alguém, pensou: "Amarelo me viu chegar, matar agora seria suicídio". O Preto virou o motorista do duto.'),
+      'Enquanto isso, o Preto, o Faxineiro, descobriu o duto entre o Admin e o Refeitório. "Vou ventar pro Admin vazio pra me reposicionar sem ser visto." "Vou ventar pro Refeitório pra me mover sem ser visto e procurar alvo." [[m:pedro-raccoon:right:2.5]] Doze viagens. Zero mortes. Quando finalmente achou alguém, pensou: "Amarelo me viu chegar, matar agora seria suicídio". O Preto pegou gosto pelo duto.'),
     N('p407d', 'p4', chamado(4, 1), 'O Amarelo aperta o botão.', pad=1.0),
     CH('p407b', 'p4', reuniao(4, 1), [
         ('N', 'E a história se repete. O Roxo, que é o Engenheiro, foi visto no duto.'),
@@ -322,7 +322,7 @@ SCENES = [
         ('N', 'O Lima explicou perfeitamente por que a história do Roxo faz sentido... e votou nele. [[m:bruh:right:2.5]]'),
     ]),
     N('p407v', 'p4', votos(4, 1), '', pad=1.8),
-    N('p407x', 'p4', ejecao(4, 1), 'Engenheiro expulso por usar duto. De novo.', pad=1.6),
+    N('p407x', 'p4', ejecao(4, 1), 'Engenheiro expulso por usar duto. [[t:DE NOVO:1.4:#ffd84d]] De novo.', pad=1.6),
     N('p408', 'p4', jogo(4, 'Laranja', tique=29),
       'E o Laranja vira o Vermelho de novo e sai do duto bem na frente do Azul, de propósito: "pra incriminar o Vermelho real". [[m:sad-pablo:right:2.5]]', pad=0.8),
     N('p408c', 'p4', chamado(4, 2), '', pad=1.6),
