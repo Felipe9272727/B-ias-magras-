@@ -4,7 +4,7 @@
 // Os únicos "saltos" são os do próprio jogo: sair pelo outro duto, o assassino indo até a vítima na hora da morte
 // e todo mundo de volta à mesa do Refeitório depois de uma reunião.
 // Resultado: posição de cada jogador em cada quadro da partida inteira (30 fps), mais os eventos com o quadro em que acontecem.
-import {NAVE, andavel, caminho} from '../amongus/nave/mapa';
+import {NAVE, andavel, caminho, salaEm} from '../amongus/nave/mapa';
 import type {Pt, Sala} from '../amongus/nave/spec';
 
 export const FPS = 30;
@@ -50,7 +50,7 @@ function spot(sala: string, cor: string, variacao = 0): Pt {
   if (idx(cor) < sp.length && variacao === 0) return base;
   for (const [dx, dy] of [[56, 0], [-56, 0], [0, 56], [0, -56], [56, 56], [-56, -56]]) {
     const p = {x: base.x + dx, y: base.y + dy};
-    if (andavel(p)) return p;
+    if (andavel(p) && salaEm(p) === sala) return p; // nunca do outro lado da parede, em outra sala
   }
   return base;
 }
@@ -162,10 +162,15 @@ export function simular(p: Partida2): Sim {
         const a = st[m.tipo === 'morte' ? m.assassino : m.xerife];
         const v = st[m.tipo === 'morte' ? m.vitima : m.alvo];
         if (!a?.vivo || !v?.vivo) continue;
-        if (k > dur * 0.15) a.rota = [{x: v.pos.x + ALCANCE * (a.pos.x < v.pos.x ? -1 : 1), y: v.pos.y}];
+        // vai até a vítima pelo caminho de verdade (recalculado a cada 6 quadros, porque a vítima também anda)
+        const lado = (q: Pt) => {
+          for (const s of [a.pos.x < v.pos.x ? -1 : 1, a.pos.x < v.pos.x ? 1 : -1]) { const p = {x: q.x + ALCANCE * s, y: q.y}; if (andavel(p)) return p }
+          return {x: q.x, y: q.y};
+        };
+        if (k > dur * 0.15 && (k % 6 === 0 || !a.rota.length)) a.rota = caminho(a.pos, lado(v.pos)).slice(1);
         if ((dist(a.pos, v.pos) <= ALCANCE + 4 && k > dur * 0.2) || k >= Math.round(dur * 0.6)) {
           feitos.add(m);
-          a.pos = {x: v.pos.x + ALCANCE * (a.pos.x < v.pos.x ? -1 : 1), y: v.pos.y};
+          a.pos = lado(v.pos);
           a.rota = [];
           a.dir = v.pos.x > a.pos.x ? 1 : -1;
           const morto = m.tipo === 'morte' ? m.vitima : m.acertou ? m.alvo : m.xerife;

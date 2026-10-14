@@ -326,10 +326,12 @@ export function salaEm(p: Pt): Sala | null {
 }
 
 // Rota entre as salas a e b: corredores, portas e o piso de a e b. O piso de outra sala não entra.
-function passavelNaRota(c: number, r: number, a: Sala | null, b: Sala | null): boolean {
+// `todas`: qualquer piso vale (usado só quando a rota restrita não existe, ex.: quem muda de destino no meio de outra sala)
+function passavelNaRota(c: number, r: number, a: Sala | null, b: Sala | null, todas = false): boolean {
   const ch = celula(c, r);
   if (ch === ',' || ch === 'D') return true;
   if (ch === '.') {
+    if (todas) return true;
     const s = SALA_DA_CELULA[idx(c, r)];
     return s === a || s === b;
   }
@@ -341,19 +343,19 @@ const FOLGA = 10;
 const PASSO_TESTE = 6;
 const SOMBRA: [number, number][] = [[0, 0], [FOLGA, 0], [-FOLGA, 0], [0, FOLGA], [0, -FOLGA]];
 
-function areaLivre(x: number, y: number, a: Sala | null, b: Sala | null): boolean {
+function areaLivre(x: number, y: number, a: Sala | null, b: Sala | null, todas = false): boolean {
   for (const [dx, dy] of SOMBRA) {
-    if (!passavelNaRota(Math.floor((x + dx) / TILE), Math.floor((y + dy) / TILE), a, b)) return false;
+    if (!passavelNaRota(Math.floor((x + dx) / TILE), Math.floor((y + dy) / TILE), a, b, todas)) return false;
   }
   return true;
 }
 
 // Linha de visão: o segmento inteiro fica em piso andável (com folga), amostrado a cada 6 px
-function linhaLivre(p: Pt, q: Pt, a: Sala | null, b: Sala | null): boolean {
+function linhaLivre(p: Pt, q: Pt, a: Sala | null, b: Sala | null, todas = false): boolean {
   const n = Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / PASSO_TESTE));
   for (let i = 0; i <= n; i++) {
     const t = i / n;
-    if (!areaLivre(p.x + (q.x - p.x) * t, p.y + (q.y - p.y) * t, a, b)) return false;
+    if (!areaLivre(p.x + (q.x - p.x) * t, p.y + (q.y - p.y) * t, a, b, todas)) return false;
   }
   return true;
 }
@@ -406,7 +408,7 @@ function heuristica(c: number, r: number, cf: number, rf: number): number {
 }
 
 // A* em células. Diagonal só se as duas células ortogonais vizinhas forem andáveis (sem cortar quina).
-function astar(ci: number, ri: number, cf: number, rf: number, a: Sala | null, b: Sala | null): number[] | null {
+function astar(ci: number, ri: number, cf: number, rf: number, a: Sala | null, b: Sala | null, todas = false): number[] | null {
   const g = new Float64Array(N_CELULAS).fill(Infinity);
   const pai = new Int32Array(N_CELULAS).fill(-1);
   const fechado = new Uint8Array(N_CELULAS);
@@ -422,8 +424,8 @@ function astar(ci: number, ri: number, cf: number, rf: number, a: Sala | null, b
     const c = atual % NAVE.cols, r = Math.floor(atual / NAVE.cols);
     for (const [dc, dr] of DIRECOES) {
       const nc = c + dc, nr = r + dr;
-      if (!passavelNaRota(nc, nr, a, b)) continue;
-      if (dc !== 0 && dr !== 0 && (!passavelNaRota(c + dc, r, a, b) || !passavelNaRota(c, r + dr, a, b))) continue;
+      if (!passavelNaRota(nc, nr, a, b, todas)) continue;
+      if (dc !== 0 && dr !== 0 && (!passavelNaRota(c + dc, r, a, b, todas) || !passavelNaRota(c, r + dr, a, b, todas))) continue;
       const ni = idx(nc, nr);
       if (fechado[ni]) continue;
       const passo = (dc !== 0 && dr !== 0 ? Math.SQRT2 : 1) + (PERTO_PAREDE[ni] ? 0.6 : 0);
@@ -444,10 +446,11 @@ function astar(ci: number, ri: number, cf: number, rf: number, a: Sala | null, b
 // Caminho sem cache: A* nas células, depois "string pulling" com linha de visão
 function calcularCaminho(de: Pt, para: Pt): Pt[] {
   const a = salaEm(de), b = salaEm(para);
-  const celulas = astar(
-    Math.floor(de.x / TILE), Math.floor(de.y / TILE),
-    Math.floor(para.x / TILE), Math.floor(para.y / TILE), a, b,
-  );
+  const ci = Math.floor(de.x / TILE), ri = Math.floor(de.y / TILE), cf = Math.floor(para.x / TILE), rf = Math.floor(para.y / TILE);
+  let todas = false;
+  let celulas = astar(ci, ri, cf, rf, a, b);
+  // sem rota pelos corredores (ex.: começou no meio de uma terceira sala): aceita qualquer piso, nunca atravessa parede
+  if (!celulas) { todas = true; celulas = astar(ci, ri, cf, rf, a, b, true) }
   if (!celulas) return [{x: de.x, y: de.y}, {x: para.x, y: para.y}]; // sem rota: o teste de mapa acusa
 
   const pontos: Pt[] = [{x: de.x, y: de.y}];
@@ -458,7 +461,7 @@ function calcularCaminho(de: Pt, para: Pt): Pt[] {
   let i = 0;
   while (i < pontos.length - 1) {
     let j = pontos.length - 1;
-    while (j > i + 1 && !linhaLivre(pontos[i], pontos[j], a, b)) j--;
+    while (j > i + 1 && !linhaLivre(pontos[i], pontos[j], a, b, todas)) j--;
     saida.push(pontos[j]);
     i = j;
   }
