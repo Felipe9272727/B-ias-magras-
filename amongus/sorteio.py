@@ -20,28 +20,44 @@ IMPOSTORES = ['Metamorfo', 'Fantasma', 'Faxineiro']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Rastreador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Tripulante']
 
 
+def sortear_partida(cores, cfg=None):
+    # 3 empresas diferentes para os 3 impostores; dentro de cada empresa, uma das cores dela
+    empresas = R.sample(list(VAGAS), 3)
+    imps = [R.choice([c for c, p in cores.items() if p == e]) for e in empresas]
+    papeis_imp = IMPOSTORES[:]
+    R.shuffle(papeis_imp)
+    resto = [c for c in CORES if c not in imps]
+    papeis_trip = TRIPULANTES[:]
+    R.shuffle(papeis_trip)
+    papeis = {**dict(zip(imps, papeis_imp)), **dict(zip(resto, papeis_trip))}
+    out = {'papeis': {c: papeis[c] for c in CORES}, 'seed': secrets.randbelow(2**31), 'estrategia': None}
+    if cfg:
+        out['cfg'] = cfg
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--partidas', type=int, default=3)
     ap.add_argument('--saida', default=str(Path(__file__).parent / 'logs2' / 'temporada.json'))
+    ap.add_argument('--adicionar', type=int, default=0, help='acrescenta N partidas a uma temporada que já existe (mesmas cores)')
+    ap.add_argument('--cfg', default='', help='JSON com configurações da sala para as partidas acrescentadas')
     a = ap.parse_args()
+    if a.adicionar:
+        temp = json.loads(Path(a.saida).read_text())
+        for _ in range(a.adicionar):
+            temp['partidas'].append(sortear_partida(temp['cores'], json.loads(a.cfg) if a.cfg else None))
+        Path(a.saida).write_text(json.dumps(temp, ensure_ascii=False, indent=1))
+        n = len(temp['partidas'])
+        p = temp['partidas'][-1]
+        print(f'partida {n} acrescentada (impostores sorteados; cfg {p.get("cfg")})')
+        return
 
     vagas = [p for p, n in VAGAS.items() for _ in range(n)]
     R.shuffle(vagas)
     cores = dict(zip(CORES, vagas))  # cor → provider, a temporada inteira
 
-    partidas = []
-    for _ in range(a.partidas):
-        # 3 empresas diferentes para os 3 impostores; dentro de cada empresa, uma das cores dela
-        empresas = R.sample(list(VAGAS), 3)
-        imps = [R.choice([c for c, p in cores.items() if p == e]) for e in empresas]
-        papeis_imp = IMPOSTORES[:]
-        R.shuffle(papeis_imp)
-        resto = [c for c in CORES if c not in imps]
-        papeis_trip = TRIPULANTES[:]
-        R.shuffle(papeis_trip)
-        papeis = {**dict(zip(imps, papeis_imp)), **dict(zip(resto, papeis_trip))}
-        partidas.append({'papeis': {c: papeis[c] for c in CORES}, 'seed': secrets.randbelow(2**31), 'estrategia': None})
+    partidas = [sortear_partida(cores) for _ in range(a.partidas)]
 
     n = secrets.randbelow(a.partidas)  # a partida em que um impostor recebe a estratégia da inscrita
     imps_n = [c for c, p in partidas[n]['papeis'].items() if p in IMPOSTORES]

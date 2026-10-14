@@ -55,6 +55,7 @@ const VAGAS = { deepseek: 3, haiku: 3, 'or:openai/gpt-5.6-luna': 2, 'or:google/g
 // estratégia de impostor mandada pela inscrita @MariadeFátimaTorres-t7y nos comentários do Short
 const ESTRATEGIA_MARIA = 'Se matar alguém com 2 pessoas por perto, acuse a outra. Use o duto e diga que é Engenheiro. Saia do duto e finja tarefa, para acharem que não foi você. Depois se afaste, mate a outra pessoa, e daí é só sabotar e matar longe.'
 const CFG = {
+  fantasmaTarefaCada: 1, // de quantos em quantos tiques um fantasma avança uma tarefa
   recargaMorte: 5, // tiques entre mortes
   recargaSabotagem: 12,
   tarefasPorTripulante: 5,
@@ -98,6 +99,9 @@ Regras principais:
 - Nas reuniões todos conversam e depois votam em quem expulsar (ou pulam). Quem tiver mais votos é expulso e o jogo revela se era impostor.
 - Fantasmas (mortos) não falam.
 - Jogue para vencer, de forma esperta e coerente. Fale português do Brasil, de forma natural e curta, como num jogo de verdade.`
+
+// configurações da sala desta partida (sorteio da temporada pode trazer ajustes, ex.: a "revanche")
+if (DA_TEMPORADA?.cfg) Object.assign(CFG, DA_TEMPORADA.cfg)
 
 // ---------- estado ----------
 const jogadores = []
@@ -509,7 +513,7 @@ async function rodarTique() {
   }
   recargaSabotagem--
   // fantasmas tripulantes continuam fazendo tarefas (sem gastar IA)
-  for (const g of jogadores.filter((g) => !g.vivo && g.time === 'tripulante')) {
+  for (const g of jogadores.filter((g) => !g.vivo && g.time === 'tripulante' && tique % CFG.fantasmaTarefaCada === 0)) {
     const t = g.tarefas.find((t) => !t.ok)
     if (t) { t.feito++; if (t.feito >= t.dur + 1) { t.ok = true; evento('tarefa', { cor: g.cor, fantasma: true, nome: t.nome }) } }
   }
