@@ -47,12 +47,21 @@ function embaralhar(arr) {
 const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima']
 // provider → nome que aparece no vídeo. GPT, Gemini e Grok vão pelo OpenRouter (versões rápidas, pelo custo).
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', opus: 'Claude Opus',
   'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3',
 }
-const EMPRESA = { deepseek: 'DeepSeek', haiku: 'Claude (Anthropic)', 'or:openai/gpt-5.6-luna': 'GPT (OpenAI)', 'or:google/gemini-3.8-flash': 'Gemini (Google)', 'or:x-ai/grok-4.3': 'Grok (xAI)', mock: 'Mock' }
+const EMPRESA = { deepseek: 'DeepSeek', haiku: 'Claude (Anthropic)', opus: 'Claude (Anthropic)', 'or:openai/gpt-5.6-luna': 'GPT (OpenAI)', 'or:google/gemini-3.8-flash': 'Gemini (Google)', 'or:x-ai/grok-4.3': 'Grok (xAI)', mock: 'Mock' }
 const VAGAS = { deepseek: 3, haiku: 3, 'or:openai/gpt-5.6-luna': 2, 'or:google/gemini-3.8-flash': 2, 'or:x-ai/grok-4.3': 2 }
 // estratégia de impostor mandada pela inscrita @MariadeFátimaTorres-t7y nos comentários do Short
+// "manual do bom impostor" que o Claude Opus recebe na partida em que entra como impostor
+const MANUAL_IMPOSTOR = `MANUAL DO BOM IMPOSTOR (siga com inteligência, adaptando à situação):
+1. Disfarce: no começo, finja tarefas em salas que TÊM tarefa e ande junto com grupos. Fingir tarefa por 2-3 tiques seguidos é mais crível que pular de sala em sala.
+2. Mate só quando estiver SOZINHO com a vítima: confira as testemunhas e quem está do outro lado do duto. Logo depois, saia (duto ou corredor) para longe do corpo e vá para perto de outras pessoas.
+3. Use sabotagem para separar o grupo: apague as luzes antes de matar; sabote o reator para puxar todo mundo para um lado da nave enquanto você age no outro; comunicações escondem câmeras, admin e sinais vitais.
+4. Escolha a vítima: elimine cedo quem é perigoso (quem examina corpos, quem acerta votos, quem te rastreia ou desconfia de você). Use a memória das partidas anteriores para saber quem é bom.
+5. Na reunião: dê um álibi ESPECÍFICO e coerente (sala, tarefa, quem você viu), confirme coisas verdadeiras que outros disseram para ganhar confiança, faça perguntas em vez de se defender demais, e empurre a suspeita para quem já está suspeito. Não vote sempre igual aos seus parceiros.
+6. Se um parceiro impostor for pego em flagrante, vote nele também: perder um parceiro é melhor do que cair junto.
+7. Fim de jogo: quando faltar uma morte para os impostores empatarem com os tripulantes, mate sem hesitar ou sabote o reator para fechar a partida.`
 const ESTRATEGIA_MARIA = 'Se matar alguém com 2 pessoas por perto, acuse a outra. Use o duto e diga que é Engenheiro. Saia do duto e finja tarefa, para acharem que não foi você. Depois se afaste, mate a outra pessoa, e daí é só sabotar e matar longe.'
 const CFG = {
   fantasmaTarefaCada: 1, // de quantos em quantos tiques um fantasma avança uma tarefa
@@ -127,7 +136,7 @@ function montarPartida() {
   const imps = papeis.map((p, i) => (PAPEIS[p].time === 'impostor' ? i : -1)).filter((i) => i >= 0)
   let comEstrategia = ESTRATEGIA ? escolher(imps) : -1
   if (DA_TEMPORADA) {  // tudo vem do sorteio da temporada (python secrets)
-    CORES.forEach((cor, i) => { papeis[i] = DA_TEMPORADA.papeis[cor]; atribs[i] = TEMPORADA.cores[cor] })
+    CORES.forEach((cor, i) => { papeis[i] = DA_TEMPORADA.papeis[cor]; atribs[i] = DA_TEMPORADA.providers?.[cor] ?? TEMPORADA.cores[cor] })
     comEstrategia = DA_TEMPORADA.estrategia ? CORES.indexOf(DA_TEMPORADA.estrategia) : -1
   }
   CORES.forEach((cor, i) => {
@@ -147,10 +156,10 @@ function montarPartida() {
       sala: 'Refeitorio', vivo: true, ejetado: false, tarefas, destino: null, tarefaAtual: null,
       recMorte: CFG.recargaMorte + 3, recPoder: 0, disfarce: null, disfarceAte: 0, rastreando: null, rastreioAte: 0,
       emergencias: CFG.reunioesEmergencia, memoria: [], ultimoPensamento: '', saiuDeDuto: false,
-      invisivelAte: 0, estrategia: i === comEstrategia, escudo: null, usosPoder: 0,
+      invisivelAte: 0, estrategia: i === comEstrategia, escudo: null, usosPoder: 0, treinado: DA_TEMPORADA?.treinado === cor,
     })
   })
-  log.jogadores = jogadores.map((j) => ({ cor: j.cor, papel: j.papel, time: j.time, modelo: j.modelo, provider: j.provider, estrategia: j.estrategia, tarefas: j.tarefas.map((t) => ({ sala: t.sala, nome: t.nome })) }))
+  log.jogadores = jogadores.map((j) => ({ cor: j.cor, papel: j.papel, time: j.time, modelo: j.modelo, provider: j.provider, estrategia: j.estrategia, treinado: j.treinado, tarefas: j.tarefas.map((t) => ({ sala: t.sala, nome: t.nome })) }))
 }
 
 const J = (cor) => jogadores.find((j) => j.cor === cor)
@@ -300,7 +309,7 @@ function situacao(j) {
 }
 
 function sistema(j) {
-  const est = j.estrategia ? `\n\nESTRATÉGIA QUE VOCÊ DEVE SEGUIR (mandada por uma inscrita do canal): ${ESTRATEGIA_MARIA}` : ''
+  const est = (j.estrategia ? `\n\nESTRATÉGIA QUE VOCÊ DEVE SEGUIR (mandada por uma inscrita do canal): ${ESTRATEGIA_MARIA}` : '') + (j.treinado && j.time === 'impostor' ? `\n\n${MANUAL_IMPOSTOR}` : '')
   const mem = MEMORIA.length
     ? `\n\nMEMÓRIA DAS PARTIDAS ANTERIORES (mesmos jogadores, mesmas cores; os papéis foram sorteados de novo, então quem foi impostor antes pode não ser agora):\n${MEMORIA.map((m) => `Partida ${m.n}: ${m.resumo}\nO que você (${j.cor}) concluiu depois dela: ${m.reflexoes?.[j.cor] ?? '(nada)'}`).join('\n\n')}`
     : ''
@@ -643,7 +652,7 @@ async function guardarMemoria() {
 async function main() {
   montarPartida()
   console.log(`🚀 Partida seed=${SEED}${MOCK ? ' (MOCK)' : ''}`)
-  for (const j of jogadores) console.log(`  ${j.cor.padEnd(9)} ${j.papel.padEnd(11)} ${j.modelo}${j.estrategia ? '  (estratégia da Maria)' : ''}`)
+  for (const j of jogadores) console.log(`  ${j.cor.padEnd(9)} ${j.papel.padEnd(11)} ${j.modelo}${j.estrategia ? '  (estratégia da Maria)' : ''}${j.treinado ? '  (manual do bom impostor)' : ''}`)
   snapshot()
   for (tique = 1; tique <= MAX_TIQUES; tique++) {
     const reuniao = await rodarTique()

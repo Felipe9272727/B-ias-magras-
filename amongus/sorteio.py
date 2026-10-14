@@ -20,9 +20,10 @@ IMPOSTORES = ['Metamorfo', 'Fantasma', 'Faxineiro']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Rastreador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Tripulante']
 
 
-def sortear_partida(cores, cfg=None):
-    # 3 empresas diferentes para os 3 impostores; dentro de cada empresa, uma das cores dela
-    empresas = R.sample(list(VAGAS), 3)
+def sortear_partida(cores, cfg=None, opus=False):
+    # 3 empresas diferentes para os 3 impostores; dentro de cada empresa, uma das cores dela.
+    # Com opus=True, uma das empresas é a Anthropic e a cor sorteada dela passa a ser jogada pelo Claude Opus.
+    empresas = (['haiku'] + R.sample([e for e in VAGAS if e != 'haiku'], 2)) if opus else R.sample(list(VAGAS), 3)
     imps = [R.choice([c for c, p in cores.items() if p == e]) for e in empresas]
     papeis_imp = IMPOSTORES[:]
     R.shuffle(papeis_imp)
@@ -31,6 +32,9 @@ def sortear_partida(cores, cfg=None):
     R.shuffle(papeis_trip)
     papeis = {**dict(zip(imps, papeis_imp)), **dict(zip(resto, papeis_trip))}
     out = {'papeis': {c: papeis[c] for c in CORES}, 'seed': secrets.randbelow(2**31), 'estrategia': None}
+    if opus:
+        out['providers'] = {imps[0]: 'opus'}
+        out['treinado'] = imps[0]
     if cfg:
         out['cfg'] = cfg
     return out
@@ -42,11 +46,12 @@ def main():
     ap.add_argument('--saida', default=str(Path(__file__).parent / 'logs2' / 'temporada.json'))
     ap.add_argument('--adicionar', type=int, default=0, help='acrescenta N partidas a uma temporada que já existe (mesmas cores)')
     ap.add_argument('--cfg', default='', help='JSON com configurações da sala para as partidas acrescentadas')
+    ap.add_argument('--opus-impostor', action='store_true', help='na partida acrescentada, um Claude Opus entra como impostor (no lugar de um Haiku) com o manual do bom impostor')
     a = ap.parse_args()
     if a.adicionar:
         temp = json.loads(Path(a.saida).read_text())
         for _ in range(a.adicionar):
-            temp['partidas'].append(sortear_partida(temp['cores'], json.loads(a.cfg) if a.cfg else None))
+            temp['partidas'].append(sortear_partida(temp['cores'], json.loads(a.cfg) if a.cfg else None, a.opus_impostor))
         Path(a.saida).write_text(json.dumps(temp, ensure_ascii=False, indent=1))
         n = len(temp['partidas'])
         p = temp['partidas'][-1]
