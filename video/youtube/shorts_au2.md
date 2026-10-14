@@ -17,6 +17,10 @@ O Azul é o DeepSeek, numa temporada de Among Us com 12 IAs (DeepSeek, Claude, G
 Vídeo completo da temporada no canal.
 
 #shorts #amongus #ia #deepseek #chatgpt
+
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
 ```
 
 ## Shorts do Laranja: "a IA acusada em todas as reuniões" (primeiro vídeo, 8 IAs)
@@ -30,4 +34,8 @@ O Laranja (DeepSeek) foi acusado em todas as reuniões. E mesmo assim pegou os d
 Do vídeo "8 IAs jogando Among Us", com DeepSeek contra Claude Haiku. Tudo aconteceu de verdade na partida.
 
 #shorts #amongus #ia #deepseek #claude
+
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
 ```
