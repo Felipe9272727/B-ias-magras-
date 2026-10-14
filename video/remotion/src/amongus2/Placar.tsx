@@ -14,10 +14,15 @@ export const AU2Placar: React.FC<{ps: Record<string, Partida2>; ate?: number}> =
   const ns = [1, 2, 3, 4].filter((n) => n <= ate && ps[String(n)]?.resultado);
   const tri = ns.filter((n) => ps[String(n)].resultado.time === 'tripulante').length;
   const imp = ns.length - tri;
+  // o placar bate na tela depois das colunas, com confete
+  const bate = 10 + ns.length * 18 + 14;
+  const sl = spring({frame: f - bate, fps, config: {damping: 9, stiffness: 200}});
+  const confete = Array.from({length: 90}, (_, i) => ({x: (i * 211) % 1920, v: 4 + (i % 7), c: ['#8fd3ff', '#ffd84d', '#ff6b6b', '#7ee787', '#d2a8ff'][i % 5], g: (i * 37) % 360, a: (i * 53) % 400}));
   return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #1b2440, #05070d 75%)'}}>
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #1b2440, #05070d 75%)', transform: `scale(${1 + Math.min(f, 500) * 0.00008})`}}>
+      {f >= bate && f < bate + 2 && <Som nome="vitoria" vol={0.5} />}
       <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 64, color: '#fff', WebkitTextStroke: '2px #000'}}>Temporada</div>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 118, display: 'flex', justifyContent: 'center', gap: 40, fontFamily: FONT.display, fontWeight: 900, fontSize: 54}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 118, display: 'flex', justifyContent: 'center', gap: 40, fontFamily: FONT.display, fontWeight: 900, fontSize: 54, transform: `scale(${f < bate ? 1 : 1 + 0.35 * (1 - sl) + 0.15 * Math.max(0, 1 - (f - bate) / 30)})`}}>
         <span style={{color: '#8fd3ff'}}>Tripulantes {tri}</span>
         <span style={{color: '#fff'}}>x</span>
         <span style={{color: '#ff3b3b'}}>{imp} Impostores</span>
@@ -52,6 +57,12 @@ export const AU2Placar: React.FC<{ps: Record<string, Partida2>; ate?: number}> =
           );
         })}
       </div>
+      {f >= bate && confete.map((c, i) => {
+        const t = f - bate;
+        const y = -40 - c.a + t * c.v;
+        if (y > 1100) return null;
+        return <div key={i} style={{position: 'absolute', left: c.x + Math.sin((t + i) / 9) * 30, top: y, width: 16, height: 26, background: c.c, transform: `rotate(${c.g + t * 7}deg)`, borderRadius: 3}} />;
+      })}
     </AbsoluteFill>
   );
 };

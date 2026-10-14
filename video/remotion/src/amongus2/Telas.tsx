@@ -20,7 +20,7 @@ const empresa = (p: Partida2, cor: string) => EMPRESA[info(p, cor).modelo] ?? {n
 const PAPEL: Record<string, string> = {Medico: 'Médico'};
 
 // campo de estrelas (fundo do espaço); vel = px por quadro
-const Estrelas: React.FC<{vel?: number; n?: number}> = ({vel = 6, n = 160}) => {
+export const Estrelas: React.FC<{vel?: number; n?: number}> = ({vel = 6, n = 160}) => {
   const f = useCurrentFrame();
   return (
     <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
@@ -64,7 +64,8 @@ export const Shhh: React.FC = () => {
 
 // ---------- 2. Revelação do papel ----------
 // "Tripulante" (azul) ou "Impostor" (vermelho) no alto, a frase do número de impostores e a fila de tripulantes sob um holofote
-export const Revela: React.FC<{p: Partida2; foco: string}> = ({p, foco}) => {
+// `nomes`: quadro em que o narrador fala o nome de cada um (vem das palavras da cena); nessa hora ele pula e ganha a etiqueta papel · modelo
+export const Revela: React.FC<{p: Partida2; foco: string; nomes?: Record<string, number>}> = ({p, foco, nomes = {}}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const eu = info(p, foco);
@@ -81,7 +82,7 @@ export const Revela: React.FC<{p: Partida2; foco: string}> = ({p, foco}) => {
   const titulo = spring({frame: f - 6, fps, config: {damping: 14}});
   const papel = PAPEL[eu.papel] ?? eu.papel;
   return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden', transform: `scale(${1 + Math.min(f, 600) * 0.00008})`}}>
       <Som nome={imp ? 'revela_impostor' : 'revela_tripulante'} em={4} />
       {/* holofote */}
       <div style={{position: 'absolute', left: 960 - 700, top: 120, width: 1400, height: 980, background: `radial-gradient(ellipse at 50% 85%, ${imp ? 'rgba(255,40,40,.32)' : 'rgba(140,200,255,.28)'} 0%, transparent 62%)`, opacity: interpolate(f, [0, 20], [0, 1], cl)}} />
@@ -94,9 +95,21 @@ export const Revela: React.FC<{p: Partida2; foco: string}> = ({p, foco}) => {
       {[...lugares].sort((a, b) => a.z - b.z).map(({c, x, s}, i) => {
         const ent = interpolate(f, [10 + i * 2, 24 + i * 2], [0, 1], cl);
         const tam = 300 * s;
+        const qn = nomes[c] ?? -1;
+        const dn = qn >= 0 ? f - qn : -1;
+        const pulo = dn >= 0 ? Math.sin(Math.min(1, dn / 14) * Math.PI) * 70 : 0;
+        const aceso = qn >= 0 && dn >= 0;
+        const jj = info(p, c);
+        const tag = spring({frame: dn, fps, config: {damping: 12}});
         return (
-          <div key={c} style={{position: 'absolute', left: x - tam * 0.5, top: 980 - tam * 1.15, opacity: ent, filter: c === foco ? undefined : 'brightness(.62)'}}>
+          <div key={c} style={{position: 'absolute', left: x - tam * 0.5, top: 980 - tam * 1.15 - pulo, opacity: ent, filter: c === foco || aceso ? undefined : 'brightness(.62)'}}>
+            {dn === 0 && <Som nome="transformar" vol={0.35} />}
             <Crewmate cor={c} size={tam} t={f + i * 7} />
+            {imp && aceso && (
+              <div style={{position: 'absolute', left: tam * 0.5 - 170, width: 340, top: tam * 1.02, textAlign: 'center', transform: `scale(${tag})`}}>
+                <span style={{display: 'inline-block', padding: '6px 14px', borderRadius: 10, background: '#2a0507', border: '3px solid #ff3b3b', fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#fff'}}>{PAPEL[jj.papel] ?? jj.papel} · <span style={{color: empresa(p, c).cor === '#555' ? '#ffb0b0' : '#ffd84d'}}>{empresa(p, c).nome}</span></span>
+              </div>
+            )}
             <div style={{position: 'absolute', left: 0, right: 0, top: -34 * s, textAlign: 'center', fontFamily: FONT.display, fontWeight: 800, fontSize: 30 * s, color: imp ? '#ff6b6b' : '#fff', WebkitTextStroke: '1px #000'}}>{c}</div>
           </div>
         );
@@ -136,9 +149,10 @@ export const Chamado: React.FC<{p: Partida2; idx: number}> = ({p, idx}) => {
 // ---------- 4. Mesa de votação ----------
 // fase 'discussao': chat rolando (mostra até a fala `falas`); 'votacao': carimbos VOTOU aparecendo (fração `votos` 0..1);
 // 'resultado': quem votou em quem embaixo de cada nome. `timer` = segundos que aparecem no relógio.
-type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean; mensagens?: {cor: string; texto: string; at: number}[]};
+type Msg = {cor: string; texto: string; at: number; ate?: number; pensamento?: string};
+type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean; mensagens?: Msg[]};
 
-const Cabeca: React.FC<{cor: string; size: number; morto?: boolean}> = ({cor, size, morto}) => (
+export const Cabeca: React.FC<{cor: string; size: number; morto?: boolean}> = ({cor, size, morto}) => (
   <div style={{position: 'relative', width: size, height: size, borderRadius: size * 0.2, overflow: 'hidden', background: '#c7d3e3', border: '3px solid #000'}}>
     <div style={{position: 'absolute', left: -size * 0.12, top: size * 0.05}}><Crewmate cor={cor} size={size * 1.25} morto={morto} /></div>
   </div>
@@ -155,6 +169,84 @@ const Bolha: React.FC<{p: Partida2; cor: string; texto: string; aparece: number}
           <span style={{fontSize: 13, padding: '1px 7px', borderRadius: 6, background: emp.cor, color: '#fff'}}>{emp.nome}</span>
         </div>
         <div style={{fontFamily: FONT.display, fontWeight: 500, fontSize: 23, lineHeight: 1.28, color: '#111'}}>{texto}</div>
+      </div>
+    </div>
+  );
+};
+
+// balão de pensamento secreto de quem está falando na reunião: sai do card do tripulante (bolinhas) e o texto vai sendo
+// escrito; impostor com borda vermelha. O pensamento vem do log (a mesma fala, campo "pensamento").
+const BalaoPensa: React.FC<{p: Partida2; m: Msg; x0: number}> = ({p, m, x0}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const d = f - m.at - 6;
+  const ent = spring({frame: d, fps, config: {damping: 14, stiffness: 170}});
+  const sai = interpolate(f, [(m.ate ?? m.at + 150) + 28, (m.ate ?? m.at + 150) + 40], [1, 0], cl);
+  const imp = info(p, m.cor).time === 'impostor';
+  const i = CORES.indexOf(m.cor);
+  const col = i % 2;
+  const lin = Math.floor(i / 2);
+  const cx = x0 + 40 + col * 532 + 254;
+  const cy = 40 + 130 + lin * 124 + 54;
+  const embaixo = lin <= 2;
+  const top = embaixo ? 572 : 168;
+  const txt = m.pensamento ?? '';
+  const n = Math.floor(interpolate(d, [6, 6 + txt.length / 3.2], [0, txt.length], cl));
+  const borda = imp ? '#d40000' : '#5b3fc4';
+  // bolinhas do card até o balão
+  const by = embaixo ? top : top + 270;
+  const bolinhas = [0, 1, 2].map((k) => ({x: cx + (x0 + 560 - cx) * (0.25 + k * 0.22), y: cy + (by - cy) * (0.3 + k * 0.25), r: 10 + k * 6}));
+  return (
+    <div style={{position: 'absolute', inset: 0, zIndex: 20, opacity: Math.min(ent, sai), pointerEvents: 'none'}}>
+      {bolinhas.map((b, k) => (
+        <div key={k} style={{position: 'absolute', left: b.x - b.r, top: b.y - b.r, width: b.r * 2, height: b.r * 2, borderRadius: '50%', background: '#fffdf2', border: `4px solid ${borda}`, transform: `scale(${interpolate(d, [k * 3, k * 3 + 6], [0, 1], cl)})`}} />
+      ))}
+      <div style={{position: 'absolute', left: x0 + 40, top, width: 1040, minHeight: 150, boxSizing: 'border-box', padding: '20px 30px 22px', borderRadius: 46, background: '#fffdf2', border: `7px solid ${borda}`, boxShadow: '0 12px 0 rgba(0,0,0,.45)', transform: `scale(${0.7 + 0.3 * ent})`, transformOrigin: embaixo ? '50% 0%' : '50% 100%'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6}}>
+          <Cabeca cor={m.cor} size={44} />
+          <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 24, letterSpacing: 3, color: borda}}>{imp ? `${m.cor.toUpperCase()} · IMPOSTOR · PENSANDO` : `PENSAMENTO SECRETO · ${m.cor.toUpperCase()}`}</span>
+        </div>
+        <div style={{fontFamily: FONT.display, fontWeight: 700, fontStyle: 'italic', fontSize: txt.length > 130 ? 31 : 35, lineHeight: 1.25, color: '#14121c'}}>
+          “{txt.slice(0, n)}{n < txt.length ? '' : '”'}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// quadro "quem votou em quem" (no lugar do chat durante a votação): cada voto entra quando o carimbo aparece;
+// impostor votando ganha a frase do pensamento do voto (pensamentosVoto do log)
+export const QuadroVotos: React.FC<{p: Partida2; idx: number; k: number; tempos: number[]}> = ({p, idx, k, tempos}) => {
+  const f = useCurrentFrame();
+  const r = p.reunioes[idx];
+  const eleitores = Object.keys(r.votos);
+  const pv = (r as any).pensamentosVoto as Record<string, string> | undefined;
+  const curta = (t: string, mx = 78) => (t.length <= mx ? t : t.slice(0, mx).replace(/\s+\S*$/, '') + '…');
+  return (
+    <div style={{position: 'absolute', left: 1190, top: 40, width: 690, height: 1000, borderRadius: 26, background: '#e9eef5', border: '8px solid #1a1f2b', overflow: 'hidden', zIndex: 20}}>
+      <div style={{padding: '14px 20px', background: '#cfd8e6', borderBottom: '4px solid #1a1f2b', fontFamily: FONT.display, fontWeight: 900, fontSize: 30}}>Quem votou em quem</div>
+      <div style={{padding: '8px 18px'}}>
+        {eleitores.slice(0, k).map((e, i) => {
+          const alvo = r.votos[e];
+          const imp = info(p, e).time === 'impostor';
+          const a = interpolate(f - tempos[i], [0, 7], [0, 1], cl);
+          const pensa = imp && pv?.[e] ? curta(pv[e]) : '';
+          return (
+            <div key={e} style={{display: 'flex', flexDirection: 'column', padding: '5px 8px', marginBottom: 4, borderRadius: 12, background: imp ? '#ffe1e1' : '#fff', border: `3px solid ${imp ? '#d40000' : '#1a1f2b'}`, opacity: a, transform: `translateX(${(1 - a) * 60}px)`}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+                <Cabeca cor={e} size={36} />
+                <span style={{width: 150, fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: imp ? '#c00' : '#000'}}>{e}</span>
+                <svg width={46} height={22} viewBox="0 0 46 22"><path d="M2 11h34M28 3l10 8-10 8" stroke="#000" strokeWidth={5} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                {alvo && alvo !== 'pular' ? (
+                  <><Cabeca cor={alvo} size={36} /><span style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 24}}>{alvo}</span></>
+                ) : (
+                  <span style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 20, padding: '2px 10px', borderRadius: 8, background: '#cfd8e6', border: '3px solid #000'}}>PULOU</span>
+                )}
+              </div>
+              {pensa && <div style={{marginTop: 2, fontFamily: FONT.display, fontWeight: 600, fontStyle: 'italic', fontSize: 17, lineHeight: 1.2, color: '#8a0000'}}>pensou: “{pensa}”</div>}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -182,6 +274,8 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
   const mostrar = mensagens ? mensagens.filter((m) => m.at <= f) : r.falas.slice(0, falas);
   const ultima = mensagens?.filter((m) => m.at <= f).pop();
   const idadeUltima = ultima ? f - ultima.at : f;
+  // quem está falando agora (enquanto a voz toca) e o pensamento secreto dessa fala
+  const falando = ultima && f < (ultima.ate ?? ultima.at + 150) + 40 ? ultima : undefined;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 40%, #1c2a44, #070b14 80%)'}}>
       {mensagens?.map((m, i) => <Som key={'c' + i} nome="chat" em={m.at} vol={0.35} />)}
@@ -194,8 +288,10 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
             const v = vivo(c);
             const chamou = r.chamador === c;
             const expulso = fase === 'resultado' && r.expulso === c;
+            const fala = falando?.cor === c;
+            const pulso = fala ? 0.5 + 0.5 * Math.sin((f - falando!.at) / 4) : 0;
             return (
-              <div key={c} style={{position: 'relative', height: 108, borderRadius: 14, background: !v ? '#7d8796' : expulso ? '#ffd0d0' : '#f2f5fa', border: '4px solid #000', display: 'flex', alignItems: 'center', gap: 16, padding: '0 14px', opacity: v ? 1 : 0.75}}>
+              <div key={c} style={{position: 'relative', height: 108, borderRadius: 14, background: !v ? '#7d8796' : expulso ? '#ffd0d0' : fala ? '#fff6c7' : '#f2f5fa', border: `4px solid ${fala ? '#e0a800' : '#000'}`, boxShadow: fala ? `0 0 ${14 + 14 * pulso}px #ffd84d` : undefined, transform: fala ? `scale(${1.03 + 0.01 * pulso})` : undefined, zIndex: fala ? 2 : 1, display: 'flex', alignItems: 'center', gap: 16, padding: '0 14px', opacity: v ? 1 : 0.75}}>
                 <Cabeca cor={c} size={78} morto={!v} />
                 {!v && <svg width={78} height={78} style={{position: 'absolute', left: 18}}><path d="M10 10L68 68M68 10L10 68" stroke="#e01b1b" strokeWidth={10} strokeLinecap="round" /></svg>}
                 <div style={{flex: 1, minWidth: 0}}>
@@ -231,6 +327,7 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
           {fase === 'resultado' ? 'Resultado da votação' : fase === 'votacao' ? `Votação termina em: ${timer ?? 15}s` : `Discussão: ${timer ?? 60}s`}
         </div>
       </div>
+      {falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} />}
       {/* chat */}
       {chat && (
         <div style={{position: 'absolute', left: 1190, top: 40, width: 690, height: 1000, borderRadius: 26, background: '#e9eef5', border: '8px solid #1a1f2b', overflow: 'hidden', display: 'flex', flexDirection: 'column'}}>

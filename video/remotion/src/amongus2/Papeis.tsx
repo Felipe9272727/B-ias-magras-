@@ -24,9 +24,13 @@ export const PAPEIS2: Papel[] = [
 
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
-export const AU2Papeis: React.FC<{passo?: number}> = ({passo = 14}) => {
+// `focos`: quadro em que o narrador fala cada papel; o cartão da vez acende e os outros apagam
+export const AU2Papeis: React.FC<{passo?: number; focos?: number[]}> = ({passo = 14, focos = []}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const ativo = focos.reduce((acc, q, i) => (q >= 0 && q <= f ? i : acc), -1);
+  const proximo = focos.slice(ativo + 1).find((q) => q >= 0) ?? (focos[ativo] ?? 0) + 75;
+  const atual = ativo >= 0 && f < Math.min(proximo, focos[ativo] + 90) ? ativo : -1;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #1b2440, #05070d 75%)'}}>
       <div style={{position: 'absolute', left: 0, right: 0, top: 34, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 70, color: '#fff', WebkitTextStroke: '2px #000'}}>Papéis</div>
@@ -36,10 +40,15 @@ export const AU2Papeis: React.FC<{passo?: number}> = ({passo = 14}) => {
           const e = spring({frame: d, fps, config: {damping: 13, stiffness: 150}});
           const imp = r.time === 'impostor';
           const cor = imp ? '#ff3b3b' : '#8fd3ff';
+          const eu = atual === i;
+          const dz = eu ? f - focos[i] : 99;
+          const zoom = eu ? 1 + 0.1 * spring({frame: dz, fps, config: {damping: 11}}) : 1;
+          const pulo = eu ? Math.sin(Math.min(1, dz / 12) * Math.PI) * 26 : 0;
           return (
-            <div key={r.nome} style={{position: 'relative', height: 280, borderRadius: 20, background: imp ? 'linear-gradient(#3a0b10, #1a0507)' : 'linear-gradient(#0e2440, #07111f)', border: `5px solid ${cor}`, opacity: interpolate(d, [0, 6], [0, 1], cl), transform: `scale(${0.6 + 0.4 * e}) rotate(${(1 - e) * (i % 2 ? 6 : -6)}deg)`, overflow: 'hidden'}}>
+            <div key={r.nome} style={{position: 'relative', height: 280, borderRadius: 20, background: imp ? 'linear-gradient(#3a0b10, #1a0507)' : 'linear-gradient(#0e2440, #07111f)', border: `5px solid ${eu ? '#ffd84d' : cor}`, boxShadow: eu ? '0 0 40px #ffd84daa' : undefined, zIndex: eu ? 5 : 1, opacity: interpolate(d, [0, 6], [0, 1], cl) * (atual >= 0 && !eu ? 0.4 : 1), transform: `scale(${(0.6 + 0.4 * e) * zoom}) rotate(${(1 - e) * (i % 2 ? 6 : -6)}deg)`, overflow: 'hidden'}}>
+              {dz === 0 && <Som nome={imp ? 'faca' : 'tarefa'} vol={0.3} />}
               {d >= 0 && d < 2 && <Som nome={imp ? 'faca' : 'voto'} vol={0.35} />}
-              <div style={{position: 'absolute', left: 18, top: 50}}><Crewmate cor={r.cor} size={150} t={f + i * 5} /></div>
+              <div style={{position: 'absolute', left: 18, top: 50 - pulo}}><Crewmate cor={r.cor} size={150} t={f + i * 5} /></div>
               <div style={{position: 'absolute', left: 190, right: 16, top: 22}}>
                 <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 18, letterSpacing: 2, color: cor}}>{imp ? 'IMPOSTOR' : 'TRIPULANTE'}</div>
                 <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff', lineHeight: 1.1}}>{r.nome}</div>

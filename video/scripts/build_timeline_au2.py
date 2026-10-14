@@ -196,6 +196,19 @@ def estatisticas(ps):
     return st
 
 
+def curto(t, mx=170):
+    """Corta o pensamento em fim de frase (no máximo ~mx caracteres) para caber no balão."""
+    t = re.sub(r'fud(id)', r'f*d\1', (t or '').strip())  # palavrão do log, censurado na tela
+    if len(t) <= mx:
+        return t
+    out = ''
+    for fr in re.split(r'(?<=[.!?;])\s+', t):
+        if len(out) + len(fr) + 1 > mx:
+            break
+        out = (out + ' ' + fr).strip()
+    return out or t[:mx].rsplit(' ', 1)[0] + '...'
+
+
 def pensamento_da_fala(ps, partida, indice, cor, texto):
     """Acha no log a fala original (para mostrar o pensamento secreto junto)."""
     r = ps[str(partida)]['reunioes'][indice]
@@ -366,18 +379,21 @@ def main():
                     t += n['dur'] + max(0.0, n['extra']) + 0.3
                 else:
                     item = dict(cor=quem, texto=txt, at=round(t * FPS))
-                    if vis.get('props', {}).get('mostrarPensamentos'):
-                        item['pensamento'] = pensamento_da_fala(ps, vis['props']['partida'], vis['props']['indice'], quem, txt)
+                    # o pensamento secreto de quem fala (do log), mostrado num balão enquanto a voz toca
+                    if vis.get('props', {}).get('mostrarPensamentos', True):
+                        item['pensamento'] = curto(pensamento_da_fala(ps, vis['props']['partida'], vis['props']['indice'], quem, txt))
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = tts(' '.join(bt.spoken(x) for x in txt.split()), VOZES[quem], base)
                         voices.append(dict(at=round(t * FPS), src=f'voice_au2/{sid}_{k}.mp3', cor=quem))
                     else:
                         dur = 1.3 if not txt.strip('. ') else len(txt) / 15
+                    item['ate'] = round((t + dur) * FPS)
                     t += dur + 0.35
             vis.setdefault('props', {})['chat'] = chat
             end = t
-        duration = round((end + pad) * FPS)
+        minimo = sc.get('min', 7.5 if vis.get('name') == 'AU2Votos' else 0)  # votação: tempo de ler quem votou em quem
+        duration = round(max(end + pad, minimo) * FPS)
         for ev in events:
             if ev['type'] in ('meme', 'txt'):
                 ev['dur'] = max(12, min(ev['dur'], duration - ev['at']))
