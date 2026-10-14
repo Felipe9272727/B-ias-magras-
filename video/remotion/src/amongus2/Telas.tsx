@@ -136,7 +136,7 @@ export const Chamado: React.FC<{p: Partida2; idx: number}> = ({p, idx}) => {
 // ---------- 4. Mesa de votação ----------
 // fase 'discussao': chat rolando (mostra até a fala `falas`); 'votacao': carimbos VOTOU aparecendo (fração `votos` 0..1);
 // 'resultado': quem votou em quem embaixo de cada nome. `timer` = segundos que aparecem no relógio.
-type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean};
+type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean; mensagens?: {cor: string; texto: string; at: number}[]};
 
 const Cabeca: React.FC<{cor: string; size: number; morto?: boolean}> = ({cor, size, morto}) => (
   <div style={{position: 'relative', width: size, height: size, borderRadius: size * 0.2, overflow: 'hidden', background: '#c7d3e3', border: '3px solid #000'}}>
@@ -160,7 +160,7 @@ const Bolha: React.FC<{p: Partida2; cor: string; texto: string; aparece: number}
   );
 };
 
-export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true}) => {
+export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens}) => {
   const f = useCurrentFrame();
   const r = p.reunioes[idx];
   // quem está vivo na reunião: estado do tique em que ela foi chamada
@@ -178,9 +178,13 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
   const pulos = eleitores.filter((e) => r.votos[e] === 'pular' || !r.votos[e]);
   const larg = chat ? 1120 : 1500;
   const x0 = chat ? 40 : 210;
-  const mostrar = r.falas.slice(0, falas);
+  // falas da cena (roteiro: aparecem quando a voz começa) ou as do log, até a número `falas`
+  const mostrar = mensagens ? mensagens.filter((m) => m.at <= f) : r.falas.slice(0, falas);
+  const ultima = mensagens?.filter((m) => m.at <= f).pop();
+  const idadeUltima = ultima ? f - ultima.at : f;
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 40%, #1c2a44, #070b14 80%)'}}>
+      {mensagens?.map((m, i) => <Som key={'c' + i} nome="chat" em={m.at} vol={0.35} />)}
       {/* tablet */}
       <div style={{position: 'absolute', left: x0, top: 40, width: larg, height: 1000, borderRadius: 34, background: '#8fa3bf', border: '10px solid #1a1f2b', boxShadow: '0 20px 60px #000c'}}>
         <div style={{position: 'absolute', inset: 14, borderRadius: 22, background: '#c4d0e0'}} />
@@ -233,7 +237,7 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
           <div style={{padding: '14px 20px', background: '#cfd8e6', borderBottom: '4px solid #1a1f2b', fontFamily: FONT.display, fontWeight: 900, fontSize: 30}}>Chat</div>
           <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 16px 16px', overflow: 'hidden'}}>
             {mostrar.slice(-6).map((m, i, arr) => (
-              <Bolha key={falas - arr.length + i} p={p} cor={m.cor} texto={m.texto} aparece={i === arr.length - 1 ? interpolate(f % 1e9, [0, 8], [0, 1], cl) : 1} />
+              <Bolha key={mostrar.length - arr.length + i} p={p} cor={m.cor} texto={m.texto} aparece={i === arr.length - 1 ? interpolate(idadeUltima, [0, 8], [0, 1], cl) : 1} />
             ))}
           </div>
         </div>
