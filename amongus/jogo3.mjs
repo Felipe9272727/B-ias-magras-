@@ -109,6 +109,30 @@ const PAPEIS = {
   Juiz: { time: 'tripulante', curta: 'tripulante que pode ANULAR uma votação (1 vez)', desc: 'Você é TRIPULANTE (Juiz). Faça tarefas. Seu PODER (1 vez na partida): na hora de votar, ANULAR a votação: ninguém é expulso e a nave só fica sabendo que "o Juiz anulou". Use quando achar que vão expulsar um inocente.' },
   Seguranca: { time: 'tripulante', curta: 'tripulante que vê as CÂMERAS de qualquer lugar', desc: 'Você é TRIPULANTE (Segurança). Faça tarefas. Seu PODER: olhar as CÂMERAS de qualquer lugar da nave (Refeitório, Admin, Navegação, Motor Superior e Enfermaria).' },
 }
+// Tarefas como as do jogo (partidas com CFG.tarefasReais): as LONGAS têm etapas em salas diferentes (baixar os dados
+// numa sala e enviar no Admin; encher o galão no Depósito e levar aos dois motores; desviar a energia na Elétrica e
+// aceitar noutra sala; a amostra precisa de um tempo de espera antes da 2ª etapa); as CURTAS são uma sala só.
+// Etapa: [salas possíveis (sorteia uma), tiques de trabalho, espera em tiques antes de poder fazer]
+const TAREFAS3_LONGAS = {
+  'Baixar e enviar dados': [[['Refeitorio', 'Armas', 'Navegacao', 'Comunicacoes', 'Eletrica'], 3], [['Admin'], 3]],
+  'Abastecer os motores': [[['Deposito'], 2], [['MotorSuperior'], 2], [['Deposito'], 2], [['MotorInferior'], 2]],
+  'Desviar energia': [[['Eletrica'], 2], [['Navegacao', 'Escudos', 'Armas', 'O2', 'Comunicacoes', 'MotorSuperior', 'MotorInferior', 'Seguranca'], 2]],
+  'Consertar a fiação': [[['Eletrica'], 2], [['Deposito', 'Admin', 'Navegacao', 'Refeitorio', 'Seguranca'], 2], [['Armas', 'Comunicacoes', 'Escudos', 'O2'], 2]],
+  'Inspecionar amostra': [[['Enfermaria'], 2], [['Enfermaria'], 2, 5]],
+  'Esvaziar o lixo': [[['Refeitorio', 'O2'], 2], [['Deposito'], 3]],
+  'Alinhar os motores': [[['MotorSuperior'], 2], [['MotorInferior'], 2]],
+}
+const TAREFAS3_CURTAS = [
+  ['Destruir asteroides', 'Armas', 4], ['Ativar os escudos', 'Escudos', 3], ['Escanear no MedBay', 'Enfermaria', 3],
+  ['Limpar o filtro de O2', 'O2', 3], ['Traçar a rota', 'Navegacao', 3], ['Estabilizar o rumo', 'Navegacao', 2],
+  ['Calibrar o distribuidor', 'Eletrica', 3], ['Passar o cartão', 'Admin', 3], ['Destravar os coletores', 'Reator', 3],
+  ['Iniciar o reator', 'Reator', 5],
+]
+// progresso em etapas (a barra de tarefas conta etapas, como no jogo)
+const passos = (t) => t.etapas.length
+const passosFeitos = (t) => (t.ok ? passos(t) : t.etapa)
+const prontaAgora = (t) => (t.liberaEm ?? 0) <= tique
+
 const TAREFAS_VISUAIS = { 'Escanear no MedBay': 'o scanner verde passou por ele', 'Esvaziar o lixo': 'o lixo despencou pela calha lá fora', 'Ativar os escudos': 'os escudos acenderam', 'Destruir asteroides': 'o canhão disparou nos asteroides' }
 const CAMERAS = ['Refeitorio', 'Admin', 'Navegacao', 'MotorSuperior', 'Enfermaria']
 const SABOTAGENS = { luzes: 'Luzes', reator: 'Reator', 'comunicações': 'Comunicações', o2: 'O2' }
@@ -182,12 +206,18 @@ function montarPartida() {
     const time = PAPEIS[papel].time
     const tarefas = []
     if (time === 'tripulante') {
-      const salas = embaralhar(Object.keys(TAREFAS)).slice(0, CFG.tarefasPorTripulante)
-      for (const s of salas) {
-        const [nome, dur] = escolher(TAREFAS[s])
-        tarefas.push({ sala: s, nome, dur: dur + 1, feito: 0, ok: false })
+      const nova = (nome, etapas) => ({ nome, etapas, etapa: 0, sala: etapas[0].sala, dur: etapas[0].dur, feito: 0, ok: false, liberaEm: 0 })
+      if (CFG.tarefasReais) {
+        for (const nome of embaralhar(Object.keys(TAREFAS3_LONGAS)).slice(0, CFG.tarefasLongas)) tarefas.push(nova(nome, TAREFAS3_LONGAS[nome].map(([salas, dur, espera]) => ({ sala: escolher(salas), dur, espera: espera ?? 0 }))))
+        for (const [nome, sala, dur] of embaralhar(TAREFAS3_CURTAS).filter(([n]) => !tarefas.some((t) => t.nome === n)).slice(0, CFG.tarefasCurtas)) tarefas.push(nova(nome, [{ sala, dur, espera: 0 }]))
+      } else {
+        const salas = embaralhar(Object.keys(TAREFAS)).slice(0, CFG.tarefasPorTripulante)
+        for (const s of salas) {
+          const [nome, dur] = escolher(TAREFAS[s])
+          tarefas.push(nova(nome, [{ sala: s, dur: dur + 1, espera: 0 }]))
+        }
       }
-      totalTarefas += tarefas.length
+      totalTarefas += tarefas.reduce((n, t) => n + passos(t), 0)
     }
     jogadores.push({
       cor, papel, time, provider: MOCK ? 'mock' : provs[cor], modelo: MODELOS[provs[cor]],
@@ -197,14 +227,14 @@ function montarPartida() {
       fotos: CFG.fotosInfluencer, anulou: false, recrutou: false, envenenado: null, vistoNaSala: {},
     })
   })
-  log.jogadores = jogadores.map((j) => ({ cor: j.cor, papel: j.papel, time: j.time, modelo: j.modelo, provider: j.provider, tarefas: j.tarefas.map((t) => ({ sala: t.sala, nome: t.nome })) }))
+  log.jogadores = jogadores.map((j) => ({ cor: j.cor, papel: j.papel, time: j.time, modelo: j.modelo, provider: j.provider, tarefas: j.tarefas.map((t) => ({ sala: t.sala, nome: t.nome, etapas: t.etapas.map((e) => e.sala) })) }))
 }
 
 const J = (cor) => jogadores.find((j) => j.cor === cor)
 const vivos = () => jogadores.filter((j) => j.vivo)
 const impostoresVivos = () => vivos().filter((j) => j.time === 'impostor')
 const naoImpostoresVivos = () => vivos().filter((j) => j.time !== 'impostor')
-const tarefasFeitas = () => jogadores.reduce((n, j) => n + j.tarefas.filter((t) => t.ok).length, 0)
+const tarefasFeitas = () => jogadores.reduce((n, j) => n + j.tarefas.reduce((k, t) => k + passosFeitos(t), 0), 0)
 const corAparente = (j) => (j.disfarce && tique < j.disfarceAte ? j.disfarce : j.cor)
 const invisivel = (j) => tique < (j.invisivelAte ?? 0)
 const luzesApagadas = () => sabotagem?.tipo === 'Luzes'
@@ -274,7 +304,7 @@ function acoesDe(j) {
   } else if (j.time === 'neutro') {
     if (TAREFAS[aqui]) a.push('fingir que faz tarefa')
   } else {
-    const t = j.tarefas.find((t) => !t.ok && t.sala === aqui)
+    const t = j.tarefas.find((t) => !t.ok && t.sala === aqui && prontaAgora(t))
     if (t) a.push(`fazer tarefa: ${t.nome}${TAREFAS_VISUAIS[t.nome] ? ' (VISUAL: quem estiver vendo vai saber que você é tripulante)' : ''}`)
     if (j.papel === 'Engenheiro' && j.recPoder <= 0) for (const d of dutosDe(aqui)) a.push(`entrar no duto e sair em ${d}`)
     if (j.papel === 'Cientista' && j.recPoder <= 0 && !comsSabotadas()) a.push('ver sinais vitais')
@@ -361,7 +391,7 @@ function situacao(j) {
   if (tr.length) L.push(`🚪 Portas trancadas agora: ${tr.join(', ')}.`)
   if (j.time === 'tripulante') {
     const pend = j.tarefas.filter((t) => !t.ok)
-    L.push(`Suas tarefas pendentes: ${pend.length ? pend.map((t) => `${t.nome} (${nomeSala(t.sala)})${TAREFAS_VISUAIS[t.nome] ? ' [visual]' : ''}`).join('; ') : 'nenhuma — todas feitas!'}`)
+    L.push(`Suas tarefas pendentes: ${pend.length ? pend.map((t) => `${t.nome}${passos(t) > 1 ? ` [etapa ${t.etapa + 1} de ${passos(t)}]` : ''} (${nomeSala(t.sala)})${prontaAgora(t) ? '' : ` (só fica pronta no tique ${t.liberaEm})`}${TAREFAS_VISUAIS[t.nome] ? ' [visual]' : ''}`).join('; ') : 'nenhuma — todas feitas!'}`)
     if (!comsSabotadas()) L.push(`Barra de tarefas da nave: ${Math.round((100 * tarefasFeitas()) / totalTarefas)}%.`)
   } else if (j.time === 'neutro') {
     L.push('🤡 Você é o Palhaço: seu único objetivo é ser EXPULSO numa votação. Seja suspeito na medida (sem confessar).')
@@ -409,6 +439,16 @@ async function decidir(j) {
 }
 
 // ---------- execução de um tique ----------
+// terminou uma etapa de tarefa longa: a próxima é em outra sala (e pode ter um tempo de espera)
+function avancarEtapa(j, t) {
+  const feita = t.etapas[t.etapa]
+  t.etapa++
+  const prox = t.etapas[t.etapa]
+  Object.assign(t, { sala: prox.sala, dur: prox.dur, feito: 0, liberaEm: tique + (prox.espera ?? 0) })
+  evento('tarefa_etapa', { cor: j.cor, sala: feita.sala, nome: t.nome, etapa: t.etapa, de: passos(t), proxima: prox.sala })
+  if (j.vivo) lembrar(j, `Etapa ${t.etapa} de ${passos(t)} da tarefa "${t.nome}" feita em ${nomeSala(feita.sala)}. Próxima etapa: ${nomeSala(prox.sala)}${prox.espera ? ` (só fica pronta no tique ${t.liberaEm})` : ''}.`)
+}
+
 function irPara(j, destino) {
   if (trancada(j.sala)) return
   const c = caminho(j.sala, destino)
@@ -488,11 +528,12 @@ async function rodarTique() {
       const longe = vivos().filter((o) => o !== j && o.sala === j.sala && !ve(j, o))
       if (longe.length) j.ponto = { x: Math.round((longe[0].ponto.x + j.ponto.x) / 2 + (longe[0].ponto.x - j.ponto.x) * 0.3), y: Math.round((longe[0].ponto.y + j.ponto.y) / 2 + (longe[0].ponto.y - j.ponto.y) * 0.3) }
     } else if ((m = acao.match(/^fazer tarefa: (.+?)(?: \(VISUAL.*)?$/))) {
-      const t = j.tarefas.find((t) => !t.ok && t.sala === j.sala && t.nome === m[1])
+      const t = j.tarefas.find((t) => !t.ok && t.sala === j.sala && t.nome === m[1] && prontaAgora(t))
       if (t) {
         j.ponto = consoleDe(j.sala, t.nome)
         t.feito++
-        if (t.feito >= t.dur) {
+        if (t.feito >= t.dur && t.etapa < passos(t) - 1) avancarEtapa(j, t)
+        else if (t.feito >= t.dur) {
           t.ok = true
           evento('tarefa', { cor: j.cor, sala: j.sala, nome: t.nome, visual: !!TAREFAS_VISUAIS[t.nome] })
           lembrar(j, `Terminei a tarefa "${t.nome}" em ${nomeSala(j.sala)}.`)
@@ -531,8 +572,9 @@ async function rodarTique() {
         alvo.papel = 'Recrutado'
         alvo.time = 'impostor'
         alvo.recMorte = CFG.recargaMorte
-        totalTarefas -= alvo.tarefas.filter((t) => !t.ok).length
-        alvo.tarefas = alvo.tarefas.filter((t) => t.ok)
+        // o recrutado larga as tarefas: o que faltava sai do total, as etapas já feitas continuam valendo
+        totalTarefas -= alvo.tarefas.reduce((n, t) => n + passos(t) - passosFeitos(t), 0)
+        alvo.tarefas = alvo.tarefas.filter((t) => passosFeitos(t) > 0).map((t) => ({ ...t, etapas: t.etapas.slice(0, passosFeitos(t)), ok: true }))
         evento('recrutamento', { cor: j.cor, alvo: alvo.cor, papelAntes: alvo.papelOriginal, sala: j.sala })
         lembrar(j, `Recrutei ${alvo.cor}: agora ele é impostor do nosso lado.`)
         lembrar(alvo, `🕴️ O Gangster ${j.cor} me RECRUTOU: agora eu sou IMPOSTOR. Parceiros: ${jogadores.filter((o) => o.time === 'impostor' && o !== alvo).map((o) => o.cor).join(', ')}.`)
@@ -699,7 +741,11 @@ async function rodarTique() {
   recargaPortas--
   for (const g of jogadores.filter((g) => !g.vivo && g.time === 'tripulante' && tique % CFG.fantasmaTarefaCada === 0)) {
     const t = g.tarefas.find((t) => !t.ok)
-    if (t) { t.feito++; if (t.feito >= t.dur + 1) { t.ok = true; evento('tarefa', { cor: g.cor, fantasma: true, nome: t.nome }) } }
+    if (t && prontaAgora(t)) {
+      t.feito++
+      if (t.feito >= t.dur + 1 && t.etapa < passos(t) - 1) avancarEtapa(g, t)
+      else if (t.feito >= t.dur + 1) { t.ok = true; evento('tarefa', { cor: g.cor, fantasma: true, nome: t.nome }) }
+    }
   }
   snapshot()
   return reuniao
