@@ -1,0 +1,171 @@
+# Partida 4 — resultado: {'time': 'impostor', 'motivo': 'O reator explodiu.', 'tique': 20}
+
+## Elenco
+- Vermelho: Detetive (tripulante) — MiniMax M3
+- Azul: Palhaco (neutro) — Claude Haiku
+- Verde: Rastreador (tripulante) — GLM 5.3 Flash
+- Rosa: Xerife (tripulante) — GLM 5.3 Flash
+- Laranja: Barulhento (tripulante) — Gemini 3.8 Flash
+- Amarelo: Medico (tripulante) — GPT-5.6 Luna
+- Preto: Juiz (tripulante) — Claude Haiku
+- Branco: Envenenador (impostor) — GPT-5.6 Luna
+- Roxo: Gangster (impostor) — Gemini 3.8 Flash
+- Marrom: Fantasma (impostor) — DeepSeek Flash
+- Ciano: Influencer (tripulante) — Claude Haiku
+- Lima: Cientista (tripulante) — GLM 5.3 Flash
+- Cinza: Engenheiro (tripulante) — MiniMax M3
+- Coral: Prefeito (tripulante) — GPT-5.6 Luna
+- Bordo: Seguranca (tripulante) — DeepSeek Flash
+
+## Linha do tempo (eventos)
+- t1 **poder** {"cor": "Amarelo", "poder": "escudo", "alvo": "Azul"}
+- t1 **poder** {"cor": "Verde", "poder": "rastrear", "alvo": "Preto"}
+- t3 **poder** {"cor": "Bordo", "poder": "cameras"}
+- t4 **recrutamento** {"cor": "Roxo", "alvo": "Cinza", "papelAntes": "Engenheiro", "sala": "Eletrica"}
+- t5 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Escudos", "para": "Navegacao"}
+- t6 **duto** {"cor": "Roxo", "aparente": "Roxo", "de": "Eletrica", "para": "Seguranca"}
+- t6 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Navegacao", "para": "Armas"}
+- t7 **escudo** {"assassino": "Marrom", "aparente": "Marrom", "vitima": "Azul", "sala": "Eletrica", "medico": "Amarelo"}
+- t7 **sabotagem** {"cor": "Branco", "subtipo": "Luzes"}
+- t8 **conserto** {"por": ["Marrom"], "subtipo": "Luzes"}
+- t8 **poder** {"cor": "Lima", "poder": "vitais", "mortos": []}
+- t8 **duto** {"cor": "Roxo", "aparente": "Roxo", "de": "Seguranca", "para": "Enfermaria"}
+- t9 **invisivel** {"cor": "Marrom", "sala": "Eletrica", "ate": 15}
+- t10 **poder** {"cor": "Verde", "poder": "rastrear", "alvo": "Marrom"}
+- t10 **foto** {"cor": "Ciano", "sala": "Eletrica"}
+- t10 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Escudos", "para": "Navegacao"}
+- t11 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Navegacao", "para": "Armas"}
+- t12 **portas** {"cor": "Cinza", "sala": "Deposito", "ate": 16}
+- t12 **poder** {"cor": "Bordo", "poder": "cameras"}
+- t12 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Armas", "para": "Navegacao"}
+- t13 **sabotagem** {"cor": "Roxo", "subtipo": "Reator"}
+- t13 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Navegacao", "para": "Armas"}
+- t14 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Armas", "para": "Navegacao"}
+- t14 **reaparece** {"cor": "Marrom", "sala": "Reator"}
+- t15 **duto** {"cor": "Branco", "aparente": "Branco", "de": "Navegacao", "para": "Armas"}
+- t16 **invisivel** {"cor": "Marrom", "sala": "Reator", "ate": 22}
+- t17 **portas** {"cor": "Marrom", "sala": "Reator", "ate": 21}
+- t18 **alerta_barulhento** {"vitima": "Laranja", "sala": "Reator"}
+- t18 **morte** {"assassino": "Roxo", "aparente": "Roxo", "vitima": "Laranja", "sala": "Reator"}
+- t18 **poder** {"cor": "Lima", "poder": "vitais", "mortos": ["Laranja"]}
+- t20 **poder** {"cor": "Verde", "poder": "rastrear", "alvo": "Marrom"}
+- t20 **fim** {"time": "impostor", "motivo": "O reator explodiu."}
+- tarefas visuais feitas: t4 Lima (Escanear no MedBay), t5 Amarelo (Escanear no MedBay), t6 Ciano (Esvaziar o lixo), t7 Bordo (Esvaziar o lixo), t14 Vermelho (Ativar os escudos)
+
+## Chat dos impostores
+- t1 Branco: Vou para Admin; mantenham-se discretos e procurem alvos isolados.
+- t1 Roxo: Vou tentar achar alguém isolado para recrutar cedo, joguem limpo por enquanto.
+- t1 Marrom: Branco, Roxo: sou Fantasma. Vou pra Admin, longe do grupo. Comecem a se posicionar e me digam quem fica sozinho.
+- t2 Branco: Vou para o Depósito; procurem alvos isolados e avisem se alguém se separar.
+- t2 Marrom: Estou no Admin com Laranja, Preto e Coral. Vou fingir tarefa. Branco, segura aí; quem ver alguém isolado me chama.
+- t2 Roxo: Estou no Depósito com Cinza, fingindo tarefa pra não levantar suspeita.
+- t3 Marrom: Admin cheio: Azul, Verde, Laranja, Preto, Coral. Vou ver o mapa e aviso onde tem gente sozinha.
+- t3 Roxo: Branco, vou checar a Elétrica para ver se pego alguém sozinho pra recrutar ou abater.
+- t3 Branco: Fico no Depósito com Roxo; avisem se surgir alguém isolado.
+- t4 Branco: Roxo, procure recrutar alguém isolado; Marrom, avise quando surgir alvo sozinho.
+- t4 Roxo: Recrutando Cinza aqui na Elétrica agora.
+- t4 Marrom: Estou em Admin com Verde, Laranja, Preto e Coral. Recarga de matar em 3 tiques. Alguém viu alguém isolado?
+- t5 Cinza: Fui recrutado agora, tô indo pra Depósito separar do Roxo e fingir tarefa. Branco, recarrega aí. Quem tiver perto, vê alvo isolado?
+- t5 Marrom: Admin lotado (Verde, Laranja, Preto, Coral). Indo pro Depósito procurar alvo sozinho. Branco, me avisa se alguém se separar aí.
+- t5 Branco: Vou checar Navegação pelo duto; aviso se encontrar alguém isolado.
+- t5 Roxo: Recrutei Cinza, agora somos quatro! Estamos na Elétrica fingindo tarefa.
+- t6 Roxo: Recrutei Cinza com sucesso! Pulei duto pra Segurança, cuidem das mortes.
+- t6 Cinza: Tô no Depósito fingindo tarefa, tem alguém do outro lado. Marrom, cuidado pra não chegarmos juntos aqui.
+- t6 Marrom: Saindo do Deposito cheio de gente; indo pra Eletrica. Roxo/Cinza, como tá aí?
+- t6 Branco: Vou para Armas pelo duto; avisem se surgir alguém isolado.
+- t7 Marrom: Azul abatido na Elétrica, sem testemunhas. Se surgir alerta de Barulhento, é blefe ou armadilha: digam que eu estava no Depósito.
+- t7 Branco: Sabotei as luzes em Armas; vou buscar uma oportunidade segura para envenenar.
+- t7 Cinza: Tô no Depósito com Verde, Ciano e Bordo colados em mim, zero chance de matar aqui. Vou fazer tarefa visual pra firmar álibi e depois tentar me separar. Branco/Marrom, se toparem alguém isolado me avis
+- t7 Roxo: Apaguei as luzes! Marrom, Azul tá contigo na Elétrica, aproveita.
+- t8 Branco: Vou checar O2 por um alvo isolado; mantenham álibis longe da Elétrica.
+- t8 Cinza: Saindo do Depósito, indo pra Elétrica. Marrom, cuidado pra não nos cruzarmos e gerar testemunha.
+- t8 Marrom: Ciano me viu aqui na Elétrica; consertei as luzes pra firmar álibi. Escudo do Azul já caiu? Quem tiver alvo isolado, chama.
+- t8 Roxo: Marrom, cuidado que Ciano está na Elétrica contigo. Pulei pra Enfermaria pra fingir conserto.
+- t9 Marrom: Tô saindo invisível da Elétrica pro Depósito, cheio de gente aqui. Branco/Roxo, algum alvo isolado?
+- t9 Branco: Lima está comigo no O2, sem chance de envenenar agora; vou para Escudos procurar alguém isolado.
+- t9 Roxo: Tô indo pro Motor Superior; Vermelho tá sozinho em Segurança se alguém quiser cercar.
+- t10 Roxo: Vermelho tá sozinho no Motor Inferior, vou descer pra pegar ele.
+- t10 Cinza: Saindo da Elétrica pro Depósito agora, tinha muita gente aqui. Marrom, se tiver alvo isolado avisa.
+- t10 Branco: Vou pela Navegação cercar Vermelho em Segurança; mantenham álibis e procurem outro alvo isolado.
+- t10 Marrom: Invisível até t15. Depósito tá cheio: Amarelo e Preto perto de mim. Vou olhar o outro lado em busca de alvo isolado; Branco, me diz onde tem gente sozinha.
+- t11 Branco: Vou para Armas pelo duto, buscando alvo isolado.
+- t11 Cinza: Saindo do Depósito (Vermelho e Azul em mim). Indo pro Motor Inferior atrás de alvo isolado. Fiquem de olho em quem segue.
+- t11 Roxo: Tô com kill pronta indo checar Segurança, Branco falou de Vermelho por lá.
+- t11 Marrom: Vermelho está no Depósito com Azul e Cinza. Roxo, abandona o Motor Inferior — tô indo pra lá me posicionar invisível até o t15.
+- t12 Cinza: Tranquei o Depósito. Marrom, manda bala — eles tão presos contigo.
+- t12 Marrom: Invisível até t15. Indo do Motor Inferior pro Depósito me posicionar. Cinza tá comigo aqui, mas é nosso. Quem tiver alvo isolado me avisa que chego invisível.
+- t12 Roxo: Subindo pro Motor Superior. Marrom e Cinza, peguem quem descer pro Inferior.
+- t12 Branco: Vou para Navegação pelo duto; mantenham pressão no Depósito e avisem se surgir alvo isolado.
+- t13 Marrom: Invisível, indo pra Segurança atrás do Vermelho. Roxo, avisa se ele sair de lá.
+- t13 Cinza: Saindo do Motor Inferior pra Segurança, kill pronta. Marrom, cuidado que porta do Depósito tá trancada do meu lado. Roxo fica no Motor Superior como apoio. Se verem alvo isolado em outra sala me avise
+- t13 Roxo: Sabotei o reator pra puxar gente pro lado esquerdo e dispersar o Depósito. Peguem quem vier isolado!
+- t13 Branco: Vou para Armas pelo duto; se alguém ficar isolado, aviso e enveneno.
+- t14 Marrom: Indo pro Reator invisível. Se vier gente consertar, eu mato quem ficar isolado. Vocês seguram o resto e NÃO deixem 2 juntos no Reator!
+- t14 Roxo: Entrando no Reator pra fingir conserto ou finalizar quem vier desavisado.
+- t14 Cinza: Indo pro Reator de tocaia, kill pronta. Quem vier sozinho consertar vira alvo. Marrom, flanqueia invisível se alguém aparecer isolado.
+- t14 Branco: Vou pela Navegação; avisem se acharem alguém isolado.
+- t15 Marrom: Estou no Reator com Roxo. NÃO consertem a sabotagem — deixa estourar no t20. Cinza, entra de tocaia. Se vier 1 tripulante sozinho, eu mato; se vierem 2, atacamos juntos pra impedir o conserto.
+- t15 Roxo: NÃO consertem o Reator! Faltam só 5 tiques pra vitória pelo reator. Se alguém entrar, a gente mata na hora.
+- t15 Cinza: Reator com 3 impostores (eu, Roxo, Marrom), zero testemunhas. Sabotagem vale até t20 - NÃO deixem 2 tripulantes juntos aqui. Quem vier isolado, a gente mata. Roxo e Marrom, fiquem alertas; Branco, caç
+- t15 Branco: Vermelho está em Escudos; vou para Armas e procuro outro alvo isolado.
+- t16 Roxo: Fiquem parados! Não consertem. Se entrar qualquer tripulante aqui, a gente mata na hora. Faltam só 4 tiques!
+- t16 Marrom: Invisível no Reator de tocaia. Não consertem! Se vier alguém sozinho, eu finalizo.
+- t16 Branco: Estou saindo de Armas; não consertem o Reator, faltam poucos tiques.
+- t16 Cinza: Posicionado no Reator com Roxo e Marrom, kill pronta. Se vier 1 tripulante, matamos. Se vierem 2, atacamos pra não deixar consertar.
+- t17 Branco: Fico fora do Reator; deixem a sabotagem estourar no t20.
+- t17 Marrom: Tranquei o Reator. Ninguém entra. Roxo e Cinza, segurem quem já estiver dentro e não consertem nada.
+- t17 Cinza: Tranquei as portas do Reator. Ninguém entra mais. Vitória no t20, fiquem firmes.
+- t17 Roxo: Tranquei Motor Inferior, Laranja está preso lá. Falta pouco pro Reator estourar!
+- t18 Marrom: Trancado com Laranja + eu, Roxo e Cinza. Ele tá sozinho, não conserta. Ninguém entra até t21, vitória no t20. Só seguramos.
+- t18 Roxo: Matando Laranja. Portas trancadas até t21, sabotagem estoura no t20. Vitória garantida!
+- t18 Cinza: Matando Laranja agora. Reator estoura no t20, vitória nossa. Ninguém conserta!
+- t18 Branco: Estou indo para Armas; mantenham o Reator trancado e não consertem.
+- t19 Branco: Vou sair de Armas; mantenham o Reator sem conserto até estourar.
+- t19 Roxo: Só ficar parado, as portas estão trancadas e estoura no tique 20. Vitória garantida!
+- t19 Cinza: Tudo certo, esperando o reator estourar no t20.
+- t19 Marrom: Firmes! Portas trancadas até o 21, sabotagem estoura no 20. Ninguém entrou pra consertar, é vitória nossa.
+- t20 Marrom: Não vou denunciar. Deixem estourar no t20, fico parado no Reator.
+- t20 Cinza: Firme aqui no Reator com Roxo. Ninguém entra, ninguém conserta. Vitória no t20! 🎉
+- t20 Branco: Mantenham posição; a sabotagem estoura no próximo tique.
+- t20 Roxo: GG, tique 20 estoura agora!
+
+## Pensamentos dos impostores e do Palhaço (ações fortes)
+- t4 Roxo (Gangster): **recrutar Cinza** — “Estou sozinho com Cinza na Elétrica, momento perfeito para recrutar e fortalecer nosso time.”
+- t5 Branco (Envenenador): **entrar no duto e sair em Navegacao** — “Vou usar o duto para Navegação e buscar uma vítima isolada sem ser visto.”
+- t6 Roxo (Gangster): **entrar no duto e sair em Seguranca** — “Estou sozinho na Elétrica e Segurança está vazia pelo duto, vou pular para lá para caçar ou monitorar.”
+- t6 Branco (Envenenador): **entrar no duto e sair em Armas** — “Vou usar o duto para Armas e procurar uma vítima isolada, mantendo meu álibi longe do grupo.”
+- t7 Marrom (Fantasma): **matar Azul** — “Azul está sozinho comigo e morto não fala: mato agora antes que ele fuja ou me denuncie.”
+- t7 Branco (Envenenador): **sabotar luzes** — “Vou sabotar as luzes agora para criar cobertura e procurar um alvo isolado no próximo tique.”
+- t7 Roxo (Gangster): **sabotar luzes** — “Marrom está com Azul na Elétrica, vou apagar as luzes para facilitar o abate dele sem que vejam.”
+- t8 Roxo (Gangster): **entrar no duto e sair em Enfermaria** — “Vou sair pelo duto para a Enfermaria para me afastar da Elétrica e fingir que estou vindo consertar a luz.”
+- t9 Marrom (Fantasma): **ficar invisível e ir para Deposito** — “Muita gente me vendo aqui; vou usar a invisibilidade pra sair de fininho e procurar alvo isolado no Depósito.”
+- t10 Ciano (Influencer): **postar foto da sala** — “Estou há 9 tiques sem usar o poder e o Marrom sumiu do nada aqui na Elétrica; vou postar a foto para registrar quem está perto de mim.”
+- t10 Branco (Envenenador): **entrar no duto e sair em Navegacao** — “Vou usar o duto para me aproximar de Vermelho em Segurança sem ser visto.”
+- t11 Branco (Envenenador): **entrar no duto e sair em Armas** — “Vou usar o duto para Armas e procurar uma vítima isolada sem ser visto.”
+- t12 Branco (Envenenador): **entrar no duto e sair em Navegacao** — “Vou usar o duto para Navegação e criar um álibi enquanto os parceiros pressionam o Depósito.”
+- t13 Roxo (Gangster): **sabotar reator** — “Estou no Motor Superior com sabotagem pronta e matança liberada, vou sabotar o reator para dispersar o pessoal do Depósito e puxar o fluxo pra cá.”
+- t13 Branco (Envenenador): **entrar no duto e sair em Armas** — “Vou sair pelo duto em Armas para me aproximar de um alvo isolado sem levantar suspeitas.”
+- t14 Branco (Envenenador): **entrar no duto e sair em Navegacao** — “Vou usar o duto para chegar à Navegação sem testemunhas e procurar um alvo isolado para envenenar.”
+- t15 Branco (Envenenador): **entrar no duto e sair em Armas** — “Vou usar o duto para sair em Armas, mantendo distância do Reator e buscando um alvo isolado depois.”
+- t16 Marrom (Fantasma): **ficar invisível** — “Vou ficar invisível aqui no Reator de tocaia: se um tripulante isolado chegar pra consertar, eu apareço e mato antes do t20.”
+- t17 Marrom (Fantasma): **trancar as portas de Reator** — “Estou invisível, não posso matar, mas se eu trancar o Reator ninguém entra pra consertar e a gente vence no t20.”
+- t17 Roxo (Gangster): **trancar as portas de MotorInferior** — “Vou trancar o Motor Inferior para atrasar o Laranja e garantir que o Reator exploda no t20.”
+- t18 Roxo (Gangster): **matar Laranja** — “Laranja está preso sozinho com três impostores e as portas trancadas, vou eliminá-lo agora para garantir a vitória por sabotagem.”
+
+## Reuniões
+## Reflexões no fim
+- Vermelho: Falhei miseravelmente como Detetive: não usei meu poder de examinar corpos porque nunca achei nenhum corpo nem pressionei reuniões — a ausência total de reuniões até o estouro do reator é a maior prova de que os impostores (Branco, Roxo e Marrom, todos modelos que já foram impostores em partidas anteriores) estavam escondendo mortes com sucesso. Os três modelos que compunham a tripulação de impostores (GPT-5.6 Luna, Gemini 3.8 Flash e DeepSeek Flash) repetiram o padrão das partidas 1, 2 e 3, ent
+- Azul: Como Palhaço, eu não podia vencer sem ser expulso, e nesta partida ninguém chamou reunião, então nunca tive chance de ser votado. Na próxima, vou forçar reuniões cedo, denunciando corpos ou pedindo o botão de emergência, para que a votação aconteça antes que o reator ou o O2 decidam o jogo. Vou desconfiar de quem evita falar e de quem some perto de corpos, e vou confiar só em quem se confirmar com fatos verificáveis, como o Roxo, que matou Laranja no Reator sem que ninguém percebesse a tempo.
+- Verde: Ninguém chamou reunião nenhuma e o reator explodiu sem que ninguém consertasse — aprendi que sabotagens no Reator/O2 precisam de resposta imediata, e se ninguém correr, eu mesmo vou. Roxo (Gangster, Gemini) e Branco (Envenenador, GPT-5.6) jogaram silenciosos e eficientes; com menos de 5 GPT-5.6 nas partidas, vou reavaliar minha desconfiança geral do grupo deles. Cinza (MiniMax) foi recrutado e ninguém percebeu, então vou ficar atento a comportamentos 'too quiet' de quem antes parecia confiável.
+- Rosa: Como Xerife não consegui atirar porque nunca tive certeza visual, e o Roxo matou o Laranja no Reator sem ninguém chamar reunião antes do reator explodir. Aprendi que o Roxo (Gangster) mentiu muito bem e o Cinza aceitou ser recrutado — vou desconfiar deles. Também aprendi que reuniões zero é perigoso: vou apertar o botão ou denunciar antes que sabotagens matem a nave.
+- Laranja: Fui assassinado no Reator pelo Gangster Roxo enquanto tentava lidar com a sabotagem, e a falta de resposta rápida da nave fez o reator explodir sem que tivéssemos sequer uma reunião. Meu alerta de Barulhento disparou no Reator, mas os tripulantes se dispersaram e ignoraram o perigo iminente da sabotagem crítica. Na próxima partida, não posso ir sozinho consertar sabotagens letais sem escolta e preciso que todos entendam que sabotagens de fim de jogo exigem mobilização imediata e em grupo.
+- Amarelo: Aprendi que a falta de reuniões permitiu aos impostores, especialmente Roxo, Branco, Marrom e o recrutado Cinza, manterem o controle até o reator explodir; Roxo foi eficiente ao matar Laranja no Reator sem deixar testemunhas. Como ninguém acusou ou verificou nada, não houve acusações erradas identificáveis, mas na próxima partida vou priorizar tarefas visuais, câmeras, rastreamentos e consertar sabotagens rapidamente, desconfiando de quem evita reuniões ou some durante emergências.
+- Preto: Aprendi que, sem reunião nem denúncia, a partida se decide pela sabotagem: o reator explodiu e eu não consegui consertá-lo a tempo, então na próxima vou priorizar ir até o reator logo que ele disparar. Roxo (Gangster) e Branco (Envenenador) foram os impostores mais difíceis de perceber, porque nenhum corpo foi reportado antes do fim, e Marrom (Fantasma) ficou invisível o bastante para não aparecer como suspeito. Não tenho provas de quem mentiu em conversas, então vou desconfiar de quem some pert
+- Branco: Aprendi que Roxo, Marrom e Cinza foram muito discretos: Roxo iniciou a eliminação de Laranja e, junto com Marrom e Cinza, deixou o reator explodir sem nenhuma reunião. Como não houve acusações nem denúncias, não consegui avaliar quem mentiu ou acusou errado; na próxima partida, vou desconfiar de jogadores silenciosos e de quem evita objetivos, mas não tratarei isso como prova suficiente.
+- Roxo: Consegui recrutar Cinza rapidamente e garantir uma vitória fulminante para os impostores eliminando Laranja no Reator enquanto a sabotagem crítica finalizava o jogo sem nenhuma reunião. Percebi que a tripulação demorou demais para responder a crises críticas, permitindo que a sabotagem resolvesse a partida sem dar chance para Detetive ou Xerife agirem. Nas próximas rodadas, vou manter foco extremo na coordenação veloz das sabotagens letais e vigiar tripulantes lentos em resolver emergências.
+- Marrom: Nesta partida como Fantasma nem precisei matar: o Roxo (Gangster, Gemini) fez a morte no Reator no t18 e a sabotagem do reator venceu porque ninguém chamou reunião nem consertou a tempo. Aprendi que forçar sabotagem crítica e deixar os tripulantes se dispersarem é mais eficiente que arriscar kills, e que o Branco (Envenenador, GPT-5.6 Luna) e o Cinza recrutado (MiniMax) jogaram do nosso lado sem se queimar. Na próxima vou usar a invisibilidade para chegar perto de salas vitais, pressionar quem d
+- Ciano: Aprendi que, sem reuniões, a nave perdeu o jogo porque ninguém chamou o grupo para discutir: o Roxo matou o Laranja e o reator explodiu enquanto ficávamos quietos. Na próxima, vou usar o Influencer mais cedo para registrar sinais e chamar reunião assim que houver corpo ou sabotagem, sem esperar prova perfeita. Desconfio do Roxo (Gangster, Gemini) e do Branco (Envenenador, GPT-5.6 Luna), que estavam entre os impostores, e vou cruzar quem ficou sozinho perto do Marrom (Fantasma) e do Cinza (Recrut
+- Lima: Nesta partida 4 fui o Cientista e o pulo foi a两市 sabotagem do reator: quase ninguém correu para consertar e ninguém chamou reunião, então os impostores (Branco, Roxo, Marrom e o Cinza recrutado) venceram sem uma única expulsão. Aprendi que sabotagens matam mais rápido que corpos, então na próxima vou priorizar consertar reator/O2 imediatamente e puxar reunião quando estivermos perdidos. Desconfio do Roxo (matou no Reator) e do grupo Branco/Marrom/Cinza; confiar mais em quem correr para as tarefa
+- Cinza: Partida 4: fiquei de impostor recrutado pelo Roxo (Gemini Gangster) e ganhamos sem nenhuma reunião — o time nem percebeu, e o reator explodiu. Isso me ensinou que tripulações que não se comunicam perdem fácil, e que um Gangster que recruta cedo (Roxo me recrutou rápido) destrói o jogo. Na próxima partida, desconfio de quem nunca aparece em reuniões ou nunca denuncia corpos: silêncio demais é sinal de impostor; e se eu for tripulante, vou forçar reuniões mesmo sem corpo quando perceber algo estra
+- Coral: Aprendi que a falta de reuniões e a explosão do reator permitiram que Branco, Roxo, Marrom e Cinza agissem sem pressão; Roxo matou Laranja no Reator, enquanto Branco envenenador e Marrom fantasma provavelmente se beneficiaram do caos, e Cinza foi recrutado discretamente. Não houve acusações erradas registradas, mas na próxima partida vou priorizar sabotagens, rastreamentos, sinais vitais e tarefas visuais, desconfiando de quem evita objetivos ou some durante emergências.
+- Bordo: Como Bordo (Segurança), aprendi que ficar sem reunião e não usar as câmeras me deixou cego: os impostores venceram sabotando o reator, e Roxo ainda matou Laranja no Reator sem ninguém denunciar. Quem se escondeu bem foi Marrom (Fantasma) e Branco (Envenenador), enquanto Roxo foi ousado e liderou o caos; na próxima vou monitorar câmeras cedo, desconfiar de sumiços e de quem age sozinho em sala de sabotagem. Não vi acusações erradas porque não houve votação, mas reforço que não devo votar sem prov

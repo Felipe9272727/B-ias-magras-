@@ -16,6 +16,8 @@ ESCOLHA = {
     '2-1': [('Roxo', 1), ('Preto', 1), ('Coral', 2), ('Rosa', 2, 150), ('Roxo', 2, 150)],
     '2-2': [('Roxo', 1), ('Preto', 2, 150), ('Roxo', 2), ('Coral', 2, 150)],
     '2-3': [('Rosa', 1, 150), ('Ciano', 1), ('Roxo', 1), ('Coral', 1), ('Roxo', 2)],
+    '3-0': [('Coral', 1), ('Vermelho', 1), ('Marrom', 1, 150), ('Laranja', 1, 150)],
+    '3-1': [('Vermelho', 1, 150), ('Roxo', 1), ('Laranja', 1, 150), ('Laranja', 2, 150), ('Cinza', 2, 230)],
 }
 
 
