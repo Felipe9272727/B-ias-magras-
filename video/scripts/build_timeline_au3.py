@@ -58,7 +58,7 @@ VOZES = {
 # pronúncia só para a voz; a legenda mostra o texto original
 bt.PRONUNCIA = {
     'Haiku': 'Raicu', 'Haikus': 'Raicus', 'Haiku,': 'Raicu,',
-    'Among': 'Amông', 'Us': 'Âs', 'GPT': 'GêPêTê', 'Grok': 'Gróqui', 'Mistral': 'Mistrál', 'GLM': 'Gê Éle Ême', 'DeepSeek': 'Dípsíque', 'Luna': 'Lúna', 'Flash': 'Fléch', 'Bordo': 'Bórdô', 'Gemini': 'Djêmini', 'Opus': 'Ópus', 'OpenRouter': 'Ôpen Ráuter', 'Skeld': 'Squéld', 'tokens': 'tôkens', 'kkk': 'cá cá cá',
+    'Among': 'Amông', 'Us': 'Âs', 'GPT': 'GêPêTê', 'Grok': 'Gróqui', 'Mistral': 'Mistrál', 'MiniMax': 'Mini Mécs', 'GLM': 'Gê Éle Ême', 'DeepSeek': 'Dípsíque', 'Luna': 'Lúna', 'Flash': 'Fléch', 'Bordo': 'Bórdô', 'Gemini': 'Djêmini', 'Opus': 'Ópus', 'OpenRouter': 'Ôpen Ráuter', 'Skeld': 'Squéld', 'tokens': 'tôkens', 'kkk': 'cá cá cá',
 }
 bt.LEGENDA = [('treze centavos', '13 centavos'), ('vinte e oito', '28'), ('vinte e duas', '22'), ('cem por cento', '100%'), ('quase dois mil', 'quase 2.000')]
 bt.TERMOS = {'Anthropic', 'Skeld', 'tokens', 'JSON'}

@@ -26,6 +26,7 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
   'Grok 4.3': {nome: 'Grok', cor: '#111111'},
   'Mistral Large 4': {nome: 'Mistral', cor: '#e8a000'},
   'GLM 5.3 Flash': {nome: 'GLM', cor: '#0f9d8a'},
+  'MiniMax M3': {nome: 'MiniMax', cor: '#e2325a'},
 };
 export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança'};
 
