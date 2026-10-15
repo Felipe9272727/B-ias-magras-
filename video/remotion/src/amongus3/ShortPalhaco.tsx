@@ -124,8 +124,8 @@ const Botao: React.FC<PB> = ({d, b}) => {
         <Tela><Votacao p={d.p} idx={2} fase={f >= tNao ? 'resultado' : 'discussao'} chat={false} timer={f >= tNao ? 0 : 60} /></Tela>
       )}
       <Selo txt="🚨 BOTÃO DE EMERGÊNCIA" at={nb(b, 'botão')} y={300} rot={-3} size={56} />
-      <FalaCard cor="Roxo" texto="Apertei porque o Vermelho tá claramente armando pra mim desde a rodada passada!" at={a.at} ate={fimFala(b)} top={300} />
-      <Selo txt="⏭️ 9 PULARAM" cor="#111" at={tNao} y={420} rot={3} size={70} />
+      <FalaCard cor="Roxo" texto="Apertei porque o Vermelho tá claramente armando pra mim desde a rodada passada!" at={a.at} ate={fimFala(b)} top={430} />
+      {f > fimFala(b) + 20 && <Selo txt="⏭️ 9 PULARAM" cor="#111" at={tNao} y={430} rot={3} size={70} />}
       <Sfx src="error-beep" at={tNao} vol={0.4} />
     </AbsoluteFill>
   );
