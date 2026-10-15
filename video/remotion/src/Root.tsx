@@ -24,6 +24,7 @@ import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
 import {Vitrine} from './amongus/Vitrine';
+import {AU4Elenco} from './amongus/AU4Elenco';
 import {ArtePreview} from './amongus/nave/ArtePreview';
 import {AmongUsPreview, calcPreview, PreviewProps} from './amongus/Preview';
 import type {Timeline} from './types';
@@ -137,6 +138,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{timeline: null} as Props}
         calculateMetadata={calculateMetadata3c}
       />
+      <Composition id="AU4Elenco" component={AU4Elenco} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Still id="Vitrine" component={Vitrine} width={1920} height={1080} />
       <Still id="Thumbnail" component={Thumbnail} width={1280} height={720} />
       <Composition id="ShortAzul" component={ShortAzul} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShort} />
