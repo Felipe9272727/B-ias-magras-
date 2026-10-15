@@ -96,7 +96,7 @@ const PAPEIS = {
   Envenenador: { time: 'impostor', curta: 'impostor que ENVENENA: a vítima só cai alguns tiques depois, longe dele', desc: `Você é IMPOSTOR (Envenenador). Você não esfaqueia: você ENVENENA. "envenenar X" é só um esbarrão (quem vê acha que foi sem querer) e X cai morto ${CFG.venenoAtraso} tiques depois, onde estiver. Envenene e se afaste: quando o corpo aparecer, você estará longe, com álibi.` },
   Gangster: { time: 'impostor', curta: 'impostor que pode RECRUTAR um tripulante para o time dos impostores (1 vez)', desc: 'Você é IMPOSTOR (Gangster). Além de matar, usar dutos e sabotar, você pode RECRUTAR um tripulante uma vez na partida: com vocês dois sozinhos, "recrutar X" faz X virar impostor e jogar do seu lado. Escolha alguém que os outros confiem. Não dá para recrutar o Xerife nem o Palhaço.' },
   Recrutado: { time: 'impostor', curta: 'tripulante recrutado pelo Gangster', desc: 'Você FOI RECRUTADO pelo Gangster: agora você é IMPOSTOR. Pode matar, usar dutos e sabotar, e ganha junto com os impostores. Continue agindo como antes para ninguém perceber.' },
-  Palhaco: { time: 'neutro', curta: 'NEUTRO: ganha sozinho se for EXPULSO na votação', desc: 'Você é o PALHAÇO (neutro). Você NÃO é tripulante nem impostor: você só vence se for EXPULSO numa votação. Pareça suspeito na medida certa (sem confessar, senão ninguém acredita): ande atrás de corpos, dê álibis estranhos, contradiga os outros. Não há tarefas de verdade para você; pode fingir que faz.' },
+  Palhaco: { time: 'neutro', curta: 'NEUTRO: se for EXPULSO na votação, ele vence sozinho e a partida ACABA na hora (todos os outros perdem)', desc: 'Você é o PALHAÇO (neutro). Você NÃO é tripulante nem impostor: você só vence se for EXPULSO numa votação — e aí a partida acaba na hora e só você ganha. Pareça suspeito na medida certa (sem confessar, senão ninguém acredita): ande atrás de corpos, dê álibis estranhos, contradiga os outros. Não há tarefas de verdade para você; pode fingir que faz.' },
   Engenheiro: { time: 'tripulante', curta: 'tripulante que pode usar os DUTOS', desc: 'Você é TRIPULANTE (Engenheiro). Faça suas tarefas e descubra os impostores. Seu PODER: usar os DUTOS — mas quem te vir saindo de um duto pode achar que você é impostor.' },
   Cientista: { time: 'tripulante', curta: 'tripulante que vê os SINAIS VITAIS de qualquer lugar', desc: 'Você é TRIPULANTE (Cientista). Faça suas tarefas e descubra os impostores. Seu PODER: checar os SINAIS VITAIS de qualquer lugar (quem está vivo ou morto). Se alguém morreu e ninguém denunciou, tem corpo escondido ou veneno.' },
   Rastreador: { time: 'tripulante', curta: 'tripulante que RASTREIA um jogador (sabe a sala dele por alguns tiques)', desc: 'Você é TRIPULANTE (Rastreador). Faça suas tarefas e descubra os impostores. Seu PODER: RASTREAR um jogador e saber em que sala ele está por alguns tiques.' },
@@ -148,7 +148,7 @@ function regras() {
   const lista = [...DA_TEMPORADA_PAPEIS()].map((p) => `- ${p === 'Palhaco' ? 'Palhaço' : p === 'Medico' ? 'Médico' : p === 'Seguranca' ? 'Segurança' : p}: ${PAPEIS[p].curta}`).join('\n')
   return `Você está jogando uma partida de AMONG US (versão em texto) numa nave com 14 salas, junto com outros 14 jogadores. Cada jogador é uma IA de verdade: ${elencoTexto()}.
 Regras principais:
-- Há 3 impostores, 1 Palhaço (neutro) e 11 tripulantes. Os tripulantes vencem completando TODAS as tarefas ou expulsando os impostores. Os impostores vencem quando ficam em número igual aos não-impostores vivos, ou quando o reator ou o O2 não são consertados a tempo. O Palhaço vence sozinho se for expulso.
+- Há 3 impostores, 1 Palhaço (neutro) e 11 tripulantes. Os tripulantes vencem completando TODAS as tarefas ou expulsando os impostores. Os impostores vencem quando ficam em número igual aos não-impostores vivos, ou quando o reator ou o O2 não são consertados a tempo. O Palhaço vence sozinho se for expulso, e aí a partida ACABA na hora: todos os outros perdem (cuidado ao votar em quem parece suspeito demais).
 - FUNÇÕES QUE EXISTEM NESTA PARTIDA (cada uma com exatamente 1 jogador; ninguém sabe quem é quem):
 ${lista}
 - Cada tique você faz UMA ação. Andar leva você para uma sala vizinha por tique.
@@ -828,7 +828,7 @@ async function reuniaoDeEmergencia(info) {
     if (ej.papel === 'Palhaco') { palhacoVenceu = { cor: ej.cor, tique }; evento('palhaco_vence', { cor: ej.cor }) }
   }
   const resumoVotos = Object.entries(r.votos).map(([a, b]) => `${a}→${b}`).join(', ')
-  const desfecho = r.anulada ? `O JUIZ ANULOU A VOTAÇÃO: ninguém foi expulso.` : r.expulso ? `${r.expulso} foi expulso. ${r.expulso} ${r.eraImpostor ? 'ERA' : 'NÃO era'} um impostor.${r.papelExpulso === 'Palhaco' ? ' Era o PALHAÇO: ele venceu sozinho!' : ''}` : r.empate ? 'Empate: ninguém foi expulso.' : 'A maioria pulou: ninguém foi expulso.'
+  const desfecho = r.anulada ? `O JUIZ ANULOU A VOTAÇÃO: ninguém foi expulso.` : r.expulso ? `${r.expulso} foi expulso. ${r.expulso} ${r.eraImpostor ? 'ERA' : 'NÃO era'} um impostor.${r.papelExpulso === 'Palhaco' ? ' Era o PALHAÇO: ele venceu sozinho e a partida ACABOU!' : ''}` : r.empate ? 'Empate: ninguém foi expulso.' : 'A maioria pulou: ninguém foi expulso.'
   for (const j of jogadores) lembrar(j, `Reunião (${intro}) Votos: ${resumoVotos}. ${desfecho}`)
   for (const j of vivos()) { j.sala = 'Refeitorio'; j.ponto = assento(j.cor); j.destino = null; j.recMorte = Math.max(j.recMorte, CFG.recargaMorte); j.disfarce = null; j.invisivelAte = 0; j.escudo = null }
   recargaSabotagem = Math.max(recargaSabotagem, 6)
@@ -840,6 +840,7 @@ async function reuniaoDeEmergencia(info) {
 }
 
 function vencedor() {
+  if (palhacoVenceu) return { time: 'palhaco', motivo: `O Palhaço (${palhacoVenceu.cor}) foi expulso e venceu sozinho.` }
   if (impostoresVivos().length === 0) return { time: 'tripulante', motivo: 'Os impostores foram eliminados.' }
   if (totalTarefas > 0 && tarefasFeitas() >= totalTarefas) return { time: 'tripulante', motivo: 'Todas as tarefas foram concluídas.' }
   if (impostoresVivos().length >= naoImpostoresVivos().length) return { time: 'impostor', motivo: 'Os impostores ficaram em igualdade com os outros jogadores.' }
@@ -862,7 +863,7 @@ function resumoPublico() {
   const imps = jogadores.filter((j) => j.time === 'impostor').map((j) => `${j.cor} (${j.papel}, ${j.modelo})`)
   const mortes = log.eventos.filter((e) => ['morte', 'xerife', 'morte_veneno'].includes(e.tipo)).map((e) => e.tipo === 'xerife' ? `o Xerife ${e.xerife} atirou em ${e.alvo} e ${e.acertou ? 'acertou' : 'errou (morreu ele)'} (t${e.tique})` : e.tipo === 'morte_veneno' ? `${e.assassino} envenenou ${e.vitima} (caiu em ${nomeSala(e.sala)}, t${e.tique})` : `${e.assassino} matou ${e.vitima} (${nomeSala(e.sala)}, t${e.tique}${e.disfarce ? `, disfarçado de ${e.disfarce}` : ''}${e.escondido ? ', escondeu o corpo' : ''})`)
   const reun = log.reunioes.map((r) => `${r.tipo === 'corpo' ? `${r.chamador} achou ${r.corpo}` : `${r.chamador} chamou emergência`} → ${r.anulada ? 'o Juiz anulou' : r.expulso ? `${r.expulso} expulso (${r.papelExpulso})` : 'ninguém expulso'}`)
-  return `Papéis: ${papeis}. Impostores (no fim): ${imps.join(', ')}. Mortes: ${mortes.join('; ') || 'nenhuma'}. Reuniões: ${reun.join(' | ') || 'nenhuma'}.${palhacoVenceu ? ` O Palhaço ${palhacoVenceu.cor} venceu (foi expulso).` : ''} Resultado: ${log.resultado.time === 'impostor' ? 'impostores venceram' : log.resultado.time === 'tripulante' ? 'tripulantes venceram' : 'empate'} (${log.resultado.motivo})`
+  return `Papéis: ${papeis}. Impostores (no fim): ${imps.join(', ')}. Mortes: ${mortes.join('; ') || 'nenhuma'}. Reuniões: ${reun.join(' | ') || 'nenhuma'}.${palhacoVenceu ? ` O Palhaço ${palhacoVenceu.cor} venceu (foi expulso).` : ''} Resultado: ${log.resultado.time === 'impostor' ? 'impostores venceram' : log.resultado.time === 'palhaco' ? 'o Palhaço venceu sozinho' : log.resultado.time === 'tripulante' ? 'tripulantes venceram' : 'empate'} (${log.resultado.motivo})`
 }
 
 async function guardarMemoria() {

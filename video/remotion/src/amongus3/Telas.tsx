@@ -407,7 +407,7 @@ export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
   const {fps} = useVideoConfig();
   const venceu = p.resultado.time;
   const ult = [...p.tiques].reverse().find((t) => t?.estado)?.estado?.jogadores ?? [];
-  const vencedores = p.jogadores.filter((j) => (ult.find((x) => x.cor === j.cor)?.time ?? j.time) === venceu);
+  const vencedores = venceu === 'palhaco' ? p.jogadores.filter((j) => j.papel === 'Palhaco') : p.jogadores.filter((j) => (ult.find((x) => x.cor === j.cor)?.time ?? j.time) === venceu);
   const ganhei = foco ? info(p, foco).time === venceu : true;
   const corTit = !ganhei ? VERMELHO : venceu === 'impostor' ? VERMELHO : AZUL;
   const s = spring({frame: f - 4, fps, config: {damping: 13}});
@@ -420,7 +420,7 @@ export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
         {ganhei ? 'Vitória' : 'Derrota'}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, top: 310, textAlign: 'center', fontFamily: FONT.display, fontWeight: 700, fontSize: 44, color: '#fff', opacity: interpolate(f, [18, 30], [0, 1], cl)}}>
-        {venceu === 'impostor' ? 'Os Impostores venceram' : 'Os Tripulantes venceram'} · {p.resultado.motivo}
+        {venceu === 'impostor' ? 'Os Impostores venceram' : venceu === 'palhaco' ? 'O Palhaço venceu sozinho' : 'Os Tripulantes venceram'} · {p.resultado.motivo}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 70, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: vencedores.length > 6 ? 6 : 30}}>
         {vencedores.map((j, i) => (
