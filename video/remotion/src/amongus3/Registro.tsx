@@ -7,7 +7,7 @@ import {CenaMorte, Chamado, Ejecao2, Fim2, Frase, QuadroVotos, Revela, Shhh, Som
 import {AU3Papeis, PAPEIS3} from './Papeis';
 import {AU2Comentarios} from './Comentarios';
 import {AU3Elenco, AU3Ideias, AU3Nave, COMENTARIOS3} from './Abertura';
-import {AU2Placar} from './Placar';
+import {AU3Placar} from './Placar';
 import {simular, type Partida2} from './sim';
 
 // votação: carimbos VOTOU até 55% da cena (com o quadro "quem votou em quem"); depois a mesa vira o resultado
@@ -98,7 +98,7 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
     case 'AU3Papeis':
       return <AU3Papeis passo={p.passo} focos={gatilhos(scene, PAPEIS3.map((r) => r.nome))} />;
     case 'AU3Placar':
-      return <AU2Placar ps={ps} ate={p.ate ?? 4} />;
+      return <AU3Placar ps={ps} ate={p.ate ?? 4} corte={p.corte} />;
     default:
       return null;
   }
