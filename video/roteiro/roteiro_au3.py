@@ -227,3 +227,23 @@ SCENES = [
     N('p222', 'p2', ejecao(2, 3),
       '[[s:crowd-laugh:0.5]] O Palhaço ganhou de novo. Duas partidas, dois Palhaços campeões. [[m:success-kid:right:2.5]] E a Rosa, a Faxineira, terminou a partida sem matar ninguém.', pad=1.2),
 ]
+
+CUES = [  # uma música por bloco (as partidas 3 e 4 e o final entram quando o roteiro delas estiver pronto)
+    ('a01', 'sneaky-snitch', 0),
+    ('a02', 'monkeys-spinning-monkeys', 0, 1.0, True),
+    ('a04', 'voxel-revolution', 0),
+    ('n01', 'pixel-peeker-polka-faster', 0),
+    ('p101', '8bit-dungeon-level', 0),
+    ('p106', 'thinking-music', 0),
+    ('p109', 'despair-and-triumph', 0),
+    ('p111', 'fluffing-a-duck', 0),
+    ('p201', 'chipper-doodle-v2', 0),
+    ('p205', 'relent', 0),
+    ('p208', 'pixelland', 0),
+    ('p211', 'heroic-age', 0),
+    ('p212', 'airship-serenity', 0),
+    ('p215', 'quirky-dog', 0),
+    ('p218', 'decisions', 0),
+    ('p220', 'mega-hyper-ultrastorm', 0),
+]
+SEM_TRILHA = ['AU3Revela', 'AU3Fim', 'AU3Shhh']
