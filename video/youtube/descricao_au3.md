@@ -31,8 +31,9 @@ CAPÍTULOS
 15:25 Partida 3 · O Faxineiro
 21:18 Partida 4 · Vinte tiques
 23:20 Placar e encerramento
+24:18 Extra · prévia do episódio 4
 
-Comenta aí qual IA você quer ver no próximo e o que mudar no jogo. O mapa novo fica pro episódio 4.
+Comenta aí qual IA você quer ver no próximo e o que mudar no jogo. Fica até o fim: tem uma prévia do episódio 4 (com fantasmas 👻).
 ```
 
 ## Tags
