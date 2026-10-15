@@ -2,7 +2,10 @@
 // "vocês me encheram de ideias boas, mas infelizmente não consegui fazer todas" com as ideias pipocando em volta.
 // No fim as que entraram no jogo ganham o selo FEITO; as outras ficam apagadas (conferido no motor jogo3.mjs).
 import React from 'react';
-import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {Arte} from '../amongus/nave/Arte';
+import {NAVE} from '../amongus/nave/mapa';
+import {TILE, type Sala} from '../amongus/nave/spec';
 import type {Comentario} from './Comentarios';
 import {FONT} from '../theme';
 import {Som} from './Telas';
@@ -151,6 +154,33 @@ export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]
           );
         })}
       </div>
+    </AbsoluteFill>
+  );
+};
+
+// Passeio pela nave redesenhada: a câmera passa pelas salas mais bonitas (zoom de jogo), com o nome da sala embaixo
+const ROTEIRO_NAVE: {sala: string; z: number}[] = [
+  {sala: 'Refeitorio', z: 0.75}, {sala: 'Enfermaria', z: 1.1}, {sala: 'Reator', z: 1.0}, {sala: 'Eletrica', z: 1.1},
+  {sala: 'Deposito', z: 0.9}, {sala: 'Navegacao', z: 1.05}, {sala: 'O2', z: 1.1},
+];
+export const AU3Nave: React.FC<{dur: number}> = ({dur}) => {
+  const f = useCurrentFrame();
+  const n = ROTEIRO_NAVE.length;
+  const passo = Math.max(1, dur / n);
+  const i = Math.min(n - 1, Math.floor(f / passo));
+  const k = Math.min(1, (f - i * passo) / passo);
+  const a = ROTEIRO_NAVE[i], b = ROTEIRO_NAVE[Math.min(n - 1, i + 1)];
+  const centro = (s: string) => { const r = NAVE.salas[s as Sala].rect; return {x: (r.c + r.w / 2) * TILE, y: (r.r + r.h / 2) * TILE}; };
+  // fica parado na sala 70% do tempo e desliza para a próxima nos 30% finais
+  const t = interpolate(k, [0.7, 1], [0, 1], {...cl, easing: Easing.inOut(Easing.cubic)});
+  const pa = centro(a.sala), pb = centro(b.sala);
+  const x = pa.x + (pb.x - pa.x) * t, y = pa.y + (pb.y - pa.y) * t, z = a.z + (b.z - a.z) * t;
+  return (
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', left: 0, top: 0, width: NAVE.cols * TILE, height: NAVE.rows * TILE, transformOrigin: '0 0', transform: `translate(${960 - x * z}px, ${540 - y * z}px) scale(${z})`}}>
+        <Arte v3 />
+      </div>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, letterSpacing: 6, color: '#fff', WebkitTextStroke: '2px #000', opacity: interpolate(k, [0, 0.08, 0.62, 0.7], [0, 1, 1, 0], cl)}}>{NAVE.salas[a.sala as Sala].nome.toUpperCase()}</div>
     </AbsoluteFill>
   );
 };

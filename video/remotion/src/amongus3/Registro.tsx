@@ -6,7 +6,7 @@ import {Jogo} from './Jogo';
 import {CenaMorte, Chamado, Ejecao2, Fim2, Frase, QuadroVotos, Revela, Shhh, Som, Votacao} from './Telas';
 import {AU3Papeis, PAPEIS3} from './Papeis';
 import {AU2Comentarios} from './Comentarios';
-import {AU3Elenco, AU3Ideias, COMENTARIOS3} from './Abertura';
+import {AU3Elenco, AU3Ideias, AU3Nave, COMENTARIOS3} from './Abertura';
 import {AU2Placar} from './Placar';
 import {simular, type Partida2} from './sim';
 
@@ -93,6 +93,8 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
       const [saiu, novas] = gatilhos(scene, ['grok', 'mistral']);
       return <AU3Elenco p={P(1)} saiu={ou(saiu, 30)} novas={ou(novas, 70)} />;
     }
+    case 'AU3Nave':
+      return <AU3Nave dur={scene.duration} />;
     case 'AU3Papeis':
       return <AU3Papeis passo={p.passo} focos={gatilhos(scene, PAPEIS3.map((r) => r.nome))} />;
     case 'AU3Placar':

@@ -280,6 +280,9 @@ def main():
     memes = {x['id']: dict(file=Path(x['file_gif']).name, width=x['width'], height=x['height'], duration=x['duration_sec'])
              for x in json.loads((PUBLIC / 'gifs' / 'catalog.json').read_text())}
     sfx_files = {x['id']: x['file'] for x in json.loads((PUBLIC / 'sfx' / 'sfx.json').read_text())}
+    # efeitos do Among Us (sfx_au2: faca, tiro, transformar, duto, ...) também valem nas marcações [[s:...]]
+    for f in sorted((PUBLIC / 'sfx_au2').glob('*.mp3')):
+        sfx_files.setdefault(f.stem, f'sfx_au2/{f.name}')
     only = set(filter(None, args.only.split(',')))
     warnings = []
 

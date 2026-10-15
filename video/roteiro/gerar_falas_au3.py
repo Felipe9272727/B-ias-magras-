@@ -10,6 +10,8 @@ MAX = 135
 
 # preenchido depois das partidas valendo: 'partida-reunião': [(cor, rodada[, máximo de caracteres]), ...]
 ESCOLHA = {
+    '1-0': [('Preto', 1), ('Amarelo', 1), ('Cinza', 1, 170), ('Vermelho', 1), ('Lima', 1), ('Marrom', 2, 150)],
+    '1-1': [('Preto', 1), ('Bordo', 2), ('Coral', 2), ('Laranja', 2), ('Preto', 2)],
 }
 
 
