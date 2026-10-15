@@ -796,11 +796,15 @@ async function reuniaoDeEmergencia(info) {
     }
   }
   const opcoes = [...presentes.map((p) => p.cor), 'pular']
+  // lembrete de raciocínio enquanto o Palhaço está vivo (CFG.avisoPalhaco): ele QUER ser expulso e costuma fingir
+  // tarefa / dar álibi furado de propósito; os impostores não são avisados (a eles interessa expulsar qualquer um)
+  const palhacoVivo = presentes.some((p) => p.papel === 'Palhaco')
+  const avisoPalhaco = (j) => (CFG.avisoPalhaco && palhacoVivo && j.time === 'tripulante' ? ' ATENÇÃO: o Palhaço ainda pode estar vivo, e ele QUER ser expulso (se for, a partida acaba e todos vocês perdem). Ele finge tarefa (scan que não liga), dá álibi furado e fica perto de corpo DE PROPÓSITO. Comportamento estranho sem ninguém ter VISTO a pessoa matar pode ser o Palhaço; prova forte (alguém viu matar, Detetive, câmeras, foto com corpo, tarefa visual de outro) vale mais. Na dúvida entre "suspeito por comportamento" e nada concreto, pular também é uma jogada.' : '')
   const votos = await Promise.all(
     presentes.map(async (j) => {
       const conversa = r.falas.map((f) => `${f.cor}: ${f.texto}`).join('\n')
       const juiz = j.papel === 'Juiz' && !j.anulou
-      const prompt = `${ctx(j)}\n\nCONVERSA COMPLETA:\n${conversa}\n\nHora de VOTAR. Opções: ${opcoes.filter((o) => o !== j.cor).join(', ')}.${juiz ? ' Como JUIZ, você também pode responder "anular": ninguém é expulso nesta votação (só 1 vez na partida).' : ''} Responda SÓ com JSON: {"pensamento": "<por que, em segredo>", "voto": "<cor ou pular${juiz ? ' ou anular' : ''}>"}`
+      const prompt = `${ctx(j)}\n\nCONVERSA COMPLETA:\n${conversa}\n\nHora de VOTAR. Opções: ${opcoes.filter((o) => o !== j.cor).join(', ')}.${avisoPalhaco(j)}${juiz ? ' Como JUIZ, você também pode responder "anular": ninguém é expulso nesta votação (só 1 vez na partida).' : ''} Responda SÓ com JSON: {"pensamento": "<por que, em segredo>", "voto": "<cor ou pular${juiz ? ' ou anular' : ''}>"}`
       const resp = await perguntar(j.provider, sistema(j), prompt, { maxTokens: 220, mock: () => JSON.stringify({ voto: escolher(opcoes) }) })
       const d = lerJSON(resp.text) ?? {}
       let v = String(d.voto ?? 'pular').trim()
