@@ -9321,6 +9321,344 @@
     "tarefas": 35,
     "totalTarefas": 51
    }
+  },
+  {
+   "tique": 24,
+   "decisoes": [
+    {
+     "cor": "Branco",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Vou checar o mapa para localizar um alvo isolado antes de me mover.",
+     "de": "Admin",
+     "chat": "Estou em Admin; vou checar posições e procurar um alvo isolado.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 2088
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Consertar a fiação",
+     "pensamento": "Estou em Segurança e sozinho, vou aproveitar para fazer minha tarefa de fiação antes de qualquer coisa.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 936,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "ir para Seguranca",
+     "pensamento": "Preto era o Palhaço, então sobram 2 impostores e 9 vivos; vou fazer minha tarefa de fiação em Segurança, onde já vi mortes antes, com cuidado.",
+     "de": "Escudos",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2904,
+      "y": 2184
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Alinhar o motor",
+     "pensamento": "Estou sozinho no Motor Inferior, sem corpo nem nada suspeito para fotografar, então vou adiantar minha tarefa de alinhar o motor.",
+     "de": "MotorInferior",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 168,
+      "y": 3192
+     }
+    },
+    {
+     "cor": "Coral",
+     "acao": "fazer tarefa: Consertar a fiação",
+     "pensamento": "Vou concluir a fiação em Elétrica antes de seguir para a próxima tarefa.",
+     "de": "Eletrica",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1656,
+      "y": 2904
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "entrar no duto e sair em MotorInferior",
+     "pensamento": "Reator vazio e ninguém me vê; vou pelo duto até o Motor Inferior caçar o Cinza.",
+     "de": "Reator",
+     "chat": "Reator sem ninguém e sem corpo visível; indo MotorInferior pelo duto atrás do Cinza. Amarelo/Branco, mantenham álibi.",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 792,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Navegacao",
+     "pensamento": "Vou me afastar do Reator e criar um álibi em Navegação enquanto Marrom limpa o corpo.",
+     "de": "O2",
+     "chat": "Vou para Navegação; mantenham distância do Reator e avisem se surgir alvo isolado.",
+     "para": "Navegacao",
+     "ponto": {
+      "x": 5064,
+      "y": 1320
+     }
+    },
+    {
+     "cor": "Bordo",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Cinza",
+     "acao": "ficar parado observando",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "O2",
+      "ponto": {
+       "x": 4392,
+       "y": 1272
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Gangster"
+     },
+     {
+      "cor": "Azul",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Rastreador"
+     },
+     {
+      "cor": "Verde",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Xerife"
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escudos",
+      "ponto": {
+       "x": 4680,
+       "y": 2280
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Seguranca"
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 936,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista"
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5064,
+       "y": 1320
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador"
+     },
+     {
+      "cor": "Preto",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco"
+     },
+     {
+      "cor": "Branco",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 2088
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Recrutado"
+     },
+     {
+      "cor": "Roxo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 792,
+       "y": 456
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz"
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 792,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Faxineiro"
+     },
+     {
+      "cor": "Ciano",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 168,
+       "y": 3192
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer"
+     },
+     {
+      "cor": "Lima",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2904,
+       "y": 2184
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive"
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Cinza",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro"
+     },
+     {
+      "cor": "Coral",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1656,
+       "y": 2904
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito"
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento"
+     }
+    ],
+    "corpos": [
+     {
+      "cor": "Azul",
+      "sala": "MotorInferior",
+      "tique": 22,
+      "denunciado": false,
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "causa": "veneno"
+     }
+    ],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 40,
+    "totalTarefas": 51
+   }
   }
  ],
  "reunioes": [
@@ -10303,6 +10641,51 @@
    "aparente": "Marrom",
    "de": "MotorSuperior",
    "para": "Reator"
+  },
+  {
+   "tique": 24,
+   "tipo": "tarefa",
+   "cor": "Ciano",
+   "sala": "MotorInferior",
+   "nome": "Alinhar o motor",
+   "visual": false
+  },
+  {
+   "tique": 24,
+   "tipo": "tarefa",
+   "cor": "Coral",
+   "sala": "Eletrica",
+   "nome": "Consertar a fiação",
+   "visual": false
+  },
+  {
+   "tique": 24,
+   "tipo": "duto",
+   "cor": "Marrom",
+   "aparente": "Marrom",
+   "de": "Reator",
+   "para": "MotorInferior"
+  },
+  {
+   "tique": 24,
+   "tipo": "tarefa",
+   "cor": "Azul",
+   "fantasma": true,
+   "nome": "Alinhar o motor"
+  },
+  {
+   "tique": 24,
+   "tipo": "tarefa",
+   "cor": "Rosa",
+   "fantasma": true,
+   "nome": "Esvaziar o lixo"
+  },
+  {
+   "tique": 24,
+   "tipo": "tarefa",
+   "cor": "Roxo",
+   "fantasma": true,
+   "nome": "Esvaziar o lixo"
   }
  ],
  "fotos": [
@@ -10666,25 +11049,40 @@
    "tique": 23,
    "cor": "Amarelo",
    "texto": "Azul deve estar limpo; vou ficar em O2 para manter distância e álibi."
+  },
+  {
+   "tique": 24,
+   "cor": "Branco",
+   "texto": "Estou em Admin; vou checar posições e procurar um alvo isolado."
+  },
+  {
+   "tique": 24,
+   "cor": "Marrom",
+   "texto": "Reator sem ninguém e sem corpo visível; indo MotorInferior pelo duto atrás do Cinza. Amarelo/Branco, mantenham álibi."
+  },
+  {
+   "tique": 24,
+   "cor": "Amarelo",
+   "texto": "Vou para Navegação; mantenham distância do Reator e avisem se surgir alvo isolado."
   }
  ],
  "resultado": null,
  "uso": {
-  "chamadas": 360,
-  "falhas": 8,
+  "chamadas": 368,
+  "falhas": 9,
   "porProvider": {
-   "or:mistralai/mistral-large-4-0": 44,
-   "haiku": 76,
-   "or:z-ai/glm-5.3-flash": 49,
-   "or:google/gemini-3.8-flash": 50,
-   "or:openai/gpt-5.6-luna": 84,
-   "or:deepseek/deepseek-v4.1-flash": 57
+   "or:mistralai/mistral-large-4-0": 45,
+   "haiku": 77,
+   "or:z-ai/glm-5.3-flash": 50,
+   "or:google/gemini-3.8-flash": 51,
+   "or:openai/gpt-5.6-luna": 87,
+   "or:deepseek/deepseek-v4.1-flash": 58
   },
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.0122295035,
-   "or:openai/gpt-5.6-luna": 0.05361397999999999,
-   "or:google/gemini-3.8-flash": 0.07749225,
-   "or:deepseek/deepseek-v4.1-flash": 0.03710219892,
+   "or:z-ai/glm-5.3-flash": 0.012541653500000001,
+   "or:openai/gpt-5.6-luna": 0.05554992999999999,
+   "or:google/gemini-3.8-flash": 0.0790005,
+   "or:deepseek/deepseek-v4.1-flash": 0.037670998920000004,
    "or:mistralai/mistral-large-4-0": 0.11347030000000002
   }
  },
