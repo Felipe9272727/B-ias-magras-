@@ -9985,6 +9985,336 @@
     "tarefas": 42,
     "totalTarefas": 51
    }
+  },
+  {
+   "tique": 26,
+   "decisoes": [
+    {
+     "cor": "Marrom",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Lima me viu aqui; vou fingir tarefa no motor pra dar álibi e não levantar suspeita.",
+     "de": "MotorInferior",
+     "chat": "Lima me viu em Motor Inferior; corpo do Azul já foi limpo. Finjo tarefa aqui. Alguém isolado?",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 168,
+      "y": 3192
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ver sinais vitais",
+     "pensamento": "Terminei a tarefa aqui na Segurança, agora vou checar os sinais vitais para ver se alguém caiu recentemente.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 936,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Cinza",
+     "acao": "ficar parado observando",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "continuar até Seguranca",
+     "pensamento": "",
+     "de": "MotorInferior",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "entrar no duto e sair em Navegacao",
+     "pensamento": "Vou usar o duto para chegar à Navegação e procurar um alvo isolado sem levantar suspeita.",
+     "de": "Escudos",
+     "chat": "Vou para Navegação pelo duto; avisem se houver alvo isolado.",
+     "para": "Navegacao",
+     "ponto": {
+      "x": 5544,
+      "y": 984
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "postar foto da sala",
+     "pensamento": "Estou há 10 tiques sem usar meu poder e ainda tenho uma foto; o Laranja está do meu lado perto do corpo do Verde, então vou postar agora.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Bordo",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorSuperior",
+     "para": "Reator",
+     "ponto": {
+      "x": 312,
+      "y": 1224
+     }
+    },
+    {
+     "cor": "Coral",
+     "acao": "continuar até Refeitorio",
+     "pensamento": "",
+     "de": "Deposito",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2376,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "sabotar luzes",
+     "pensamento": "Vou apagar as luzes para criar cobertura e pressionar os tripulantes enquanto procuro uma vítima isolada.",
+     "de": "Refeitorio",
+     "chat": "Apaguei as luzes; aproveitem para caçar alvos isolados e mantenham álibi.",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2040,
+      "y": 168
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "O2",
+      "ponto": {
+       "x": 4392,
+       "y": 1272
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Gangster"
+     },
+     {
+      "cor": "Azul",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Rastreador"
+     },
+     {
+      "cor": "Verde",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Xerife"
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escudos",
+      "ponto": {
+       "x": 4680,
+       "y": 2280
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Seguranca"
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 936,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista"
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5544,
+       "y": 984
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador"
+     },
+     {
+      "cor": "Preto",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco"
+     },
+     {
+      "cor": "Branco",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2040,
+       "y": 168
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Recrutado"
+     },
+     {
+      "cor": "Roxo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 792,
+       "y": 456
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz"
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 168,
+       "y": 3192
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Faxineiro"
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer"
+     },
+     {
+      "cor": "Lima",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive"
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Cinza",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro"
+     },
+     {
+      "cor": "Coral",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2376,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito"
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Reator",
+      "ponto": {
+       "x": 312,
+       "y": 1224
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento"
+     }
+    ],
+    "corpos": [],
+    "sabotagem": {
+     "tipo": "Luzes",
+     "desde": 26,
+     "consertos": []
+    },
+    "portas": {},
+    "tarefas": 42,
+    "totalTarefas": 51
+   }
   }
  ],
  "reunioes": [
@@ -11051,6 +11381,45 @@
    "cor": "Verde",
    "fantasma": true,
    "nome": "Consertar a fiação"
+  },
+  {
+   "tique": 26,
+   "tipo": "poder",
+   "cor": "Laranja",
+   "poder": "vitais",
+   "mortos": [
+    "Vermelho",
+    "Azul",
+    "Verde",
+    "Rosa",
+    "Preto",
+    "Roxo"
+   ]
+  },
+  {
+   "tique": 26,
+   "tipo": "duto",
+   "cor": "Amarelo",
+   "aparente": "Amarelo",
+   "de": "Escudos",
+   "para": "Navegacao"
+  },
+  {
+   "tique": 26,
+   "tipo": "foto",
+   "cor": "Ciano",
+   "sala": "Seguranca",
+   "pessoas": [
+    "Laranja",
+    "Lima"
+   ],
+   "corpos": []
+  },
+  {
+   "tique": 26,
+   "tipo": "sabotagem",
+   "cor": "Branco",
+   "subtipo": "Luzes"
   }
  ],
  "fotos": [
@@ -11060,6 +11429,16 @@
    "sala": "Escudos",
    "pessoas": [
     "Preto"
+   ],
+   "corpos": []
+  },
+  {
+   "tique": 26,
+   "cor": "Ciano",
+   "sala": "Seguranca",
+   "pessoas": [
+    "Laranja",
+    "Lima"
    ],
    "corpos": []
   }
@@ -11444,25 +11823,40 @@
    "tique": 25,
    "cor": "Marrom",
    "texto": "Limpando Azul em Motor Inferior. Sem testemunhas."
+  },
+  {
+   "tique": 26,
+   "cor": "Marrom",
+   "texto": "Lima me viu em Motor Inferior; corpo do Azul já foi limpo. Finjo tarefa aqui. Alguém isolado?"
+  },
+  {
+   "tique": 26,
+   "cor": "Amarelo",
+   "texto": "Vou para Navegação pelo duto; avisem se houver alvo isolado."
+  },
+  {
+   "tique": 26,
+   "cor": "Branco",
+   "texto": "Apaguei as luzes; aproveitem para caçar alvos isolados e mantenham álibi."
   }
  ],
  "resultado": null,
  "uso": {
-  "chamadas": 375,
-  "falhas": 10,
+  "chamadas": 381,
+  "falhas": 11,
   "porProvider": {
-   "or:mistralai/mistral-large-4-0": 46,
-   "haiku": 78,
+   "or:mistralai/mistral-large-4-0": 47,
+   "haiku": 79,
    "or:z-ai/glm-5.3-flash": 50,
-   "or:google/gemini-3.8-flash": 52,
-   "or:openai/gpt-5.6-luna": 90,
-   "or:deepseek/deepseek-v4.1-flash": 59
+   "or:google/gemini-3.8-flash": 53,
+   "or:openai/gpt-5.6-luna": 92,
+   "or:deepseek/deepseek-v4.1-flash": 60
   },
   "custo": {
    "or:z-ai/glm-5.3-flash": 0.012541653500000001,
-   "or:openai/gpt-5.6-luna": 0.057639729999999986,
-   "or:google/gemini-3.8-flash": 0.08049525,
-   "or:deepseek/deepseek-v4.1-flash": 0.03804905892,
+   "or:openai/gpt-5.6-luna": 0.059079829999999986,
+   "or:google/gemini-3.8-flash": 0.08195025,
+   "or:deepseek/deepseek-v4.1-flash": 0.038537798920000005,
    "or:mistralai/mistral-large-4-0": 0.11347030000000002
   }
  },
@@ -11489,7 +11883,7 @@
   },
   "Laranja": {
    "papel": "Cientista",
-   "usos": 4
+   "usos": 5
   },
   "Amarelo": {
    "papel": "Envenenador",
@@ -11514,7 +11908,7 @@
   },
   "Ciano": {
    "papel": "Influencer",
-   "usos": 1
+   "usos": 2
   },
   "Lima": {
    "papel": "Detetive",
