@@ -14,9 +14,9 @@ import {ChefSprite, geometria, posChef} from './Cozinha3D';
 import {empresaDe, OCJogo, tempoEm} from './Cenas';
 
 type Palavra = {w: string; s: number; e: number; chef?: string};
-type Aud = {src: string; at: number; de: number; chef?: string};
-type Bloco = {id: string; dur: number; audios: Aud[]; palavras: Palavra[]};
-type Dados = {blocos: Bloco[]; logs: Record<string, LogOC>};
+type Aud = {src: string; at: number; de: number; ate?: number; chef?: string};
+export type Bloco = {id: string; dur: number; audios: Aud[]; palavras: Palavra[]};
+export type Dados = {blocos: Bloco[]; logs: Record<string, LogOC>};
 
 export const calcShortOC: CalculateMetadataFunction<{dados: Dados | null}> = async () => {
   const so = await (await fetch(staticFile('short_oc/short_oc.json'))).json();
@@ -28,18 +28,18 @@ export const calcShortOC: CalculateMetadataFunction<{dados: Dados | null}> = asy
 const W = 1080;
 const H = 1920;
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
-type Chave = {at: number; tick: number};
+export type Chave = {at: number; tick: number};
 
 // quadro em que começa a fala do chef (n-ésima parte de áudio de chef do bloco)
-const fala = (b: Bloco, n = 1) => b.audios.filter((a) => a.chef)[n - 1];
-const fimFala = (b: Bloco, n = 1) => {
+export const fala = (b: Bloco, n = 1) => b.audios.filter((a) => a.chef)[n - 1];
+export const fimFala = (b: Bloco, n = 1) => {
   const a = fala(b, n);
   const ws = b.palavras.filter((p) => p.chef === a?.chef && p.s >= (a?.at ?? 0));
   return ws.length ? ws[ws.length - 1].e : (a?.at ?? 0) + 60;
 };
 
 // a partida de verdade (OCJogo, 1920×1080) recortada na vertical com a câmera seguindo `foco` (chef ou casa do mapa)
-const JogoV: React.FC<{d: Dados; log: string; cz: number; de: number; vel?: number; chaves?: Chave[]; foco: (f: number) => string | {x: number; y: number}; z?: number; congela?: number}> = ({d, log, cz, de, vel = 1, chaves = [], foco, z = 1.9, congela}) => {
+export const JogoV: React.FC<{d: Dados; log: string; cz: number; de: number; vel?: number; chaves?: Chave[]; foco: (f: number) => string | {x: number; y: number}; z?: number; congela?: number}> = ({d, log, cz, de, vel = 1, chaves = [], foco, z = 1.9, congela}) => {
   const frame = useCurrentFrame();
   const L = d.logs[log];
   const g = geometria(L.mapa, 1920, 1080, true);
@@ -68,7 +68,7 @@ const JogoV: React.FC<{d: Dados; log: string; cz: number; de: number; vel?: numb
 };
 
 // TRIGGERED: vermelho, tremendo, faixa embaixo
-const Trig: React.FC<{de: number; ate: number; children: React.ReactNode}> = ({de, ate, children}) => {
+export const Trig: React.FC<{de: number; ate: number; children: React.ReactNode}> = ({de, ate, children}) => {
   const f = useCurrentFrame();
   const on = f >= de && f < ate;
   const r = (k: number) => (on ? (Math.sin(f * 12.9898 + k * 78.233) * 43758.5453) % 1 : 0);
@@ -88,7 +88,7 @@ const Trig: React.FC<{de: number; ate: number; children: React.ReactNode}> = ({d
 };
 
 // pensamento secreto de um chef, com a parte-chave em vermelho
-const Pensamento: React.FC<{chef: string; texto: string; destaque: string; at: number; top?: number}> = ({chef, texto, destaque, at, top = 1330}) => {
+export const PensamentoChef: React.FC<{chef: string; texto: string; destaque: string; at: number; top?: number}> = ({chef, texto, destaque, at, top = 1330}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   if (f < at) return null;
@@ -110,7 +110,7 @@ const Pensamento: React.FC<{chef: string; texto: string; destaque: string; at: n
 
 // ---------------------------------------------------------------- blocos
 type PB = {d: Dados; b: Bloco};
-const narr = (b: Bloco) => b.palavras.filter((p) => !p.chef);
+export const narr = (b: Bloco) => b.palavras.filter((p) => !p.chef);
 
 const Gancho: React.FC<PB> = ({d, b}) => {
   const f = useCurrentFrame();
@@ -184,7 +184,7 @@ const Coop: React.FC<PB> = ({d, b}) => {
       <Selo txt="🚧 89× NO CAMINHO" at={naPalavra(b, 'oitenta')} y={420} rot={-3} size={76} />
       <Sfx src="pop" at={naPalavra(b, 'coop')} />
       <Sfx src="wrong-buzzer" at={naPalavra(b, 'oitenta')} vol={0.4} />
-      <Pensamento chef="Claudinho" at={a - 6} texto="...o Deep tá enroscado perto da tábua e já me travou quatro vezes." destaque="já me travou quatro vezes" />
+      <PensamentoChef chef="Claudinho" at={a - 6} texto="...o Deep tá enroscado perto da tábua e já me travou quatro vezes." destaque="já me travou quatro vezes" />
     </AbsoluteFill>
   );
 };

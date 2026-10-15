@@ -18,6 +18,8 @@ import {ShortLaranja, calcShortLaranja} from './amongus2/ShortLaranja';
 import {PreviaOC, calcPreviaOC} from './overcooked/Previa';
 import {ThumbOC, calcThumbOC} from './overcooked/ThumbOC';
 import {ShortOC, calcShortOC} from './overcooked/ShortOC';
+import {ShortPao, calcShortPao} from './overcooked/ShortPao';
+import {ShortPalhaco, calcShortPalhaco} from './amongus3/ShortPalhaco';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
 import {DadosShortMario, ShortMario} from './ShortMario';
@@ -148,6 +150,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortFrio" component={ShortFrio} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortFrio} />
       <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortAU2} />
       <Composition id="ShortOC" component={ShortOC} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortOC} />
+      <Composition id="ShortPao" component={ShortPao} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPao} />
+      <Composition id="ShortPalhaco" component={ShortPalhaco} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPalhaco} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbAU3" component={ThumbAU3} width={1280} height={720} fps={30} durationInFrames={1} />

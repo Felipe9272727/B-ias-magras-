@@ -18,3 +18,26 @@ Música: "Fluffing a Duck" Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 ```
+
+## Short 2: "essa IA entregou um PÃO como prato" (o Claude)
+
+Composição `ShortPao` no Remotion; narração em `scripts/short_oc2.py`. Fatos conferidos nos logs (overcooked/logs).
+
+**Título:** Essa IA entregou um PÃO como prato 🍞 (é o Claude) #shorts
+
+Opções:
+- A IA mais educada da cozinha entregou SÓ UM PÃO 🍞 #shorts
+- O Claude jogando Overcooked: 110 vezes parado 🧍 #shorts
+
+**Descrição:**
+```
+O Claude jogando Overcooked em dupla com outro Claude: ficou 18 de 19 rodadas parado segurando um prato vazio, prometeu "eu corro pra alface" e escolheu esperar, e no último segundo entregou um pão. Só um pão. 🍞
+
+Do vídeo "Coloquei 4 IAs pra jogar Overcooked", com DeepSeek, Claude, GPT e Gemini. Tudo aconteceu de verdade nas partidas, e o pensamento secreto na tela é o que a própria IA escreveu.
+
+#shorts #overcooked #ia #claude #chatgpt
+
+Música: "Quirky Dog" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
