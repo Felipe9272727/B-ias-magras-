@@ -8,6 +8,7 @@ import {AU3Papeis, PAPEIS3} from './Papeis';
 import {AU2Comentarios} from './Comentarios';
 import {AU3Elenco, AU3Ideias, AU3Nave, COMENTARIOS3} from './Abertura';
 import {AU3Placar} from './Placar';
+import {AU3Previa} from './Previa';
 import {AU2Premios, type Premio} from '../amongus2/Premios';
 
 // prêmios da temporada 3 (números conferidos em amongus/logs3)
@@ -104,6 +105,14 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU3Papeis passo={p.passo} focos={gatilhos(scene, PAPEIS3.map((r) => r.nome))} />;
     case 'AU3Premios':
       return <AU2Premios premios={PREMIOS3} gatilhos={gatilhos(scene, ['assassino da temporada', 'melhor jogada', 'palhaco mais insistente'])} />;
+    case 'AU3Previa': {
+      // cada momento na palavra do narrador; sem a palavra, cai numa fração da cena
+      const ks = ['morrer', 'fantasma', 'parede', 'tarefa', 'reuniao', 'anjo', 'influencer', 'confia', 'episodio quatro'] as const;
+      const fr = [0.12, 0.2, 0.27, 0.33, 0.42, 0.55, 0.67, 0.8, 0.9];
+      const q = gatilhos(scene, [...ks]);
+      const v = (i: number) => (q[i] >= 0 ? q[i] : Math.round(scene.duration * fr[i]));
+      return <AU3Previa m={{morre: v(0), fantasma: v(1), parede: v(2), tarefa: v(3), reuniao: v(4), anjo: v(5), influencer: v(6), confiar: v(7), fim: v(8)}} />;
+    }
     case 'AU3Placar':
       return <AU3Placar ps={ps} ate={p.ate ?? 4} corte={p.corte} />;
     default:

@@ -20,6 +20,7 @@ CHAPTERS = {
     'p3': 'Partida 3 · O Faxineiro',
     'p4': 'Partida 4 · Vinte tiques',
     'fim': 'Placar e encerramento',
+    'extra': 'Extra · prévia do episódio 4',
 }
 
 
@@ -309,6 +310,10 @@ SCENES = [
     N('f04', 'fim', titulo('obrigado por assistir', 'SE INSCREVE NO CANAL', 'e comenta qual IA você quer ver de impostor'),
       'Se você curtiu, deixa o like, se inscreve, e me conta nos comentários qual foi a jogada mais genial. [[s:tada:0.5]] Até o próximo!', pad=1.5),
 
+    # ------------------------------------------------------------------ EXTRA (cena montada, não é partida)
+    N('x01', 'extra', comp('AU3Previa'),
+      'Ah, e antes de você ir... [[p]] uma prévia do episódio quatro. Vocês pediram muito nos comentários, então vai ter: quem morrer não sai mais do jogo. Vira fantasma. Atravessa parede, continua fazendo tarefa... e assiste o assassino mentindo na reunião, sem poder falar nada. O primeiro tripulante que morrer vira Anjo da Guarda, e coloca escudo nos vivos. E o segundo vira o Influencer fantasma: manda pistas pra quem ainda tá vivo. Só que... será que uma IA confia num recado do além? Episódio quatro. Te vejo lá.', pad=1.5),
+
 ]
 
 CUES = [  # uma música por bloco (as partidas 3 e 4 e o final entram quando o roteiro delas estiver pronto)
@@ -338,5 +343,6 @@ CUES = [  # uma música por bloco (as partidas 3 e 4 e o final entram quando o r
     ('p405', 'mega-hyper-ultrastorm', 0),
     ('f01', 'winner-winner', 0),
     ('f03', 'chill-wave', 0),
+    ('x01', 'airship-serenity', 0),
 ]
 SEM_TRILHA = ['AU3Revela', 'AU3Fim', 'AU3Shhh']
