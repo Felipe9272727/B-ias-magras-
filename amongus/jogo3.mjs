@@ -384,7 +384,7 @@ function situacao(j) {
   if (corposAqui.length) L.push(`⚠️ CORPO(S) PERTO DE VOCÊ: ${corposAqui.map((c) => c.cor).join(', ')}.`)
   if (sabotagem) {
     const prazo = sabotagem.tipo === 'Reator' ? sabotagem.desde + CFG.reatorPrazo : sabotagem.tipo === 'O2' ? sabotagem.desde + CFG.o2Prazo : null
-    const onde = { Reator: '2 jogadores juntos no Reator', Luzes: 'na Elétrica', 'Comunicações': 'em Comunicações', O2: `nos DOIS painéis: O2 e Admin${sabotagem.consertos.size ? ` (já consertado: ${[...sabotagem.consertos].map(nomeSala).join(', ')})` : ''}` }[sabotagem.tipo]
+    const onde = { Reator: '2 jogadores juntos no Reator', Luzes: 'na Elétrica', 'Comunicações': 'em Comunicações', O2: `nos DOIS painéis: O2 e Admin${sabotagem.tipo === 'O2' && sabotagem.consertos.size ? ` (já consertado: ${[...sabotagem.consertos].map(nomeSala).join(', ')})` : ''}` }[sabotagem.tipo]
     L.push(`🚨 SABOTAGEM ATIVA: ${sabotagem.tipo} — conserte ${onde}${prazo ? `. Se não consertarem até o tique ${prazo}, os impostores vencem!` : '.'}`)
   }
   const tr = Object.entries(portas).filter(([, ate]) => ate > tique).map(([s]) => nomeSala(s))
