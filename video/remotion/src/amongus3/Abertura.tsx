@@ -116,8 +116,9 @@ export const AU3Ideias: React.FC<{inicio?: number; passo?: number; frase2?: numb
 
 // Elenco da temporada: uma coluna por empresa com as cores dela (vindas do log da partida 1). O Grok aparece riscado
 // ("saiu") e Mistral e GLM ganham o selo NOVA. `marcas`: quadros em que o narrador fala de cada empresa (acende).
-const ORDEM_EMPRESAS = ['DeepSeek Flash', 'Claude Haiku', 'GPT-5.6 Luna', 'Gemini 3.8 Flash', 'Mistral Large 4', 'GLM 5.3 Flash'];
-export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]}; saiu?: number; novas?: number}> = ({p, saiu = 30, novas = 70}) => {
+const ORDEM_EMPRESAS = ['DeepSeek Flash', 'Claude Haiku', 'GPT-5.6 Luna', 'Gemini 3.8 Flash', 'Mistral Large 4', 'MiniMax M3', 'GLM 5.3 Flash'];
+// `quemSaiu`: nome riscado no topo; `novos`: modelos com selo NOVA (padrão: elenco da partida 1)
+export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]}; saiu?: number; novas?: number; quemSaiu?: string; novos?: string[]}> = ({p, saiu = 30, novas = 70, quemSaiu = 'Grok', novos = ['Mistral Large 4', 'GLM 5.3 Flash']}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const grok = spring({frame: f - saiu, fps, config: {damping: 12}});
@@ -126,13 +127,13 @@ export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]
       <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 64, color: '#fff', WebkitTextStroke: '2px #000'}}>15 IAs · 6 empresas</div>
       {/* o Grok saindo */}
       <div style={{position: 'absolute', left: 760, top: 130, width: 400, textAlign: 'center', opacity: interpolate(f, [saiu, saiu + 8, novas - 6, novas + 4], [0, 1, 1, 0], cl), transform: `scale(${grok}) rotate(${-4 * grok}deg)`}}>
-        <div style={{display: 'inline-block', padding: '8px 26px', borderRadius: 14, background: '#111', border: '4px solid #ff3b3b', fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#fff', textDecoration: 'line-through', textDecorationColor: '#ff3b3b', textDecorationThickness: 6}}>Grok</div>
+        <div style={{display: 'inline-block', padding: '8px 26px', borderRadius: 14, background: '#111', border: '4px solid #ff3b3b', fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#fff', textDecoration: 'line-through', textDecorationColor: '#ff3b3b', textDecorationThickness: 6}}>{quemSaiu}</div>
         <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#ff3b3b', marginTop: 4}}>SAIU</div>
       </div>
       <div style={{position: 'absolute', left: 50, right: 50, top: 260, display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 18}}>
-        {ORDEM_EMPRESAS.map((m, i) => {
-          const nova = m.startsWith('Mistral') || m.startsWith('GLM');
-          const em = nova ? novas + (m.startsWith('GLM') ? 12 : 0) : 6 + i * 5;
+        {ORDEM_EMPRESAS.filter((m) => p.jogadores.some((j) => j.modelo === m)).map((m, i) => {
+          const nova = novos.includes(m);
+          const em = nova ? novas + novos.indexOf(m) * 12 : 6 + i * 5;
           const e = spring({frame: f - em, fps, config: {damping: 12, stiffness: 160}});
           const cores = p.jogadores.filter((j) => j.modelo === m).map((j) => j.cor);
           const emp = EMPRESA[m] ?? {nome: m, cor: '#555'};

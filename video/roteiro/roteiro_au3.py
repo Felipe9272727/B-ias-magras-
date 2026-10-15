@@ -157,7 +157,7 @@ SCENES = [
       '[[s:crowd-laugh:0.5]] Expulsaram o Palhaço. Ele ganhou, e a partida acabou ali mesmo. [[m:dicaprio-toast:right:3]] Ninguém naquela mesa sabia que o morto era o Xerife que errou o próprio tiro. E a foto do Influencer, que era pra ajudar a tripulação... ajudou o Palhaço a ganhar.', pad=1.2),
 
     # ------------------------------------------------------------------ PARTIDA 2
-    N('p201', 'p2', comp('AU3Elenco'),
+    N('p201', 'p2', comp('AU3Elenco', partida=2, quemSaiu='Mistral', novos=['MiniMax M3'], gatilhoSaiu='mistral', gatilhoNovas='minimax'),
       'Antes da partida dois, uma demissão. [[s:wrong-buzzer:0.5]] A Mistral foi a IA mais cara da partida um, a mais lenta, e o Cinza, o tripulante dela, pulou as duas votações. Então o Vermelho e o Cinza agora são MiniMax, outra empresa nova, da China. [[m:luva-receba:right:2.5]] Mesmas cores, cérebro novo.'),
     N('p202', 'p2', jogo(2, 'Marrom', tique=1),
       'E vocês pediram impostor mais forte. Então dessa vez eles matam a cada três tiques, as sabotagens voltam mais rápido, e as tarefas viraram as do jogo de verdade: baixar dados numa sala e enviar no Admin, abastecer os dois motores, a amostra que precisa esperar ficar pronta. [[m:thanos-inevitable:right:2.5]] O dobro de trabalho pra tripulação.'),

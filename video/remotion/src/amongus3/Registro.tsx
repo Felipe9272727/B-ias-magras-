@@ -90,8 +90,8 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU3Ideias inicio={p.inicio ?? 14} passo={p.passo ?? 5} frase2={ou(f2, 120)} marca={ou(m, Math.round(scene.duration * 0.7))} />;
     }
     case 'AU3Elenco': {
-      const [saiu, novas] = gatilhos(scene, ['grok', 'mistral']);
-      return <AU3Elenco p={P(1)} saiu={ou(saiu, 30)} novas={ou(novas, 70)} />;
+      const [saiu, novas] = gatilhos(scene, [p.gatilhoSaiu ?? 'grok', p.gatilhoNovas ?? 'mistral']);
+      return <AU3Elenco p={P(p.partida ?? 1)} saiu={ou(saiu, 30)} novas={ou(novas, 70)} quemSaiu={p.quemSaiu} novos={p.novos} />;
     }
     case 'AU3Nave':
       return <AU3Nave dur={scene.duration} />;
