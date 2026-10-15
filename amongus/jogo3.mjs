@@ -1,4 +1,4 @@
-// Among Us 3: 15 IAs de 5 empresas (DeepSeek, Claude Haiku, GPT, Gemini e Grok, 3 de cada) e 3 impostores.
+// Among Us 3: 15 IAs de 6 empresas (DeepSeek, Claude Haiku, GPT, Gemini, Mistral e GLM; o sorteio decide quais têm 3 e quais têm 2) e 3 impostores.
 // Mesmo motor por tiques do Among Us 2 (jogo2.mjs), com o que os comentários do vídeo 2 pediram
 // (video/youtube/ideias_au3.md):
 //  - todo mundo sabe quais funções existem na partida (o Detetive não é mais chamado de mentiroso);
@@ -54,7 +54,7 @@ function embaralhar(arr) {
 // ---------- configuração ----------
 export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', mock: 'Mock',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', mock: 'Mock',
 }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
@@ -113,9 +113,16 @@ const TAREFAS_VISUAIS = { 'Escanear no MedBay': 'o scanner verde passou por ele'
 const CAMERAS = ['Refeitorio', 'Admin', 'Navegacao', 'MotorSuperior', 'Enfermaria']
 const SABOTAGENS = { luzes: 'Luzes', reator: 'Reator', 'comunicações': 'Comunicações', o2: 'O2' }
 
+// quantas IAs de cada empresa estão na partida (ex.: "3 DeepSeek, 2 Claude, ...")
+function elencoTexto() {
+  const n = {}
+  for (const j of jogadores) n[j.modelo] = (n[j.modelo] ?? 0) + 1
+  return `as IAs são ${Object.entries(n).map(([m, k]) => `${k} ${m}`).join(', ')}`
+}
+
 function regras() {
   const lista = [...DA_TEMPORADA_PAPEIS()].map((p) => `- ${p === 'Palhaco' ? 'Palhaço' : p === 'Medico' ? 'Médico' : p === 'Seguranca' ? 'Segurança' : p}: ${PAPEIS[p].curta}`).join('\n')
-  return `Você está jogando uma partida de AMONG US (versão em texto) numa nave com 14 salas, junto com outros 14 jogadores. Cada jogador é uma IA de verdade: há 3 IAs de cada empresa (DeepSeek, Claude, GPT, Gemini e Grok).
+  return `Você está jogando uma partida de AMONG US (versão em texto) numa nave com 14 salas, junto com outros 14 jogadores. Cada jogador é uma IA de verdade: ${elencoTexto()}.
 Regras principais:
 - Há 3 impostores, 1 Palhaço (neutro) e 11 tripulantes. Os tripulantes vencem completando TODAS as tarefas ou expulsando os impostores. Os impostores vencem quando ficam em número igual aos não-impostores vivos, ou quando o reator ou o O2 não são consertados a tempo. O Palhaço vence sozinho se for expulso.
 - FUNÇÕES QUE EXISTEM NESTA PARTIDA (cada uma com exatamente 1 jogador; ninguém sabe quem é quem):
@@ -165,8 +172,8 @@ function montarPartida() {
   if (!DA_TEMPORADA) {  // partida avulsa: sorteio pela semente
     const imps = embaralhar(IMPOSTORES).slice(0, 3)
     const todos = embaralhar([...imps, 'Palhaco', ...TRIPULANTES])
-    const empresas = Object.keys(MODELOS).filter((p) => p !== 'mock')
-    const vagas = embaralhar(empresas.flatMap((p) => [p, p, p]))
+    const empresas = ['deepseek', 'haiku', 'or:openai/gpt-5.6-luna', 'or:google/gemini-3.8-flash', 'or:mistralai/mistral-large-4-0', 'or:z-ai/glm-5.3-flash']
+    const vagas = embaralhar(empresas.flatMap((p, i) => (i < 3 ? [p, p, p] : [p, p])))
     CORES.forEach((c, i) => { papeis[c] = todos[i]; provs[c] = vagas[i] })
   }
   PAPEIS_DA_PARTIDA = CORES.map((c) => papeis[c]).sort((a, b) => ['impostor', 'neutro', 'tripulante'].indexOf(PAPEIS[a].time) - ['impostor', 'neutro', 'tripulante'].indexOf(PAPEIS[b].time) || a.localeCompare(b))

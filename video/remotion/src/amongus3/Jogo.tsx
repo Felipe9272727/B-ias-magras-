@@ -24,6 +24,8 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
   'GPT-5.6 Luna': {nome: 'GPT', cor: '#10a37f'},
   'Gemini 3.8 Flash': {nome: 'Gemini', cor: '#8e5cf7'},
   'Grok 4.3': {nome: 'Grok', cor: '#111111'},
+  'Mistral Large 4': {nome: 'Mistral', cor: '#e8a000'},
+  'GLM 5.3 Flash': {nome: 'GLM', cor: '#0f9d8a'},
 };
 export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança'};
 
