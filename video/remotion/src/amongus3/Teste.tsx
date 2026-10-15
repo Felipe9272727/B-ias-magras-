@@ -5,6 +5,9 @@ import {staticFile} from 'remotion';
 import {Jogo} from './Jogo';
 import {CenaMorte, Chamado, Ejecao2, Fim2, Revela, Shhh, Votacao} from './Telas';
 import type {Partida2} from './sim';
+import {AU3Papeis} from './Papeis';
+import {AU3Ideias, COMENTARIOS3} from './Abertura';
+import {AU2Comentarios} from './Comentarios';
 
 export type PropsTeste = {p: Partida2 | null; de: number; foco: string; partida: number};
 export const calcTeste: CalculateMetadataFunction<PropsTeste> = async ({props}) => {
@@ -22,6 +25,9 @@ export const calcTela: CalculateMetadataFunction<PropsTela> = async ({props}) =>
 export const AU3Tela: React.FC<PropsTela> = ({p, tela, foco = 'Vermelho', idx = 0, fase = 'discussao', falas = 5, votos = 1}) => {
   if (!p) return null;
   if (tela === 'shhh') return <Shhh />;
+  if (tela === 'papeis') return <AU3Papeis />;
+  if (tela === 'ideias') return <AU3Ideias />;
+  if (tela === 'comentarios') return <AU2Comentarios comentarios={COMENTARIOS3} />;
   if (tela === 'morte') return <CenaMorte assassino={foco} vitima="Branco" />;
   if (tela === 'revela') return <Revela p={p} foco={foco} />;
   if (tela === 'chamado') return <Chamado p={p} idx={idx} />;
