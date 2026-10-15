@@ -841,6 +841,8 @@ async function main() {
   snapshot()
   for (tique = 1; tique <= MAX_TIQUES; tique++) {
     const reuniao = await rodarTique()
+    // trava: muitas respostas falhando = IAs "paradas" sem querer; a partida não vale, então para aqui
+    if (uso.falhas > 15 && uso.falhas / uso.chamadas > 0.1) throw new Error(`muitas falhas de IA (${uso.falhas} de ${uso.chamadas}): partida interrompida`)
     const resumo = (log.tiques[tique]?.decisoes ?? []).filter((d) => !d.acao.startsWith('continuar') && !d.acao.startsWith('ir para') && d.acao !== 'ficar parado observando').map((d) => `${d.cor}: ${d.acao}${d.chat ? ` 💬"${d.chat}"` : ''}`)
     console.log(`t${tique} tarefas ${tarefasFeitas()}/${totalTarefas}${sabotagem ? ` 🚨${sabotagem.tipo}` : ''} | ${resumo.join(' | ')}`)
     let v = vencedor()

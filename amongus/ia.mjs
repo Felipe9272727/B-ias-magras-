@@ -53,7 +53,8 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
     }
     // 429 passageiro do OpenRouter ("could not verify ... Retry shortly"): espera e tenta de novo, não é falta de crédito
     if (/Retry shortly|could not verify|rate.?limit/i.test(r.text) && transientes++ < 8) { await dormir(15000); tentativa--; continue }
-    if (/sem cota|sem chave/.test(r.text)) throw new Error(r.text)
+    // sem crédito, sem chave ou limite da chave: para a partida na hora (senão a IA vira "parada" e a partida não vale)
+    if (/sem cota|sem chave|Key limit exceeded|HTTP 40[123]/i.test(r.text)) throw new Error(r.text)
     await dormir(1500 * (tentativa + 1))
   }
   uso.falhas++
