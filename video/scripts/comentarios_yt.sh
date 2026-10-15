@@ -3,7 +3,7 @@
 # Uso: bash comentarios_yt.sh <url> <saida.json>
 set -euo pipefail
 tmp=$(mktemp -d)
-yt-dlp --skip-download --write-comments --extractor-args "youtube:comment_sort=top;max_comments=all,all,all,all" -o "$tmp/v.%(ext)s" "$1" >/dev/null 2>&1 || true
+yt-dlp --ignore-no-formats-error --skip-download --write-comments --extractor-args "youtube:comment_sort=top;max_comments=all,all,all,all;player_skip=webpage,configs,js;player_client=web" -o "$tmp/v.%(ext)s" "$1" >/dev/null 2>&1 || true
 python3 - "$tmp/v.info.json" "$2" <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1]))
