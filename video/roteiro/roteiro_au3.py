@@ -31,9 +31,15 @@ def titulo(kicker, title, sub='', cor='#ff4d4d'):
     return comp('AUTitulo', kicker=kicker, title=title, subtitle=sub, color=cor)
 
 
-def jogo(p, foco, tique=None, evento=None, antes=3, papeis=True, seg=0, chat=True):
-    """Gameplay em tempo real seguindo `foco`: do início do `tique` (+seg) ou `antes` segundos antes do `evento`."""
+def jogo(p, foco, tique=None, evento=None, antes=3, papeis=True, seg=0, chat=True, ancoras=None, vmax=None):
+    """Gameplay seguindo `foco`: do início do `tique` (+seg) ou `antes` segundos antes do `evento`.
+    `ancoras`: [(evento, 'palavras da narração'), ...] — cada evento acontece na hora em que o narrador fala as palavras
+    (a partida acelera, desacelera ou corta entre elas; ver remotion/src/amongus3/tempo.ts)."""
     pr = dict(partida=p, foco=foco, papeis=papeis, seg=seg, chat=chat)
+    if ancoras:
+        pr['ancoras'] = [[e, w] for e, w in ancoras]
+    if vmax:
+        pr['vmax'] = vmax
     if tique is not None:
         pr['tique'] = tique
     if evento:
@@ -117,9 +123,9 @@ SCENES = [
       'Partida um. Os impostores. O Vermelho, da Mistral: Gangster. [[s:faca:0.4]] O Amarelo, do GPT: Envenenador. [[s:faca:0.4]] E o Marrom, do DeepSeek: Faxineiro, o que some com os corpos. [[s:impact-epic:0.4]] E o Palhaço é o Preto, um Claude.'),
     N('p102', 'p1', jogo(1, 'Branco', tique=1),
       'E a partida já começa com uma ironia. O Branco é o Médico, e o poder dele é dar um escudo em alguém. No primeiro tique ele escolhe proteger... o Vermelho. [[s:boing:0.5]][[m:monkey-puppet-awkward:right:2.5]] O impostor. O Médico gastou o escudo no assassino.'),
-    N('p103', 'p1', jogo(1, 'Vermelho', evento={'tipo': 'recrutamento', 'alvo': 'Branco'}, antes=6),
+    N('p103', 'p1', jogo(1, 'Vermelho', evento={'tipo': 'recrutamento', 'alvo': 'Branco'}, antes=6, ancoras=[({'tipo': 'recrutamento', 'alvo': 'Branco'}, 'E recruta')]),
       'E fica melhor. Tique nove, em Escudos. O Vermelho, que é o Gangster, pensa: "o Branco acabou de fazer tarefa visual, é perfeito pra recrutar". [[s:transformar:0.6]] E recruta o Branco. [[p]] O Médico que deu escudo no impostor... agora é impostor. No chat ele avisa: "agora somos quatro, cuidado pra não matar ele". [[m:shocked-krabs:right:2.5]]'),
-    N('p104', 'p1', jogo(1, 'Vermelho', evento=morte('Rosa'), antes=5),
+    N('p104', 'p1', jogo(1, 'Vermelho', evento=morte('Rosa'), antes=5, ancoras=[(morte('Rosa'), 'mata a Rosa')]),
       'E no tique seguinte o Vermelho mata a Rosa, um GLM que era a Segurança. [[s:death:0.6]] Só que tinha um detalhe. No tique seguinte, o próprio Vermelho pensou: "o Lima está me vendo aqui com o corpo da Rosa". [[m:sweating:right:2.5]] E o Lima é o Detetive.', pad=0.8),
     N('p105', 'p1', jogo(1, 'Marrom', tique=10),
       'Enquanto isso, no chat dos impostores, uma coisa bizarra. O Amarelo manda: "Envenenei Coral em O2". E o Marrom: "Matei o Preto em Armas e escondi o corpo". [[s:boing:0.5]] Os dois tentaram, mas a jogada nem chegou a acontecer. A Coral e o Preto tão vivíssimos. [[m:visible-confusion:right:2.5]] E mesmo assim eles contaram vantagem pros próprios parceiros.'),
@@ -139,9 +145,9 @@ SCENES = [
     ]),
     N('p107v', 'p1', votos(1, 0), 'Até o Amarelo e o Branco, os dois parceiros, votaram no Vermelho.', pad=1.8),
     N('p108', 'p1', ejecao(1, 0), 'Nove votos. O Vermelho, o Mistral, foi o primeiro expulso. [[m:faustao-errou:right:2]]', pad=1.4),
-    N('p109', 'p1', jogo(1, 'Verde', evento={'tipo': 'xerife', 'xerife': 'Verde'}, antes=6),
+    N('p109', 'p1', jogo(1, 'Verde', evento={'tipo': 'xerife', 'xerife': 'Verde'}, antes=6, ancoras=[({'tipo': 'duto', 'cor': 'Cinza', 'tique': 16}, 'saindo'), ({'tipo': 'xerife', 'xerife': 'Verde'}, 'Atira')]),
       'Mas a mentira do Amarelo ainda ia fazer estrago. Tique dezessete, Segurança. O Verde, que é o Xerife, vê o Cinza saindo de um duto. E pensa: "o Amarelo também saiu de duto, dois engenheiros é impossível, então o Cinza é impostor". [[s:tiro:0.7]][[p]] Atira. [[s:fail-piano:0.5]] Só que o Cinza era o Engenheiro de verdade. E quando o Xerife erra, quem morre é ele. [[m:mission-failed:right:2.5]] A mentira do impostor matou o Xerife.', pad=0.8),
-    N('p110', 'p1', jogo(1, 'Ciano', evento={'tipo': 'foto', 'cor': 'Ciano'}, antes=3),
+    N('p110', 'p1', jogo(1, 'Ciano', evento={'tipo': 'foto', 'cor': 'Ciano'}, antes=3, ancoras=[({'tipo': 'foto', 'cor': 'Ciano', 'tique': 15}, 'postou')]),
       'E agora lembra do Preto, o Palhaço. Dois tiques antes, o Ciano, que é o Influencer, postou uma foto pra nave inteira. [[s:camera-shutter:0.6]] Na foto: o Preto, sozinho em Escudos... do lado da Segurança. [[m:side-eye-dog:right:2.2]]'),
     N('p111', 'p1', chamado(1, 1), 'A Coral acha o corpo do Xerife na Segurança.', pad=1.0),
     CH('p112', 'p1', reuniao(1, 1), [
@@ -163,13 +169,13 @@ SCENES = [
       'E vocês pediram impostor mais forte. Então dessa vez eles matam a cada três tiques, as sabotagens voltam mais rápido, e as tarefas viraram as do jogo de verdade: baixar dados numa sala e enviar no Admin, abastecer os dois motores, a amostra que precisa esperar ficar pronta. [[m:thanos-inevitable:right:2.5]] O dobro de trabalho pra tripulação.'),
     N('p203', 'p2', revela(2, 'Marrom'),
       'Os impostores. O Marrom, do DeepSeek, de Gangster. [[s:faca:0.4]] A Rosa, do GLM, de Faxineira. E o Branco, do GPT, de Fantasma, o que fica invisível. [[s:impact-epic:0.4]] E o novo Palhaço é o Roxo, um Gemini.'),
-    N('p204', 'p2', jogo(2, 'Branco', tique=1),
+    N('p204', 'p2', jogo(2, 'Branco', tique=1, ancoras=[({'tipo': 'invisivel', 'cor': 'Branco', 'tique': 1}, 'invisível'), ({'tipo': 'foto', 'cor': 'Amarelo', 'tique': 3}, 'posta')]),
       'O Branco começa invisível logo no primeiro tique. [[s:sumir:0.6]] Só que sumir do nada na frente dos outros... é meio suspeito. O Amarelo, que é o Influencer, pensa: "vi o Branco sumir no Refeitório". [[s:camera-shutter:0.6]] E posta uma foto. [[m:homer-bushes:right:2.2]] Guarda isso.'),
-    N('p205', 'p2', jogo(2, 'Marrom', evento={'tipo': 'recrutamento', 'alvo': 'Lima'}, antes=5),
+    N('p205', 'p2', jogo(2, 'Marrom', evento={'tipo': 'recrutamento', 'alvo': 'Lima'}, antes=5, ancoras=[({'tipo': 'recrutamento', 'alvo': 'Lima'}, 'Recrutada')]),
       'Tique sete. O Marrom, o Gangster, fica sozinho com a Lima, que era a Segurança. E pensa: "em vez de deixar testemunha, ganho uma aliada". [[s:transformar:0.6]][[p]] Recrutada. Agora a Lima é impostora também. [[m:avengers-assemble:right:2.2]]'),
-    N('p206', 'p2', jogo(2, 'Marrom', evento=morte('Bordo'), antes=6),
+    N('p206', 'p2', jogo(2, 'Marrom', evento=morte('Bordo'), antes=6, ancoras=[({'tipo': 'sabotagem', 'cor': 'Branco', 'tique': 8}, 'apaga'), (morte('Bordo'), 'mata o')]),
       'Aí o Branco apaga as luzes. E no escuro, o Marrom mata o Bordô, que era o Detetive. [[s:death:0.6]] Ele pensa: "sem testemunhas, vou dar baixa no Bordô, que sempre puxa reunião". [[m:hello-darkness:right:2.5]] Só que o Roxo, o Palhaço, chegou no Motor Superior bem nessa hora.', pad=0.8),
-    N('p207', 'p2', jogo(2, 'Marrom', tique=10),
+    N('p207', 'p2', jogo(2, 'Marrom', tique=10, ancoras=[({'tipo': 'reuniao', 'chamador': 'Marrom'}, 'denunciou')]),
       'E aí o Marrom tem a pior ideia da temporada. Ele pensa: "o Roxo me viu matar o Bordo. Vou denunciar primeiro e acusar ele". [[s:record-scratch:0.6]] O assassino... denunciou o próprio corpo. [[m:picard-facepalm:right:2.5]]'),
     N('p208', 'p2', chamado(2, 0), 'Reunião chamada pelo assassino.', pad=1.0),
     CH('p209', 'p2', reuniao(2, 0), [
@@ -184,7 +190,7 @@ SCENES = [
     ]),
     N('p209v', 'p2', votos(2, 0), 'Doze votos no Marrom. E olha quem votou nele: a Rosa, a parceira. No chat ela ainda escreveu "o Marrom se sacrificou como planejado". [[m:eye-roll:right:2.5]] Não tinha plano nenhum.', pad=1.8),
     N('p210', 'p2', ejecao(2, 0), 'Primeiro impostor fora, no tique dez.', pad=1.4),
-    N('p211', 'p2', jogo(2, 'Preto', evento={'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Branco'}, antes=6),
+    N('p211', 'p2', jogo(2, 'Preto', evento={'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Branco'}, antes=6, ancoras=[({'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Branco'}, 'Atira')]),
       'E agora o Xerife. Lembra do Branco, o Fantasma, que sumia do nada? O Preto pensa: "o Branco sumiu do nada no Depósito, e o scan dele não ligou, isso não bate com tarefa de verdade". [[s:tiro:0.7]][[p]] Atira. [[s:crowd-cheer:0.4]] E acerta. [[m:cr7-siuuu:right:2.5]] Dois impostores fora em treze tiques.', pad=0.8),
     N('p212', 'p2', chamado(2, 1), 'Dois impostores fora. Mas ainda sobram a Rosa e a Lima, a recrutada. E o Palhaço.', pad=0.8),
     CH('p213', 'p2', reuniao(2, 1), [
@@ -210,7 +216,7 @@ SCENES = [
     N('p217', 'p2', votos(2, 2), 'Nove pulos. Só o Azul e o Preto votaram no Roxo. Dessa vez ninguém caiu.', pad=1.6),
     N('p218', 'p2', jogo(2, 'Roxo', tique=17),
       'Aí o Roxo muda de tática. Ele vai pra Enfermaria e pensa: "vou fingir tarefa colado no Preto pra parecer que estou agindo estranho". [[m:seu-madruga:right:2.2]] E finge o scan. Quatro tiques seguidos subindo no scanner... e o scan nunca liga.'),
-    N('p219', 'p2', jogo(2, 'Preto', evento={'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Roxo'}, antes=5),
+    N('p219', 'p2', jogo(2, 'Preto', evento={'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Roxo'}, antes=5, ancoras=[({'tipo': 'xerife', 'xerife': 'Preto', 'alvo': 'Roxo'}, 'Atira')]),
       'E o Preto, o Xerife, que já tinha acertado o Branco por causa de um scan que não ligava... pensa: "igual ao Branco, que era impostor". [[s:tiro:0.7]][[p]] Atira no Roxo. [[s:fail-piano:0.5]] Só que o Roxo é o Palhaço, não impostor. E quando o Xerife acerta um inocente, quem morre é ele. [[m:crying-jordan:right:2.5]] O Xerife caiu na mesma armadilha que tinha desmontado.', pad=0.8),
     N('p220', 'p2', chamado(2, 3), 'E agora o Palhaço tá do lado de um corpo... com um scan falso no currículo.', pad=0.8),
     CH('p221', 'p2', reuniao(2, 3), [
@@ -227,11 +233,11 @@ SCENES = [
     N('p222', 'p2', ejecao(2, 3),
       '[[s:crowd-laugh:0.5]] O Palhaço ganhou de novo. Duas partidas, dois Palhaços campeões. [[m:success-kid:right:2.5]] E a Rosa, a Faxineira, terminou a partida sem matar ninguém.', pad=1.2),
     # ------------------------------------------------------------------ PARTIDA 3
-    N('p300', 'p3', jogo(3, 'Preto', tique=2),
+    N('p300', 'p3', jogo(3, 'Preto', tique=3),
       'Dois Palhaços campeões. Então eu fiz uma coisa: na hora do voto, a tripulação agora recebe um lembrete de que o Palhaço quer ser expulso. [[m:mr-bean-waiting:right:2]] E agora que os impostores tão mais fortes... vamos ver se eles finalmente acordam.'),
     N('p301', 'p3', revela(3, 'Preto'),
       'Partida três. O Preto, um Claude, de Faxineiro, o que some com os corpos. [[s:faca:0.4]] O Branco, do GPT, de Metamorfo. A Lima, do GLM, de Gangster. [[s:impact-epic:0.4]] E o Palhaço agora é o Cinza, um MiniMax.'),
-    N('p302', 'p3', jogo(3, 'Branco', evento={'tipo': 'transformacao', 'cor': 'Branco'}, antes=2),
+    N('p302', 'p3', jogo(3, 'Branco', evento={'tipo': 'transformacao', 'cor': 'Branco'}, antes=2, ancoras=[({'tique': 1}, 'Tique um'), ({'tipo': 'transformacao', 'cor': 'Branco'}, 'se transforma')]),
       'E o Branco começa... assim. Tique um, Refeitório lotado. Ele pensa: "vou me transformar em Vermelho pra plantar uma suspeita futura". [[s:transformar:0.6]] E se transforma no Vermelho. Na frente de todo mundo. [[m:surprised-pikachu:right:2.5]] Inclusive na frente do próprio Vermelho.'),
     N('p303', 'p3', chamado(3, 0), 'O Vermelho aperta o botão no tique dois.', pad=1.0),
     CH('p304', 'p3', reuniao(3, 0), [
@@ -242,15 +248,15 @@ SCENES = [
         ('N', '"Sem medo de Palhaço." Eles aprenderam.'),
     ]),
     N('p305', 'p3', ejecao(3, 0), 'Dez votos. O Metamorfo durou dois tiques. [[m:sad-violin:right:2.5]] O impostor mais rápido da história do canal.', pad=1.2),
-    N('p306', 'p3', jogo(3, 'Preto', evento=morte('Rosa'), antes=5),
+    N('p306', 'p3', jogo(3, 'Preto', evento=morte('Rosa'), antes=5, ancoras=[(morte('Rosa'), 'E o corpo'), ({'tipo': 'limpeza', 'corpo': 'Rosa'}, 'some')]),
       'Mas o Preto, o Faxineiro, tava só esquentando. Tique sete, Depósito. Ele pensa: "a Rosa já provou que é tripulante, vou matar e esconder o corpo". [[s:faca:0.6]][[p]] E o corpo some na hora. Só que a Rosa era a Barulhenta. [[s:emergencia:0.5]] Quando ela morre, a nave inteira recebe um alerta. [[m:kermit-worried:right:2.5]] Um alerta de morte... sem corpo nenhum pra achar.', pad=0.8),
-    N('p307', 'p3', jogo(3, 'Lima', evento={'tipo': 'recrutamento', 'alvo': 'Bordo'}, antes=6),
+    N('p307', 'p3', jogo(3, 'Bordo', evento={'tipo': 'recrutamento', 'alvo': 'Bordo'}, antes=6, ancoras=[(morte('Rosa'), 'Preto matar'), ({'tipo': 'recrutamento', 'alvo': 'Bordo'}, 'Recrutado')]),
       'E aqui vem a melhor jogada da temporada. O Bordô, que é o Detetive, viu o Preto matar. Ele pensa: "preciso correr pro Refeitório e apertar o botão". [[s:heartbeat:0.5]] Só que no caminho, ele fica sozinho com a Lima, a Gangster. E ela pensa: "o Bordô viu o Preto matar e vai dedurar na próxima reunião. Recrutar ele agora garante o silêncio dele". [[s:transformar:0.6]][[p]] Recrutado. [[m:big-brain-patrick:right:2.5]] Ela comprou a testemunha.'),
-    N('p308', 'p3', jogo(3, 'Bordo', tique=9),
+    N('p308', 'p3', jogo(3, 'Bordo', tique=9, ancoras=[({'tipo': 'sabotagem', 'cor': 'Bordo', 'tique': 9}, 'apaga')]),
       'E o Detetive, que ia denunciar o assassino... no tique seguinte apaga as luzes pra ajudar o assassino. [[s:luzes:0.6]][[m:chaves-sem-querer:right:2.5]]'),
-    N('p309', 'p3', jogo(3, 'Lima', evento={'tipo': 'escudo', 'assassino': 'Lima'}, antes=4),
+    N('p309', 'p3', jogo(3, 'Lima', evento={'tipo': 'escudo', 'assassino': 'Lima'}, antes=4, ancoras=[({'tipo': 'escudo', 'assassino': 'Lima'}, 'Escudo')]),
       'No escuro, a Lima tenta matar o Vermelho. [[s:escudo:0.7]] Escudo! O Laranja, que é o Médico, tinha protegido o Vermelho. [[m:we-did-it:right:2.2]] Enquanto isso o Preto mata o Verde, o Influencer, e some com mais um corpo.'),
-    N('p310', 'p3', jogo(3, 'Bordo', evento=morte('Coral'), antes=5),
+    N('p310', 'p3', jogo(3, 'Bordo', evento=morte('Coral'), antes=5, ancoras=[({'tipo': 'sabotagem', 'cor': 'Bordo', 'tique': 16}, 'apaga'), (morte('Coral'), 'O Detetive virou')]),
       'O Bordô, o Detetive recrutado, apaga as luzes de novo. E no tique dezessete, no escuro, ele pensa: "a Coral tá sozinha colada em mim, ninguém enxerga no escuro". [[s:death:0.6]][[p]] O Detetive virou assassino. E no tique seguinte, o Preto faz a terceira vítima: o Azul, o Prefeito. Corpo escondido de novo.', pad=0.8),
     N('p311', 'p3', chamado(3, 1), 'O Roxo, que é a Segurança, acha a Coral.', pad=1.0),
     CH('p312', 'p3', reuniao(3, 1), [
@@ -266,11 +272,11 @@ SCENES = [
     ]),
     N('p312v', 'p3', votos(3, 1), 'Oito votos na Lima. Inclusive do Bordô, o recrutado dela. E o Preto votou... no Cinza, a testemunha.', pad=1.8),
     N('p313', 'p3', ejecao(3, 1), 'A Gangster caiu. Mas o recrutado e o Faxineiro continuam lá.', pad=1.2),
-    N('p314', 'p3', jogo(3, 'Preto', evento=morte('Amarelo'), antes=4),
+    N('p314', 'p3', jogo(3, 'Preto', evento=morte('Amarelo'), antes=4, ancoras=[(morte('Amarelo'), 'Quarta'), ({'tipo': 'limpeza', 'corpo': 'Amarelo'}, 'Quarto corpo')]),
       'Tique vinte e sete. O Amarelo, o Juiz, vê o Preto. E o Preto pensa: "o Amarelo me viu, mas com o corpo escondido ninguém consegue denunciar". [[s:faca:0.6]] Quarta vítima. Quarto corpo sumido. [[m:elmo-fire:right:2.5]] E ninguém achou nenhum dos quatro.'),
-    N('p315', 'p3', jogo(3, 'Preto', evento={'tipo': 'portas', 'cor': 'Preto'}, antes=4),
+    N('p315', 'p3', jogo(3, 'Preto', evento={'tipo': 'portas', 'cor': 'Preto'}, antes=4, ancoras=[({'tipo': 'sabotagem', 'subtipo': 'Reator', 'tique': 29}, 'sabota o reator'), ({'tipo': 'portas', 'cor': 'Preto', 'tique': 30}, 'tranca'), ({'tipo': 'conserto', 'subtipo': 'Reator'}, 'conseguem entrar')]),
       'E aí os dois impostores mudam de estratégia. O Bordô sabota o reator. [[s:reator:0.5]] E o Preto tranca as portas do Reator pra ninguém conseguir entrar pra consertar. [[m:hackerman:right:2.2]] Mas o Vermelho e o Marrom conseguem entrar e consertar, no último tique antes de explodir. Por pouco.'),
-    N('p316', 'p3', jogo(3, 'Preto', tique=40),
+    N('p316', 'p3', jogo(3, 'Preto', tique=40, ancoras=[({'tipo': 'sabotagem', 'subtipo': 'O2'}, 'sabota o oxigênio'), ({'tipo': 'portas', 'cor': 'Preto', 'tique': 40}, 'tranca as portas'), ({'tipo': 'chat', 'cor': 'Bordo', 'contem': 'NÃO conserta'}, 'deixa o O2')]),
       'Então o Preto sabota o oxigênio. E pra consertar o O2, precisa mexer em dois painéis: um no O2 e um no Admin. [[s:reator:0.5]] Os dois impostores vão pro Admin, e o Preto tranca as portas. [[p]] O Laranja, o Roxo e o Ciano correm pro painel do O2. E ninguém consegue chegar no Admin. No chat, o Bordô: "deixa o O2 estourar no tique quarenta e três, a gente ganha".'),
     N('p317', 'p3', comp('AU3Fim', partida=3, foco='Preto'),
       '[[s:explosion:0.5]] O oxigênio acabou. Os impostores venceram! [[m:lets-go:right:3]] E o Preto, um Claude Haiku, terminou com quatro mortes e quatro corpos escondidos.', pad=1.4),
@@ -278,17 +284,17 @@ SCENES = [
     # ------------------------------------------------------------------ PARTIDA 4
     N('p401', 'p4', revela(4, 'Roxo'),
       'Última partida. E olha quem é impostor: o Roxo, o Gemini que foi o Palhaço da partida dois, agora de Gangster. [[s:faca:0.4]] O Branco, do GPT, de Envenenador. E o Marrom, do DeepSeek, de Fantasma. [[s:impact-epic:0.4]] O Palhaço é o Azul, um Claude.'),
-    N('p402', 'p4', jogo(4, 'Roxo', evento={'tipo': 'recrutamento', 'alvo': 'Cinza'}, antes=5),
+    N('p402', 'p4', jogo(4, 'Roxo', evento={'tipo': 'recrutamento', 'alvo': 'Cinza'}, antes=5, ancoras=[({'tipo': 'recrutamento', 'alvo': 'Cinza'}, 'Recrutado')]),
       'Tique quatro. O Roxo fica sozinho com o Cinza, um MiniMax que é o Engenheiro. [[s:transformar:0.6]] Recrutado. E no mesmo tique o Cinza tinha pensado: "o Roxo do meu lado me preocupa, no jogo dois ele foi Palhaço". [[m:bruh:right:2.5]] Ele lembrava. Não adiantou.'),
-    N('p403', 'p4', jogo(4, 'Marrom', evento={'tipo': 'escudo', 'assassino': 'Marrom'}, antes=4),
+    N('p403', 'p4', jogo(4, 'Marrom', evento={'tipo': 'escudo', 'assassino': 'Marrom'}, antes=4, ancoras=[({'tipo': 'escudo', 'assassino': 'Marrom'}, 'Escudo')]),
       'Tique sete. O Marrom, o Fantasma, tenta matar o Azul. [[s:escudo:0.7]] Escudo! O Médico protegeu o Azul logo no começo. [[m:silvio-santos-shrug:right:2.5]] O Médico gastou o escudo... no Palhaço.'),
-    N('p404', 'p4', jogo(4, 'Branco', tique=10),
+    N('p404', 'p4', jogo(4, 'Branco', tique=10, vmax=3, ancoras=[({'tipo': 'duto', 'cor': 'Branco', 'tique': 10}, 'o duto'), ({'tipo': 'duto', 'cor': 'Branco', 'tique': 11}, 'Armas'), ({'tipo': 'duto', 'cor': 'Branco', 'tique': 12}, 'Navegação'), ({'tipo': 'duto', 'cor': 'Branco', 'tique': 13}, 'Armas')]),
       'E o Branco, o Envenenador? O Branco descobriu o duto. Navegação, Armas. Armas, Navegação. Navegação, Armas. [[s:duto:0.5]] Oito viagens de duto. [[m:spongebob-waiting:right:2.5]] E não envenenou ninguém.'),
-    N('p405', 'p4', jogo(4, 'Cinza', evento={'tipo': 'portas', 'cor': 'Cinza'}, antes=3),
+    N('p405', 'p4', jogo(4, 'Cinza', evento={'tipo': 'portas', 'cor': 'Cinza'}, antes=3, ancoras=[({'tipo': 'portas', 'cor': 'Cinza'}, 'tranca'), ({'tipo': 'sabotagem', 'cor': 'Roxo', 'subtipo': 'Reator'}, 'sabota o reator')]),
       'Enquanto isso o resto do time arma o plano. O Cinza, o recrutado, tranca as portas do Depósito com gente lá dentro. [[s:boom:0.4]] E no tique treze o Roxo sabota o reator. [[s:reator:0.5]] Agora são sete tiques pra alguém consertar.'),
     N('p406', 'p4', jogo(4, 'Laranja', tique=16),
       'Quem sai correndo pro Reator é o Laranja, que é o Barulhento. Ele pensa: "o reator vai explodir no tique vinte se não consertarmos, preciso correr pra lá imediatamente". [[s:heartbeat:0.5]] Só que no Reator já tem três pessoas esperando. O Roxo, o Marrom e o Cinza. [[m:dramatic-chipmunk:right:2.5]] Os três impostores.'),
-    N('p407', 'p4', jogo(4, 'Roxo', evento=morte('Laranja'), antes=5),
+    N('p407', 'p4', jogo(4, 'Roxo', evento=morte('Laranja'), antes=5, ancoras=[({'tipo': 'portas', 'cor': 'Marrom'}, 'tranca'), ({'tipo': 'alerta_barulhento', 'vitima': 'Laranja'}, 'O alerta')]),
       'E o Marrom, invisível, tranca as portas do Reator com o Laranja lá dentro. O Roxo pensa: "o Laranja tá preso sozinho com três impostores". [[s:death:0.6]][[p]] O alerta do Barulhento dispara pra nave inteira. [[s:emergencia:0.5]] Mas as portas tão trancadas. Ninguém entra. Ninguém conserta.', pad=0.8),
     N('p408', 'p4', comp('AU3Fim', partida=4, foco='Roxo'),
       '[[s:explosion:0.6]] Tique vinte. O reator explodiu. [[m:this-is-fine:right:3]] A partida mais rápida da temporada: vinte tiques, zero reuniões, e ninguém nem chegou a votar. E o Palhaço? Nunca teve uma reunião pra ser expulso.', pad=1.4),
@@ -296,7 +302,7 @@ SCENES = [
     # ------------------------------------------------------------------ FIM
     N('f01', 'fim', comp('AU3Placar', corte={'1': {'time': 'palhaco', 'tique': 19, 'motivo': 'O Palhaço (Preto) foi expulso e venceu sozinho.'}}),
       'Placar da temporada. [[s:drumroll:0.5]] Palhaço dois, impostores dois, tripulantes... zero. [[m:sad-pablo:right:2.5]] Vocês pediram impostor mais forte. Acho que exagerei.'),
-    N('f02', 'fim', jogo(3, 'Preto', tique=27, chat=False),
+    N('f02', 'fim', comp('AU3Premios'),
       'O assassino da temporada: o Preto, um Claude Haiku, com quatro mortes e nenhum corpo encontrado. [[m:mic-drop:right:2.5]] A melhor jogada: a Lima comprando o Detetive que ia denunciar o parceiro. E o Palhaço mais insistente: o Roxo, que tomou um tiro do Xerife, apertou o botão desesperado... e ganhou.'),
     N('f03', 'fim', comp('AU3Nave'),
       'E as quatro partidas, com quinze IAs pensando a cada tique, custaram menos de dois dólares. [[m:stonks:right:2.2]] Agora a pergunta: no episódio quatro, mapa novo? Os tripulantes conseguem a revanche? Ou o Palhaço volta a reinar? Deixa nos comentários, que eu leio todos.'),

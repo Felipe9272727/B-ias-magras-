@@ -6,7 +6,7 @@ import {Crewmate} from '../amongus/Crewmate';
 import {FONT} from '../theme';
 import {Som} from './Telas';
 
-type Premio = {titulo: string; cores: string[]; nome: string; stat: string; som: string};
+export type Premio = {titulo: string; cores: string[]; nome: string; stat: string; som: string};
 export const PREMIOS: Premio[] = [
   {titulo: 'ASSASSINO DA TEMPORADA', cores: ['Verde'], nome: 'Verde · Gemini', stat: '4 mortes · expulso nas 2 partidas', som: 'faca'},
   {titulo: 'IMPOSTOR MAIS FRIO', cores: ['Azul'], nome: 'Azul · DeepSeek', stat: '2 partidas de impostor · 3 mortes · nunca expulso', som: 'transformar'},
@@ -50,10 +50,10 @@ const Cartao: React.FC<{pr: Premio; t: number}> = ({pr, t}) => {
   );
 };
 
-export const AU2Premios: React.FC<{gatilhos?: number[]}> = ({gatilhos = []}) => {
+export const AU2Premios: React.FC<{gatilhos?: number[]; premios?: Premio[]}> = ({gatilhos = [], premios = PREMIOS}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const g = PREMIOS.map((_, i) => gatilhos[i] ?? -1);
+  const g = premios.map((_, i) => gatilhos[i] ?? -1);
   const atual = g.reduce((acc, q, i) => (q >= 0 && q <= f ? i : acc), -1);
   const titulo = interpolate(f, [g[0] >= 0 ? g[0] - 6 : 9999, g[0] >= 0 ? g[0] + 4 : 9999], [1, 0], cl);
   const tIn = spring({frame: f - 4, fps, config: {damping: 12}});
@@ -67,12 +67,12 @@ export const AU2Premios: React.FC<{gatilhos?: number[]}> = ({gatilhos = []}) => 
           <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 110, color: '#ffd84d', WebkitTextStroke: '3px #000', textShadow: '0 8px 0 #000'}}>PRÊMIOS DA TEMPORADA</div>
         </div>
       )}
-      {PREMIOS.map((pr, i) => {
+      {premios.map((pr, i) => {
         if (g[i] < 0 || f < g[i]) return null;
         const ent = spring({frame: f - g[i], fps, config: {damping: 12, stiffness: 150}});
         // quando o próximo prêmio entra, este sobe pra prateleira
         const sobe = g[i + 1] >= 0 ? interpolate(f, [g[i + 1] - 4, g[i + 1] + 10], [0, 1], cl) : 0;
-        const ex = 40 + i * 310;
+        const ex = premios.length <= 3 ? 210 + i * 520 : 40 + i * 310;
         const x = interpolate(sobe, [0, 1], [BIG.x, ex]);
         const y = interpolate(sobe, [0, 1], [BIG.y + (1 - ent) * 500, 20]);
         const sc = interpolate(sobe, [0, 1], [0.6 + 0.4 * ent, 0.29]);

@@ -8,7 +8,16 @@ import {AU3Papeis, PAPEIS3} from './Papeis';
 import {AU2Comentarios} from './Comentarios';
 import {AU3Elenco, AU3Ideias, AU3Nave, COMENTARIOS3} from './Abertura';
 import {AU3Placar} from './Placar';
+import {AU2Premios, type Premio} from '../amongus2/Premios';
+
+// prêmios da temporada 3 (números conferidos em amongus/logs3)
+const PREMIOS3: Premio[] = [
+  {titulo: 'ASSASSINO DA TEMPORADA', cores: ['Preto'], nome: 'Preto · Claude', stat: 'Faxineiro · 4 mortes · nenhum corpo encontrado', som: 'faca'},
+  {titulo: 'MELHOR JOGADA', cores: ['Lima', 'Bordo'], nome: 'Lima · GLM', stat: 'recrutou o Detetive que ia denunciar o Preto', som: 'transformar'},
+  {titulo: 'PALHAÇO MAIS INSISTENTE', cores: ['Roxo'], nome: 'Roxo · Gemini', stat: 'alvo do Xerife, apertou o botão e foi expulso: venceu', som: 'emergencia'},
+];
 import {simular, type Partida2} from './sim';
+import {mapaDaCena} from './tempo';
 
 // votação: carimbos VOTOU até 55% da cena (com o quadro "quem votou em quem"); depois a mesa vira o resultado
 const Votos: React.FC<{p: Partida2; idx: number; dur: number}> = ({p, idx, dur}) => {
@@ -52,12 +61,8 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
     case 'AU3Jogo': {
       const pt = P(p.partida);
       const s = simular(pt);
-      let de = (s.inicioTique[p.tique ?? 1] ?? 0) + Math.round((p.seg ?? 0) * 30);
-      if (p.evento) {
-        const e = s.eventos.find((x) => Object.entries(p.evento as Record<string, unknown>).every(([k, v]) => x[k] === v));
-        if (e) de = Math.max(0, e.quadro - Math.round((p.antes ?? 3) * 30));
-      }
-      return <Jogo p={pt} de={de} foco={p.foco} papeis={p.papeis ?? true} hud={p.hud ?? true} chat={p.chat ?? true} />;
+      const {de, mapa} = mapaDaCena(scene, p, s);
+      return <Jogo p={pt} de={de} mapa={mapa} foco={p.foco} papeis={p.papeis ?? true} hud={p.hud ?? true} chat={p.chat ?? true} />;
     }
     case 'AU3Frase':
       return <Frase p={P(p.partida)} cor={p.cor} texto={p.texto} modo={p.modo} />;
@@ -97,6 +102,8 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU3Nave dur={scene.duration} />;
     case 'AU3Papeis':
       return <AU3Papeis passo={p.passo} focos={gatilhos(scene, PAPEIS3.map((r) => r.nome))} />;
+    case 'AU3Premios':
+      return <AU2Premios premios={PREMIOS3} gatilhos={gatilhos(scene, ['assassino da temporada', 'melhor jogada', 'palhaco mais insistente'])} />;
     case 'AU3Placar':
       return <AU3Placar ps={ps} ate={p.ate ?? 4} corte={p.corte} />;
     default:

@@ -327,7 +327,12 @@ export function salaEm(p: Pt): Sala | null {
 
 // Rota entre as salas a e b: corredores, portas e o piso de a e b. O piso de outra sala não entra.
 // `todas`: qualquer piso vale (usado só quando a rota restrita não existe, ex.: quem muda de destino no meio de outra sala)
+// Bloqueio extra (objetos do Among Us 3): ligado só dentro de caminhoComBloqueio; o AU2 nunca usa
+let BLOQ_CEL: Uint8Array | null = null;
+let BLOQ_PX: ((x: number, y: number) => boolean) | null = null;
+
 function passavelNaRota(c: number, r: number, a: Sala | null, b: Sala | null, todas = false): boolean {
+  if (BLOQ_CEL && c >= 0 && r >= 0 && c < NAVE.cols && r < NAVE.rows && BLOQ_CEL[idx(c, r)]) return false;
   const ch = celula(c, r);
   if (ch === ',' || ch === 'D') return true;
   if (ch === '.') {
@@ -344,6 +349,7 @@ const PASSO_TESTE = 6;
 const SOMBRA: [number, number][] = [[0, 0], [FOLGA, 0], [-FOLGA, 0], [0, FOLGA], [0, -FOLGA]];
 
 function areaLivre(x: number, y: number, a: Sala | null, b: Sala | null, todas = false): boolean {
+  if (BLOQ_PX && BLOQ_PX(x, y)) return false;
   for (const [dx, dy] of SOMBRA) {
     if (!passavelNaRota(Math.floor((x + dx) / TILE), Math.floor((y + dy) / TILE), a, b, todas)) return false;
   }
@@ -493,3 +499,51 @@ export function centroSala(s: Sala): Pt {
   const {c, r, w, h} = NAVE.salas[s].rect;
   return {x: (c + w / 2) * TILE, y: (r + h / 2) * TILE};
 }
+
+// Caminho que também desvia de obstáculos (células bloqueadas + teste por pixel). Se não houver rota assim,
+// cai no caminho normal (nunca deixa alguém parado por causa de um objeto).
+const CACHE_BLOQ = new Map<string, Pt[]>();
+export function caminhoComBloqueio(de: Pt, para: Pt, chaveBloq: string, cel: Uint8Array, px: (x: number, y: number) => boolean): Pt[] {
+  const chave = chaveBloq + ':' + [de.x, de.y, para.x, para.y].map(Math.round).join(',');
+  let res = CACHE_BLOQ.get(chave);
+  if (!res) {
+    const ci = idx(Math.floor(de.x / TILE), Math.floor(de.y / TILE)), cf = idx(Math.floor(para.x / TILE), Math.floor(para.y / TILE));
+    // a célula de saída e a de chegada nunca ficam bloqueadas (quem está encostado num objeto consegue sair)
+    const c2 = cel.slice();
+    if (ci >= 0 && ci < N_CELULAS) c2[ci] = 0;
+    if (cf >= 0 && cf < N_CELULAS) c2[cf] = 0;
+    BLOQ_CEL = c2; BLOQ_PX = px;
+    try {
+      const a = salaEm(de), b = salaEm(para);
+      const deR = {x: Math.round(de.x), y: Math.round(de.y)}, paraR = {x: Math.round(para.x), y: Math.round(para.y)};
+      let cels = astar(deR.x / TILE | 0, deR.y / TILE | 0, paraR.x / TILE | 0, paraR.y / TILE | 0, a, b);
+      let todas = false;
+      if (!cels) { todas = true; cels = astar(deR.x / TILE | 0, deR.y / TILE | 0, paraR.x / TILE | 0, paraR.y / TILE | 0, a, b, true) }
+      if (cels) {
+        const pontos: Pt[] = [deR];
+        for (const i of cels) pontos.push({x: ((i % NAVE.cols) + 0.5) * TILE, y: (Math.floor(i / NAVE.cols) + 0.5) * TILE});
+        pontos.push(paraR);
+        const saida: Pt[] = [pontos[0]];
+        let i = 0;
+        while (i < pontos.length - 1) {
+          let j = pontos.length - 1;
+          while (j > i + 1 && !linhaLivre(pontos[i], pontos[j], a, b, todas)) j--;
+          saida.push(pontos[j]);
+          i = j;
+        }
+        res = saida;
+      }
+    } finally {
+      BLOQ_CEL = null; BLOQ_PX = null;
+    }
+    if (!res) res = calcularCaminho({x: Math.round(de.x), y: Math.round(de.y)}, {x: Math.round(para.x), y: Math.round(para.y)});
+    CACHE_BLOQ.set(chave, res);
+  }
+  const saida = res.map(p => ({x: p.x, y: p.y}));
+  saida[0] = {x: de.x, y: de.y};
+  saida[saida.length - 1] = {x: para.x, y: para.y};
+  return saida;
+}
+
+export const COLUNAS = NAVE.cols;
+export const N_CEL = NAVE.cols * NAVE.rows;

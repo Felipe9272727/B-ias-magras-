@@ -1,10 +1,12 @@
 // Among Us 3: simulação em tempo real do log de uma partida (amongus/jogo3.mjs).
 // Diferença para o AU2: o motor já guarda o PONTO de cada jogador dentro da sala em todo tique (é com ele que o motor
 // calcula o campo de visão), então aqui cada um anda até exatamente esse ponto, em velocidade constante.
-// Ninguém teleporta, a não ser nos saltos do próprio jogo: duto, a facada (o assassino vai até a vítima) e a volta
-// à mesa do Refeitório depois de uma reunião.
+// Ninguém teleporta: no duto o jogador anda até a entrada antes de sumir; na facada o assassino corre até a vítima
+// (o tique espera ele chegar); a volta à mesa do Refeitório só acontece depois de uma reunião (a cena corta antes).
+// As rotas desviam dos objetos da sala (nave/obstaculos3.ts), testando os pés de cada um.
 // Resultado: posição de cada jogador em cada quadro (30 fps), mais os eventos com o quadro em que acontecem.
-import {NAVE, andavel, caminho, salaEm} from '../amongus/nave/mapa';
+import {NAVE, salaEm} from '../amongus/nave/mapa';
+import {caminho3 as caminho, livre3, soltar} from '../amongus/nave/obstaculos3';
 import type {Pt, Sala} from '../amongus/nave/spec';
 
 export const FPS = 30;
@@ -53,16 +55,16 @@ function assento(cor: string): Pt {
   const r = S('Refeitorio').rect;
   const a = (idx(cor) / CORES.length) * Math.PI * 2;
   const p = {x: Math.round(r.c * 48 + (r.w * 48) / 2 + Math.cos(a) * 230), y: Math.round(r.r * 48 + (r.h * 48) / 2 + Math.sin(a) * 150)};
-  return andavel(p) ? p : {x: r.c * 48 + (r.w * 48) / 2, y: r.r * 48 + (r.h * 48) / 2};
+  return soltar(livre3(p) ? p : {x: r.c * 48 + (r.w * 48) / 2, y: r.r * 48 + (r.h * 48) / 2});
 }
 // dois jogadores no mesmo ponto (o motor tem 8 pontos por sala e 15 jogadores): o segundo fica ao lado
 function afastar(p: Pt, ocupados: Pt[]): Pt {
-  if (!ocupados.some((o) => dist(o, p) < 40)) return p;
+  if (!ocupados.some((o) => dist(o, p) < 40)) return soltar(p);
   for (const [dx, dy] of [[62, 0], [-62, 0], [0, 54], [62, 54], [-62, 54], [0, -54], [124, 0], [-124, 0]]) {
     const q = {x: p.x + dx, y: p.y + dy};
-    if (andavel(q) && salaEm(q) === salaEm(p) && !ocupados.some((o) => dist(o, q) < 40)) return q;
+    if (livre3(q) && salaEm(q) === salaEm(p) && !ocupados.some((o) => dist(o, q) < 40)) return q;
   }
-  return p;
+  return soltar(p);
 }
 
 type Estado = {pos: Pt; rota: Pt[]; vivo: boolean; dir: number; tarefa: boolean};
@@ -142,18 +144,30 @@ export function simular(p: Partida2): Sim {
       else eventos.push({quadro: f + Math.min(dur - 20, Math.round(comprimento(st[cor]) / VEL) + 8), ate: f + dur, tipo: 'monitor', subtipo: tipo, tique: t, cor});
     }
     // chat dos impostores deste tique
-    for (const m of p.chatImpostores?.filter((x) => x.tique === t) ?? []) eventos.push({quadro: f + 6, tipo: 'chat', tique: t, cor: m.cor, texto: m.texto});
+    // (no meio do tique, depois das jogadas: a mensagem muitas vezes conta o que acabou de acontecer)
+    const inicioDoTique = f;
     const portasT = Object.entries(est?.portas ?? {}).filter(([, ate]) => ate > t).map(([s]) => s);
     const novasPortas = ev.filter((e) => e.tipo === 'portas').map((e) => e.sala as string);
     const feitos = new Set<any>();
-    for (let k = 0; k < dur; k++) {
+    const dutosFeitos = new Set<string>();
+    const correndo = new Set<string>(); // assassinos correndo atrás da vítima
+    const atrasados: any[] = []; // limpeza e alerta esperando a morte acontecer
+    // o tique só acaba quando todas as facadas e dutos aconteceram (no máximo 6 s a mais)
+    const pendente = () => mortes.some((m) => !feitos.has(m) && st[m.tipo === 'morte' ? m.assassino : m.xerife]?.vivo && st[m.tipo === 'morte' ? m.vitima : m.alvo]?.vivo)
+      || Object.keys(dutoDe).some((c) => !dutosFeitos.has(c) && st[c].vivo) || atrasados.length > 0;
+    for (let k = 0; k < dur || (pendente() && k < dur + 6 * FPS); k++) {
+      const ultimo = k >= dur + 6 * FPS - 1;
       for (const cor of Object.keys(dutoDe)) {
         const e = st[cor];
-        if (k === Math.round(dur * 0.55) && e.vivo) {
+        if (dutosFeitos.has(cor) || !e.vivo) continue;
+        const ent = S(dutoDe[cor].de).duto;
+        // entra no duto quando chega na entrada (passada a metade do tique); se a entrada não existe, some onde está
+        if (k >= Math.round(dur * 0.45) && (!ent || (dist(e.pos, ent) < 6 && !e.rota.length) || ultimo)) {
+          dutosFeitos.add(cor);
           const v = S(dutoDe[cor].para).duto;
           eventos.push({quadro: f, tipo: 'duto', tique: t, cor, de: dutoDe[cor].de, para: dutoDe[cor].para, x: e.pos.x, y: e.pos.y});
           if (v) { e.pos = v; e.rota = [] }
-        }
+        } else if (ent && !e.rota.length && dist(e.pos, ent) >= 6) ir(e, ent);
       }
       for (const m of mortes) {
         if (feitos.has(m)) continue;
@@ -161,13 +175,15 @@ export function simular(p: Partida2): Sim {
         const v = st[m.tipo === 'morte' ? m.vitima : m.alvo];
         if (!a?.vivo || !v?.vivo) continue;
         const lado = (q: Pt) => {
-          for (const s of [a.pos.x < v.pos.x ? -1 : 1, a.pos.x < v.pos.x ? 1 : -1]) { const pp = {x: q.x + ALCANCE * s, y: q.y}; if (andavel(pp)) return pp }
+          for (const s of [a.pos.x < v.pos.x ? -1 : 1, a.pos.x < v.pos.x ? 1 : -1]) { const pp = {x: q.x + ALCANCE * s, y: q.y}; if (livre3(pp)) return pp }
           return {x: q.x, y: q.y};
         };
-        if (k > dur * 0.15 && (k % 6 === 0 || !a.rota.length)) a.rota = caminho(a.pos, lado(v.pos)).slice(1);
-        if ((dist(a.pos, v.pos) <= ALCANCE + 4 && k > dur * 0.2) || k >= Math.round(dur * 0.6)) {
+        const cA = m.tipo === 'morte' ? m.assassino : m.xerife;
+        if (k > dur * 0.15 && (k % 6 === 0 || !a.rota.length)) { a.rota = caminho(a.pos, lado(v.pos)).slice(1); correndo.add(cA) }
+        if ((dist(a.pos, v.pos) <= ALCANCE + 4 && k > dur * 0.2) || ultimo) {
           feitos.add(m);
-          a.pos = lado(v.pos);
+          correndo.delete(cA);
+          if (ultimo) a.pos = lado(v.pos); // nunca acontece nas partidas do vídeo (o teste acusa)
           a.rota = [];
           a.dir = v.pos.x > a.pos.x ? 1 : -1;
           const morto = m.tipo === 'morte' ? m.vitima : m.acertou ? m.alvo : m.xerife;
@@ -182,12 +198,8 @@ export function simular(p: Partida2): Sim {
       if (k === Math.round(dur * 0.5)) {
         for (const e of ev) {
           if (['morte', 'xerife', 'duto'].includes(e.tipo)) continue;
-          // o corpo some (Faxineiro): arrastado para fora em 45 quadros
-          if (e.tipo === 'limpeza') {
-            const c = corposVivos.find((c) => c.cor === e.corpo && c.ate === Infinity);
-            if (c) { c.limpo = f; c.ate = f + 45; eventos.push({quadro: f, ...e, x: c.x, y: c.y}) }
-            continue;
-          }
+          // o corpo some (Faxineiro) e o alerta do Barulhento: só depois que a morte aconteceu (fila de atrasados)
+          if (e.tipo === 'limpeza' || e.tipo === 'alerta_barulhento') { atrasados.push(e); continue }
           // o veneno age: a vítima cai onde está, sem ninguém por perto
           if (e.tipo === 'morte_veneno') {
             const v = st[e.vitima];
@@ -206,9 +218,26 @@ export function simular(p: Partida2): Sim {
           if (e.tipo === 'conserto') sab = null;
         }
       }
+      for (let i = atrasados.length - 1; i >= 0; i--) {
+        const e = atrasados[i];
+        const quem = e.tipo === 'limpeza' ? e.corpo : e.vitima;
+        const c = corposVivos.find((c) => c.cor === quem && c.ate === Infinity);
+        if (c && f >= c.desde + (e.tipo === 'limpeza' ? 24 : 30)) {
+          if (e.tipo === 'limpeza') { c.limpo = f; c.ate = f + 45 }
+          eventos.push({quadro: f, ...e, x: c.x, y: c.y});
+          atrasados.splice(i, 1);
+        } else if (!c && (ultimo || !mortes.some((m) => (m.vitima ?? m.alvo) === quem || m.xerife === quem))) {
+          // a morte foi num tique anterior (corpo já no chão desde antes) ou nunca acontece: sai agora
+          const c2 = corposVivos.find((c) => c.cor === quem && c.ate === Infinity);
+          if (c2 && e.tipo === 'limpeza') { c2.limpo = f; c2.ate = f + 45 }
+          eventos.push({quadro: f, ...e, ...(c2 ? {x: c2.x, y: c2.y} : {})});
+          atrasados.splice(i, 1);
+        }
+      }
       for (const cor of CORES) {
         const e = st[cor];
-        if (e.vivo) anda(e, e.rota.length && comprimento(e) > VEL * (dur - k) * 1.6 ? VEL * 1.25 : VEL);
+        const resta = Math.max(1, dur - k);
+        if (e.vivo) anda(e, correndo.has(cor) ? VEL * 1.7 : e.rota.length && comprimento(e) > VEL * resta * 1.6 ? VEL * 1.25 : VEL);
       }
       for (let i = 0; i < N; i++) {
         const cor = CORES[i];
@@ -226,6 +255,9 @@ export function simular(p: Partida2): Sim {
       tiqueQ.push(t);
       f++;
     }
+    // chat (depois das facadas deste tique, que contam o que acabou de acontecer)
+    const ultimaMorte = Math.max(-1, ...eventos.filter((e) => e.tique === t && (e.tipo === 'morte' || e.tipo === 'xerife')).map((e) => e.quadro));
+    p.chatImpostores?.filter((x) => x.tique === t).forEach((m, i) => eventos.push({quadro: Math.max(inicioDoTique + Math.round(dur * 0.55), ultimaMorte + 12) + 4 + i * 10, tipo: 'chat', tique: t, cor: m.cor, texto: m.texto}));
     inicioTique[t + 1] = f;
     const r = p.reunioes.findIndex((x) => x.tique === t);
     if (r >= 0) {

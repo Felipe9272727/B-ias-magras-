@@ -13,6 +13,7 @@ import type {Sala} from '../amongus/nave/spec';
 import {FONT} from '../theme';
 import {CORES, Partida2, Sim, simular} from './sim';
 import {Monitor, monitorAberto} from './Monitor';
+import {quandoNaCena, velocidade, type Corte, type Mapa} from './tempo';
 
 const MUNDO = {w: NAVE.cols * 48, h: NAVE.rows * 48};
 const ESCALA = 1.75; // tripulante com ~130 px de altura na tela, como no jogo
@@ -42,7 +43,7 @@ for (const s of Object.keys(NAVE.salas) as Sala[]) {
   }
 }
 
-type Props = {p: Partida2; de: number; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean};
+type Props = {p: Partida2; de: number; mapa?: Mapa; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean};
 
 // ícones dos botões, desenhados (sem emoji): branco com contorno preto grosso, como os do jogo
 const tr = {stroke: '#000', strokeWidth: 5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
@@ -172,7 +173,7 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
             <div key={c} style={{position: 'absolute', left: q!.x - 38, top: q!.y - 88, opacity: q!.alpha}}>
               <div style={{position: 'absolute', left: 8, top: 82, width: 60, height: 14, borderRadius: '50%', background: '#00000055'}} />
               {veneno && <div style={{position: 'absolute', left: 50, top: -4, width: 22, height: 22, borderRadius: '50% 50% 50% 0', transform: `rotate(-45deg) translateY(${(frame % 30) / 3}px)`, background: '#7dff5a', border: '3px solid #0b3d10', opacity: 0.9}} />}
-              <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (frame + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
+              <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
               <div style={{position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 19, color: vermelho ? '#ff4040' : roxo ? '#c08bff' : '#fff', WebkitTextStroke: '0.8px #000', textShadow: '0 2px 0 #000, 0 0 3px #000'}}>
                 {nomes && nome}
                 {nomes && nome === c && <span style={{marginLeft: 5, fontSize: 11, padding: '1px 5px', borderRadius: 5, verticalAlign: 'middle', background: emp.cor, color: '#fff', WebkitTextStroke: '0', textShadow: 'none', border: '1px solid #fff6'}}>{emp.nome}</span>}
@@ -196,10 +197,10 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
 
 // efeitos sonoros dos eventos da partida dentro do trecho [de, de+dur): o que acontece perto da câmera (ou com o foco)
 const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos', morte_veneno: 'faca', veneno: 'sumir', recrutamento: 'transformar', foto: 'sfx/camera-shutter.mp3', alerta_barulhento: 'emergencia', conserto: 'tarefa'};
-export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string}> = React.memo(({s, de, dur, foco}) => {
+export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string; mapa?: Mapa}> = React.memo(({s, de, dur, foco, mapa}) => {
   const lista: {em: number; nome: string; vol: number}[] = [];
   for (const e of s.eventos) {
-    const em = e.quadro - de;
+    const em = mapa ? quandoNaCena(mapa, e.quadro) : e.quadro - de;
     if (em < 0 || em >= dur) continue;
     const cam = s.q(foco, e.quadro) ?? s.corpos(e.quadro).find((c) => c.cor === foco);
     const perto = !cam || e.x === undefined || Math.hypot(e.x - cam.x, e.y - cam.y) < 900;
@@ -213,11 +214,12 @@ export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string}>
   return <>{lista.map((x, i) => <Som key={i} nome={x.nome} em={x.em} vol={x.vol} />)}</>;
 });
 
-export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, monitor = true, sons = true, chat = false}) => {
+export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = true, monitor = true, sons = true, chat = false}) => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const s = simular(p);
-  const f = de + frame;
+  // quadro da partida mostrado agora (com âncoras: estica, encolhe ou corta para bater com a narração)
+  const f = mapa ? Math.floor(mapa.quadros[Math.min(frame, mapa.quadros.length - 1)]) : de + frame;
   // câmera: segue o foco com um leve atraso (média dos últimos quadros), como a câmera do jogo
   let cx = 0, cy = 0, n = 0;
   for (let d = 0; d < 8; d++) {
@@ -253,20 +255,46 @@ export const Jogo: React.FC<Props> = ({p, de, foco, papeis = false, hud = true, 
       {chat && <ChatImpostores p={p} s={s} f={f} />}
       {/* o foco está num console de vigilância: a tela dele abre por cima, como no jogo */}
       {monitor && tela && <Monitor p={p} s={s} f={f} frame={frame} aberto={tela.aberto} quem={foco} tipo={tela.tipo} />}
-      {sons && <SonsJogo s={s} de={de} dur={durationInFrames} foco={foco} />}
+      {sons && <SonsJogo s={s} de={de} dur={durationInFrames} foco={foco} mapa={mapa} />}
+      {mapa && <Cortes s={s} cortes={mapa.cortes} quadros={mapa.quadros} frame={frame} />}
+      {mapa && <SeloVelocidade v={velocidade(mapa, frame)} />}
       {/* paleta de cores para checagem em teste */}
       <div style={{display: 'none'}}>{Object.keys(COR).join()}</div>
     </AbsoluteFill>
   );
 };
 
+// corte de tempo na cena (salto de tiques ou reunião no meio): escurece rápido e mostra para onde pulou
+const Cortes: React.FC<{s: Sim; cortes: Corte[]; quadros: number[]; frame: number}> = ({s, cortes, quadros, frame}) => {
+  const c = cortes.find((c) => frame >= c.k - 6 && frame < c.k + 22);
+  if (!c) return null;
+  const d = frame - c.k;
+  const tq = s.tique(quadros[Math.min(quadros.length - 1, c.k)]);
+  const txt = c.tipo === 'reuniao' ? 'DEPOIS DA REUNIÃO' : `⏩ TIQUE ${tq}`;
+  return (
+    <>
+      <AbsoluteFill style={{background: '#000', opacity: interpolate(d, [-6, 0, 3, 10], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 120, textAlign: 'center', opacity: interpolate(d, [-3, 1, 16, 22], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}}>
+        <span style={{padding: '8px 26px', borderRadius: 14, background: '#000c', border: '4px solid #fff', fontFamily: FONT.display, fontWeight: 900, fontSize: 40, letterSpacing: 3, color: '#fff'}}>{txt}</span>
+      </div>
+    </>
+  );
+};
+
+// selo de velocidade: a partida acelerada ou em câmera lenta (para bater com a narração) fica avisada na tela
+const SeloVelocidade: React.FC<{v: number}> = ({v}) => {
+  const txt = v > 1.3 ? `⏩ ${v >= 1.75 ? Math.round(v) : v.toFixed(1).replace('.', ',')}x` : v < 0.7 && v > 0.05 ? '🐢 CÂMERA LENTA' : '';
+  if (!txt) return null;
+  return <div style={{position: 'absolute', right: 30, top: 86, padding: '6px 16px', borderRadius: 10, background: '#000a', fontFamily: FONT.display, fontWeight: 900, fontSize: 26, letterSpacing: 2, color: '#fff'}}>{txt}</div>;
+};
+
 // alerta do Barulhento: quando ele morre, a nave inteira fica sabendo (faixa piscando no topo)
 const AlertaBarulhento: React.FC<{s: Sim; f: number}> = ({s, f}) => {
-  const e = s.eventos.find((x) => x.tipo === 'alerta_barulhento' && f >= x.quadro && f < x.quadro + 75);
+  const e = s.eventos.find((x) => x.tipo === 'alerta_barulhento' && f >= x.quadro && f < x.quadro + 150);
   if (!e) return null;
   const k = f - e.quadro;
   return (
-    <div style={{position: 'absolute', left: 0, right: 0, top: 210, display: 'flex', justifyContent: 'center', opacity: interpolate(k, [0, 6, 60, 75], [0, 1, 1, 0])}}>
+    <div style={{position: 'absolute', left: 0, right: 0, top: 210, display: 'flex', justifyContent: 'center', opacity: interpolate(k, [0, 6, 135, 150], [0, 1, 1, 0])}}>
       <div style={{padding: '10px 30px', borderRadius: 14, background: k % 12 < 6 ? '#ffd21f' : '#ff3b3b', border: '5px solid #000', fontFamily: FONT.display, fontWeight: 900, fontSize: 38, color: '#000'}}>🔔 O BARULHENTO ({e.vitima.toUpperCase()}) MORREU</div>
     </div>
   );
