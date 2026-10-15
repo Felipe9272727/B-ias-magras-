@@ -6,6 +6,7 @@ import React, {useMemo} from 'react';
 import {NAVE} from './mapa';
 import {SALAS_ORDEM, TILE, type Prop, type Sala} from './spec';
 import {DecorParedes, Entulho, FACE_V3, Props3, consoleTarefa3} from './Props3';
+import {Decals4} from './Props4';
 
 const COLS = NAVE.cols;
 const ROWS = NAVE.rows;
@@ -142,10 +143,89 @@ function Definicoes(): React.ReactNode {
   );
 }
 
-// Monta o desenho estático inteiro (chamado uma vez)
-function montarCena(v3 = false): React.ReactNode {
-  // no Among Us 3 a parede de cima fica mais alta (perspectiva do jogo) e ganha decoração
-  const FACE = v3 ? FACE_V3 : FACE_BASE;
+// Chão da v4: cada sala tem uma trama própria (ladrilhos xadrez no Refeitório, tábuas no Depósito, grade
+// nos motores e no reator, etc.) com o bisel de sempre. Ids com prefixo 'ar4-'.
+const rejunte = (cor: string, op: number) => (
+  <>
+    <rect width={TILE} height={1.5} fill={cor} opacity={op} />
+    <rect width={1.5} height={TILE} fill={cor} opacity={op} />
+  </>
+);
+function PadraoSala4({s}: {s: Sala}): React.ReactNode {
+  const t = NAVE.salas[s].tema;
+  let miolo: React.ReactNode;
+  switch (s) {
+    case 'Refeitorio': // ladrilhos xadrez
+      miolo = (
+        <>
+          <rect width={TILE / 2} height={TILE / 2} fill={t.piso2} opacity={0.45} />
+          <rect x={TILE / 2} y={TILE / 2} width={TILE / 2} height={TILE / 2} fill={t.piso2} opacity={0.45} />
+        </>
+      );
+      break;
+    case 'Deposito': // tábuas de madeira: linhas horizontais e uma junta deslocada
+      miolo = (
+        <>
+          {[0, 1, 2, 3].map((k) => <rect key={k} y={k * 12} width={TILE} height={2} fill={t.piso2} opacity={0.6} />)}
+          <rect x={TILE * 0.5} y={0} width={1.5} height={12} fill={t.piso2} opacity={0.6} />
+          <rect x={TILE * 0.25} y={24} width={1.5} height={12} fill={t.piso2} opacity={0.6} />
+        </>
+      );
+      break;
+    case 'MotorInferior': case 'MotorSuperior': case 'Reator': // placas escuras de metal com tom do destaque
+      miolo = <>{rejunte('#0b1020', 0.55)}<rect width={TILE} height={TILE} fill={t.destaque} opacity={0.05} /></>;
+      break;
+    case 'Eletrica': // grade fina com tom amarelado
+      miolo = <>{rejunte(t.piso2, 0.6)}<rect width={TILE} height={TILE} fill="#ffd84d" opacity={0.08} /></>;
+      break;
+    case 'O2': // grade com tom de verde (jardim)
+      miolo = <>{rejunte(t.piso2, 0.5)}<rect width={TILE} height={TILE} fill={t.destaque} opacity={0.08} /></>;
+      break;
+    case 'Enfermaria': // azulejos brancos
+      miolo = <>{rejunte('#9fb3bd', 0.6)}<rect width={TILE} height={TILE} fill="#ffffff" opacity={0.25} /></>;
+      break;
+    case 'Seguranca': // quadriculado escuro
+      miolo = (
+        <>
+          <rect width={TILE / 2} height={TILE / 2} fill={t.piso2} opacity={0.35} />
+          <rect x={TILE / 2} y={TILE / 2} width={TILE / 2} height={TILE / 2} fill={t.piso2} opacity={0.35} />
+        </>
+      );
+      break;
+    default: // grade de painéis (Armas, Navegação, Escudos, Comunicações, Admin)
+      miolo = <>{rejunte(t.piso2, 0.45)}<rect x={6} y={6} width={TILE - 12} height={TILE - 12} rx={3} fill="none" stroke={t.piso2} strokeWidth={1} opacity={0.35} /></>;
+  }
+  return (
+    <pattern id={`ar4-pis-${s}`} patternUnits="userSpaceOnUse" width={TILE} height={TILE}>
+      <rect width={TILE} height={TILE} fill={t.piso} />
+      {miolo}
+      <rect x={TILE - 2} width={2} height={TILE} fill={t.piso2} />
+      <rect y={TILE - 2} width={TILE} height={2} fill={t.piso2} />
+      <rect width={TILE} height={1.5} fill="#ffffff" opacity={0.12} />
+      <rect width={1.5} height={TILE} fill="#ffffff" opacity={0.08} />
+    </pattern>
+  );
+}
+
+// Padrões da v4: pisos por sala e a faixa de aviso amarela e preta (listras a 45 graus)
+function DefinicoesV4(): React.ReactNode {
+  return (
+    <>
+      {SALAS_ORDEM.map((s) => <React.Fragment key={s}><PadraoSala4 s={s} /></React.Fragment>)}
+      <pattern id="ar4-aviso" patternUnits="userSpaceOnUse" width={14} height={14} patternTransform="rotate(45)">
+        <rect width={14} height={14} fill="#1b1b1b" />
+        <rect width={7} height={14} fill="#f2c230" />
+      </pattern>
+    </>
+  );
+}
+
+// Monta o desenho estático inteiro (chamado uma vez). v4: piso por sala, faixa escura entre topo e face,
+// enfeites de chão e a mesma geometria e objetos da v3 (a v3 não muda com esta flag).
+function montarCena(v3 = false, v4 = false): React.ReactNode {
+  // no Among Us 3 e 4 a parede de cima fica mais alta (perspectiva do jogo) e ganha decoração
+  const alto = v3 || v4;
+  const FACE = alto ? FACE_V3 : FACE_BASE;
   const salas = NAVE.salas;
   let contorno = '';
   const pisoSala = new Map<Sala, string>();
@@ -162,6 +242,7 @@ function montarCena(v3 = false): React.ReactNode {
   let brilhoFace = '';
   const topos = new Tintas();
   let brilhoTopo = '';
+  let seamTopo = ''; // v4: linha escura na base do topo da parede (separa o topo da face)
 
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
@@ -182,6 +263,7 @@ function montarCena(v3 = false): React.ReactNode {
         const casco = vizinhos.some(([vc, vr]) => ehFora(vc, vr));
         topos.add(salaPar ? salas[salaPar].tema.paredeTopo : casco ? TOPO_CASCO : TOPO_PADRAO, R(x, y, TILE, TILE));
         brilhoTopo += R(x, y, TILE, 3);
+        if (v4) seamTopo += R(x, y + TILE - 4, TILE, 4);
         // Face frontal: só quando o piso de baixo é andável (a face "olha" para a sala)
         if (ehPisoAberto(c, r + 1)) {
           const sb = salaEm(c, r + 1);
@@ -233,10 +315,10 @@ function montarCena(v3 = false): React.ReactNode {
   });
 
   // Props de todas as salas
-  const props = v3 ? <Props3 /> : SALAS_ORDEM.flatMap((s) => salas[s].props.map((p, i) => propSvg(p, `${s}-${i}`)));
+  const props = alto ? <Props3 /> : SALAS_ORDEM.flatMap((s) => salas[s].props.map((p, i) => propSvg(p, `${s}-${i}`)));
 
   // Consoles de tarefa (contorno amarelo) e dutos
-  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p, i) => (v3 ? consoleTarefa3 : consoleTarefa)(p.x, p.y, `${s}-c${i}`)));
+  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p, i) => (alto ? consoleTarefa3 : consoleTarefa)(p.x, p.y, `${s}-c${i}`)));
   const dutos = SALAS_ORDEM.flatMap((s) => {
     const d = salas[s].duto;
     return d ? [duto(d.x, d.y, `${s}-d`)] : [];
@@ -246,11 +328,12 @@ function montarCena(v3 = false): React.ReactNode {
     <>
       <defs>
         <Definicoes />
+        {v4 && <DefinicoesV4 />}
       </defs>
       <path d={contorno} fill={CONTORNO_COR} />
       {SALAS_ORDEM.map((s) => {
         const d = pisoSala.get(s);
-        return d ? <path key={s} d={d} fill={`url(#ar-pis-${s})`} /> : null;
+        return d ? <path key={s} d={d} fill={`url(#${v4 ? 'ar4-pis' : 'ar-pis'}-${s})`} /> : null;
       })}
       <path d={pisoCorr} fill="url(#ar-corr)" />
       <path d={varEscura} fill="#000" opacity={0.07} />
@@ -259,15 +342,17 @@ function montarCena(v3 = false): React.ReactNode {
       <path d={sombraB} fill="#000" opacity={0.1} />
       <path d={barrasEscuras} fill="#161b23" />
       <path d={barrasClaras} fill="#cfd8e2" />
+      {v4 && <Decals4 />}
       {faces.entradas().map(([cor, d]) => <path key={`f-${cor}`} d={d} fill={cor} />)}
       <path d={juntasFace} fill="#000" opacity={0.28} />
       <path d={brilhoFace} fill="#fff" opacity={0.14} />
       <path d={bordaFace} fill={CONTORNO_COR} opacity={0.7} />
       {topos.entradas().map(([cor, d]) => <path key={`t-${cor}`} d={d} fill={cor} />)}
       <path d={brilhoTopo} fill="#fff" opacity={0.14} />
-      {v3 && <DecorParedes />}
+      {v4 && <path d={seamTopo} fill={CONTORNO_COR} opacity={0.6} />}
+      {alto && <DecorParedes />}
       {rotulos}
-      {v3 && <Entulho />}
+      {alto && <Entulho />}
       {props}
       {consoles}
       {dutos}
@@ -276,8 +361,8 @@ function montarCena(v3 = false): React.ReactNode {
 }
 
 // Componente memorizado: o desenho é montado uma vez e não refaz trabalho a cada quadro
-const Estatico = React.memo(function Estatico({v3}: {v3: boolean}) {
-  const cena = useMemo(() => montarCena(v3), [v3]);
+const Estatico = React.memo(function Estatico({v3, v4}: {v3: boolean; v4: boolean}) {
+  const cena = useMemo(() => montarCena(v3, v4), [v3, v4]);
   return <>{cena}</>;
 });
 
@@ -708,14 +793,15 @@ function duto(x: number, y: number, chave: string) {
 }
 
 // Nave completa: estática (memorizada) + alerta de reator por cima
-export const Arte: React.FC<{alertaReator?: number; v3?: boolean}> = ({alertaReator = 0, v3 = false}) => (
+// v3: nave do Among Us 3 (episódios já publicados). v4: versão nova do piso, das paredes e dos enfeites.
+export const Arte: React.FC<{alertaReator?: number; v3?: boolean; v4?: boolean}> = ({alertaReator = 0, v3 = false, v4 = false}) => (
   <svg
     width={W}
     height={H}
     viewBox={`0 0 ${W} ${H}`}
     style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}
   >
-    <Estatico v3={v3} />
+    <Estatico v3={v3} v4={v4} />
     {alertaReator > 0 && (
       <rect x={0} y={0} width={W} height={H} fill="#ff1e1e" opacity={Math.min(1, alertaReator)} />
     )}
