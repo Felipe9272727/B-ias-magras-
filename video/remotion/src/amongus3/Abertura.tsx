@@ -6,6 +6,8 @@ import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from
 import type {Comentario} from './Comentarios';
 import {FONT} from '../theme';
 import {Som} from './Telas';
+import {Crewmate} from '../amongus/Crewmate';
+import {EMPRESA} from './Jogo';
 
 export const COMENTARIOS3: Comentario[] = [
   {usuario: '@manodoRoblox-d8p', texto: 'uma coisa á se pontuar, os impostores raramente usam suas habilidades de classe', destaque: 'raramente usam suas habilidades', likes: 13, quando: 'há 6 dias'},
@@ -104,6 +106,50 @@ export const AU3Ideias: React.FC<{inicio?: number; passo?: number; frase2?: numb
           <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 64, lineHeight: 1.12, color: '#fff'}}>{t1.slice(0, n1)}</div>
           <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 52, lineHeight: 1.15, color: '#ff5a5a', minHeight: 60}}>{t2.slice(0, n2)}</div>
         </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// Elenco da temporada: uma coluna por empresa com as cores dela (vindas do log da partida 1). O Grok aparece riscado
+// ("saiu") e Mistral e GLM ganham o selo NOVA. `marcas`: quadros em que o narrador fala de cada empresa (acende).
+const ORDEM_EMPRESAS = ['DeepSeek Flash', 'Claude Haiku', 'GPT-5.6 Luna', 'Gemini 3.8 Flash', 'Mistral Large 4', 'GLM 5.3 Flash'];
+export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]}; saiu?: number; novas?: number}> = ({p, saiu = 30, novas = 70}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const grok = spring({frame: f - saiu, fps, config: {damping: 12}});
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #1b2440, #05070d 75%)'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 64, color: '#fff', WebkitTextStroke: '2px #000'}}>15 IAs · 6 empresas</div>
+      {/* o Grok saindo */}
+      <div style={{position: 'absolute', left: 760, top: 130, width: 400, textAlign: 'center', opacity: interpolate(f, [saiu, saiu + 8, novas - 6, novas + 4], [0, 1, 1, 0], cl), transform: `scale(${grok}) rotate(${-4 * grok}deg)`}}>
+        <div style={{display: 'inline-block', padding: '8px 26px', borderRadius: 14, background: '#111', border: '4px solid #ff3b3b', fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#fff', textDecoration: 'line-through', textDecorationColor: '#ff3b3b', textDecorationThickness: 6}}>Grok</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#ff3b3b', marginTop: 4}}>SAIU</div>
+      </div>
+      <div style={{position: 'absolute', left: 50, right: 50, top: 260, display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 18}}>
+        {ORDEM_EMPRESAS.map((m, i) => {
+          const nova = m.startsWith('Mistral') || m.startsWith('GLM');
+          const em = nova ? novas + (m.startsWith('GLM') ? 12 : 0) : 6 + i * 5;
+          const e = spring({frame: f - em, fps, config: {damping: 12, stiffness: 160}});
+          const cores = p.jogadores.filter((j) => j.modelo === m).map((j) => j.cor);
+          const emp = EMPRESA[m] ?? {nome: m, cor: '#555'};
+          return (
+            <div key={m} style={{position: 'relative', height: 640, borderRadius: 20, background: 'rgba(255,255,255,.06)', border: `5px solid ${emp.cor}`, opacity: interpolate(f - em, [0, 6], [0, 1], cl), transform: `translateY(${(1 - e) * 80}px)`, overflow: 'hidden'}}>
+              {nova && <div style={{position: 'absolute', right: -36, top: 18, width: 150, transform: 'rotate(35deg)', textAlign: 'center', background: '#ffd84d', color: '#000', fontFamily: FONT.display, fontWeight: 900, fontSize: 20, letterSpacing: 2, border: '2px solid #000'}}>NOVA</div>}
+              <div style={{margin: '20px 16px 0', padding: '8px 0', borderRadius: 12, background: emp.cor, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', WebkitTextStroke: '1px #000'}}>{emp.nome}</div>
+              <div style={{textAlign: 'center', fontFamily: FONT.display, fontWeight: 700, fontSize: 20, color: '#cfd8e6', marginTop: 6}}>{m}</div>
+              <div style={{position: 'absolute', left: 0, right: 0, top: 150, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4}}>
+                {cores.map((c, k) => (
+                  <div key={c} style={{display: 'flex', alignItems: 'center', gap: 10, transform: `scale(${spring({frame: f - em - 6 - k * 4, fps, config: {damping: 11}})})`}}>
+                    <Crewmate cor={c} size={110} t={f + k * 7} />
+                    <span style={{width: 110, fontFamily: FONT.display, fontWeight: 900, fontSize: 26, color: '#fff', WebkitTextStroke: '1px #000'}}>{c}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{position: 'absolute', left: 0, right: 0, bottom: 14, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 28, color: cores.length === 3 ? '#7ee787' : '#cfd8e6'}}>{cores.length} IAs</div>
+            </div>
+          );
+        })}
       </div>
     </AbsoluteFill>
   );

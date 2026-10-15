@@ -54,7 +54,7 @@ function embaralhar(arr) {
 // ---------- configuração ----------
 export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', mock: 'Mock',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', mock: 'Mock',
 }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
@@ -172,7 +172,7 @@ function montarPartida() {
   if (!DA_TEMPORADA) {  // partida avulsa: sorteio pela semente
     const imps = embaralhar(IMPOSTORES).slice(0, 3)
     const todos = embaralhar([...imps, 'Palhaco', ...TRIPULANTES])
-    const empresas = ['deepseek', 'haiku', 'or:openai/gpt-5.6-luna', 'or:google/gemini-3.8-flash', 'or:mistralai/mistral-large-4-0', 'or:z-ai/glm-5.3-flash']
+    const empresas = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:google/gemini-3.8-flash', 'or:mistralai/mistral-large-4-0', 'or:z-ai/glm-5.3-flash']
     const vagas = embaralhar(empresas.flatMap((p, i) => (i < 3 ? [p, p, p] : [p, p])))
     CORES.forEach((c, i) => { papeis[c] = todos[i]; provs[c] = vagas[i] })
   }

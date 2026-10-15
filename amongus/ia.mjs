@@ -40,7 +40,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'mock') return { ok: true, text: mock ? mock() : '{}' }
   // o DeepSeek Flash raciocina antes de responder e o raciocínio consome o limite de tokens:
   // damos folga para sobrar espaço para a resposta em si
-  if (provider === 'deepseek') maxTokens += 3000
+  if (provider === 'deepseek' || provider.includes('deepseek/')) maxTokens += 3000 // o Flash pensa antes de responder
   // o Opus pensa antes de responder: esforço médio (pedido da pessoa) e folga de tokens para o pensamento
   if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
   let transientes = 0

@@ -16,7 +16,7 @@ from pathlib import Path
 
 R = secrets.SystemRandom()
 CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
-EMPRESAS = ['deepseek', 'haiku', 'or:openai/gpt-5.6-luna', 'or:google/gemini-3.8-flash', 'or:mistralai/mistral-large-4-0', 'or:z-ai/glm-5.3-flash']
+EMPRESAS = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:google/gemini-3.8-flash', 'or:mistralai/mistral-large-4-0', 'or:z-ai/glm-5.3-flash']
 IMPOSTORES = ['Metamorfo', 'Fantasma', 'Faxineiro', 'Envenenador', 'Gangster']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Rastreador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca']
 
