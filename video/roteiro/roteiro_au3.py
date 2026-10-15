@@ -95,9 +95,9 @@ SCENES = [
     N('a02', 'abertura', comp('AU3Comentarios', passo=40),
       'Mas antes, os comentários. O último vídeo teve mais de cem, e o mais curtido, do manodoRoblox, reclamou de uma coisa: impostor quase nunca usava habilidade. [[m:sus-doakes:right:2.2]] Nessa temporada, eles usam. E muito. Também pediram Juiz, fotógrafo, chat dos impostores, quinze IAs... e um tal de Palhaço.'),
     N('a03', 'abertura', comp('AU3Ideias', marca='fiz'),
-      'Sério. Vocês me encheram de ideias boas... mas infelizmente não consegui fazer todas. [[s:sad-trombone:0.4]] Mapa novo e vinte IAs ficaram pra próxima. Mas olha só o que eu fiz: [[s:level-up:0.5]] dezenove ideias de vocês estão nesse vídeo.'),
+      'Sério. Vocês me encheram de ideias boas... mas infelizmente não consegui fazer todas. [[s:sad-trombone:0.4]] Mapa novo e vinte IAs ficaram pra próxima. Mas olha só o que eu fiz: [[s:level-up:0.5]] dezoito ideias de vocês estão nesse vídeo.'),
     N('a04', 'abertura', comp('AU3Nave'),
-      'E teve gente reclamando do visual também. Então a nave foi redesenhada: objetos maiores, paredes com janela, terminais de tarefa que dá pra ver de longe, caixa, extintor, planta... [[m:mind-blown:right:2.2]] Tudo desenhado aqui, nada tirado do jogo original.'),
+      'E teve gente pedindo pra melhorar o visual de novo. Então a nave foi redesenhada: objetos maiores, parede alta com janela pro espaço, terminais de tarefa maiores, caixa, extintor, planta... [[m:mind-blown:right:2.2]] Tudo desenhado aqui, nada tirado do jogo original.'),
     N('a05', 'abertura', titulo('15 IAs · 6 empresas · 4 partidas', 'COLOQUEI 15 IAs PRA JOGAR AMONG US', 'agora com Palhaço, Juiz, Influencer, Gangster e Envenenador'),
       '[[s:impact-epic:0.6]] Quinze IAs. Três impostores. Um Palhaço. Uma temporada inteira com memória, onde o que acontece numa partida, elas lembram na próxima. Bora.'),
 
@@ -120,9 +120,9 @@ SCENES = [
     N('p103', 'p1', jogo(1, 'Vermelho', evento={'tipo': 'recrutamento', 'alvo': 'Branco'}, antes=6),
       'E fica melhor. Tique nove, em Escudos. O Vermelho, que é o Gangster, pensa: "o Branco acabou de fazer tarefa visual, é perfeito pra recrutar". [[s:transformar:0.6]] E recruta o Branco. [[p]] O Médico que deu escudo no impostor... agora é impostor. No chat ele avisa: "agora somos quatro, cuidado pra não matar ele". [[m:shocked-krabs:right:2.5]]'),
     N('p104', 'p1', jogo(1, 'Vermelho', evento=morte('Rosa'), antes=5),
-      'E no tique seguinte o Vermelho mata a Rosa, um GLM que era a Segurança. [[s:death:0.6]] Só que tinha um detalhe. O próprio Vermelho pensou: "o Lima está me vendo aqui com o corpo". [[m:sweating:right:2.5]] E o Lima é o Detetive.', pad=0.8),
+      'E no tique seguinte o Vermelho mata a Rosa, um GLM que era a Segurança. [[s:death:0.6]] Só que tinha um detalhe. No tique seguinte, o próprio Vermelho pensou: "o Lima está me vendo aqui com o corpo da Rosa". [[m:sweating:right:2.5]] E o Lima é o Detetive.', pad=0.8),
     N('p105', 'p1', jogo(1, 'Marrom', tique=10),
-      'Enquanto isso, no chat dos impostores, uma coisa bizarra. O Amarelo manda: "envenenei a Coral no O2". E o Marrom: "matei o Preto em Armas e escondi o corpo". [[s:boing:0.5]] Nada disso aconteceu. A Coral e o Preto tão vivos. [[m:visible-confusion:right:2.5]] Os impostores mentindo... pros próprios parceiros.'),
+      'Enquanto isso, no chat dos impostores, uma coisa bizarra. O Amarelo manda: "Envenenei Coral em O2". E o Marrom: "Matei o Preto em Armas e escondi o corpo". [[s:boing:0.5]] Os dois tentaram, mas a jogada nem chegou a acontecer. A Coral e o Preto tão vivíssimos. [[m:visible-confusion:right:2.5]] E mesmo assim eles contaram vantagem pros próprios parceiros.'),
     N('p106', 'p1', chamado(1, 0), 'O Bordô acha o corpo da Rosa.', pad=1.0),
     CH('p107', 'p1', reuniao(1, 0), [
         ('N', 'Primeira reunião. E quem abre é o Palhaço, que quer chamar atenção.'),
@@ -152,7 +152,7 @@ SCENES = [
         ('N', 'E o Preto pensa: "já estão quase todos votando em mim, e isso é exatamente o que eu quero". [[m:roll-safe:right:2.5]] E faz cara de coitado...'),
         *F(1, 1, 4, 5),
     ]),
-    N('p112v', 'p1', votos(1, 1), 'Oito votos no Preto. Até o Marrom e o Amarelo, impostores, embarcaram.', pad=1.8),
+    N('p112v', 'p1', votos(1, 1), 'Sete votos no Preto. Até o Marrom e o Amarelo, impostores, embarcaram.', pad=1.8),
     N('p113', 'p1', ejecao(1, 1),
-      '[[s:crowd-laugh:0.5]] Expulsaram o Palhaço. Ele ganhou, e a partida acabou ali mesmo. [[m:dicaprio-toast:right:3]] Ninguém naquela mesa sabia que o morto era o Xerife que errou o próprio tiro. E a foto do Influencer, criada pra pegar impostor... ajudou o Palhaço a ganhar.', pad=1.2),
+      '[[s:crowd-laugh:0.5]] Expulsaram o Palhaço. Ele ganhou, e a partida acabou ali mesmo. [[m:dicaprio-toast:right:3]] Ninguém naquela mesa sabia que o morto era o Xerife que errou o próprio tiro. E a foto do Influencer, que era pra ajudar a tripulação... ajudou o Palhaço a ganhar.', pad=1.2),
 ]
