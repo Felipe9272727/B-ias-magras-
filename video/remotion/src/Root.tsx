@@ -5,6 +5,7 @@ import {Thumb2} from './amongus/Thumb2';
 import {Thumb3} from './ilha/Thumb3';
 import {DadosShort3, ShortDS4} from './ilha/ShortDS4';
 import {AU2Tela, AU2Teste, calcTela, calcTeste, PropsTela, PropsTeste} from './amongus2/Teste';
+import * as T3 from './amongus3/Teste';
 import {AU2AberturaPrevia} from './amongus2/AberturaPrevia';
 import {AU2Papeis} from './amongus2/Papeis';
 import {AU2Sorteio} from './amongus2/Sorteio';
@@ -146,6 +147,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortOC" component={ShortOC} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortOC} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
+      <Composition id="AU3Teste" component={T3.AU3Teste} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, de: 200, foco: 'Vermelho', partida: 1} as T3.PropsTeste} calculateMetadata={T3.calcTeste} />
+      <Composition id="AU3Tela" component={T3.AU3Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 1, tela: 'votacao'} as T3.PropsTela} calculateMetadata={T3.calcTela} />
       <Composition id="AU2Tela" component={AU2Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 2, tela: 'shhh'} as PropsTela} calculateMetadata={calcTela} />
       <Composition id="AU2Papeis" component={AU2Papeis} width={1920} height={1080} fps={30} durationInFrames={330} />
       <Composition id="AU2Sorteio" component={AU2Sorteio} width={1920} height={1080} fps={30} durationInFrames={330} />

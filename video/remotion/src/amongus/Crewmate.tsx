@@ -14,6 +14,9 @@ export const COR: Record<string, {body: string; shade: string}> = {
   Marrom: {body: '#71491e', shade: '#5e2615'},
   Ciano: {body: '#38fedc', shade: '#24a8be'},
   Lima: {body: '#50ef39', shade: '#15a742'},
+  Cinza: {body: '#7d8a99', shade: '#4b5468'},
+  Coral: {body: '#ec7a7a', shade: '#c04b62'},
+  Bordo: {body: '#7a2638', shade: '#4a1220'},
 };
 
 export type AnimCrewmate = 'parado' | 'andando' | 'tarefa' | 'susto';
