@@ -5,13 +5,14 @@
 import React, {useMemo} from 'react';
 import {NAVE} from './mapa';
 import {SALAS_ORDEM, TILE, type Prop, type Sala} from './spec';
+import {DecorParedes, Entulho, FACE_V3, Props3, consoleTarefa3} from './Props3';
 
 const COLS = NAVE.cols;
 const ROWS = NAVE.rows;
 const W = COLS * TILE;
 const H = ROWS * TILE;
 
-const FACE = 30; // altura visível da face frontal da parede (px), que cai sobre o piso de baixo
+const FACE_BASE = 30; // altura visível da face frontal da parede (px), que cai sobre o piso de baixo
 const CONTORNO = 7; // espessura do contorno escuro da casca (px)
 const CONTORNO_COR = '#0b0d14';
 const PAREDE_PADRAO = '#7a8594'; // face frontal quando o piso de baixo é corredor
@@ -142,7 +143,9 @@ function Definicoes(): React.ReactNode {
 }
 
 // Monta o desenho estático inteiro (chamado uma vez)
-function montarCena(): React.ReactNode {
+function montarCena(v3 = false): React.ReactNode {
+  // no Among Us 3 a parede de cima fica mais alta (perspectiva do jogo) e ganha decoração
+  const FACE = v3 ? FACE_V3 : FACE_BASE;
   const salas = NAVE.salas;
   let contorno = '';
   const pisoSala = new Map<Sala, string>();
@@ -230,10 +233,10 @@ function montarCena(): React.ReactNode {
   });
 
   // Props de todas as salas
-  const props = SALAS_ORDEM.flatMap((s) => salas[s].props.map((p, i) => propSvg(p, `${s}-${i}`)));
+  const props = v3 ? <Props3 /> : SALAS_ORDEM.flatMap((s) => salas[s].props.map((p, i) => propSvg(p, `${s}-${i}`)));
 
   // Consoles de tarefa (contorno amarelo) e dutos
-  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p, i) => consoleTarefa(p.x, p.y, `${s}-c${i}`)));
+  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p, i) => (v3 ? consoleTarefa3 : consoleTarefa)(p.x, p.y, `${s}-c${i}`)));
   const dutos = SALAS_ORDEM.flatMap((s) => {
     const d = salas[s].duto;
     return d ? [duto(d.x, d.y, `${s}-d`)] : [];
@@ -262,7 +265,9 @@ function montarCena(): React.ReactNode {
       <path d={bordaFace} fill={CONTORNO_COR} opacity={0.7} />
       {topos.entradas().map(([cor, d]) => <path key={`t-${cor}`} d={d} fill={cor} />)}
       <path d={brilhoTopo} fill="#fff" opacity={0.14} />
+      {v3 && <DecorParedes />}
       {rotulos}
+      {v3 && <Entulho />}
       {props}
       {consoles}
       {dutos}
@@ -271,8 +276,8 @@ function montarCena(): React.ReactNode {
 }
 
 // Componente memorizado: o desenho é montado uma vez e não refaz trabalho a cada quadro
-const Estatico = React.memo(function Estatico() {
-  const cena = useMemo(() => montarCena(), []);
+const Estatico = React.memo(function Estatico({v3}: {v3: boolean}) {
+  const cena = useMemo(() => montarCena(v3), [v3]);
   return <>{cena}</>;
 });
 
@@ -703,14 +708,14 @@ function duto(x: number, y: number, chave: string) {
 }
 
 // Nave completa: estática (memorizada) + alerta de reator por cima
-export const Arte: React.FC<{alertaReator?: number}> = ({alertaReator = 0}) => (
+export const Arte: React.FC<{alertaReator?: number; v3?: boolean}> = ({alertaReator = 0, v3 = false}) => (
   <svg
     width={W}
     height={H}
     viewBox={`0 0 ${W} ${H}`}
     style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}
   >
-    <Estatico />
+    <Estatico v3={v3} />
     {alertaReator > 0 && (
       <rect x={0} y={0} width={W} height={H} fill="#ff1e1e" opacity={Math.min(1, alertaReator)} />
     )}

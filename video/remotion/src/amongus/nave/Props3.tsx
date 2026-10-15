@@ -6,7 +6,7 @@
 // As posições ficam em casas relativas à sala e foram conferidas contra os lugares onde os jogadores param
 // (scripts/au3/checar_props.ts).
 import React from 'react';
-import {NAVE} from './mapa';
+import {NAVE, caminho} from './mapa';
 import {SALAS_ORDEM, TILE, type Sala} from './spec';
 
 export type P3 = {tipo: string; x: number; y: number; w: number; h: number; rot?: number; v?: number};
@@ -14,45 +14,45 @@ export type P3 = {tipo: string; x: number; y: number; w: number; h: number; rot?
 // x, y, w, h em casas, relativos ao canto da sala
 export const LAYOUT3: Record<Sala, P3[]> = {
   Refeitorio: [
-    {tipo: 'mesaBotao', x: 14.5, y: 9, w: 3.4, h: 3.4},
-    {tipo: 'mesaRedonda', x: 6, y: 4.5, w: 3.8, h: 3.8},
-    {tipo: 'mesaRedonda', x: 22.5, y: 4.5, w: 3.8, h: 3.8},
-    {tipo: 'mesaRedonda', x: 6, y: 13, w: 3.8, h: 3.8},
-    {tipo: 'mesaRedonda', x: 22.5, y: 13, w: 3.8, h: 3.8},
+    {tipo: 'mesaBotao', x: 13.4, y: 9, w: 3.8, h: 3.8},
+    {tipo: 'mesaRedonda', x: 6, y: 4.6, w: 4.6, h: 4.6},
+    {tipo: 'mesaRedonda', x: 22.5, y: 4.6, w: 4.6, h: 4.6},
+    {tipo: 'mesaRedonda', x: 5.4, y: 13, w: 4.4, h: 4.4},
+    {tipo: 'mesaRedonda', x: 22.5, y: 12.6, w: 4.6, h: 4.6},
     {tipo: 'balcao', x: 17.5, y: 0.9, w: 6, h: 1.4},
   ],
   MotorSuperior: [{tipo: 'motorGrande', x: 11.4, y: 2.6, w: 6, h: 3.2}, {tipo: 'canos', x: 11.4, y: 0.5, w: 6, h: 0.7}],
-  MotorInferior: [{tipo: 'motorGrande', x: 9.6, y: 4.4, w: 6, h: 3.2}, {tipo: 'canos', x: 1.0, y: 6.8, w: 0.7, h: 5}],
-  Reator: [{tipo: 'reatorNucleo', x: 5.2, y: 6.6, w: 4.2, h: 5.2}, {tipo: 'canos', x: 1.0, y: 6.6, w: 0.7, h: 6}, {tipo: 'canos', x: 9.9, y: 2.6, w: 0.7, h: 3.2}],
-  Seguranca: [{tipo: 'monitores', x: 2.4, y: 5.2, w: 2.6, h: 3.2}, {tipo: 'rack', x: 7.6, y: 7.6, w: 1.6, h: 2.2}],
+  MotorInferior: [{tipo: 'motorGrande', x: 9.8, y: 4.0, w: 5.0, h: 2.8}, {tipo: 'canos', x: 1.0, y: 6.8, w: 0.7, h: 5}],
+  Reator: [{tipo: 'reatorNucleo', x: 5.2, y: 6.6, w: 4.2, h: 5.2}, {tipo: 'canos', x: 1.0, y: 6.6, w: 0.7, h: 6}, {tipo: 'canos', x: 9.9, y: 3.2, w: 0.7, h: 2.0}],
+  Seguranca: [{tipo: 'monitores', x: 7.2, y: 7.4, w: 2.4, h: 2.0}, {tipo: 'rack', x: 1.8, y: 5.6, w: 1.4, h: 1.8}],
   Enfermaria: [
-    {tipo: 'scannerMed', x: 8.4, y: 6.6, w: 2.8, h: 2.8},
-    {tipo: 'camaMed', x: 2.2, y: 7.6, w: 2.8, h: 1.3},
-    {tipo: 'camaMed', x: 8.2, y: 2.4, w: 2.8, h: 1.3},
-    {tipo: 'amostras', x: 11.6, y: 7.4, w: 1.6, h: 1.6},
+    {tipo: 'scannerMed', x: 8.2, y: 6.8, w: 2.8, h: 2.8},
+    {tipo: 'camaMed', x: 2.0, y: 7.6, w: 2.8, h: 1.3},
+    {tipo: 'camaMed', x: 7.9, y: 2.4, w: 2.6, h: 1.3},
+    {tipo: 'amostras', x: 11.2, y: 7.6, w: 1.6, h: 1.6},
   ],
   Eletrica: [
     {tipo: 'painelEletrico', x: 8.6, y: 0.9, w: 3.6, h: 1.5},
     {tipo: 'distribuidor', x: 1.4, y: 6.4, w: 2.0, h: 3.2},
-    {tipo: 'cabos', x: 8.4, y: 8.3, w: 6, h: 1.6},
+    {tipo: 'cabos', x: 8.0, y: 8.0, w: 3.6, h: 1.4},
   ],
-  Admin: [{tipo: 'mesaAdmin', x: 6.4, y: 4.3, w: 4.2, h: 2.6}, {tipo: 'leitorCartao', x: 9.6, y: 8.8, w: 1.4, h: 1.0}],
+  Admin: [{tipo: 'mesaAdmin', x: 6.2, y: 4.3, w: 4.2, h: 2.6}, {tipo: 'leitorCartao', x: 9.6, y: 8.8, w: 1.4, h: 1.0}],
   Armas: [
     {tipo: 'cadeiraArmas', x: 13.8, y: 2.6, w: 3.8, h: 3.4},
-    {tipo: 'jardineira', x: 4.4, y: 1.0, w: 3.0, h: 1.1},
-    {tipo: 'canos', x: 13.2, y: 7.6, w: 6, h: 0.7},
+    {tipo: 'jardineira', x: 5.6, y: 1.0, w: 3.0, h: 1.1},
+    {tipo: 'canos', x: 11.6, y: 7.6, w: 4, h: 0.7},
   ],
   O2: [
     {tipo: 'jardineira', x: 2.6, y: 3.8, w: 3.4, h: 1.2},
     {tipo: 'jardineira', x: 2.6, y: 6.6, w: 3.4, h: 1.2},
-    {tipo: 'tanquesO2', x: 9.2, y: 6.1, w: 2.4, h: 2.0},
+    {tipo: 'tanquesO2', x: 8.9, y: 6.1, w: 2.4, h: 2.0},
     {tipo: 'filtroO2', x: 4.6, y: 1.0, w: 2.4, h: 1.2},
   ],
   Navegacao: [
-    {tipo: 'janelaNav', x: 8.2, y: 4.4, w: 3.8, h: 4.2},
+    {tipo: 'janelaNav', x: 8.2, y: 4.8, w: 3.8, h: 4.2},
     {tipo: 'painelNav', x: 3.6, y: 10.2, w: 3.2, h: 1.6},
   ],
-  Escudos: [{tipo: 'hexEscudos', x: 7.1, y: 3.6, w: 4.2, h: 3.6}, {tipo: 'gerador', x: 4.0, y: 8.6, w: 2.0, h: 2.0}, {tipo: 'gerador', x: 10.2, y: 8.0, w: 2.0, h: 2.0}],
+  Escudos: [{tipo: 'hexEscudos', x: 7.6, y: 4.2, w: 4.2, h: 3.6}, {tipo: 'gerador', x: 4.0, y: 8.6, w: 2.0, h: 2.0}, {tipo: 'gerador', x: 10.2, y: 8.0, w: 2.0, h: 2.0}],
   Comunicacoes: [{tipo: 'radar', x: 4.2, y: 6.0, w: 2.8, h: 2.8}, {tipo: 'mesaComms', x: 10.8, y: 6.1, w: 3.0, h: 1.6}],
   Deposito: [
     {tipo: 'pilhaCaixas', x: 4.4, y: 4.2, w: 3.0, h: 3.0},
@@ -503,3 +503,202 @@ export function consoleTarefa3(x: number, y: number, chave: string) {
     </g>
   );
 }
+
+// ---------------------------------------------------------------- parede alta e objetos pequenos (Among Us 3)
+export const FACE_V3 = 56;
+const celula = (c: number, r: number) => (c < 0 || r < 0 || r >= NAVE.rows ? ' ' : NAVE.grid[r].charAt(c) || ' ');
+const hash = (a: number, b: number) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x); };
+type Pt = {x: number; y: number};
+const distRet = (p: Pt, cx: number, cy: number, w: number, h: number) =>
+  Math.hypot(Math.max(Math.abs(p.x - cx) - w / 2, 0), Math.max(Math.abs(p.y - cy) - h / 2, 0));
+const distSeg = (p: Pt, a: Pt, b: Pt) => {
+  const vx = b.x - a.x, vy = b.y - a.y, L = vx * vx + vy * vy || 1;
+  const t = Math.max(0, Math.min(1, ((p.x - a.x) * vx + (p.y - a.y) * vy) / L));
+  return Math.hypot(p.x - a.x - t * vx, p.y - a.y - t * vy);
+};
+
+// Decoração da face da parede de cima de cada sala: janelas para o espaço (parede do casco), painéis com luzes,
+// grades de ventilação, faixas de aviso e canos. Pula a coluna do console de tarefa e do duto.
+export function decorParedes() {
+  const out: {tipo: string; x: number; y: number; w: number}[] = [];
+  for (const s of SALAS_ORDEM) {
+    const d = NAVE.salas[s], {c, r, w} = d.rect;
+    const ocupado = [...d.consoles, ...(d.duto ? [d.duto] : [])].filter((q) => q.y < (r + 1.6) * TILE).map((q) => q.x / TILE);
+    // objetos grandes encostados na parede de cima (topo a menos de 2 casas dela) também tapam a face
+    const encostados = LAYOUT3[s].filter((p) => p.y - p.h / 2 < 2).map((p) => [c + p.x - p.w / 2, c + p.x + p.w / 2]);
+    const livre = (c0: number, c1: number) => {
+      for (let cc = c0; cc <= c1; cc++) if (celula(cc, r - 1) !== '#' || celula(cc, r) === 'D') return false;
+      if (encostados.some(([x0, x1]) => x0 < c1 + 1.3 && x1 > c0 - 0.3)) return false;
+      return ocupado.every((ox) => ox < c0 - 0.6 || ox > c1 + 1.6);
+    };
+    let i = 0;
+    for (let cc = c + 1; cc < c + w - 1;) {
+      const casco = celula(cc, r - 2) === ' ' && celula(cc + 1, r - 2) === ' ';
+      const tipo = casco && i % 3 !== 2 ? 'janela' : ['painelLuzes', 'grade', 'aviso', 'canoV', 'painelLuzes'][Math.floor(hash(cc, r) * 5)];
+      const largura = tipo === 'janela' ? 2 : tipo === 'canoV' ? 1 : 2;
+      if (cc + largura <= c + w - 1 && livre(cc, cc + largura - 1) && (i++ % 2 === 0 || casco)) {
+        out.push({tipo, x: cc * TILE, y: r * TILE, w: largura * TILE});
+        cc += largura + 1;
+      } else cc += 1;
+    }
+  }
+  return out;
+}
+
+function decorSvg(tipo: string, w: number) {
+  const h = FACE_V3 - 10;
+  switch (tipo) {
+    case 'janela':
+      return (
+        <>
+          <rect x={6} y={6} width={w - 12} height={h - 4} rx={8} fill="#05070f" stroke="#1a2130" strokeWidth={4} />
+          {[0.2, 0.55, 0.8, 0.35, 0.7].map((f, k) => <circle key={k} cx={10 + f * (w - 20)} cy={12 + ((k * 37) % 26)} r={k % 2 ? 1.6 : 1.1} fill="#fff" opacity={0.85} />)}
+          <path d={`M${10} ${h} L${w * 0.45} ${10}`} stroke="#9fd4ff" strokeWidth={3} opacity={0.18} />
+        </>
+      );
+    case 'painelLuzes':
+      return (
+        <>
+          <rect x={8} y={6} width={w - 16} height={h - 6} rx={4} fill="#3a4554" stroke="#141a22" strokeWidth={2.5} />
+          <rect x={14} y={11} width={w * 0.45} height={h * 0.4} rx={2} fill="url(#ar-tela)" />
+          {[0, 1, 2].map((k) => <circle key={k} cx={w * 0.66 + k * 9} cy={16} r={3} fill={['#5dff8a', '#ffd84d', '#ff5d5d'][k]} />)}
+          <rect x={14} y={h - 10} width={w - 28} height={4} rx={2} fill="#141a22" />
+        </>
+      );
+    case 'grade':
+      return (
+        <>
+          <rect x={10} y={8} width={w - 20} height={h - 10} rx={4} fill="#262d37" stroke="#141a22" strokeWidth={2.5} />
+          {[0, 1, 2, 3].map((k) => <rect key={k} x={16} y={13 + k * 7.5} width={w - 32} height={3.5} rx={1.5} fill="#0e1218" />)}
+        </>
+      );
+    case 'aviso':
+      return (
+        <>
+          <rect x={6} y={h - 12} width={w - 12} height={10} fill="#e8b23a" />
+          {Array.from({length: Math.floor((w - 12) / 14)}, (_, k) => <path key={k} d={`M${10 + k * 14} ${h - 2} l8 -10 h6 l-8 10 z`} fill="#1a1a1a" />)}
+          <rect x={w / 2 - 14} y={6} width={28} height={22} rx={3} fill="#e8b23a" stroke="#1a1a1a" strokeWidth={2} />
+          <path d={`M${w / 2} 10 l8 14 h-16 z`} fill="none" stroke="#1a1a1a" strokeWidth={2.5} />
+        </>
+      );
+    default: // canoV
+      return (
+        <>
+          <rect x={w / 2 - 8} y={-4} width={16} height={h + 8} fill="#8b95a3" stroke="#141a22" strokeWidth={2.5} />
+          <rect x={w / 2 - 11} y={h * 0.35} width={22} height={7} rx={2} fill="#5d6673" stroke="#141a22" strokeWidth={2} />
+          <rect x={w / 2 - 4} y={-4} width={3} height={h + 8} fill="#fff" opacity={0.25} />
+        </>
+      );
+  }
+}
+
+export const DecorParedes: React.FC = React.memo(() => (
+  <>{decorParedes().map((d, i) => <g key={i} transform={`translate(${d.x} ${d.y})`}>{decorSvg(d.tipo, d.w)}</g>)}</>
+));
+
+// Objetos pequenos encostados nas paredes (caixas, lixeiras, extintores, armários, vasos): só onde não atrapalham
+// os lugares de parada, os consoles, o duto, as portas, os objetos grandes nem o caminho das portas até os pontos.
+const ENTULHO_SALA: Partial<Record<Sala, string[]>> = {
+  Refeitorio: ['lixeira', 'vaso', 'lixeira', 'caixaP'], Enfermaria: ['armario', 'vaso', 'lixeira'],
+  Eletrica: ['caixaP', 'extintor', 'armario', 'caixaP'], Deposito: ['caixaP', 'caixaP', 'barril', 'caixaP'],
+  MotorSuperior: ['caixaP', 'extintor', 'barril'], MotorInferior: ['caixaP', 'extintor', 'barril'], Reator: ['extintor', 'caixaP', 'barril'],
+  Seguranca: ['armario', 'lixeira'], Admin: ['vaso', 'arquivo', 'lixeira'], Armas: ['caixaP', 'armario', 'extintor'],
+  O2: ['vaso', 'extintor', 'vaso'], Navegacao: ['vaso', 'arquivo', 'extintor'], Escudos: ['caixaP', 'extintor', 'armario'],
+  Comunicacoes: ['arquivo', 'lixeira', 'caixaP'],
+};
+
+export function entulho() {
+  const out: {tipo: string; x: number; y: number; sala: Sala}[] = [];
+  const grandes = props3Absolutos();
+  for (const s of SALAS_ORDEM) {
+    const d = NAVE.salas[s], {c, r, w, h} = d.rect;
+    const portas: Pt[] = [];
+    for (let rr = r - 1; rr <= r + h; rr++) for (let cc = c - 1; cc <= c + w; cc++) if (celula(cc, rr) === 'D') portas.push({x: (cc + 0.5) * TILE, y: (rr + 0.5) * TILE});
+    const alvos = [...d.spots, ...d.consoles];
+    const rotas: [Pt, Pt][] = [];
+    for (const pt of portas) for (const a of alvos) {
+      const cam = [pt, ...caminho(pt, a)];
+      for (let k = 1; k < cam.length; k++) rotas.push([cam[k - 1], cam[k]]);
+    }
+    const cand: Pt[] = [];
+    for (let rr = r + 1; rr < r + h; rr++) for (let cc = c; cc < c + w; cc++) {
+      const encosta = celula(cc - 1, rr) === '#' || celula(cc + 1, rr) === '#' || celula(cc, rr + 1) === '#';
+      if (encosta && celula(cc, rr) === '.') cand.push({x: (cc + 0.5) * TILE, y: (rr + 0.5) * TILE});
+    }
+    cand.sort((a, b) => hash(a.x, a.y) - hash(b.x, b.y));
+    const tipos = ENTULHO_SALA[s] ?? ['caixaP'];
+    const max = Math.min(7, Math.round((w * h) / 26));
+    const meus: Pt[] = [];
+    const T = TILE;
+    for (const p of cand) {
+      if (meus.length >= max) break;
+      if (alvos.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < 1.25 * T)) continue;
+      if (d.duto && Math.hypot(d.duto.x - p.x, d.duto.y - p.y) < 1.4 * T) continue;
+      if (portas.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < 2.4 * T)) continue;
+      if (grandes.some((g) => g.sala === s && distRet(p, g.cx, g.cy, g.pw, g.ph) < 0.9 * T)) continue;
+      if (rotas.some(([a, b]) => distSeg(p, a, b) < 0.85 * T)) continue;
+      if (meus.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < 2.2 * T)) continue;
+      meus.push(p);
+      out.push({tipo: tipos[out.length % tipos.length], x: p.x, y: p.y, sala: s});
+    }
+  }
+  return out;
+}
+
+function entulhoSvg(tipo: string) {
+  const s = TILE * 1.05;
+  switch (tipo) {
+    case 'lixeira':
+      return (<>
+        <ellipse cx={4} cy={s * 0.42} rx={s * 0.32} ry={s * 0.12} fill="#000" opacity={0.3} />
+        <path d={`M${-s * 0.3} ${-s * 0.3} L${-s * 0.24} ${s * 0.4} H${s * 0.24} L${s * 0.3} ${-s * 0.3} Z`} fill="#6f7b8a" stroke={CONT} strokeWidth={3} />
+        <ellipse cx={0} cy={-s * 0.3} rx={s * 0.32} ry={s * 0.1} fill="#a7b1bd" stroke={CONT} strokeWidth={3} />
+        <path d={`M${-s * 0.1} ${-s * 0.15} V${s * 0.3} M${s * 0.1} ${-s * 0.15} V${s * 0.3}`} stroke="#4a5462" strokeWidth={3} />
+      </>);
+    case 'vaso':
+      return (<>
+        <ellipse cx={4} cy={s * 0.42} rx={s * 0.3} ry={s * 0.1} fill="#000" opacity={0.3} />
+        {[-0.5, -0.15, 0.2, 0.5].map((a, k) => <ellipse key={k} cx={Math.sin(a * 3) * s * 0.22} cy={-s * 0.2 - Math.cos(a) * s * 0.12} rx={s * 0.16} ry={s * 0.28} transform={`rotate(${a * 60} ${Math.sin(a * 3) * s * 0.22} ${-s * 0.2})`} fill={k % 2 ? '#3fae57' : '#2f8f45'} stroke={CONT} strokeWidth={2.5} />)}
+        <path d={`M${-s * 0.24} ${s * 0.05} L${-s * 0.18} ${s * 0.42} H${s * 0.18} L${s * 0.24} ${s * 0.05} Z`} fill="#c56a3d" stroke={CONT} strokeWidth={3} />
+      </>);
+    case 'extintor':
+      return (<>
+        <ellipse cx={4} cy={s * 0.42} rx={s * 0.2} ry={s * 0.08} fill="#000" opacity={0.3} />
+        <rect x={-s * 0.15} y={-s * 0.28} width={s * 0.3} height={s * 0.7} rx={s * 0.14} fill="#d9343a" stroke={CONT} strokeWidth={3} />
+        <rect x={-s * 0.07} y={-s * 0.42} width={s * 0.14} height={s * 0.16} fill="#30363f" stroke={CONT} strokeWidth={2} />
+        <path d={`M${s * 0.06} ${-s * 0.36} q${s * 0.2} 0 ${s * 0.18} ${s * 0.3}`} fill="none" stroke="#30363f" strokeWidth={3} />
+        <rect x={-s * 0.15} y={0} width={s * 0.3} height={s * 0.1} fill="#fff" opacity={0.75} />
+      </>);
+    case 'armario':
+      return (<>
+        <rect x={-s * 0.36 + 4} y={-s * 0.55 + 6} width={s * 0.72} height={s * 1.0} rx={4} fill="#000" opacity={0.3} />
+        <rect x={-s * 0.36} y={-s * 0.55} width={s * 0.72} height={s * 1.0} rx={4} fill="#7e8a99" stroke={CONT} strokeWidth={3} />
+        <path d={`M0 ${-s * 0.55} V${s * 0.45}`} stroke={CONT} strokeWidth={2.5} />
+        {[-1, 1].map((k) => <g key={k}>{[0, 1, 2].map((j) => <rect key={j} x={k * s * 0.18 - s * 0.1} y={-s * 0.45 + j * 6} width={s * 0.2} height={2.5} fill="#3d4652" />)}<rect x={k * s * 0.06 - 2} y={-s * 0.05} width={4} height={10} rx={2} fill="#d0d6dd" /></g>)}
+      </>);
+    case 'arquivo':
+      return (<>
+        <rect x={-s * 0.3 + 4} y={-s * 0.45 + 6} width={s * 0.6} height={s * 0.85} rx={3} fill="#000" opacity={0.3} />
+        <rect x={-s * 0.3} y={-s * 0.45} width={s * 0.6} height={s * 0.85} rx={3} fill="#9aa5b2" stroke={CONT} strokeWidth={3} />
+        {[0, 1, 2].map((j) => <g key={j}><rect x={-s * 0.24} y={-s * 0.4 + j * s * 0.27} width={s * 0.48} height={s * 0.22} rx={2} fill="#b8c1cc" stroke="#55606d" strokeWidth={1.5} /><rect x={-5} y={-s * 0.32 + j * s * 0.27} width={10} height={3} rx={1.5} fill="#30363f" /></g>)}
+      </>);
+    case 'barril':
+      return (<>
+        <ellipse cx={4} cy={s * 0.4} rx={s * 0.3} ry={s * 0.1} fill="#000" opacity={0.3} />
+        <rect x={-s * 0.28} y={-s * 0.32} width={s * 0.56} height={s * 0.7} rx={8} fill="#3e8ed0" stroke={CONT} strokeWidth={3} />
+        <ellipse cx={0} cy={-s * 0.32} rx={s * 0.28} ry={s * 0.11} fill="#c0c8d2" stroke={CONT} strokeWidth={3} />
+        <rect x={-s * 0.28} y={0} width={s * 0.56} height={5} fill="#000" opacity={0.3} />
+      </>);
+    default: // caixaP
+      return (<>
+        <rect x={-s * 0.38 + 4} y={-s * 0.38 + 6} width={s * 0.76} height={s * 0.76} rx={4} fill="#000" opacity={0.3} />
+        <rect x={-s * 0.38} y={-s * 0.38} width={s * 0.76} height={s * 0.76} rx={4} fill="#c99a5e" stroke="#3b2a1a" strokeWidth={3} />
+        <rect x={-s * 0.3} y={-s * 0.3} width={s * 0.6} height={s * 0.6} rx={2} fill="none" stroke="#6b4a26" strokeWidth={2} />
+        <path d={`M${-s * 0.3} ${-s * 0.3} L${s * 0.3} ${s * 0.3}`} stroke="#6b4a26" strokeWidth={3} />
+      </>);
+  }
+}
+
+export const Entulho: React.FC = React.memo(() => (
+  <>{entulho().map((e, i) => <g key={i} transform={`translate(${e.x} ${e.y})`}>{entulhoSvg(e.tipo)}</g>)}</>
+));
