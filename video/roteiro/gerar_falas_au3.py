@@ -12,6 +12,10 @@ MAX = 135
 ESCOLHA = {
     '1-0': [('Preto', 1), ('Amarelo', 1), ('Cinza', 1, 170), ('Vermelho', 1), ('Lima', 1), ('Marrom', 2, 150)],
     '1-1': [('Preto', 1), ('Bordo', 2), ('Coral', 2), ('Laranja', 2), ('Preto', 2)],
+    '2-0': [('Marrom', 1), ('Preto', 1), ('Verde', 1), ('Roxo', 1, 150), ('Marrom', 2, 150)],
+    '2-1': [('Roxo', 1), ('Preto', 1), ('Coral', 2), ('Rosa', 2, 150), ('Roxo', 2, 150)],
+    '2-2': [('Roxo', 1), ('Preto', 2, 150), ('Roxo', 2), ('Coral', 2, 150)],
+    '2-3': [('Rosa', 1, 150), ('Ciano', 1), ('Roxo', 1), ('Coral', 1), ('Roxo', 2)],
 }
 
 
