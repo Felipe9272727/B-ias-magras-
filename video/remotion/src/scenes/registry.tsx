@@ -14,6 +14,7 @@ import type {HL} from './hl';
 import {AmongUsVisual} from '../amongus/Registro';
 import {IlhaVisual} from '../ilha/Registro';
 import {OvercookedVisual} from '../overcooked/Registro';
+import {SessentaVisual} from '../sessenta/Registro';
 
 type Props = {scene: Scene; timeline: Timeline; highlights: HL};
 
@@ -59,6 +60,7 @@ export const SceneVisual: React.FC<Props> = ({scene, timeline, highlights}) => {
       if (v.name.startsWith('AU')) return <AmongUsVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('IL')) return <IlhaVisual name={v.name} props={p} timeline={timeline} />;
       if (v.name.startsWith('OC')) return <OvercookedVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
+      if (v.name.startsWith('S60')) return <SessentaVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       return null;
   }
 };
