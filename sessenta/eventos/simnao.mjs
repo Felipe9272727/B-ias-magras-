@@ -33,6 +33,8 @@ const LOUCO = 100 // "fica louco" = loucura no máximo; "alguém louco" = loucur
 const ids = (e) => vivos(e).map((p) => p.id)
 const presentes = (e) => noAbrigo(e).map((p) => p.id)
 const esta = (e, ...lista) => lista.every((id) => presentes(e).includes(id))
+// "todos" só se a família tem 2+ vivos; com uma pessoa só, o texto usa o nome dela ({n})
+const grupo = (e, plural, singular) => { const v = vivos(e); return v.length === 1 ? singular.replace('{n}', v[0].nome) : plural }
 const alguemFora = (e) => e.pessoas.some((p) => p.vivo && p.fora)
 const expedicoes = (e) => Object.entries(e.flags).filter(([k]) => k.startsWith('expedicao.saiu.'))
 const jaSaiu = (e, id) => (id ? e.flags[`expedicao.saiu.${id}`] !== undefined : expedicoes(e).length > 0)
@@ -154,7 +156,7 @@ export const EVENTOS = [
       if (esc === 'nao') return anotar(e, 'Ninguém encosta no fungo. Por enquanto.')
       return sorteia(
         rng,
-        () => anotar(e, 'O fungo tem gosto de cogumelo. Todos comem e se sentem alimentados.'), // fome zerada: sem função
+        () => anotar(e, grupo(e, 'O fungo tem gosto de cogumelo. Todos comem e se sentem alimentados.', 'O fungo tem gosto de cogumelo. {n} come e fica de barriga cheia.')), // fome zerada: sem função
         () => adoeceAlguns(e, rng, ids(e)),
       )
     },
@@ -474,7 +476,7 @@ export const EVENTOS = [
     resolver(e, esc) {
       if (esc === 'sim') {
         vivos(e).forEach((p) => cansar(e, p.id, 2))
-        return anotar(e, 'A conversa acalma os ânimos, mas todos ficam cansados.')
+        return anotar(e, grupo(e, 'A conversa acalma os ânimos, mas todos ficam cansados.', 'A conversa acalma os ânimos, mas o cansaço chega.'))
       }
       sanidadeDown(e, ids(e))
       return anotar(e, 'A tensão cresce no abrigo.')
@@ -587,7 +589,7 @@ export const EVENTOS = [
       return sorteia(
         rng,
         () => {
-          anotar(e, 'O silêncio e a presença dela deixam todos inquietos.')
+          anotar(e, grupo(e, 'O silêncio e a presença dela deixam todos inquietos.', 'O silêncio e a presença dela deixam o abrigo inquieto.'))
           sanidadeDown(e, presentes(e))
         },
         () => sair(e, 'filha', 'sumiu', 'De manhã a filha sumiu e a porta está destruída. Precisa de conserto.'),
@@ -1176,7 +1178,7 @@ export const EVENTOS = [
         return sorteia(
           rng,
           () => {
-            anotar(e, 'Não resolve. Todos ficam mais tensos.')
+            anotar(e, grupo(e, 'Não resolve. Todos ficam mais tensos.', 'Não resolve. O clima fica pesado.'))
             sanidadeDown(e, ids(e))
           },
           () => quebrarItem(e, 'radio', 'O rádio quebra de vez.'),

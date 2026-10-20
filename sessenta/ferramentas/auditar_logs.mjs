@@ -8,13 +8,14 @@
 //   erro_excecao          evento.erro presente (o módulo do evento lançou exceção)
 //   unico_repetido        evento marcado `unico` saiu mais de uma vez na mesma partida
 //   linha_duplicada       a mesma linha aparece duas vezes no diário do mesmo dia
-//   evento_sem_escolha    evento sorteado, mas nenhuma escolha foi resolvida (escolhida null)
+//   evento_sem_escolha    evento com escolhas disponíveis, mas nenhuma foi resolvida (escolhida null, não automático)
+//   nome_repetido         a mesma pessoa aparece duas vezes na mesma frase (ex.: "Osvaldo, Osvaldo")
 //   texto_vazio           evento sem texto (o motor cai no texto vazio se o módulo falhar)
 //   item_perdido_diario   o diário diz que um item se perdeu/quebrou/foi usado, mas a família não tinha
 //   item_no_texto         o texto do evento assume um item (perda/uso) que a família não tem
 //   item_na_escolha       uma escolha cita um item (perda/uso) que a família não tem
 //   pessoa_fora_texto     o texto do evento cita uma pessoa que não está no abrigo
-//   pessoa_fora_diario    o diário cita uma pessoa que não está no abrigo (pode ser legítimo: revise)
+//   pessoa_fora_diario    o diário cita uma pessoa VIVA que está fora do abrigo (expedição, fuga, perdida em casa)
 //   todos_sem_grupo       "todos/todas/os dois/ambos" com menos de 2 pessoas no abrigo
 import fs from 'node:fs'
 import path from 'node:path'
@@ -37,20 +38,21 @@ const ITEM_TERMOS = {
 const PESSOA_NOMES = {pai: 'Osvaldo', mae: 'Celeste', filha: 'Juju', filho: 'Tico'}
 
 // frases que indicam perda, quebra ou uso de algo
-const PERDA = /\bperd(e|em|eu|eram)\b|\bse perd|quebr|danific|gast|queim|rouba|sumi|consum|usad|usou|usam|\busa\b|acab|destr/iu
+const PERDA = /\bperd(e|em|eu|eram)\b|\bse perd|quebr|danific|gast|queim|rouba|sumi|consum|usad|usou|usam|\busa\b|acab/iu
 // frases que indicam que algo foi obtido (libera o item para o resto do mesmo diário)
 const GANHO = /ganh|encontr|acha|achad|recebe|trouxe|traz|pega|pegou|entreg|sobra|comprad|comprou|\bdá\b|\bdão\b/iu
 // negações que anulam a perda ("nada se perde")
 const NEGA_PERDA = /nada se perde|não (se )?perd|ninguém|nenhum|sem perd/iu
 const TODOS = /(?<![\p{L}])(todos|todas|ambos|os dois|as duas)(?![\p{L}])/iu
 // texto que fala da família (não de refugiados, escola etc.): só aí "todos" conta como a família toda
-const FAMILIA_AGE = /família|nós|todos (adoec|ficam|perd|sofr|cans|ferid|bebem|comem|sobem|caem|sent|ach|ca|ficam)/iu
+const FAMILIA_AGE = /família|nós|todos (adoec|ficam|perd|sofr|ferid|bebem|comem|sobem|caem|sent|ach)/iu
 // linhas de virada do dia (fome, sede, morte, loucura) são escritas depois que o `antes` foi capturado: não cobramos presença
 const VIRADA = /morr|resist|sede|fome|faminto|desidrat|fugi|sumi|expedi|volt|saiu|\bsai\b|lá fora|levad|partiu|desapar|enlouq|loucur|ferid|doent|adoec|sozinh|fatig|cans|tédio|cabeça/iu
 
 const achaTermo = (texto, termo) => new RegExp(`(?<![\\p{L}])${termo.replace(/ /g, '\\s+')}(?![\\p{L}])`, 'iu').test(texto)
 const itensCitados = (frase) => Object.keys(ITEM_TERMOS).filter((id) => ITEM_TERMOS[id].some((t) => achaTermo(frase, t)))
 const pessoasCitadas = (frase) => Object.keys(PESSOA_NOMES).filter((id) => achaTermo(frase, PESSOA_NOMES[id]))
+const contaNome = (frase, nome) => (frase.match(new RegExp(`(?<![\\p{L}])${nome}(?![\\p{L}])`, 'giu')) ?? []).length
 const frases = (texto) => String(texto ?? '').split(/(?<=[.!?])\s+|\n+/).map((f) => f.trim()).filter(Boolean)
 
 // ---------------------------------------------------------------- checagens
@@ -73,10 +75,8 @@ function auditar(log, arquivo) {
     if (ev) {
       if (ev.erro) add('erro_excecao', d.dia, ev.id, ev.erro)
       if (!ev.texto) add('texto_vazio', d.dia, ev.id, 'evento sem texto')
-      if (ev.escolhida === null || ev.escolhida === undefined) {
-        if (!(ev.escolhas ?? []).length) add('evento_sem_escolha', d.dia, ev.id, 'nenhuma escolha disponível')
-        else add('evento_sem_escolha', d.dia, ev.id, 'nenhuma escolha resolvida')
-      }
+      // automático (sem escolhas no catálogo) não tem escolha por definição; o resolver roda sem ela
+      if ((ev.escolhida === null || ev.escolhida === undefined) && (ev.escolhas ?? []).length) add('evento_sem_escolha', d.dia, ev.id, 'nenhuma escolha resolvida')
       if (ev.unico || unicos.has(ev.id)) contUnico[ev.id] = (contUnico[ev.id] ?? 0) + 1
 
       // premissa do texto: perda/uso de item que a família não tem
@@ -112,7 +112,9 @@ function auditar(log, arquivo) {
           }
         }
         if (GANHO.test(f)) for (const id of itensCitados(f)) ganhou.add(id)
-        if (!VIRADA.test(f)) for (const id of pessoasCitadas(f)) if (!dentro(id)) add('pessoa_fora_diario', d.dia, ev?.id ?? null, `"${f}" (${id} não está no abrigo)`)
+        // quem morreu nesta virada aparece nas linhas de fome/sede: isso não é inconsistência, só quem está vivo e fora
+        if (!VIRADA.test(f)) for (const id of pessoasCitadas(f)) if (!dentro(id) && pessoas.find((p) => p.id === id)?.vivo) add('pessoa_fora_diario', d.dia, ev?.id ?? null, `"${f}" (${id} vivo, mas fora do abrigo)`)
+        for (const id of pessoasCitadas(f)) if (contaNome(f, PESSOA_NOMES[id]) > 1) add('nome_repetido', d.dia, ev?.id ?? null, `"${f}"`)
         if (TODOS.test(f) && vivos < 2) add('todos_sem_grupo', d.dia, ev?.id ?? null, `"${f}" (${vivos} vivo(s))`, 'diario')
       }
     }

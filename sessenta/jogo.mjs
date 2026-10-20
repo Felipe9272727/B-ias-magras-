@@ -184,6 +184,9 @@ export async function jogar({semente, ia, maxDias = 60, logar = console.log}) {
       e.eventosVistos[ev.id] = (e.eventosVistos[ev.id] ?? 0) + 1
       if (escolhida) {
         try { ev.resolver(e, escolhida.id, rng) } catch (err) { dia.evento.erro = String(err?.message ?? err) }
+      } else if (!seguro(() => ev.escolhas(e), [null]).length) {
+        // evento automático (escolhas: () => []): o resolver roda sem escolha, senão o efeito nunca acontece
+        try { ev.resolver(e, null, rng) } catch (err) { dia.evento.erro = String(err?.message ?? err) }
       }
       sincronizar(e)
     }

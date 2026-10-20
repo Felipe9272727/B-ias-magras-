@@ -280,11 +280,12 @@ export function aplicarRacao(e, escolha = {}) {
   const op = opcoesRacao(e)
   const comeram = []
   const beberam = []
-  const faltou = []
+  const faltouSopa = []
+  const faltouAgua = []
   for (const id of new Set(escolha.sopa ?? [])) {
     const p = pessoa(e, id)
     if (!op.sopa.includes(id)) continue
-    if (!gastarPorcao(e, 'sopa')) { faltou.push(id); continue }
+    if (!gastarPorcao(e, 'sopa')) { faltouSopa.push(id); continue }
     comeram.push(id)
     const diasSemComer = p.semComer
     p.semComer = p.semComer >= FOME_FAMINTO ? FOME_APOS_FAMINTO : 0
@@ -294,15 +295,16 @@ export function aplicarRacao(e, escolha = {}) {
   for (const id of new Set(escolha.agua ?? [])) {
     const p = pessoa(e, id)
     if (!op.agua.includes(id)) continue
-    if (!gastarPorcao(e, 'agua')) { faltou.push(id); continue }
+    if (!gastarPorcao(e, 'agua')) { faltouAgua.push(id); continue }
     beberam.push(id)
     p.semBeber = 0 // uma água zera a sede, mesmo para quem está desidratado [W]
   }
   const nomes = (ids) => ids.map((id) => pessoa(e, id).nome).join(', ')
   anotar(e, comeram.length ? `Sopa para ${nomes(comeram)}.` : 'Hoje ninguém comeu. Fingimos que não estamos com fome.')
   anotar(e, beberam.length ? `Água para ${nomes(beberam)}.` : 'Hoje ninguém bebeu.')
-  if (faltou.length) anotar(e, `Faltou para ${nomes(faltou)}. O estoque acabou.`)
-  return {ok: true, sopa: comeram, agua: beberam, faltou}
+  if (faltouSopa.length) anotar(e, `Faltou sopa para ${nomes(faltouSopa)}. O estoque acabou.`)
+  if (faltouAgua.length) anotar(e, `Faltou água para ${nomes(faltouAgua)}. O estoque acabou.`)
+  return {ok: true, sopa: comeram, agua: beberam, faltou: [...new Set([...faltouSopa, ...faltouAgua])]}
 }
 
 // ---------------------------------------------------------------- expedições

@@ -30,6 +30,8 @@ const LOUCO = 100
 const ids = (e) => vivos(e).map((p) => p.id)
 const presentes = (e) => noAbrigo(e).map((p) => p.id)
 const esta = (e, ...lista) => lista.every((id) => presentes(e).includes(id))
+// "todos" só se a família tem 2+ vivos; com uma pessoa só, o texto usa o nome dela ({n})
+const grupo = (e, plural, singular) => { const v = vivos(e); return v.length === 1 ? singular.replace('{n}', v[0].nome) : plural }
 const alguemFora = (e) => e.pessoas.some((p) => p.vivo && p.fora)
 const expedicoes = (e) => Object.keys(e.flags).filter((k) => k.startsWith('expedicao.saiu.'))
 const jaSaiu = (e) => expedicoes(e).length > 0
@@ -105,7 +107,7 @@ export const EVENTOS = [
   // ================================================================ ESCOLHER ALGUÉM
   {
     id: 'fazenda_formigas', grupo: 'abrigo',
-    quando: (e) => presentes(e).length > 0,
+    quando: (e) => esta(e, 'filho'), // o bolso é do filho: ele precisa estar no abrigo
     peso: () => 1,
     texto: (e) => `Do bolso do ${nome(e, 'filho')} saem formigas mutantes. A mãe quer esmagar todas; ele quer uma fazenda. Quem decide?`,
     escolhas: escolherPessoa,
@@ -188,7 +190,7 @@ export const EVENTOS = [
     escolhas: escolherPessoa,
     resolver(e, esc, rng = e.rng.eventos) {
       if (esc === 'pai') {
-        anotar(e, 'O pai toca e todos se acalmam.')
+        anotar(e, grupo(e, 'O pai toca e todos se acalmam.', 'O pai toca e {n} se acalma.'))
         return sanidadeUp(e, ids(e))
       }
       if (esc === 'mae') {
@@ -204,7 +206,7 @@ export const EVENTOS = [
         return sanidadeDown(e, ['filho'])
       }
       if (esc === 'ninguem') {
-        anotar(e, 'Ninguém se sente pronto. O desconforto é de todos.')
+        anotar(e, grupo(e, 'Ninguém se sente pronto. O desconforto é de todos.', 'Ninguém se sente pronto. O desconforto é de {n}.'))
         return sanidadeDown(e, ids(e))
       }
       return neutro(e, esc)
@@ -277,7 +279,7 @@ export const EVENTOS = [
   },
   {
     id: 'furto_lata', grupo: 'abrigo',
-    quando: () => true,
+    quando: (e) => (e.itens.sopa ?? 0) >= 1, // só some uma lata se a família tiver alguma
     peso: () => 1,
     texto: () => 'Na contagem diária, uma lata de sopa sumiu. Quem pegou?',
     escolhas: escolherPessoa,
@@ -503,7 +505,7 @@ export const EVENTOS = [
         rng,
         () => {
           // sede e cansaço zerados para todos: sem função em estado.mjs
-          anotar(e, 'Volta com café frio. Todos bebem e ficam mais animados.')
+          anotar(e, grupo(e, 'Volta com café frio. Todos bebem e ficam mais animados.', 'Volta com café frio. {n} bebe e se anima.'))
           sanidadeUp(e, ids(e))
         },
         () => anotar(e, 'Volta de mãos vazias. O restaurante virou um buraco.'),
@@ -527,7 +529,7 @@ export const EVENTOS = [
         },
         () => {
           // "alimenta todos" (fome zerada) sem função em estado.mjs; a munição gasta fica no texto
-          anotar(e, 'Abatem uma criatura que tem gosto de sopa. Todos comem. Gastam munição.')
+          anotar(e, grupo(e, 'Abatem uma criatura que tem gosto de sopa. Todos comem. Gastam munição.', 'Abatem uma criatura que tem gosto de sopa. {n} come. Gastam munição.'))
           tirarItem(e, 'municao', 1, 'Gastam munição.')
         },
         () => anotar(e, 'Erram todos os tiros.'),

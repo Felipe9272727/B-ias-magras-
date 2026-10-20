@@ -39,6 +39,8 @@ const CURTO = {sopa: 'Sopa', agua: 'Água', radio: 'Rádio', mapa: 'Mapa', masca
 
 // escolhe a variante de texto pelo dia (determinístico, sem sortear)
 const variante = (e, lista) => lista[e.dia % lista.length]
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1)
+const juntar = (l) => (l.length <= 1 ? (l[0] ?? '') : `${l.slice(0, -1).join(', ')} e ${l[l.length - 1]}`)
 const PONTOS = 10 // pontos de loucura por efeito (a fonte não dá números)
 const MUNICAO = 'itens.municao'
 const FOTO = 'itens.foto_familia'
@@ -52,11 +54,13 @@ const contar = (e, k) => e.flags[k] ?? 0
 const bump = (e, k) => { const antes = contar(e, k); e.flags[k] = antes + 1; return antes } // devolve a contagem anterior
 const presente = (e, id) => { const p = pessoa(e, id); return !!p && p.vivo && p.noAbrigo }
 const presentes = (e, lista) => lista.filter((id) => presente(e, id))
+// "todos" só se a família tem 2+ vivos; com uma pessoa só, o texto usa o nome dela ({n})
+const grupo = (e, plural, singular) => { const v = vivos(e); return v.length === 1 ? singular.replace('{n}', v[0].nome) : plural }
 const aoAcaso = (e, rng) => { const ids = noAbrigo(e).map((p) => p.id); return ids.length ? rng.escolher(ids) : null }
 const sanTodos = (e, pontos = PONTOS) => vivos(e).forEach((p) => enlouquecer(e, p.id, -pontos))
 const loucTodos = (e, pontos = PONTOS) => vivos(e).forEach((p) => enlouquecer(e, p.id, pontos))
 const curarTodos = (e) => vivos(e).forEach((p) => { if (p.doente || p.ferido) curar(e, p.id) })
-const perder = (e, item) => { if ((e.itens[item] ?? 0) > 0) tirarItem(e, item, 1, `${NOME[item]} se perde.`) }
+const perder = (e, item) => { if ((e.itens[item] ?? 0) > 0) tirarItem(e, item, 1, `${cap(NOME[item])} se perde.`) }
 const munic = (e) => contar(e, MUNICAO)
 const gastarMunicao = (e, texto) => { e.flags[MUNICAO] = Math.max(0, munic(e) - 1); anotar(e, texto) }
 const saquear = (e, texto) => {
@@ -180,7 +184,7 @@ const vendedor_porta = {
     if (id === 'agua_ou_sopa') {
       gastarAguaOuSopa(e, 'O vendedor leva 1 Água ou Sopa e sussurra a revelação. É mentira, mas a família se anima.')
       sanTodos(e)
-      anotar(e, 'A sanidade de todos sobe um pouco: a conversa foi divertida.')
+      anotar(e, grupo(e, 'A sanidade de todos sobe um pouco: a conversa foi divertida.', 'A sanidade de {n} sobe um pouco: a conversa foi divertida.'))
     } else anotar(e, 'O vendedor vai embora irritado, resmungando sobre a estação.')
   },
 }
@@ -202,14 +206,14 @@ const mau_cheiro = {
   resolver: (e, id) => {
     if (id === 'nada') {
       vivos(e).forEach((p) => adoecer(e, p.id))
-      anotar(e, 'Todos adoecem com o ar podre.')
+      anotar(e, grupo(e, 'Todos adoecem com o ar podre.', '{n} adoece com o ar podre.'))
       return
     }
     if (id === 'municao') gastarMunicao(e, 'A Munição espalha um cheiro forte e o ar melhora.')
     if (id === 'repelente') tirarItem(e, 'inseticida', 1, 'O Repelente é gasto e o cheiro some.')
     // curar() zera doença e ferimento; a fonte só fala de doença (limitação do estado.mjs)
     curarTodos(e)
-    anotar(e, id === 'mascara' ? 'A Máscara de gás deixa o ar respirável. Ninguém adoece.' : 'Todos se curam da doença.')
+    anotar(e, id === 'mascara' ? 'A Máscara de gás deixa o ar respirável. Ninguém adoece.' : grupo(e, 'Todos se curam da doença.', '{n} se cura da doença.'))
   },
 }
 
@@ -328,7 +332,7 @@ const ventilacao_travada = {
   peso: () => 1,
   texto: (e) => ['Faz horas que a família sente falta de ar. A ventilação está travada.',
     'O ar do porão está pesado. Alguém precisa descobrir por que a ventilação parou.',
-    'Todos tossem baixinho. O ar piora e a ventilação continua travada.'][e.dia % 3],
+    grupo(e, 'Todos tossem baixinho. O ar piora e a ventilação continua travada.', '{n} tosse baixinho. O ar piora e a ventilação continua travada.')][e.dia % 3],
   escolhas: () => [
     {id: 'lanterna', texto: 'Iluminam a grade com a Lanterna.', requer: (e) => tem(e, 'lanterna')},
     {id: 'guia', texto: 'Consultam o Guia de escoteiro.', requer: (e) => tem(e, 'manual')},
@@ -347,7 +351,7 @@ const ventilacao_travada = {
     } else if (id === 'repelente') {
       tirarItem(e, 'inseticida', 1, 'O spray limpa a ventilação e o ar volta ao normal. O Repelente é gasto.')
     } else {
-      anotar(e, 'Todos tossem por uma noite inteira.')
+      anotar(e, grupo(e, 'Todos tossem por uma noite inteira.', '{n} tosse por uma noite inteira.'))
       // "quem esteve doente recentemente volta a adoecer": o estado não guarda isso; sorteamos 1 pessoa com 50%
       if (rng.chance(0.5)) { const alvo = aoAcaso(e, rng); if (alvo) adoecer(e, alvo, `${nome(e, alvo)} volta a adoecer.`) }
     }
@@ -387,7 +391,7 @@ const tedio_abrigo = {
       sanTodos(e)
       // "às vezes, se a filha está no abrigo, ela perde sanidade" (marcado "to be checked" na fonte): 50%
       if (presente(e, 'filha') && rng.chance(0.5)) enlouquecer(e, 'filha', PONTOS, 'Perder no jogo de damas deixa a filha mais irritada.')
-      else anotar(e, 'Jogam Damas e a sanidade de todos sobe.')
+      else anotar(e, grupo(e, 'Jogam Damas e a sanidade de todos sobe.', '{n} joga Damas e a sanidade sobe.'))
     } else {
       anotar(e, 'A família fica olhando a parede.')
       if (rng.chance(0.5)) cansar(e, 'filha', 2, 'A filha fica cansada de tanto nada.')
@@ -549,7 +553,7 @@ const fotos_familia = {
   peso: () => 1,
   texto: (e) => ['A família procura uma foto do tio, que sumiu há muito tempo.',
     'Alguém pergunta pela foto da tia. Ninguém lembra onde guardou.',
-    `${nome(e, 'filho')} quer ver a foto do tio e da tia. Todos procuram pelo abrigo.`][e.dia % 3],
+    presente(e, 'filho') ? `${nome(e, 'filho')} quer ver a foto do tio e da tia. ${grupo(e, 'Todos procuram pelo abrigo.', '{n} procura pelo abrigo.')}` : 'A família procura a foto do tio e da tia pelo abrigo.'][e.dia % 3],
   escolhas: () => [
     {id: 'guia', texto: 'Procuram entre as páginas do Guia de escoteiro.', requer: (e) => tem(e, 'manual')},
     {id: 'nada', texto: 'Desistem da busca.'},
@@ -559,10 +563,10 @@ const fotos_familia = {
       sanTodos(e)
       // o item "foto da família" não existe em itens.mjs: contagem em flags; a fonte não diz o efeito dele
       e.flags[FOTO] = contar(e, FOTO) + 1
-      anotar(e, 'A foto estava guardada entre as páginas do Guia. Todos ficam mais calmos.')
+      anotar(e, grupo(e, 'A foto estava guardada entre as páginas do Guia. Todos ficam mais calmos.', 'A foto estava guardada entre as páginas do Guia. {n} se acalma.'))
     } else {
       loucTodos(e)
-      anotar(e, 'Sem foto, a família fica triste. A sanidade de todos cai.')
+      anotar(e, grupo(e, 'Sem foto, a família fica triste. A sanidade de todos cai.', 'Sem foto, a família fica triste. A sanidade de {n} cai.'))
     }
   },
 }
@@ -657,7 +661,7 @@ const vizinhos_protecao = {
   quando: () => true,
   peso: () => 1,
   texto: (e) => ['Um homem com vários braços bate na porta, com o grupo de mutantes atrás dele.',
-    `Um grupo de mutantes amigáveis oferece proteção. ${nome(e, 'mae')} desconfia, mas ouve.`][e.dia % 2],
+    presente(e, 'mae') ? `Um grupo de mutantes amigáveis oferece proteção. ${nome(e, 'mae')} desconfia, mas ouve.` : 'Um grupo de mutantes amigáveis oferece proteção.'][e.dia % 2],
   escolhas: () => [
     {id: 'agua_ou_sopa', texto: 'Aceitam: dão 1 Água ou Sopa em troca de proteção.', requer: (e) => !!aguaOuSopa(e)},
     // a fonte não tem saída "nada" nesta versão; incluímos a recusa para ter sempre uma opção sem item
@@ -817,7 +821,7 @@ const infestacao = {
   quando: () => true,
   peso: () => 1,
   texto: (e) => ['O lixo está cheio e aparecem insetos gigantes que brilham perto do balde.',
-    `Baratas enormes e brilhantes rondam o lixo. ${nome(e, 'mae')} jura que cresceram desde ontem.`,
+    presente(e, 'mae') ? `Baratas enormes e brilhantes rondam o lixo. ${nome(e, 'mae')} jura que cresceram desde ontem.` : 'Baratas enormes e brilhantes rondam o lixo. Ninguém quer chegar perto.',
     'Insetos do tamanho de uma mão aparecem perto do lixo. Ninguém quer encostar neles.'][e.dia % 3],
   escolhas: () => [
     {id: 'repelente', texto: 'Borrifam o Repelente.', requer: (e) => tem(e, 'inseticida')},
@@ -945,7 +949,7 @@ const aranhas = {
   peso: () => 1,
   texto: (e) => ['Aranhas gigantes andam pelo abrigo, em todo lugar. A família precisa agir.',
     'Uma aranha do tamanho de um prato desce pela parede. Há mais no teto.',
-    `${nome(e, 'filha')} viu uma aranha grande demais debaixo da cama. Hora de agir.`][e.dia % 3],
+    presente(e, 'filha') ? `${nome(e, 'filha')} viu uma aranha grande demais debaixo da cama. Hora de agir.` : 'Aranhas gigantes andam pelo abrigo. A família precisa agir.'][e.dia % 3],
   escolhas: () => [
     {id: 'repelente', texto: 'Borrifam o Repelente nas aranhas.', requer: (e) => tem(e, 'inseticida')},
     {id: 'guia', texto: 'Espantam as aranhas com o Guia de escoteiro.', requer: (e) => tem(e, 'manual')},
@@ -958,18 +962,18 @@ const aranhas = {
       if (rng.chance(0.5)) darItem(e, 'agua', 1, 'As aranhas somem e sobra 1 Água.')
       else {
         darItem(e, 'sopa', 1, 'As aranhas somem e sobra 1 Sopa.')
-        if (rng.chance(0.5)) mutar(e, 'filha', `Uma aranha morde ${nome(e, 'filha')} e ela vira mutante.`)
+        if (presente(e, 'filha') && rng.chance(0.5)) mutar(e, 'filha', `Uma aranha morde ${nome(e, 'filha')} e ela vira mutante.`)
       }
     } else if (id === 'guia') {
       if (rng.chance(0.5)) darItem(e, 'sopa', 1, 'O guia espanta as aranhas e sobra 1 Sopa.')
       else darItem(e, 'agua', 1, 'O guia espanta as aranhas e sobra 1 Água.')
-      if (rng.chance(0.5)) mutar(e, 'filha', `${nome(e, 'filha')} é mordida e vira mutante.`)
+      if (presente(e, 'filha') && rng.chance(0.5)) mutar(e, 'filha', `${nome(e, 'filha')} é mordida e vira mutante.`)
     } else if (id === 'kit') {
       anotar(e, 'As pílulas fazem as aranhas sumirem.')
     } else {
       anotar(e, 'A família luta sem ferramentas e fica cansada.')
       for (const id2 of presentes(e, ['pai', 'mae', 'filha', 'filho'])) if (rng.chance(0.5)) cansar(e, id2, 2, `${nome(e, id2)} fica cansado de lutar.`)
-      if (rng.chance(0.5)) mutar(e, 'filha', `${nome(e, 'filha')} é mordida e vira mutante.`)
+      if (presente(e, 'filha') && rng.chance(0.5)) mutar(e, 'filha', `${nome(e, 'filha')} é mordida e vira mutante.`)
       if (F(e, 'itens.gato')) anotar(e, 'Durante a noite, o gato mata as aranhas.')
     }
   },
@@ -1000,7 +1004,7 @@ const enxame = {
       // quatro saídas da fonte, uma delas com o gato
       const saidas = [
         () => { const alvo = aoAcaso(e, rng); if (alvo) adoecer(e, alvo, `${nome(e, alvo)} adoece com as picadas do enxame.`); else anotar(e, 'As baratas picam o ar, mas não há ninguém por perto.') },
-        () => { loucTodos(e); anotar(e, 'A sanidade de todos cai com o barulho do enxame.') },
+        () => { loucTodos(e); anotar(e, grupo(e, 'A sanidade de todos cai com o barulho do enxame.', 'A sanidade de {n} cai com o barulho do enxame.')) },
         () => {
           if (F(e, 'itens.gato')) { marcar(e, 'itens.baratas', false); anotar(e, 'O gato mata as baratas e elas saem.') }
           else anotar(e, 'O enxame fica no lugar, sem efeito.')
@@ -1054,7 +1058,7 @@ const diversao_criancas = {
       anotar(e, rng.chance(0.5) ? 'A família guarda os jogos e as crianças brincam de longe.' : 'A família guarda os jogos no armário. Sem efeito.')
       return
     }
-    tirarItem(e, id, 1, `${NOME[id]} vai para as crianças do acampamento. A brincadeira continua.`)
+    tirarItem(e, id, 1, `${cap(NOME[id])} vai para as crianças do acampamento. A brincadeira continua.`)
     marcar(e, 'itens.gemeos.diversao')
   },
 }
@@ -1145,7 +1149,7 @@ const vizinhos_porao = {
     {id: 'nada', texto: 'Deixam o alçapão trancado.'},
   ],
   resolver: (e, id, rng) => {
-    if (id === 'nada') { loucTodos(e); anotar(e, 'Ficar ouvindo os barulhos deixa a sanidade de todos mais baixa.'); return }
+    if (id === 'nada') { loucTodos(e); anotar(e, grupo(e, 'Ficar ouvindo os barulhos deixa a sanidade de todos mais baixa.', 'Ficar ouvindo os barulhos deixa a sanidade de {n} mais baixa.')); return }
     // seis saídas sem chance na fonte: 1/6 cada; com a Lanterna, a primeira é só a cena do réptil
     const saidas = [...OPCOES_PORAO]
     if (id === 'lanterna') saidas[0] = REPTIL
@@ -1190,9 +1194,9 @@ const incendio = {
     {id: 'nada', texto: 'Tentam apagar o fogo do jeito que dá.'},
   ],
   resolver: (e, id, rng) => {
+    const possui = (item) => (e.itens[item] ?? 0) > 0 // o texto só cita o que a família tem de fato
     if (id === 'kit') {
-      quebrarItem(e, 'manual', 'O Guia de escoteiro fica danificado.')
-      quebrarItem(e, 'radio', 'O Rádio fica danificado.')
+      ['manual', 'radio'].filter(possui).forEach((item) => quebrarItem(e, item, `${cap(NOME[item])} fica danificado.`))
       anotar(e, 'O Kit médico é salvo.')
     } else if (id === 'radio') {
       perder(e, 'manual'); perder(e, 'kit'); anotar(e, 'O Rádio é salvo.')
@@ -1201,10 +1205,17 @@ const incendio = {
     } else {
       // quatro saídas da fonte, 1/4 cada
       const saidas = [
-        () => { perder(e, 'manual'); perder(e, 'radio'); perder(e, 'kit'); anotar(e, 'Guia, Rádio e Kit se perdem nas chamas.') },
+        () => {
+          // o que se perde é só o que estava na família (sem texto por item: a linha final diz tudo)
+          const perdidos = ['manual', 'radio', 'kit'].filter(possui)
+          if (!perdidos.length) return anotar(e, 'Nada se perde: o fogo é apagado.')
+          perdidos.forEach((item) => tirarItem(e, item, 1))
+          anotar(e, `${juntar(perdidos.map((item) => CURTO[item]))} ${perdidos.length > 1 ? 'se perdem' : 'se perde'} nas chamas.`)
+        },
         () => anotar(e, 'Nada se perde: o fogo é apagado.'),
         () => anotar(e, 'Nada se perde: a família se atira no fogo e o apaga.'),
         () => {
+          if (!possui('agua')) return anotar(e, 'Sem Água por perto, a família abafa o fogo com as próprias mãos.')
           // a fonte não diz se a garrafa de água é gasta: 50%
           anotar(e, 'Uma garrafa de água apaga o fogo.')
           if (rng.chance(0.5)) tirarItem(e, 'agua', 1, 'A garrafa de Água é gasta no processo.')
@@ -1269,7 +1280,7 @@ const duas_patas = {
       e.flags[CAO] = 'habilitado'
     } else {
       enlouquecer(e, 'filha', PONTOS); enlouquecer(e, 'mae', PONTOS); enlouquecer(e, 'pai', PONTOS); enlouquecer(e, 'filho', PONTOS)
-      anotar(e, 'A família se assusta e a sanidade de todos cai. O bicho some na escuridão.')
+      anotar(e, grupo(e, 'A família se assusta e a sanidade de todos cai. O bicho some na escuridão.', 'A família se assusta e a sanidade de {n} cai. O bicho some na escuridão.'))
       e.flags[CAO] = 'perdido'
     }
   },
@@ -1296,7 +1307,7 @@ const comunicacao_baratas = {
       else anotar(e, 'A reação com o spray desbloqueia uma conquista. Sem efeito de jogo.')
     } else {
       loucTodos(e)
-      anotar(e, 'Ignorar o cartaz deixa todos mais nervosos.')
+      anotar(e, grupo(e, 'Ignorar o cartaz deixa todos mais nervosos.', 'Ignorar o cartaz deixa {n} com os nervos à flor da pele.'))
       if (rng.chance(0.5)) mutar(e, 'filha', `${nome(e, 'filha')} vira mutante depois de ver o cartaz.`)
     }
   },
@@ -1335,13 +1346,13 @@ const barulhos = {
     {id: 'nada', texto: 'Tentam ignorar o barulho.'},
   ],
   resolver: (e, id, rng) => {
-    if (id === 'baralho_ou_damas') { sanTodos(e); anotar(e, 'O jogo abafa o barulho e a sanidade de todos sobe.'); return }
+    if (id === 'baralho_ou_damas') { sanTodos(e); anotar(e, grupo(e, 'O jogo abafa o barulho e a sanidade de todos sobe.', 'O jogo abafa o barulho e a sanidade de {n} sobe.')); return }
     anotar(e, 'Os barulhos continuam.')
     // quatro consequências da fonte ("às vezes"), 50% cada
-    if (rng.chance(0.5)) enlouquecer(e, 'pai', PONTOS, `${nome(e, 'pai')} enlouquece com o barulho.`)
-    if (rng.chance(0.5)) enlouquecer(e, 'mae', PONTOS, `${nome(e, 'mae')} enlouquece com o barulho.`)
-    if (rng.chance(0.5)) enlouquecer(e, 'filha', PONTOS, `${nome(e, 'filha')} fica mais louca do que já estava.`)
-    if (rng.chance(0.5)) enlouquecer(e, 'filho', PONTOS, `${nome(e, 'filho')} passa a usar uma lata como capacete.`)
+    if (presente(e, 'pai') && rng.chance(0.5)) enlouquecer(e, 'pai', PONTOS, `${nome(e, 'pai')} enlouquece com o barulho.`)
+    if (presente(e, 'mae') && rng.chance(0.5)) enlouquecer(e, 'mae', PONTOS, `${nome(e, 'mae')} enlouquece com o barulho.`)
+    if (presente(e, 'filha') && rng.chance(0.5)) enlouquecer(e, 'filha', PONTOS, `${nome(e, 'filha')} fica mais louca do que já estava.`)
+    if (presente(e, 'filho') && rng.chance(0.5)) enlouquecer(e, 'filho', PONTOS, `${nome(e, 'filho')} passa a usar uma lata como capacete.`)
   },
 }
 
@@ -1462,7 +1473,7 @@ const monstro_coleira = {
   escolhas: () => [],
   resolver: (e) => {
     marcar(e, 'itens.cacadora.monstro')
-    zerarFome(e, 'A família come junto com a aranha. A fome de todos some por um dia.')
+    zerarFome(e, grupo(e, 'A família come junto com a aranha. A fome de todos some por um dia.', 'A família come junto com a aranha. A fome de {n} some por um dia.'))
   },
 }
 
@@ -1477,7 +1488,7 @@ const medicos_retorno = {
   resolver: (e) => {
     marcar(e, 'itens.medicos.retorno')
     curarTodos(e)
-    anotar(e, 'As injeções curam todos os feridos e doentes da família.')
+    anotar(e, grupo(e, 'As injeções curam todos os feridos e doentes da família.', 'As injeções curam {n}, se estiver ferido ou doente.'))
   },
 }
 
