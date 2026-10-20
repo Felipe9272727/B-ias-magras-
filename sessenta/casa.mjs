@@ -127,6 +127,7 @@ export function montarCasa(semente) {
     kit: ['banheiro', 'quarto'], rifle: ['quarto', 'garagem'], machado: ['garagem'], lanterna: ['garagem', 'corredor', 'quarto'],
     cadeado: ['garagem', 'despensa'], inseticida: ['despensa', 'banheiro', 'garagem'], mala: ['quarto', 'criancas'],
     baralho: ['sala', 'criancas'], damas: ['criancas', 'sala'], gaita: ['criancas', 'sala'], manual: ['criancas', 'sala'],
+    municao: ['corredor', 'cozinha', 'sala', 'quarto'], // wiki: munição fica no corredor, cozinha, sala e quarto dos pais
   }
   const itens = []
   for (const id of Object.keys(ITENS)) {

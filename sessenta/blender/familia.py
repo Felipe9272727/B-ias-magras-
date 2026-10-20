@@ -57,7 +57,7 @@ def montar(cfg):
     pernas = []
     for s in (-1, 1):
         pv = pivo(f'perna{s}', (0.09 * k * s, 0, quadril), corpo)
-        C.cilindro(f'coxa{s}', (0, 0, -0.36 * k), 0.07 * k, 0.72 * k, m_cal if cfg['calca'] else m_pele, pai=pv)
+        C.cilindro(f'coxa{s}', (0, 0, -0.36 * k), 0.075 * k, 0.72 * k, m_cal if cfg['calca'] else m_pele, pai=pv)
         C.cubo(f'sap{s}', (0, -0.05 * k, -0.74 * k), (0.07 * k, 0.12 * k, 0.05 * k), m_sap, pai=pv, bisel=0.03 * k)
         pernas.append(pv)
     # tronco
@@ -65,7 +65,12 @@ def montar(cfg):
         bpy.ops.mesh.primitive_cone_add(vertices=40, radius1=0.30 * k, radius2=0.17 * k, depth=0.62 * k, location=(0, 0, quadril + 0.05 * k))
         saia = bpy.context.active_object; saia.parent = corpo
         C._fim(saia, m_cal, None)
-    C.esfera('tronco', (0, 0, quadril + 0.33 * k), (0.21 * k, 0.15 * k, 0.33 * k), m_cam, pai=corpo)
+    # torso arredondado (mais largo nos ombros), quadril da cor da calça e pescoço
+    C.cubo('tronco', (0, 0, quadril + 0.32 * k), (0.17 * k, 0.11 * k, 0.27 * k), m_cam, pai=corpo, bisel=0.07 * k)
+    C.cubo('ombros', (0, 0, quadril + 0.53 * k), (0.2 * k, 0.115 * k, 0.07 * k), m_cam, pai=corpo, bisel=0.06 * k)
+    if cfg['calca']:
+        C.cubo('quadril', (0, 0, quadril + 0.04 * k), (0.165 * k, 0.105 * k, 0.09 * k), m_cal, pai=corpo, bisel=0.05 * k)
+    C.cilindro('pescoco', (0, 0, quadril + 0.64 * k), 0.055 * k, 0.12 * k, m_pele, pai=corpo)
     if cfg.get('listras'):
         for i in range(3):
             C.cilindro(f'lis{i}', (0, 0, quadril + 0.18 * k + i * 0.13 * k), 0.215 * k, 0.04 * k, C.mat('listra', (0.9, 0.3, 0.2), rough=0.6), pai=corpo)
@@ -74,13 +79,14 @@ def montar(cfg):
     # braços (pivô no ombro)
     bracos = []
     for s in (-1, 1):
-        pv = pivo(f'braco{s}', (0.24 * k * s, 0, quadril + 0.55 * k), corpo)
-        C.cilindro(f'braco_c{s}', (0, 0, -0.24 * k), 0.055 * k, 0.48 * k, m_cam, pai=pv)
+        pv = pivo(f'braco{s}', (0.215 * k * s, 0, quadril + 0.55 * k), corpo)
+        C.cilindro(f'braco_c{s}', (0, 0, -0.14 * k), 0.06 * k, 0.28 * k, m_cam, pai=pv)
+        C.cilindro(f'antebraco{s}', (0, 0, -0.36 * k), 0.048 * k, 0.24 * k, m_pele, pai=pv)
         C.esfera(f'mao{s}', (0, 0, -0.50 * k), (0.065 * k,) * 3, m_pele, pai=pv)
         bracos.append(pv)
     # cabeça grande (cartum): não escala tanto com a altura
     kc = 0.55 + 0.45 * k
-    cab = pivo('cabeca', (0, 0, quadril + 0.78 * k + 0.17 * kc), corpo)
+    cab = pivo('cabeca', (0, 0, quadril + 0.70 * k + 0.19 * kc), corpo)
     C.esfera('rosto', (0, 0, 0), (0.19 * kc, 0.18 * kc, 0.2 * kc), m_pele, pai=cab)
     for s in (-1, 1):
         C.esfera(f'olho{s}', (0.07 * kc * s, -0.165 * kc, 0.03 * kc), (0.025 * kc, 0.015 * kc, 0.035 * kc), m_pre, pai=cab)
@@ -119,7 +125,7 @@ def pose(P, anim, i, n):
         br = [0.05 * math.sin(th), -0.05 * math.sin(th)]
     elif anim in ('correr', 'carregar'):
         s = math.sin(th)
-        pe = [0.65 * s, -0.65 * s]
+        pe = [0.5 * s, -0.5 * s]
         cz = 0.05 * abs(math.cos(th)) * P['k']
         inc = 0.14
         if anim == 'correr':
