@@ -15,11 +15,12 @@ sys.path.append(AQUI)
 import comum as C  # noqa: E402
 
 TESTE = '--teste' in sys.argv
+GLB = '--glb' in sys.argv  # modelo 3D para o three.js (câmera em 3ª pessoa): paredes inteiras, sem render
 SAIDA = os.path.join(C.PUBLIC, 'casa')
 PLANTA = json.loads(subprocess.run(['node', os.path.join(C.RAIZ, 'sessenta', 'casa.mjs'), '--json', 'planta'], capture_output=True, text=True, check=True).stdout)
 LARG, ALT = PLANTA['larg'], PLANTA['alt']
 G = PLANTA['grade']
-H_PAREDE = 0.75      # paredes baixas (corte), para enxergar dentro dos cômodos
+H_PAREDE = 2.4 if GLB else 0.75  # em 3ª pessoa as paredes são inteiras; no corte de cima, baixas
 H_FUNDO = 2.4        # a parede do fundo da casa fica inteira, com papel de parede e janelas
 ESP = 0.32           # espessura da parede
 M = {}
@@ -236,6 +237,78 @@ def movel(m):
         C.cubo(n, (cx, cy, 0.4), (W, D, 0.4), M['madeira'])
 
 
+# ---------------------------------------------------------------- móveis do Furniture Kit da Kenney (CC0)
+# Uso: --kenney <pasta "Models/GLTF format" do kit>. A escala do kit é ~1 unidade = 1,9 m (parede de 1,29 = 2,45 m).
+KENNEY = sys.argv[sys.argv.index('--kenney') + 1] if '--kenney' in sys.argv else None
+ESC_K = 1.9
+MODELOS = {  # tipo do móvel da planta → modelos do kit (o primeiro é o principal; os outros vão em cima/ao lado)
+    'bancada': ['desk'], 'prateleira': ['bookcaseOpen'], 'fogao': ['kitchenStove'], 'pia': ['kitchenSink'],
+    'geladeira': ['kitchenFridgeLarge'], 'mesa': ['tableCloth'], 'armario': ['kitchenCabinet'], 'sofa': ['loungeSofaLong'],
+    'tv': ['cabinetTelevision', 'televisionVintage'], 'estante': ['bookcaseClosedWide'], 'poltrona': ['loungeChair'],
+    'aparador': ['sideTableDrawers', 'lampRoundTable'], 'cama_casal': ['bedDouble'], 'guarda_roupa': ['bookcaseClosedDoors'],
+    'banheira': ['bathtub'], 'pia_banheiro': ['bathroomSink'], 'cama': ['bedSingle'], 'bau_brinquedos': ['cardboardBoxOpen', 'bear'],
+}
+
+
+def importar(nome):
+    antes = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=os.path.join(KENNEY, nome + '.glb'))
+    novos = [o for o in bpy.data.objects if o not in antes]
+    raiz = bpy.data.objects.new('k_' + nome, None)
+    bpy.context.collection.objects.link(raiz)
+    for o in novos:
+        if o.parent is None:
+            o.parent = raiz
+    return raiz, novos
+
+
+def caixa(objs):
+    from mathutils import Vector
+    bpy.context.view_layer.update()
+    mn, mx = Vector((1e9,) * 3), Vector((-1e9,) * 3)
+    for o in objs:
+        if o.type == 'MESH':
+            for v in o.bound_box:
+                w = o.matrix_world @ Vector(v)
+                mn = Vector(map(min, mn, w)); mx = Vector(map(max, mx, w))
+    return mn, mx
+
+
+def frente(m):
+    # a frente do móvel aponta para longe da parede encostada: vê qual lado do retângulo encosta em '#'
+    x0, y0, w, h = m['x'], m['y'], m['w'], m['h']
+    lados = {'n': [(x, y0 - 1) for x in range(x0, x0 + w)], 's': [(x, y0 + h) for x in range(x0, x0 + w)],
+             'o': [(x0 - 1, y) for y in range(y0, y0 + h)], 'l': [(x0 + w, y) for y in range(y0, y0 + h)]}
+    parede = {k: sum(e_parede(x, y) for x, y in v) / len(v) for k, v in lados.items()}
+    costas = max(parede, key=parede.get)
+    # rotação (Blender, em Z) para a frente do modelo (-Y) apontar para longe das costas
+    return {'n': math.pi, 's': 0.0, 'o': -math.pi / 2, 'l': math.pi / 2}[costas] if parede[costas] > 0 else 0.0
+
+
+def movel_kenney(m):
+    nomes = MODELOS.get(m['tipo'])
+    if not nomes:
+        return movel(m)
+    cx, cy = X(m['x']) + m['w'] / 2, Y(m['y']) - m['h'] / 2
+    rot = frente(m)
+    topo = 0.0
+    for i, nome in enumerate(nomes):
+        raiz, objs = importar(nome)
+        raiz.rotation_euler = (0, 0, rot)
+        raiz.scale = (ESC_K,) * 3
+        mn, mx = caixa(objs)
+        # cabe no retângulo da planta (com folga); nunca maior que a escala do kit
+        k = min(1.0, (m['w'] - 0.08) / max(0.01, mx.x - mn.x), (m['h'] - 0.08) / max(0.01, mx.y - mn.y)) if i == 0 else 1.0
+        raiz.scale = (ESC_K * k,) * 3
+        mn, mx = caixa(objs)
+        raiz.location.x += cx - (mn.x + mx.x) / 2
+        raiz.location.y += cy - (mn.y + mx.y) / 2
+        raiz.location.z += (topo if i else 0) - mn.z
+        mn, mx = caixa(objs)
+        if i == 0:
+            topo = mx.z
+
+
 def main():
     C.limpar()
     mats()
@@ -244,7 +317,14 @@ def main():
     portas()
     alcapao()
     for m in PLANTA['moveis']:
-        movel(m)
+        movel_kenney(m) if KENNEY else movel(m)
+    if GLB:
+        # verga em cima das portas (a parede fecha acima da passagem) e as janelas nas paredes de fora
+        for p in PLANTA['portas']:
+            cx, cy = X(p['x']) + 0.5, Y(p['y']) - 0.5
+            C.cubo(f'verga{p["x"]}_{p["y"]}', (cx, cy, 2.2), (0.5, 0.5, 0.2), M['parede'])
+        C.exportar_glb('casa')
+        return
     larg, alt = LARG + 0.6, ALT * math.sin(math.radians(C.ELEV)) + H_FUNDO * math.cos(math.radians(C.ELEV)) + 0.6
     sc = C.cena_sprite(larg, alt, teste=TESTE, alvo=(LARG / 2, ALT / 2 + 0.35, H_FUNDO * 0.45), px_m=220, amostras=32)
     sc.render.film_transparent = False

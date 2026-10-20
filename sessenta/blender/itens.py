@@ -132,7 +132,24 @@ def municao():
 ITENS = {k: v for k, v in globals().items() if k in ('sopa', 'agua', 'radio', 'mapa', 'mascara', 'kit', 'rifle', 'machado', 'lanterna', 'cadeado', 'inseticida', 'mala', 'baralho', 'damas', 'gaita', 'manual', 'municao')}
 
 
+def main_glb():
+    # todos os itens num arquivo só; cada um é um nó com o id (o three.js clona o que precisa), já no tamanho do jogo
+    C.limpar()
+    for iid, f in ITENS.items():
+        antes = set(bpy.data.objects)
+        f()
+        pai = bpy.data.objects.new(iid, None)
+        bpy.context.collection.objects.link(pai)
+        pai.scale = (1.6, 1.6, 1.6)
+        for o in set(bpy.data.objects) - antes - {pai}:
+            if o.parent is None:
+                o.parent = pai
+    C.exportar_glb('itens', juntar=False)
+
+
 def main():
+    if '--glb' in sys.argv:
+        return main_glb()
     os.makedirs(SAIDA, exist_ok=True)
     info = {'px_m': PX, 'quadro_m': Q, 'itens': {}}
     for iid, f in ITENS.items():

@@ -15,6 +15,7 @@ sys.path.append(AQUI)
 import comum as C  # noqa: E402
 
 TESTE = '--teste' in sys.argv
+GLB = '--glb' in sys.argv  # exporta cada pessoa como modelo 3D com os pivôs nomeados (o three.js anima)
 SAIDA = os.path.join(C.PUBLIC, 'familia')
 PX = 220                 # px por metro (o mesmo da casa)
 QW, QH = 1.3, 2.2        # quadro em metros na tela
@@ -23,11 +24,16 @@ ANIMS = {'parado': (6, 1.4), 'correr': (6, 0.42), 'carregar': (6, 0.46), 'panico
 PELE = (0.98, 0.80, 0.66)
 
 # altura total, cores e detalhes de cada um
+# as cores e as roupas seguem o desenho 2D do abrigo (para a mesma família nas duas fases)
 PESSOAS = {
-    'pai': dict(alt=1.0, camisa=(0.97, 0.97, 0.95), calca=(0.42, 0.30, 0.20), cabelo=(0.30, 0.18, 0.08), sapato=(0.15, 0.10, 0.06), gravata=(0.80, 0.15, 0.14), bigode=True),
-    'mae': dict(alt=0.94, camisa=(0.45, 0.70, 0.92), calca=None, vestido=(0.45, 0.70, 0.92), cabelo=(0.80, 0.32, 0.12), sapato=(0.75, 0.15, 0.20), coque=True),
-    'filha': dict(alt=0.82, camisa=(0.96, 0.55, 0.70), calca=None, vestido=(0.55, 0.55, 0.62), cabelo=(0.95, 0.80, 0.35), sapato=(0.15, 0.12, 0.12), rabo=True),
-    'filho': dict(alt=0.68, camisa=(1.0, 0.82, 0.20), calca=(0.25, 0.40, 0.70), cabelo=(0.45, 0.28, 0.12), sapato=(0.20, 0.15, 0.12), bone=(0.20, 0.45, 0.85), listras=True),
+    'pai': dict(alt=1.0, camisa=(0.96, 0.96, 0.94), calca=(0.55, 0.48, 0.36), cabelo=(0.08, 0.07, 0.07), sapato=(0.25, 0.16, 0.10),
+                gravata=(0.88, 0.70, 0.18), colete=(0.50, 0.45, 0.25), gordo=True),
+    'mae': dict(alt=0.94, camisa=(0.90, 0.84, 0.66), calca=None, vestido=(0.96, 0.94, 0.90), cabelo=(0.92, 0.42, 0.16), sapato=(0.85, 0.15, 0.20),
+                avental=(0.85, 0.25, 0.18), longo=True, magra=True),
+    'filha': dict(alt=0.82, camisa=(0.90, 0.92, 0.96), calca=None, vestido=(0.15, 0.18, 0.32), cabelo=(0.07, 0.07, 0.09), sapato=(0.40, 0.25, 0.15),
+                  chanel=True, gorda=True),
+    'filho': dict(alt=0.66, camisa=(0.98, 0.82, 0.25), calca=(0.40, 0.28, 0.16), cabelo=(0.92, 0.45, 0.12), sapato=(0.30, 0.22, 0.14),
+                  listras=(0.25, 0.45, 0.85), afro=True, suspensorio=(0.45, 0.30, 0.18), magra=True),
 }
 
 
@@ -66,16 +72,26 @@ def montar(cfg):
         saia = bpy.context.active_object; saia.parent = corpo
         C._fim(saia, m_cal, None)
     # torso arredondado (mais largo nos ombros), quadril da cor da calça e pescoço
-    C.cubo('tronco', (0, 0, quadril + 0.32 * k), (0.17 * k, 0.11 * k, 0.27 * k), m_cam, pai=corpo, bisel=0.07 * k)
+    lt = 1.3 if cfg.get('gordo') else 1.12 if cfg.get('gorda') else 0.85 if cfg.get('magra') else 1.0  # largura do tronco
+    C.cubo('tronco', (0, 0, quadril + 0.32 * k), (0.17 * k * lt, 0.11 * k * lt, 0.27 * k), m_cam, pai=corpo, bisel=0.07 * k)
+    if cfg.get('colete'):
+        C.cubo('colete', (0, 0, quadril + 0.30 * k), (0.175 * k * lt, 0.118 * k * lt, 0.2 * k), C.mat('colete', cfg['colete'], rough=0.7), pai=corpo, bisel=0.07 * k)
+    if cfg.get('avental'):
+        C.cubo('avental', (0, -0.11 * k, quadril - 0.05 * k), (0.16 * k, 0.012 * k, 0.24 * k), C.mat('avental', cfg['vestido'], rough=0.7), pai=corpo)
+        C.cubo('aventalf', (0, -0.125 * k, quadril - 0.27 * k), (0.16 * k, 0.012 * k, 0.025 * k), C.mat('aventalf', cfg['avental'], rough=0.7), pai=corpo)
+        C.cubo('lacoav', (0, 0, quadril + 0.1 * k), (0.15 * k * lt, 0.115 * k, 0.025 * k), C.mat('aventalf', cfg['avental']), pai=corpo)
+    if cfg.get('suspensorio'):
+        for sx in (-1, 1):
+            C.cubo(f'susp{sx}', (0.08 * k * sx, 0, quadril + 0.3 * k), (0.022 * k, 0.12 * k * lt, 0.27 * k), C.mat('susp', cfg['suspensorio']), pai=corpo)
     C.cubo('ombros', (0, 0, quadril + 0.53 * k), (0.2 * k, 0.115 * k, 0.07 * k), m_cam, pai=corpo, bisel=0.06 * k)
     if cfg['calca']:
         C.cubo('quadril', (0, 0, quadril + 0.04 * k), (0.165 * k, 0.105 * k, 0.09 * k), m_cal, pai=corpo, bisel=0.05 * k)
     C.cilindro('pescoco', (0, 0, quadril + 0.64 * k), 0.055 * k, 0.12 * k, m_pele, pai=corpo)
     if cfg.get('listras'):
         for i in range(3):
-            C.cilindro(f'lis{i}', (0, 0, quadril + 0.18 * k + i * 0.13 * k), 0.215 * k, 0.04 * k, C.mat('listra', (0.9, 0.3, 0.2), rough=0.6), pai=corpo)
+            C.cubo(f'lis{i}', (0, 0, quadril + 0.16 * k + i * 0.13 * k), (0.172 * k * lt, 0.112 * k * lt, 0.03 * k), C.mat('listra', cfg['listras'], rough=0.6), pai=corpo, bisel=0.02 * k)
     if cfg.get('gravata'):
-        C.cubo('gravata', (0, -0.145 * k, quadril + 0.40 * k), (0.035 * k, 0.012 * k, 0.17 * k), C.mat('gravata', cfg['gravata'], rough=0.5), pai=corpo)
+        C.cubo('gravata', (0, -0.11 * k * lt - 0.03 * k, quadril + 0.40 * k), (0.035 * k, 0.012 * k, 0.17 * k), C.mat('gravata', cfg['gravata'], rough=0.5), pai=corpo)
     # braços (pivô no ombro)
     bracos = []
     for s in (-1, 1):
@@ -97,6 +113,13 @@ def montar(cfg):
     boca = C.esfera('boca', (0, -0.17 * kc, -0.08 * kc), (0.04 * kc, 0.01 * kc, 0.012 * kc), m_pre, pai=cab)
     # cabelo
     C.esfera('cabelo', (0, 0.02 * kc, 0.07 * kc), (0.20 * kc, 0.19 * kc, 0.16 * kc), m_cab, pai=cab)
+    if cfg.get('longo'):  # cabelo comprido e volumoso até os ombros
+        C.esfera('cabelo_l', (0, 0.05 * kc, -0.08 * kc), (0.24 * kc, 0.2 * kc, 0.24 * kc), m_cab, pai=cab)
+    if cfg.get('chanel'):  # corte reto com franja
+        C.esfera('cabelo_c', (0, 0.02 * kc, -0.02 * kc), (0.225 * kc, 0.215 * kc, 0.2 * kc), m_cab, pai=cab)
+        C.cubo('franja', (0, -0.15 * kc, 0.1 * kc), (0.16 * kc, 0.05 * kc, 0.05 * kc), m_cab, pai=cab, bisel=0.03 * kc)
+    if cfg.get('afro'):
+        C.esfera('afro', (0, 0.02 * kc, 0.12 * kc), (0.3 * kc, 0.29 * kc, 0.26 * kc), m_cab, pai=cab)
     if cfg.get('bigode'):
         C.esfera('bigode', (0, -0.185 * kc, -0.045 * kc), (0.06 * kc, 0.02 * kc, 0.018 * kc), m_cab, pai=cab)
     if cfg.get('coque'):
@@ -153,6 +176,10 @@ def main():
     for pid in ids:
         C.limpar()
         raiz, P = montar(PESSOAS[pid])
+        if GLB:
+            raiz.name = pid
+            C.exportar_glb(pid, juntar=False)
+            continue
         sc = C.cena_sprite(QW, QH, teste=TESTE, alvo=(0, 0, 0.95), px_m=PX, amostras=16)
         cam = sc.camera
         pes = C.ponto_na_tela(sc, cam, (0, 0, 0))
@@ -171,6 +198,8 @@ def main():
                 C.juntar_tira(quadros, os.path.join(SAIDA, pid, f'{anim}_{d}.png'))
         info['pessoas'][pid] = {'pes': pes, 'w': sc.render.resolution_x, 'h': sc.render.resolution_y}
         print('OK', pid)
+    if GLB:
+        return
     arq = os.path.join(SAIDA, 'familia.json')
     velho = json.load(open(arq)) if os.path.exists(arq) else {}
     velho.update({k: v for k, v in info.items() if k != 'pessoas'})

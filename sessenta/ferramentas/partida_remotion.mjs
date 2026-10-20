@@ -3,6 +3,7 @@
 // Uso: node sessenta/ferramentas/partida_remotion.mjs <semente>_<ia> [...]
 import fs from 'node:fs'
 import path from 'node:path'
+import {montarCasa} from '../casa.mjs'
 
 const RAIZ = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..')
 const VISUAL = {
@@ -17,7 +18,7 @@ for (const nome of process.argv.slice(2)) {
   const log = JSON.parse(fs.readFileSync(path.join(RAIZ, 'sessenta/logs', `${nome}.json`), 'utf8'))
   const saida = {
     semente: log.semente, ia: log.ia, iaVisual: VISUAL[log.ia] ?? {nome: log.ia.toUpperCase(), cor: '#888'},
-    coleta: {semente: log.semente, casa: log.coleta.casa, log: log.coleta.registro, fim: log.coleta.resultado, falas: log.coleta.falas},
+    coleta: {semente: log.semente, casa: log.coleta.casa ?? montarCasa(log.semente), log: log.coleta.registro, fim: log.coleta.resultado, falas: log.coleta.falas},
     dias: log.dias.map((d) => ({dia: d.dia, antes: d.antes, virada: !!d.virada, evento: d.evento, resposta: d.resposta, diario: d.diario ?? [], racao: d.racao, expedicao: d.expedicao})),
     final: log.final,
   }

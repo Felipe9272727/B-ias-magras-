@@ -125,3 +125,30 @@ def juntar_tira(quadros, saida):
     subprocess.run(['/usr/bin/python3', '-c', cod, saida, *quadros], check=True)
     for f in quadros:
         os.remove(f)
+
+
+GLB = os.path.join(PUBLIC, '3d')
+
+
+def exportar_glb(nome, juntar=True):
+    """Exporta a cena para video/remotion/public/sessenta/3d/<nome>.glb (o Remotion renderiza com three.js).
+    juntar=True funde todas as malhas numa só (poucas chamadas de desenho); False mantém a hierarquia (pivôs nomeados,
+    que o three.js gira para animar)."""
+    os.makedirs(GLB, exist_ok=True)
+    for o in list(bpy.data.objects):
+        if o.type in ('LIGHT', 'CAMERA'):
+            bpy.data.objects.remove(o)
+    malhas = [o for o in bpy.data.objects if o.type == 'MESH']
+    if juntar and malhas:
+        bpy.ops.object.select_all(action='DESELECT')
+        for o in malhas:
+            o.select_set(True)
+        bpy.context.view_layer.objects.active = malhas[0]
+        bpy.ops.object.convert(target='MESH')  # aplica os modificadores (bisel)
+        bpy.ops.object.parent_clear(type='CLEAR_KEEP_TRANSFORM')
+        bpy.ops.object.join()
+        bpy.context.active_object.name = nome
+    caminho = os.path.join(GLB, f'{nome}.glb')
+    bpy.ops.export_scene.gltf(filepath=caminho, export_format='GLB', export_apply=True, export_lights=False, export_cameras=False)
+    print('GLB', caminho, os.path.getsize(caminho))
+    return caminho

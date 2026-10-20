@@ -21,6 +21,7 @@ import {ShortOC, calcShortOC} from './overcooked/ShortOC';
 import {ShortPao, calcShortPao} from './overcooked/ShortPao';
 import {ShortPalhaco, calcShortPalhaco} from './amongus3/ShortPalhaco';
 import {Dia, calcDia} from './sessenta/Dia';
+import {Coleta3D, calcColeta3D} from './sessenta/Coleta3D';
 import {Coleta, calcColeta} from './sessenta/Coleta';
 import {DadosShort, ShortAzul} from './amongus/ShortAzul';
 import {DadosShort2, ShortAzul2} from './amongus/ShortAzul2';
@@ -156,6 +157,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortOC" component={ShortOC} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortOC} />
       <Composition id="ShortPao" component={ShortPao} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPao} />
       <Composition id="S60Dia" component={Dia} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null, arquivo: 'teste_mock', dia: 3}} calculateMetadata={calcDia} />
+      <Composition id="S60Coleta3D" component={Coleta3D} width={1920} height={1080} fps={30} durationInFrames={1950} defaultProps={{dados: null, ia: null, arquivo: 'piloto_deepseek'}} calculateMetadata={calcColeta3D} />
       <Composition id="S60Coleta" component={Coleta} width={1920} height={1080} fps={30} durationInFrames={1920} defaultProps={{dados: null}} calculateMetadata={calcColeta} />
       <Composition id="ShortPalhaco" component={ShortPalhaco} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPalhaco} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
