@@ -20,7 +20,7 @@ type Pos = {x: number; y: number; w: number};
 type Cena = {lugares: Record<string, Lugar>; itens: Record<string, Pos | Pos[]>};
 type Fig = {viewBox: [number, number]; pes: [number, number]; variantes: Record<string, string>};
 export type DadosDia = {dia: DiaLog; cena: Cena; figs: Record<string, Fig>; itens: Record<string, {quebrado?: boolean}>; ia: {nome: string; cor: string}; diasFadiga: number};
-type Props = {dados: DadosDia | null; arquivo: string; dia: number};
+type Props = {dados: DadosDia | null; arquivo: string; dia: number; vel?: number};
 
 const FPS = 30;
 const PESSOAS = ['pai', 'mae', 'filha', 'filho'];
@@ -30,6 +30,13 @@ const ini = (d: DiaLog) => ABRE + (d.evento && !d.evento.automatico ? 5.5 : 1.2)
 export const duracaoDia = (d: DiaLog) => Math.round(FPS * (ini(d) + d.diario.length * LINHA + 2.2));
 
 const j = async (f: string) => { try { const r = await fetch(staticFile(f)); return r.ok ? await r.json() : null } catch { return null } };
+// carrega tudo o que um dia precisa (também usado pela prévia e pelo vídeo montado)
+export async function carregarDia(arquivo: string, n: number): Promise<DadosDia> {
+  const [partida, cena, itens, ...figs] = await Promise.all([j(`sessenta/partidas/${arquivo}.json`), j('sessenta/abrigo2d/cena.json'), j('sessenta/abrigo2d/itens/itens.json'), ...PESSOAS.map((p) => j(`sessenta/abrigo2d/personagens/${p}/${p}.json`))]);
+  const dia: DiaLog = partida.dias.find((d: DiaLog) => d.dia === n && !d.virada) ?? partida.dias[0];
+  return {dia, cena, itens: itens ?? {}, figs: Object.fromEntries(PESSOAS.map((p, i) => [p, figs[i]]).filter(([, f]) => f)), ia: partida.iaVisual, diasFadiga: 20};
+}
+
 export const calcDia: CalculateMetadataFunction<Props> = async ({props}) => {
   const [partida, cena, itens, ...figs] = await Promise.all([j(`sessenta/partidas/${props.arquivo}.json`), j('sessenta/abrigo2d/cena.json'), j('sessenta/abrigo2d/itens/itens.json'), ...PESSOAS.map((p) => j(`sessenta/abrigo2d/personagens/${p}/${p}.json`))]);
   const dia: DiaLog = partida.dias.find((d: DiaLog) => d.dia === props.dia && !d.virada) ?? partida.dias[0];
@@ -56,8 +63,8 @@ function variante(p: PessoaEst, fig: Fig) {
   return {arq: fig.variantes[usada], filtro: filtros.join(' ') || undefined, treme: louco && !usada.includes('louco'), usada};
 }
 
-export const Dia: React.FC<Props> = ({dados}) => {
-  const frame = useCurrentFrame();
+export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
+  const frame = Math.round(useCurrentFrame() * vel);
   if (!dados) return <AbsoluteFill style={{background: '#000'}} />;
   const {dia, cena, figs, itens, ia} = dados;
   const s = frame / FPS;

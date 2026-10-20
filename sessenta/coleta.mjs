@@ -4,7 +4,7 @@
 // O tempo é contado em milissegundos inteiros (1 tique = 2000 ms) para não haver erro de ponto flutuante no fim.
 import {ITENS, MAOS} from './itens.mjs'
 import {FAMILIA} from './familia.mjs'
-import {montarCasa, COMODOS, ABRIGO, andavel, comodoEm} from './casa.mjs'
+import {montarCasa, COMODOS, ABRIGO, andavel, comodoEm, caminho} from './casa.mjs'
 
 export {MAOS}
 
@@ -275,6 +275,7 @@ function resumo(lista) {
 export function descrever(c) {
   const linhas = []
   linhas.push(`Tempo restante: ${Math.ceil(restanteMs(c) / 1000)} s (tique ${c.tique} de ${c.totalTiques}).`)
+  if (restanteMs(c) <= 20000) linhas.push('⚠️ ATENÇÃO: quando o tempo acabar, o pai PRECISA estar no alçapão do abrigo, senão fica de fora e é FIM DE JOGO (o que estiver nas mãos também se perde). Só saia se a ida e volta couber no tempo restante, com folga.')
   linhas.push(noAbrigo(c) ? 'Você está no alçapão do abrigo.' : `Você está ${lugarTxt(c.pai)}.`)
   linhas.push(c.maos.length
     ? `Nas mãos: ${c.maos.map((o) => o.rotulo).join(', ')}. Espaço livre: ${livre(c)} de ${MAOS}.`
@@ -291,7 +292,10 @@ export function descrever(c) {
       if (dist(o, c.pai) <= 1) dica = 'ao alcance, pegar leva 1 s'
       else {
         const rota = rotaAte(c, (p) => dist(p, o) <= 1)
-        dica = rota ? `${seg(custoRota(rota))} s para chegar perto, +1 s para pegar` : 'sem caminho'
+        // ida e volta: chegar, pegar e voltar ao alçapão (quem joga de verdade sente isso no relógio)
+        const fim = rota && rota[rota.length - 1]
+        const volta = fim && caminho(fim, ABRIGO)
+        dica = rota ? `${seg(custoRota(rota))} s para chegar perto, +1 s para pegar${volta ? `; ida e volta ao alçapão: ${seg(custoRota(rota) + 1000 + custoRota(volta))} s` : ''}` : 'sem caminho'
       }
       if (o.espaco > livre(c)) dica += ` (não cabe: precisa de ${o.espaco} espaços, largue algo antes)`
       linhas.push(`- ${o.rotulo}, ${lugarTxt(o)}: ${dica}`)

@@ -18,7 +18,7 @@ fs.mkdirSync(dir, {recursive: true})
 for (const nome of process.argv.slice(2)) {
   const log = JSON.parse(fs.readFileSync(path.join(RAIZ, 'sessenta/logs', `${nome}.json`), 'utf8'))
   const saida = {
-    semente: log.semente, ia: log.ia, iaVisual: VISUAL[log.ia] ?? {nome: log.ia.toUpperCase(), cor: '#888'},
+    semente: log.semente, ia: log.ia, iaVisual: log.provider?.includes('luna') ? {nome: 'GPT LUNA', cor: '#10a37f'} : log.provider?.includes('terra') ? {nome: 'GPT TERRA', cor: '#0b7a5f'} : VISUAL[log.ia] ?? {nome: log.ia.toUpperCase(), cor: '#888'},
     coleta: {semente: log.semente, casa: log.coleta.casa ?? montarCasa(log.semente), log: log.coleta.registro, fim: log.coleta.resultado, falas: log.coleta.falas},
     dias: log.dias.map((d) => ({dia: d.dia, antes: d.antes, virada: !!d.virada, evento: d.evento, resposta: d.resposta, diario: d.diario ?? [], racao: d.racao, expedicao: d.expedicao})),
     final: log.final,
