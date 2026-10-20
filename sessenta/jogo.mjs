@@ -21,7 +21,7 @@ import {EVENTOS as EV_CADEIAS} from './eventos/cadeias.mjs'
 export const PROVEDORES = {
   claude: 'opus',
   deepseek: 'or:deepseek/deepseek-v4.1-flash',
-  gpt: 'or:openai/gpt-5.6-luna',
+  gpt: 'or:openai/gpt-5.6-terra', // o Luna ficou de fora do abrigo duas vezes; o Terra é mais caro e mais esperto
   mock: 'mock',
 }
 export const EVENTOS = [...EV_ITENS, ...EV_SIMNAO, ...EV_PESSOAS, ...EV_CADEIAS]

@@ -15,19 +15,17 @@ import {adultosVivos, noAbrigo, vivos} from './estado.mjs'
 
 export const FINAIS = [
   {
-    id: 'ninguem_adulto', tipo: 'derrota',
-    // nenhum adulto (pai ou mãe) vivo no abrigo, mas ainda há criança lá dentro. Se ninguém está dentro,
-    // vale o final "expulso" (abaixo). Causas: fome, sede, loucura, doença, agonia ou expedição sem volta.
-    checar: (e) => {
-      if (noAbrigo(e).length === 0) return null
-      const adultoNoAbrigo = adultosVivos(e).some((p) => p.noAbrigo)
-      return adultoNoAbrigo ? null : 'nenhum adulto vivo no abrigo'
-    },
+    id: 'expulso', tipo: 'derrota',
+    // ninguém no abrigo nem em expedição, mas ainda há gente viva (todos fugiram ou foram levados); vem antes de ninguem_adulto
+    checar: (e) => (vivos(e).length > 0 && noAbrigo(e).length === 0 && !vivos(e).some((p) => p.fora) ? 'ninguém dentro do abrigo' : null),
   },
   {
-    id: 'expulso', tipo: 'derrota',
-    // ninguém no abrigo, mas ainda há gente viva (o último saiu numa expedição ou fugiu)
-    checar: (e) => (vivos(e).length > 0 && noAbrigo(e).length === 0 ? 'ninguém dentro do abrigo' : null),
+    id: 'ninguem_adulto', tipo: 'derrota',
+    // nenhum adulto (pai ou mãe) vivo: no abrigo ou numa expedição que ainda pode voltar (as crianças não se viram sozinhas)
+    checar: (e) => {
+      const adulto = adultosVivos(e).some((p) => !p.fugiu && (p.noAbrigo || p.fora))
+      return adulto ? null : 'nenhum adulto vivo no abrigo'
+    },
   },
   {
     id: 'invasao', tipo: 'derrota',
