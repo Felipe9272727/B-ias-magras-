@@ -19,7 +19,7 @@ export type DadosColeta3D = {
   semente: string; casa: {itens: Coisa[]; pessoas: {id: string; x: number; y: number}[]; inicio: Pt; abrigo: Pt; alt: number};
   log: Reg[]; fim: {resultado: string; pessoas: string[]; itens: Record<string, number>}; falas?: {registro: number; fala: string}[];
 };
-type Props = {dados: DadosColeta3D | null; ia: {nome: string; cor: string} | null; arquivo?: string; rapido?: boolean};
+type Props = {dados: DadosColeta3D | null; ia: {nome: string; cor: string} | null; arquivo?: string; rapido?: boolean; semFx?: boolean};
 
 export const calcColeta3D: CalculateMetadataFunction<Props> = async ({props}) => {
   const arq = props.arquivo ? `sessenta/partidas/${props.arquivo}.json` : 'sessenta/coleta_teste.json';
@@ -342,7 +342,7 @@ const Cena: React.FC<{m: Modelos; d: DadosColeta3D; t: number; s: number}> = ({m
   );
 };
 
-export const Coleta3D: React.FC<Props> = ({dados, ia, rapido}) => {
+export const Coleta3D: React.FC<Props> = ({dados, ia, rapido, semFx}) => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
   const [m, setM] = useState<Modelos | null>(null);
@@ -387,9 +387,9 @@ export const Coleta3D: React.FC<Props> = ({dados, ia, rapido}) => {
           <Cena m={m} d={dados} t={t} s={s} />
         </ThreeCanvas>
       )}
-      <AbsoluteFill style={{backdropFilter: 'blur(3px)', WebkitMaskImage: 'linear-gradient(to bottom, #000 0%, transparent 22%, transparent 78%, #000 100%)', maskImage: 'linear-gradient(to bottom, #000 0%, transparent 22%, transparent 78%, #000 100%)'}} />
+      {!semFx && <AbsoluteFill style={{backdropFilter: 'blur(3px)', WebkitMaskImage: 'linear-gradient(to bottom, #000 0%, transparent 22%, transparent 78%, #000 100%)', maskImage: 'linear-gradient(to bottom, #000 0%, transparent 22%, transparent 78%, #000 100%)'}} />}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, transparent 55%, rgba(30,15,0,0.55) 100%)', mixBlendMode: 'multiply'}} />
-      <AbsoluteFill style={{opacity: 0.08, backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' seed='${frame % 13}'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`}} />
+      {!semFx && <AbsoluteFill style={{opacity: 0.08, backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' seed='${frame % 13}'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`}} />}
       {urgente && <AbsoluteFill style={{boxShadow: `inset 0 0 ${120 + 60 * Math.abs(Math.sin(frame / 6))}px rgba(200,0,0,0.75)`}} />}
       {fala && !acabou && (
         <div style={{position: 'absolute', left: 0, right: 0, top: 170, display: 'flex', justifyContent: 'center'}}>
