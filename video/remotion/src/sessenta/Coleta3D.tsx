@@ -132,8 +132,9 @@ const Ambiente: React.FC = () => {
   return null;
 };
 
-const Camera: React.FC<{pos: THREE.Vector3; alvo: THREE.Vector3}> = ({pos, alvo}) => {
-  const camera = useThree((st) => st.camera);
+const Camera: React.FC<{pos: THREE.Vector3; alvo: THREE.Vector3; fov: number}> = ({pos, alvo, fov}) => {
+  const camera = useThree((st) => st.camera) as THREE.PerspectiveCamera;
+  if (camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix() }
   camera.position.copy(pos);
   camera.lookAt(alvo);
   camera.updateMatrixWorld();
@@ -144,7 +145,7 @@ const Sol: React.FC<{alvo: THREE.Vector3}> = ({alvo}) => {
   const l = useMemo(() => {
     const d = new THREE.DirectionalLight('#fff3dc', 2.4);
     d.castShadow = true;
-    d.shadow.mapSize.set(2048, 2048);
+    d.shadow.mapSize.set(1024, 1024);
     Object.assign(d.shadow.camera, {left: -10, right: 10, top: 10, bottom: -10, near: 1, far: 40});
     d.shadow.bias = -0.0005;
     return d;
@@ -154,6 +155,42 @@ const Sol: React.FC<{alvo: THREE.Vector3}> = ({alvo}) => {
   l.target.updateMatrixWorld();
   return (<><primitive object={l} /><primitive object={l.target} /></>);
 };
+
+// lista de planos da coleta: abertura, seguir/lateral alternando, close a cada pegada, frente na corrida final, cima no fim
+type Plano = {de: number; ate: number; tipo: 'abertura' | 'seguir' | 'lateral' | 'close' | 'frente' | 'cima'};
+const cachePlanos = new WeakMap<Reg[], Plano[]>();
+function planos(log: Reg[]): Plano[] {
+  const c = cachePlanos.get(log);
+  if (c) return c;
+  const ps: Plano[] = [{de: 0, ate: 3200, tipo: 'abertura'}];
+  let t0 = 0;
+  for (const r of log) {
+    if (r.tipo === 'pegar' && r.tempoMs - t0 >= 400) {
+      const meio = t0 + (r.tempoMs - t0) / 2;
+      ps.push({de: Math.max(3200, meio - 900), ate: meio + 1300, tipo: 'close'});
+    }
+    if (r.tipo === 'abrigo' && r.tempoMs > 42000 && r.rota && r.rota.length > 4) ps.push({de: Math.max(3200, t0 + 300), ate: r.tempoMs - 200, tipo: 'frente'});
+    t0 = r.tempoMs;
+  }
+  ps.push({de: 60000, ate: 1e9, tipo: 'cima'});
+  // preenche os buracos alternando seguir e lateral (planos de pelo menos 1,6 s; buraco curto vira seguir)
+  ps.sort((a, b) => a.de - b.de);
+  const fim: Plano[] = [];
+  let cur = 0, alterna = 0;
+  for (const p of ps) {
+    if (p.de < cur) { if (p.ate > cur) fim.push({...p, de: cur}); cur = Math.max(cur, p.ate); continue }
+    for (let a = cur; a < p.de; ) {
+      const b = p.de - a < 3200 ? p.de : Math.min(p.de, a + 6500);
+      fim.push({de: a, ate: b, tipo: alterna++ % 3 === 2 ? 'lateral' : 'seguir'});
+      a = b;
+    }
+    fim.push(p);
+    cur = p.ate;
+  }
+  cachePlanos.set(log, fim);
+  return fim;
+}
+const plano = (ps: Plano[], t: number) => ps.find((p) => t >= p.de && t < p.ate) ?? ps[ps.length - 1];
 
 const mundo = (alt: number, p: Pt, y = 0) => new THREE.Vector3(p.x + 0.5, y, p.y + 0.5 - alt);
 
@@ -179,8 +216,43 @@ const Cena: React.FC<{m: Modelos; d: DadosColeta3D; t: number; s: number}> = ({m
   // câmera fixa em orientação, acima e atrás (sul) do pai, com leve atraso
   const atras = estadoPai(d.log, d.casa.inicio, Math.max(0, Math.min(t, 59999) - 250));
   const alvo = mundo(alt, atras).lerp(pP, 0.6);
-  const tremor = t > 50000 && t < 60000 ? 0.04 * (t - 50000) / 10000 : 0;
-  const cam = new THREE.Vector3(alvo.x + tremor * Math.sin(s * 37), 5.0 + tremor * Math.sin(s * 29), alvo.z + 4.1);
+  // edição: vários planos de câmera escolhidos pelos acontecimentos do registro (corte seco entre eles)
+  const pl = plano(planos(d.log), t);
+  const tremor = t > 50000 && t < 60000 ? 0.05 * (t - 50000) / 10000 : 0;
+  const tr = new THREE.Vector3(tremor * Math.sin(s * 37), tremor * Math.sin(s * 29), 0);
+  const frenteP = new THREE.Vector3(pai.dx, 0, pai.dy).normalize();
+  if (!pai.dx && !pai.dy) frenteP.set(0, 0, 1);
+  let cam: THREE.Vector3;
+  let olhar = new THREE.Vector3(alvo.x, 0.6, alvo.z);
+  let fov = 46;
+  if (pl.tipo === 'abertura') {
+    // voo sobre a casa inteira, descendo até o pai
+    const k = THREE.MathUtils.smoothstep(t, 0, pl.ate);
+    const ang = -0.6 + 0.5 * k;
+    const longe = new THREE.Vector3(9.5 + 13 * Math.sin(ang), 13, -7.5 + 13 * Math.cos(ang));
+    cam = longe.lerp(new THREE.Vector3(alvo.x, 5, alvo.z + 4.1), k * k);
+    olhar = new THREE.Vector3(9.5, 0, -7.5).lerp(olhar, k * k);
+  } else if (pl.tipo === 'close') {
+    // close lateral quando ele pega alguma coisa
+    cam = pP.clone().add(new THREE.Vector3(2.4, 2.5, 2.3));
+    olhar = pP.clone().setY(0.7);
+    fov = 40;
+  } else if (pl.tipo === 'lateral') {
+    cam = alvo.clone().add(new THREE.Vector3(4.0, 3.4, 1.4));
+    olhar = alvo.clone().setY(0.7);
+  } else if (pl.tipo === 'frente') {
+    // câmera baixa na frente, ele corre na direção dela (corrida para o abrigo)
+    cam = pP.clone().add(frenteP.clone().multiplyScalar(3.3)).setY(2.4);
+    olhar = pP.clone().setY(0.8);
+    fov = 50;
+  } else if (pl.tipo === 'cima') {
+    const a = mundo(alt, d.casa.abrigo);
+    cam = a.clone().add(new THREE.Vector3(0, 9 + (t - 60000) / 900, 3));
+    olhar = a;
+  } else {
+    cam = new THREE.Vector3(alvo.x, 5.0, alvo.z + 4.1);
+  }
+  cam.add(tr);
   U.uPai.value.copy(pP).setY(1.0);
   U.uCam.value.copy(cam);
   const yaw = (dx: number, dy: number, padrao = 0) => (dx || dy ? Math.atan2(dx, dy) : padrao);
@@ -236,10 +308,10 @@ const Cena: React.FC<{m: Modelos; d: DadosColeta3D; t: number; s: number}> = ({m
 
   return (
     <>
-      <Camera pos={cam} alvo={new THREE.Vector3(alvo.x, 0.6, alvo.z)} />
+      <Camera pos={cam} alvo={olhar} fov={fov} />
       <Ambiente />
       <hemisphereLight args={['#ffe9c8', '#4a3a28', 0.55]} />
-      <fog attach="fog" args={['#cfe2c4', 9, 22]} />
+      <fog attach="fog" args={['#cfe2c4', pl.tipo === 'abertura' || pl.tipo === 'cima' ? 30 : 9, pl.tipo === 'abertura' || pl.tipo === 'cima' ? 60 : 22]} />
       <Sol alvo={alvo} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[9.5, -0.07, -7.5]} receiveShadow>
         <planeGeometry args={[80, 80]} />
@@ -311,7 +383,7 @@ export const Coleta3D: React.FC<Props> = ({dados, ia}) => {
   return (
     <AbsoluteFill style={{background: '#5f9a48'}}>
       {m && (
-        <ThreeCanvas width={width} height={height} shadows camera={{fov: 46, near: 0.1, far: 80}} gl={{antialias: true, preserveDrawingBuffer: true}}>
+        <ThreeCanvas width={width} height={height} dpr={0.7} shadows camera={{fov: 46, near: 0.1, far: 80}} gl={{antialias: true, preserveDrawingBuffer: true}}>
           <Cena m={m} d={dados} t={t} s={s} />
         </ThreeCanvas>
       )}

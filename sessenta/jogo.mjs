@@ -131,16 +131,17 @@ const resumo = (e) => ({
 })
 
 // ---------------------------------------------------------------- partida
-export async function jogar({semente, ia, maxDias = 60, logar = console.log}) {
+export async function jogar({semente, ia, maxDias = 60, logar = console.log, aviso = ''}) {
   const provider = PROVEDORES[ia] ?? ia
+  const REG = aviso ? `${REGRAS}\n${aviso}` : REGRAS // revanche: a IA sabe como perdeu da outra vez
   const rngMock = criarRng(semente, `mock-${ia}`)
-  const log = {semente, ia, provider, inicio: new Date().toISOString(), coleta: {falas: []}, dias: [], final: null}
+  const log = {semente, ia, provider, aviso, inicio: new Date().toISOString(), coleta: {falas: []}, dias: [], final: null}
 
   // fase 1: coleta
   const c = criarColeta(semente)
   while (!terminada(c)) {
     const opcoes = acoesPossiveis(c)
-    const r = await perguntar(provider, REGRAS, promptColeta(c, opcoes), {maxTokens: 220, mock: mockColeta(c, opcoes)})
+    const r = await perguntar(provider, REG, promptColeta(c, opcoes), {maxTokens: 220, mock: mockColeta(c, opcoes)})
     const j = lerJSON(r.text) ?? {}
     const alvo = normal(j.acao)
     const acao = opcoes.find((o) => normal(o) === alvo) ?? opcoes.find((o) => alvo && (normal(o).includes(alvo) || alvo.includes(normal(o)))) ?? opcoes[0]
@@ -171,7 +172,7 @@ export async function jogar({semente, ia, maxDias = 60, logar = console.log}) {
     let j = {}
     const automatico = ev && (ev.automatico || escolhas.length <= 1)
     if (ev) dia.evento = {id: ev.id, grupo: ev.grupo, texto: seguro(() => ev.texto(e), ''), escolhas: escolhas.map((o) => ({id: o.id, texto: o.texto})), automatico: !!automatico}
-    const r = await perguntar(provider, REGRAS, promptDia(e, automatico ? null : ev && {texto: dia.evento.texto}, automatico ? [] : escolhas, memoria.slice(-4)),
+    const r = await perguntar(provider, REG, promptDia(e, automatico ? null : ev && {texto: dia.evento.texto}, automatico ? [] : escolhas, memoria.slice(-4)),
       {maxTokens: 500, mock: mockDia(e, automatico ? [] : escolhas, rngMock)})
     j = lerJSON(r.text) ?? {}
     dia.resposta = {pensamento: j.pensamento ?? '', diario: j.diario ?? '', escolha: j.escolha ?? null, racao: j.racao ?? null, expedicao: j.expedicao ?? null, ok: !!r.ok}
@@ -224,10 +225,11 @@ if (process.argv[1] && process.argv[1].endsWith('jogo.mjs')) {
   const ia = arg('ia', 'mock')
   const maxDias = Number(arg('max-dias', 60))
   const silencioso = process.argv.includes('--quieto')
-  const log = await jogar({semente, ia, maxDias, logar: silencioso ? () => {} : console.log})
+  const aviso = arg('aviso', '')
+  const log = await jogar({semente, ia, maxDias, aviso, logar: silencioso ? () => {} : console.log})
   const dir = path.join(path.dirname(new URL(import.meta.url).pathname), 'logs')
   fs.mkdirSync(dir, {recursive: true})
-  const arq = path.join(dir, `${semente}_${ia}.json`)
+  const arq = path.join(dir, `${arg('nome', `${semente}_${ia}`)}.json`)
   fs.writeFileSync(arq, JSON.stringify(log, null, 1))
   console.log(`FIM: ${log.final.tipo} (${log.final.id}) no dia ${log.final.dia}: ${log.final.motivo}\nlog: ${arq}`)
 }
