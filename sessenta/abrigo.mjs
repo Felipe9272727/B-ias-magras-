@@ -588,7 +588,7 @@ export function virarDia(e) {
       L.destruiu = true
       destruirPorLoucura(e, p)
     }
-    if (decorrido >= L.prazo) sair(e, p.id, 'loucura', `${p.nome} saiu de casa de vez, seguindo uma coisa que só ela entende. Não volta mais.`)
+    if (decorrido >= L.prazo) sair(e, p.id, 'loucura', `${p.nome} saiu de casa de vez, atrás de uma coisa que só a cabeça cansada enxergava. Não volta mais.`)
   }
 
   // mortes e fugas: fome, sede, doença e ferimento (criança foge em vez de morrer [W])
