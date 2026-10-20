@@ -10,7 +10,7 @@ type Pt = {x: number; y: number};
 type Reg = {tique: number; acao: string; tipo: string; de: Pt & {comodo: string}; para: Pt & {comodo: string}; rota: Pt[] | null; uids: string[]; maosUids: string[]; tempoMs: number};
 type Coisa = {uid: string; id: string; x: number; y: number};
 export type DadosColeta = {
-  coleta: {semente: string; casa: {itens: Coisa[]; pessoas: {id: string; x: number; y: number}[]; inicio: Pt; abrigo: Pt}; log: Reg[]; fim: {resultado: string; pessoas: string[]; itens: Record<string, number>}};
+  coleta: {semente: string; casa: {itens: Coisa[]; pessoas: {id: string; x: number; y: number}[]; inicio: Pt; abrigo: Pt}; log: Reg[]; fim: {resultado: string; pessoas: string[]; itens: Record<string, number>}; falas?: {registro: number; fala: string; pensamento: string}[]};
   casa: {img: string; w: number; h: number; origem: [number, number]; vx: [number, number]; vy: [number, number]; vz: [number, number]};
   fam: {anims: Record<string, {quadros: number; dur: number}>; pessoas: Record<string, {pes: [number, number]; w: number; h: number}>};
   itens: {itens: Record<string, {base: [number, number]; w: number; h: number}>};
@@ -19,8 +19,10 @@ export type DadosColeta = {
 
 export const calcColeta: CalculateMetadataFunction<{dados: DadosColeta | null; arquivo?: string}> = async ({props}) => {
   const j = async (f: string) => (await fetch(staticFile(f))).json();
-  const [coleta, casa, fam, itens] = await Promise.all([j(props.arquivo ?? 'sessenta/coleta_teste.json'), j('sessenta/casa/casa.json'), j('sessenta/familia/familia.json'), j('sessenta/itens/itens.json')]);
-  return {durationInFrames: 30 * (60 + 4), props: {...props, dados: {coleta, casa, fam, itens, ia: props.dados?.ia}}};
+  const arq = props.arquivo ? `sessenta/partidas/${props.arquivo}.json` : 'sessenta/coleta_teste.json';
+  const [bruto, casa, fam, itens] = await Promise.all([j(arq), j('sessenta/casa/casa.json'), j('sessenta/familia/familia.json'), j('sessenta/itens/itens.json')]);
+  const coleta = bruto.coleta ?? bruto; // partida completa (partida_remotion.mjs) ou registro de teste
+  return {durationInFrames: 30 * (60 + 4), props: {...props, dados: {coleta, casa, fam, itens, ia: bruto.iaVisual ?? props.dados?.ia}}};
 };
 
 const FPS = 30;
@@ -80,6 +82,19 @@ export const Coleta: React.FC<{dados: DadosColeta | null}> = ({dados}) => {
   }
   const idDe = (uid: string) => coleta.casa.itens.find((i) => i.uid === uid)?.id ?? uid;
   const ehPessoa = (uid: string) => ['mae', 'filha', 'filho'].includes(uid);
+
+  // fala da IA: aparece na ação em que foi dita e fica pelo menos 2,2 s
+  const idxAtual = pai.reg ? coleta.log.indexOf(pai.reg) : coleta.log.length;
+  const fala = (() => {
+    if (!coleta.falas) return '';
+    for (let i = idxAtual; i >= 0; i--) {
+      const f = coleta.falas.find((x) => x.registro === i);
+      if (!f?.fala) continue;
+      const t0 = i > 0 ? coleta.log[i - 1].tempoMs : 0;
+      return t - t0 < 2200 ? f.fala : '';
+    }
+    return '';
+  })();
 
   // câmera: segue o pai com um leve atraso
   const alvo = centro(pai);
@@ -145,6 +160,11 @@ export const Coleta: React.FC<{dados: DadosColeta | null}> = ({dados}) => {
         <Img src={staticFile(casa.img)} style={{position: 'absolute', left: 0, top: 0, width: casa.w, height: casa.h}} />
         {coisas.map((c, i) => <React.Fragment key={i}>{c.el}</React.Fragment>)}
         {!acabou && pilha.map((u, i) => <Item key={'m' + u} id={idDe(u)} p={pai} dz={1.95 + i * 0.32} esc={0.8} />)}
+        {!acabou && fala && (
+          <div style={{position: 'absolute', left: centro(pai).x - 300, top: centro(pai).y + casa.vz[1] * (2.1 + pilha.length * 0.32) - 150, width: 600, display: 'flex', justifyContent: 'center'}}>
+            <div style={{padding: '14px 26px', borderRadius: 28, background: '#fff', border: '6px solid #000', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: '#111', textAlign: 'center'}}>{fala}</div>
+          </div>
+        )}
       </div>
       {/* relógio */}
       <div style={{position: 'absolute', left: 0, right: 0, top: 26, textAlign: 'center'}}>

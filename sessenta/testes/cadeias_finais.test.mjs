@@ -184,6 +184,59 @@ console.log(`  visitantes e avulsos: ${Object.entries(avulsos).map(([id, n]) => 
 console.log(`  maior passo alcançado em qualquer cadeia: ${passoMaximo}`)
 console.log(`  finais atingidos: ${Object.entries(finaisAtingidos).map(([id, n]) => `${id}=${n}`).join(' ')}`)
 
+// ---------------------------------------------------------------- (3) caminho direto até cada final
+// Cada final tem que ser alcançável por pelo menos um caminho (os finais de passo de cadeia são disparados
+// pelo resolver; os de condição pelo checar). Sovietico e marlon não têm caminho: ver finais.mjs.
+const alcancados = new Set()
+function dispara(prep, eventoId, escolha, seed = 'direto') {
+  const ev = EVENTOS.find((x) => x.id === eventoId)
+  const e = novo(prep)
+  ev.resolver(e, escolha, criarRng(seed, eventoId))
+  checarFinais(e)
+  return e.final?.id
+}
+const CAMINHOS = [
+  ['gemeos', () => dispara({flags: {'cadeia.gemeos': 5}}, 'gemeos_5', 'abrir')],
+  ['veiculo', () => dispara({flags: {'cadeia.veiculo': 6}}, 'veiculo_6', 'ligar')],
+  ['estrelas', () => dispara({flags: {'cadeia.cientista': 3, 'cadeia.cientista.ate': 50}}, 'cientista_3', 'decolar')],
+  ['agentes', () => dispara({flags: {'cadeia.gatos': 6, 'visitante.sharikov': true}}, 'gatos_6', 'abrir')],
+  ['dona_dos_gatos', () => dispara({flags: {'cadeia.gatos_final': 9, 'cadeia.gatos_final.gatos': 9}}, 'gatos_final_9', 'ok')],
+  ['dominacao_felina', () => dispara({flags: {'cadeia.gatos_final': 3}, itens: {sopa: 0}}, 'gatos_final_x', 'ok')],
+  ['invasao', () => { // defesas esgotadas e nenhuma perda antes: o cerco vira invasão no segundo cerco sem defesa
+    const e = novo({flags: {'cadeia.bandidos': 1, 'cadeia.bandidos.defesas': 10, 'cadeia.bandidos.perdas': 1}})
+    EVENTOS.find((x) => x.id === 'bandidos_1').resolver(e, 'nada', criarRng('direto', 'inv'))
+    checarFinais(e)
+    return e.final?.id
+  }],
+  ['ninguem_adulto', () => { // mãe e pai mortos, só os filhos no abrigo
+    const e = novo({pessoas: {pai: {vivo: false, noAbrigo: false}, mae: {vivo: false, noAbrigo: false}}})
+    checarFinais(e)
+    return e.final?.id
+  }],
+  ['expulso', () => { // todo mundo fora do abrigo, ainda vivo
+    const e = novo({pessoas: {pai: {noAbrigo: false}, mae: {noAbrigo: false}, filha: {noAbrigo: false}, filho: {noAbrigo: false}}})
+    checarFinais(e)
+    return e.final?.id
+  }],
+  ['militar', () => { // resgate: sorteio entre 3 desfechos ao abrir a porta, com seeds diferentes
+    for (let s = 0; s < 40; s++) {
+      const e = novo({flags: {'cadeia.militar': 5, 'cadeia.militar.encontro': 40}})
+      EVENTOS.find((x) => x.id === 'militar_5').resolver(e, 'abrir', criarRng(`militar${s}`, 'porta'))
+      checarFinais(e)
+      if (e.final?.id === 'militar') return 'militar'
+    }
+    return null
+  }],
+]
+for (const [nome, caminho] of CAMINHOS) {
+  const id = caminho()
+  if (id) alcancados.add(id)
+  console.log(`  caminho ${nome.padEnd(16)} -> ${id ?? 'NÃO ALCANÇADO'}`)
+}
+assert.ok(alcancados.has('gemeos') && alcancados.has('veiculo') && alcancados.has('estrelas'), 'finais direto não funcionam')
+assert.ok(alcancados.has('militar'), 'final militar não alcançado')
+assert.ok(alcancados.has('invasao') && alcancados.has('ninguem_adulto') && alcancados.has('expulso'), 'finais de derrota não alcançados')
+
 // confere que as cadeias avançam e que algum final é alcançável
 assert.ok((porCadeia.militar?.['2'] ?? 0) + (porCadeia.gemeos?.['2'] ?? 0) + (porCadeia.gatos?.['2'] ?? 0) > 0,
   'nenhuma cadeia avançou do passo 1')

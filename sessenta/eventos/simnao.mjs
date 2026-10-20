@@ -40,7 +40,7 @@ const alguemLouco = (e) => vivos(e).some((p) => p.loucura >= LOUCO)
 const louco = (e, id) => (pessoa(e, id)?.loucura ?? 0) >= LOUCO
 const baixo = (e, item) => (e.itens[item] ?? 0) <= 2 // "nível baixo": limite nosso, a fonte não dá
 const visto = (e, id) => (e.eventosVistos?.[id] ?? 0) > 0
-const perdidos = (e) => vivos(e).filter((p) => p.perdido && !p.noAbrigo) // ficaram na casa e ainda não entraram
+const perdidos = (e) => e.pessoas.filter((p) => p.perdido && !p.noAbrigo && !p.morte) // ficaram na casa e ainda não entraram
 const gatoNoAbrigo = (e) =>
   e.flags['simnao.gato.no_abrigo'] === true ||
   (e.flags['simnao.gato.volta'] !== undefined && e.dia >= e.flags['simnao.gato.volta'])
@@ -218,12 +218,12 @@ export const EVENTOS = [
           () => anotar(e, 'A lata some e o filho não recebe nada.'),
           () => {
             anotar(e, 'Divisão com regra: o filho leva a parte dele, a filha come a dela.')
-            tirarItem(e, 'sopa', 1)
+            tirarItem(e, 'sopa', 1, 'Uma lata de sopa some.')
           },
         )
       }
       anotar(e, 'A lata cai e derrama. As crianças ficam cansadas e nervosas.')
-      tirarItem(e, 'sopa', 1)
+      tirarItem(e, 'sopa', 1, 'Uma lata de sopa some.')
       cansar(e, 'filha', 2)
       cansar(e, 'filho', 2)
       sanidadeDown(e, ['filha', 'filho'])

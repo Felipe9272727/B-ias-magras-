@@ -127,7 +127,7 @@ function comercio(id, quando, texto, tabela) {
 const MILITAR = [
   {
     id: 'militar_1', peso: () => 2,
-    quando: (e) => (passo(e, 'militar') ?? 1) === 1 && tem(e, 'radio'),
+    quando: (e) => (passo(e, 'militar') ?? 1) === 1 && tem(e, 'radio') && pronto(e, 'militar'),
     texto: () => 'Um chiado no rádio, e no meio dele uma voz: militares vêm buscar sobreviventes. Falta captar o sinal, ou achar o ponto de resgate.',
     escolhas: (e) => [
       {id: 'radio', texto: 'sintonizar e responder pelo rádio', requer: (e) => tem(e, 'radio')},

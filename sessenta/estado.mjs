@@ -99,7 +99,8 @@ export function sair(e, id, motivo, texto) { // foge/vai embora e não volta soz
 }
 export function voltar(e, id, texto) { // alguém que estava fora/perdido/fugido volta ao abrigo
   const p = pessoa(e, id)
-  if (p?.vivo) { p.noAbrigo = true; p.fugiu = false; p.perdido = false; p.fora = null }
+  // quem ficou na casa na coleta (perdido) não está "vivo" no abrigo, mas pode voltar como sobrevivente
+  if (p && (p.vivo || p.perdido) && !p.morte) { p.vivo = true; p.noAbrigo = true; p.fugiu = false; p.perdido = false; p.fora = null }
   anotar(e, texto)
 }
 export function terminar(e, id, tipo, motivo, texto) {

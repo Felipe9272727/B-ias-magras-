@@ -16,8 +16,10 @@ import {adultosVivos, noAbrigo, vivos} from './estado.mjs'
 export const FINAIS = [
   {
     id: 'ninguem_adulto', tipo: 'derrota',
-    // nenhum adulto (pai ou mãe) vivo no abrigo: fome, sede, loucura, doença, agonia ou expedição sem volta
+    // nenhum adulto (pai ou mãe) vivo no abrigo, mas ainda há criança lá dentro. Se ninguém está dentro,
+    // vale o final "expulso" (abaixo). Causas: fome, sede, loucura, doença, agonia ou expedição sem volta.
     checar: (e) => {
+      if (noAbrigo(e).length === 0) return null
       const adultoNoAbrigo = adultosVivos(e).some((p) => p.noAbrigo)
       return adultoNoAbrigo ? null : 'nenhum adulto vivo no abrigo'
     },
