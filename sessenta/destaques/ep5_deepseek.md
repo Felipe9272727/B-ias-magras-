@@ -19,14 +19,14 @@ Segundo = `gasto/1000`. Entre aspas, a fala e o pensamento literais do log.
 - **4.7 s**: pegar a lata de sopa (8). Pensamento: "A sopa está ao alcance, pego agora e depois levo ao abrigo." Fala: "Peguei a sopa!"
 - **6.7 s**: correr até a garrafa de água (2). Pensamento: "Água é essencial e já estou na cozinha. Vou pegar mais uma garrafa antes de explorar." Fala: "Vou pegar a água!"
 - **7.7 s**: pegar a garrafa de água (2). Pensamento: "Água extra é prioridade, está ao alcance." Fala: "Pegando a água!" (agora com 3 itens nas mãos)
-- **8.7 s, GANÂNCIA + LARGA E PEGA A MESMA COISA**: largar a garrafa de água (1). Pensamento: "Preciso abrir espaço para levar o Tico. Largo uma água, depois pego ele e vamos pro abrigo." Fala: "Tico, segura! Vou largar uma água e te pegar!" (Tico ainda estava na Sala e só foi alcançado em 33.3 s.)
+- **8.7 s, GANÂNCIA + LARGA E PEGA A MESMA COISA**: largar a garrafa de água (1). Pensamento: "Preciso abrir espaço para levar o Tico. Largo uma água, depois pego ele e vamos pro abrigo." Fala: "Tico, segura! Vou largar uma água e te pegar!" (O Tico só foi alcançado em 34.3 s.)
 - **9.7 s**: pegar a garrafa de água (1) de novo, a mesma que acabou de largar. Pensamento: "Água é crítica e essa garrafa está ao meu alcance, 1 segundo só. Pego agora antes que o tempo voe." Fala: "Pego essa água rapidinho!"
 - **18.3 s, PROCURA**: correr até o Quarto das crianças (8,7 s de corrida). Pensamento: "Preciso achar a Juju e o Tico. Vou começar pelo quarto das crianças." Fala: "Juju! Onde você está?"
 - **19.3 s, LARGA DE NOVO**: largar a garrafa de água (1) no Quarto das crianças. Pensamento: "Preciso de espaço para pegar a Celeste. Largo a garrafa de água (1) para abrir 2 espaços." Fala: "Celeste, estou indo!" Essa garrafa não volta para o abrigo.
 - **20.0 s**: correr até Celeste (mãe) no Quarto das crianças. Pensamento: "Celeste está bem aqui, vou pegá-la primeiro e depois buscar Tico na Sala." Fala: "Celeste, venha comigo!"
 - **21.0 s**: pegar Celeste (mãe). Pensamento: "Celeste está ao alcance, pego ela primeiro; depois a água e corro pro abrigo." Fala: "Vem comigo, Celeste!"
 - **25.0 s, ENTRADA 1 NO ABRIGO** (com Celeste, sopa 8 e água 2 nas mãos). Pensamento: "Levar Celeste e suprimentos ao abrigo primeiro." Fala: "Vou deixar isso no abrigo e volto para pegar o Tico!" Sobravam 35 s.
-- **26.0 s**: largar tudo no abrigo (sopa 8, água 2 e Celeste). Pensamento: "Preciso de mãos livres para buscar Tico e talvez Juju antes que o tempo acabe." Fala: "Vou largar tudo no abrigo e já volto para buscar o Tico!" **Esqueceu a Juju** neste ponto: o pensamento já menciona "talvez Juju", mas o plano é só o Tico.
+- **26.0 s**: largar tudo no abrigo (sopa 8, água 2 e Celeste). Pensamento: "Preciso de mãos livres para buscar Tico e talvez Juju antes que o tempo acabe." Fala: "Vou largar tudo no abrigo e já volto para buscar o Tico!" **Juju já sai do plano**: o pensamento só diz "talvez Juju", e a prioridade é o Tico.
 - **33.3 s**: correr até Tico (filho) na Sala (7,3 s). Pensamento: "Preciso trazer o Tico para o abrigo primeiro; depois pego água e a mala, dá tempo." Fala: "Tico, venha comigo, rápido!"
 - **34.3 s**: pegar Tico (filho). Pensamento: "Tico está aqui e é prioridade. Pego ele agora e depois busco mais itens e a Juju." Fala: "Vem, Tico! Vamos para o abrigo!"
 - **47.0 s, PROCURA COM TICO NAS MÃOS** (12,7 s de corrida até o Quarto do casal). Pensamento: "Preciso encontrar a Juju antes que o tempo acabe. Ela deve estar em algum cômodo que ainda não vi." Fala: "Juju, onde você está?"
@@ -52,7 +52,7 @@ Os 14 dias mais marcantes. "Resposta" é o pensamento e o diário que a IA escre
 - Evento `visitante_seis_bracos`: "Um grupo de mutantes de muitos braços bate pedindo uma lata de sopa. Dizem que, se ajudarem, vão proteger a casa depois." Escolha: sopa.
 - Pensamento: "Dar a sopa pode render proteção futura dos mutantes. Como já não teremos sopa, raciono a água para Celeste e Tico, que não bebem desde ontem."
 - Diário da IA: "Os mutantes levaram nossa única lata de sopa, mas prometeram proteger a casa. Espero que não voltem pedindo a água também."
-- Diário do jogo: "Os Braçudos comem a sopa em silêncio e ficam de aliados." Os Braçudos voltam a ajudar nos dias 21 e 57.
+- Diário do jogo: "Os Braçudos comem a sopa em silêncio e ficam de aliados." Os Braçudos aparecem de novo como defesa no dia 57.
 
 ### Dia 3: o furto e a culpa jogada nos mutantes
 - Evento `furto_lata`: "Na contagem diária, uma lata de sopa sumiu. Quem pegou?" Escolha: ninguém.
@@ -189,9 +189,9 @@ Sequência de saídas (saiu no dia X, voltou no dia Y):
 - Errava contas de tempo com confiança: "Tenho 12s" no segundo 49.3, quando sobravam 10,7 s.
 
 **Fatos curiosos com número exato**
-1. Das 18 saídas, 16 voltaram. As 2 que não voltaram foram as duas últimas de cada pessoa que saiu sem um adulto no abrigo.
-2. A sopa fechada acabou em 52 e só voltou em 55 (1 lata da Celeste). Dos dias 52 a 58, a família comeu só de lata aberta e de ração de água.
-3. Juju nunca foi encontrada. Foi citada em 28 dias na IA ("Juju continua perdida").
+1. Das 18 saídas, 16 voltaram. As 2 que não voltaram foram as últimas de Osvaldo (dia 47) e de Celeste (dia 56).
+2. Não havia lata fechada de sopa nos dias 52 a 58, exceto no dia 55, quando Celeste trouxe 1 lata.
+3. Juju nunca foi encontrada. Os pensamentos dos dias 19 e 22 dizem que Celeste saiu para procurá-la, e nenhuma saída registra achá-la.
 4. A coleta teve 2 entradas no abrigo, com 3,0 s de sobra na segunda.
 5. O pensamento do dia 47 prometia "mãe sozinha fora, nunca", e a mãe saiu sozinha nos dias 53 e 56.
 

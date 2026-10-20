@@ -33,10 +33,10 @@ Entradas no abrigo: 3. Na 1ª (seg 13.0) sobraram 47 s, sem família. Na 2ª (se
 - **46.3 s:** pegar a lata de sopa (4). FALA: "Já estou pegando a sopa, Celeste! Segurem o alçapão aberto!" PENSAMENTO: "Faltam 15 s e a volta leva 7,3 s."
 - **47.0 s:** correr até a lata de sopa (7). FALA: "Mais uma sopa e já volto pro abrigo!" PENSAMENTO: "Faltam 14 s. Pegar a outra lata de sopa aqui na Despensa custa 9,7 s no total, então sobram 4,3 s de folga. Comida vale mais que qualquer outro item, e depois disso não dá para pegar mais nada."
 - **48.0 s:** pegar a lata de sopa (7). FALA: "Mais uma lata! Já vou pro abrigo!" PENSAMENTO: "Faltam 13 s e a volta custa 8 s. Pegar a segunda lata leva só 1 s e ainda sobram uns 4 s de folga. Sopa vale mais que baralho."
-- **56.0 s, 3ª ENTRADA NO ABRIGO** (sozinho, com 2 latas; sobram 4 s). FALA: "Já tô indo pro abrigo, com a sopa!" PENSAMENTO: "Só tenho 12 s e o abrigo está a 8 s. O baralho pede 11,7 s, com folga de 0,3 s, e não vale o risco, já que estou com duas latas de sopa."
+- **56.0 s, 3ª ENTRADA NO ABRIGO** (sozinho, com 2 latas; sobram 4 s). FALA: "Já tô indo pro abrigo, com a sopa!" PENSAMENTO: "Só tenho 12 s e o abrigo está a 8 s. O baralho pede 11,7 s, com folga de 0,3 s, e não vale o risco. Já estou com duas latas de sopa, então volto agora."
 - **60.0 s:** fim, parado no alçapão. FALA: "Tico, fica comigo! Fecha o alçapão, já deu o tempo!" PENSAMENTO: "Só restam 4 segundos e qualquer ida e volta leva mais que isso. ... Largar as latas no abrigo não é necessário, pois as mãos ficam no abrigo de qualquer jeito. Melhor ficar parado até o fim."
 
-Saldo da coleta: 20 decisões, todas válidas. No abrigo ao fim: sopa 8, 3, 6, 4 e 7 (5 latas) e água 1 e 2 (2 garrafas). Mãe e Juju: 0 buscadas, apesar de 6 falas dirigidas a elas ou ao plano de buscá-las.
+Saldo da coleta: 20 decisões, todas válidas. No abrigo ao fim: sopa 8, 3, 6, 4 e 7 (5 latas) e água 1 e 2 (2 garrafas). Mãe e Juju: 0 buscadas. Aparecem em 4 falas e em 5 pensamentos (seg 0, 13, 14, 15 nas falas; 8, 9, 10, 12 e 13 nos pensamentos).
 
 ## 3. ABRIGO (dias mais marcantes)
 
@@ -117,16 +117,16 @@ O Tico nunca saiu. Fugiu de casa no dia 22.
 - **Itens perdidos e quebrados:** nenhum item quebrado em nenhum dia. Na coleta, 24 unidades de 17 tipos ficaram na casa.
 - **Eventos:** 37 dias tiveram evento; 13 foram automáticos. Nas 24 escolhas da IA, 16 foram "nada", "não" ou "ninguém" (6 + 8 + 2).
 - **Radiação:** a IA citou "radiação" ou "radioativo" em 15 pensamentos e "sem expedição" em 14. Não saiu em expedição antes do dia 11.
-- **Frases repetidas:** "água é o gargalo" aparece em 8 pensamentos. "Ninguém precisa comer todo dia" e "sem sopa aguento cerca de 10 dias" aparecem várias vezes. "Champanhe" aparece 3 vezes no diário (dias 10, 18 e 22). "Síndica" aparece 7 vezes nas respostas do diário (dias 29 a 35).
-- **Traço da IA:** racionou demais. Quase sempre escolheu não agir ("nada", "não" ou "ninguém" em 16 de 24 escolhas). Nunca mandou o pai para um evento que pedia isso, exceto no dia 38, quando ele próprio foi culpado.
-- **Loucura do pai:** 100 a partir do dia 27 e até o fim (24 dias). Tico chegou a 45 no dia 43.
+- **Frases repetidas:** "água é o gargalo" aparece em 8 pensamentos. "10 dias" (sem sopa) aparece em 10 pensamentos, e "5 dias" (sem água) em 15. "Champanhe" aparece 3 vezes no diário (dias 10, 18 e 22). "Síndica" aparece 7 vezes nas respostas do diário (dias 29 a 35).
+- **Traço da IA:** racionou demais e quase sempre escolheu não agir ("nada", "não" ou "ninguém" em 16 de 24 escolhas). Recusou mandar o pai nos eventos de saída (orelhão dias 33 e 34, caminhão dia 49). A única vez que escolheu "pai" foi no dia 38, quando ele próprio era o culpado do furto.
+- **Loucura do pai:** 100 em quase todos os dias de 27 a 51 (exceto dia 42, com 90). Tico chegou a 45 no dia 43.
 - **Fungo da parede:** aparece no diário de 12 dias seguidos (dias 39 a 50).
 - **Fatos curiosos com número exato:**
   1. 4 dias sem comer nem beber: 1, 19, 29 e 36.
   2. 3 expedições de 2 dias cada, com a mala; total de 8 latas de sopa e 8 garrafas de água trazidas.
   3. Tico ficou 21 dias no abrigo (dias 1 a 21) e fugiu no dia 22.
-  4. No dia 60 s, a IA estava a 4,0 s do fim, com 2 latas de sopa nas mãos, e ficou parada.
-  5. A IA prometeu buscar a mãe e a Juju 6 vezes na coleta. Não buscou nenhuma.
+  4. Entrou no abrigo com 4,0 s sobrando (seg 56.0), com 2 latas de sopa nas mãos, e ficou parado até o fim.
+  5. A mãe e a Juju aparecem em 4 falas e 5 pensamentos da coleta, e nenhuma foi buscada.
 
 ## 5. FINAL
 
@@ -136,11 +136,11 @@ O Tico nunca saiu. Fugiu de casa no dia 22.
 - **Dia 50 (sem evento).** PENSAMENTO: "Só eu estou no abrigo. Resta 1 porção de sopa e 16 de água. Água sobra, então bebo. A sopa é a última porção e aguento cerca de 10 dias sem comer, então posso guardá-la para depois. Hoje só bebo água. Não há expedição possível." DIÁRIO (resposta): "Dia 50: o Osvaldo bebeu água sozinho, guardou a última colherada de sopa para uma emergência e informou ao fungo da parede que meio século de abrigo merece pelo menos um brinde." DIÁRIO (log): "Abrimos garrafa de água: dá para 4 porções." / "Hoje ninguém comeu. Fingimos que não estamos com fome." / "Água para Osvaldo."
 - **Dia 51 (virada).** Sem decisão da IA. Estado antes da virada: pai com loucura 100, 2 dias sem comer e 1 sem beber, com 3 garrafas de água e 2 malas no abrigo. DIÁRIO (log): "Osvaldo saiu de casa de vez, atrás de uma coisa que só a cabeça cansada enxergava. Não volta mais."
 
-**Causa do fim:** o pai saiu de casa no dia 51, com loucura 100. O Tico tinha fugiu de sede no dia 22. Com ninguém dentro do abrigo, a partida acabou em derrota (id "expulso", tipo "derrota", dia 51).
+**Causa do fim:** o pai saiu de casa no dia 51, com loucura 100. O Tico tinha fugido de sede no dia 22. Com ninguém dentro do abrigo, a partida acabou em derrota (id "expulso", tipo "derrota", dia 51).
 
 ## Resumo para o roteiro
 
-- Coleta: salvos Osvaldo e Tico. Mãe e Juju ficaram na casa e nunca foram buscadas, apesar de 6 falas e promessas.
+- Coleta: salvos Osvaldo e Tico. Mãe e Juju ficaram na casa e nunca foram buscadas, apesar de 4 falas e 5 pensamentos que planejavam buscá-las.
 - Itens no abrigo: 5 latas de sopa e 2 garrafas de água.
 - Durou 51 dias. Três expedições do pai, todas com a mala, todas de 2 dias.
 - Tico fugiu de sede no dia 22. O pai saiu de casa no dia 51, com loucura 100. Fim: derrota, ninguém dentro do abrigo.
