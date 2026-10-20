@@ -1,0 +1,2783 @@
+{
+ "semente": "ep1",
+ "ia": "minimax",
+ "provider": "or:minimax/minimax-m3.1-flash:free",
+ "aviso": "",
+ "inicio": "2026-10-20T19:42:53.748Z",
+ "coleta": {
+  "falas": [
+   {
+    "registro": 0,
+    "gasto": 1000,
+    "acao": "pegar o rádio",
+    "valida": true,
+    "pensamento": "Vou pegar o rádio e o mapa; são rápidos e podem ajudar nas expedições. Depois busco comida e água.",
+    "fala": "Peguei o rádio!"
+   },
+   {
+    "registro": 1,
+    "gasto": 2000,
+    "acao": "pegar o mapa",
+    "valida": true,
+    "pensamento": "O mapa pode ajudar a orientar a família e localizar supplies; vou pegá-lo antes de sair da Sala.",
+    "fala": "Peguem o mapa!"
+   },
+   {
+    "registro": 2,
+    "gasto": 9334,
+    "acao": "correr até a Despensa",
+    "valida": true,
+    "pensamento": "A despensa deve ter água e comida essenciais.",
+    "fala": "Vou pegar os suprimentos primeiro!"
+   },
+   {
+    "registro": 3,
+    "gasto": 10334,
+    "acao": "pegar a garrafa de água (4)",
+    "valida": true,
+    "pensamento": "Vou pegar a garrafa de água mais próxima para garantir suprimentos para a família.",
+    "fala": "Água primeiro!"
+   },
+   {
+    "registro": 4,
+    "gasto": 16334,
+    "acao": "correr até o Quarto das crianças",
+    "valida": true,
+    "pensamento": "Preciso encontrar a família e comida; o Quarto das crianças é a prioridade.",
+    "fala": "Juju! Tico! Papai está chegando!"
+   },
+   {
+    "registro": 5,
+    "gasto": 17334,
+    "acao": "largar o rádio",
+    "valida": true,
+    "pensamento": "Preciso abrir espaço para pegar Celeste e levar a família ao abrigo; o rádio é o menos essencial agora.",
+    "fala": "Juju, Tico, fiquem pertinho!"
+   },
+   {
+    "registro": 6,
+    "gasto": 18334,
+    "acao": "pegar Celeste (mãe)",
+    "valida": true,
+    "pensamento": "Vou pegar a Celeste agora; o rádio pode ficar para depois.",
+    "fala": "Celeste,_segura firme! Vamos para o abrigo!"
+   },
+   {
+    "registro": 7,
+    "gasto": 19334,
+    "acao": "largar o mapa",
+    "valida": true,
+    "pensamento": "Vou guardar a água, largar o mapa e correr até a cozinha para encontrar comida e levar a família ao abrigo.",
+    "fala": "VAMOS PRA COZINHA!"
+   },
+   {
+    "registro": 8,
+    "gasto": 20668,
+    "acao": "correr até o Corredor",
+    "valida": true,
+    "pensamento": "Vou explorar o corredor e procurar os outros filhos antes de ir ao abrigo.",
+    "fala": "Juju! Tico! Estou procurando vocês!"
+   },
+   {
+    "registro": 9,
+    "gasto": 22668,
+    "acao": "correr até o abrigo",
+    "valida": true,
+    "pensamento": "Levo Celeste e a água ao abrigo para liberar espaço e buscar os outros.",
+    "fala": "Vou levar a Celeste e a água para o abrigo!"
+   },
+   {
+    "registro": 10,
+    "gasto": 23668,
+    "acao": "largar tudo no abrigo",
+    "valida": true,
+    "pensamento": "Vou colocar Celeste e a água no abrigo antes de buscar mais itens e a família.",
+    "fala": "Celeste, fica aqui no abrigo!"
+   },
+   {
+    "registro": 11,
+    "gasto": 25668,
+    "acao": "correr até a Cozinha",
+    "valida": true,
+    "pensamento": "A água já está no abrigo; preciso urgentemente encontrar a família e a comida antes que o tempo acabe.",
+    "fala": "Juju, Tico, Celeste! Estou procurando vocês!"
+   },
+   {
+    "registro": 12,
+    "gasto": 26668,
+    "acao": "pegar Tico (filho)",
+    "valida": true,
+    "pensamento": "Vou pegar o Tico antes que o tempo acabe e depois buscar a sopa mais próxima.",
+    "fala": "Tico, vem comigo!"
+   },
+   {
+    "registro": 13,
+    "gasto": 27335,
+    "acao": "correr até a lata de sopa (5) na Cozinha",
+    "valida": true,
+    "pensamento": "Vou pegar a sopa mais próxima e depois levar ao abrigo; ainda tenho tempo para buscar Juju.",
+    "fala": "Tico, segura firme! Vamos pegar comida!"
+   },
+   {
+    "registro": 14,
+    "gasto": 28335,
+    "acao": "pegar a lata de sopa (5)",
+    "valida": true,
+    "pensamento": "Vou pegar a sopa mais próxima e voltar ao abrigo com Tico antes que o tempo acabe.",
+    "fala": "Tico, segura firme! Vamos levar comida para o abrigo!"
+   },
+   {
+    "registro": 15,
+    "gasto": 30335,
+    "acao": "correr até a lata de sopa (3) na Cozinha",
+    "valida": true,
+    "pensamento": "Vou pegar mais uma lata de sopa para aumentar as porções e levar tudo ao abrigo antes que o tempo acabe.",
+    "fala": "Tico, segura firme! Vamos buscar mais comida!"
+   },
+   {
+    "registro": 16,
+    "gasto": 31335,
+    "acao": "pegar a lata de sopa (3)",
+    "valida": true,
+    "pensamento": "Vou pegar mais uma sopa e levar o Tico ao abrigo antes que o tempo acabe.",
+    "fala": "Tico, segura firme! Vamos para o abrigo!"
+   },
+   {
+    "registro": 17,
+    "gasto": 32335,
+    "acao": "largar a lata de sopa (3)",
+    "valida": true,
+    "pensamento": "Preciso de água no abrigo e uma mão livre; vou largar a lata de sopa de 3 porções para buscar a garrafa.",
+    "fala": "Vou trocar uma lata por água!"
+   },
+   {
+    "registro": 18,
+    "gasto": 33335,
+    "acao": "pegar a lata de sopa (3)",
+    "valida": true,
+    "pensamento": "Vou pegar mais uma lata de sopa e levar o Tico para o abrigo antes que o tempo acabe.",
+    "fala": "Segura firme, Tico! Já vamos para o abrigo!"
+   },
+   {
+    "registro": 19,
+    "gasto": 38002,
+    "acao": "correr até o abrigo",
+    "valida": true,
+    "pensamento": "Vou levar Tico e as sopas ao abrigo agora; já estou com as mãos ocupadas e o tempo está curto.",
+    "fala": "Tico, segura firme! Vamos para o abrigo!"
+   },
+   {
+    "registro": 20,
+    "gasto": 39002,
+    "acao": "largar a lata de sopa (5) no abrigo",
+    "valida": true,
+    "pensamento": "Vou guardar uma sopa para abrir mão e buscar Juju e itens essenciais.",
+    "fala": "Juju, papai está chegando!"
+   },
+   {
+    "registro": 21,
+    "gasto": 41669,
+    "acao": "correr até o rádio no Quarto das crianças",
+    "valida": true,
+    "pensamento": "O rádio pode ajudar a pedir resgate, e ainda dá tempo de voltar antes do fim.",
+    "fala": "Tico fica seguro; vou pegar o rádio!"
+   },
+   {
+    "registro": 22,
+    "gasto": 49669,
+    "acao": "correr até o Quarto do casal",
+    "valida": true,
+    "pensamento": "Preciso encontrar Juju e voltar rápido para o abrigo.",
+    "fala": "Juju, aqui!"
+   },
+   {
+    "registro": 23,
+    "gasto": 55003,
+    "acao": "correr até o abrigo",
+    "valida": true,
+    "pensamento": "Com 11 s, devo garantir a entrada no abrigo; não arrisco outra coleta.",
+    "fala": "Tico, segura firme! Vamos para o abrigo!"
+   },
+   {
+    "registro": 24,
+    "gasto": 56003,
+    "acao": "largar Tico (filho) no abrigo",
+    "valida": true,
+    "pensamento": "Tico precisa ficar no abrigo; solto-o agora para não deixá-lo fora.",
+    "fala": "Tico, entra no abrigo!"
+   },
+   {
+    "registro": 25,
+    "gasto": 57003,
+    "acao": "largar tudo no abrigo",
+    "valida": true,
+    "pensamento": "Com apenas 4 segundos, não dá para buscar mais nada. Vou largar a sopa no abrigo e proteger o que já temos.",
+    "fala": "Fiquem todos aqui!"
+   },
+   {
+    "registro": 26,
+    "gasto": 60000,
+    "acao": "ficar parado até o fim",
+    "valida": true,
+    "pensamento": "Com apenas 3 segundos, não dá tempo de correr até o Banheiro e voltar com folga.",
+    "fala": ""
+   }
+  ],
+  "casa": {
+   "semente": "ep1",
+   "larg": 19,
+   "alt": 15,
+   "grade": [
+    "###################",
+    "#mmmmm#mmm.m#.mm.m#",
+    "#mm..m#.....#....m#",
+    "#mm..m#.mm..D....m#",
+    "#mm...#mmm..#mmm..#",
+    "#.....#m....#....m#",
+    "###D#####D#####D###",
+    "#...mm............#",
+    "#........A........#",
+    "###D####D###D####D#",
+    "#.....#..m#....#m.#",
+    "#mmm..#...#....#m.#",
+    "#mmm.m#m..#mm..#m.#",
+    "#....m#m..#mm.m#m.#",
+    "###################"
+   ],
+   "comodos": {
+    "garagem": {
+     "nome": "Garagem",
+     "x": 1,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "cozinha": {
+     "nome": "Cozinha",
+     "x": 7,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "sala": {
+     "nome": "Sala",
+     "x": 13,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "corredor": {
+     "nome": "Corredor",
+     "x": 1,
+     "y": 7,
+     "w": 17,
+     "h": 2
+    },
+    "quarto": {
+     "nome": "Quarto do casal",
+     "x": 1,
+     "y": 10,
+     "w": 5,
+     "h": 4
+    },
+    "banheiro": {
+     "nome": "Banheiro",
+     "x": 7,
+     "y": 10,
+     "w": 3,
+     "h": 4
+    },
+    "criancas": {
+     "nome": "Quarto das crianças",
+     "x": 11,
+     "y": 10,
+     "w": 4,
+     "h": 4
+    },
+    "despensa": {
+     "nome": "Despensa",
+     "x": 16,
+     "y": 10,
+     "w": 2,
+     "h": 4
+    }
+   },
+   "portas": [
+    {
+     "x": 3,
+     "y": 6
+    },
+    {
+     "x": 9,
+     "y": 6
+    },
+    {
+     "x": 15,
+     "y": 6
+    },
+    {
+     "x": 12,
+     "y": 3
+    },
+    {
+     "x": 3,
+     "y": 9
+    },
+    {
+     "x": 8,
+     "y": 9
+    },
+    {
+     "x": 12,
+     "y": 9
+    },
+    {
+     "x": 17,
+     "y": 9
+    }
+   ],
+   "moveis": [
+    {
+     "tipo": "carro",
+     "comodo": "garagem",
+     "x": 1,
+     "y": 1,
+     "w": 2,
+     "h": 4
+    },
+    {
+     "tipo": "bancada",
+     "comodo": "garagem",
+     "x": 5,
+     "y": 1,
+     "w": 1,
+     "h": 3
+    },
+    {
+     "tipo": "prateleira",
+     "comodo": "garagem",
+     "x": 3,
+     "y": 1,
+     "w": 2,
+     "h": 1
+    },
+    {
+     "tipo": "fogao",
+     "comodo": "cozinha",
+     "x": 7,
+     "y": 1,
+     "w": 1,
+     "h": 1
+    },
+    {
+     "tipo": "pia",
+     "comodo": "cozinha",
+     "x": 8,
+     "y": 1,
+     "w": 2,
+     "h": 1
+    },
+    {
+     "tipo": "geladeira",
+     "comodo": "cozinha",
+     "x": 11,
+     "y": 1,
+     "w": 1,
+     "h": 1
+    },
+    {
+     "tipo": "mesa",
+     "comodo": "cozinha",
+     "x": 8,
+     "y": 3,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "tipo": "armario",
+     "comodo": "cozinha",
+     "x": 7,
+     "y": 4,
+     "w": 1,
+     "h": 2
+    },
+    {
+     "tipo": "sofa",
+     "comodo": "sala",
+     "x": 13,
+     "y": 4,
+     "w": 3,
+     "h": 1
+    },
+    {
+     "tipo": "tv",
+     "comodo": "sala",
+     "x": 14,
+     "y": 1,
+     "w": 2,
+     "h": 1
+    },
+    {
+     "tipo": "estante",
+     "comodo": "sala",
+     "x": 17,
+     "y": 1,
+     "w": 1,
+     "h": 3
+    },
+    {
+     "tipo": "poltrona",
+     "comodo": "sala",
+     "x": 17,
+     "y": 5,
+     "w": 1,
+     "h": 1
+    },
+    {
+     "tipo": "aparador",
+     "comodo": "corredor",
+     "x": 4,
+     "y": 7,
+     "w": 2,
+     "h": 1
+    },
+    {
+     "tipo": "cama_casal",
+     "comodo": "quarto",
+     "x": 1,
+     "y": 11,
+     "w": 3,
+     "h": 2
+    },
+    {
+     "tipo": "guarda_roupa",
+     "comodo": "quarto",
+     "x": 5,
+     "y": 12,
+     "w": 1,
+     "h": 2
+    },
+    {
+     "tipo": "banheira",
+     "comodo": "banheiro",
+     "x": 7,
+     "y": 12,
+     "w": 1,
+     "h": 2
+    },
+    {
+     "tipo": "pia_banheiro",
+     "comodo": "banheiro",
+     "x": 9,
+     "y": 10,
+     "w": 1,
+     "h": 1
+    },
+    {
+     "tipo": "cama",
+     "comodo": "criancas",
+     "x": 11,
+     "y": 12,
+     "w": 2,
+     "h": 2
+    },
+    {
+     "tipo": "bau_brinquedos",
+     "comodo": "criancas",
+     "x": 14,
+     "y": 13,
+     "w": 1,
+     "h": 1
+    },
+    {
+     "tipo": "prateleira",
+     "comodo": "despensa",
+     "x": 16,
+     "y": 10,
+     "w": 1,
+     "h": 4
+    }
+   ],
+   "abrigo": {
+    "x": 9,
+    "y": 8
+   },
+   "inicio": {
+    "x": 15,
+    "y": 3
+   },
+   "itens": [
+    {
+     "uid": "sopa1",
+     "id": "sopa",
+     "x": 3,
+     "y": 2,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "sopa2",
+     "id": "sopa",
+     "x": 2,
+     "y": 5,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "sopa3",
+     "id": "sopa",
+     "x": 10,
+     "y": 1,
+     "comodo": "cozinha"
+    },
+    {
+     "uid": "sopa4",
+     "id": "sopa",
+     "x": 11,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    {
+     "uid": "sopa5",
+     "id": "sopa",
+     "x": 10,
+     "y": 4,
+     "comodo": "cozinha"
+    },
+    {
+     "uid": "sopa6",
+     "id": "sopa",
+     "x": 4,
+     "y": 2,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "sopa7",
+     "id": "sopa",
+     "x": 3,
+     "y": 3,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "sopa8",
+     "id": "sopa",
+     "x": 5,
+     "y": 4,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "agua1",
+     "id": "agua",
+     "x": 8,
+     "y": 13,
+     "comodo": "banheiro"
+    },
+    {
+     "uid": "agua2",
+     "id": "agua",
+     "x": 3,
+     "y": 4,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "agua3",
+     "id": "agua",
+     "x": 1,
+     "y": 5,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "agua4",
+     "id": "agua",
+     "x": 17,
+     "y": 10,
+     "comodo": "despensa"
+    },
+    {
+     "uid": "agua5",
+     "id": "agua",
+     "x": 7,
+     "y": 11,
+     "comodo": "banheiro"
+    },
+    {
+     "uid": "agua6",
+     "id": "agua",
+     "x": 4,
+     "y": 3,
+     "comodo": "garagem"
+    },
+    {
+     "uid": "agua7",
+     "id": "agua",
+     "x": 17,
+     "y": 11,
+     "comodo": "despensa"
+    },
+    {
+     "uid": "agua8",
+     "id": "agua",
+     "x": 8,
+     "y": 12,
+     "comodo": "banheiro"
+    },
+    {
+     "uid": "radio",
+     "id": "radio",
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    {
+     "uid": "mapa",
+     "id": "mapa",
+     "x": 15,
+     "y": 2,
+     "comodo": "sala"
+    },
+    {
+     "uid": "mascara",
+     "id": "mascara",
+     "x": 4,
+     "y": 12,
+     "comodo": "quarto"
+    },
+    {
+     "uid": "kit",
+     "id": "kit",
+     "x": 8,
+     "y": 10,
+     "comodo": "banheiro"
+    },
+    {
+     "uid": "rifle",
+     "id": "rifle",
+     "x": 1,
+     "y": 10,
+     "comodo": "quarto"
+    },
+    {
+     "uid": "lanterna",
+     "id": "lanterna",
+     "x": 4,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    {
+     "uid": "cadeado",
+     "id": "cadeado",
+     "x": 17,
+     "y": 13,
+     "comodo": "despensa"
+    },
+    {
+     "uid": "inseticida",
+     "id": "inseticida",
+     "x": 17,
+     "y": 12,
+     "comodo": "despensa"
+    },
+    {
+     "uid": "mala",
+     "id": "mala",
+     "x": 13,
+     "y": 13,
+     "comodo": "criancas"
+    },
+    {
+     "uid": "baralho",
+     "id": "baralho",
+     "x": 15,
+     "y": 5,
+     "comodo": "sala"
+    },
+    {
+     "uid": "damas",
+     "id": "damas",
+     "x": 13,
+     "y": 12,
+     "comodo": "criancas"
+    },
+    {
+     "uid": "gaita",
+     "id": "gaita",
+     "x": 14,
+     "y": 12,
+     "comodo": "criancas"
+    },
+    {
+     "uid": "manual",
+     "id": "manual",
+     "x": 11,
+     "y": 11,
+     "comodo": "criancas"
+    },
+    {
+     "uid": "municao",
+     "id": "municao",
+     "x": 9,
+     "y": 2,
+     "comodo": "cozinha"
+    }
+   ],
+   "pessoas": [
+    {
+     "id": "mae",
+     "x": 12,
+     "y": 11,
+     "comodo": "criancas"
+    },
+    {
+     "id": "filha",
+     "x": 9,
+     "y": 11,
+     "comodo": "banheiro"
+    },
+    {
+     "id": "filho",
+     "x": 9,
+     "y": 5,
+     "comodo": "cozinha"
+    }
+   ]
+  },
+  "registro": [
+   {
+    "tique": 0,
+    "acao": "pegar o rádio",
+    "de": {
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    "para": {
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    "rota": null,
+    "pegou": [
+     "o rádio"
+    ],
+    "largou": [],
+    "maos": [
+     "o rádio"
+    ],
+    "maosUids": [
+     "radio"
+    ],
+    "uids": [
+     "radio"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 1000
+   },
+   {
+    "tique": 0,
+    "acao": "pegar o mapa",
+    "de": {
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    "para": {
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    "rota": null,
+    "pegou": [
+     "o mapa"
+    ],
+    "largou": [],
+    "maos": [
+     "o rádio",
+     "o mapa"
+    ],
+    "maosUids": [
+     "radio",
+     "mapa"
+    ],
+    "uids": [
+     "mapa"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 2000
+   },
+   {
+    "tique": 1,
+    "acao": "correr até a Despensa",
+    "de": {
+     "x": 15,
+     "y": 3,
+     "comodo": "sala"
+    },
+    "para": {
+     "x": 17,
+     "y": 10,
+     "comodo": "despensa"
+    },
+    "rota": [
+     {
+      "x": 15,
+      "y": 3
+     },
+     {
+      "x": 16,
+      "y": 3
+     },
+     {
+      "x": 16,
+      "y": 4
+     },
+     {
+      "x": 16,
+      "y": 5
+     },
+     {
+      "x": 15,
+      "y": 5
+     },
+     {
+      "x": 15,
+      "y": 6
+     },
+     {
+      "x": 15,
+      "y": 7
+     },
+     {
+      "x": 16,
+      "y": 7
+     },
+     {
+      "x": 17,
+      "y": 7
+     },
+     {
+      "x": 17,
+      "y": 8
+     },
+     {
+      "x": 17,
+      "y": 9
+     },
+     {
+      "x": 17,
+      "y": 10
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "o rádio",
+     "o mapa"
+    ],
+    "maosUids": [
+     "radio",
+     "mapa"
+    ],
+    "uids": [],
+    "tipo": "explorar",
+    "tempoMs": 9334
+   },
+   {
+    "tique": 4,
+    "acao": "pegar a garrafa de água (4)",
+    "de": {
+     "x": 17,
+     "y": 10,
+     "comodo": "despensa"
+    },
+    "para": {
+     "x": 17,
+     "y": 10,
+     "comodo": "despensa"
+    },
+    "rota": null,
+    "pegou": [
+     "a garrafa de água (4)"
+    ],
+    "largou": [],
+    "maos": [
+     "o rádio",
+     "o mapa",
+     "a garrafa de água (4)"
+    ],
+    "maosUids": [
+     "radio",
+     "mapa",
+     "agua4"
+    ],
+    "uids": [
+     "agua4"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 10334
+   },
+   {
+    "tique": 5,
+    "acao": "correr até o Quarto das crianças",
+    "de": {
+     "x": 17,
+     "y": 10,
+     "comodo": "despensa"
+    },
+    "para": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "rota": [
+     {
+      "x": 17,
+      "y": 10
+     },
+     {
+      "x": 17,
+      "y": 9
+     },
+     {
+      "x": 17,
+      "y": 8
+     },
+     {
+      "x": 16,
+      "y": 8
+     },
+     {
+      "x": 15,
+      "y": 8
+     },
+     {
+      "x": 14,
+      "y": 8
+     },
+     {
+      "x": 13,
+      "y": 8
+     },
+     {
+      "x": 12,
+      "y": 8
+     },
+     {
+      "x": 12,
+      "y": 9
+     },
+     {
+      "x": 12,
+      "y": 10
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "o rádio",
+     "o mapa",
+     "a garrafa de água (4)"
+    ],
+    "maosUids": [
+     "radio",
+     "mapa",
+     "agua4"
+    ],
+    "uids": [],
+    "tipo": "explorar",
+    "tempoMs": 16334
+   },
+   {
+    "tique": 8,
+    "acao": "largar o rádio",
+    "de": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "para": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "o rádio"
+    ],
+    "maos": [
+     "o mapa",
+     "a garrafa de água (4)"
+    ],
+    "maosUids": [
+     "mapa",
+     "agua4"
+    ],
+    "uids": [
+     "radio"
+    ],
+    "tipo": "largar",
+    "tempoMs": 17334
+   },
+   {
+    "tique": 8,
+    "acao": "pegar Celeste (mãe)",
+    "de": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "para": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "rota": null,
+    "pegou": [
+     "Celeste (mãe)"
+    ],
+    "largou": [],
+    "maos": [
+     "o mapa",
+     "a garrafa de água (4)",
+     "Celeste (mãe)"
+    ],
+    "maosUids": [
+     "mapa",
+     "agua4",
+     "mae"
+    ],
+    "uids": [
+     "mae"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 18334
+   },
+   {
+    "tique": 9,
+    "acao": "largar o mapa",
+    "de": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "para": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "o mapa"
+    ],
+    "maos": [
+     "a garrafa de água (4)",
+     "Celeste (mãe)"
+    ],
+    "maosUids": [
+     "agua4",
+     "mae"
+    ],
+    "uids": [
+     "mapa"
+    ],
+    "tipo": "largar",
+    "tempoMs": 19334
+   },
+   {
+    "tique": 9,
+    "acao": "correr até o Corredor",
+    "de": {
+     "x": 12,
+     "y": 10,
+     "comodo": "criancas"
+    },
+    "para": {
+     "x": 12,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": [
+     {
+      "x": 12,
+      "y": 10
+     },
+     {
+      "x": 12,
+      "y": 9
+     },
+     {
+      "x": 12,
+      "y": 8
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "a garrafa de água (4)",
+     "Celeste (mãe)"
+    ],
+    "maosUids": [
+     "agua4",
+     "mae"
+    ],
+    "uids": [],
+    "tipo": "explorar",
+    "tempoMs": 20668
+   },
+   {
+    "tique": 10,
+    "acao": "correr até o abrigo",
+    "de": {
+     "x": 12,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": [
+     {
+      "x": 12,
+      "y": 8
+     },
+     {
+      "x": 11,
+      "y": 8
+     },
+     {
+      "x": 10,
+      "y": 8
+     },
+     {
+      "x": 9,
+      "y": 8
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "a garrafa de água (4)",
+     "Celeste (mãe)"
+    ],
+    "maosUids": [
+     "agua4",
+     "mae"
+    ],
+    "uids": [],
+    "tipo": "abrigo",
+    "tempoMs": 22668
+   },
+   {
+    "tique": 11,
+    "acao": "largar tudo no abrigo",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "a garrafa de água (4) (no abrigo)",
+     "Celeste (mãe) (no abrigo)"
+    ],
+    "maos": [],
+    "maosUids": [],
+    "uids": [
+     "agua4",
+     "mae"
+    ],
+    "tipo": "depositar_tudo",
+    "tempoMs": 23668
+   },
+   {
+    "tique": 11,
+    "acao": "correr até a Cozinha",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "rota": [
+     {
+      "x": 9,
+      "y": 8
+     },
+     {
+      "x": 9,
+      "y": 7
+     },
+     {
+      "x": 9,
+      "y": 6
+     },
+     {
+      "x": 9,
+      "y": 5
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [],
+    "maosUids": [],
+    "uids": [],
+    "tipo": "explorar",
+    "tempoMs": 25668
+   },
+   {
+    "tique": 12,
+    "acao": "pegar Tico (filho)",
+    "de": {
+     "x": 9,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 9,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "rota": null,
+    "pegou": [
+     "Tico (filho)"
+    ],
+    "largou": [],
+    "maos": [
+     "Tico (filho)"
+    ],
+    "maosUids": [
+     "filho"
+    ],
+    "uids": [
+     "filho"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 26668
+   },
+   {
+    "tique": 13,
+    "acao": "correr até a lata de sopa (5) na Cozinha",
+    "de": {
+     "x": 9,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "rota": [
+     {
+      "x": 9,
+      "y": 5
+     },
+     {
+      "x": 10,
+      "y": 5
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)"
+    ],
+    "maosUids": [
+     "filho"
+    ],
+    "uids": [],
+    "tipo": "correr",
+    "tempoMs": 27335
+   },
+   {
+    "tique": 13,
+    "acao": "pegar a lata de sopa (5)",
+    "de": {
+     "x": 10,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "rota": null,
+    "pegou": [
+     "a lata de sopa (5)"
+    ],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5"
+    ],
+    "uids": [
+     "sopa5"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 28335
+   },
+   {
+    "tique": 14,
+    "acao": "correr até a lata de sopa (3) na Cozinha",
+    "de": {
+     "x": 10,
+     "y": 5,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "rota": [
+     {
+      "x": 10,
+      "y": 5
+     },
+     {
+      "x": 10,
+      "y": 4
+     },
+     {
+      "x": 10,
+      "y": 3
+     },
+     {
+      "x": 10,
+      "y": 2
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5"
+    ],
+    "uids": [],
+    "tipo": "correr",
+    "tempoMs": 30335
+   },
+   {
+    "tique": 15,
+    "acao": "pegar a lata de sopa (3)",
+    "de": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "rota": null,
+    "pegou": [
+     "a lata de sopa (3)"
+    ],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5",
+     "sopa3"
+    ],
+    "uids": [
+     "sopa3"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 31335
+   },
+   {
+    "tique": 15,
+    "acao": "largar a lata de sopa (3)",
+    "de": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "a lata de sopa (3)"
+    ],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5"
+    ],
+    "uids": [
+     "sopa3"
+    ],
+    "tipo": "largar",
+    "tempoMs": 32335
+   },
+   {
+    "tique": 16,
+    "acao": "pegar a lata de sopa (3)",
+    "de": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "rota": null,
+    "pegou": [
+     "a lata de sopa (3)"
+    ],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5",
+     "sopa3"
+    ],
+    "uids": [
+     "sopa3"
+    ],
+    "tipo": "pegar",
+    "tempoMs": 33335
+   },
+   {
+    "tique": 16,
+    "acao": "correr até o abrigo",
+    "de": {
+     "x": 10,
+     "y": 2,
+     "comodo": "cozinha"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": [
+     {
+      "x": 10,
+      "y": 2
+     },
+     {
+      "x": 10,
+      "y": 3
+     },
+     {
+      "x": 10,
+      "y": 4
+     },
+     {
+      "x": 10,
+      "y": 5
+     },
+     {
+      "x": 9,
+      "y": 5
+     },
+     {
+      "x": 9,
+      "y": 6
+     },
+     {
+      "x": 9,
+      "y": 7
+     },
+     {
+      "x": 9,
+      "y": 8
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (5)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa5",
+     "sopa3"
+    ],
+    "uids": [],
+    "tipo": "abrigo",
+    "tempoMs": 38002
+   },
+   {
+    "tique": 19,
+    "acao": "largar a lata de sopa (5) no abrigo",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "a lata de sopa (5) (no abrigo)"
+    ],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa3"
+    ],
+    "uids": [
+     "sopa5"
+    ],
+    "tipo": "depositar",
+    "tempoMs": 39002
+   },
+   {
+    "tique": 19,
+    "acao": "correr até o rádio no Quarto das crianças",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 12,
+     "y": 9,
+     "comodo": "porta"
+    },
+    "rota": [
+     {
+      "x": 9,
+      "y": 8
+     },
+     {
+      "x": 10,
+      "y": 8
+     },
+     {
+      "x": 11,
+      "y": 8
+     },
+     {
+      "x": 12,
+      "y": 8
+     },
+     {
+      "x": 12,
+      "y": 9
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa3"
+    ],
+    "uids": [],
+    "tipo": "correr",
+    "tempoMs": 41669
+   },
+   {
+    "tique": 20,
+    "acao": "correr até o Quarto do casal",
+    "de": {
+     "x": 12,
+     "y": 9,
+     "comodo": "porta"
+    },
+    "para": {
+     "x": 3,
+     "y": 10,
+     "comodo": "quarto"
+    },
+    "rota": [
+     {
+      "x": 12,
+      "y": 9
+     },
+     {
+      "x": 12,
+      "y": 8
+     },
+     {
+      "x": 11,
+      "y": 8
+     },
+     {
+      "x": 10,
+      "y": 8
+     },
+     {
+      "x": 9,
+      "y": 8
+     },
+     {
+      "x": 8,
+      "y": 8
+     },
+     {
+      "x": 7,
+      "y": 8
+     },
+     {
+      "x": 6,
+      "y": 8
+     },
+     {
+      "x": 5,
+      "y": 8
+     },
+     {
+      "x": 4,
+      "y": 8
+     },
+     {
+      "x": 3,
+      "y": 8
+     },
+     {
+      "x": 3,
+      "y": 9
+     },
+     {
+      "x": 3,
+      "y": 10
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa3"
+    ],
+    "uids": [],
+    "tipo": "explorar",
+    "tempoMs": 49669
+   },
+   {
+    "tique": 24,
+    "acao": "correr até o abrigo",
+    "de": {
+     "x": 3,
+     "y": 10,
+     "comodo": "quarto"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": [
+     {
+      "x": 3,
+      "y": 10
+     },
+     {
+      "x": 3,
+      "y": 9
+     },
+     {
+      "x": 3,
+      "y": 8
+     },
+     {
+      "x": 4,
+      "y": 8
+     },
+     {
+      "x": 5,
+      "y": 8
+     },
+     {
+      "x": 6,
+      "y": 8
+     },
+     {
+      "x": 7,
+      "y": 8
+     },
+     {
+      "x": 8,
+      "y": 8
+     },
+     {
+      "x": 9,
+      "y": 8
+     }
+    ],
+    "pegou": [],
+    "largou": [],
+    "maos": [
+     "Tico (filho)",
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "filho",
+     "sopa3"
+    ],
+    "uids": [],
+    "tipo": "abrigo",
+    "tempoMs": 55003
+   },
+   {
+    "tique": 27,
+    "acao": "largar Tico (filho) no abrigo",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "Tico (filho) (no abrigo)"
+    ],
+    "maos": [
+     "a lata de sopa (3)"
+    ],
+    "maosUids": [
+     "sopa3"
+    ],
+    "uids": [
+     "filho"
+    ],
+    "tipo": "depositar",
+    "tempoMs": 56003
+   },
+   {
+    "tique": 28,
+    "acao": "largar tudo no abrigo",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [
+     "a lata de sopa (3) (no abrigo)"
+    ],
+    "maos": [],
+    "maosUids": [],
+    "uids": [
+     "sopa3"
+    ],
+    "tipo": "depositar_tudo",
+    "tempoMs": 57003
+   },
+   {
+    "tique": 28,
+    "acao": "ficar parado até o fim",
+    "de": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "para": {
+     "x": 9,
+     "y": 8,
+     "comodo": "corredor"
+    },
+    "rota": null,
+    "pegou": [],
+    "largou": [],
+    "maos": [],
+    "maosUids": [],
+    "uids": [],
+    "tipo": "parado",
+    "tempoMs": 60000
+   }
+  ],
+  "resultado": {
+   "resultado": "ok",
+   "pessoas": [
+    "pai",
+    "mae",
+    "filho"
+   ],
+   "itens": {
+    "agua": 1,
+    "sopa": 2
+   },
+   "perdidas": [
+    "filha"
+   ],
+   "itensDeixados": {
+    "sopa": 6,
+    "agua": 7,
+    "mascara": 1,
+    "kit": 1,
+    "rifle": 1,
+    "lanterna": 1,
+    "cadeado": 1,
+    "inseticida": 1,
+    "mala": 1,
+    "baralho": 1,
+    "damas": 1,
+    "gaita": 1,
+    "manual": 1,
+    "municao": 1,
+    "radio": 1,
+    "mapa": 1
+   }
+  }
+ },
+ "dias": [
+  {
+   "dia": 1,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 1. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo.\n- Celeste [mae], mãe: no abrigo.\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo.\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- Ainda não há: este é o primeiro dia.",
+   "evento": null,
+   "resposta": {
+    "pensamento": "Todos no abrigo precisam comer e beber; vou deixar a família com as rações básicas e sair para procurar a Juju, levando água.",
+    "diario": "Dia 1: a sopa_keep? family? ",
+    "escolha": null,
+    "racao": {
+     "sopa": [
+      "Osvaldo",
+      "Celeste",
+      "Tico"
+     ],
+     "agua": [
+      "Osvaldo",
+      "Celeste",
+      "Tico"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo não pode sair agora"
+   },
+   "diario": [
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 2,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 1,
+      "semBeber": 1,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 1,
+      "semBeber": 1,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 1,
+      "semBeber": 1,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 2. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo.\n- Celeste [mae], mãe: no abrigo.\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo.\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- Hoje ninguém comeu. Fingimos que não estamos com fome.\n- Hoje ninguém bebeu.",
+   "evento": {
+    "id": "gatos_1",
+    "grupo": "cadeia",
+    "texto": "Um gato sai da ruína de uma favela de bandidos, sujo de sangue, e fica arranhando a porta.",
+    "escolhas": [
+     {
+      "id": "entrar",
+      "texto": "deixar o gato entrar"
+     },
+     {
+      "id": "nao",
+      "texto": "não deixar"
+     }
+    ],
+    "automatico": false,
+    "escolhida": "nao",
+    "valida": true
+   },
+   "resposta": {
+    "pensamento": "Dar uma ração de sopa e água a cada pessoa no abrigo. A radiação torna perigoso expor a família, então só Osvaldo sai para procurar a Juju, levando água. O gato ensanguentado não entra.",
+    "diario": "Osvaldo foi procurar a Juju com uma garrafa de água; o gato ficou do lado de fora, porque até hoje ele só sabe arranhar a porta e threatenazar a família.",
+    "escolha": "nao",
+    "racao": {
+     "sopa": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ],
+     "agua": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo [pai]",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo [pai] não pode sair agora"
+   },
+   "diario": [
+    "O gato some atrás do muro. Ninguém sabe se volta.",
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 3,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 2,
+      "semBeber": 2,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 2,
+      "semBeber": 2,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 2,
+      "semBeber": 2,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 3. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo.\n- Celeste [mae], mãe: no abrigo.\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo.\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- O gato some atrás do muro. Ninguém sabe se volta.\n- Hoje ninguém comeu. Fingimos que não estamos com fome.\n- Hoje ninguém bebeu.",
+   "evento": {
+    "id": "enchente",
+    "grupo": "abrigo",
+    "texto": "Um tubo estoura e a água invade o abrigo. Só dá para salvar um item.",
+    "escolhas": [
+     {
+      "id": "nada",
+      "texto": "Só limpam a água."
+     }
+    ],
+    "automatico": true,
+    "escolhida": "nada",
+    "valida": true
+   },
+   "resposta": {
+    "pensamento": "A优先级 é hidratar e nutrir os três no abrigo; vou sair com água para procurar a Juju, levando um item para a长途 até a casa.",
+    "diario": "Hoje a sopa e a água finalmente fizeram as pazes com a família; Osvaldo saiu para encontrar a Juju, porque esquecer alguém em casa seria um erro administrativo com招式 cósmicas.",
+    "escolha": null,
+    "racao": {
+     "sopa": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ],
+     "agua": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo [pai]",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo [pai] não pode sair agora"
+   },
+   "diario": [
+    "A água baixa e deixa só limpeza para trás.",
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 4,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 3,
+      "semBeber": 3,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 3,
+      "semBeber": 3,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 3,
+      "semBeber": 3,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 4. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo, com sede.\n- Celeste [mae], mãe: no abrigo, com sede.\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo, com sede.\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- A água baixa e deixa só limpeza para trás.\n- Hoje ninguém comeu. Fingimos que não estamos com fome.\n- Hoje ninguém bebeu.",
+   "evento": null,
+   "resposta": {
+    "pensamento": "A Juju ainda está perdida e o ar é radioativo; vou sair agora para procurá-la, levando a última água. No abrigo, todos recebem uma ração de sopa e água, pois ontem ficaram sem comer nem beber.",
+    "diario": "Dia 4: o pai virou detetive nuclear sem máscara; se eu não voltar, a sopa já sabe quem mandou.",
+    "escolha": null,
+    "racao": {
+     "sopa": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ],
+     "agua": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo [pai]",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo [pai] não pode sair agora"
+   },
+   "diario": [
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 5,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 4,
+      "semBeber": 4,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 4,
+      "semBeber": 4,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 4,
+      "semBeber": 4,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 0,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 5. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo, com sede.\n- Celeste [mae], mãe: no abrigo, com sede.\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo, com sede.\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- Hoje ninguém comeu. Fingimos que não estamos com fome.\n- Hoje ninguém bebeu.",
+   "evento": {
+    "id": "duas_patas",
+    "grupo": "porta",
+    "texto": "Olhos brilhantes na escuridão e um rosnado baixo. Dá para espantar, matar ou acolher.",
+    "escolhas": [
+     {
+      "id": "nada",
+      "texto": "Ficam paralisados de medo."
+     }
+    ],
+    "automatico": true,
+    "escolhida": "nada",
+    "valida": true
+   },
+   "resposta": {
+    "pensamento": "A água é urgente: dar uma porção a cada pessoa no abrigo. Como Juju continua perdida e a radiação aumenta, Osvaldo deve sair para procurá-la levando água, acceptando o risco de adoecer.",
+    "diario": "Hoje a sopa继续保持 a família viva, a água deixou de ser decoração, e Osvaldo foi buscar a Juju com o mesmo otimismo nuclear de sempre — o que, convenhamos, não é uma estratégia.",
+    "escolha": null,
+    "racao": {
+     "sopa": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ],
+     "agua": [
+      "Osvaldo [pai]",
+      "Celeste [mae]",
+      "Tico [filho]"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo [pai]",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo [pai] não pode sair agora"
+   },
+   "diario": [
+    "A família se assusta e a sanidade de todos cai. O bicho some na escuridão.",
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 6,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 5,
+      "semBeber": 5,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 5,
+      "semBeber": 5,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": true,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 5,
+      "semBeber": 5,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "situacao": "Dia 6. Lá fora: o ar é radioativo (sem máscara de gás, quem sai adoece com muita chance; a radiação deve acabar por volta do dia 20).\n\nPessoas (nas escolhas, use o id entre colchetes):\n- Osvaldo [pai], pai: no abrigo, desidratado(a) (5 dias sem água).\n- Celeste [mae], mãe: no abrigo, desidratado(a) (5 dias sem água).\n- Juju [filha], filha: perdido(a): ficou na casa quando o abrigo fechou.\n- Tico [filho], filho: no abrigo, desidratado(a) (5 dias sem água).\n\nRecursos:\n- Sopa: 2 lata(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 2 ração(ões) para cada um no abrigo.\n- Água: 1 garrafa(s) fechada(s) e 0 quarto(s) aberto(s); dá para cerca de 1 ração(ões) para cada um no abrigo.\n- Itens: nenhum.\n\nDiário de ontem:\n- A família se assusta e a sanidade de todos cai. O bicho some na escuridão.\n- Hoje ninguém comeu. Fingimos que não estamos com fome.\n- Hoje ninguém bebeu.",
+   "evento": {
+    "id": "com_5",
+    "grupo": "porta",
+    "texto": "Um negociante de munição bate na porta. Ele não tem o que vender, só quer ver o que a família tem.",
+    "escolhas": [
+     {
+      "id": "nada",
+      "texto": "recusar"
+     }
+    ],
+    "automatico": true,
+    "escolhida": "nada",
+    "valida": true
+   },
+   "resposta": {
+    "pensamento": "Os três no abrigo estão desidratados e sem comer há um dia; vou distribuir a sopa e a água igualmente. Como a Juju continua perdida e o ar está radioativo, Osvaldo sai para procurá-la levando água, apesar do alto risco de adoecer.",
+    "diario": "Hoje a sopa e a águaконецaram o jejum da família, enquanto Osvaldo foi procurar a Juju com uma garrafa: estratégia nuclear com começo de comédia.",
+    "escolha": null,
+    "racao": {
+     "sopa": [
+      "Osvaldo",
+      "Celeste",
+      "Tico"
+     ],
+     "agua": [
+      "Osvaldo",
+      "Celeste",
+      "Tico"
+     ]
+    },
+    "expedicao": {
+     "quem": "Osvaldo",
+     "itens": [
+      "agua"
+     ]
+    },
+    "ok": true
+   },
+   "racao": {
+    "ok": true,
+    "sopa": [],
+    "agua": [],
+    "faltou": []
+   },
+   "expedicao": {
+    "ok": false,
+    "motivo": "Osvaldo não pode sair agora"
+   },
+   "diario": [
+    "Osvaldo está desidratado(a). Água, rápido.",
+    "Celeste está desidratado(a). Água, rápido.",
+    "Tico está desidratado(a). Água, rápido.",
+    "Ele ajeita o chapéu e vai embora.",
+    "Hoje ninguém comeu. Fingimos que não estamos com fome.",
+    "Hoje ninguém bebeu."
+   ]
+  },
+  {
+   "dia": 7,
+   "antes": {
+    "pessoas": [
+     {
+      "id": "pai",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 6,
+      "semBeber": 6,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "mae",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": false,
+      "semComer": 6,
+      "semBeber": 6,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "filha",
+      "vivo": false,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": false,
+      "perdido": true,
+      "semComer": 0,
+      "semBeber": 0,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     },
+     {
+      "id": "filho",
+      "vivo": true,
+      "noAbrigo": false,
+      "fora": false,
+      "fugiu": "sede",
+      "perdido": false,
+      "semComer": 6,
+      "semBeber": 6,
+      "doente": false,
+      "ferido": false,
+      "cansado": 0,
+      "loucura": 10,
+      "mutante": false
+     }
+    ],
+    "itens": {
+     "sopa": 2,
+     "agua": 1
+    },
+    "quebrados": []
+   },
+   "virada": true,
+   "diario": [
+    "Osvaldo está com fome: já faz 6 dias que come direito.",
+    "Celeste está com fome: já faz 6 dias que come direito.",
+    "Tico está com fome: já faz 6 dias que come direito.",
+    "Osvaldo não resistiu à sede. Nós vamos sentir falta.",
+    "Celeste não resistiu à sede. Nós vamos sentir falta.",
+    "Tico não resistiu à sede e fugiu de casa. Não morreu: fugiu. Nós preferimos acreditar nisso."
+   ]
+  }
+ ],
+ "final": {
+  "id": "expulso",
+  "tipo": "derrota",
+  "motivo": "ninguém dentro do abrigo",
+  "dia": 7
+ },
+ "fim": {
+  "pessoas": [
+   {
+    "id": "pai",
+    "vivo": false,
+    "noAbrigo": false,
+    "fora": false,
+    "fugiu": false,
+    "perdido": false,
+    "semComer": 6,
+    "semBeber": 6,
+    "doente": false,
+    "ferido": false,
+    "cansado": 0,
+    "loucura": 10,
+    "mutante": false
+   },
+   {
+    "id": "mae",
+    "vivo": false,
+    "noAbrigo": false,
+    "fora": false,
+    "fugiu": false,
+    "perdido": false,
+    "semComer": 6,
+    "semBeber": 6,
+    "doente": false,
+    "ferido": false,
+    "cansado": 0,
+    "loucura": 10,
+    "mutante": false
+   },
+   {
+    "id": "filha",
+    "vivo": false,
+    "noAbrigo": false,
+    "fora": false,
+    "fugiu": false,
+    "perdido": true,
+    "semComer": 0,
+    "semBeber": 0,
+    "doente": false,
+    "ferido": false,
+    "cansado": 0,
+    "loucura": 10,
+    "mutante": false
+   },
+   {
+    "id": "filho",
+    "vivo": true,
+    "noAbrigo": false,
+    "fora": false,
+    "fugiu": "sede",
+    "perdido": false,
+    "semComer": 6,
+    "semBeber": 6,
+    "doente": false,
+    "ferido": false,
+    "cansado": 0,
+    "loucura": 10,
+    "mutante": false
+   }
+  ],
+  "itens": {
+   "sopa": 2,
+   "agua": 1
+  },
+  "quebrados": []
+ },
+ "uso": {
+  "chamadas": 33,
+  "falhas": 0,
+  "porProvider": {
+   "or:minimax/minimax-m3.1-flash:free": 33
+  }
+ }
+}

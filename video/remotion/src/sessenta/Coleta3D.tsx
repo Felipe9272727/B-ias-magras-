@@ -19,7 +19,7 @@ export type DadosColeta3D = {
   semente: string; casa: {itens: Coisa[]; pessoas: {id: string; x: number; y: number}[]; inicio: Pt; abrigo: Pt; alt: number};
   log: Reg[]; fim: {resultado: string; pessoas: string[]; itens: Record<string, number>}; falas?: {registro: number; fala: string}[];
 };
-type Props = {dados: DadosColeta3D | null; ia: {nome: string; cor: string} | null; arquivo?: string};
+type Props = {dados: DadosColeta3D | null; ia: {nome: string; cor: string} | null; arquivo?: string; rapido?: boolean};
 
 export const calcColeta3D: CalculateMetadataFunction<Props> = async ({props}) => {
   const arq = props.arquivo ? `sessenta/partidas/${props.arquivo}.json` : 'sessenta/coleta_teste.json';
@@ -342,7 +342,7 @@ const Cena: React.FC<{m: Modelos; d: DadosColeta3D; t: number; s: number}> = ({m
   );
 };
 
-export const Coleta3D: React.FC<Props> = ({dados, ia}) => {
+export const Coleta3D: React.FC<Props> = ({dados, ia, rapido}) => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
   const [m, setM] = useState<Modelos | null>(null);
@@ -383,7 +383,7 @@ export const Coleta3D: React.FC<Props> = ({dados, ia}) => {
   return (
     <AbsoluteFill style={{background: '#5f9a48'}}>
       {m && (
-        <ThreeCanvas width={width} height={height} dpr={0.7} shadows camera={{fov: 46, near: 0.1, far: 80}} gl={{antialias: true, preserveDrawingBuffer: true}}>
+        <ThreeCanvas width={width} height={height} dpr={rapido ? 0.5 : 0.7} shadows={!rapido} camera={{fov: 46, near: 0.1, far: 80}} gl={{antialias: true, preserveDrawingBuffer: true}}>
           <Cena m={m} d={dados} t={t} s={s} />
         </ThreeCanvas>
       )}

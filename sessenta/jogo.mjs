@@ -19,9 +19,10 @@ import {EVENTOS as EV_PESSOAS} from './eventos/pessoas.mjs'
 import {EVENTOS as EV_CADEIAS} from './eventos/cadeias.mjs'
 
 export const PROVEDORES = {
-  claude: 'opus',
+  claude: 'sonnet', // Sonnet no esforço alto (o Opus devolvia resposta vazia quando o pedido tinha o campo "pensamento")
   deepseek: 'or:deepseek/deepseek-v4.1-flash',
   gpt: 'or:openai/gpt-5.6-terra', // o Luna ficou de fora do abrigo duas vezes; o Terra é mais caro e mais esperto
+  minimax: 'or:minimax/minimax-m3.1-flash:free', // participante surpresa (lançado em out/2026, só a versão grátis)
   mock: 'mock',
 }
 export const EVENTOS = [...EV_ITENS, ...EV_SIMNAO, ...EV_PESSOAS, ...EV_CADEIAS]
@@ -193,9 +194,20 @@ export async function jogar({semente, ia, maxDias = 60, logar = console.log, avi
     }
     // 2) ração e 3) expedição (a IA pode mandar ids inválidos: o abrigo ignora)
     if (!e.final) {
-      const lista = (v) => (Array.isArray(v) ? v.map(String) : [])
-      dia.racao = aplicarRacao(e, {sopa: lista(j.racao?.sopa), agua: lista(j.racao?.agua)})
-      if (j.expedicao?.quem) dia.expedicao = enviarExpedicao(e, String(j.expedicao.quem), lista(j.expedicao.itens))
+      // as IAs às vezes mandam o nome ("Osvaldo [pai]") em vez do id: aceita id, nome ou "[id]" (pessoas e itens)
+      const quemE = (v) => {
+        const t = normal(v)
+        const p = e.pessoas.find((x) => t === x.id || t.includes(`[${x.id}]`) || t === normal(x.nome) || t.startsWith(normal(x.nome)))
+        return p?.id ?? String(v)
+      }
+      const itemE = (v) => {
+        const t = normal(v)
+        const k = Object.keys(ITENS).find((id) => t === id || t.includes(`[${id}]`) || t === normal(ITENS[id].nome))
+        return k ?? String(v)
+      }
+      const lista = (v, f) => (Array.isArray(v) ? v.map(f) : [])
+      dia.racao = aplicarRacao(e, {sopa: lista(j.racao?.sopa, quemE), agua: lista(j.racao?.agua, quemE)})
+      if (j.expedicao?.quem) dia.expedicao = enviarExpedicao(e, quemE(j.expedicao.quem), lista(j.expedicao.itens, itemE))
     }
     checarFinais(e)
     dia.diario = [...e.diario]

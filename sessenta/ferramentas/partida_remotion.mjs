@@ -11,6 +11,7 @@ const VISUAL = {
   deepseek: {nome: 'DEEPSEEK', cor: '#4d6bfe'},
   gpt: {nome: 'GPT', cor: '#10a37f'},
   'gpt-luna': {nome: 'GPT LUNA', cor: '#10a37f'},
+  minimax: {nome: 'MINIMAX', cor: '#e8336d'},
   mock: {nome: 'TESTE', cor: '#777777'},
 }
 const dir = path.join(RAIZ, 'video/remotion/public/sessenta/partidas')

@@ -43,9 +43,12 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'deepseek' || provider.includes('deepseek/')) maxTokens += 3000 // o Flash pensa antes de responder
   // o Opus pensa antes de responder: esforço médio (pedido da pessoa) e folga de tokens para o pensamento
   if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
+  // o Sonnet também pensa: esforço alto (pedido da pessoa para o 60 Segundos) e a mesma folga de tokens
+  if (provider === 'sonnet') { effort = effort ?? process.env.SONNET_EFFORT ?? 'high'; maxTokens += 6000 }
   let transientes = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
+    if (process.env.IA_DEBUG && !(r.ok && r.text?.trim())) console.error('[ia] falhou', provider, JSON.stringify(r).slice(0, 500))
     if (r.ok && r.text.trim()) {
       const c = Number(r.usage?.cost ?? 0)  // o OpenRouter informa o custo em dólar de cada chamada
       if (c) { uso.custo = uso.custo ?? {}; uso.custo[provider] = (uso.custo[provider] ?? 0) + c }
