@@ -1,6 +1,15 @@
 {
   "viewBox": [600, 900],
-  "pes": [300, 860],
-  "camadas": ["base", "cabelo1", "cabelo2", "cabelo3", "sujo", "ferido", "doente", "sede", "fome", "cansado", "louco"],
-  "obs": "Base traçada da referência limpa Tedday2 (Ted normal, barba leve). cabelo1-3 por diferença de pixels escuros contra a base, após alinhamento ORB+ECC (day_6, hair_2, hair_3). doente, cansado, louco, ferido, fome, sede e sujo são desenhados à mão sobre a base, com coordenadas da base convertidas para o canvas: as referências desses estados têm escala/pose diferentes e a diferença de pixels deu ruído. fome é só um sombreamento leve nas bochechas, não um corpo magro de verdade. Tudo em SVG, mesmo viewBox 600x900, pés em y=860."
+  "pes": [300, 812],
+  "variantes": {
+    "base": "base.svg",
+    "doente": "doente.svg",
+    "ferido": "ferido.svg",
+    "cansado": "cansado.svg",
+    "louco": "louco.svg",
+    "fatigado": "fatigado.svg",
+    "doente_louco": "doente_louco.svg",
+    "fome": "fome.svg"
+  },
+  "obs": "Ted (pai). Estados traçados por segmentação (GrabCut com silhueta manual) das referências oficiais de ref60/estados: doente=Ted_Sick_Normal; ferido=Ted_hurt_crazy_fatigued_original; cansado=Ted_tired; louco=Crazy_ted; fatigado=Ted_day_25 (cabelo/barba crescido + sujo); doente_louco=Crazy_+_sick_Ted; fome=Ted_day_7 (não há referência de fome; é a mais pálida/abatida). Base mantida. Escala por largura da cabeça (base ~215px); pés/base em y=812 (a base real termina aí, não em 860). Camadas antigas (cabelo1-3, sede, sujo) removidas: só o json e as variantes. Limitações: fundo de cena residual (cadeira/lata) em alguns estados nas partes de baixo; ferido e cansado ~335 KB."
 }

@@ -125,7 +125,7 @@ export const Dia: React.FC<Props> = ({dados}) => {
         <div style={{position: 'absolute', left: 30, bottom: 26, display: 'flex', gap: 10, fontFamily: FONT.display, fontWeight: 800, fontSize: 22, color: '#fff'}}>
           {ausentes.map((p) => (
             <div key={p.id} style={{background: '#000b', padding: '6px 12px', borderRadius: 10, border: '3px solid #777'}}>
-              {NOMES[p.id]}: {p.morte || (!p.vivo && !p.perdido) ? '✝️ morreu' : p.perdido ? 'ficou na casa' : p.fora ? '🎒 em expedição' : '🚪 sumiu'}
+              {NOMES[p.id]}: {!p.vivo && !p.perdido ? '✝️ morreu' : p.perdido ? 'ficou na casa' : p.fora ? '🎒 em expedição' : '🚪 sumiu'}
             </div>
           ))}
         </div>
