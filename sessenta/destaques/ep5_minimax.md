@@ -171,16 +171,16 @@ Sem linha de saída no log, mas com ordem registrada pela IA: Juju com máscara 
 
 - **Dias sem ninguém comer:** 7 (dias 2, 4, 5, 6, 15, 19, 20). A frase "Hoje ninguém comeu. Fingimos que não estamos com fome." aparece 7 vezes.
 - **Dias sem ninguém beber:** 5 (dias 1, 2, 6, 7, 20).
-- **Expedições:** a IA mandou 9 pessoas para fora. O log registra 6 saídas (Tico 2, Celeste 3, Juju 1). Juju foi mandada 4 vezes (dias 8, 10, 11, 15), mas só saiu uma. Mais o carro do pai no dia 4.
+- **Expedições:** a IA decidiu 9 expedições (Tico 2, Celeste 3, Juju 4). O log registra 6 saídas (Tico 2, Celeste 3, Juju 1). Juju foi mandada nos dias 8, 10, 11 e 15, mas só saiu no dia 8. Mais o carro do pai no dia 4.
 - **Itens trazidos nas expedições:** 7 latas de sopa, 11 garrafas de água, mais cadeado, máscara, machado, mapa e rádio. Também 1 lata na mala do dia 6 e 2 latas pela troca do dia 16.
 - **Itens quebrados:** 0 em todo o jogo. Itens perdidos: a mala que ficou na coleta.
 - **Frases repetidas:** "Alguém me dá um chá." aparece 3 vezes (dias 3, 8, 15). "Abrimos lata/garrafa: dá para 4 porções." aparece 19 vezes no total.
-- **Tico doente:** dias 3 a 9 e 15 a 23. Entre os dias 10 e 14 ficou curado, pela injeção do dia 14.
+- **Tico doente:** dias 3 a 9 e 15 a 23. Ficou sem doença entre os dias 10 e 14.
 - **Contador de Tico:** "continua doente" muda o "de N" sem lógica: "(1 de 9)", "(2 de 3)", "(1 de 8)", "(1 de 3)".
 - **Loucura:** 15 para os 4 membros a partir do dia 6. Depois, Tico sobe para 30 no dia 22 e 35 no dia 23.
 - **Traço da IA:** priorizou sempre Tico (doente) nas rações. Repetiu "Juju não precisa beber" nos dias 14, 15, 18 e 19. Mandou Juju e Celeste para fora com máscara e mala com frequência, e deixou o pai ir de carro (dia 4, "sim").
 - **Fatos curiosos:**
-  1. Na coleta, a IA cometeu o "esqueceu" do dia 21,7 s: disse "Juju, fiquem aqui!" sem ela estar no abrigo, e só percebeu aos 27,0 s.
+  1. Na coleta, aos 21,7 s a IA disse "Celeste, Juju e Tico, fiquem aqui! Já volto!" sem a Juju estar no abrigo, e só percebeu aos 27,0 s.
   2. A IA disse "com apenas 4 segundos" aos 60,0 s, mas o log marca 3,3 s sobrando.
   3. A IA prometeu buscar a mala aos 53,3 s, chegou no Quarto das crianças e não pegou. Ela foi deixada.
   4. Ao longo do jogo, o pai fugiu no dia 5 e o diário do dia 8 diz "com autorização do pai".
