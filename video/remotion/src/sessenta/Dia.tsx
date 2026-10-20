@@ -77,7 +77,7 @@ export const Dia: React.FC<Props> = ({dados}) => {
   for (const [id, n] of Object.entries(est.itens)) {
     if (!n || !cena.itens[id]) continue;
     const quebrado = est.quebrados.includes(id);
-    const arq = quebrado && itens[`${id}_quebrado`] !== undefined ? `${id}_quebrado` : id;
+    const arq = quebrado && itens[id]?.quebrado ? `${id}_quebrado` : id;
     if (!itens[id]) continue;
     const posicoes = Array.isArray(cena.itens[id]) ? (cena.itens[id] as Pos[]).slice(0, n) : [cena.itens[id] as Pos];
     posicoes.forEach((p, i) => objetos.push(
