@@ -4,6 +4,8 @@
   pensamento, usar **ECO** na voz (ex.: ffmpeg `aecho`) mantendo a voz normal. Regra de ouro do Felipe.
 - O narrador nunca diz nem sugere que é o Claude ou uma IA da Anthropic.
 - Vídeos longos: no máximo ~35 min. A melhor partida/parte vai por último.
+- Entre uma partida e outra: transição de **lobby** (até 5 s) com duas IAs conversando sobre a partida que acabou; cada uma
+  recebe só a memória daquela partida e responde com o próprio modelo (ex.: `amongus/lobby4.mjs`).
 - Render: Remotion em 540p (`ESCALA=0.5`) e upscale para 1080p com Lanczos no ffmpeg.
 - Tudo o que aparece como fato das partidas vem dos logs; falas e pensamentos das IAs são copiados, nunca inventados.
 

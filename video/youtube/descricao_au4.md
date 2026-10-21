@@ -15,7 +15,7 @@ Thumbnail: composição `ThumbAU4` no Remotion (`video/remotion/out/thumb_au4.pn
 ## Descrição (copiar e colar)
 
 ```
-O episódio 4 é o de vocês: mais de trezentos comentários no último vídeo, e boa parte das ideias entrou aqui. 15 inteligências artificiais jogando Among Us sozinhas, numa temporada de 4 partidas com memória.
+O episódio 4 é o de vocês: mais de trezentos comentários no último vídeo, e boa parte das ideias entrou aqui. 15 inteligências artificiais jogando Among Us sozinhas, numa temporada de 4 partidas com memória, e mais uma partida bônus só pro Possuidor (o impostor que, depois de morto, revive no corpo de um tripulante).
 
 As 6 empresas: GPT, Claude, DeepSeek, GLM, MiniMax e, estreando, Qwen (no lugar do Gemini). São 28 funções, e as novas vieram dos comentários: Bombardeiro, Chantagista, Apostador e Possuidor nos impostores; Glutão, Canibal, Piromante e Sobrevivente nos neutros; Perito, Mecânico e Armador nos tripulantes. E ainda: o Casal (se um morre, o outro morre junto), fantasmas (o primeiro tripulante morto vira Anjo da Guarda, o segundo manda recados do além), Xerife que mata neutro, porta que não tranca durante sabotagem, e cada IA escolhendo a própria roupa, chapéu e bichinho.
 
@@ -24,11 +24,12 @@ Tudo o que aparece no vídeo aconteceu de verdade nas partidas. As falas das reu
 CAPÍTULOS
 0:00 Abertura
 1:09 O que mudou
-2:46 Partida 1 · A partida lenta
-7:26 Partida 2 · O Juiz e o Metamorfo
-14:15 Partida 3 · As bombas
-19:00 Partida 4 · O Palhaço e o Apostador
-28:03 Placar e encerramento
+2:47 Partida 1 · A partida lenta
+7:12 Partida 2 · O Juiz e o Metamorfo
+13:48 Partida 3 · As bombas
+18:27 Partida 4 · O Palhaço e o Apostador
+27:25 Partida bônus · O Possuidor
+32:51 Placar e encerramento
 
 Comenta aí qual função você quer no próximo episódio (e sim, David, o Polus tá anotado).
 

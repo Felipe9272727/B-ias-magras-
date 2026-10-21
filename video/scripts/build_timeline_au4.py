@@ -372,11 +372,17 @@ def main():
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = tts(' '.join(bt.spoken(x) for x in txt.split()), VOZES[quem], base)
-                        voices.append(dict(at=round(t * FPS), src=f'voice_au4/{sid}_{k}.mp3', cor=quem))
+                        src = f'voice_au4/{sid}_{k}.mp3'
+                        if sc.get('rapido'):  # lobby (até 5 s): corta o silêncio das pontas e acelera a fala
+                            r = base.parent / f'{base.name}_r.mp3'
+                            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=' + str(sc['rapido']), r], check=True)
+                            dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', r], capture_output=True, text=True).stdout)
+                            src = f'voice_au4/{sid}_{k}_r.mp3'
+                        voices.append(dict(at=round(t * FPS), src=src, cor=quem))
                     else:
                         dur = 1.3 if not txt.strip('. ') else len(txt) / 15
                     item['ate'] = round((t + dur) * FPS)
-                    t += dur + 0.35
+                    t += dur + (0.15 if sc.get('rapido') else 0.35)
             vis.setdefault('props', {})['chat'] = chat
             end = t
         minimo = sc.get('min', 7.5 if vis.get('name') == 'AU4Votos' else 0)  # votação: tempo de ler quem votou em quem

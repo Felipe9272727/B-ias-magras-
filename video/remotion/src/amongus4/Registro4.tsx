@@ -9,6 +9,7 @@ import {mapaDaCena} from '../amongus3/tempo';
 import {AU4Roupas} from '../amongus/AU4Roupas';
 import {AU4Comentarios} from './Comentarios4';
 import {AU4Aposta, AU4Ejecao} from './Reuniao4';
+import {AU4Lobby} from './Lobby4';
 import {Votacao} from '../amongus3/Telas';
 import {AU3Papeis} from '../amongus3/Papeis';
 import {PAPEIS4} from './Papeis4';
@@ -40,6 +41,8 @@ export const AU4Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU4Comentarios lista={p.lista} passo={p.passo ?? 40} />;
     case 'AU4Reuniao':
       return <Votacao p={ps[String(p.partida)]} idx={p.indice} fase="discussao" mensagens={p.chat ?? []} timer={p.timer} viva />;
+    case 'AU4Lobby':
+      return <AU4Lobby proxima={p.proxima} chat={p.chat ?? []} skins={skins} modelos={p.modelos} />;
     case 'AU4Aposta':
       return <AU4Aposta p={ps[String(p.partida)]} idx={p.indice} skins={skins} k={p.k} />;
     case 'AU4Ejecao':

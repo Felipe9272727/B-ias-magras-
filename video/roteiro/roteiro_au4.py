@@ -94,6 +94,16 @@ def F(n, i, a=0, b=None):
     return [tuple(x) for x in _FALAS[f'{ORDEM[n]}-{i}'][a:b]]
 
 
+# lobby entre as partidas: duas IAs conversando sobre a partida que acabou (amongus/logs4/lobby.json, gerado por
+# amongus/lobby4.mjs: cada uma só recebeu a memória daquela partida). Até 5 s.
+_LOBBY = _json.loads((_Path(__file__).parents[2] / 'amongus/logs4/lobby.json').read_text())
+
+
+def lobby(id, n, proxima):
+    js = _json.loads((_Path(__file__).parents[2] / f'amongus/logs4/partida{ORDEM[n]}.json').read_text())['jogadores']
+    return CH(id, f'p{n}', comp('AU4Lobby', proxima=proxima, mostrarPensamentos=False, modelos={j['cor']: j['modelo'] for j in js}), [tuple(x) for x in _LOBBY[str(ORDEM[n])]], lead=0.1, pad=0.3, rapido=1.2)
+
+
 def N(id, chapter, visual, text, **kw):
     return dict(id=id, chapter=chapter, visual=visual, text=text, **kw)
 
@@ -170,6 +180,7 @@ SCENES = [
     N('p114', 'p1', comp('AU4Fim', partida=1, foco='Azul'),
       '[[s:tada:0.5]] Tripulantes venceram! [[t:73 TIQUES · 2 MORTES:2:#ffd84d]] Setenta e três tiques, duas mortes. [[m:one-eternity-later:right:2.2]] E o Roxo, o Sobrevivente, ganhou junto.'),
 
+    lobby('l1', 1, 'PARTIDA 2'),
     # ------------------------------------------------------------------ PARTIDA 2 (log 3): o Juiz e o Metamorfo
     N('p201', 'p2', revela(2, 'Ciano'),
       'Partida dois. Os impostores: o Ciano, um Claude Haiku, de Bombardeiro. [[s:faca:0.4]] O Cinza, um MiniMax, de Chantagista. [[s:faca:0.4]] E o Bordô, um DeepSeek, de Metamorfo, o que se disfarça de outro jogador. [[s:impact-epic:0.4]] E dois neutros perigosos: o Branco é o Glutão, e a Coral, a Piromante.'),
@@ -237,6 +248,7 @@ SCENES = [
     N('p223', 'p2', comp('AU4Fim', partida=2, foco='Verde'),
       '[[s:tada:0.5]] Tripulantes venceram! [[m:cr7-siuuu:right:2.5]] Com um Juiz que salvou um inocente, um fantasma que dedurou o assassino, e um Anjo que defendeu o Roxo duas vezes. Os mortos ganharam essa partida.'),
 
+    lobby('l2', 2, 'PARTIDA 3'),
     # ------------------------------------------------------------------ PARTIDA 3 (log 1): as bombas
     N('p301', 'p3', revela(3, 'Vermelho'),
       'Partida três. Os impostores: o Vermelho, um MiniMax, de Bombardeiro. [[s:faca:0.4]] O Laranja, um Qwen, de Gangster. [[s:faca:0.4]] E o Marrom, um DeepSeek, de Chantagista. [[s:impact-epic:0.4]] Nos neutros, a Lima é a Piromante, e o Bordô, o Glutão. E o Casal: o Verde, tripulante... com o Marrom, impostor.'),
@@ -281,6 +293,7 @@ SCENES = [
     N('p316', 'p3', comp('AU4Fim', partida=3, foco='Vermelho'),
       '[[s:explosion:0.5]] Impostores venceram! Três contra três, empate é vitória deles. [[m:lets-go:right:2.5]] O Vermelho, um MiniMax gratuito, plantou três bombas e nunca estava perto quando elas explodiam.'),
 
+    lobby('l3', 3, 'PARTIDA 4'),
     # ------------------------------------------------------------------ PARTIDA 4 (log 4): o Palhaço e o Apostador
     N('p401', 'p4', revela(4, 'Bordo'),
       'Partida quatro. Os impostores: o Vermelho, um MiniMax, de Envenenador. [[s:faca:0.4]] O Laranja, um Qwen, de Apostador. [[s:faca:0.4]] E o Bordô, um DeepSeek, de Chantagista. [[s:impact-epic:0.4]] O Amarelo é o Piromante. E o Palhaço, que ganha se for expulso... é o Branco.'),
@@ -366,6 +379,7 @@ SCENES = [
     N('p428', 'p4', comp('AU4Fim', partida=4, foco='Azul'),
       '[[s:tada:0.5]] Tripulantes venceram, com quatro vivos e quase todas as tarefas feitas. [[m:we-did-it:right:2.5]] E o Laranja, um Qwen que entrou nessa temporada, acertou duas apostas. Mas o scan que não ligou entregou ele.'),
 
+    lobby('l4', 4, 'PARTIDA BÔNUS'),
     # ------------------------------------------------------------------ PARTIDA BÔNUS (log 5): o Possuidor
     N('p501', 'p5', revela(5, 'Bordo'),
       'Mas calma. Lembra do Possuidor? Em quatro partidas, ele não caiu no sorteio nenhuma vez. [[m:sad-pablo:right:2]] Então fiz uma partida bônus só pra ele. E mudei a função: enquanto vivo, ele só pode matar uma vez. [[t:🔪 SÓ 1 MORTE:1.6:#ff3b3b]] Mas se ele morrer... o espírito dele revive no corpo de um tripulante morto, [[t:👻 REVIVE NUM MORTO:1.8:#c08bff]] e volta pro jogo como se fosse ele. [[s:impact-epic:0.5]] O Possuidor é o Bordô, um DeepSeek. Junto dele, o Vermelho de Metamorfo e a Coral de Faxineira.'),
