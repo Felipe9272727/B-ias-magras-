@@ -3,7 +3,7 @@
 
 As cores de cada IA são as mesmas do Among Us 3 (logs3/temporada.json), para o público reconhecer os personagens;
 as duas cores do Gemini passam para o Qwen. Para cada partida sorteia: os papéis (3 impostores de 3 empresas
-diferentes, escolhidos entre as 7 funções de impostor; o Palhaço e o Glutão; as 10 funções de tripulante), o Casal
+diferentes, escolhidas entre as 9 funções de impostor; 2 das 4 neutras; 10 das 14 de tripulante), o Casal
 (2 cores quaisquer) e a semente do motor.
 Grava logs4/temporada.json; o motor (jogo4.mjs --temporada ... --partida N) só lê, não sorteia nada.
 
@@ -16,9 +16,9 @@ from pathlib import Path
 R = secrets.SystemRandom()
 CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 TROCA = {'or:google/gemini-3.8-flash': 'or:qwen/qwen3.8-flash'}
-IMPOSTORES = ['Metamorfo', 'Espectro', 'Faxineiro', 'Envenenador', 'Gangster', 'Chantagista', 'Possuidor']
-NEUTROS = ['Palhaco', 'Glutao']
-TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca']
+IMPOSTORES = ['Metamorfo', 'Espectro', 'Faxineiro', 'Envenenador', 'Gangster', 'Chantagista', 'Possuidor', 'Bombardeiro', 'Apostador']
+NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente']
+TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca', 'Perito', 'Mecanico', 'Armador']
 
 
 def sortear_partida(cores):
@@ -26,7 +26,7 @@ def sortear_partida(cores):
     imps = [R.choice([c for c, p in cores.items() if p == e]) for e in empresas]
     papeis_imp = R.sample(IMPOSTORES, 3)
     resto = [c for c in CORES if c not in imps]
-    outros = TRIPULANTES + NEUTROS
+    outros = R.sample(TRIPULANTES, 10) + R.sample(NEUTROS, 2)
     R.shuffle(outros)
     papeis = {**dict(zip(imps, papeis_imp)), **dict(zip(resto, outros))}
     return {'papeis': {c: papeis[c] for c in CORES}, 'casal': R.sample(CORES, 2), 'seed': secrets.randbelow(2**31)}
@@ -47,9 +47,8 @@ def main():
     print('empresas com 3 IAs:', ', '.join(com3))
     for i, p in enumerate(partidas, 1):
         imps = ', '.join(f'{c} ({p["papeis"][c]}, {cores[c]})' for c in CORES if p['papeis'][c] in IMPOSTORES)
-        pal = next(c for c in CORES if p['papeis'][c] == 'Palhaco')
-        glu = next(c for c in CORES if p['papeis'][c] == 'Glutao')
-        print(f'partida {i}: impostores = {imps} | palhaço = {pal} | glutão = {glu} | casal = {" e ".join(p["casal"])}')
+        neu = ', '.join(f'{c} ({p["papeis"][c]})' for c in CORES if p['papeis'][c] in NEUTROS)
+        print(f'partida {i}: impostores = {imps} | neutros = {neu} | casal = {" e ".join(p["casal"])}')
     print('→', a.saida)
 
 
