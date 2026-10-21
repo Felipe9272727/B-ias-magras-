@@ -175,8 +175,11 @@ export const S60Prompt: React.FC<{texto: string; resposta: string; cor?: string;
     <AbsoluteFill>
       <Fundo cor="#1d1d1d" />
       <div style={{position: 'absolute', left: 70, top: 70, width: 1060, bottom: 70, background: '#0e1116', border: '5px solid #000', borderRadius: 20, padding: '24px 30px', fontFamily: FONT.mono, fontSize: 22, color: '#d6e2ea', whiteSpace: 'pre-wrap', overflow: 'hidden', lineHeight: 1.35, boxShadow: '0 12px 0 #000a'}}>
-        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#f2c230', marginBottom: 12}}>{titulo}</div>
-        {texto.slice(0, chars)}
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#f2c230', paddingBottom: 12, position: 'relative', zIndex: 2, background: '#0e1116'}}>{titulo}</div>
+        {/* rola como um terminal: as últimas linhas digitadas ficam sempre à vista */}
+        <div style={{transform: `translateY(${-Math.max(0, texto.slice(0, chars).split('\n').reduce((n, l) => n + Math.max(1, Math.ceil(l.length / 74)), 0) - 25) * 29.7}px)`}}>
+          {texto.slice(0, chars)}
+        </div>
       </div>
       <div style={{position: 'absolute', right: 70, top: 260, width: 640, background: '#fff', border: `6px solid ${cor}`, borderRadius: 22, padding: '22px 26px', fontFamily: FONT.mono, fontSize: 25, color: '#111', whiteSpace: 'pre-wrap', opacity: interpolate(f, [r0, r0 + 10], [0, 1], cl), transform: `scale(${interpolate(spring({frame: f - r0, fps: FPS, config: {damping: 12}}), [0, 1], [0.7, 1])})`, boxShadow: '0 12px 0 #000a'}}>
         <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: cor, marginBottom: 10}}>A RESPOSTA</div>
