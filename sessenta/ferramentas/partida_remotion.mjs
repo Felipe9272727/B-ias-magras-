@@ -16,8 +16,10 @@ const VISUAL = {
 }
 const dir = path.join(RAIZ, 'video/remotion/public/sessenta/partidas')
 fs.mkdirSync(dir, {recursive: true})
-for (const nome of process.argv.slice(2)) {
-  const log = JSON.parse(fs.readFileSync(path.join(RAIZ, 'sessenta/logs', `${nome}.json`), 'utf8'))
+for (const arg of process.argv.slice(2)) {
+  // 'nome' lê sessenta/logs/nome.json; 'caminho.json=nome' lê outro arquivo e grava com esse nome
+  const [origem, nome] = arg.includes('=') ? arg.split('=') : [path.join(RAIZ, 'sessenta/logs', `${arg}.json`), arg]
+  const log = JSON.parse(fs.readFileSync(origem, 'utf8'))
   const saida = {
     semente: log.semente, ia: log.ia, iaVisual: log.provider?.includes('luna') ? {nome: 'GPT LUNA', cor: '#10a37f'} : log.provider?.includes('terra') ? {nome: 'GPT TERRA', cor: '#0b7a5f'} : VISUAL[log.ia] ?? {nome: log.ia.toUpperCase(), cor: '#888'},
     coleta: {semente: log.semente, casa: log.coleta.casa ?? montarCasa(log.semente), log: log.coleta.registro, fim: log.coleta.resultado, falas: log.coleta.falas},
