@@ -154,7 +154,7 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     return (
       <div key={p.id} style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080}}>
         {semPes && <Img src={staticFile(`${DIR}personagens/filha/pernas.svg`)} style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - (fig.pes[1] - 700) * kk, width: 600 * kk, height: 300 * kk}} />}
-        <div style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - fig.pes[1] * kk - (semPes ? 55 * kk : 0), width: w * kk, height: h * kk, transform: `scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * kk}px ${fig.pes[1] * kk}px`}}>
+        <div style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - fig.pes[1] * kk - (semPes ? 55 * kk : 0), width: w * kk, height: h * kk, transform: `scale(${(fig as any).ajuste?.[v.usada] ?? 1}) scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * kk}px ${fig.pes[1] * kk}px`}}>
           <Img src={staticFile(`${DIR}personagens/${p.id}/${v.arq}`)} style={{width: '100%', height: '100%', filter: v.filtro}} />
         </div>
       </div>
@@ -186,8 +186,16 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
         </svg>
         {objetos}
         {pessoas}
+        {/* sombra do chão (como no jogo): escurece pés e pernas, e disfarça emendas dos traçados */}
+        <div style={{position: 'absolute', left: 0, right: 0, top: 820, bottom: 0, background: 'linear-gradient(rgba(12,10,9,0), rgba(12,10,9,0.55) 55%, rgba(12,10,9,0.8))'}} />
+        <div style={{position: 'absolute', left: 230, top: 880, width: 560, height: 200, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(12,10,9,0.6), rgba(12,10,9,0) 70%)'}} />
         <Img src={staticFile(DIR + 'frente.svg')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
         {objMesa}
+        {/* grão de papel por cima de tudo: unifica o traço dos personagens com o cenário */}
+        <svg style={{position: 'absolute', inset: 0, mixBlendMode: 'multiply', opacity: 0.22, pointerEvents: 'none'}} width={1920} height={1080}>
+          <filter id="grao"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={Math.floor(sr * 12) % 50} /><feColorMatrix type="saturate" values="0" /></filter>
+          <rect width={1920} height={1080} filter="url(#grao)" />
+        </svg>
         {/* luz das lâmpadas */}
         {[[318, 118], [1578, 110]].map(([x, y], i) => (
           <div key={i} style={{position: 'absolute', left: x - 380, top: y - 380, width: 760, height: 760, borderRadius: '50%', background: `radial-gradient(circle, rgba(255,246,220,${(0.30 * piscar).toFixed(3)}), rgba(255,246,220,0) 62%)`, mixBlendMode: 'screen'}} />
@@ -217,7 +225,7 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
         <div style={{position: 'absolute', left: 30, bottom: 26, display: 'flex', gap: 10, flexWrap: 'wrap', maxWidth: 860, fontFamily: LETRA, fontWeight: 700, fontSize: 26, color: tinta}}>
           {ausentes.map((p, i) => (
             <div key={p.id} style={{background: '#e7d6a4', padding: '4px 16px', borderRadius: '6px 14px 8px 12px', border: '3px solid #3b2b18', boxShadow: '3px 4px 0 #0008', transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)`}}>
-              {NOMES[p.id]}: {!p.vivo && !p.perdido ? 'morreu' : p.perdido ? 'ficou na casa' : p.fora ? 'em expedição' : 'sumiu'}
+              {NOMES[p.id]}: {(p as any).motivo ? (p as any).motivo : !p.vivo && !p.perdido ? 'morreu' : p.perdido ? 'ficou na casa' : p.fora ? 'em expedição' : 'sumiu'}
             </div>
           ))}
         </div>
