@@ -9,6 +9,7 @@ Uso: python3 montar_cenas_s60.py <bundle> [saida.mp4]      (sem saída: só rend
 """
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -19,6 +20,7 @@ REM = Path(__file__).resolve().parents[1] / 'remotion'
 PUB = REM / 'public'
 CENAS = REM / 'out' / 'cenas_s60'
 FPS = 30
+PULAR = set(filter(None, os.environ.get('PULAR', '').split(',')))  # tipos de cena a deixar para depois (ex.: PULAR=S60Dia)
 VERSAO = 1  # suba quando mudar o desenho dos componentes e quiser refazer tudo
 BROWSER = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
 VIDEO = ['-c:v', 'libx264', '-crf', '18', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
@@ -43,7 +45,7 @@ def plano():
     for s in tl['scenes']:
         sig = {k: v for k, v in s.items() if k not in ('start', 'chapter')}
         h = hashlib.sha1(json.dumps([VERSAO, sig], ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:14]
-        out.append(dict(id=s['id'], ini=s['start'], fim=s['start'] + s['duration'], pendente=bool(s.get('pendente')) or not all(m.exists() for m in midias(s)), arq=CENAS / f"{s['id']}_{h}.mkv"))
+        out.append(dict(id=s['id'], ini=s['start'], fim=s['start'] + s['duration'], pendente=bool(s.get('pendente')) or not all(m.exists() for m in midias(s)) or s['visual'].get('name') in PULAR, arq=CENAS / f"{s['id']}_{h}.mkv"))
     return out
 
 
