@@ -297,6 +297,45 @@ def main():
         elif pr.get('rotulo') == 'auto':
             pr.pop('rotulo')
 
+    # 4) efeitos do jogo na coleta: passos, pegar, largar, alçapão, sirene e bomba, no quadro em que cada ação acontece
+    def quadro_de(s, seg):
+        pr = s['visual']['props']
+        pts = [(0, pr['de'])] + [(e['at'], e['tick']) for e in sorted(s['events'], key=lambda e: e['at']) if e['type'] == 'tk'] + [(s['duration'], pr['fim'])]
+        for (f0, t0), (f1, t1) in zip(pts, pts[1:]):
+            if t0 <= seg <= t1 and t1 > t0:
+                return round(f0 + (seg - t0) / (t1 - t0) * (f1 - f0))
+        return None
+
+    def som(s, f, sid, vol):
+        if sid in sfx_files and f is not None and 0 <= f < s['duration'] - 3:
+            s['events'].append(dict(type='sfx', at=f, id=sid, file=sfx_files[sid], vol=vol))
+
+    for s in scenes:
+        pr = s['visual'].get('props', {})
+        if s['visual'].get('name') != 'S60Coleta' or 'fim' not in pr:
+            continue
+        falas = P.get(pr['partida'], {}).get('coleta', {}).get('falas', [])
+        if pr['de'] < 1:
+            som(s, 0, 'sirene-ataque', 0.35)
+        if pr['de'] < 60 <= pr['fim']:
+            som(s, quadro_de(s, 60), 'bomba-distante', 0.8)
+        ant = 0
+        for f in falas:
+            ini, fim = ant, f['gasto'] / 1000
+            ant = fim
+            if not (pr['de'] <= fim <= pr['fim']):
+                continue
+            acao = f.get('acao', '')
+            if acao.startswith('correr'):
+                som(s, quadro_de(s, max(ini, pr['de'])), 'passos-correndo', 0.22)
+            elif acao.startswith('largar tudo'):
+                som(s, quadro_de(s, fim), 'alcapao', 0.45)
+            elif acao.startswith('pegar'):
+                som(s, quadro_de(s, fim), 'pegar-item', 0.45)
+            elif acao.startswith('largar'):
+                som(s, quadro_de(s, fim), 'largar-item', 0.4)
+        s['events'].sort(key=lambda e: e['at'])
+
     chapters = []
     for s in scenes:
         if not chapters or chapters[-1]['id'] != s['chapterKey']:
