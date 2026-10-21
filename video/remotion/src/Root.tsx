@@ -26,6 +26,7 @@ import {AU4Comentarios} from './amongus4/Comentarios4';
 import {PreviaAU4, calcPreviaAU4} from './amongus4/PreviaAU4';
 import {AU4Roupas, AU4RoupasZoom} from './amongus/AU4Roupas';
 import {ShortPalhaco, calcShortPalhaco} from './amongus3/ShortPalhaco';
+import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
 import {Coleta3D, calcColeta3D} from './sessenta/Coleta3D';
@@ -177,6 +178,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="S60Coleta3D" component={Coleta3D} width={1920} height={1080} fps={30} durationInFrames={1950} defaultProps={{dados: null, ia: null, arquivo: 'piloto_deepseek'}} calculateMetadata={calcColeta3D} />
       <Composition id="S60Coleta" component={Coleta} width={1920} height={1080} fps={30} durationInFrames={1920} defaultProps={{dados: null}} calculateMetadata={calcColeta} />
       <Composition id="ShortPalhaco" component={ShortPalhaco} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPalhaco} />
+      <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbAU3" component={ThumbAU3} width={1280} height={720} fps={30} durationInFrames={1} />
