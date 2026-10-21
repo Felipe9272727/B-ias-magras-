@@ -136,7 +136,7 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     const arq = quebrado && itens[id]?.quebrado ? `${id}_quebrado` : id;
     const posicoes = Array.isArray(cena.itens[id]) ? (cena.itens[id] as Pos[]).slice(0, n) : [cena.itens[id] as Pos];
     posicoes.forEach((p, i) => (MESA.includes(id) ? objMesa : objetos).push(
-      <Img key={id + i} src={staticFile(`${DIR}itens/${arq}.svg`)} style={{position: 'absolute', left: p.x - p.w / 2, top: p.y - p.w / 2, width: p.w, filter: quebrado && arq === id ? 'grayscale(0.8) brightness(0.8)' : undefined}} />,
+      <Img key={id + i} src={staticFile(`${DIR}itens/${arq}.png`)} style={{position: 'absolute', left: p.x - p.w / 2, top: p.y - p.w / 2, width: p.w, filter: quebrado && arq === id ? 'grayscale(0.8) brightness(0.8)' : undefined}} />,
     ));
   }
 
@@ -153,9 +153,9 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     const semPes = p.id === 'filha' && !['base', 'fatigado', 'louco'].includes(v.usada); // sprites cortados nos joelhos ganham as pernas desenhadas
     return (
       <div key={p.id} style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080}}>
-        {semPes && <Img src={staticFile(`${DIR}personagens/filha/pernas.svg`)} style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - (fig.pes[1] - 700) * kk, width: 600 * kk, height: 300 * kk}} />}
+        {semPes && <Img src={staticFile(`${DIR}personagens/filha/pernas.png`)} style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - (fig.pes[1] - 700) * kk, width: 600 * kk, height: 300 * kk}} />}
         <div style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - fig.pes[1] * kk - (semPes ? 55 * kk : 0), width: w * kk, height: h * kk, transform: `scale(${(fig as any).ajuste?.[v.usada] ?? 1}) scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * kk}px ${fig.pes[1] * kk}px`}}>
-          <Img src={staticFile(`${DIR}personagens/${p.id}/${v.arq}`)} style={{width: '100%', height: '100%', filter: v.filtro}} />
+          <Img src={staticFile(`${DIR}personagens/${p.id}/${v.arq.replace('.svg', '.png')}`)} style={{width: '100%', height: '100%', filter: v.filtro}} />
         </div>
       </div>
     );
@@ -168,14 +168,14 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
   const F = Math.max(20, Math.min(44, 1120 / Math.sqrt(Math.max(200, nChar))));
   const tinta = '#2a2118';
 
-  const icones = (id: string, n: number, h: number) => Array.from({length: Math.min(n, 12)}, (_, i) => <Img key={i} src={staticFile(`${DIR}itens/${id}.svg`)} style={{height: h, width: 'auto', marginLeft: i ? -h * 0.1 : 0, transform: `rotate(${((i * 7) % 5) - 2}deg)`}} />);
+  const icones = (id: string, n: number, h: number) => Array.from({length: Math.min(n, 12)}, (_, i) => <Img key={i} src={staticFile(`${DIR}itens/${id}.png`)} style={{height: h, width: 'auto', marginLeft: i ? -h * 0.1 : 0, transform: `rotate(${((i * 7) % 5) - 2}deg)`}} />);
 
   return (
     <AbsoluteFill style={{background: '#262624', overflow: 'hidden'}}>
       {/* margem escura (só aparece quando o abrigo recua): o próprio cenário borrado */}
-      <Img src={staticFile(DIR + 'fundo.svg')} style={{position: 'absolute', inset: -40, width: 2000, height: 1160, filter: 'blur(18px) brightness(0.45)'}} />
+      <Img src={staticFile(DIR + 'fundo_borrado.jpg')} style={{position: 'absolute', inset: -40, width: 2000, height: 1160}} />
       <AbsoluteFill style={{transform: `translate(${tx}px, ${ty}px) scale(${sc})`, transformOrigin: '0 0', width: 1920, height: 1080, boxShadow: k > 0 ? '0 0 40px #000a' : undefined}}>
-        <Img src={staticFile(DIR + 'fundo.svg')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
+        <Img src={staticFile(DIR + 'fundo.png')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
         <Riscos n={Math.max(0, dia.dia - 1)} />
         {/* ventilador girando */}
         <svg style={{position: 'absolute', left: 1081 - 34, top: 108 - 34}} width={68} height={68} viewBox="-34 -34 68 68">
@@ -189,13 +189,10 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
         {/* sombra do chão (como no jogo): escurece pés e pernas, e disfarça emendas dos traçados */}
         <div style={{position: 'absolute', left: 0, right: 0, top: 820, bottom: 0, background: 'linear-gradient(rgba(12,10,9,0), rgba(12,10,9,0.55) 55%, rgba(12,10,9,0.8))'}} />
         <div style={{position: 'absolute', left: 230, top: 880, width: 560, height: 200, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(12,10,9,0.6), rgba(12,10,9,0) 70%)'}} />
-        <Img src={staticFile(DIR + 'frente.svg')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
+        <Img src={staticFile(DIR + 'frente.png')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
         {objMesa}
         {/* grão de papel por cima de tudo: unifica o traço dos personagens com o cenário */}
-        <svg style={{position: 'absolute', inset: 0, mixBlendMode: 'multiply', opacity: 0.22, pointerEvents: 'none'}} width={1920} height={1080}>
-          <filter id="grao"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={Math.floor(sr * 12) % 50} /><feColorMatrix type="saturate" values="0" /></filter>
-          <rect width={1920} height={1080} filter="url(#grao)" />
-        </svg>
+        <div style={{position: 'absolute', inset: 0, mixBlendMode: 'multiply', opacity: 0.3, pointerEvents: 'none', backgroundImage: `url(${staticFile(DIR + 'grao.png')})`, backgroundPosition: `${(Math.floor(sr * 12) * 137) % 512}px ${(Math.floor(sr * 12) * 251) % 512}px`}} />
         {/* luz das lâmpadas */}
         {[[318, 118], [1578, 110]].map(([x, y], i) => (
           <div key={i} style={{position: 'absolute', left: x - 380, top: y - 380, width: 760, height: 760, borderRadius: '50%', background: `radial-gradient(circle, rgba(255,246,220,${(0.30 * piscar).toFixed(3)}), rgba(255,246,220,0) 62%)`, mixBlendMode: 'screen'}} />
@@ -217,8 +214,8 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
         <div style={{padding: '4px 22px', borderRadius: 12, background: ia.cor, border: '4px solid #fff', boxShadow: '4px 5px 0 #000a', fontFamily: FONT.display, fontWeight: 900, fontSize: 32, color: '#fff', transform: 'rotate(-2deg)'}}>{ia.nome}</div>
         <div style={{fontFamily: LETRA, fontWeight: 700, fontSize: 62, color: '#f4e7b8', textShadow: '3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000', transform: 'rotate(1deg)'}}>Dia {dia.dia}</div>
         <div style={{display: 'flex', alignItems: 'center', gap: 6, fontFamily: LETRA, fontWeight: 700, fontSize: 34, color: '#f4e7b8', background: '#1a1814cc', padding: '4px 18px 4px 12px', borderRadius: 40, border: '3px solid #f4e7b855'}}>
-          <Img src={staticFile(DIR + 'itens/sopa.svg')} style={{height: 40}} />{est.itens.sopa ?? 0}
-          <Img src={staticFile(DIR + 'itens/agua.svg')} style={{height: 40, marginLeft: 10}} />{est.itens.agua ?? 0}
+          <Img src={staticFile(DIR + 'itens/sopa.png')} style={{height: 40}} />{est.itens.sopa ?? 0}
+          <Img src={staticFile(DIR + 'itens/agua.png')} style={{height: 40, marginLeft: 10}} />{est.itens.agua ?? 0}
         </div>
       </div>
       {ausentes.length > 0 && (

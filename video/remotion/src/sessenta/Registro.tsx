@@ -131,7 +131,7 @@ export const S60Familia: React.FC<{passo?: number; destaque?: string; riscados?:
         const x = 240 + i * 480;
         return (
           <div key={id} style={{position: 'absolute', left: x - 200, top: 180, width: 400, opacity: s * apaga, transform: `translateY(${(1 - s) * 120}px)`, textAlign: 'center'}}>
-            <Img src={staticFile(`sessenta/abrigo2d/personagens/${id}/base.svg`)} style={{width: 380, height: 570, objectFit: 'contain', filter: riscados.includes(id) ? 'grayscale(1) brightness(0.6)' : undefined}} />
+            <Img src={staticFile(`sessenta/abrigo2d/personagens/${id}/base.png`)} style={{width: 380, height: 570, objectFit: 'contain', filter: riscados.includes(id) ? 'grayscale(1) brightness(0.6)' : undefined}} />
             <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 48, color: '#fff', textShadow: '0 3px 0 #000', marginTop: -10}}>{nome}</div>
             <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 30, color: '#ffd9c7'}}>{papel}</div>
             {riscados.includes(id) && <div style={{position: 'absolute', top: 220, left: 0, right: 0, fontSize: 200, color: '#e8411b', fontWeight: 900, fontFamily: FONT.display, textShadow: '0 6px 0 #000'}}>✗</div>}
