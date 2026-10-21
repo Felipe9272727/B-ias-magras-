@@ -1,4 +1,4 @@
-// Among Us 4: 15 IAs de 6 empresas (DeepSeek, Claude Haiku, GPT, Ministral, GLM e MiniMax M3.1 Flash, grátis; o Ministral entra no lugar do Gemini,
+// Among Us 4: 15 IAs de 6 empresas (DeepSeek, Claude Haiku, GPT, Qwen 27B, GLM e MiniMax M3.1 Flash, grátis; o Qwen entra no lugar do Gemini,
 // que era o mais caro) e 3 impostores. Mesmo motor por tiques do Among Us 3 (jogo3.mjs), com o que os comentários do
 // vídeo 3 pediram (video/youtube/au4/ideias_comentarios.md):
 //  - quem morre vira FANTASMA e continua no jogo: atravessa parede (vai a qualquer sala num tique) e continua fazendo
@@ -57,7 +57,7 @@ function embaralhar(arr) {
 // ---------- configuração ----------
 export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', mock: 'Mock',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', mock: 'Mock',
 }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
@@ -240,7 +240,7 @@ function montarPartida() {
   if (!DA_TEMPORADA) {  // partida avulsa: sorteio pela semente
     const imps = embaralhar(IMPOSTORES).slice(0, 3)
     const todos = embaralhar([...imps, ...embaralhar(NEUTROS).slice(0, 2), ...embaralhar(TRIPULANTES).slice(0, 10)])
-    const empresas = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:mistralai/ministral-14b-2512', 'or:minimax/minimax-m3.1-flash:free', 'or:z-ai/glm-5.3-flash']
+    const empresas = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:qwen/qwen3.8-27b', 'or:minimax/minimax-m3.1-flash:free', 'or:z-ai/glm-5.3-flash']
     const vagas = embaralhar(empresas.flatMap((p, i) => (i < 3 ? [p, p, p] : [p, p])))
     CORES.forEach((c, i) => { papeis[c] = todos[i]; provs[c] = vagas[i] })
   }
@@ -499,11 +499,24 @@ function situacao(j) {
   return L.join('\n')
 }
 
+// Guia extra para modelos menores (o Qwen 3.8 27B): como cada tique funciona, passo a passo, e os erros mais comuns
+const GUIA_MODELO_MENOR = `
+
+GUIA RÁPIDO (leia com atenção, é assim que o jogo funciona):
+1. A cada tique você recebe a sua SITUAÇÃO (onde está, quem está perto, suas tarefas, seu poder) e uma lista "AÇÕES POSSÍVEIS AGORA".
+2. Você escolhe UMA ação e COPIA o texto dela EXATAMENTE como está na lista (mesmas palavras, mesma cor, mesma sala). Ação inventada ou escrita diferente vira "ficar parado observando".
+3. Andar: "ir para X" leva você uma sala por tique até X; nos tiques seguintes você continua andando sozinho.
+4. Se você é TRIPULANTE: faça as tarefas da sua lista (vá até a sala da tarefa e escolha "fazer tarefa: ..."), denuncie corpos que encontrar e use o seu poder quando fizer sentido.
+5. Se você é IMPOSTOR: não faça tarefas de verdade (só finja), mate quando ninguém estiver vendo (o aviso entre parênteses diz quem vê), use o seu poder e combine com os parceiros pelo campo "chat".
+6. Se você é NEUTRO: siga só o seu objetivo (está escrito no seu papel).
+7. Na REUNIÃO: fale 1 ou 2 frases curtas sobre o que VOCÊ viu (sala, tique, quem). Não invente coisas que não estão na sua memória. Na votação, responda só a cor (ou "pular").
+8. Responda SEMPRE só com o JSON pedido, sem texto antes ou depois, sem markdown.`
+
 function sistema(j) {
   const mem = MEMORIA.length
     ? `\n\nMEMÓRIA DAS PARTIDAS ANTERIORES (mesmos jogadores, mesmas cores; os papéis foram sorteados de novo):\n${MEMORIA.map((m) => `Partida ${m.n}: ${m.resumo}\nO que você (${j.cor}) concluiu depois dela: ${m.reflexoes?.[j.cor] ?? '(nada)'}`).join('\n\n')}`
     : ''
-  return `${regras()}\n\nSEU PAPEL: ${PAPEIS[j.papel].desc}${mem}\nVocê é a IA ${j.modelo}, jogando com a cor ${j.cor}. Esta é a partida ${NPARTIDA}${TEMPORADA ? ` de ${TEMPORADA.partidas.length}` : ''}.`
+  return `${regras()}\n\nSEU PAPEL: ${PAPEIS[j.papel].desc}${mem}\nVocê é a IA ${j.modelo}, jogando com a cor ${j.cor}. Esta é a partida ${NPARTIDA}${TEMPORADA ? ` de ${TEMPORADA.partidas.length}` : ''}.${String(j.provider).includes('qwen3.8-27b') ? GUIA_MODELO_MENOR : ''}`
 }
 
 function mockAcao(acoes) {

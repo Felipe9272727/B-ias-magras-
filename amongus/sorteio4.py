@@ -16,7 +16,7 @@ from pathlib import Path
 R = secrets.SystemRandom()
 CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 TROCA = {'or:google/gemini-3.8-flash': 'or:qwen/qwen3.8-flash', 'or:minimax/minimax-m3': 'or:minimax/minimax-m3.1-flash:free'}
-TROCA['or:google/gemini-3.8-flash'] = 'or:mistralai/ministral-14b-2512'  # o Qwen 3.8 Flash era lento demais (11 a 111 s por resposta)  # o MiniMax M3.1 Flash é grátis
+TROCA['or:google/gemini-3.8-flash'] = 'or:qwen/qwen3.8-27b'  # o Qwen 3.8 Flash era lento demais (11 a 111 s por resposta)  # o MiniMax M3.1 Flash é grátis
 IMPOSTORES = ['Metamorfo', 'Espectro', 'Faxineiro', 'Envenenador', 'Gangster', 'Chantagista', 'Possuidor', 'Bombardeiro', 'Apostador']
 NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente', 'Piromante']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca', 'Perito', 'Mecanico', 'Armador']
