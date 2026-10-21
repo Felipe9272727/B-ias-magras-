@@ -11,7 +11,7 @@ MAX = 135
 # preenchido depois das partidas valendo: 'partida-reunião': [(cor, rodada[, máximo de caracteres]), ...]
 ESCOLHA = {
     # partida 2 (a lenta)
-    '2-0': [('Roxo', 1, 170), ('Preto', 1, 150), ('Azul', 2, 170), ('Rosa', 2)],
+    '2-0': [('Roxo', 1, 170), ('Preto', 1, 150), ('Azul', 2, 280), ('Rosa', 2)],
     '2-1': [('Cinza', 1, 150), ('Bordo', 1, 190), ('Laranja', 2, 170)],
     # partida 3
     '3-0': [('Rosa', 1, 190), ('Cinza', 1, 150), ('Bordo', 1, 190), ('Lima', 2, 150)],
