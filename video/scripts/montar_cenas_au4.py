@@ -21,7 +21,7 @@ CENAS = REM / 'out' / 'cenas_au4'
 FPS = 30
 VERSAO = 1  # suba quando mudar o desenho dos componentes e quiser refazer tudo
 BROWSER = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
-VIDEO = ['-c:v', 'libx264', '-crf', '18', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
+VIDEO = ['-c:v', 'libx264', '-crf', '20', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
 AUDIO = ['-c:a', 'pcm_s16le', '-ar', '48000', '-ac', '2']
 
 
