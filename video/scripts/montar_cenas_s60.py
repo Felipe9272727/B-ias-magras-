@@ -25,13 +25,25 @@ VIDEO = ['-c:v', 'libx264', '-crf', '18', '-preset', 'veryfast', '-pix_fmt', 'yu
 AUDIO = ['-c:a', 'pcm_s16le', '-ar', '48000', '-ac', '2']
 
 
+def midias(s):
+    """Arquivos pré-renderizados que a cena usa (coletas 3D e clipes do Manim); sem eles a cena espera."""
+    v, pr = s['visual'], s['visual'].get('props', {})
+    if v.get('name') == 'S60Coleta':
+        return [PUB / 'sessenta' / 'coletas' / f"{pr['partida']}.mp4"]
+    if v.get('name') == 'S60Grade':
+        return [PUB / 'sessenta' / 'coletas' / f"{c['partida']}.mp4" for c in pr.get('clipes', [])]
+    if v.get('name') == 'ILClipe':
+        return [PUB / pr['src']]
+    return []
+
+
 def plano():
     tl = json.loads((PUB / 'timeline_s60.json').read_text())
     out = []
     for s in tl['scenes']:
         sig = {k: v for k, v in s.items() if k not in ('start', 'chapter')}
         h = hashlib.sha1(json.dumps([VERSAO, sig], ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:14]
-        out.append(dict(id=s['id'], ini=s['start'], fim=s['start'] + s['duration'], pendente=bool(s.get('pendente')), arq=CENAS / f"{s['id']}_{h}.mkv"))
+        out.append(dict(id=s['id'], ini=s['start'], fim=s['start'] + s['duration'], pendente=bool(s.get('pendente')) or not all(m.exists() for m in midias(s)), arq=CENAS / f"{s['id']}_{h}.mkv"))
     return out
 
 
