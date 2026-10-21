@@ -150,9 +150,13 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     const respira = 1 + 0.011 * Math.sin(sr * 2.2 + lug.x);
     const balanca = 0.9 * Math.sin(sr * 1.1 + lug.x / 90);
     const treme = v.treme ? Math.sin(frame * 1.9) * 2.5 : v.usada.includes('louco') ? Math.sin(frame * 1.9) * 2 : 0;
+    const semPes = p.id === 'filha' && !['base', 'fatigado', 'louco'].includes(v.usada); // sprites cortados nos joelhos ganham as pernas desenhadas
     return (
-      <div key={p.id} style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - fig.pes[1] * kk, width: w * kk, height: h * kk, transform: `scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * kk}px ${fig.pes[1] * kk}px`}}>
-        <Img src={staticFile(`${DIR}personagens/${p.id}/${v.arq}`)} style={{width: '100%', height: '100%', filter: v.filtro, ...(p.id === 'pai' || p.id === 'filha' ? {WebkitMaskImage: 'linear-gradient(#000 88%, transparent 99%)', maskImage: 'linear-gradient(#000 88%, transparent 99%)'} : {})}} />
+      <div key={p.id} style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080}}>
+        {semPes && <Img src={staticFile(`${DIR}personagens/filha/pernas.svg`)} style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - (fig.pes[1] - 700) * kk, width: 600 * kk, height: 300 * kk}} />}
+        <div style={{position: 'absolute', left: lug.x - fig.pes[0] * kk + treme, top: lug.y - fig.pes[1] * kk - (semPes ? 55 * kk : 0), width: w * kk, height: h * kk, transform: `scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * kk}px ${fig.pes[1] * kk}px`}}>
+          <Img src={staticFile(`${DIR}personagens/${p.id}/${v.arq}`)} style={{width: '100%', height: '100%', filter: v.filtro}} />
+        </div>
       </div>
     );
   });
