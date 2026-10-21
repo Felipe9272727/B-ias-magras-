@@ -193,6 +193,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="ArteEletricaDeposito" component={ArtePreview} width={1920} height={1080} defaultProps={{cx: 1992, cy: 2376, escala: 1}} />
       {/* Among Us 4: prévia da nave inteira na v4 (novo piso, paredes e enfeites) e na v3 para comparar */}
       <Still id="AU4Mapa" component={ArtePreview} width={1920} height={1080} defaultProps={{v4: true}} />
+      <Still id="AU4MapaV5" component={ArtePreview} width={1920} height={1080} defaultProps={{v5: true}} />
       <Still id="AU4MapaV3" component={ArtePreview} width={1920} height={1080} defaultProps={{v3: true}} />
     </>
   );

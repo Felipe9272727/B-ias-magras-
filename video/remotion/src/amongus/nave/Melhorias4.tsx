@@ -13,19 +13,35 @@ const H = NAVE.rows * TILE;
 const CONTORNO_COR = '#0b0d14';
 
 type Canto = 'tl' | 'tr' | 'bl' | 'br';
-// tamanho do corte de cada canto, em px
+// tamanho do corte de cada canto, em px (mapa v5, seguindo a planta do Skeld): Refeitório e Depósito octogonais,
+// Reator em ponta para a esquerda, Navegação em ponta para a direita e os cantos cortados das outras salas
+const k = (n: number) => n * TILE;
 export const CANTOS: Partial<Record<Sala, Partial<Record<Canto, number>>>> = {
-  Refeitorio: {tl: 3 * TILE, tr: 3 * TILE, bl: 3 * TILE, br: 3 * TILE},
-  Navegacao: {tr: 4 * TILE, br: 4 * TILE},
+  Refeitorio: {tl: k(5), tr: k(5), bl: k(5), br: k(5)},
+  Deposito: {tl: k(4), tr: k(3), bl: k(4), br: k(4)},
+  Reator: {tl: k(5), bl: k(5)},
+  Navegacao: {tr: k(5), br: k(5)},
+  MotorSuperior: {tl: k(4)},
+  MotorInferior: {bl: k(4)},
+  Armas: {tr: k(4)},
+  Escudos: {bl: k(3), br: k(4)},
+  Comunicacoes: {bl: k(2), br: k(2)},
+  O2: {tl: k(2), br: k(2)},
+  Admin: {bl: k(2)},
+  Eletrica: {tl: k(2), bl: k(3)},
+  Seguranca: {tr: k(2)},
+  Enfermaria: {tl: k(2), bl: k(2)},
 };
+export type {Canto};
 const MARGEM = 46; // distância mínima da diagonal (meia largura de um tripulante)
 
-const ret = (s: Sala) => {
+export const ret = (s: Sala) => {
   const {c, r, w, h} = NAVE.salas[s].rect;
   return {x0: c * TILE, y0: r * TILE, x1: (c + w) * TILE, y1: (r + h) * TILE};
 };
 
-// empurra um ponto que caiu dentro (ou colado) de um canto cortado para dentro da sala, ao longo da diagonal
+// empurra um ponto que caiu dentro (ou colado) de um canto cortado para dentro da sala, ao longo da diagonal.
+// No vídeo do AU4 (mapa v5) TODO ponto de sala (jogador, console, duto, corpo) passa por aqui antes de ser desenhado.
 export function foraDoCanto(sala: Sala | undefined | null, p: {x: number; y: number}): {x: number; y: number} {
   const cs = sala && CANTOS[sala];
   if (!cs) return p;
@@ -141,3 +157,20 @@ export const JanelaNavegacao: React.FC = () => {
     </g>
   );
 };
+
+// polígono da sala (retângulo com os cantos cortados), em px de mundo, no sentido horário a partir do canto de cima
+export function poligonoSala(s: Sala): [number, number][] {
+  const {x0, y0, x1, y1} = ret(s);
+  const c = CANTOS[s] ?? {};
+  const pts: [number, number][] = [];
+  const tl = c.tl ?? 0, tr = c.tr ?? 0, br = c.br ?? 0, bl = c.bl ?? 0;
+  pts.push([x0 + tl, y0], [x1 - tr, y0]);
+  if (tr) pts.push([x1, y0 + tr]);
+  pts.push([x1, y1 - br]);
+  if (br) pts.push([x1 - br, y1]);
+  pts.push([x0 + bl, y1]);
+  if (bl) pts.push([x0, y1 - bl]);
+  pts.push([x0, y0 + tl]);
+  if (!tl) pts.shift();
+  return pts;
+}

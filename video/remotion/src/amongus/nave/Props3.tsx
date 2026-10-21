@@ -476,7 +476,7 @@ function galoes(w: number, h: number) {
   );
 }
 
-const DESENHOS: Record<string, (w: number, h: number, v?: number) => React.ReactNode> = {
+export const DESENHOS: Record<string, (w: number, h: number, v?: number) => React.ReactNode> = {
   mesaRedonda: (w) => mesaRedonda(w), mesaBotao: (w) => mesaBotao(w), balcao, motorGrande, canos, reatorNucleo, monitores, rack,
   scannerMed: (w) => scannerMed(w), camaMed, amostras, painelEletrico, distribuidor, cabos, mesaAdmin, leitorCartao, cadeiraArmas,
   jardineira, tanquesO2, filtroO2, janelaNav, painelNav, hexEscudos, gerador, radar: (w) => radar(w), mesaComms, pilhaCaixas, barris, galoes,

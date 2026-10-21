@@ -2,16 +2,17 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {Arte} from './Arte';
+import {ArteSkeld} from './ArteSkeld';
 import {NAVE} from './mapa';
 import {TILE} from './spec';
 
 const W = NAVE.cols * TILE;
 const H = NAVE.rows * TILE;
 
-type Props = {cx?: number; cy?: number; escala?: number; v3?: boolean; v4?: boolean};
+type Props = {cx?: number; cy?: number; escala?: number; v3?: boolean; v4?: boolean; v5?: boolean};
 
 // Sem escala: a nave inteira cabe no quadro. Com cx/cy/escala: câmera centrada num ponto do mundo.
-export const ArtePreview: React.FC<Props> = ({cx, cy, escala, v3, v4}) => {
+export const ArtePreview: React.FC<Props> = ({cx, cy, escala, v3, v4, v5}) => {
   const s = escala ?? Math.min(1920 / W, 1080 / H);
   const x = cx ?? W / 2;
   const y = cy ?? H / 2;
@@ -23,7 +24,7 @@ export const ArtePreview: React.FC<Props> = ({cx, cy, escala, v3, v4}) => {
           transform: `translate(${960 - x * s}px, ${540 - y * s}px) scale(${s})`,
         }}
       >
-        <Arte v3={v3} v4={v4} />
+        {v5 ? <ArteSkeld /> : <Arte v3={v3} v4={v4} />}
       </div>
     </AbsoluteFill>
   );
