@@ -8,6 +8,7 @@ palavras, eventos), sem a posição no vídeo; então mudar uma frase refaz só 
 Uso: python3 montar_cenas_au4.py <bundle> [saida.mp4]      (sem saída: só renderiza as peças que faltam)
 """
 import hashlib
+import os
 import json
 import shutil
 import subprocess
@@ -19,6 +20,7 @@ REM = Path(__file__).resolve().parents[1] / 'remotion'
 PUB = REM / 'public'
 CENAS = REM / 'out' / 'cenas_au4'
 FPS = 30
+ESCALA = float(os.environ.get('ESCALA', '1'))  # ex.: ESCALA=0.5 renderiza em 960x540 e amplia para 1080p (Lanczos), como no 60 Segundos
 VERSAO = 1  # suba quando mudar o desenho dos componentes e quiser refazer tudo
 BROWSER = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell'
 VIDEO = ['-c:v', 'libx264', '-crf', '20', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-r', str(FPS)]
@@ -37,12 +39,12 @@ def plano():
 
 def remotion(bundle, saida, ini, fim):
     subprocess.run(['npx', 'remotion', 'render', bundle, 'AmongUs4', str(saida), f'--frames={ini}-{fim - 1}', '--concurrency=4',
-                    f'--browser-executable={BROWSER}', '--log=error', '--crf=16'], cwd=REM, check=True)
+                    f'--browser-executable={BROWSER}', '--log=error', '--crf=16', *([f'--scale={ESCALA}'] if ESCALA != 1 else [])], cwd=REM, check=True)
 
 
 def cortar(src, off, n, destino):
     tmp = destino.with_suffix('.tmp.mkv')
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{off:.6f}', '-i', src, '-frames:v', str(n), *VIDEO, *AUDIO,
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{off:.6f}', '-i', src, '-frames:v', str(n), '-vf', 'scale=1920:1080:flags=lanczos', *VIDEO, *AUDIO,
                     '-af', f'apad,atrim=0:{n / FPS:.6f}', tmp], check=True)
     shutil.move(tmp, destino)
 
