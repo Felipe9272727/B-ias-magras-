@@ -50,7 +50,7 @@ export const AU3Papeis: React.FC<{passo?: number; focos?: number[]; papeis?: Pap
           const cor = COR_TIME[r.time];
           const eu = atual === i;
           const dz = eu ? f - focos[i] : 99;
-          const zoom = eu ? 1 + 0.12 * spring({frame: dz, fps, config: {damping: 11}}) : 1;
+          const zoom = eu ? 1 + (compacto ? 0.55 : 0.12) * spring({frame: dz, fps, config: {damping: 11}}) : 1;
           const pulo = eu ? Math.sin(Math.min(1, dz / 12) * Math.PI) * 20 : 0;
           const fundo = r.time === 'impostor' ? 'linear-gradient(#3a0b10, #1a0507)' : r.time === 'neutro' ? 'linear-gradient(#2c1240, #12071c)' : 'linear-gradient(#0e2440, #07111f)';
           return (

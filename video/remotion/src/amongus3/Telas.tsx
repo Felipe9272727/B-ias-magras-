@@ -164,7 +164,8 @@ export const Chamado: React.FC<{p: Partida2; idx: number}> = ({p, idx}) => {
 // fase 'discussao': chat rolando (mostra até a fala `falas`); 'votacao': carimbos VOTOU aparecendo (fração `votos` 0..1);
 // 'resultado': quem votou em quem embaixo de cada nome. `timer` = segundos que aparecem no relógio.
 type Msg = {cor: string; texto: string; at: number; ate?: number; pensamento?: string};
-type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean; mensagens?: Msg[]; papeis?: boolean};
+// `viva` (AU4): a câmera vai até quem está falando, e a fala aparece grande embaixo (legível no celular)
+type PropsVot = {p: Partida2; idx: number; fase: 'discussao' | 'votacao' | 'resultado'; falas?: number; votos?: number; timer?: number; chat?: boolean; mensagens?: Msg[]; papeis?: boolean; viva?: boolean};
 
 export const Cabeca: React.FC<{cor: string; size: number; morto?: boolean}> = ({cor, size, morto}) => (
   <div style={{position: 'relative', width: size, height: size, borderRadius: size * 0.2, overflow: 'hidden', background: '#c7d3e3', border: '3px solid #000'}}>
@@ -190,7 +191,8 @@ const Bolha: React.FC<{p: Partida2; cor: string; texto: string; aparece: number}
 
 // balão de pensamento secreto de quem está falando na reunião: sai do card do tripulante (bolinhas) e o texto vai sendo
 // escrito; impostor com borda vermelha. O pensamento vem do log (a mesma fala, campo "pensamento").
-const BalaoPensa: React.FC<{p: Partida2; m: Msg; x0: number}> = ({p, m, x0}) => {
+// `fixo` (reunião viva): no alto da tela, sem as bolinhas até o cartão (a câmera está em zoom no cartão)
+const BalaoPensa: React.FC<{p: Partida2; m: Msg; x0: number; fixo?: boolean}> = ({p, m, x0, fixo = false}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const d = f - m.at - 6;
@@ -203,8 +205,8 @@ const BalaoPensa: React.FC<{p: Partida2; m: Msg; x0: number}> = ({p, m, x0}) => 
   const cw = (1120 - 80 - 36) / 3;
   const cx = x0 + 40 + col * (cw + 18) + cw / 2;
   const cy = 40 + 130 + lin * 128 + 56;
-  const embaixo = lin <= 1;
-  const top = embaixo ? 450 : 150;
+  const embaixo = fixo ? true : lin <= 1;
+  const top = fixo ? 30 : embaixo ? 450 : 150;
   const txt = m.pensamento ?? '';
   const n = Math.floor(interpolate(d, [6, 6 + txt.length / 3.2], [0, txt.length], cl));
   const borda = imp ? '#d40000' : '#5b3fc4';
@@ -213,7 +215,7 @@ const BalaoPensa: React.FC<{p: Partida2; m: Msg; x0: number}> = ({p, m, x0}) => 
   const bolinhas = [0, 1, 2].map((k) => ({x: cx + (x0 + 560 - cx) * (0.25 + k * 0.22), y: cy + (by - cy) * (0.3 + k * 0.25), r: 10 + k * 6}));
   return (
     <div style={{position: 'absolute', inset: 0, zIndex: 20, opacity: Math.min(ent, sai), pointerEvents: 'none'}}>
-      {bolinhas.map((b, k) => (
+      {!fixo && bolinhas.map((b, k) => (
         <div key={k} style={{position: 'absolute', left: b.x - b.r, top: b.y - b.r, width: b.r * 2, height: b.r * 2, borderRadius: '50%', background: '#fffdf2', border: `4px solid ${borda}`, transform: `scale(${interpolate(d, [k * 3, k * 3 + 6], [0, 1], cl)})`}} />
       ))}
       <div style={{position: 'absolute', left: x0 + 40, top, width: 1040, minHeight: 150, boxSizing: 'border-box', padding: '20px 30px 22px', borderRadius: 46, background: '#fffdf2', border: `7px solid ${borda}`, boxShadow: '0 12px 0 rgba(0,0,0,.45)', transform: `scale(${0.7 + 0.3 * ent})`, transformOrigin: embaixo ? '50% 0%' : '50% 100%'}}>
@@ -267,7 +269,28 @@ export const QuadroVotos: React.FC<{p: Partida2; idx: number; k: number; tempos:
   );
 };
 
-export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true}) => {
+// a fala de quem está falando, grande embaixo da tela (como legenda de reality show), escrita rápido
+const FalaGrande: React.FC<{p: Partida2; m: Msg; larg: number; x0: number}> = ({p, m, larg, x0}) => {
+  const f = useCurrentFrame();
+  const d = f - m.at;
+  const fim = (m.ate ?? m.at + 150) + 30;
+  const op = Math.min(interpolate(d, [0, 6], [0, 1], cl), interpolate(f, [fim - 10, fim], [1, 0], cl));
+  const n = Math.floor(interpolate(d, [4, 4 + m.texto.length / 2.2], [0, m.texto.length], cl));
+  const calado = m.texto.startsWith('🤐') || !m.texto.replace(/[.\s]/g, '');
+  return (
+    <div style={{position: 'absolute', left: x0 + 20, width: larg - 40, bottom: 34, opacity: op, transform: `translateY(${(1 - op) * 30}px)`, zIndex: 40}}>
+      <div style={{display: 'flex', gap: 16, alignItems: 'flex-start', padding: '16px 22px', borderRadius: 22, background: 'rgba(8,12,22,.93)', border: `5px solid ${calado ? '#c08bff' : '#ffd84d'}`, boxShadow: '0 10px 30px #000a'}}>
+        <div style={{flexShrink: 0}}><Cabeca cor={m.cor} size={78} /></div>
+        <div style={{minWidth: 0}}>
+          <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#ffd84d', lineHeight: 1}}>{m.cor} <span style={{fontSize: 20, padding: '2px 8px', borderRadius: 6, background: empresa(p, m.cor).cor, color: '#fff', verticalAlign: 'middle'}}>{empresa(p, m.cor).nome}</span></div>
+          <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 800, fontSize: calado ? 44 : m.texto.length > 150 ? 32 : 38, color: '#fff', lineHeight: 1.18}}>{calado ? '🤐 ... (chantageado: não consegue falar)' : m.texto.slice(0, n)}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true, viva = false}) => {
   const f = useCurrentFrame();
   const r = p.reunioes[idx];
   // quem está vivo na reunião: estado do tique em que ela foi chamada
@@ -288,9 +311,24 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
   const idadeUltima = ultima ? f - ultima.at : f;
   // quem está falando agora (enquanto a voz toca) e o pensamento secreto dessa fala
   const falando = ultima && f < (ultima.ate ?? ultima.at + 150) + 40 ? ultima : undefined;
+  // reunião viva: zoom no cartão de quem fala (entra em 14 quadros, sai no fim da fala); sem fala, um leve vaivém
+  let zoom = viva ? 1 + 0.025 * Math.sin(f / 70) : 1, ox = 0, oy = 0;
+  if (viva && falando) {
+    const i = CORES.indexOf(falando.cor);
+    const cw = (larg - 80 - 36) / 3;
+    const cx = x0 + 40 + (i % 3) * (cw + 18) + cw / 2, cy = 40 + 130 + Math.floor(i / 3) * 128 + 54;
+    const fim = (falando.ate ?? falando.at + 150) + 20;
+    const k = Math.min(interpolate(f - falando.at, [0, 14], [0, 1], cl), interpolate(f, [fim - 12, fim], [1, 0], cl));
+    const e = Easing.inOut(Easing.cubic)(k);
+    zoom = 1 + 0.28 * e;
+    // centro do cartão vai para perto do centro da área do tablet
+    ox = (x0 + larg / 2 - cx) * 0.55 * e;
+    oy = (400 - cy) * 0.55 * e;
+  }
   return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 40%, #1c2a44, #070b14 80%)'}}>
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 40%, #1c2a44, #070b14 80%)', overflow: 'hidden'}}>
       {mensagens?.map((m, i) => <Som key={'c' + i} nome="chat" em={m.at} vol={0.35} />)}
+      <div style={{position: 'absolute', inset: 0, transformOrigin: `${x0 + larg / 2}px 400px`, transform: viva ? `translate(${ox}px, ${oy}px) scale(${zoom})` : undefined}}>
       {/* tablet */}
       <div style={{position: 'absolute', left: x0, top: 40, width: larg, height: 1000, borderRadius: 34, background: '#8fa3bf', border: '10px solid #1a1f2b', boxShadow: '0 20px 60px #000c'}}>
         <div style={{position: 'absolute', inset: 14, borderRadius: 22, background: '#c4d0e0'}} />
@@ -343,7 +381,10 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
           {fase === 'resultado' ? 'Resultado da votação' : fase === 'votacao' ? `Votação termina em: ${timer ?? 15}s` : `Discussão: ${timer ?? 60}s`}
         </div>
       </div>
-      {falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} />}
+      {!viva && falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} />}
+      </div>
+      {viva && falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} fixo />}
+      {viva && falando && falando.texto && <FalaGrande p={p} m={falando} larg={larg} x0={x0} />}
       {/* Juiz anulou: carimbo por cima do resultado */}
       {fase === 'resultado' && juiz && (
         <div style={{position: 'absolute', left: x0 + 100, top: 360, width: larg - 200, padding: '24px 30px', textAlign: 'center', transform: `rotate(-6deg) scale(${interpolate(f, [20, 30], [2.2, 1], cl)})`, opacity: interpolate(f, [20, 26], [0, 1], cl), border: '10px solid #b00000', borderRadius: 20, background: 'rgba(255,240,240,.94)', fontFamily: FONT.display, fontWeight: 900, color: '#b00000', zIndex: 30}}>
