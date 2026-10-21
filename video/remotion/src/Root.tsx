@@ -19,6 +19,7 @@ import {PreviaOC, calcPreviaOC} from './overcooked/Previa';
 import {ThumbOC, calcThumbOC} from './overcooked/ThumbOC';
 import {ShortOC, calcShortOC} from './overcooked/ShortOC';
 import {ShortPao, calcShortPao} from './overcooked/ShortPao';
+import {ShortS60, calcShortS60} from './sessenta/ShortS60';
 import {ShortPalhaco, calcShortPalhaco} from './amongus3/ShortPalhaco';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
@@ -159,6 +160,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortAU2" component={ShortAU2} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortAU2} />
       <Composition id="ShortOC" component={ShortOC} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortOC} />
       <Composition id="ShortPao" component={ShortPao} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPao} />
+      <Composition id="ShortS60" component={ShortS60} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortS60} />
       <Composition id="S60Previa" component={S60Previa} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{segs: null}} calculateMetadata={calcPrevia} />
       <Composition id="S60Dia" component={Dia} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null, arquivo: 'teste_mock', dia: 3}} calculateMetadata={calcDia} />
       <Composition id="S60Coleta3D" component={Coleta3D} width={1920} height={1080} fps={30} durationInFrames={1950} defaultProps={{dados: null, ia: null, arquivo: 'piloto_deepseek'}} calculateMetadata={calcColeta3D} />
