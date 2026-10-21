@@ -22,7 +22,7 @@ import {ShortPao, calcShortPao} from './overcooked/ShortPao';
 import {ShortS60, calcShortS60} from './sessenta/ShortS60';
 import {ThumbS60} from './sessenta/ThumbS60';
 import {AU4Comentarios} from './amongus4/Comentarios4';
-import {AU4Roupas} from './amongus/AU4Roupas';
+import {AU4Roupas, AU4RoupasZoom} from './amongus/AU4Roupas';
 import {ShortPalhaco, calcShortPalhaco} from './amongus3/ShortPalhaco';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
@@ -175,6 +175,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ThumbS60" component={ThumbS60} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="AU4Comentarios" component={AU4Comentarios} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{lista: 'entrou', passo: 40}} />
       <Composition id="AU4Roupas" component={AU4Roupas} width={1920} height={1080} fps={30} durationInFrames={60} />
+      <Composition id="AU4RoupasZoom" component={AU4RoupasZoom} width={1920} height={1080} fps={30} durationInFrames={60} />
       <Composition id="AU3Teste" component={T3.AU3Teste} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, de: 200, foco: 'Vermelho', partida: 1} as T3.PropsTeste} calculateMetadata={T3.calcTeste} />
       <Composition id="AU3Tela" component={T3.AU3Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 1, tela: 'votacao'} as T3.PropsTela} calculateMetadata={T3.calcTela} />
       <Composition id="AU2Tela" component={AU2Tela} width={1920} height={1080} fps={30} durationInFrames={240} defaultProps={{p: null, partida: 2, tela: 'shhh'} as PropsTela} calculateMetadata={calcTela} />

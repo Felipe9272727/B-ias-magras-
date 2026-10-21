@@ -6,6 +6,16 @@ import {COR} from './Crewmate';
 import {Crewmate4} from './Crewmate4';
 import {PETS, ROUPAS} from './roupas4';
 
+// zoom: 4 roupas grandes (para conferir o encaixe no corpo)
+export const AU4RoupasZoom: React.FC<{ids?: string[]}> = ({ids = ['jaleco', 'terno', 'havaiana', 'capa']}) => {
+  const f = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{background: '#1e2740'}}>
+      {ids.map((id, i) => <Crewmate4 key={id} cor={Object.keys(COR)[i * 3]} size={400} t={f} roupa={id} passo={i % 2 ? f / 16 : 0} style={{position: 'absolute', left: 40 + i * 470, top: 240}} />)}
+    </AbsoluteFill>
+  );
+};
+
 export const AU4Roupas: React.FC = () => {
   const f = useCurrentFrame();
   const cores = Object.keys(COR);

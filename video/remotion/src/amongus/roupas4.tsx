@@ -1,240 +1,143 @@
 // Roupas e pets do Crewmate4 (AU4). Desenho próprio em SVG, nada copiado do jogo.
-// ROUPA: desenhada no espaço do corpo (viewBox 0..100 x 0..120), por cima do corpo e RECORTADA na silhueta do corpo
-// (clipPath do CORPO); recebe as cores do jogador (body = cor principal, shade = sombra) para combinar se quiser.
+// ROUPA: desenhada no espaço do corpo (viewBox 0..100 x 0..120) e RECORTADA na silhueta do corpo. Toda roupa parte
+// da mesma "peça" (VESTE): a gola sobe nas costas e passa por baixo do visor, como um tecido nos ombros, em vez de uma
+// borda reta. Depois da roupa, o Crewmate4 aplica de novo a sombra e o brilho do corpo (para ela parecer vestida, não
+// colada) e pinta a mochila com a cor `mochila` da roupa. O lado do visor (direita) é a FRENTE do tripulante.
 // PET: desenhado num quadro próprio de 40x40 (chão em y=40); o Crewmate4 põe o pet ao lado dos pés.
 import React from 'react';
 
 export type CoresRoupa = {body: string; shade: string};
 
-// Flor simples (estampa da camisa havaiana): 5 pétalas em círculo e miolo amarelo
-const Flor: React.FC<{x: number; y: number; r: number; cor: string}> = ({x, y, r, cor}) => (
-  <g stroke="#000" strokeWidth={1.2}>
-    {[0, 1, 2, 3, 4].map((i) => {
-      const a = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-      return <circle key={i} cx={x + r * 0.9 * Math.cos(a)} cy={y + r * 0.9 * Math.sin(a)} r={r * 0.5} fill={cor} />;
-    })}
-    <circle cx={x} cy={y} r={r * 0.4} fill="#ffd54f" />
-  </g>
-);
+// a peça básica: gola curva nos ombros (y≈38 nas costas, y≈47 na frente, escondida pelo visor) até embaixo
+export const VESTE = 'M8 45 Q22 34 40 45 L94 45 L94 124 L8 124 Z';
+const GOLA = 'M8 45 Q22 34 40 45 L94 45';
+const L = {stroke: '#000', strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
 
-export const ROUPAS: Record<string, {nome: string; desenho: (c: CoresRoupa) => React.ReactNode}> = {
-  jaleco: {
-    nome: 'Jaleco de cientista',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* jaleco branco cobrindo o tronco */}
-        <rect x="0" y="50" width="100" height="62" fill="#f4f6fa" />
-        <rect x="0" y="50" width="24" height="62" fill="#c9d1dc" />
-        {/* camisa azul aparecendo na abertura da frente */}
-        <path d="M50 50 L64 50 L64 112 L50 112 Z" fill="#8fc1e3" />
-        {/* lapelas */}
-        <path d="M50 50 L40 50 L50 74 Z" fill="#f4f6fa" stroke="#000" strokeWidth={2.5} />
-        <path d="M64 50 L74 50 L64 74 Z" fill="#f4f6fa" stroke="#000" strokeWidth={2.5} />
-        <path d="M50 74 L50 112 M64 74 L64 112" fill="none" stroke="#000" strokeWidth={2.5} />
-        {/* caneta no bolso */}
-        <rect x="69" y="71" width="3.4" height="12" rx="1.5" fill="#1f5fd6" stroke="#000" strokeWidth={1.2} />
-        <rect x="69" y="71" width="3.4" height="3" rx="1" fill="#e0245e" stroke="#000" strokeWidth={1} />
-        <rect x="66" y="80" width="10" height="10" rx="2" fill="#f4f6fa" stroke="#000" strokeWidth={2} />
-      </g>
-    ),
-  },
-  terno: {
-    nome: 'Terno e gravata',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* paletó escuro */}
-        <rect x="0" y="50" width="100" height="62" fill="#2c3340" />
-        <rect x="0" y="50" width="22" height="62" fill="#1d222b" />
-        {/* camisa branca em V */}
-        <path d="M42 50 L60 50 L51 80 Z" fill="#ffffff" stroke="#000" strokeWidth={2} />
-        {/* lapelas */}
-        <path d="M30 50 L42 50 L51 80 L36 70 Z" fill="#3b4150" stroke="#000" strokeWidth={2.5} />
-        <path d="M72 50 L60 50 L51 80 L66 70 Z" fill="#3b4150" stroke="#000" strokeWidth={2.5} />
-        {/* gravata vermelha e nó */}
-        <path d="M48 57 L54 57 L55 64 L51 92 L47 64 Z" fill="#d32f2f" stroke="#000" strokeWidth={2} />
-        <rect x="48.5" y="54" width="5" height="5" rx="1" fill="#a31919" stroke="#000" strokeWidth={1.5} />
-        {/* botões */}
-        <circle cx="60" cy="88" r="1.8" fill="#c8ccd4" stroke="#000" strokeWidth={1} />
-        <circle cx="60" cy="98" r="1.8" fill="#c8ccd4" stroke="#000" strokeWidth={1} />
-      </g>
-    ),
-  },
-  macacao: {
-    nome: 'Macacão de mecânico',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* macacão azul */}
-        <rect x="0" y="50" width="100" height="62" fill="#2466d1" />
-        <rect x="0" y="50" width="22" height="62" fill="#1b4fa6" />
-        {/* camisa por baixo, aparecendo entre as alças */}
-        <rect x="40" y="50" width="22" height="14" fill="#e8ecf2" />
-        {/* alças */}
-        <path d="M40 66 L38 50 M62 66 L64 50" fill="none" stroke="#000" strokeWidth={5.5} strokeLinecap="round" />
-        <path d="M40 66 L38 50 M62 66 L64 50" fill="none" stroke="#2466d1" strokeWidth={2.5} strokeLinecap="round" />
-        {/* peitilho */}
-        <rect x="38" y="64" width="26" height="24" rx="3" fill="#1f5bc0" stroke="#000" strokeWidth={2.2} />
-        {/* bolso com caneta */}
-        <rect x="46" y="66" width="2.4" height="9" fill="#ffd21f" stroke="#000" strokeWidth={1} />
-        <rect x="44" y="71" width="11" height="8" rx="1.5" fill="#1f5bc0" stroke="#000" strokeWidth={1.6} />
-        {/* botões das alças */}
-        <circle cx="41" cy="66.5" r="1.6" fill="#ffd21f" stroke="#000" strokeWidth={1} />
-        <circle cx="61" cy="66.5" r="1.6" fill="#ffd21f" stroke="#000" strokeWidth={1} />
-        {/* mancha de graxa */}
-        <ellipse cx="70" cy="84" rx="5" ry="3.2" fill="#2b2b2b" opacity={0.85} />
-        <circle cx="76" cy="90" r="1.5" fill="#2b2b2b" />
-      </g>
-    ),
-  },
-  havaiana: {
-    nome: 'Camisa havaiana',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* camisa turquesa */}
-        <rect x="0" y="50" width="100" height="62" fill="#2bb3c7" />
-        <rect x="0" y="50" width="20" height="62" fill="#1c8ea0" />
-        {/* folhas */}
-        <ellipse cx="24" cy="88" rx="4.5" ry="2.2" fill="#2e8b57" stroke="#000" strokeWidth={1.2} transform="rotate(-35 24 88)" />
-        <ellipse cx="78" cy="90" rx="4.5" ry="2.2" fill="#2e8b57" stroke="#000" strokeWidth={1.2} transform="rotate(30 78 90)" />
-        {/* flores */}
-        <Flor x={30} y={70} r={6} cor="#ff5c8a" />
-        <Flor x={72} y={70} r={6} cor="#ffd54f" />
-        <Flor x={38} y={98} r={5.5} cor="#ff9f1c" />
-        <Flor x={68} y={100} r={6} cor="#ff5c8a" />
-        {/* colarinho em V e abertura da frente */}
-        <path d="M38 50 L64 50 L51 70 Z" fill="#fff3c4" stroke="#000" strokeWidth={2.5} />
-        <path d="M51 70 L51 110" fill="none" stroke="#000" strokeWidth={2} />
-        <circle cx="51" cy="82" r="1.6" fill="#ffffff" stroke="#000" strokeWidth={1} />
-        <circle cx="51" cy="94" r="1.6" fill="#ffffff" stroke="#000" strokeWidth={1} />
-      </g>
-    ),
-  },
-  capa: {
-    nome: 'Capa de herói',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* capa vermelha no lado de trás (esquerda), com dobra escura */}
-        <path d="M0 50 L60 50 Q58 74 66 88 Q60 96 64 110 L0 110 Z" fill="#d32f2f" stroke="#000" strokeWidth={2.5} />
-        <path d="M0 50 L12 50 L12 110 L0 110 Z" fill="#9a1212" />
-        {/* barra da capa, ondulada na ponta */}
-        <path d="M60 50 Q58 74 66 88 Q60 96 64 110" fill="none" stroke="#7a0e0e" strokeWidth={2.5} />
-        {/* gola alta da capa */}
-        <path d="M26 50 L76 50 L76 58 L26 58 Z" fill="#b71c1c" stroke="#000" strokeWidth={2.5} />
-        {/* fecho dourado no pescoço */}
-        <circle cx="51" cy="56" r="3.5" fill="#ffd21f" stroke="#000" strokeWidth={2} />
-        {/* faixa dourada na cintura, com fivela */}
-        <rect x="0" y="90" width="100" height="6" fill="#f7c843" stroke="#000" strokeWidth={2} />
-        <rect x="46" y="88" width="10" height="10" rx="2" fill="#f7c843" stroke="#000" strokeWidth={2} />
-        {/* estrela no peito */}
-        <polygon
-          points="70,61 71.8,65.6 76.7,65.8 72.9,68.9 74.1,73.7 70,71 65.9,73.7 67.1,68.9 63.3,65.8 68.2,65.6"
-          fill="#ffd21f"
-          stroke="#000"
-          strokeWidth={1.5}
-        />
-      </g>
-    ),
-  },
-  avental: {
-    nome: 'Avental de cozinheiro',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* alças do pescoço */}
-        <path d="M37 58 L44 50 M65 58 L58 50" fill="none" stroke="#000" strokeWidth={2.5} strokeLinecap="round" />
-        {/* avental branco */}
-        <path d="M36 58 L66 58 L70 110 L32 110 Z" fill="#fafafa" stroke="#000" strokeWidth={2.5} />
-        {/* bolso frontal */}
-        <rect x="42" y="84" width="18" height="12" rx="2" fill="#eceff3" stroke="#000" strokeWidth={2} />
-        {/* mancha de molho */}
-        <circle cx="60" cy="70" r="3.2" fill="#e53935" stroke="#000" strokeWidth={1.2} />
-        {/* laço lateral: nó e as duas pontas */}
-        <path d="M34 80 L22 74 L22 86 Z" fill="#fafafa" stroke="#000" strokeWidth={2} />
-        <circle cx="34" cy="80" r="2.6" fill="#fafafa" stroke="#000" strokeWidth={1.6} />
-      </g>
-    ),
-  },
-  moletom: {
-    nome: 'Moletom com capuz',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* moletom */}
-        <rect x="0" y="50" width="100" height="62" fill="#4b5566" />
-        <rect x="0" y="50" width="20" height="62" fill="#3a4250" />
-        {/* capuz enrolado atrás da cabeça, na altura do visor */}
-        <path d="M0 12 L38 12 Q40 33 37 54 L0 54 Z" fill="#4b5566" stroke="#000" strokeWidth={2.5} />
-        <path d="M0 12 L12 12 L12 54 L0 54 Z" fill="#3a4250" />
-        {/* cordões do capuz */}
-        <path d="M49 54 L48 66 M55 54 L56 66" fill="none" stroke="#e8e8e8" strokeWidth={1.8} strokeLinecap="round" />
-        <circle cx="48" cy="67" r="1.5" fill="#e8e8e8" />
-        <circle cx="56" cy="67" r="1.5" fill="#e8e8e8" />
-        {/* bolso canguru */}
-        <path d="M36 82 L66 82 L70 94 L32 94 Z" fill="#3a4250" stroke="#000" strokeWidth={2.5} />
-        {/* barra de cima do bolso e barra da cintura */}
-        <rect x="0" y="97" width="100" height="8" fill="#2f3643" stroke="#000" strokeWidth={2} />
-      </g>
-    ),
-  },
-  colete: {
-    nome: 'Colete salva-vidas',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* colete laranja */}
-        <rect x="0" y="50" width="100" height="62" fill="#ff7a1a" />
-        <rect x="0" y="50" width="22" height="62" fill="#d95f0c" />
-        {/* gola */}
-        <path d="M30 50 Q51 60 72 50 L72 56 Q51 66 30 56 Z" fill="#e86a0c" stroke="#000" strokeWidth={2} />
-        {/* faixas refletivas */}
-        <rect x="0" y="74" width="100" height="5" fill="#eef4fb" stroke="#000" strokeWidth={1.4} />
-        <rect x="0" y="86" width="100" height="5" fill="#eef4fb" stroke="#000" strokeWidth={1.4} />
-        {/* zíper na frente */}
-        <path d="M51 56 L51 110" fill="none" stroke="#000" strokeWidth={2.5} />
-        {/* bolsos */}
-        <rect x="32" y="62" width="13" height="9" rx="2" fill="#e86a0c" stroke="#000" strokeWidth={2} />
-        <rect x="57" y="62" width="13" height="9" rx="2" fill="#e86a0c" stroke="#000" strokeWidth={2} />
-      </g>
-    ),
-  },
-  smoking: {
-    nome: 'Smoking com gravata-borboleta',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* paletó preto */}
-        <rect x="0" y="50" width="100" height="62" fill="#16161c" />
-        {/* camisa branca em V */}
-        <path d="M40 50 L62 50 L51 84 Z" fill="#ffffff" stroke="#000" strokeWidth={2} />
-        {/* lapelas de cetim */}
-        <path d="M30 50 L40 50 L51 84 L36 72 Z" fill="#2a2a33" stroke="#000" strokeWidth={2.5} />
-        <path d="M72 50 L62 50 L51 84 L66 72 Z" fill="#2a2a33" stroke="#000" strokeWidth={2.5} />
-        <path d="M37 58 L46 80 M65 58 L56 80" fill="none" stroke="#8a8fa0" strokeWidth={1.2} />
-        {/* gravata-borboleta */}
-        <path d="M51 58 L42 53 L42 63 Z" fill="#000" stroke="#000" strokeWidth={1.5} />
-        <path d="M51 58 L60 53 L60 63 Z" fill="#000" stroke="#000" strokeWidth={1.5} />
-        <circle cx="51" cy="58" r="2.2" fill="#333" stroke="#000" strokeWidth={1} />
-        {/* botão de pérola */}
-        <circle cx="51" cy="96" r="1.6" fill="#ffffff" stroke="#000" strokeWidth={1} />
-      </g>
-    ),
-  },
-  pijama: {
-    nome: 'Pijama listrado',
-    desenho: () => (
-      <g strokeLinejoin="round">
-        {/* pijama branco */}
-        <rect x="0" y="50" width="100" height="62" fill="#fbfbfd" />
-        <rect x="0" y="50" width="20" height="62" fill="#e1e6ee" />
-        {/* listras azuis */}
-        {[56, 64, 72, 80, 88, 96, 104].map((y) => (
-          <rect key={y} x="0" y={y} width="100" height="4" fill="#5b9bd5" />
-        ))}
-        {/* gola redonda */}
-        <path d="M38 50 Q51 62 64 50" fill="none" stroke="#000" strokeWidth={2.5} />
-        {/* botões */}
-        {[72, 84, 96].map((y) => (
-          <circle key={y} cx="51" cy={y} r="2" fill="#ffd54f" stroke="#000" strokeWidth={1.2} />
-        ))}
-      </g>
-    ),
-  },
-};
+const Gola: React.FC<{cor?: string}> = ({cor = '#000'}) => <path d={GOLA} fill="none" stroke={cor} strokeWidth={3.2} strokeLinecap="round" />;
+
+export const ROUPAS: Record<string, {nome: string; mochila: string; desenho: (c: CoresRoupa) => React.ReactNode}> = {
+  jaleco: {nome: 'Jaleco de cientista', mochila: '#e9edf2', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#f4f6f9" />
+      {/* camisa azul aparecendo na abertura da frente */}
+      <path d="M58 45 L72 45 L67 124 L61 124 Z" fill="#9cc8ea" />
+      <path d="M59 45 L64 72 L56 60 Z M71 45 L66 72 L74 60 Z" fill="#dfe5ec" {...L} strokeWidth={2.4} />
+      <path d="M61 124 L64 72 M67 124 L66 72" {...L} strokeWidth={2.4} fill="none" />
+      {/* bolso com caneta */}
+      <rect x="70" y="80" width="10" height="11" rx="1.5" fill="#e3e8ee" {...L} strokeWidth={2.2} />
+      <rect x="73" y="73" width="3" height="10" rx="1.5" fill="#2f6fe0" stroke="#000" strokeWidth={1.4} />
+      <path d="M36 98 L36 124" stroke="#c9d1db" strokeWidth={3} />
+      <Gola />
+    </g>
+  )},
+  terno: {nome: 'Terno e gravata', mochila: '#2b3040', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#2b3040" />
+      <path d="M57 45 L73 45 L65 76 Z" fill="#f4f4f4" {...L} strokeWidth={2.2} />
+      <path d="M63 47 L67 47 L68 52 L66 74 L64 74 L62 52 Z" fill="#d12b2b" {...L} strokeWidth={1.8} />
+      <path d="M56 45 L63 78 L52 64 Z M74 45 L67 78 L78 64 Z" fill="#3b4256" {...L} strokeWidth={2.2} />
+      <circle cx="66" cy="88" r="2.2" fill="#9aa3b5" stroke="#000" strokeWidth={1.2} />
+      <circle cx="66" cy="98" r="2.2" fill="#9aa3b5" stroke="#000" strokeWidth={1.2} />
+      <path d="M72 84 L80 84" stroke="#fff" strokeWidth={2.4} />
+      <Gola />
+    </g>
+  )},
+  macacao: {nome: 'Macacão de mecânico', mochila: '#3a6dbd', desenho: () => (
+    <g>
+      {/* alças sobre o corpo (a camiseta é a cor do jogador) e o peitilho do macacão */}
+      <path d="M8 74 L94 74 L94 124 L8 124 Z" fill="#3a6dbd" />
+      <path d="M50 58 L80 58 L80 76 L50 76 Z" fill="#3a6dbd" {...L} strokeWidth={2.4} />
+      <path d="M53 45 L53 60 M76 45 L76 60" stroke="#2a508e" strokeWidth={6} strokeLinecap="round" />
+      <path d="M53 45 L53 60 M76 45 L76 60" stroke="#000" strokeWidth={1.4} opacity={0.6} />
+      <circle cx="53" cy="61" r="2.6" fill="#f2c94c" stroke="#000" strokeWidth={1.3} />
+      <circle cx="76" cy="61" r="2.6" fill="#f2c94c" stroke="#000" strokeWidth={1.3} />
+      <rect x="58" y="63" width="14" height="9" rx="1.5" fill="#2f5ea8" {...L} strokeWidth={1.8} />
+      <path d="M8 74 L94 74" {...L} fill="none" />
+      <ellipse cx="38" cy="96" rx="6" ry="3.5" fill="#1d2b44" opacity={0.7} />
+      <path d="M58 100 L58 124" stroke="#2a508e" strokeWidth={2.2} />
+    </g>
+  )},
+  havaiana: {nome: 'Camisa havaiana', mochila: '#22a9bd', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#22a9bd" />
+      {[[30, 60], [46, 86], [72, 92], [32, 104], [58, 112], [80, 70], [24, 84]].map(([x, y], i) => (
+        <g key={i}>
+          <path d={`M${x - 9} ${y + 4} q5 -9 12 -4`} fill="#1f8a4c" stroke="#000" strokeWidth={1.2} />
+          {[0, 72, 144, 216, 288].map((a) => <circle key={a} cx={x + 4 * Math.cos((a * Math.PI) / 180)} cy={y + 4 * Math.sin((a * Math.PI) / 180)} r={3.2} fill={i % 2 ? '#ffd23f' : '#ff5c8a'} stroke="#000" strokeWidth={1} />)}
+          <circle cx={x} cy={y} r={1.8} fill="#fff4c2" />
+        </g>
+      ))}
+      <path d="M58 45 L66 62 L74 45" fill="#1a8797" {...L} strokeWidth={2.2} />
+      <circle cx="66" cy="74" r="1.8" fill="#fff" stroke="#000" strokeWidth={1} />
+      <circle cx="66" cy="90" r="1.8" fill="#fff" stroke="#000" strokeWidth={1} />
+      <Gola />
+    </g>
+  )},
+  capa: {nome: 'Capa de herói', mochila: '#d32626', desenho: () => (
+    <g>
+      {/* a capa cai pelas costas: faixa vermelha atrás e a gola alta presa com um broche dourado na frente */}
+      <path d="M8 40 Q16 70 18 124 L36 124 Q30 80 32 44 Z" fill="#d32626" {...L} strokeWidth={2.6} />
+      <path d="M8 45 Q22 34 40 45 L94 45 L94 53 L40 53 Q22 42 8 53 Z" fill="#d32626" {...L} strokeWidth={2.6} />
+      <circle cx="74" cy="56" r="4.5" fill="#f5c542" stroke="#000" strokeWidth={2} />
+      <path d="M58 70 l4 8 l8 1 l-6 5 l2 8 l-8 -4 l-7 4 l2 -8 l-6 -5 l8 -1 z" fill="#f5c542" stroke="#000" strokeWidth={1.8} />
+    </g>
+  )},
+  avental: {nome: 'Avental de cozinheiro', mochila: '', desenho: () => (
+    <g>
+      {/* só na frente: peitilho, saia e a fita amarrada nas costas */}
+      <path d="M54 52 L78 52 L80 74 L94 124 L48 124 L52 74 Z" fill="#f7f7f4" {...L} strokeWidth={2.4} />
+      <path d="M56 52 L52 45 M76 52 L80 45" stroke="#f7f7f4" strokeWidth={4} />
+      <path d="M8 76 L52 74" stroke="#f7f7f4" strokeWidth={5} />
+      <path d="M8 76 L52 74" stroke="#000" strokeWidth={1.4} opacity={0.5} />
+      <path d="M26 76 l-6 7 M26 76 l5 8" stroke="#f7f7f4" strokeWidth={4} strokeLinecap="round" />
+      <rect x="60" y="88" width="16" height="11" rx="2" fill="#e6e6df" {...L} strokeWidth={1.8} />
+      <circle cx="65" cy="62" r="2.4" fill="#e53935" />
+    </g>
+  )},
+  moletom: {nome: 'Moletom com capuz', mochila: '#5d6573', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#6b7383" />
+      {/* capuz enrolado nas costas, atrás da cabeça */}
+      <path d="M6 54 Q8 32 30 36 Q44 40 42 52 Q24 44 6 54 Z" fill="#5a6170" {...L} strokeWidth={2.6} />
+      <path d="M60 47 L58 66 M70 47 L72 66" stroke="#f1f1f1" strokeWidth={2.2} strokeLinecap="round" />
+      <path d="M50 86 L82 86 L86 104 L46 104 Z" fill="#5f6777" {...L} strokeWidth={2.4} />
+      <path d="M8 116 L94 116" stroke="#4d5462" strokeWidth={6} />
+      <Gola />
+    </g>
+  )},
+  colete: {nome: 'Colete salva-vidas', mochila: '', desenho: () => (
+    <g>
+      {/* colete laranja aberto na frente (aparece a cor do jogador) com faixas refletivas */}
+      <path d="M8 45 Q22 34 40 45 L58 45 L58 104 L8 104 Z" fill="#ff7a1a" {...L} strokeWidth={2.6} />
+      <path d="M72 45 L94 45 L94 104 L72 104 Z" fill="#ff7a1a" {...L} strokeWidth={2.6} />
+      <path d="M8 66 L58 66 M72 66 L94 66 M8 86 L58 86 M72 86 L94 86" stroke="#e7ebf0" strokeWidth={6} />
+      <path d="M8 66 L58 66 M72 66 L94 66 M8 86 L58 86 M72 86 L94 86" stroke="#000" strokeWidth={1} opacity={0.4} />
+      <path d="M58 76 L72 76" stroke="#222" strokeWidth={3} />
+      <rect x="62" y="73" width="6" height="6" rx="1" fill="#bbb" stroke="#000" strokeWidth={1.2} />
+    </g>
+  )},
+  smoking: {nome: 'Smoking com gravata-borboleta', mochila: '#16181d', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#16181d" />
+      <path d="M56 45 L74 45 L65 84 Z" fill="#fbfbfb" {...L} strokeWidth={2.2} />
+      <path d="M55 45 L64 86 L50 66 Z M75 45 L66 86 L80 66 Z" fill="#2a2d35" {...L} strokeWidth={2.2} />
+      <path d="M58 50 L65 54 L58 58 Z M72 50 L65 54 L72 58 Z" fill="#111" stroke="#000" strokeWidth={1.6} strokeLinejoin="round" />
+      <circle cx="65" cy="54" r="2" fill="#111" />
+      <circle cx="65" cy="66" r="1.5" fill="#222" />
+      <circle cx="65" cy="74" r="1.5" fill="#222" />
+      <Gola />
+    </g>
+  )},
+  pijama: {nome: 'Pijama listrado', mochila: '#bcd6f2', desenho: () => (
+    <g>
+      <path d={VESTE} fill="#bcd6f2" />
+      {[14, 26, 38, 50, 62, 74, 86].map((x) => <rect key={x} x={x} y="40" width="5" height="90" fill="#6f98d1" />)}
+      <path d="M58 45 L66 58 L74 45" fill="#ffffff" {...L} strokeWidth={2} />
+      {[70, 84, 98].map((y) => <circle key={y} cx="66" cy={y} r="2" fill="#fff" stroke="#000" strokeWidth={1.1} />)}
+      <Gola />
+    </g>
+  )},
+}
 
 export const PETS: Record<string, {nome: string; desenho: (t: number) => React.ReactNode}> = {
   mini_tripulante: {

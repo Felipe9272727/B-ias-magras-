@@ -317,7 +317,7 @@ export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, pas
         <g transform={`translate(0 ${bob}) rotate(${inclina} 51 104)`}>
           {/* mochila, com giro atrasado */}
           <g transform={`rotate(${giroMochila} 26 60)`}>
-            <rect x="6" y="40" width="22" height="52" rx="9" fill={c.shade} />
+            <rect x="6" y="40" width="22" height="52" rx="9" fill={roupa && ROUPAS[roupa]?.mochila ? ROUPAS[roupa].mochila : c.shade} />
             <g clipPath={`url(#${idMochila})`}>
               {/* sombra interna e brilho da mochila */}
               <rect x="18" y="36" width="12" height="60" fill="#000" opacity={0.22} />
@@ -337,6 +337,14 @@ export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, pas
             {/* brilho sutil no alto à esquerda */}
             <path d="M30 36 Q33 24 44 19" stroke="#ffffff" strokeWidth={4} strokeLinecap="round" fill="none" opacity={0.3} />
             {desenhoRoupa}
+            {/* a sombra e o brilho do corpo de novo, por cima da roupa: ela fica "vestida", com volume */}
+            {desenhoRoupa && (
+              <>
+                <path d="M8 0 L34 0 Q30 30 30 60 Q30 92 36 120 L8 120 Z" fill="#000" opacity={0.24} />
+                <rect x="20" y="93" width="64" height="12" fill="#000" opacity={0.16} />
+                <path d="M46 56 Q44 80 48 100" stroke="#fff" strokeWidth={4} strokeLinecap="round" fill="none" opacity={0.12} />
+              </>
+            )}
           </g>
           <path d={CORPO} fill="none" stroke="#000" strokeWidth={CONTORNO} strokeLinejoin="round" />
 

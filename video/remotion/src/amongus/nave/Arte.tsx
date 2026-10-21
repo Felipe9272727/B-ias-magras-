@@ -7,6 +7,7 @@ import {NAVE} from './mapa';
 import {SALAS_ORDEM, TILE, type Prop, type Sala} from './spec';
 import {DecorParedes, Entulho, FACE_V3, Props3, consoleTarefa3} from './Props3';
 import {Decals4} from './Props4';
+import {FundoEspaco, HaloCasco, JanelaNavegacao} from './Melhorias4';
 
 const COLS = NAVE.cols;
 const ROWS = NAVE.rows;
@@ -318,10 +319,13 @@ function montarCena(v3 = false, v4 = false): React.ReactNode {
   const props = alto ? <Props3 /> : SALAS_ORDEM.flatMap((s) => salas[s].props.map((p, i) => propSvg(p, `${s}-${i}`)));
 
   // Consoles de tarefa (contorno amarelo) e dutos
-  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p, i) => (alto ? consoleTarefa3 : consoleTarefa)(p.x, p.y, `${s}-c${i}`)));
+  // v4: o que caiu num canto cortado (Melhorias4) vai para dentro da sala
+  const ajusta = (_s: Sala, p: {x: number; y: number}) => p;
+  const consoles = SALAS_ORDEM.flatMap((s) => salas[s].consoles.map((p0, i) => { const p = ajusta(s, p0); return (alto ? consoleTarefa3 : consoleTarefa)(p.x, p.y, `${s}-c${i}`); }));
   const dutos = SALAS_ORDEM.flatMap((s) => {
     const d = salas[s].duto;
-    return d ? [duto(d.x, d.y, `${s}-d`)] : [];
+    const q = d && ajusta(s, d);
+    return q ? [duto(q.x, q.y, `${s}-d`)] : [];
   });
 
   return (
@@ -330,6 +334,7 @@ function montarCena(v3 = false, v4 = false): React.ReactNode {
         <Definicoes />
         {v4 && <DefinicoesV4 />}
       </defs>
+      {v4 && <HaloCasco d={contorno} />}
       <path d={contorno} fill={CONTORNO_COR} />
       {SALAS_ORDEM.map((s) => {
         const d = pisoSala.get(s);
@@ -350,6 +355,7 @@ function montarCena(v3 = false, v4 = false): React.ReactNode {
       {topos.entradas().map(([cor, d]) => <path key={`t-${cor}`} d={d} fill={cor} />)}
       <path d={brilhoTopo} fill="#fff" opacity={0.14} />
       {v4 && <path d={seamTopo} fill={CONTORNO_COR} opacity={0.6} />}
+      {v4 && <JanelaNavegacao />}
       {alto && <DecorParedes />}
       {rotulos}
       {alto && <Entulho />}
@@ -801,6 +807,7 @@ export const Arte: React.FC<{alertaReator?: number; v3?: boolean; v4?: boolean}>
     viewBox={`0 0 ${W} ${H}`}
     style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}
   >
+    {v4 && <FundoEspaco />}
     <Estatico v3={v3} v4={v4} />
     {alertaReator > 0 && (
       <rect x={0} y={0} width={W} height={H} fill="#ff1e1e" opacity={Math.min(1, alertaReator)} />
