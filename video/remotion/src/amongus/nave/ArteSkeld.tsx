@@ -7,7 +7,7 @@
 import React, {useMemo} from 'react';
 import {NAVE} from './mapa';
 import {SALAS_ORDEM, TILE, type Sala} from './spec';
-import {DESENHOS, props3Absolutos, consoleTarefa3} from './Props3';
+import {DESENHOS, DecorParedes, props3Absolutos, consoleTarefa3} from './Props3';
 import {CANTOS, FundoEspaco, JanelaNavegacao, foraDoCanto, poligonoSala, ret} from './Melhorias4';
 
 const W = NAVE.cols * TILE;
@@ -63,21 +63,38 @@ function corredores() {
   return d;
 }
 
-// portas que caem num canto cortado: o piso da sala avança pela diagonal até a porta (o corredor "entra" na parede)
+// portas que caem num canto cortado: o piso avança da porta até a diagonal (trapézio exato), e o corredor "entra" na
+// parede diagonal, como na planta. Cada célula de porta vira um quadrilátero da borda do retângulo até a diagonal.
 function entradasNosCantos(s: Sala) {
   const {c, r, w, h} = NAVE.salas[s].rect;
+  const {x0, y0, x1, y1} = ret(s);
   const cs = CANTOS[s] ?? {};
   const g = NAVE.grid;
+  // profundidade (px, para dentro) até a diagonal de um canto, a uma distância u (px) da quina, ao longo do lado
+  const prof = (k: number | undefined, u: number) => Math.max(0, (k ?? 0) - u);
   let d = '';
-  const kc = (canto: keyof typeof cs) => Math.ceil((cs[canto] ?? 0) / TILE);
+  const quad = (pts: [number, number][]) => { d += pontosD(pts); };
   for (let x = c; x < c + w; x++) {
-    // porta em cima (linha r-1) e embaixo (linha r+h)
-    if (g[r - 1]?.[x] === 'D') { const prof = Math.max(kc('tl') - (x - c), kc('tr') - (c + w - 1 - x), 0); if (prof > 0) d += R(x * TILE, r * TILE, TILE, (prof + 1) * TILE); }
-    if (g[r + h]?.[x] === 'D') { const prof = Math.max(kc('bl') - (x - c), kc('br') - (c + w - 1 - x), 0); if (prof > 0) d += R(x * TILE, (r + h - prof - 1) * TILE, TILE, (prof + 1) * TILE); }
+    const a = x * TILE, b = a + TILE;
+    if (g[r - 1]?.[x] === 'D') {
+      const pa = Math.max(prof(cs.tl, a - x0), prof(cs.tr, x1 - a)), pb = Math.max(prof(cs.tl, b - x0), prof(cs.tr, x1 - b));
+      if (pa || pb) quad([[a, y0 - 2], [b, y0 - 2], [b, y0 + pb], [a, y0 + pa]]);
+    }
+    if (g[r + h]?.[x] === 'D') {
+      const pa = Math.max(prof(cs.bl, a - x0), prof(cs.br, x1 - a)), pb = Math.max(prof(cs.bl, b - x0), prof(cs.br, x1 - b));
+      if (pa || pb) quad([[a, y1 + 2], [b, y1 + 2], [b, y1 - pb], [a, y1 - pa]]);
+    }
   }
   for (let y = r; y < r + h; y++) {
-    if (g[y]?.[c - 1] === 'D') { const prof = Math.max(kc('tl') - (y - r), kc('bl') - (r + h - 1 - y), 0); if (prof > 0) d += R(c * TILE, y * TILE, (prof + 1) * TILE, TILE); }
-    if (g[y]?.[c + w] === 'D') { const prof = Math.max(kc('tr') - (y - r), kc('br') - (r + h - 1 - y), 0); if (prof > 0) d += R((c + w - prof - 1) * TILE, y * TILE, (prof + 1) * TILE, TILE); }
+    const a = y * TILE, b = a + TILE;
+    if (g[y]?.[c - 1] === 'D') {
+      const pa = Math.max(prof(cs.tl, a - y0), prof(cs.bl, y1 - a)), pb = Math.max(prof(cs.tl, b - y0), prof(cs.bl, y1 - b));
+      if (pa || pb) quad([[x0 - 2, a], [x0 - 2, b], [x0 + pb, b], [x0 + pa, a]]);
+    }
+    if (g[y]?.[c + w] === 'D') {
+      const pa = Math.max(prof(cs.tr, a - y0), prof(cs.br, y1 - a)), pb = Math.max(prof(cs.tr, b - y0), prof(cs.br, y1 - b));
+      if (pa || pb) quad([[x1 + 2, a], [x1 + 2, b], [x1 - pb, b], [x1 - pa, a]]);
+    }
   }
   return d;
 }
@@ -161,9 +178,9 @@ function duto(x: number, y: number, chave: string) {
 }
 
 function montar(): React.ReactNode {
-  const salas = SALAS_ORDEM.map((s) => ({s, d: pontosD(poligonoSala(s))}));
+  const salas = SALAS_ORDEM.map((s) => ({s, d: pontosD(poligonoSala(s)), e: entradasNosCantos(s)}));
   const dCorr = corredores();
-  const dTudo = salas.map((x) => x.d).join(' ') + dCorr;
+  const dTudo = salas.map((x) => x.d + x.e).join(' ') + dCorr;
   const props = props3Absolutos().filter((p) => !(p.sala === 'Refeitorio' && (p.tipo === 'mesaRedonda' || p.tipo === 'mesaBotao')));
   const mesas = props3Absolutos().filter((p) => p.sala === 'Refeitorio' && (p.tipo === 'mesaRedonda' || p.tipo === 'mesaBotao'));
   return (
@@ -176,12 +193,8 @@ function montar(): React.ReactNode {
       <path d={dTudo} fill="none" stroke="#5f6a79" strokeWidth={2 * PAREDE - 18} strokeLinejoin="round" opacity={0.5} />
       {/* pisos */}
       <path d={dCorr} fill="url(#sk-corr)" />
-      {salas.map(({s, d}) => (
-        <g key={s}>
-          <path d={d} fill={`url(#sk-p-${s})`} />
-          <path d={entradasNosCantos(s)} fill={`url(#sk-p-${s})`} />
-        </g>
-      ))}
+      {salas.map(({s, d}) => <path key={s} d={d} fill={`url(#sk-p-${s})`} />)}
+      <clipPath id="sk-clip-todas"><path d={salas.map((x) => x.d).join(' ')} /></clipPath>
       {/* sombra junto às paredes, por dentro de cada sala */}
       {salas.map(({s, d}) => (
         <g key={`sb-${s}`}>
@@ -192,6 +205,8 @@ function montar(): React.ReactNode {
           <path d={d} fill="none" stroke={CONTORNO} strokeWidth={6} strokeLinejoin="round" opacity={0.55} />
         </g>
       ))}
+      {/* as entradas pelos cantos cortados: o piso do corredor vai até a parede diagonal (abre a parede) */}
+      {salas.map(({s, e}) => (e ? <path key={`e-${s}`} d={e} fill="url(#sk-corr)" /> : null))}
       {/* faixa central clara nos corredores */}
       <path d={dCorr} fill="none" stroke="#fff" strokeWidth={1} opacity={0.05} />
       {/* nomes das salas */}
@@ -200,13 +215,15 @@ function montar(): React.ReactNode {
         const tl = CANTOS[s]?.tl ?? 0;
         return <text key={`n-${s}`} x={x0 + tl + 26} y={y0 + FACE + 34} fill="#fff" opacity={0.4} fontSize={26} fontWeight={800} fontFamily="Arial, Helvetica, sans-serif" style={{letterSpacing: 4}}>{NAVE.salas[s].nome.toUpperCase()}</text>;
       })}
+      {/* enfeites da parede de cima (janelas, monitores, saídas de ar), os mesmos da v3/v4, recortados pelas salas */}
+      <g clipPath="url(#sk-clip-todas)"><DecorParedes /></g>
       <JanelaNavegacao />
       {/* objetos (os da v3/v4) e as mesas azuis do Refeitório */}
       {props.map((p, i) => {
         const q = foraDoCanto(p.sala, {x: p.cx, y: p.cy});
         return <g key={i} transform={`translate(${q.x} ${q.y}) rotate(${p.rot ?? 0})`}>{DESENHOS[p.tipo]?.(p.pw, p.ph, p.v)}</g>;
       })}
-      {mesas.map((p, i) => mesaAzul(p.cx, p.cy, p.pw * 0.3, p.tipo === 'mesaBotao', `mesa-${i}`))}
+      {mesas.map((p, i) => mesaAzul(p.cx, p.cy, p.pw * 0.37, p.tipo === 'mesaBotao', `mesa-${i}`))}
       {SALAS_ORDEM.flatMap((s) => NAVE.salas[s].consoles.map((p0, i) => { const p = foraDoCanto(s, p0); return consoleTarefa3(p.x, p.y, `${s}-c${i}`); }))}
       {SALAS_ORDEM.flatMap((s) => { const d0 = NAVE.salas[s].duto; if (!d0) return []; const d = foraDoCanto(s, d0); return [duto(d.x, d.y, `${s}-d`)]; })}
     </>
