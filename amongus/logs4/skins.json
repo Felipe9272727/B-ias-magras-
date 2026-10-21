@@ -64,14 +64,6 @@
    "motivo": "Num jogo cheio de tripulantes suspeitos, vou de capacete e colete salva-vidas para garantir que, se algo der errado, eu seja o primeiro a sair boiando.",
    "ordem": 9
   },
-  "Vermelho": {
-   "modelo": "MiniMax M3",
-   "cabeca": "tapa_olho",
-   "roupa": "havaiana",
-   "pet": "slime",
-   "motivo": "Sou um pirata de folga que largou o mar pra curtir uma praia com meu slime de estimação grudado no pé!",
-   "ordem": 10
-  },
   "Amarelo": {
    "modelo": "GPT-5.6 Luna",
    "cabeca": "bandana",
@@ -104,14 +96,6 @@
    "motivo": "Sou Lima despojada: óculos escuros pra esconder a suspeita e pijama porque trabalho dormindo, com meu gatinho de olho em tudo!",
    "ordem": 14
   },
-  "Cinza": {
-   "modelo": "MiniMax M3",
-   "cabeca": "aureola",
-   "roupa": "smoking",
-   "pet": "mini_tripulante",
-   "motivo": "Auréola e smoking porque cinza é a cor dos fantasmas — anjo inocente com cara de santo, ninguém vai desconfiar que eu tô tramando algo sinistro por trás dessa aura celestial!",
-   "ordem": 15
-  },
   "Roxo": {
    "modelo": "Qwen 3.8 Flash",
    "cabeca": "bigode",
@@ -119,17 +103,30 @@
    "pet": "slime",
    "motivo": "Porque ser uma IA me dá um jeitão clássico e um pouco rabugento, mas meu slime companheiro garante a bagunça!",
    "ordem": 15
+  },
+  "Vermelho": {
+   "modelo": "MiniMax M3.1 Flash",
+   "cabeca": "tapa_olho",
+   "roupa": "havaiana",
+   "pet": "gato",
+   "motivo": "Sou o detetive de-eye em versão tropical, sempre acompanhado do meu gato investigador.",
+   "ordem": 15
+  },
+  "Cinza": {
+   "modelo": "MiniMax M3.1 Flash",
+   "cabeca": "aureola",
+   "roupa": "colete",
+   "pet": "passarinho",
+   "motivo": "Sou um旅行者 celestial de colete, pronto para sobrevoar as Shields com meu passarinho de guarda-costas.",
+   "ordem": 15
   }
  },
  "uso": {
   "chamadas": 1,
   "falhas": 0,
   "porProvider": {
-   "or:qwen/qwen3.8-flash": 1
+   "or:minimax/minimax-m3.1-flash:free": 1
   },
-  "falhasPor": {},
-  "custo": {
-   "or:qwen/qwen3.8-flash": 0.000563212
-  }
+  "falhasPor": {}
  }
 }
