@@ -37,7 +37,10 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio
       if (!status) return ok({ ok: false, text: 'timeout' })
       if (status === 402) return ok({ ok: false, text: `openrouter: sem cota (HTTP 402) ${d?.error?.message ?? ''}` })
       if (status < 200 || status >= 300) return ok({ ok: false, text: `openrouter: HTTP ${status} ${d?.error?.message ?? ''}` })
-      ok({ ok: true, text: d?.choices?.[0]?.message?.content ?? '', usage: d?.usage })
+      const ch = d?.choices?.[0]
+      const texto = ch?.message?.content ?? ''
+      // resposta vazia: guarda o porquê (finish_reason, erro do provedor, tamanho do raciocínio) para diagnosticar
+      ok({ ok: true, text: texto, usage: d?.usage, ...(texto.trim() ? {} : { porque: `vazia: finish=${ch?.finish_reason} erro=${JSON.stringify(d?.error ?? ch?.error ?? null).slice(0, 80)} raciocinio=${(ch?.message?.reasoning ?? '').length}` }) })
     })
     p.stdin.end(corpo)
   })
@@ -103,7 +106,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   uso.falhasPor[provider] = (uso.falhasPor[provider] ?? 0) + 1
   // o motivo das últimas falhas de cada IA (para saber se foi tempo, 429, resposta vazia...)
   uso.motivos = uso.motivos ?? {}
-  ;(uso.motivos[provider] ??= []).push(String(ultimo?.text ?? '').slice(0, 160) || 'resposta vazia')
+  ;(uso.motivos[provider] ??= []).push(String(ultimo?.porque ?? ultimo?.text ?? '').slice(0, 160) || 'resposta vazia')
   if (uso.motivos[provider].length > 15) uso.motivos[provider].shift()
   return { ok: false, text: '' }
 }
