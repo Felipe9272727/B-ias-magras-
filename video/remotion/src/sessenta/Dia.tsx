@@ -52,12 +52,12 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const MESA = ['baralho', 'damas', 'gaita']; // itens em cima da mesa: desenhados por cima da toalha
 
 // qual desenho usar. O visual começa limpo (base); o desgaste cresce aos poucos com o estado do log e só os casos fortes trocam de desenho
-function variante(p: PessoaEst, fig: Fig) {
+function variante(p: PessoaEst, fig: Fig, dia: number, diasFadiga: number) {
   const louco = p.loucura >= 60;
   const fome = p.semComer >= 8 || p.semBeber >= 6;
   const ordem: [string, boolean][] = [
     ['mutante', p.mutante], ['doente_louco', p.doente && louco], ['louco', louco], ['doente', p.doente],
-    ['ferido', p.ferido], ['fome', fome], ['cansado', p.cansado >= 3],
+    ['ferido', p.ferido], ['fome', fome], ['cansado', p.cansado >= 3], ['fatigado', dia >= diasFadiga],
   ];
   const tem = (k: string) => !!fig.variantes[k];
   const usada = ordem.find(([k, cond]) => cond && tem(k))?.[0] ?? 'base';
@@ -144,7 +144,7 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     const fig = figs[p.id];
     const lug = cena.lugares[p.id];
     if (!fig || !lug) return null;
-    const v = variante(p, fig);
+    const v = variante(p, fig, dia.dia, dados.diasFadiga);
     const [w, h] = fig.viewBox;
     const kk = lug.escala;
     const respira = 1 + 0.011 * Math.sin(sr * 2.2 + lug.x);
