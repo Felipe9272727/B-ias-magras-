@@ -159,10 +159,11 @@ def carregar_roteiro():
     return mod
 
 
-def partidas():
+def partidas(ordem=None):
+    """As partidas na ordem do vídeo: `ordem` (do roteiro, ORDEM) diz qual partida do log é a 1ª, 2ª... do vídeo."""
     out = {}
     for i in (1, 2, 3, 4):
-        f = LOGS / f'partida{i}.json'
+        f = LOGS / f'partida{(ordem or {}).get(i, i)}.json'
         if not f.exists():
             continue
         d = json.loads(f.read_text())
@@ -283,10 +284,12 @@ def main():
     ROTEIRO = args.roteiro
     VOZ.mkdir(parents=True, exist_ok=True)
     mod = carregar_roteiro()
-    ps = partidas()
+    ps = partidas(getattr(mod, 'ORDEM', None))
     memes = {x['id']: dict(file=Path(x['file_gif']).name, width=x['width'], height=x['height'], duration=x['duration_sec'])
              for x in json.loads((PUBLIC / 'gifs' / 'catalog.json').read_text())}
     sfx_files = {x['id']: x['file'] for x in json.loads((PUBLIC / 'sfx' / 'sfx.json').read_text())}
+    for f in sorted((PUBLIC / 'sfx_au4').glob('*.mp3')):  # AU4: nhac, crunch, fogo, coracao, splash, bip
+        sfx_files.setdefault(f.stem, f'sfx_au4/{f.name}')
     # efeitos do Among Us (sfx_au2: faca, tiro, transformar, duto, ...) também valem nas marcações [[s:...]]
     for f in sorted((PUBLIC / 'sfx_au2').glob('*.mp3')):
         sfx_files.setdefault(f.stem, f'sfx_au2/{f.name}')

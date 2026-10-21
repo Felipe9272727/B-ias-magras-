@@ -172,4 +172,12 @@ Menções honrosas: Bordo, reunião 1: "Sério que um metamorfo ia confessar que
 - **Bordo, reunião 1:** o argumento "metamorfo não confessa" foi tentativa de jogada, mas não funcionou (9 votos contra ele).
 - **Cinza, reunião 0:** se declarou Mecânico ("Eu sou o Mecânico"), mas Preto, que era o Mecânico de verdade, não confirmou.
 
-@@PROXIMO@@
+## 6. Discrepâncias e ressalvas (conferir antes de narrar)
+
+- **Votos x falas (reunião 3):** `votos` registra Vermelho -> pular, mas a fala de Vermelho diz "Voto em Ciano" (r1) e "Voto nele" (r2).
+- **Votos x falas (reunião 1):** `votos` registra Roxo -> Cinza, mas a fala de Roxo (r2) diz "Voto no Bordo." Cinza: `votos` diz Bordo, a fala r2 diz "meu voto é nele" (Vermelho), e o pensamento do voto diz que vai apoiar a expulsão de Bordo.
+- **Voto duplo de Amarelo:** o campo `votos` tem um voto por pessoa. Amarelo afirma peso 2 ("meu voto vale dois", reunião 3; "meu voto duplo", reunião 1). A contagem com peso não está no arquivo.
+- **Chat sem evento no log:** Ciano diz sabotar luzes no t23 (log: sabotagem só de Cinza). Cinza diz ter chantageado Verde no t27 (log: sem chantagem). Ciano diz ter plantado bomba no Laranja no t32 (log: sem `bomba_plantada`). A bomba de t39 (explode t42) não tem evento de explosão no log.
+- **Reflexões finais com erros:** Verde diz que "Branco (Glutão) foi expulso como impostor", mas Branco morreu no t50 e não foi expulso (só Bordo, Cinza e Ciano foram). Vermelho diz que "Azul, que denunciou o Coral", mas quem denunciou foi Roxo.
+- **Trechos truncados ou com glitches no original:** várias falas e pensamentos terminam no meio (p.ex. linhas 148, 236, 343, 389, 399). Há tokens quebrados, que foram copiados como estão: "apenasDefenseBasedEvidence" (linha 297), "parceiro,-now" (337), "编织ado" e "CREWERS" (343), "entre_security" (370), "VouVotes" (284), "CianoHighly" (393), "Serial Killer" e "可疑" (374), e nas reflexões (403-417) palavras como "queucingiu", "Marrom当中", "accusations". Na narração, prefira parafrasear esses trechos.
+- **Palavras em inglês no chat:** "Movement" (linha 106), "witnesses" (187), "witnessing" (218).

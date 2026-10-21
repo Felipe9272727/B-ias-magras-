@@ -1,0 +1,33 @@
+// As 28 funções do Among Us 4 (amongus/jogo4.mjs), para o quadro "Todas as funções". NOVO = entrou neste episódio.
+import type {Papel} from '../amongus3/Papeis';
+
+export const PAPEIS4: Papel[] = [
+  {nome: 'Bombardeiro', time: 'impostor', cor: 'Vermelho', poder: 'Gruda uma bomba: explode 3 tiques depois.', novo: true},
+  {nome: 'Gangster', time: 'impostor', cor: 'Laranja', poder: 'Recruta um tripulante pro time.'},
+  {nome: 'Chantagista', time: 'impostor', cor: 'Marrom', poder: 'Cala alguém na próxima reunião.', novo: true},
+  {nome: 'Apostador', time: 'impostor', cor: 'Preto', poder: 'Adivinha a função de alguém na reunião: acertou, mata.', novo: true},
+  {nome: 'Faxineiro', time: 'impostor', cor: 'Rosa', poder: 'Mata e some com o corpo.'},
+  {nome: 'Metamorfo', time: 'impostor', cor: 'Bordo', poder: 'Mata disfarçado de outro.'},
+  {nome: 'Envenenador', time: 'impostor', cor: 'Lima', poder: 'A vítima cai tiques depois.'},
+  {nome: 'Possuidor', time: 'impostor', cor: 'Cinza', poder: 'Controla o voto de alguém (2 vezes).', novo: true},
+  {nome: 'Espectro', time: 'impostor', cor: 'Coral', poder: 'Fica invisível.'},
+  {nome: 'Glutão', time: 'neutro', cor: 'Bordo', poder: 'Devora a vítima. Não sobra corpo.', novo: true},
+  {nome: 'Canibal', time: 'neutro', cor: 'Amarelo', poder: 'Come 3 corpos e ganha sozinho.', novo: true},
+  {nome: 'Piromante', time: 'neutro', cor: 'Lima', poder: 'Encharca todos de gasolina e põe fogo.', novo: true},
+  {nome: 'Sobrevivente', time: 'neutro', cor: 'Roxo', poder: 'Colete à prova de faca. Só quer sobreviver.', novo: true},
+  {nome: 'Palhaço', time: 'neutro', cor: 'Branco', poder: 'Ganha se for expulso.'},
+  {nome: 'Xerife', time: 'tripulante', cor: 'Preto', poder: 'Atira. Agora mata neutro também.'},
+  {nome: 'Perito', time: 'tripulante', cor: 'Amarelo', poder: 'Vê as pegadas de quem passou.', novo: true},
+  {nome: 'Mecânico', time: 'tripulante', cor: 'Verde', poder: 'Destranca portas e tapa dutos.', novo: true},
+  {nome: 'Armador', time: 'tripulante', cor: 'Azul', poder: 'Quem matar ele se denuncia sozinho.', novo: true},
+  {nome: 'Médico', time: 'tripulante', cor: 'Branco', poder: 'Escudo em alguém.'},
+  {nome: 'Juiz', time: 'tripulante', cor: 'Rosa', poder: 'Anula uma votação.'},
+  {nome: 'Detetive', time: 'tripulante', cor: 'Lima', poder: 'Examina corpos.'},
+  {nome: 'Prefeito', time: 'tripulante', cor: 'Amarelo', poder: 'Voto vale dois.'},
+  {nome: 'Localizador', time: 'tripulante', cor: 'Ciano', poder: 'Sabe onde alguém está.'},
+  {nome: 'Cientista', time: 'tripulante', cor: 'Azul', poder: 'Sinais vitais de qualquer lugar.'},
+  {nome: 'Engenheiro', time: 'tripulante', cor: 'Cinza', poder: 'Também usa dutos.'},
+  {nome: 'Barulhento', time: 'tripulante', cor: 'Verde', poder: 'Se morrer, a nave toda sabe.'},
+  {nome: 'Influencer', time: 'tripulante', cor: 'Coral', poder: 'Posta foto da sala.'},
+  {nome: 'Segurança', time: 'tripulante', cor: 'Rosa', poder: 'Câmeras de qualquer lugar.'},
+];

@@ -9,6 +9,21 @@ import {mapaDaCena} from '../amongus3/tempo';
 import {AU4Roupas} from '../amongus/AU4Roupas';
 import {AU4Comentarios} from './Comentarios4';
 import {AU4Aposta, AU4Ejecao} from './Reuniao4';
+import {AU3Papeis} from '../amongus3/Papeis';
+import {PAPEIS4} from './Papeis4';
+import {AU2Premios, type Premio} from '../amongus2/Premios';
+
+// quadro (na cena) em que o narrador fala cada termo, um depois do outro
+const semAcento = (w: string) => w.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+const gatilhos = (scene: Scene, termos: string[]): number[] => {
+  const ws = (scene.words ?? []) as {w: string; s: number}[];
+  let k = 0;
+  return termos.map((t) => {
+    const alvo = t.split(' ').map(semAcento);
+    for (let i = k; i < ws.length; i++) if (alvo.every((a, j) => semAcento(ws[i + j]?.w ?? '') === a)) { k = i + 1; return ws[i].s }
+    return -1;
+  });
+};
 
 export const AU4Visual: React.FC<{name: string; props: Record<string, any>; scene: Scene; timeline: Timeline}> = ({name, props: p, scene, timeline}) => {
   const ps = (timeline.data as any).partidas as Record<string, Partida2>;
@@ -26,6 +41,10 @@ export const AU4Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU4Aposta p={ps[String(p.partida)]} idx={p.indice} skins={skins} k={p.k} />;
     case 'AU4Ejecao':
       return <AU4Ejecao p={ps[String(p.partida)]} idx={p.indice} skins={skins} />;
+    case 'AU4Papeis':
+      return <AU3Papeis papeis={PAPEIS4} colunas={7} compacto passo={p.passo ?? 4} focos={gatilhos(scene, PAPEIS4.map((r) => r.nome))} />;
+    case 'AU4Premios':
+      return <AU2Premios premios={p.premios as Premio[]} gatilhos={gatilhos(scene, p.gatilhos ?? [])} />;
     case 'AU4Roupas':
       return <AU4Roupas />;
     default:

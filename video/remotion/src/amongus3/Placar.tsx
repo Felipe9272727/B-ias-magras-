@@ -45,7 +45,8 @@ export const AU3Placar: React.FC<{ps: Record<string, Partida2>; ate?: number; co
           const imps = p.jogadores.filter((j) => j.time === 'impostor');
           const ev = p.eventos.filter((x) => x.tique <= r0.tique);
           const reun = p.reunioes.filter((x) => x.tique <= r0.tique);
-          const mortes = ev.filter((x) => x.tipo === 'morte' || x.tipo === 'morte_veneno').length;
+          // AU4: bomba, fogo, Casal, aposta e tiro do Xerife também contam
+          const mortes = ev.filter((x) => x.tipo === 'morte' || x.tipo === 'morte_veneno' || x.tipo === 'casal_morre' || x.tipo === 'aposta' || x.tipo === 'xerife').length + ev.filter((x) => x.tipo === 'bomba' || x.tipo === 'incendio').reduce((a, x) => a + (x.mortos?.length ?? 0), 0);
           const inocentes = reun.filter((r) => r.expulso && !r.eraImpostor).length;
           const pegos = reun.filter((r) => r.expulso && r.eraImpostor).length + ev.filter((x) => x.tipo === 'xerife' && x.acertou).length;
           return (

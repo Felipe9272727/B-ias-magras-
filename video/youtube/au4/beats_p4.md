@@ -147,11 +147,11 @@ Resultado final (linha 1 do arquivo e evento `fim`): vitória dos tripulantes, "
 - **Bordo** (Chantagista), r1: "O Ciano tá me atacando o Laranja, preciso segurar o álibi dele e virar o foco pro Ciano."
 - **Laranja** (aposta, literal no pensamento de voto): "Quanto à aposta: o Preto literalmente disse 'confiro sinais vitais' três vezes na reunião - ele se entregou como Cientista. É a aposta mais segura que existe..."
 - **Bordo** (voto): "Ele se entregou como Médico (deu escudo no Branco), então não é o Palhaço; expulsar ele é seguro e tira um tripulante com função forte de circulação."
-- **Branco** (voto): "Bordo tentou me matar e está conduzindo a acusação com muita segurança. Vou votar nele para parecer contraditório e levantar suspeita sobre mim."
+- **Branco** (voto): "Ciano está recebendo votos demais e pode ser uma eliminação conveniente; Bordo tentou me matar e está conduzindo a acusação com muita segurança. Vou votar nele para parecer contraditório e levantar suspeita sobre mim."
 
 **Votos:** Ciano 7 (Azul, Rosa, Laranja, Lima, Cinza, Coral, Bordo). Bordo 2 (Branco e Ciano). Preto morto pela aposta não aparece no registro de votos.
 **Apostas:** **Laranja apostou que Preto era Cientista: ACERTOU.** Preto morreu.
-**Resultado:** **Ciano expulso. Era tripulante inocente (Médico).** Eraimpostor = False.
+**Resultado:** **Ciano expulso. Era tripulante inocente (Médico).** eraImpostor = False.
 
 ### Reunião 4 — t51, corpo de Branco, chamada por Cinza (Perito)
 **Por quê:** Cinza achou o corpo do Branco no Motor Superior. Rosa viu o Bordo entrar num duto no Reator no t46, e Azul viu ele sair do duto no Motor Inferior.
@@ -198,3 +198,65 @@ Resultado final (linha 1 do arquivo e evento `fim`): vitória dos tripulantes, "
 **Apostas:** Laranja anunciou no voto que chutava Azul como Segurança. **Não há evento de aposta no log** para essa rodada, e a partida acabou com a expulsão dele.
 **Resultado:** **Laranja expulso (Apostador, impostor). Fim: "Os impostores foram eliminados."** Vencem os tripulantes. Sobrevivem Azul, Rosa, Lima e Cinza.
 
+## 4. Os 10 melhores momentos para o vídeo (ranking)
+
+1. **Reunião 4: o Bordo se entrega com a própria mentira.** Rosa e Azul viram o Bordo saindo de dutos perto do corpo. Ele reivindica a função: "Sou Engenheiro, sim usei duto — tava me movendo rápido do Reator pro Motor Inferior, não matei ninguém." O parceiro Laranja rebate: "Bordo, você usou Chantagem no Branco, mas Engenheiro não tem esse poder. Você mentiu na função." No pensamento, o próprio Bordo registra: "O Laranja me traiu na reunião: inventou que eu usei Chantagem no Branco, sendo que o Chantagista sou eu e ele é meu parceiro Apostador." Impostor acusando impostor, com a confissão no meio.
+
+2. **Os impostores "matam" o Azul que continua vivo.** No chat secreto: t39 Bordo: "Matei o Azul na Enfermaria. Só você viu."; t40 Laranja: "Corpo do Azul tá aqui, quem achar?"; t41 Bordo: "Saindo da Enfermaria agora, corpo do Azul no canto, ninguém achou."; t49 Bordo: "Matei Azul no Motor Inferior, sem testemunha." Azul fala vivo nas reuniões 4 e 5: "Eu tava sozinho no Motor Inferior e vi o Bordo perto de mim no t46 e no t48." (Ver ressalva: o log não registra morte de Azul.)
+
+3. **Reunião 3: Laranja acerta a aposta e a nave expulsa um Médico inocente.** O pensamento de voto do Laranja: "o Preto literalmente disse 'confiro sinais vitais' três vezes na reunião - ele se entregou como Cientista. É a aposta mais segura que existe". Ele acerta, e o Preto morre. Na votação, Ciano é expulso com 7 votos, e o log registra eraImpostor = False.
+
+4. **Reunião 5: a última fala do Laranja contradiz o pensamento dele.** Em voz alta: "Eu tava na Elétrica na hora da sabotagem, depois fui pro Motor Superior." No pensamento, antes: "Na verdade eu tava na Elétrica fingindo tarefa (t48-49) e depois fui pro Motor Superior." Azul entrega o ponto: "No t38, o Laranja subiu no scanner da Enfermaria e o scan NÃO ligou." Lima chama a emergência e o impostor cai com 4 votos.
+
+5. **Reunião 0: a emergência do Palhaço expulsa o Envenenador, e o Bordo vota no próprio parceiro.** Vermelho, na fala, acusa: "O Branco apertou a emergência sem achado nenhum e agora tá rondando o Refeitório sozinho; tá tentando jogar a gente né?" No pensamento, o plano dele: "Vou usar a reunião para transformar o Branco em alvo". Treze votos caem sobre ele. Bordo, depois: "Errei feio: me comprometi publicamente a votar no Vermelho, meu próprio parceiro, antes de ver a contagem."
+
+6. **Reunião 2: o Juiz anula 5 votos contra o Palhaço, e o fantasma tenta manipular.** Branco está no alvo, e pede: "se quiserem me expulsar, façam logo." O Juiz Rosa anula os votos. Depois, o recado do Influencer (Roxo fantasma), t26: "O juiz anulou 5 votos contra Branco. Ou Branco É o juiz se salvando, ou o juiz tá protegendo impostor. Desconfiem do Branco e descubram quem". Um morto tentando guiar a nave.
+
+7. **Reunião 1: Ciano chama a reunião e não consegue falar.** Ele aparece como "🤐 (chantageado: não consegue falar)". O Roxo, Engenheiro, pergunta: "quem é o Chantagista que calou ele agora?" O Bordo, o próprio Chantagista, está na sala. Ironia dramática pura. (Roxo, r2.)
+
+8. **Reunião 4: a aposta na Coral com a própria fala dela como prova.** Pensamento do Laranja: "Coral usou 'nas minhas câmeras' com timestamps específicos (t45, t49) — é uso público do poder de Segurança, praticamente confirmação de função. Se acertar, morre o cara que vê todo mundo se mexer." Acerta, e a Coral morre antes da votação.
+
+9. **O escudo do Médico salva o Palhaço duas vezes, e o Bordo comemora um kill que não aconteceu.** Chat t7: "Matei o Branco no Admin." Chat t21: "Matei o Branco no Refeitório, corpo ficou lá." Os dois registros de escudo mostram o Branco vivo (Ciano: "no t21 alguém tentou matar o Branco no Refeitório, ele estava com meu escudo, e Bordo estava perto da cena").
+
+10. **Chantagem e silêncio como arma: Bordo chantageia cinco vezes.** Ciano (t3, t10, t17), Cinza (t26) e Branco (t36). Com o Ciano calado, a nave é conduzida sem a defesa do Médico. Chat t3: "Chantageei o Ciano, ele me viu no Refeitório." Chat t44: "Chantageei o Branco mas ele morreu, desperdício."
+
+## 5. Erros, burrices e jogadas; destino do Piromante e do Palhaço
+
+### Jogadas geniais
+- **Laranja (Apostador):** acertou duas apostas (Preto = Cientista, t35; Coral = Segurança, t51). Escondeu o kill do Verde no escuro. Dois trechos do chat: "Tô com cooldown 0, ninguém vê, e tá escuro" (pensamento t34) e "Mato o Verde e saio na hora pra criar distância."
+- **Bordo (Chantagista):** silenciou o Ciano nas reuniões 1, 2 e 3 e também o Branco (t36). Apagou as luzes para caçar sem testemunha (t32, t42, t50). Consertou as luzes na frente de Rosa e Coral para ganhar álibi (t35): "Luzes consertadas por mim na frente de Rosa e Coral = álibi forte."
+- **Branco (Palhaço):** a emergência sem corpo do t9 é o fato que expulsa o Vermelho. Pensamento dele: "Preciso parecer culpado sem entregar o Vermelho de forma convincente."
+- **Cinza (Perito):** achou o corpo do Branco (t51) e votou no Bordo. Depois, o próprio Bordo reclama: "de novo o Cinza me pegou".
+- **Lima (Detetive):** a emergência final (t53) que derrubou o Laranja.
+
+### Erros e burrices
+- **Bordo mente sobre kills:** registra "Matei" no chat três vezes para o Azul (t39, t47, t49), e duas para o Branco (t7 e t21) com escudo do Médico. As mortes que o Bordo fez e que aparecem no log são: Marrom (t14), Amarelo (t24) e Branco (t43).
+- **Bordo vota no parceiro (t9):** "Errei feio".
+- **Bordo se diz Engenheiro (reunião 4)** com o Roxo já morto e sem a função ser dele. Chantagem não é poder do Engenheiro, como o próprio Laranja aponta.
+- **Vermelho entra no duto na frente do Branco (t7):** a passagem que o Palhaço vai usar para dedurá-lo. Vermelho nunca matou ninguém no log.
+- **Laranja se contradiz na reunião 5:** primeiro "Eu tava na Elétrica na hora da sabotagem", depois "Eu tava no Motor Superior, o Cinza confirma". Na reunião 4 ele acusou o Lima de estar no Motor Inferior, e o Lima rebateu: "Laranja, me acusar de estar no Motor Inferior quando o Cinza me viu em Navegação é mentira crua".
+- **Ciano é expulso de forma injusta (reunião 3):** a acusação do Laranja, "achou o corpo", e a pressa de Ciano em acusar Laranja, convenceram a nave.
+
+### Destino do Piromante (Amarelo)
+- **Gasolina** em três pessoas: Roxo (t1, total 1), Coral (t18, total 2), Bordo (t24, total 3).
+- **Morte:** t24, no Refeitório, pelo Bordo. Chat: "Matando Amarelo no Refeitório agora." No mesmo tique, o Roxo, par do casal, morre no Motor Superior.
+- No pensamento, na reunião 0, o Amarelo tenta proteger o Roxo: "Preciso manter Roxo protegido sem mencioná-lo."
+- Reflexão final do Roxo (fantasma): "Meu par era o Amarelo, que era o Piromante — morri de tristeza porque um neutro matou meu parceiro".
+
+### Destino do Palhaço (Branco)
+- **Quer ser expulso:** pede a expulsão "se quiserem me expulsar, façam logo" (reunião 2). Na reunião 3, vota no Bordo: "Vou votar nele para parecer contraditório e levantar suspeita sobre mim."
+- **Escudos:** protegido pelo Médico (t7, t10, t17, t21), pelo Anjo Marrom (t15, t27).
+- **Votos anulados:** o Juiz anula 5 votos contra ele (reunião 2).
+- **Chantagem:** Bordo o chantageia no t36, depois que ele vota no Bordo na reunião 3.
+- **Morte:** t43, no Motor Superior, pelo Bordo. Chat do Bordo (t44): "Chantageei o Branco mas ele morreu, desperdício." Nunca foi expulso.
+- **Corpo achado:** Cinza, t51. Reunião 4.
+
+## Ressalvas e pontos para checar antes de roteirizar
+
+- **Total de tarefas:** o resumo não traz o total. Lima diz "falta pouco pra 100% das tarefas"; Cinza diz "Com 94% das tarefas". O "85/90" do briefing não aparece no arquivo: confirmar no log bruto.
+- **Votos anunciados x registrados:** Lima e Rosa anunciaram voto no Roxo na reunião 1, mas o registro marca "pular" para ambos. Rosa anunciou "Voto Branco" na reunião 2, mas o registro marca "pular". Laranja escreve que "o grupo inteiro tá votando nele" (Roxo), mas o registro dá 2 votos.
+- **Reflexão da Rosa:** diz que anulou a "votação do Azul contra o Roxo". O log registra a anulação na reunião 2, com 5 votos contra o Branco.
+- **Kills de Azul:** o chat afirma três mortes (t39, t47, t49). Não há evento de morte no log, e Azul fala vivo nas reuniões 4 e 5. Antes de afirmar no vídeo que "o Bordo mentiu", conferir o log bruto.
+- **Aposta no Azul (reunião 5):** o voto do Laranja a anuncia, mas não há evento de aposta no log.
+- **Texto corrompido no original:** a reflexão do Cinza e a da Lima trazem trechos em coreano e frases quebradas. Não usei esses trechos. Alguns pensamentos são cortados no original (ex.: "Sou Cie", na reunião 0). Mantive os cortes como estão.
+- **Morte do Amarelo e do Roxo no mesmo tique (t24):** o log registra "morte" do Amarelo no Refeitório e "casal_morre" do Roxo no Motor Superior. Descrevi como consta.
