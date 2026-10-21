@@ -156,19 +156,27 @@ def main():
         return au.tts(texto, voz, base)[1], True
 
     def confere(sid, quem, txt, onde, op, pr):
-        """A fala (ou o pensamento) tem que estar no log, naquele segundo da coleta ou naquele dia."""
-        pt = P.get(pr.get('partida'))
+        """A fala (ou o pensamento) tem que estar no log, naquele segundo da coleta ou naquele dia.
+        Na coleta, devolve o segundo da DECISÃO (o fim da ação anterior), que é quando a IA fala."""
+        pt = P.get(pr.get('partida')) or (P.get(pr['clipes'][0]['partida']) if pr.get('clipes') else None)
         if not pt:
-            return
+            return None
         campo = 'pensamento' if op.get('pensa') else ('diario' if isinstance(onde, tuple) else 'fala')
+        alvo = bt.norm(txt.replace('...', '')).strip()
         if isinstance(onde, tuple):
             d = dia_do_log(pt, onde[1])
             orig = ((d or {}).get('resposta') or {}).get(campo, '')
-        else:
-            perto = [f for f in pt['coleta'].get('falas', []) if abs(f['gasto'] / 1000 - onde) <= 1.6]
-            orig = ' '.join(f.get(campo, '') for f in perto)
-        if bt.norm(txt.replace('...', '')).strip() not in bt.norm(orig) and not all(bt.norm(p).strip() in bt.norm(orig) for p in txt.split('...') if p.strip()):
-            warnings.append(f'{sid}: fala de {quem} em {onde} não bate com o log: {txt[:50]!r} / log: {orig[:70]!r}')
+            if alvo not in bt.norm(orig):
+                warnings.append(f'{sid}: {campo} de {quem} no dia {onde[1]} não bate com o log: {txt[:50]!r} / log: {orig[:70]!r}')
+            return None
+        falas = pt['coleta'].get('falas', [])
+        cand = [(abs(f['gasto'] / 1000 - onde), i) for i, f in enumerate(falas) if alvo and alvo in bt.norm(f.get(campo, ''))]
+        if not cand:
+            perto = ' | '.join(f.get(campo, '') for f in falas if abs(f['gasto'] / 1000 - onde) <= 2)
+            warnings.append(f'{sid}: {campo} de {quem} perto de {onde}s não bate com o log: {txt[:50]!r} / log: {perto[:90]!r}')
+            return None
+        _, i = min(cand)
+        return round(falas[i - 1]['gasto'] / 1000, 2) if i > 0 else 0.0
 
     # 2) cenas
     fim_partida = {}  # segundo de jogo onde cada coleta parou
@@ -222,12 +230,12 @@ def main():
                     voices.append(dict(at=at, src=f'voice_s60/{sid}_{k}.mp3'))
                 else:
                     pendente = True
+                decisao = confere(sid, quem, txt, onde, op, pr) if onde is not None else None
                 if coleta and isinstance(onde, (int, float)):
-                    # o jogo chega no segundo da fala quando a voz começa e anda devagar enquanto ela toca
-                    events.append(dict(type='tk', at=max(1, at), tick=onde))
-                    events.append(dict(type='tk', at=round((t + d) * FPS), tick=onde + 0.9))
-                if onde is not None:
-                    confere(sid, quem, txt, onde, op, pr)
+                    # o jogo chega no segundo da decisão quando a voz começa e anda devagar enquanto ela toca
+                    seg = decisao if decisao is not None else onde
+                    events.append(dict(type='tk', at=max(1, at), tick=seg))
+                    events.append(dict(type='tk', at=round((t + d) * FPS), tick=seg + 0.9))
                 if op.get('trig'):
                     events.append(dict(type='trig', at=at, dur=round(min(d, 2.2) * FPS)))
                 t += d + 0.35
