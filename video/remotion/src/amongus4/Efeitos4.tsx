@@ -17,8 +17,9 @@ const corDe = (c: string) => (COR as Record<string, {body: string}>)[c]?.body ??
 
 export const DUR_EFEITO4 = 70;
 
-const Onomatopeia: React.FC<{txt: string; cor: string; k: number; tam?: number}> = ({txt, cor, k, tam = 44}) => (
-  <div style={{position: 'absolute', left: '50%', top: -150 - 40 * Math.min(1, k * 2), transform: `translateX(-50%) rotate(-6deg) scale(${interpolate(k, [0, 0.08, 0.16], [0.3, 1.25, 1], cl)})`, whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 900, fontSize: tam, color: cor, WebkitTextStroke: '2px #000', textShadow: '0 4px 0 #000', opacity: interpolate(k, [0, 0.05, 0.75, 1], [0, 1, 1, 0], cl)}}>{txt}</div>
+// `dy`: sobe mais (para não encavalar com outro texto no mesmo lugar)
+const Onomatopeia: React.FC<{txt: string; cor: string; k: number; tam?: number; dy?: number}> = ({txt, cor, k, tam = 44, dy = 0}) => (
+  <div style={{position: 'absolute', left: '50%', top: -150 - dy - 40 * Math.min(1, k * 2), transform: `translateX(-50%) rotate(-6deg) scale(${interpolate(k, [0, 0.08, 0.16], [0.3, 1.25, 1], cl)})`, whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 900, fontSize: tam, color: cor, WebkitTextStroke: '2px #000', textShadow: '0 4px 0 #000', opacity: interpolate(k, [0, 0.05, 0.75, 1], [0, 1, 1, 0], cl)}}>{txt}</div>
 );
 
 // respingos (sangue no estilo do jogo: a "gosma" é da cor do osso/vermelho escuro)
@@ -200,6 +201,60 @@ export const Efeito4: React.FC<{e: EvQ; s: Sim; f: number}> = ({e, s, f}) => {
       <Onomatopeia txt="SPLASH" cor="#f5b400" k={kk} tam={30} />
     </>);
   }
+  if (e.tipo === 'poder' && (e.poder === 'escudo' || e.poder === 'escudo_anjo')) {
+    const v = s.q(e.alvo, f);
+    const kk = dt / 45;
+    if (!v || kk >= 1) return null;
+    const anjo = e.poder === 'escudo_anjo';
+    const cor = anjo ? '#ffe14d' : '#6dff8a';
+    return pos(v.x, v.y - 50, <>
+      <div style={{position: 'absolute', left: -75, top: -75, width: 150, height: 150, borderRadius: '50%', border: `8px solid ${cor}`, boxShadow: `0 0 34px ${cor}, inset 0 0 24px ${cor}88`, transform: `scale(${interpolate(kk, [0, 0.2], [0.3, 1], cl)})`, opacity: interpolate(kk, [0.6, 1], [1, 0], cl)}} />
+      <Onomatopeia txt={anjo ? '😇 ESCUDO DO ANJO' : '🛡️ ESCUDO'} cor={cor} k={kk} tam={30} />
+    </>);
+  }
+  if (e.tipo === 'poder' && e.poder === 'colete') {
+    const v = s.q(e.cor, f);
+    const kk = dt / 40;
+    if (!v || kk >= 1) return null;
+    return pos(v.x, v.y - 50, <Onomatopeia txt="🦺 COLETE!" cor="#ff9f1a" k={kk} tam={34} />);
+  }
+  if (e.tipo === 'poder' && e.poder === 'rastrear') {
+    const a = s.q(e.cor, f), b = s.q(e.alvo, f);
+    const kk = dt / 50;
+    if (!a || kk >= 1) return null;
+    const ang = b ? Math.atan2(b.y - a.y, b.x - a.x) : 0;
+    return pos(a.x, a.y - 50, <>
+      {[0, 1, 2].map((i) => {
+        const ki = Math.max(0, Math.min(1, kk * 2 - i * 0.25));
+        return <div key={i} style={{position: 'absolute', left: -140 * ki, top: -140 * ki, width: 280 * ki, height: 280 * ki, borderRadius: '50%', border: '4px solid #3ee0ff', opacity: 1 - ki}} />;
+      })}
+      {b && <div style={{position: 'absolute', left: 0, top: -10, width: 150, height: 20, transformOrigin: '0 50%', transform: `rotate(${ang}rad)`, opacity: interpolate(kk, [0.1, 0.2, 0.85, 1], [0, 1, 1, 0], cl)}}>
+        <div style={{position: 'absolute', left: 60, top: 6, width: 70, height: 8, background: '#3ee0ff', border: '2px solid #000'}} />
+        <div style={{position: 'absolute', left: 126, top: -2, width: 0, height: 0, borderTop: '12px solid transparent', borderBottom: '12px solid transparent', borderLeft: '22px solid #3ee0ff'}} />
+      </div>}
+      <Onomatopeia txt={`📍 ${e.alvo}`} cor="#3ee0ff" k={kk} tam={30} />
+    </>);
+  }
+  if (e.tipo === 'poder' && e.poder === 'pegadas') {
+    // as pegadas de verdade: o caminho que cada um fez nos últimos 3 s, brilhando no chão
+    const kk = dt / DUR_EFEITO4;
+    const quem: string[] = e.quem ?? [];
+    const al = interpolate(kk, [0, 0.1, 0.8, 1], [0, 1, 1, 0], cl);
+    return <>
+      {quem.flatMap((c, j) => Array.from({length: 7}, (_, i) => {
+        const q = s.q(c, e.quadro - 90 + i * 15) ?? s.q(c, e.quadro);
+        if (!q) return null;
+        return <div key={c + i} style={{position: 'absolute', left: q.x - 9 + (i % 2 ? 9 : -9), top: q.y - 6, width: 14, height: 20, borderRadius: '50% 50% 45% 45%', background: ['#ffd84d', '#ff7ad9', '#7dff5a', '#6ab8ff'][j % 4], border: '2px solid #000', opacity: al * (0.4 + 0.6 * (i / 6)), boxShadow: '0 0 10px #fff8'}} />;
+      }))}
+      {(() => { const a = s.q(e.cor, f); return a ? pos(a.x, a.y - 50, <Onomatopeia txt={`🔍 pegadas: ${quem.join(', ') || 'ninguém'}`} cor="#ffd84d" k={kk} tam={26} />, 'r') : null })()}
+    </>;
+  }
+  if (e.tipo === 'chantagem') {
+    const v = s.q(e.alvo, f);
+    const kk = dt / 45;
+    if (!v || kk >= 1) return null;
+    return pos(v.x, v.y - 60, <Onomatopeia txt="🤐 CHANTAGEADO" cor="#c08bff" k={kk} tam={30} dy={70} />);
+  }
   return null;
 };
 
@@ -208,6 +263,10 @@ export const MarcasJogador: React.FC<{s: Sim; cor: string; f: number; papeis: bo
   if (!papeis) return null;
   const plantada = [...s.eventos].reverse().find((e) => e.tipo === 'bomba_plantada' && e.vitima === cor && e.quadro <= f);
   const explodiu = plantada && s.eventos.some((e) => e.tipo === 'bomba' && e.portador === cor && e.quadro >= plantada.quadro && e.quadro <= f);
+  const t = s.tique(f);
+  const proxReuniao = (de: number) => s.reunioes.find((r) => r.quadro > de)?.quadro ?? Infinity;
+  const colete = s.eventos.some((e) => e.tipo === 'poder' && e.poder === 'colete' && e.cor === cor && e.quadro <= f && t < (e.ate ?? e.tique + 3));
+  const calado = s.eventos.some((e) => e.tipo === 'chantagem' && e.alvo === cor && e.quadro + 40 <= f && f < proxReuniao(e.quadro));
   const encharcado = s.eventos.some((e) => e.tipo === 'gasolina' && e.vitima === cor && e.quadro + 30 <= f) && !s.eventos.some((e) => e.tipo === 'incendio' && e.quadro <= f);
   return (
     <>
@@ -217,6 +276,8 @@ export const MarcasJogador: React.FC<{s: Sim; cor: string; f: number; papeis: bo
           <div style={{position: 'absolute', left: 9, top: -18, width: 10, height: 10, borderRadius: '50%', background: f % 20 < 10 ? '#ff3b3b' : '#ffd21f'}} />
         </div>
       )}
+      {colete && <div style={{position: 'absolute', left: 6, top: 38, width: 64, height: 38, borderRadius: 10, background: 'repeating-linear-gradient(90deg, #ff8a1f 0 12px, #ffd21f 12px 16px)', border: '3px solid #000', opacity: 0.92}} />}
+      {calado && <div style={{position: 'absolute', left: 46, top: -6, fontSize: 26}}>🤐</div>}
       {encharcado && <div style={{position: 'absolute', left: -6, top: 6, width: 14, height: 18, borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%', background: '#f5b400', border: '2px solid #000', transform: `translateY(${(f % 40) / 4}px)`, opacity: 0.9}} />}
     </>
   );
@@ -263,6 +324,22 @@ export const TampasDuto: React.FC<{s: Sim; f: number; ponto: (sala: string) => {
         );
       }
       return lista;
+    })}
+  </>
+);
+
+// duto tapado pelo Mecânico: tábuas em X em cima da tampa até a próxima reunião
+export const DutosTapados: React.FC<{s: Sim; f: number; ponto: (sala: string) => {x: number; y: number} | null}> = ({s, f, ponto}) => (
+  <>
+    {s.eventos.filter((e) => e.tipo === 'poder' && e.poder === 'tapar_duto' && e.quadro <= f && !s.reunioes.some((r) => r.quadro > e.quadro && r.quadro <= f)).map((e, i) => {
+      const p = ponto(e.sala);
+      if (!p) return null;
+      const k = Math.min(1, (f - e.quadro) / 10);
+      return (
+        <div key={i} style={{position: 'absolute', left: p.x - 40, top: p.y - 14, transform: `scale(${0.6 + 0.4 * k})`, opacity: k}}>
+          {[-18, 18].map((r) => <div key={r} style={{position: 'absolute', left: 0, top: 6, width: 80, height: 16, background: '#a9743f', border: '3px solid #000', borderRadius: 3, transform: `rotate(${r}deg)`}} />)}
+        </div>
+      );
     })}
   </>
 );

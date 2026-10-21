@@ -8,6 +8,7 @@ import {simular, type Partida2} from '../amongus3/sim';
 import {mapaDaCena} from '../amongus3/tempo';
 import {AU4Roupas} from '../amongus/AU4Roupas';
 import {AU4Comentarios} from './Comentarios4';
+import {AU4Aposta, AU4Ejecao} from './Reuniao4';
 
 export const AU4Visual: React.FC<{name: string; props: Record<string, any>; scene: Scene; timeline: Timeline}> = ({name, props: p, scene, timeline}) => {
   const ps = (timeline.data as any).partidas as Record<string, Partida2>;
@@ -21,6 +22,10 @@ export const AU4Visual: React.FC<{name: string; props: Record<string, any>; scen
     }
     case 'AU4Comentarios':
       return <AU4Comentarios lista={p.lista} passo={p.passo ?? 40} />;
+    case 'AU4Aposta':
+      return <AU4Aposta p={ps[String(p.partida)]} idx={p.indice} skins={skins} k={p.k} />;
+    case 'AU4Ejecao':
+      return <AU4Ejecao p={ps[String(p.partida)]} idx={p.indice} skins={skins} />;
     case 'AU4Roupas':
       return <AU4Roupas />;
     default:

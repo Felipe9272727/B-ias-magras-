@@ -10,7 +10,7 @@ import {Arte} from '../amongus/nave/Arte';
 import {ArteSkeld, pontoV5} from '../amongus/nave/ArteSkeld';
 import {Crewmate4} from '../amongus/Crewmate4';
 import {Efeito} from './Efeitos';
-import {Corpo4, DUR_EFEITO4, Efeito4, MarcasJogador, TampasDuto, animDuto} from '../amongus4/Efeitos4';
+import {Corpo4, DUR_EFEITO4, DutosTapados, Efeito4, MarcasJogador, TampasDuto, animDuto} from '../amongus4/Efeitos4';
 import {NAVE, salaEm} from '../amongus/nave/mapa';
 import type {Sala} from '../amongus/nave/spec';
 import {FONT} from '../theme';
@@ -174,6 +174,7 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
           <div key={'p' + i} style={{position: 'absolute', left: d.x, top: d.y - 10, width: 48, height: 58, background: 'repeating-linear-gradient(90deg, #8a94a3 0 10px, #5b6370 10px 14px)', border: '4px solid #10141b', boxShadow: '0 0 18px #ff3b3b'}} />
         ))}
         {v5 && <TampasDuto s={s} f={f} ponto={(sala) => { const d = NAVE.salas[sala as Sala]?.duto; return d ? pontoV5(sala as Sala, d) : null }} />}
+        {v5 && <DutosTapados s={s} f={f} ponto={(sala) => { const d = NAVE.salas[sala as Sala]?.duto; return d ? pontoV5(sala as Sala, d) : null }} />}
         {s.corpos(f).map((c) => (
           <div key={'c' + c.cor} style={{position: 'absolute', left: ajusta(c).x - 40 - (c.arrasto ?? 0) * 140, top: ajusta(c).y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
             {v5 ? (
@@ -186,6 +187,13 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
         {fantasmas.map((g: any) => (
           <div key={'g' + g.cor} style={{position: 'absolute', left: g.ponto.x - 38, top: g.ponto.y - 98 - 6 * Math.sin((frame + CORES.indexOf(g.cor) * 9) / 14)}}>
             <Crewmate4 cor={g.cor} size={76} fantasma t={frame} cosmetico={skins?.[g.cor]?.cabeca ?? undefined} />
+            {(() => {
+              // recado do além (Influencer Fantasma): um envelope sobe do fantasma
+              const rec = s.eventos.find((e) => e.tipo === 'recado' && e.cor === g.cor && f >= e.quadro && f < e.quadro + 60);
+              if (!rec) return null;
+              const k = (f - rec.quadro) / 60;
+              return <div style={{position: 'absolute', left: 14, top: -60 - 90 * k, fontSize: 46, opacity: interpolate(k, [0, 0.1, 0.8, 1], [0, 1, 1, 0]), transform: `rotate(${Math.sin(k * 12) * 10}deg)`}}>📨</div>;
+            })()}
             {g.fantasma && <div style={{position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 16, color: '#cfe3ff', WebkitTextStroke: '0.6px #000', opacity: 0.85}}>{g.fantasma === 'Anjo' ? '😇 Anjo' : '📨 Influencer'}</div>}
           </div>
         ))}
