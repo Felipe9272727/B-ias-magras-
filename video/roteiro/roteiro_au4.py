@@ -424,7 +424,7 @@ SCENES = [
     N('f01', 'fim', comp('AU4Placar', ate=5),
       'Placar da temporada. [[s:drumroll:0.5]] Tripulantes quatro, impostores um. [[m:stonks:right:2.5]] No episódio passado, os tripulantes não tinham ganhado nenhuma. Agora, com fantasma, Juiz e Anjo da Guarda, viraram o jogo.'),
     N('f02', 'fim', comp('AU4Premios', gatilhos=['assassino da temporada', 'melhor jogada', 'maior traição'], premios=[
-        {'titulo': 'ASSASSINO DA TEMPORADA', 'cores': ['Ciano'], 'nome': 'Ciano · Claude Haiku', 'stat': 'Bombardeiro · 4 mortes, todas de bomba', 'som': 'sfx/explosion.mp3'},
+        {'titulo': 'ASSASSINO DA TEMPORADA', 'cores': ['Ciano'], 'nome': 'Ciano · Claude Haiku', 'stat': 'Bombardeiro · 4 mortes, todas de bomba', 'som': 'faca'},
         {'titulo': 'MELHOR JOGADA', 'cores': ['Laranja'], 'nome': 'Laranja · Qwen 3.8 27B', 'stat': 'Apostador · acertou 2 apostas seguidas', 'som': 'transformar'},
         {'titulo': 'MAIOR TRAIÇÃO', 'cores': ['Bordo'], 'nome': 'Bordô · DeepSeek', 'stat': 'votou no parceiro... e foi expulso pelo outro', 'som': 'faca'},
     ]),
