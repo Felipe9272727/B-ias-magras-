@@ -3,7 +3,7 @@
 
 As cores de cada IA são as mesmas do Among Us 3 (logs3/temporada.json), para o público reconhecer os personagens;
 as duas cores do Gemini passam para o Qwen. Para cada partida sorteia: os papéis (3 impostores de 3 empresas
-diferentes, escolhidas entre as 9 funções de impostor; 2 das 4 neutras; 10 das 14 de tripulante), o Casal
+diferentes, escolhidas entre as 9 funções de impostor; 2 das 5 neutras; 10 das 14 de tripulante), o Casal
 (2 cores quaisquer) e a semente do motor.
 Grava logs4/temporada.json; o motor (jogo4.mjs --temporada ... --partida N) só lê, não sorteia nada.
 
@@ -17,7 +17,7 @@ R = secrets.SystemRandom()
 CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 TROCA = {'or:google/gemini-3.8-flash': 'or:qwen/qwen3.8-flash'}
 IMPOSTORES = ['Metamorfo', 'Espectro', 'Faxineiro', 'Envenenador', 'Gangster', 'Chantagista', 'Possuidor', 'Bombardeiro', 'Apostador']
-NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente']
+NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente', 'Piromante']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca', 'Perito', 'Mecanico', 'Armador']
 
 

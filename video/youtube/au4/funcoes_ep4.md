@@ -5,7 +5,7 @@ Para o vídeo: mostrar os comentários como no AU3 (pop-up com @autor, texto e l
 
 ## Elenco (15 IAs, igual ao ep 3)
 - 6 empresas: DeepSeek, Claude Haiku, GPT, **Qwen (entra no lugar do Gemini)**, GLM e MiniMax. Mesmas cores do ep 3; as cores do Gemini (Laranja e Roxo) viram Qwen.
-- Cada partida sorteia quais funções entram: 3 de 9 de impostor, 2 de 4 neutras e 10 de 14 de tripulante (ideia do **@PumpkinAabobora**: "você terá que fazer só algumas aparecerem"). Todo mundo sabe quais funções estão na partida. Mais o Casal e as 2 funções de fantasma.
+- Cada partida sorteia quais funções entram: 3 de 9 de impostor, 2 de 5 neutras e 10 de 14 de tripulante (ideia do **@PumpkinAabobora**: "você terá que fazer só algumas aparecerem"). Todo mundo sabe quais funções estão na partida. Mais o Casal e as 2 funções de fantasma.
 
 ## ENTRARAM
 
@@ -16,6 +16,7 @@ Para o vídeo: mostrar os comentários como no AU3 (pop-up com @autor, texto e l
 | **Glutão** | neutro assassino | DEVORA as vítimas (não sobra corpo) e depois precisa de 8 tiques de digestão. Vence se for o último assassino de pé (sem impostores e com no máximo mais 1 vivo). | **@RuiSoares-rv1ni** (7 likes): "Podes por neutros assassinos tipo glutão" · **@PumpkinAabobora**: "glutão... precisa ser o último assassino a ficar no jogo... terá um tempo de digestão" |
 | **Canibal** | neutro | Não mata: COME corpos que ninguém denunciou. Comendo 3, vence sozinho e a partida acaba. | **@Samuzin-Gamer-2014** (16 likes): "o Canibal (come os corpos para ganhar)" |
 | **Sobrevivente** | neutro | Vence se estiver vivo no fim, junto com quem ganhar. Tem 2 coletes (3 tiques cada) que bloqueiam mortes. | **@LionelMessi1930-pal** (32 likes): "Sobrevivente [neutro]" · **@LorenzoPires-q6z**: "o sobrevivente que tem escudos" · **@EnzoBatistaCosta-x5h** (aqui ele vence junto, e não sozinho, para não ficar forte demais) |
+| **Piromante** | neutro assassino | Igual ao Super Sus: encharca os jogadores de gasolina (parece um esbarrão; recarga de 3 tiques), ninguém sabe quem está encharcado; com TODOS os vivos encharcados, aparece "incendiar" e todos morrem queimados de uma vez. Enquanto ele estiver vivo, os tripulantes não ganham por eliminação. | Pedido do canal (função do Super Sus) |
 | **Bombardeiro** | impostor | Planta bomba em alguém (parece um esbarrão); 3 tiques depois explode onde a pessoa estiver, matando ela e quem estiver colado (no máximo 2). | **@vertyamongus**: "o impostor bomba (ou bombardeiro)" · ~14 menções a bomba |
 | **Apostador** | impostor | Na reunião, chuta a função de alguém (2 vezes na partida): acertou, a pessoa morre; errou, morre ele. | **@vertyamongus**: "impostor apostador, se adivinhar a função de um tripulante ou do palhaço, elimina ela" |
 | **Perito** | tripulante | Vê as PEGADAS da sala: quem passou ali nos últimos 4 tiques (até invisível e disfarçado, com a cor de verdade). | **@LionelMessi1930-pal** (32 likes): "o perito [Tripulante] (ele tem uma lupa que mostra as pegadas dos impostores)" |

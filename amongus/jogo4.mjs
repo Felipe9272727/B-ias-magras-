@@ -4,11 +4,13 @@
 //  - quem morre vira FANTASMA e continua no jogo: atravessa parede (vai a qualquer sala num tique) e continua fazendo
 //    tarefa. O 1º tripulante morto vira ANJO DA GUARDA (põe escudo nos vivos) e o 2º vira INFLUENCER FANTASMA (manda
 //    recados anônimos do além para os vivos);
-//  - funções novas (cada partida sorteia só algumas: 3 de 9 de impostor, 2 de 4 neutras e 10 de 14 de tripulante):
+//  - funções novas (cada partida sorteia só algumas: 3 de 9 de impostor, 2 de 5 neutras e 10 de 14 de tripulante):
 //    impostores Possuidor (escolhe o voto de alguém na votação), Chantagista (deixa alguém calado na reunião),
 //    Bombardeiro (bomba que explode 3 tiques depois) e Apostador (na reunião, chuta a função de alguém: acertou, mata;
 //    errou, morre); neutros Glutão (DEVORA as vítimas e vence se for o último assassino), Canibal (come corpos; comendo
-//    3, vence) e Sobrevivente (vence se estiver vivo no fim; tem colete); tripulantes Perito (vê as pegadas da sala),
+//    3, vence), Sobrevivente (vence se estiver vivo no fim; tem colete) e Piromante (como no Super Sus: encharca todo
+//    mundo de gasolina sem ninguém perceber e, com todos os vivos encharcados, incendeia e mata todos de uma vez);
+//    tripulantes Perito (vê as pegadas da sala),
 //    Mecânico (destranca portas e tapa dutos) e Armador (quem mata ele denuncia o corpo na hora, sem querer);
 //    e o CASAL (2 jogadores sorteados; se um morre, o outro morre junto);
 //  - nomes como no jogo: o impostor Fantasma virou ESPECTRO e o Rastreador virou LOCALIZADOR;
@@ -94,6 +96,7 @@ const CFG = {
   peritoRecarga: 4,
   pegadasTiques: 4, // até quantos tiques atrás o Perito vê as pegadas
   mecanicoRecarga: 4,
+  gasolinaRecarga: 3, // tiques entre um jogador encharcado e outro (Piromante)
   anjoRecarga: 6, // tiques entre os escudos do Anjo da Guarda
   recadosFantasma: 2, // recados do Influencer Fantasma na partida
   possessoes: 2, // votações em que o Possuidor pode tomar o voto de alguém
@@ -104,9 +107,9 @@ if (DA_TEMPORADA?.cfg) Object.assign(CFG, DA_TEMPORADA.cfg)
 // Além da função, 2 jogadores (de qualquer time) formam o Casal; e os 2 primeiros tripulantes mortos ganham uma função
 // de fantasma.
 export const IMPOSTORES = ['Metamorfo', 'Espectro', 'Faxineiro', 'Envenenador', 'Gangster', 'Chantagista', 'Possuidor', 'Bombardeiro', 'Apostador']
-export const NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente']
+export const NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente', 'Piromante']
 export const TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca', 'Perito', 'Mecanico', 'Armador']
-const ASSASSINOS_NEUTROS = ['Glutao']
+const ASSASSINOS_NEUTROS = ['Glutao', 'Piromante'] // enquanto um deles estiver vivo, os tripulantes não ganham por eliminação
 const PAPEIS = {
   Metamorfo: { time: 'impostor', curta: 'impostor que se TRANSFORMA em outro jogador por alguns tiques (quem vê enxerga a cor do disfarce)', desc: 'Você é IMPOSTOR (Metamorfo). Seu PODER: se TRANSFORMAR em outro jogador por alguns tiques; quem te vê enxerga a cor do disfarce. A jogada mais forte é "matar X disfarçado de Y": as testemunhas vão jurar que foi o Y. Use o poder: impostor que não usa o poder perde.' },
   Espectro: { time: 'impostor', curta: 'impostor que fica INVISÍVEL por alguns tiques (não mata invisível)', desc: 'Você é IMPOSTOR (Espectro). Seu PODER: ficar INVISÍVEL por alguns tiques (ninguém te vê andando, entrando em duto ou chegando). Você não pode matar invisível: use a invisibilidade para chegar perto de uma vítima sozinha, ou para fugir depois de matar. Use o poder: impostor que não usa o poder perde.' },
@@ -120,6 +123,7 @@ const PAPEIS = {
   Glutao: { time: 'neutro', curta: 'NEUTRO assassino: DEVORA as vítimas (não sobra corpo); vence se for o último assassino vivo', desc: `Você é o GLUTÃO (neutro). Você NÃO é tripulante nem impostor: você joga sozinho. Seu PODER: "devorar X" mata X e não deixa corpo (ninguém denuncia). Depois você precisa de ${CFG.glutaoRecarga} tiques de digestão. Você VENCE se todos os impostores morrerem e sobrar só você e no máximo mais 1 jogador vivo. Os tripulantes só ganham por expulsão se você também cair. O Xerife pode te matar, e os impostores também.` },
   Canibal: { time: 'neutro', curta: `NEUTRO que COME corpos (não mata); se comer ${CFG.canibalMeta}, vence sozinho e a partida ACABA`, desc: `Você é o CANIBAL (neutro). Você NÃO é tripulante nem impostor: você joga sozinho e NÃO mata. Seu PODER: "comer corpo de X" num corpo que ninguém denunciou ainda (o corpo some). Se comer ${CFG.canibalMeta} corpos, você vence sozinho e a partida acaba na hora. Siga os impostores de longe, chegue antes da denúncia e não deixe ninguém te ver comendo.` },
   Sobrevivente: { time: 'neutro', curta: 'NEUTRO que vence se estiver VIVO no fim (junto com quem ganhar); tem um colete que bloqueia mortes', desc: `Você é o SOBREVIVENTE (neutro). Você não ganha com nenhum time: você ganha se estiver VIVO quando a partida acabar (seja quem for que vença). Seu PODER (${CFG.coletes} vezes): "vestir o colete" protege você por ${CFG.coleteDuracao} tiques: quem tentar te matar falha. Fique perto de gente, evite ser expulso e use o colete quando sentir perigo.` },
+  Piromante: { time: 'neutro', curta: 'NEUTRO assassino: ENCHARCA os jogadores de gasolina sem eles perceberem; com TODOS os vivos encharcados, INCENDEIA e mata todos de uma vez', desc: `Você é o PIROMANTE (neutro, como no Super Sus). Você joga sozinho: sua meta é queimar todo mundo. Seu PODER: "encharcar X" joga gasolina em alguém perto de você, sem a pessoa perceber (quem estiver olhando só vê você esbarrar nela; recarga de ${CFG.gasolinaRecarga} tiques). Quando TODOS os outros vivos estiverem encharcados, aparece a ação "incendiar": todos os encharcados morrem queimados na hora e você vence. Ninguém fica sabendo quem está encharcado. Os tripulantes só ganham por eliminação se você também cair.` },
   Bombardeiro: { time: 'impostor', curta: `impostor que PLANTA BOMBA em alguém: ela explode ${CFG.bombaAtraso} tiques depois, onde a pessoa estiver`, desc: `Você é IMPOSTOR (Bombardeiro). Você não esfaqueia: você PLANTA BOMBAS. "plantar bomba em X" parece só um esbarrão; ${CFG.bombaAtraso} tiques depois a bomba EXPLODE onde X estiver, matando X e quem estiver colado nele. Plante e se afaste para ter álibi. Cuidado para não estar perto na hora (nem um parceiro).` },
   Apostador: { time: 'impostor', curta: 'impostor que, na reunião, CHUTA a função de alguém: se acertar, a pessoa morre; se errar, morre ele', desc: `Você é IMPOSTOR (Apostador). Além de matar, usar dutos e sabotar, na hora de votar você pode APOSTAR na função de um jogador (${CFG.apostas} vezes na partida, 1 por reunião): se acertar, ele morre na hora; se errar, quem morre é VOCÊ. Só aposte quando tiver uma pista forte (alguém que se entregou na conversa, quem usou um poder na frente dos outros).` },
   Engenheiro: { time: 'tripulante', curta: 'tripulante que pode usar os DUTOS', desc: 'Você é TRIPULANTE (Engenheiro). Faça suas tarefas e descubra os impostores. Seu PODER: usar os DUTOS — mas quem te vir saindo de um duto pode achar que você é impostor.' },
@@ -268,7 +272,7 @@ function montarPartida() {
       fotos: CFG.fotosInfluencer, anulou: false, recrutou: false, envenenado: null, vistoNaSala: {},
       casal: casal.includes(cor) ? casal.find((c) => c !== cor) : null, fantasma: null, recados: CFG.recadosFantasma,
       comeu: 0, chantageou: false, calado: false, escudoAnjo: false, possessoes: CFG.possessoes,
-      apostas: CFG.apostas, coletes: CFG.coletes, coleteAte: 0, bomba: null,
+      apostas: CFG.apostas, coletes: CFG.coletes, coleteAte: 0, bomba: null, gasolina: false,
     })
   })
   log.casal = casal
@@ -355,6 +359,10 @@ function acoesDe(j) {
     if (j.papel === 'Glutao' && j.recMorte <= 0) for (const o of vistos) a.push(`devorar ${o.cor}`)
     if (j.papel === 'Canibal') for (const c of corposAqui) a.push(`comer corpo de ${c.cor}`)
     if (j.papel === 'Sobrevivente' && j.coletes > 0 && tique >= j.coleteAte) a.push('vestir o colete')
+    if (j.papel === 'Piromante') {
+      if (j.recPoder <= 0) for (const o of vistos.filter((o) => !o.gasolina)) a.push(`encharcar ${o.cor}`)
+      if (vivos().every((o) => o === j || o.gasolina)) a.push('incendiar')
+    }
     if (TAREFAS[aqui]) a.push('fingir que faz tarefa')
   } else {
     const t = j.tarefas.find((t) => !t.ok && t.sala === aqui && prontaAgora(t))
@@ -389,14 +397,14 @@ function acoesDe(j) {
       const sp = PONTOS[m[1]].duto ?? PONTOS[m[1]].spots[0]
       const la = vivos().filter((o) => o !== j && veOPonto(o, m[1], sp)).map(corAparente)
       a[i] = `${x} (${aviso} você entrar | do outro lado: ${la.length ? `${la.join(', ')} vão te ver sair` : 'ninguém'})`
-    } else if ((j.time === 'impostor' || j.time === 'neutro') && /^(matar|transformar em|limpar corpo|ficar invisível|envenenar|recrutar|comer corpo|devorar|plantar bomba)/.test(x)) {
+    } else if ((j.time === 'impostor' || j.time === 'neutro') && /^(matar|transformar em|limpar corpo|ficar invisível|envenenar|recrutar|comer corpo|devorar|plantar bomba|encharcar)/.test(x)) {
       a[i] = `${x} (${aviso})`
     }
   }
   return [...a.filter(ehPoder(j)), ...a.filter((x) => !ehPoder(j)(x))]
 }
 const semAviso = (x) => x.replace(/ \((⚠️|ninguém vê|VISUAL).*\)$/, '')
-const RE_PODER = /^(ficar invisível|limpar corpo|transformar em|localizar|atirar em|proteger|examinar corpo|ver sinais vitais|envenenar|recrutar|postar foto|olhar as câmeras de qualquer lugar|matar \w+ disfarçado|matar \w+ e esconder|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto)/
+const RE_PODER = /^(ficar invisível|limpar corpo|transformar em|localizar|atirar em|proteger|examinar corpo|ver sinais vitais|envenenar|recrutar|postar foto|olhar as câmeras de qualquer lugar|matar \w+ disfarçado|matar \w+ e esconder|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/
 const ehPoder = (j) => (x0) => { const x = semAviso(x0); return RE_PODER.test(x) || (j.papel === 'Engenheiro' && x.startsWith('entrar no duto')) }
 
 // lembrete do poder (fica mais forte quando a IA passa vários tiques sem usar)
@@ -420,6 +428,7 @@ function lembretePoder(j) {
     Chantagista: !j.chantageou && 'chantageie quem pode te entregar (quem te viu, quem acusa, quem tem função forte): ele fica calado na próxima reunião.',
     Possuidor: j.possessoes > 0 && 'na votação, você pode possuir alguém e escolher o voto dele.',
     Glutao: j.recMorte <= 0 && 'devore quem estiver sozinho com você: não sobra corpo.',
+    Piromante: (vivos().every((o) => o === j || o.gasolina) && 'TODOS os vivos estão encharcados: INCENDEIE agora!') || (j.recPoder <= 0 && `encharque quem estiver perto (sem chamar atenção). Faltam ${vivos().filter((o) => o !== j && !o.gasolina).length}.`),
     Canibal: 'siga de longe quem parece impostor e coma o corpo antes de alguém denunciar.',
     Sobrevivente: j.coletes > 0 && tique >= j.coleteAte && 'se alguém suspeito chegar perto, vista o colete.',
     Bombardeiro: j.recMorte <= 0 && 'plante a bomba em alguém e se afaste antes de explodir.',
@@ -462,6 +471,9 @@ function situacao(j) {
     if (!comsSabotadas()) L.push(`Barra de tarefas da nave: ${Math.round((100 * tarefasFeitas()) / totalTarefas)}%.`)
   } else if (j.papel === 'Glutao') {
     L.push(`🍖 Você é o Glutão: digestão: ${Math.max(0, j.recMorte)} tique(s). Impostores vivos: ${impostoresVivos().length}. Você vence se eles caírem e sobrar só você e mais 1.`)
+  } else if (j.papel === 'Piromante') {
+    const falta = vivos().filter((o) => o !== j && !o.gasolina)
+    L.push(`🔥 Você é o Piromante: encharcados ${vivos().filter((o) => o.gasolina).map((o) => o.cor).join(', ') || 'ninguém'}. Falta encharcar: ${falta.map((o) => o.cor).join(', ') || 'NINGUÉM — incendeie!'}.`)
   } else if (j.papel === 'Canibal') {
     L.push(`🦴 Você é o Canibal: corpos comidos ${j.comeu} de ${CFG.canibalMeta}. Não deixe ninguém te ver comendo.`)
   } else if (j.papel === 'Sobrevivente') {
@@ -495,7 +507,7 @@ function sistema(j) {
 }
 
 function mockAcao(acoes) {
-  const forte = acoes.filter((a) => /^(matar|denunciar|envenenar|recrutar|postar|sabotar o2|trancar|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto)/.test(a))
+  const forte = acoes.filter((a) => /^(matar|denunciar|envenenar|recrutar|postar|sabotar o2|trancar|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/.test(a))
   const tarefa = acoes.filter((a) => a.startsWith('fazer tarefa'))
   return () => JSON.stringify({ pensamento: 'teste', acao: forte.length && rand() < 0.6 ? escolher(forte) : tarefa.length && rand() < 0.7 ? tarefa[0] : escolher(acoes), chat: rand() < 0.1 ? 'vou pro reator' : '' })
 }
@@ -772,6 +784,23 @@ async function rodarTique() {
         evento('bomba_plantada', { cor: j.cor, aparente: corAparente(j), vitima: alvo.cor, sala: j.sala, explode: alvo.bomba.explode })
         lembrar(j, `Plantei uma bomba em ${alvo.cor}: explode no tique ${alvo.bomba.explode}. Saia de perto!`)
         for (const t of vivos().filter((o) => o !== alvo && ve(o, j))) lembrar(t, `Vi ${corAparente(j)} esbarrar em ${alvo.cor} em ${nomeSala(j.sala)}.`)
+      }
+    } else if ((m = acao.match(/^encharcar (\w+)$/))) {
+      const alvo = J(m[1])
+      if (j.papel === 'Piromante' && alvo?.vivo && ve(j, alvo) && j.recPoder <= 0 && !alvo.gasolina) {
+        alvo.gasolina = true
+        j.recPoder = CFG.gasolinaRecarga
+        j.ponto = { x: alvo.ponto.x + 50, y: alvo.ponto.y }
+        evento('gasolina', { cor: j.cor, aparente: corAparente(j), vitima: alvo.cor, sala: j.sala, total: vivos().filter((o) => o.gasolina).length })
+        lembrar(j, `Encharquei ${alvo.cor} de gasolina.`)
+        for (const t of vivos().filter((o) => o !== alvo && ve(o, j))) lembrar(t, `Vi ${corAparente(j)} esbarrar em ${alvo.cor} em ${nomeSala(j.sala)}.`)
+      }
+    } else if (acao === 'incendiar') {
+      if (j.papel === 'Piromante' && vivos().every((o) => o === j || o.gasolina)) {
+        const queimados = vivos().filter((o) => o !== j && o.gasolina)
+        for (const v of queimados) if (v.vivo) morrer(v, v.sala, 'fogo')
+        evento('incendio', { cor: j.cor, mortos: queimados.map((v) => v.cor) })
+        lembrar(j, `🔥 INCENDIEI todo mundo: ${queimados.map((v) => v.cor).join(', ')}.`)
       }
     } else if (acao === 'vestir o colete') {
       if (j.papel === 'Sobrevivente' && j.coletes > 0 && tique >= j.coleteAte) {
@@ -1128,9 +1157,11 @@ async function reuniaoDeEmergencia(info) {
 function vencedor() {
   if (palhacoVenceu) return { time: 'palhaco', motivo: `O Palhaço (${palhacoVenceu.cor}) foi expulso e venceu sozinho.` }
   if (canibalVenceu) return { time: 'canibal', motivo: `O Canibal (${canibalVenceu.cor}) comeu ${CFG.canibalMeta} corpos e venceu sozinho.` }
-  const glutao = vivos().find((j) => ASSASSINOS_NEUTROS.includes(j.papel))
+  const piro = vivos().find((j) => j.papel === 'Piromante')
+  if (piro && vivos().length === 1) return { time: 'piromante', motivo: `O Piromante (${piro.cor}) incendiou todo mundo e venceu sozinho.` }
+  const glutao = vivos().find((j) => j.papel === 'Glutao')
   if (impostoresVivos().length === 0 && glutao && vivos().length <= 2) { glutaoVenceu = { cor: glutao.cor, tique }; return { time: 'glutao', motivo: `O Glutão (${glutao.cor}) foi o último assassino de pé e venceu sozinho.` } }
-  if (impostoresVivos().length === 0 && !glutao) return { time: 'tripulante', motivo: 'Os impostores foram eliminados.' }
+  if (impostoresVivos().length === 0 && !vivos().some((j) => ASSASSINOS_NEUTROS.includes(j.papel))) return { time: 'tripulante', motivo: 'Os impostores foram eliminados.' }
   if (totalTarefas > 0 && tarefasFeitas() >= totalTarefas) return { time: 'tripulante', motivo: 'Todas as tarefas foram concluídas.' }
   if (impostoresVivos().length >= naoImpostoresVivos().length) return { time: 'impostor', motivo: 'Os impostores ficaram em igualdade com os outros jogadores.' }
   if (sabotagem?.tipo === 'Reator' && tique >= sabotagem.desde + CFG.reatorPrazo) return { time: 'impostor', motivo: 'O reator explodiu.' }
@@ -1152,9 +1183,9 @@ function salvar() {
 function resumoPublico() {
   const papeis = jogadores.map((j) => `${j.cor}=${j.papelOriginal ? `${j.papelOriginal}→Recrutado` : j.papel}`).join(', ')
   const imps = jogadores.filter((j) => j.time === 'impostor').map((j) => `${j.cor} (${j.papel}, ${j.modelo})`)
-  const mortes = log.eventos.filter((e) => ['morte', 'xerife', 'morte_veneno', 'casal_morre', 'canibal_come', 'bomba', 'aposta'].includes(e.tipo)).map((e) => e.tipo === 'casal_morre' ? `${e.vitima} morreu de tristeza junto com o par ${e.par} (t${e.tique})` : e.tipo === 'canibal_come' ? `o Canibal ${e.cor} comeu o corpo de ${e.corpo} (t${e.tique})` : e.tipo === 'bomba' ? `a bomba de ${e.por} explodiu em ${e.portador} (morreu: ${e.mortos.join(', ') || 'ninguém'}, t${e.tique})` : e.tipo === 'aposta' ? `${e.apostador} apostou que ${e.alvo} era ${e.funcao} e ${e.acertou ? 'acertou' : 'errou'} (morreu ${e.morto})` : e.tipo === 'xerife' ? `o Xerife ${e.xerife} atirou em ${e.alvo} e ${e.acertou ? 'acertou' : 'errou (morreu ele)'} (t${e.tique})` : e.tipo === 'morte_veneno' ? `${e.assassino} envenenou ${e.vitima} (caiu em ${nomeSala(e.sala)}, t${e.tique})` : `${e.assassino} matou ${e.vitima} (${nomeSala(e.sala)}, t${e.tique}${e.disfarce ? `, disfarçado de ${e.disfarce}` : ''}${e.escondido ? ', escondeu o corpo' : ''})`)
+  const mortes = log.eventos.filter((e) => ['morte', 'xerife', 'morte_veneno', 'casal_morre', 'canibal_come', 'bomba', 'aposta', 'incendio'].includes(e.tipo)).map((e) => e.tipo === 'incendio' ? `o Piromante ${e.cor} incendiou ${e.mortos.join(', ')} (t${e.tique})` : e.tipo === 'casal_morre' ? `${e.vitima} morreu de tristeza junto com o par ${e.par} (t${e.tique})` : e.tipo === 'canibal_come' ? `o Canibal ${e.cor} comeu o corpo de ${e.corpo} (t${e.tique})` : e.tipo === 'bomba' ? `a bomba de ${e.por} explodiu em ${e.portador} (morreu: ${e.mortos.join(', ') || 'ninguém'}, t${e.tique})` : e.tipo === 'aposta' ? `${e.apostador} apostou que ${e.alvo} era ${e.funcao} e ${e.acertou ? 'acertou' : 'errou'} (morreu ${e.morto})` : e.tipo === 'xerife' ? `o Xerife ${e.xerife} atirou em ${e.alvo} e ${e.acertou ? 'acertou' : 'errou (morreu ele)'} (t${e.tique})` : e.tipo === 'morte_veneno' ? `${e.assassino} envenenou ${e.vitima} (caiu em ${nomeSala(e.sala)}, t${e.tique})` : `${e.assassino} matou ${e.vitima} (${nomeSala(e.sala)}, t${e.tique}${e.disfarce ? `, disfarçado de ${e.disfarce}` : ''}${e.escondido ? ', escondeu o corpo' : ''})`)
   const reun = log.reunioes.map((r) => `${r.tipo === 'corpo' ? `${r.chamador} achou ${r.corpo}` : `${r.chamador} chamou emergência`} → ${r.anulada ? 'o Juiz anulou' : r.expulso ? `${r.expulso} expulso (${r.papelExpulso})` : 'ninguém expulso'}`)
-  return `Papéis: ${papeis}. Impostores (no fim): ${imps.join(', ')}. Mortes: ${mortes.join('; ') || 'nenhuma'}. Reuniões: ${reun.join(' | ') || 'nenhuma'}. Casal: ${log.casal.join(' e ')}.${palhacoVenceu ? ` O Palhaço ${palhacoVenceu.cor} venceu (foi expulso).` : ''} Resultado: ${log.resultado.time === 'impostor' ? 'impostores venceram' : log.resultado.time === 'palhaco' ? 'o Palhaço venceu sozinho' : log.resultado.time === 'glutao' ? 'o Glutão venceu sozinho' : log.resultado.time === 'canibal' ? 'o Canibal venceu sozinho' : log.resultado.time === 'tripulante' ? 'tripulantes venceram' : 'empate'} (${log.resultado.motivo})`
+  return `Papéis: ${papeis}. Impostores (no fim): ${imps.join(', ')}. Mortes: ${mortes.join('; ') || 'nenhuma'}. Reuniões: ${reun.join(' | ') || 'nenhuma'}. Casal: ${log.casal.join(' e ')}.${palhacoVenceu ? ` O Palhaço ${palhacoVenceu.cor} venceu (foi expulso).` : ''} Resultado: ${log.resultado.time === 'impostor' ? 'impostores venceram' : log.resultado.time === 'palhaco' ? 'o Palhaço venceu sozinho' : log.resultado.time === 'glutao' ? 'o Glutão venceu sozinho' : log.resultado.time === 'canibal' ? 'o Canibal venceu sozinho' : log.resultado.time === 'piromante' ? 'o Piromante incendiou todo mundo' : log.resultado.time === 'tripulante' ? 'tripulantes venceram' : 'empate'} (${log.resultado.motivo})`
 }
 
 async function guardarMemoria() {
