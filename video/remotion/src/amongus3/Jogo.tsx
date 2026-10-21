@@ -201,8 +201,10 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
           const info = p.jogadores.find((j) => j.cor === c)!;
           const emp = EMPRESA[info.modelo] ?? {nome: info.modelo, cor: '#555'};
           const nome = q!.aparente;
-          const vermelho = papeis && info.time === 'impostor';
-          const roxo = papeis && info.time === 'neutro';
+          // o time de agora (o recrutado do Gangster e o morto possuído pelo Possuidor viram impostores no meio da partida)
+          const timeAgora = est.find((x: any) => x.cor === c)?.time ?? info.time;
+          const vermelho = papeis && timeAgora === 'impostor';
+          const roxo = papeis && timeAgora === 'neutro';
           const veneno = s.envenenados(f).includes(c);
           // AU4: entrando/saindo do duto (afunda/pula da tampa) e o Glutão de barriga cheia depois de engolir
           const dt = v5 ? animDuto(s, c, f) : {};
@@ -248,7 +250,7 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
 // efeitos sonoros dos eventos da partida dentro do trecho [de, de+dur): o que acontece perto da câmera (ou com o foco)
 const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos', morte_veneno: 'faca', veneno: 'sumir', recrutamento: 'transformar', foto: 'sfx/camera-shutter.mp3', alerta_barulhento: 'emergencia', conserto: 'tarefa',
   // AU4
-  bomba: 'sfx/explosion.mp3', incendio: 'sfx_au4/fogo.mp3', casal_morre: 'sfx_au4/coracao.mp3', canibal_come: 'sfx_au4/crunch.mp3', gasolina: 'sfx_au4/splash.mp3', bomba_plantada: 'sfx_au4/bip.mp3'};
+  bomba: 'sfx/explosion.mp3', incendio: 'sfx_au4/fogo.mp3', casal_morre: 'sfx_au4/coracao.mp3', canibal_come: 'sfx_au4/crunch.mp3', gasolina: 'sfx_au4/splash.mp3', bomba_plantada: 'sfx_au4/bip.mp3', possessao_corpo: 'transformar'};
 export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string; mapa?: Mapa}> = React.memo(({s, de, dur, foco, mapa}) => {
   const lista: {em: number; nome: string; vol: number}[] = [];
   for (const e of s.eventos) {

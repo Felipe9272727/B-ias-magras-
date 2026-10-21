@@ -248,6 +248,16 @@ export function simular(p: Partida2): Sim {
           // o Casal morre logo depois do par (espera a morte do par acontecer no vídeo)
           if (e.tipo === 'casal_morre') { if (animadas.has(e.vitima)) atrasados.push(e); continue }
           if (e.tipo === 'canibal_come') { atrasados.push(e); continue }
+          // AU4: o Possuidor (morto) revive no corpo de um morto: o corpo some e o morto levanta, agora impostor
+          if (e.tipo === 'possessao_corpo') {
+            const c = corposVivos.find((c) => c.cor === e.corpo && c.ate === Infinity);
+            const v = st[e.corpo];
+            const q = c ? {x: c.x, y: c.y} : e.ponto ?? v?.pos;
+            if (c) c.ate = f;
+            if (v && q) { v.vivo = true; v.pos = {x: q.x, y: q.y}; v.rota = [] }
+            eventos.push({quadro: f, ...e, x: q?.x, y: q?.y});
+            continue;
+          }
           if (e.tipo === 'veneno') envenenados.add(e.vitima);
           const q = e.cor && st[e.cor] ? st[e.cor].pos : undefined;
           eventos.push({quadro: f, ...e, ...(q && e.x === undefined ? {x: q.x, y: q.y} : {})});

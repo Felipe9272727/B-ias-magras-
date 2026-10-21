@@ -99,7 +99,8 @@ const CFG = {
   gasolinaRecarga: 3, // tiques entre um jogador encharcado e outro (Piromante)
   anjoRecarga: 6, // tiques entre os escudos do Anjo da Guarda
   recadosFantasma: 2, // recados do Influencer Fantasma na partida
-  possessoes: 2, // votações em que o Possuidor pode tomar o voto de alguém
+  possessoes: 0, // (versão antiga do Possuidor: tomar o voto de alguém na votação; desligada)
+  possuidorMortes: 1, // o Possuidor só mata 1 vez na partida inteira (o poder dele é possuir corpos)
 }
 if (DA_TEMPORADA?.cfg) Object.assign(CFG, DA_TEMPORADA.cfg)
 
@@ -117,7 +118,7 @@ const PAPEIS = {
   Envenenador: { time: 'impostor', curta: 'impostor que ENVENENA: a vítima só cai alguns tiques depois, longe dele', desc: `Você é IMPOSTOR (Envenenador). Você não esfaqueia: você ENVENENA. "envenenar X" é só um esbarrão (quem vê acha que foi sem querer) e X cai morto ${CFG.venenoAtraso} tiques depois, onde estiver. Envenene e se afaste: quando o corpo aparecer, você estará longe, com álibi.` },
   Gangster: { time: 'impostor', curta: 'impostor que pode RECRUTAR um tripulante para o time dos impostores (1 vez)', desc: 'Você é IMPOSTOR (Gangster). Além de matar, usar dutos e sabotar, você pode RECRUTAR um tripulante uma vez na partida: com vocês dois sozinhos, "recrutar X" faz X virar impostor e jogar do seu lado. Escolha alguém que os outros confiem. Não dá para recrutar o Xerife nem o Palhaço.' },
   Chantagista: { time: 'impostor', curta: 'impostor que CHANTAGEIA alguém: essa pessoa fica CALADA na próxima reunião', desc: 'Você é IMPOSTOR (Chantagista). Além de matar, usar dutos e sabotar, uma vez entre cada reunião você pode "chantagear X" de qualquer lugar: na próxima reunião X não consegue falar nada (todo mundo vê que ele foi chantageado, mas não sabe por quem). Cale quem viu alguma coisa, quem acusa vocês ou quem tem uma função forte.' },
-  Possuidor: { time: 'impostor', curta: 'impostor que POSSUI alguém na votação: escolhe em quem o voto dessa pessoa vai', desc: `Você é IMPOSTOR (Possuidor). Além de matar, usar dutos e sabotar, em ${CFG.possessoes} votações da partida você pode POSSUIR um jogador vivo: você escolhe em quem o voto DELE vai (todo mundo vê o voto como se fosse dele). Use para empurrar a expulsão de um tripulante forte, salvar um parceiro ou criar briga entre os outros. A vítima percebe que votou sozinha, mas não sabe quem a possuiu.` },
+  Possuidor: { time: 'impostor', curta: 'impostor que, se MORRER (morto ou expulso), revive no corpo de um tripulante ou neutro morto e volta como ele (só mata 1 vez)', desc: `Você é IMPOSTOR (Possuidor). Enquanto vivo, você joga como impostor normal (mata, usa dutos, sabota), MAS só pode MATAR ${CFG.possuidorMortes} vez na partida inteira. Seu PODER só funciona DEPOIS que você morrer (assassinado ou expulso): seu espírito pode POSSUIR o corpo de um tripulante ou neutro morto que ninguém denunciou ainda, e você REVIVE no lugar dele, com a cara, o nome e o voto dele. Pra todo mundo, o morto "voltou". Você continua impostor. Cuidado: quem viu aquele corpo, ou o Cientista nos sinais vitais, pode desconfiar.` },
   Recrutado: { time: 'impostor', curta: 'tripulante recrutado pelo Gangster', desc: 'Você FOI RECRUTADO pelo Gangster: agora você é IMPOSTOR. Pode matar, usar dutos e sabotar, e ganha junto com os impostores. Continue agindo como antes para ninguém perceber.' },
   Palhaco: { time: 'neutro', curta: 'NEUTRO: se for EXPULSO na votação, ele vence sozinho e a partida ACABA na hora (todos os outros perdem)', desc: 'Você é o PALHAÇO (neutro). Você NÃO é tripulante nem impostor: você só vence se for EXPULSO numa votação — e aí a partida acaba na hora e só você ganha. Pareça suspeito na medida certa (sem confessar, senão ninguém acredita): ande atrás de corpos, dê álibis estranhos, contradiga os outros. Não há tarefas de verdade para você; pode fingir que faz.' },
   Glutao: { time: 'neutro', curta: 'NEUTRO assassino: DEVORA as vítimas (não sobra corpo); vence se for o último assassino vivo', desc: `Você é o GLUTÃO (neutro). Você NÃO é tripulante nem impostor: você joga sozinho. Seu PODER: "devorar X" mata X e não deixa corpo (ninguém denuncia). Depois você precisa de ${CFG.glutaoRecarga} tiques de digestão. Você VENCE se todos os impostores morrerem e sobrar só você e no máximo mais 1 jogador vivo. Os tripulantes só ganham por expulsão se você também cair. O Xerife pode te matar, e os impostores também.` },
@@ -332,7 +333,7 @@ function acoesDe(j) {
   }
 
   if (j.time === 'impostor') {
-    const pronto = j.recMorte <= 0 && !invisivel(j)
+    const pronto = j.recMorte <= 0 && !invisivel(j) && !(j.papel === 'Possuidor' && (j.mortesFeitas ?? 0) >= CFG.possuidorMortes)
     const alvos = vistos.filter((o) => o.time !== 'impostor')
     if (j.papel === 'Envenenador') {
       if (pronto) for (const o of alvos.filter((o) => !o.envenenado)) a.push(`envenenar ${o.cor}`)
@@ -397,14 +398,14 @@ function acoesDe(j) {
       const sp = PONTOS[m[1]].duto ?? PONTOS[m[1]].spots[0]
       const la = vivos().filter((o) => o !== j && veOPonto(o, m[1], sp)).map(corAparente)
       a[i] = `${x} (${aviso} você entrar | do outro lado: ${la.length ? `${la.join(', ')} vão te ver sair` : 'ninguém'})`
-    } else if ((j.time === 'impostor' || j.time === 'neutro') && /^(matar|transformar em|limpar corpo|ficar invisível|envenenar|recrutar|comer corpo|devorar|plantar bomba|encharcar)/.test(x)) {
+    } else if ((j.time === 'impostor' || j.time === 'neutro') && /^(matar|transformar em|limpar corpo|ficar invisível|envenenar|recrutar|comer corpo|devorar|plantar bomba|encharcar|possuir o corpo)/.test(x)) {
       a[i] = `${x} (${aviso})`
     }
   }
   return [...a.filter(ehPoder(j)), ...a.filter((x) => !ehPoder(j)(x))]
 }
 const semAviso = (x) => x.replace(/ \((⚠️|ninguém vê|VISUAL).*\)$/, '')
-const RE_PODER = /^(ficar invisível|limpar corpo|transformar em|localizar|atirar em|proteger|examinar corpo|ver sinais vitais|envenenar|recrutar|postar foto|olhar as câmeras de qualquer lugar|matar \w+ disfarçado|matar \w+ e esconder|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/
+const RE_PODER = /^(possuir o corpo|ficar invisível|limpar corpo|transformar em|localizar|atirar em|proteger|examinar corpo|ver sinais vitais|envenenar|recrutar|postar foto|olhar as câmeras de qualquer lugar|matar \w+ disfarçado|matar \w+ e esconder|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/
 const ehPoder = (j) => (x0) => { const x = semAviso(x0); return RE_PODER.test(x) || (j.papel === 'Engenheiro' && x.startsWith('entrar no duto')) }
 
 // lembrete do poder (fica mais forte quando a IA passa vários tiques sem usar)
@@ -426,7 +427,7 @@ function lembretePoder(j) {
     Envenenador: j.recMorte <= 0 && 'envenene alguém e se afaste: ele cai alguns tiques depois, longe de você.',
     Gangster: !j.recrutou && 'quando estiver sozinho com um tripulante de confiança, recrute ele.',
     Chantagista: !j.chantageou && 'chantageie quem pode te entregar (quem te viu, quem acusa, quem tem função forte): ele fica calado na próxima reunião.',
-    Possuidor: j.possessoes > 0 && 'na votação, você pode possuir alguém e escolher o voto dele.',
+    Possuidor: (j.possuiuDe && `você É o Possuidor (antes era o ${j.possuiuDe}), revivido no corpo de ${j.cor}: aja como o ${j.cor} agia.`) || ((j.mortesFeitas ?? 0) < CFG.possuidorMortes && 'você ainda tem 1 morte; se morrer, poderá reviver no corpo de um morto.') || 'você já usou sua única morte; se morrer, pode reviver no corpo de um morto.',
     Glutao: j.recMorte <= 0 && 'devore quem estiver sozinho com você: não sobra corpo.',
     Piromante: (vivos().every((o) => o === j || o.gasolina) && 'TODOS os vivos estão encharcados: INCENDEIE agora!') || (j.recPoder <= 0 && `encharque quem estiver perto (sem chamar atenção). Faltam ${vivos().filter((o) => o !== j && !o.gasolina).length}.`),
     Canibal: 'siga de longe quem parece impostor e coma o corpo antes de alguém denunciar.',
@@ -520,7 +521,7 @@ function sistema(j) {
 }
 
 function mockAcao(acoes) {
-  const forte = acoes.filter((a) => /^(matar|denunciar|envenenar|recrutar|postar|sabotar o2|trancar|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/.test(a))
+  const forte = acoes.filter((a) => /^(possuir o corpo|matar|denunciar|envenenar|recrutar|postar|sabotar o2|trancar|chantagear|comer corpo|devorar|plantar bomba|vestir o colete|procurar pegadas|destrancar|tapar o duto|encharcar|incendiar)/.test(a))
   const tarefa = acoes.filter((a) => a.startsWith('fazer tarefa'))
   return () => JSON.stringify({ pensamento: 'teste', acao: forte.length && rand() < 0.6 ? escolher(forte) : tarefa.length && rand() < 0.7 ? tarefa[0] : escolher(acoes), chat: rand() < 0.1 ? 'vou pro reator' : '' })
 }
@@ -576,6 +577,7 @@ function matar(j, alvo, { disfarce = null, esconder = false, devorar = false } =
     return false
   }
   const viram = vivos().filter((o) => o !== alvo && o !== j && veOPonto(o, j.sala, alvo.ponto))
+  j.mortesFeitas = (j.mortesFeitas ?? 0) + 1
   morrer(alvo, j.sala)
   evento('morte', { assassino: j.cor, aparente: corAparente(j), vitima: alvo.cor, sala: j.sala, ponto: alvo.ponto, ...(disfarce ? { disfarce } : {}), ...(esconder ? { escondido: true } : {}), ...(devorar ? { devorado: true } : {}) })
   if (alvo.papel === 'Armador' && !esconder && !reuniaoForcada) {
@@ -675,10 +677,56 @@ function agirFantasma(g, { acao, pensamento, recado }) {
   ;(log.tiques[tique] ??= { tique, decisoes: [], estado: null }).decisoes.push(reg)
 }
 
+// Possuidor morto (assassinado ou expulso): o espírito dele pode reviver no corpo de um tripulante ou neutro morto que
+// ninguém denunciou. Ele assume o lugar do morto (mesma cor, nome e voto; agora impostor, com a memória e a IA do Possuidor).
+async function decidirPossuidor(g) {
+  // qualquer tripulante ou neutro morto (os expulsos não: o corpo foi pro espaço)
+  const opcoes = jogadores.filter((o) => o !== g && !o.vivo && !o.ejetado && o.time !== 'impostor').map((o) => {
+    const c = corpos.find((c) => c.cor === o.cor && !c.denunciado)
+    return {cor: o.cor, sala: c?.sala ?? o.sala, escondido: !!c}
+  })
+  if (!opcoes.length) return null
+  const L = [`TIQUE ${tique}. Você é o espírito do ${g.cor}, o POSSUIDOR (impostor), que morreu.`, `Mortos em que você pode REVIVER (uma vez só): ${opcoes.map((c) => `${c.cor} em ${nomeSala(c.sala)} (${c.escondido ? 'corpo ainda não achado: ninguém sabe que ele morreu' : 'a nave já sabe que ele morreu: vão estranhar ele vivo'})`).join('; ')}.`]
+  L.push(`Impostores vivos: ${impostoresVivos().map((o) => o.cor).join(', ') || 'nenhum'}. Jogadores vivos: ${vivos().length}.`)
+  if (g.memoria.length) L.push(`\nO que você lembra (mais recente por último):\n${g.memoria.slice(-20).join('\n')}`)
+  const acoes = [...opcoes.map((c) => `reviver no corpo de ${c.cor}`), 'esperar']
+  const prompt = `${L.join('\n')}\n\nAÇÕES POSSÍVEIS AGORA (escolha exatamente uma, copiando o texto):\n${acoes.map((x) => `- ${x}`).join('\n')}\n\nResponda SÓ com JSON: {"pensamento": "<o que você está pensando, 1 frase curta>", "acao": "<uma das ações>", "chat": "<mensagem secreta curta para os impostores vivos, ou vazio>"}`
+  const r = await perguntar(g.provider, sistema(g), prompt, { maxTokens: 260, mock: () => JSON.stringify({ pensamento: 'teste', acao: acoes[0], chat: '' }) })
+  const d = lerJSON(r.text) ?? {}
+  const acao = acoes.find((a) => a === String(d.acao ?? '').trim()) ?? 'esperar'
+  return { acao, pensamento: String(d.pensamento ?? ''), chat: String(d.chat ?? '') }
+}
+function reviverPossuidor(g, { acao, pensamento, chat }) {
+  const reg = { cor: g.cor, acao, pensamento, de: g.sala, fantasma: true }
+  ;(log.tiques[tique] ??= { tique, decisoes: [], estado: null }).decisoes.push(reg)
+  const m = acao.match(/^reviver no corpo de (\w+)$/)
+  if (!m) return
+  const x = J(m[1])
+  if (!x || x.vivo || x.ejetado || x.time === 'impostor') return
+  const i = corpos.findIndex((c) => c.cor === m[1])
+  const c = i >= 0 ? corpos[i] : { sala: x.sala, ponto: x.ponto }
+  const escondido = i >= 0 && !corpos[i].denunciado
+  if (i >= 0) corpos.splice(i, 1)
+  const antigo = { papel: x.papel, time: x.time, fantasma: x.fantasma }
+  Object.assign(x, {
+    vivo: true, ejetado: false, sala: c.sala, ponto: { ...c.ponto }, destino: null, papel: 'Possuidor', time: 'impostor',
+    provider: g.provider, modelo: g.modelo, memoria: [...g.memoria], possuiuDe: g.cor, mortesFeitas: g.mortesFeitas ?? 0,
+    recMorte: CFG.recargaMorte, fantasma: null, casal: null, calado: false, envenenado: null, gasolina: false, bomba: null, disfarce: null,
+  })
+  g.reviveu = x.cor
+  evento('possessao_corpo', { cor: x.cor, possuidor: g.cor, corpo: x.cor, sala: c.sala, papelAntes: antigo.papel, escondido, ponto: { ...c.ponto } })
+  if (chat) { log.chatImpostores.push({ tique, cor: g.cor, texto: chat }); reg.chat = chat }
+  lembrar(x, `👻 Você é o POSSUIDOR (era o ${g.cor}). Você REVIVEU no corpo do ${x.cor} em ${nomeSala(c.sala)}: agora todo mundo te vê como ${x.cor} (que era ${nomePapel(antigo.papel)}). Você continua IMPOSTOR.`)
+  for (const o of impostoresVivos().filter((o) => o !== x)) lembrar(o, `👻 O Possuidor (${g.cor}) VOLTOU no corpo do ${x.cor}! Agora o ${x.cor} é nosso parceiro impostor.`)
+  for (const t of vivos().filter((o) => o !== x && o.sala === c.sala && veOPonto(o, c.sala, c.ponto))) if (!(luzesApagadas() && t.time !== 'impostor')) lembrar(t, `😱 O CORPO do ${x.cor} se LEVANTOU em ${nomeSala(c.sala)}! O ${x.cor} tá vivo de novo?!`)
+}
+
 async function rodarTique() {
   const ativos = vivos()
   const fantasmasComFuncao = jogadores.filter((g) => !g.vivo && g.fantasma)
   const decFantasmas = Promise.all(fantasmasComFuncao.map(async (g) => [g, await decidirFantasma(g)]))
+  const possuidores = jogadores.filter((g) => !g.vivo && g.papel === 'Possuidor' && !g.reviveu)
+  const decPossuidores = Promise.all(possuidores.map(async (g) => [g, await decidirPossuidor(g)]))
   const decisoes = await Promise.all(
     ativos.map(async (j) => {
       const algoNovo = corpos.some((c) => c.sala === j.sala && !c.denunciado && veOPonto(j, j.sala, c.ponto)) || ['Reator', 'O2'].includes(sabotagem?.tipo)
@@ -687,6 +735,7 @@ async function rodarTique() {
     }),
   )
   for (const [g, d] of await decFantasmas) agirFantasma(g, d)
+  for (const [g, d] of await decPossuidores) if (d) reviverPossuidor(g, d)
   const snapAntes = Object.fromEntries(jogadores.map((j) => [j.cor, j.sala]))
   const visAntes = Object.fromEntries(jogadores.map((j) => [j.cor, new Set(vivos().filter((o) => ve(j, o)).map((o) => o.cor))]))
   let reuniao = null

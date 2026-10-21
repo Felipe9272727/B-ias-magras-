@@ -249,6 +249,18 @@ export const Efeito4: React.FC<{e: EvQ; s: Sim; f: number}> = ({e, s, f}) => {
       {(() => { const a = s.q(e.cor, f); return a ? pos(a.x, a.y - 50, <Onomatopeia txt={`🔍 pegadas: ${quem.join(', ') || 'ninguém'}`} cor="#ffd84d" k={kk} tam={26} />, 'r') : null })()}
     </>;
   }
+  if (e.tipo === 'possessao_corpo') {
+    // redemoinho roxo onde estava o corpo, o espírito do Possuidor descendo, e o morto levanta
+    const kk = dt / DUR_EFEITO4;
+    return pos(e.x, e.y - 40, <>
+      {[0, 1, 2].map((i) => (
+        <div key={i} style={{position: 'absolute', left: -110 + i * 20, top: -110 + i * 20, width: 220 - i * 40, height: 220 - i * 40, borderRadius: '50%', border: `${8 - i * 2}px dashed #b26bff`, boxShadow: '0 0 30px #8a2be2', transform: `rotate(${dt * (12 + i * 6) * (i % 2 ? -1 : 1)}deg) scale(${interpolate(kk, [0, 0.15, 0.7, 1], [0.2, 1, 1, 0.3], cl)})`, opacity: interpolate(kk, [0, 0.1, 0.75, 1], [0, 1, 1, 0], cl)}} />
+      ))}
+      <div style={{position: 'absolute', left: -50, top: -240 + 200 * Math.min(1, kk * 2.5), fontSize: 90, opacity: interpolate(kk, [0, 0.1, 0.4, 0.5], [0, 1, 1, 0], cl)}}>👻</div>
+      <div style={{position: 'absolute', left: -150, top: -150, width: 300, height: 300, borderRadius: '50%', background: `radial-gradient(circle, rgba(178,107,255,${interpolate(kk, [0.35, 0.42, 0.7], [0, 0.8, 0], cl)}) 0%, transparent 65%)`}} />
+      <Onomatopeia txt={`👻 POSSUÍDO!`} cor="#c08bff" k={kk} tam={52} />
+    </>);
+  }
   if (e.tipo === 'chantagem') {
     const v = s.q(e.alvo, f);
     const kk = dt / 45;
