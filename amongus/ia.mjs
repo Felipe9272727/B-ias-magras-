@@ -78,8 +78,10 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'sonnet') { effort = effort ?? process.env.SONNET_EFFORT ?? 'high'; maxTokens += 6000 }
   if (process.env.IA_TIMEOUT_S) timeoutMs = Math.min(timeoutMs, Number(process.env.IA_TIMEOUT_S) * 1000)
   let transientes = 0
+  let ultimo = null
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
+    ultimo = r
     if (process.env.IA_DEBUG && !(r.ok && r.text?.trim())) console.error('[ia] falhou', provider, JSON.stringify(r).slice(0, 500))
     if (r.ok && r.text.trim()) {
       const c = Number(r.usage?.cost ?? 0)  // o OpenRouter informa o custo em dólar de cada chamada
@@ -96,6 +98,10 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   }
   uso.falhas++
   uso.falhasPor[provider] = (uso.falhasPor[provider] ?? 0) + 1
+  // o motivo das últimas falhas de cada IA (para saber se foi tempo, 429, resposta vazia...)
+  uso.motivos = uso.motivos ?? {}
+  ;(uso.motivos[provider] ??= []).push(String(ultimo?.text ?? '').slice(0, 160) || 'resposta vazia')
+  if (uso.motivos[provider].length > 15) uso.motivos[provider].shift()
   return { ok: false, text: '' }
 }
 
