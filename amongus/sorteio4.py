@@ -21,6 +21,10 @@ NEUTROS = ['Palhaco', 'Glutao', 'Canibal', 'Sobrevivente', 'Piromante']
 TRIPULANTES = ['Engenheiro', 'Cientista', 'Localizador', 'Barulhento', 'Xerife', 'Medico', 'Prefeito', 'Detetive', 'Influencer', 'Juiz', 'Seguranca', 'Perito', 'Mecanico', 'Armador']
 
 
+# o ritmo afinado no fim do Among Us 3 (recargas, prazos, tarefas em etapas, aviso do Palhaço)
+CFG_AU3 = json.loads((Path(__file__).parent / 'logs3' / 'temporada.json').read_text())['partidas'][-1]['cfg']
+
+
 def sortear_partida(cores):
     empresas = R.sample(sorted(set(cores.values())), 3)
     imps = [R.choice([c for c, p in cores.items() if p == e]) for e in empresas]
@@ -29,7 +33,7 @@ def sortear_partida(cores):
     outros = R.sample(TRIPULANTES, 10) + R.sample(NEUTROS, 2)
     R.shuffle(outros)
     papeis = {**dict(zip(imps, papeis_imp)), **dict(zip(resto, outros))}
-    return {'papeis': {c: papeis[c] for c in CORES}, 'casal': R.sample(CORES, 2), 'seed': secrets.randbelow(2**31)}
+    return {'papeis': {c: papeis[c] for c in CORES}, 'casal': R.sample(CORES, 2), 'seed': secrets.randbelow(2**31), 'cfg': CFG_AU3}
 
 
 def main():
