@@ -4,6 +4,7 @@
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Arte} from '../amongus/nave/Arte';
+import {ArteSkeld} from '../amongus/nave/ArteSkeld';
 import {NAVE} from '../amongus/nave/mapa';
 import {TILE, type Sala} from '../amongus/nave/spec';
 import type {Comentario} from './Comentarios';
@@ -116,7 +117,7 @@ export const AU3Ideias: React.FC<{inicio?: number; passo?: number; frase2?: numb
 
 // Elenco da temporada: uma coluna por empresa com as cores dela (vindas do log da partida 1). O Grok aparece riscado
 // ("saiu") e Mistral e GLM ganham o selo NOVA. `marcas`: quadros em que o narrador fala de cada empresa (acende).
-const ORDEM_EMPRESAS = ['DeepSeek Flash', 'Claude Haiku', 'GPT-5.6 Luna', 'Gemini 3.8 Flash', 'Mistral Large 4', 'MiniMax M3', 'GLM 5.3 Flash'];
+const ORDEM_EMPRESAS = ['DeepSeek Flash', 'Claude Haiku', 'GPT-5.6 Luna', 'Gemini 3.8 Flash', 'Mistral Large 4', 'MiniMax M3', 'GLM 5.3 Flash', 'MiniMax M3.1 Flash', 'Qwen 3.8 27B'];
 // `quemSaiu`: nome riscado no topo; `novos`: modelos com selo NOVA (padrão: elenco da partida 1)
 export const AU3Elenco: React.FC<{p: {jogadores: {cor: string; modelo: string}[]}; saiu?: number; novas?: number; quemSaiu?: string; novos?: string[]}> = ({p, saiu = 30, novas = 70, quemSaiu = 'Grok', novos = ['Mistral Large 4', 'GLM 5.3 Flash']}) => {
   const f = useCurrentFrame();
@@ -164,7 +165,8 @@ const ROTEIRO_NAVE: {sala: string; z: number}[] = [
   {sala: 'Refeitorio', z: 0.75}, {sala: 'Enfermaria', z: 1.1}, {sala: 'Reator', z: 1.0}, {sala: 'Eletrica', z: 1.1},
   {sala: 'Deposito', z: 0.9}, {sala: 'Navegacao', z: 1.05}, {sala: 'O2', z: 1.1},
 ];
-export const AU3Nave: React.FC<{dur: number}> = ({dur}) => {
+// `v5`: o mapa novo do AU4 (salas em polígono, como o Skeld)
+export const AU3Nave: React.FC<{dur: number; v5?: boolean}> = ({dur, v5}) => {
   const f = useCurrentFrame();
   const n = ROTEIRO_NAVE.length;
   const passo = Math.max(1, dur / n);
@@ -179,7 +181,7 @@ export const AU3Nave: React.FC<{dur: number}> = ({dur}) => {
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: NAVE.cols * TILE, height: NAVE.rows * TILE, transformOrigin: '0 0', transform: `translate(${960 - x * z}px, ${540 - y * z}px) scale(${z})`}}>
-        <Arte v3 />
+        {v5 ? <ArteSkeld /> : <Arte v3 />}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 40, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, letterSpacing: 6, color: '#fff', WebkitTextStroke: '2px #000', opacity: interpolate(k, [0, 0.08, 0.62, 0.7], [0, 1, 1, 0], cl)}}>{NAVE.salas[a.sala as Sala].nome.toUpperCase()}</div>
     </AbsoluteFill>

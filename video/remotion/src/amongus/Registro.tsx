@@ -5,6 +5,7 @@ import {GameplayNova as Gameplay, GameplayNovaDividida as GameplayDividida} from
 import {Ejecao, RevelaPapel, Reuniao} from './Reuniao';
 import {AU2Visual} from '../amongus2/Registro';
 import {AU3Visual} from '../amongus3/Registro';
+import {AU4Visual} from '../amongus4/Registro4';
 import {AUComparativo, AUElenco, AUFim, AUFrase, AUPlacar, AUPrompt, AURegras, AUTitulo} from './Cenas';
 
 // Liga os nomes usados em roteiro2.py aos componentes do Among Us.
@@ -44,6 +45,7 @@ export const AmongUsVisual: React.FC<{name: string; props: Record<string, any>; 
     case 'AUFim':
       return <AUFim />;
     default:
+      if (name.startsWith('AU4')) return <AU4Visual name={name} props={p} scene={scene} timeline={timeline} />;
       if (name.startsWith('AU3')) return <AU3Visual name={name} props={p} scene={scene} timeline={timeline} />;
       if (name.startsWith('AU2')) return <AU2Visual name={name} props={p} scene={scene} timeline={timeline} />;
       return null;

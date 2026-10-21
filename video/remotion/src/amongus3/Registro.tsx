@@ -100,7 +100,7 @@ export const AU3Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <AU3Elenco p={P(p.partida ?? 1)} saiu={ou(saiu, 30)} novas={ou(novas, 70)} quemSaiu={p.quemSaiu} novos={p.novos} />;
     }
     case 'AU3Nave':
-      return <AU3Nave dur={scene.duration} />;
+      return <AU3Nave dur={scene.duration} v5={p.v5} />;
     case 'AU3Papeis':
       return <AU3Papeis passo={p.passo} focos={gatilhos(scene, PAPEIS3.map((r) => r.nome))} />;
     case 'AU3Premios':
