@@ -27,11 +27,24 @@ export const papelEm = (p: Partida2, cor: string, tique: number) => {
 };
 export const corTime = (t: string) => (t === 'impostor' ? '#d40000' : t === 'neutro' ? '#8a3fd1' : '#1f6fd1');
 // quem morreu até o tique (faca, xerife, veneno) e quem foi expulso nas reuniões anteriores
-export const mortosAte = (p: Partida2, tique: number, idxReuniao: number) => new Set([
-  ...p.eventos.filter((e) => e.tique <= tique && (e.tipo === 'morte' || e.tipo === 'morte_veneno')).map((e) => e.vitima),
-  ...p.eventos.filter((e) => e.tique <= tique && e.tipo === 'xerife').map((e) => (e.acertou ? e.alvo : e.xerife)),
-  ...p.reunioes.slice(0, idxReuniao).map((x) => x.expulso).filter(Boolean) as string[],
-]);
+export const mortosAte = (p: Partida2, tique: number, idxReuniao: number) => {
+  const base = new Set([
+    ...p.eventos.filter((e) => e.tique <= tique && (e.tipo === 'morte' || e.tipo === 'morte_veneno')).map((e) => e.vitima),
+    ...p.eventos.filter((e) => e.tique <= tique && e.tipo === 'xerife').map((e) => (e.acertou ? e.alvo : e.xerife)),
+    ...p.reunioes.slice(0, idxReuniao).map((x) => x.expulso).filter(Boolean) as string[],
+  ]);
+  // AU4: o retrato do motor sabe de tudo (Casal, bomba, fogo, aposta, e quem o Possuidor trouxe de volta); no tique da
+  // reunião ele já é de depois dela, então quem morre NESTA reunião (expulso, o par do Casal, a vítima da aposta) sai da lista
+  const est = p.tiques[tique]?.estado?.jogadores;
+  if (!est) return base;
+  const r = p.reunioes[idxReuniao] as any;
+  const nestaReuniao = new Set<string>([r?.expulso, r?.casalMorreu, ...((r?.apostas ?? []) as any[]).map((a) => a.morto)].filter(Boolean));
+  for (const j of est) {
+    if (!j.vivo && !nestaReuniao.has(j.cor)) base.add(j.cor);
+    if (j.vivo) base.delete(j.cor); // revivido pelo Possuidor
+  }
+  return base;
+};
 
 // campo de estrelas (fundo do espaço); vel = px por quadro
 export const Estrelas: React.FC<{vel?: number; n?: number}> = ({vel = 6, n = 160}) => {
