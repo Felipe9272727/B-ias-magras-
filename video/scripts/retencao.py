@@ -24,9 +24,13 @@ def main():
             break
         cap = next((c['title'] for c in tl['chapters'] if c['start'] / FPS <= a < c['end'] / FPS), '')
         indice.append(f'j{n:03d} {int(a) // 60}:{int(a) % 60:02d} {cap}')
-        # 6 quadros lado a lado (2 linhas de 3), 640 px cada
-        sel = '+'.join(f'eq(n\\,{int((a + k * 5 + 2) * FPS)})' for k in range(6) if a + k * 5 + 2 < b)
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', video, '-vf', f"select='{sel}',scale=640:-1,tile=3x2", '-frames:v', '1', '-vsync', '0', saida / f'j{n:03d}.jpg'], check=True)
+        # 6 quadros lado a lado (2 linhas de 3), 640 px cada: busca direta (-ss) em cada quadro, que é bem mais rápido
+        ts = [a + k * 5 + 2 for k in range(6) if a + k * 5 + 2 < b]
+        ent = [x for t in ts for x in ('-ss', f'{t:.2f}', '-i', video)]
+        filtro = ''.join(f'[{i}:v]scale=640:360[v{i}];' for i in range(len(ts))) + ''.join(f'[v{i}]' for i in range(len(ts))) + f'xstack=inputs={len(ts)}:layout=' + '|'.join(f'{(i % 3) * 640}_{(i // 3) * 360}' for i in range(len(ts))) + ':fill=black'
+        if len(ts) == 1:
+            filtro = '[0:v]scale=640:360'
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', *ent, '-filter_complex', filtro, '-frames:v', '1', saida / f'j{n:03d}.jpg'], check=True)
         linhas = [f'JANELA {n} — {int(a) // 60}:{int(a) % 60:02d} a {int(b) // 60}:{int(b) % 60:02d} — capítulo: {cap}', '']
         for s in tl['scenes']:
             s0, s1 = s['start'] / FPS, (s['start'] + s['duration']) / FPS
@@ -37,7 +41,8 @@ def main():
             fala = ' '.join(w['w'] for w in s.get('words', []) if a <= s0 + w['s'] / FPS < b)
             if fala:
                 linhas.append(f'  narração: {fala}')
-            for item in (v.get('props', {}) or {}).get('chat', []):
+            chat = (v.get('props', {}) or {}).get('chat')
+            for item in (chat if isinstance(chat, list) else []):
                 t = s0 + item['at'] / FPS
                 if a <= t < b:
                     linhas.append(f"  {item['cor']} fala: {item['texto']}")
