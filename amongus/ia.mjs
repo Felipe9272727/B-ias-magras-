@@ -24,11 +24,11 @@ function lerChaveOR() {
   try { chaveOR = fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null } catch { chaveOR = null }
   return chaveOR
 }
-function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs) {
+function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
   const chave = lerChaveOR()
   if (!chave) return Promise.resolve({ ok: false, text: 'openrouter: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
-  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, reasoning: { effort: 'low' } })
+  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, reasoning: semRaciocinio ? { enabled: false } : { effort: 'low' } })
   return new Promise((ok) => {
     const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OR_KEY" -H "X-Title: Jogos Vorazes das IAs" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, OR_KEY: chave }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
       const linhas = String(stdout ?? '').trimEnd().split('\n')
@@ -43,8 +43,8 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs) {
   })
 }
 
-async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort) {
-  if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs)
+async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
+  if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
   const res = path.join(SPOOL, 'res', `${id}.json`)
@@ -79,8 +79,11 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (process.env.IA_TIMEOUT_S) timeoutMs = Math.min(timeoutMs, Number(process.env.IA_TIMEOUT_S) * 1000)
   let transientes = 0
   let ultimo = null
+  let vazias = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
-    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
+    // 2 respostas vazias seguidas (o raciocínio comeu a resposta): a última tentativa vai sem raciocínio, para a IA não ficar muda
+    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, tentativa === 2 && vazias >= 2)
+    if (r.ok && !r.text.trim()) vazias++
     ultimo = r
     if (process.env.IA_DEBUG && !(r.ok && r.text?.trim())) console.error('[ia] falhou', provider, JSON.stringify(r).slice(0, 500))
     if (r.ok && r.text.trim()) {
