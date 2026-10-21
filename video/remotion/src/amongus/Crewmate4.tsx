@@ -1,6 +1,7 @@
 import React, {useId} from 'react';
 import {COR, AnimCrewmate} from './Crewmate';
 import {CosmeticoId} from './cosmeticos';
+import {PETS, ROUPAS} from './roupas4';
 
 // Versão 4 do tripulante: corpo mais fiel ao jogo, visor com reflexo, sombra na base
 // e cosméticos desenhados em SVG que acompanham o corpo (inclusive virado e andando).
@@ -15,7 +16,9 @@ type Props = {
   virado?: boolean; // olhando para a esquerda
   anim?: AnimCrewmate; // pose/animação; sem valor: anda se passo != 0, senão parado
   t?: number; // tempo em frames, usado por respiração, andar sem passo e flutuação
-  cosmetico?: string; // id do catálogo (ver cosmeticos.ts); sem valor: sem cosmético
+  cosmetico?: string; // chapéu/rosto/acessório: id do catálogo (ver cosmeticos.ts); sem valor: sem cosmético
+  roupa?: string; // id de ROUPAS (roupas4.tsx)
+  pet?: string; // id de PETS (roupas4.tsx): anda ao lado dos pés
   style?: React.CSSProperties;
 };
 
@@ -199,7 +202,7 @@ const DESENHO: Record<CosmeticoId, React.ReactNode> = {
 // Todos são desenhados depois do visor, então sempre aparecem por cima.
 
 // Tripulante em forma de "feijão": corpo, mochila, visor e pernas. viewBox 100x120.
-export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, passo = 0, virado, anim, t, cosmetico, style}) => {
+export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, passo = 0, virado, anim, t, cosmetico, roupa, pet, style}) => {
   // id único para os clipPaths (evita conflito entre várias instâncias na mesma página)
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const c = COR[cor] ?? COR.Branco;
@@ -239,6 +242,9 @@ export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, pas
 
   const svgBase: React.CSSProperties = {overflow: 'visible', transform: virado ? 'scaleX(-1)' : undefined};
   const desenhoCosmetico = cosmetico ? DESENHO[cosmetico as CosmeticoId] : undefined;
+  const desenhoRoupa = roupa && ROUPAS[roupa] ? ROUPAS[roupa].desenho({body: c.body, shade: c.shade}) : null;
+  // pet: quadro 40x40 ao lado do pé de trás, pulando de leve quando o dono anda
+  const desenhoPet = pet && PETS[pet] && !morto ? <g transform={`translate(-34 ${80 + (andando ? -2 * Math.abs(Math.sin(th * 1.3)) : 0)})`}>{PETS[pet].desenho(tt)}</g> : null
 
   if (morto) {
     // metade de baixo do corpo, pernas, osso saindo do corte e poça de sangue
@@ -330,6 +336,7 @@ export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, pas
             <rect x="20" y="93" width="64" height="12" fill={c.shade} opacity={0.55} />
             {/* brilho sutil no alto à esquerda */}
             <path d="M30 36 Q33 24 44 19" stroke="#ffffff" strokeWidth={4} strokeLinecap="round" fill="none" opacity={0.3} />
+            {desenhoRoupa}
           </g>
           <path d={CORPO} fill="none" stroke="#000" strokeWidth={CONTORNO} strokeLinejoin="round" />
 
@@ -349,6 +356,7 @@ export const Crewmate4: React.FC<Props> = ({cor, size = 80, morto, fantasma, pas
         </g>
       </g>
 
+      {desenhoPet}
       {/* "!" de susto */}
       {susto && (
         <g>

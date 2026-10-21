@@ -5,11 +5,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 
-const SPOOL = path.join(path.dirname(new URL(import.meta.url).pathname), '.spool')
+const SPOOL = path.join(path.dirname(new URL(import.meta.url).pathname), '.spool2') // ver o mod: .spool2 é a ponte nova (curl, até 5 min)
 fs.mkdirSync(path.join(SPOOL, 'req'), { recursive: true })
 fs.mkdirSync(path.join(SPOOL, 'res'), { recursive: true })
 
-export const uso = { chamadas: 0, falhas: 0, porProvider: {} }
+export const uso = { chamadas: 0, falhas: 0, porProvider: {}, falhasPor: {} }
 
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -34,7 +34,7 @@ async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort) 
   return { ok: false, text: 'timeout' }
 }
 
-export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 180000, mock, effort } = {}) {
+export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 330000, mock, effort } = {}) {
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0) + 1
   if (provider === 'mock') return { ok: true, text: mock ? mock() : '{}' }
@@ -61,6 +61,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
     await dormir(1500 * (tentativa + 1))
   }
   uso.falhas++
+  uso.falhasPor[provider] = (uso.falhasPor[provider] ?? 0) + 1
   return { ok: false, text: '' }
 }
 

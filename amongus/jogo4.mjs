@@ -1212,6 +1212,8 @@ async function main() {
     const reuniao = await rodarTique()
     // trava: muitas respostas falhando = IAs "paradas" sem querer; a partida não vale, então para aqui
     if (uso.falhas > 15 && uso.falhas / uso.chamadas > 0.1) throw new Error(`muitas falhas de IA (${uso.falhas} de ${uso.chamadas}): partida interrompida`)
+    // uma IA só falhando muito também estraga a partida (ela fica "parada"): ex. o Qwen passando do tempo do fetch
+    for (const [pv, n] of Object.entries(uso.falhasPor ?? {})) if (n >= 6 && n / uso.porProvider[pv] > 0.25) throw new Error(`a IA ${pv} falhou ${n} de ${uso.porProvider[pv]} vezes: partida interrompida`)
     const resumo = (log.tiques[tique]?.decisoes ?? []).filter((d) => !d.acao.startsWith('continuar') && !d.acao.startsWith('ir para') && d.acao !== 'ficar parado observando').map((d) => `${d.cor}: ${d.acao}${d.chat ? ` 💬"${d.chat}"` : ''}`)
     console.log(`t${tique} tarefas ${tarefasFeitas()}/${totalTarefas}${sabotagem ? ` 🚨${sabotagem.tipo}` : ''} | ${resumo.join(' | ')}`)
     let v = vencedor()

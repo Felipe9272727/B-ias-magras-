@@ -5,7 +5,8 @@ import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, continueRender, delayRender, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fontsReady} from '../fonts';
 
-export type Comentario = {usuario: string; texto: string; destaque?: string; likes?: number; quando?: string};
+// selo (opcional, AU4): carimbo que bate no comentário um pouco depois dele entrar (ex.: "✅ ENTROU", "❌ FICOU DE FORA")
+export type Comentario = {usuario: string; texto: string; destaque?: string; likes?: number; quando?: string; selo?: {texto: string; cor: string}};
 
 const ROBOTO = "'Roboto', 'Poppins', sans-serif";
 const CINZA = '#606060';
@@ -28,7 +29,10 @@ const Item: React.FC<{c: Comentario; i: number; idade: number}> = ({c, i, idade}
   const marca = interpolate(idade, [14, 34], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const partes = c.destaque && c.texto.includes(c.destaque) ? c.texto.split(c.destaque) : null;
   return (
-    <div style={{display: 'flex', gap: 22, padding: '26px 34px 20px'}}>
+    <div style={{position: 'relative', display: 'flex', gap: 22, padding: '26px 34px 20px'}}>
+      {c.selo && idade >= 24 && (
+        <div style={{position: 'absolute', right: 70, top: 14, padding: '3px 12px', border: `4px solid ${c.selo.cor}`, borderRadius: 10, color: c.selo.cor, fontFamily: ROBOTO, fontWeight: 900, fontSize: 22, background: '#fffe', transform: `rotate(-6deg) scale(${interpolate(idade, [24, 30], [1.8, 1], {extrapolateRight: 'clamp'})})`, opacity: interpolate(idade, [24, 28], [0, 1], {extrapolateRight: 'clamp'}), zIndex: 2}}>{c.selo.texto}</div>
+      )}
       <div style={{flex: '0 0 62px', height: 62, borderRadius: '50%', background: CORES_AVATAR[i % CORES_AVATAR.length], display: 'grid', placeItems: 'center', fontFamily: ROBOTO, fontWeight: 500, fontSize: 30, color: '#fff'}}>
         {c.usuario.replace('@', '')[0].toUpperCase()}
       </div>
