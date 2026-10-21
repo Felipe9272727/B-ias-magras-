@@ -132,15 +132,20 @@ const resumo = (e) => ({
 })
 
 // ---------------------------------------------------------------- partida
-export async function jogar({semente, ia, maxDias = 60, logar = console.log, aviso = ''}) {
+export async function jogar({semente, ia, maxDias = 60, logar = console.log, aviso = '', coletaDe = null}) {
   const provider = PROVEDORES[ia] ?? ia
   const REG = aviso ? `${REGRAS}\n${aviso}` : REGRAS // revanche: a IA sabe como perdeu da outra vez
   const rngMock = criarRng(semente, `mock-${ia}`)
   const log = {semente, ia, provider, aviso, inicio: new Date().toISOString(), coleta: {falas: []}, dias: [], final: null}
 
-  // fase 1: coleta
+  // fase 1: coleta (ou a coleta de uma partida anterior da mesma IA, para refazer só o abrigo)
+  if (coletaDe) {
+    log.coleta = JSON.parse(JSON.stringify(coletaDe))
+    log.coletaReaproveitada = true
+    logar(`Coleta reaproveitada: ${log.coleta.resultado.resultado}. Pessoas: ${log.coleta.resultado.pessoas.join(', ')}`)
+  }
   const c = criarColeta(semente)
-  while (!terminada(c)) {
+  while (!coletaDe && !terminada(c)) {
     const opcoes = acoesPossiveis(c)
     const r = await perguntar(provider, REG, promptColeta(c, opcoes), {maxTokens: 220, mock: mockColeta(c, opcoes)})
     const j = lerJSON(r.text) ?? {}
@@ -152,10 +157,12 @@ export async function jogar({semente, ia, maxDias = 60, logar = console.log, avi
     log.coleta.falas.push({registro: antes, gasto: c.gasto, acao, valida, pensamento: j.pensamento ?? '', fala: j.fala ?? ''})
     logar(`[coleta ${Math.round(c.gasto / 1000)}s] ${acao}${valida ? '' : ' (resposta inválida → 1ª opção)'}${j.fala ? ` — "${j.fala}"` : ''}`)
   }
-  const res = fim(c)
-  log.coleta.casa = c.casa
-  log.coleta.registro = c.log
-  log.coleta.resultado = res
+  const res = coletaDe ? log.coleta.resultado : fim(c)
+  if (!coletaDe) {
+    log.coleta.casa = c.casa
+    log.coleta.registro = c.log
+    log.coleta.resultado = res
+  }
   logar(`Coleta: ${res.resultado}. Pessoas: ${res.pessoas.join(', ')}. Itens: ${JSON.stringify(res.itens)}`)
   if (res.resultado !== 'ok') {
     log.final = {id: 'pai_fora', tipo: 'derrota', motivo: 'o tempo acabou e o pai não chegou ao abrigo', dia: 0}
@@ -238,7 +245,9 @@ if (process.argv[1] && process.argv[1].endsWith('jogo.mjs')) {
   const maxDias = Number(arg('max-dias', 60))
   const silencioso = process.argv.includes('--quieto')
   const aviso = arg('aviso', '')
-  const log = await jogar({semente, ia, maxDias, aviso, logar: silencioso ? () => {} : console.log})
+  const cDe = arg('coleta-de', '')
+  const coletaDe = cDe ? JSON.parse(fs.readFileSync(cDe, 'utf8')).coleta : null
+  const log = await jogar({semente, ia, maxDias, aviso, coletaDe, logar: silencioso ? () => {} : console.log})
   const dir = path.join(path.dirname(new URL(import.meta.url).pathname), 'logs')
   fs.mkdirSync(dir, {recursive: true})
   const arq = path.join(dir, `${arg('nome', `${semente}_${ia}`)}.json`)

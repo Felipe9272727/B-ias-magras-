@@ -53,6 +53,8 @@ import {
   enlouquecer, matar, sair, voltar, terminar,
 } from '../estado.mjs'
 
+// passo de cadeia cuja espera acabou: peso alto (o motor força o dia a ter esse evento, como o jogo faz com a história)
+const PESO_PRONTO = 60
 const FAM = ['pai', 'mae', 'filha', 'filho']
 
 // ---------------------------------------------------------------- helpers (só usam as funções de estado.mjs)
@@ -126,7 +128,7 @@ function comercio(id, quando, texto, tabela) {
 // Precisa de rádio funcionando no abrigo. Falha = passo se repete, depois de 10 dias.
 const MILITAR = [
   {
-    id: 'militar_1', peso: () => 2,
+    id: 'militar_1', peso: () => PESO_PRONTO,
     quando: (e) => (passo(e, 'militar') ?? 1) === 1 && tem(e, 'radio') && pronto(e, 'militar'),
     texto: () => 'Um chiado no rádio, e no meio dele uma voz: militares vêm buscar sobreviventes. Falta captar o sinal, ou achar o ponto de resgate.',
     escolhas: (e) => [
@@ -150,7 +152,7 @@ const MILITAR = [
     },
   },
   {
-    id: 'militar_2', peso: () => 2,
+    id: 'militar_2', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'militar') === 2 && pronto(e, 'militar') && tem(e, 'radio'),
     texto: () => 'Os militares pedem um sinal visível: uma luz de noite, um mapa com coordenadas ou cartas deixadas no ponto de ônibus.',
     escolhas: () => [
@@ -167,7 +169,7 @@ const MILITAR = [
     },
   },
   {
-    id: 'militar_3', peso: () => 2,
+    id: 'militar_3', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'militar') === 3 && pronto(e, 'militar') && tem(e, 'radio'),
     texto: () => 'Os militares querem latas de gás no ponto de ônibus, uma colina com barulho, ou lenha cortada. E as armas de fogo, entregues antes do resgate.',
     escolhas: () => [
@@ -187,7 +189,7 @@ const MILITAR = [
     },
   },
   {
-    id: 'militar_4', peso: () => 2,
+    id: 'militar_4', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'militar') === 4 && pronto(e, 'militar') && tem(e, 'radio'),
     texto: () => 'Um militar pede que alguém da família vá a um ponto e responda perguntas sobre o grupo. Pode ser armadilha, pode não ser.',
     escolhas: (e) => [
@@ -412,7 +414,7 @@ const GEMEOS = [
     },
   },
   {
-    id: 'gemeos_2', peso: () => 2,
+    id: 'gemeos_2', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'gemeos') === 2 && pronto(e, 'gemeos'),
     texto: () => 'Um pedido de ajuda: a irmã dos gêmeos quer resgatar o irmão do acampamento dos sacoleiros. Querem uma pessoa, uma lata de sopa ou só nada.',
     escolhas: (e) => [
@@ -428,7 +430,7 @@ const GEMEOS = [
     },
   },
   {
-    id: 'gemeos_3', peso: () => 2,
+    id: 'gemeos_3', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'gemeos') === 3 && pronto(e, 'gemeos'),
     texto: () => 'Os gêmeos precisam de ajuda com o acampamento: lenha, remédio ou um mapa para escolher um lugar seguro.',
     escolhas: () => [
@@ -446,7 +448,7 @@ const GEMEOS = [
     },
   },
   {
-    id: 'gemeos_4', peso: () => 2,
+    id: 'gemeos_4', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'gemeos') === 4 && pronto(e, 'gemeos'),
     texto: () => 'Um ninho de baratas mutantes perto do acampamento. As crianças estão entediadas. Os gêmeos pedem ajuda, e pedem brinquedos também.',
     escolhas: () => [
@@ -593,7 +595,7 @@ const GATOS = [
     },
   },
   {
-    id: 'gatos_4', peso: () => 2,
+    id: 'gatos_4', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'gatos') === 4 && sharikov(e) && pronto(e, 'gatos'),
     texto: () => 'Mais uma tarefa dos agentes: levar um recado, buscar uma caixa, fingir que é ninguém. A família tenta cumprir.',
     escolhas: () => [
@@ -673,7 +675,7 @@ const CIENTISTA = [
     },
   },
   {
-    id: 'cientista_3', peso: () => 3,
+    id: 'cientista_3', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'cientista') === 3 && pronto(e, 'cientista'),
     texto: () => 'Doutor Basílio tem um foguete pronto no ferro-velho. Diz que a família cabe.',
     escolhas: () => [{id: 'decolar', texto: 'entrar no foguete'}],
@@ -708,7 +710,7 @@ const GATOS_FINAL = [
     },
   },
   ...GELADEIRA.map((g) => ({
-    id: `gatos_final_${g.n}`, peso: () => 3,
+    id: `gatos_final_${g.n}`, peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'gatos_final') === g.n && pronto(e, 'gatos_final') && (e.itens.sopa ?? 0) >= g.custo,
     texto: () => g.texto,
     escolhas: () => [{id: 'ok', texto: 'seguir o ciclo'}],
@@ -768,7 +770,7 @@ const CAO = [
     },
   },
   {
-    id: 'cao_2', peso: () => 3,
+    id: 'cao_2', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'cao') === 2 && pronto(e, 'cao') && !sharikov(e),
     texto: () => 'O cachorro volta, faminto, batendo na porta. Quer comida.',
     escolhas: (e) => [
@@ -997,7 +999,7 @@ const SAIDA = [
   },
 ]
 
-// ---------------------------------------------------------------- 13. Carro (Ted)
+// ---------------------------------------------------------------- 13. Carro (o pai)
 const CARRO = [
   {
     id: 'carro_1', peso: () => 1,
@@ -1015,9 +1017,9 @@ const CARRO = [
     },
   },
   {
-    id: 'carro_2', peso: () => 2,
+    id: 'carro_2', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'carro') === 2 && pronto(e, 'carro') && !!pessoa(e, 'pai')?.vivo && !dentro(e, 'pai'),
-    texto: () => 'Barulhos de fora. Faz tempo que o Ted (o pai) não volta.',
+    texto: (e) => `Barulhos lá fora. Faz dias que ${nome(e, 'pai')} saiu de carro e não volta.`,
     escolhas: () => [
       {id: 'procurar', texto: 'ir procurar'},
       {id: 'nao', texto: 'não ir'},
@@ -1085,7 +1087,7 @@ const VEICULO = [
     },
   },
   {
-    id: 'veiculo_2', peso: () => 2,
+    id: 'veiculo_2', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'veiculo') === 2 && pronto(e, 'veiculo'),
     texto: () => 'Hora de reforçar o veículo: grades de metal, chapas ou estacas de madeira.',
     escolhas: () => [
@@ -1102,7 +1104,7 @@ const VEICULO = [
     },
   },
   {
-    id: 'veiculo_3', peso: () => 2,
+    id: 'veiculo_3', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'veiculo') === 3 && pronto(e, 'veiculo'),
     texto: () => 'Armar o veículo: um canhão improvisado, uma metralhadora ou nada.',
     escolhas: () => [
@@ -1122,7 +1124,7 @@ const VEICULO = [
     },
   },
   {
-    id: 'veiculo_4', peso: () => 2,
+    id: 'veiculo_4', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'veiculo') === 4 && pronto(e, 'veiculo'),
     texto: () => 'Decorar o veículo. Bandeiras, ossos ou grafite. Ninguém sabe o que decora mais.',
     escolhas: () => [
@@ -1142,7 +1144,7 @@ const VEICULO = [
     },
   },
   {
-    id: 'veiculo_5', peso: () => 2,
+    id: 'veiculo_5', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'veiculo') === 5 && pronto(e, 'veiculo'),
     texto: () => 'Trocar as rodas. A gaita ou o manual podem ajudar, mas nada garante que as rodas aguentam.',
     escolhas: () => [
@@ -1160,7 +1162,7 @@ const VEICULO = [
     },
   },
   {
-    id: 'veiculo_6', peso: () => 3,
+    id: 'veiculo_6', peso: () => PESO_PRONTO,
     quando: (e) => passo(e, 'veiculo') === 6 && pronto(e, 'veiculo'),
     texto: () => 'O veículo está pronto. Precisa de cinco latas de sopa para dar a partida.',
     escolhas: (e) => [
