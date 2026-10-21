@@ -109,12 +109,12 @@ MINIMAX = [
         ('N', '"Os bandidos chegaram ao bairro. Agora cada saída é uma roleta." [[t:CADA SAÍDA É UMA ROLETA:2:#ff5a3c]] O jogo avisou. E nesse mesmo dia, sem sopa nenhuma na prateleira, ele mandou o Osvaldo pra rua com o rifle.'),
         ('MiniMax', 'Hoje o estoque de água virou treasure: 15 porções, zero sopa e uma missão arriscada para a rua.', ('dia', 42)),
     ]),
-    N('m16', 'minimax', dia(MM, 44),
+    N('m16', 'minimax', comp('S60Familia', destaque='mae', riscados=['pai', 'filha', 'filho']),
       'Dia quarenta e quatro: o Osvaldo não volta. Os bandidos levaram. [[s:sad-trombone:0.4]] E no mesmo dia, ele manda a Juju. Dia quarenta e seis: a Juju não volta. E ele manda o Tico. [[m:coffin-dance:right:2.2]] Dia quarenta e oito: o Tico não volta. Três pessoas, três saídas, três roletas. Nenhuma deu certo.'),
     CH('m17', 'minimax', dia(MM, 50), [
         ('N', 'Sobrou a Celeste. Sozinha, sem sopa, e já não batendo muito bem da cabeça. O diário do dia cinquenta:'),
         ('MiniMax', 'A água ainda segura a casa, mas a sopa sumiu num universo paralelo', ('dia', 50)),
-        ('N', 'No dia cinquenta e um, a Celeste não resistiu à fome. [[s:heartbeat:0.5]][[p]] Fim da partida do MiniMax. [[t:51 DIAS:2.2:#e8336d]] Cinquenta e um dias. Quase vinte expedições. A única família que entrou inteira no abrigo... e quatro pessoas perdidas pra fome e pros bandidos.'),
+        ('N', 'No dia cinquenta e um, a Celeste não resistiu à fome. [[s:heartbeat:0.5]][[p]] Fim da partida do MiniMax. [[t:51 DIAS:2.2:#e8336d]] Cinquenta e um dias. Quase vinte expedições. A única família que entrou inteira no abrigo... e quatro pessoas perdidas pra fome e pros bandidos. E o próximo... deixou a filha pra trás no primeiro minuto.'),
     ], pad=1.2),
 ]
 
@@ -189,12 +189,12 @@ GPT = [
         ('GPT', 'Se o rádio voltar a funcionar, talvez finalmente toque algo melhor que o estômago reclamando.', ('dia', 35)),
         ('N', '[[s:glitch:0.5]] O rádio quebra de vez. [[m:not-stonks:right:2.2]] E no mesmo dia, ele manda o Tico pra rua com o mapa.'),
     ]),
-    N('g16', 'gpt', dia(GP, 37),
+    N('g16', 'gpt', comp('S60Familia', destaque='mae', riscados=['pai', 'filha', 'filho']),
       'Dia trinta e sete: o Tico não volta. A primeira e única expedição do GPT que deu errado. [[s:sad-trombone:0.4]] E a Celeste, ferida e sozinha, começa a perder a cabeça.'),
     CH('g17', 'gpt', dia(GP, 43), [
         ('N', 'No dia quarenta e três, o rádio grita um endereço. Mas não tem mais ninguém pra mandar.'),
         ('GPT', 'nosso único explorador disponível é uma Celeste em modo fantasma.', ('dia', 43)),
-        ('N', 'No dia quarenta e quatro, a Celeste não resistiu ao ferimento. [[s:heartbeat:0.5]][[p]] [[t:44 DIAS:2.2:#0b7a5f]] Quarenta e quatro dias. Seis saídas, cinco voltas. O jogador mais cuidadoso... que deixou a filha em casa e não foi atrás do marido.'),
+        ('N', 'No dia quarenta e quatro, a Celeste não resistiu ao ferimento. [[s:heartbeat:0.5]][[p]] [[t:44 DIAS:2.2:#0b7a5f]] Quarenta e quatro dias. Seis saídas, cinco voltas. O jogador mais cuidadoso... que deixou a filha em casa e não foi atrás do marido. E o próximo achava que despensa cheia era sinônimo de segurança.'),
     ], pad=1.2),
 ]
 
@@ -254,7 +254,7 @@ CLAUDE = [
         ('Claude', 'Dia 9: entregamos 4 latas de sopa ao governo em troca de um abrigo seguro', ('dia', 9)),
         ('N', '[[s:coin:0.4]] Os agentes prometeram contato. [[m:cat-ok-thumbs-up:right:1.8]] E sumiram. E no dia doze e no dia quatorze, os médicos pedem água... e ele manda embora. As duas vezes.'),
     ]),
-    N('c09', 'claude', dia(CL, 16),
+    N('c09', 'claude', comp('S60Numeros', titulo='PRIMEIRA EXPEDIÇÃO', sub='em que dia cada IA mandou alguém pra rua', unidade='º dia', valores=[dict(nome='DeepSeek', cor=COR['DeepSeek'], valor=1), dict(nome='MiniMax', cor=COR['MiniMax'], valor=2), dict(nome='GPT', cor=COR['GPT'], valor=10), dict(nome='Claude', cor=COR['Claude'], valor=20)]),
       'E aí ficou nítido o estilo do Claude: segurar. Dia com sopa, dia sem. Dia com água, dia sem. [[s:typing:0.4]] Ele chamava de "jejum de luxo". E ninguém saía pra rua. Ficaram dezenove dias sem uma expedição sequer. [[t:19 DIAS SEM SAIR:1.8:#d97757]] Até que, no dia vinte...'),
     CH('c10', 'claude', dia(CL, 20), [
         ('Claude', 'o Osvaldo saiu de mala na mão, parecendo um turista', ('dia', 20)),
@@ -306,7 +306,7 @@ DEEPSEEK = [
         ('DeepSeek', 'Juju! Onde você está?', 18.3),
         ('N', 'Foi pro quarto das crianças procurar a Juju. Achou a Celeste. E pra pegar a Celeste... largou a água de novo.'),
         ('DeepSeek', 'Celeste, estou indo!', 19.3),
-        ('N', '[[s:record-scratch:0.4]] Essa garrafa ficou no chão do quarto. Pra sempre. [[m:sad-pablo:right:2.2]]'),
+        ('N', '[[s:record-scratch:0.4]] Essa garrafa ficou no chão do quarto. Pra sempre. [[m:crying-jordan:right:2.2]]'),
         ('DeepSeek', 'Vou deixar isso no abrigo e volto para pegar o Tico!', 25.0),
     ]),
     N('d03', 'deepseek', coleta(DS),
@@ -358,7 +358,7 @@ DEEPSEEK = [
     CH('d12', 'deepseek', dia(DS, 24), [
         ('N', 'Bandidos. E o DeepSeek não tinha cadeado. Nem rifle. Ele não fez nada.'),
         ('DeepSeek', 'Dia 24: sem monstros nem cavaleiros, só sopa, água e o Tico perguntando se o resgate vem com sobremesa.', ('dia', 24)),
-        ('N', '[[s:record-scratch:0.5]] E os bandidos levaram a Celeste. [[x:0.6:10]] O Tico ficou sozinho. E sem nenhum adulto no abrigo... [[p]] [[t:24 DIAS:2.2:#4d6bfe]] Fim de jogo. Vinte e quatro dias. Com a despensa cheia. [[m:mission-failed:right:2.4]]'),
+        ('N', '[[s:record-scratch:0.5]] E os bandidos levaram a Celeste. [[x:0.6:10]] O Tico ficou sozinho. E sem nenhum adulto no abrigo... [[p]] [[t:24 DIAS:2.2:#4d6bfe]] Fim de jogo. Vinte e quatro dias. Com a despensa cheia. [[m:mission-failed:right:2.4]] Agora falta um. O da minha família.'),
     ], pad=1.2),
 ]
 
