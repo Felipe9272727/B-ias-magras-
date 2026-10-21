@@ -122,9 +122,9 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
   // câmera: plano aberto do abrigo inteiro, deriva lenta e leve push-in; com o caderno aberto o abrigo recua para a esquerda
   const c = 1.035 + 0.025 * Math.min(1, sr / 25) + 0.004 * Math.sin(sr * 0.5);
   const dx = 16 * Math.sin(sr * 0.33), dy = 8 * Math.sin(sr * 0.45 + 1);
-  const sc = lerp(c, 0.76, k);
-  const tx = lerp(960 * (1 - c) + dx, -236, k);
-  const ty = lerp(560 * (1 - c) + dy, 130, k);
+  const sc = lerp(c, 0.7, k);
+  const tx = lerp(960 * (1 - c) + dx, -120, k);
+  const ty = lerp(560 * (1 - c) + dy, 190, k);
   const piscar = 0.9 + 0.1 * Math.sin(sr * 9.1) * Math.sin(sr * 2.3) - (Math.sin(sr * 11) > 0.985 ? 0.35 : 0);
 
   // itens no cenário (sopa e água viram fileiras na prateleira do armário)
