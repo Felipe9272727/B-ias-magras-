@@ -13,7 +13,38 @@ export const uso = { chamadas: 0, falhas: 0, porProvider: {}, falhasPor: {} }
 
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms))
 
+// IA_DIRETO=1 (partidas 2 a 4 do AU4, para andar mais rápido): os modelos do OpenRouter são chamados direto pelo curl,
+// todos ao mesmo tempo (a ponte do mod atende no máximo 8 por vez), com o MESMO raciocínio "low" que a ponte pede.
+// IA_TIMEOUT_S limita cada resposta (sem isso: 5 min). A chave é a mesma guardada pelo mod.
+import { execFile } from 'node:child_process'
+const ARQ_CHAVE = '/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json'
+let chaveOR
+function lerChaveOR() {
+  if (chaveOR !== undefined) return chaveOR
+  try { chaveOR = fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null } catch { chaveOR = null }
+  return chaveOR
+}
+function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs) {
+  const chave = lerChaveOR()
+  if (!chave) return Promise.resolve({ ok: false, text: 'openrouter: sem chave' })
+  const seg = Math.max(10, Math.round(timeoutMs / 1000))
+  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, reasoning: { effort: 'low' } })
+  return new Promise((ok) => {
+    const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OR_KEY" -H "X-Title: Jogos Vorazes das IAs" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, OR_KEY: chave }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
+      const linhas = String(stdout ?? '').trimEnd().split('\n')
+      const status = Number(linhas.pop()) || 0
+      let d; try { d = JSON.parse(linhas.join('\n')) } catch {}
+      if (!status) return ok({ ok: false, text: 'timeout' })
+      if (status === 402) return ok({ ok: false, text: `openrouter: sem cota (HTTP 402) ${d?.error?.message ?? ''}` })
+      if (status < 200 || status >= 300) return ok({ ok: false, text: `openrouter: HTTP ${status} ${d?.error?.message ?? ''}` })
+      ok({ ok: true, text: d?.choices?.[0]?.message?.content ?? '', usage: d?.usage })
+    })
+    p.stdin.end(corpo)
+  })
+}
+
 async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort) {
+  if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
   const res = path.join(SPOOL, 'res', `${id}.json`)
@@ -45,6 +76,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
   // o Sonnet também pensa: esforço alto (pedido da pessoa para o 60 Segundos) e a mesma folga de tokens
   if (provider === 'sonnet') { effort = effort ?? process.env.SONNET_EFFORT ?? 'high'; maxTokens += 6000 }
+  if (process.env.IA_TIMEOUT_S) timeoutMs = Math.min(timeoutMs, Number(process.env.IA_TIMEOUT_S) * 1000)
   let transientes = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort)
@@ -59,6 +91,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
     if (/Retry shortly|could not verify|rate.?limit|HTTP 429|Provider returned error/i.test(r.text) && transientes++ < 12) { await dormir(20000); tentativa--; continue }
     // sem crédito, sem chave ou limite da chave: para a partida na hora (senão a IA vira "parada" e a partida não vale)
     if (/sem cota \(HTTP 402\)|sem chave|Key limit exceeded|HTTP 40[123]/i.test(r.text)) throw new Error(r.text)
+    if (r.text === 'timeout' && process.env.IA_TIMEOUT_S && tentativa >= 1) break // já estourou o tempo 2 vezes: segue sem resposta
     await dormir(1500 * (tentativa + 1))
   }
   uso.falhas++
