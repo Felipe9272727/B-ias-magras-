@@ -240,6 +240,11 @@ CLAUDE = [
         ('Claude', "Dia 4: compramos uma pedra do Caco. Tico já batizou de 'Pedrinha'", ('dia', 4)),
         ('N', '[[s:pop:0.4]] E isso não foi uma piada de um dia só. A Pedrinha virou personagem.'),
     ]),
+    CH('c06b', 'claude', dia(CL, 6), [
+        ('N', 'Dia seis: a família fica sabendo de um grupo de idosos num asilo em ruínas, com suprimentos. E o Claude manda pegar. [[s:wrong-buzzer:0.5]] Marca de sangue. Lado sombrio. [[m:sus-doakes:right:2.2]] Igual o DeepSeek. E o diário desse dia fala de quê?'),
+        ('Claude', 'Dia 6: a água virou ouro líquido, a sopa virou papel de parede', ('dia', 6)),
+        ('N', 'De nada. Fala de sopa. [[m:monkey-puppet-awkward:right:2.2]]'),
+    ]),
     CH('c07', 'claude', dia(CL, 8), [
         ('Claude', 'a Pedrinha foi promovida a fiscal de talheres.', ('dia', 8)),
         ('N', 'Fiscal de talheres. [[m:happy-dance:right:2.2]] E dali pra frente, quase todo dia, ela aparece no diário. Carimbando o cardápio. Tirando folga. Cobrando nota fiscal.'),
@@ -286,8 +291,97 @@ CLAUDE = [
 ]
 
 # DeepSeek e o placar entram quando a partida do DeepSeek terminar (sessenta/logs/ep5_deepseek.json)
-DEEPSEEK = []
-FIM = []
+DEEPSEEK = [
+    N('d00', 'deepseek', titulo('Partida 3', 'DEEPSEEK', 'V4.1 Flash · DeepSeek', cor=COR['DeepSeek']),
+      '[[s:impact-epic:0.5]] Partida três. O DeepSeek. Lembra dele nos testes? O único que salvou a família inteira... e saiu de novo pra buscar um kit médico. Agora ele tem uma revanche.'),
+    CH('d01', 'deepseek', coleta(DS, de=3), [
+        ('DeepSeek', 'Peguei a sopa!', 4.7),
+        ('N', 'Começou pela cozinha. Sopa, água, mais uma água. Mão cheia. Aí ele lembra do Tico.'),
+        ('DeepSeek', 'Tico, segura! Vou largar uma água e te pegar!', 8.7),
+        ('N', 'Largou a água. E um segundo depois...'),
+        ('DeepSeek', 'Pego essa água rapidinho!', 9.7),
+        ('N', 'Pegou a mesma água de volta. [[m:confused-travolta:right:2.2]] E não pegou o Tico.'),
+    ]),
+    CH('d02', 'deepseek', coleta(DS), [
+        ('DeepSeek', 'Juju! Onde você está?', 18.3),
+        ('N', 'Foi pro quarto das crianças procurar a Juju. Achou a Celeste. E pra pegar a Celeste... largou a água de novo.'),
+        ('DeepSeek', 'Celeste, estou indo!', 19.3),
+        ('N', '[[s:record-scratch:0.4]] Essa garrafa ficou no chão do quarto. Pra sempre. [[m:sad-pablo:right:2.2]]'),
+        ('DeepSeek', 'Vou deixar isso no abrigo e volto para pegar o Tico!', 25.0),
+    ]),
+    N('d03', 'deepseek', coleta(DS),
+      'Vinte e cinco segundos: a Celeste desce, com uma sopa e uma água. E aí ele vai buscar o Tico, que tava esperando na sala desde o comecinho. Pega o Tico aos trinta e quatro. Faltando vinte e seis segundos. E em vez de descer...'),
+    CH('d04', 'deepseek', coleta(DS), [
+        ('DeepSeek', 'Juju, onde você está?', 47.0),
+        ('N', 'Doze segundos de corrida com o Tico no colo, procurando a Juju pela casa. [[m:homer-bushes:right:2.2]] Não achou. Mas achou outra coisa:'),
+        ('DeepSeek', 'Pego a máscara e volto!', 48.3),
+        ('DeepSeek', 'Pego a lanterna e vamos pro abrigo!', 50.3),
+        ('DeepSeek', 'Vamos, Tico!', 57.0),
+        ('N', 'Entrou com três segundos sobrando. [[t:3 PESSOAS · 1 SOPA · 1 ÁGUA:2:#4d6bfe]] Três pessoas, uma sopa, uma água... e uma máscara de gás. Que vai ser a estrela dessa partida.'),
+    ], pad=1.0),
+    CH('d05', 'deepseek', dia(DS, 1), [
+        ('N', 'Porque com uma sopa só, o DeepSeek não esperou nada. No primeiro dia, ele já mandou o Osvaldo pra rua. De máscara.'),
+        ('DeepSeek', 'Primeiro dia no abrigo: o pai saiu para o apocalipse com máscara e esperança.', ('dia', 1)),
+        ('N', '[[m:lets-go:right:2]] E no dia três, o Osvaldo volta. Com quatro sopas. [[s:coin:0.4]]'),
+    ]),
+    CH('d06', 'deepseek', dia(DS, 5), [
+        ('N', 'Dia cinco: a família pode saquear a escola onde uma professora protegeu as crianças. E o DeepSeek... aceita.'),
+        ('DeepSeek', 'A escola virou mercado do fim do mundo', ('dia', 5)),
+        ('N', '[[s:wrong-buzzer:0.5]] A família fica com uma marca de sangue. Conquista desbloqueada: lado sombrio. [[t:LADO SOMBRIO:1.8:#ff5a3c]] [[m:sus-doakes:right:2.4]] E guarda isso: ele não foi o único.'),
+    ]),
+    CH('d07', 'deepseek', dia(DS, 7), [
+        ('N', 'Mas tinha uma coisa que o DeepSeek não largava: a Juju. No dia sete, o Osvaldo sai de novo, de máscara, lanterna e mala. E o diário diz:'),
+        ('DeepSeek', 'pai saiu de máscara e lanterna; se achar a Juju', ('dia', 7)),
+        ('N', 'E três dias depois, um barulho debaixo do chão:'),
+        ('DeepSeek', 'Alguém bate debaixo do chão; se for a Juju, que traga boas notícias', ('dia', 10)),
+        ('N', 'Não era a Juju. [[m:chaves-triste:right:2.4]]'),
+    ]),
+    CH('d08', 'deepseek', dia(DS, 11), [
+        ('N', 'E aí nasceu a piada dele. O abrigo virou um spa.'),
+        ('DeepSeek', 'Dia 11: cardápio de spa subterrâneo', ('dia', 11)),
+        ('DeepSeek', 'Dia 13 no spa nuclear: sopa para dois e água na medida', ('dia', 13)),
+        ('N', 'Spa nuclear. [[m:happy-dance:right:2.2]] Por dez dias, a família foi se virando: o Tico saiu e voltou, o pai e a mãe adoeceram e melhoraram, e sempre tinha sopa. Até o dia dezessete.'),
+    ]),
+    CH('d09', 'deepseek', dia(DS, 17), [
+        ('N', 'Um terremoto. Ele salva a máscara. E no mesmo dia, manda o Osvaldo pra rua de novo.'),
+        ('DeepSeek', 'mandamos o pai encarar o ar radioativo.', ('dia', 17)),
+        ('N', 'Dia dezenove: o Osvaldo não voltou. [[s:sad-trombone:0.4]] Ficou lá fora com tudo que levou. Inclusive a máscara.'),
+    ]),
+    CH('d10', 'deepseek', dia(DS, 20), [
+        ('N', 'Dia vinte. Um bicho na porta. Ele acende a lanterna pra ver o que é. E o jogo diz: é um cachorro cansado. Mas o diário do DeepSeek...'),
+        ('DeepSeek', 'Iluminamos o monstro e era só um gambá radioativo', ('dia', 20)),
+        ('N', '[[m:nazare-confusa:right:2.2]] Era um cachorro. E no dia seguinte, o cachorro pede comida...'),
+        ('DeepSeek', 'fechamos a porta', ('dia', 21)),
+    ]),
+    N('d11', 'deepseek', dia(DS, 22),
+      'Mas a Celeste, que tinha saído com o mapa, volta no dia vinte e dois com quatro sopas e seis águas. [[s:level-up:0.5]] A maior expedição da partida. Tinha comida pra semanas. E aí, no dia vinte e quatro, bate na porta o problema que todo mundo resolveu com um cadeado. [[s:heartbeat:0.6]]'),
+    CH('d12', 'deepseek', dia(DS, 24), [
+        ('N', 'Bandidos. E o DeepSeek não tinha cadeado. Nem rifle. Ele não fez nada.'),
+        ('DeepSeek', 'Dia 24: sem monstros nem cavaleiros, só sopa, água e o Tico perguntando se o resgate vem com sobremesa.', ('dia', 24)),
+        ('N', '[[s:record-scratch:0.5]] E os bandidos levaram a Celeste. [[x:0.6:10]] O Tico ficou sozinho. E sem nenhum adulto no abrigo... [[p]] [[t:24 DIAS:2.2:#4d6bfe]] Fim de jogo. Vinte e quatro dias. Com a despensa cheia. [[m:mission-failed:right:2.4]]'),
+    ], pad=1.2),
+]
+
+FIM = [
+    N('f00', 'fim', titulo('Placar final', 'QUEM SOBREVIVEU MAIS?', 'mesma casa · mesma sorte · 4 IAs'),
+      '[[s:drumroll:0.5]] Mesma casa, mesmos itens, a mesma sorte. Então, quem foi mais longe?'),
+    N('f01', 'fim', comp('S60Manim', cena='Coletas'),
+      'Começando pelos sessenta segundos. Cada ponto é uma vez que a IA entrou no abrigo. O GPT foi o que mais desceu: quatro vezes. O Claude voltou com a maior despensa, cinco sopas. [[s:pop:0.4]] E o MiniMax, o único com a família inteira... e uma sopa só.'),
+    N('f02', 'fim', comp('S60Manim', cena='Corrida'),
+      'E aqui, o abrigo. Cada linha é quantas pessoas ainda tavam no jogo, dia a dia. O DeepSeek caiu primeiro, no dia vinte e quatro, sem cadeado pros bandidos. O Claude no quarenta e dois. O GPT no quarenta e quatro. [[s:heartbeat:0.5]] E quem foi mais longe...'),
+    N('f03', 'fim', comp('S60Placar', titulo='DIAS NO ABRIGO', linhas=[
+        dict(nome='MiniMax', cor=COR['MiniMax'], dias=51, detalhe='salvou os 4 · 1 sopa'),
+        dict(nome='GPT', cor=COR['GPT'], dias=44, detalhe='deixou a Juju · não foi atrás do pai'),
+        dict(nome='Claude', cor=COR['Claude'], dias=42, detalhe='5 sopas · roubou os idosos · a Pedrinha'),
+        dict(nome='DeepSeek', cor=COR['DeepSeek'], dias=24, detalhe='lado sombrio · sem cadeado'),
+    ], passo=26),
+      '[[s:tada:0.6]] O MiniMax! O participante surpresa. [[m:cr7-siuuu:right:2.4]] Cinquenta e um dias. E o mais engraçado: ele foi o que pior coletou comida. Uma lata. Mas salvou as quatro pessoas, e quatro pessoas podem sair pra buscar comida. No 60 Seconds, família é suprimento.'),
+    N('f04', 'fim', comp('S60Familia', passo=16),
+      'E olha o padrão. Quem deixou gente pra trás na coleta, pagou no abrigo. O GPT e o DeepSeek perderam a Juju. O Claude perdeu a Celeste e a Juju. E cada um teve que mandar menos gente pra rua, com menos gente pra cuidar de quem ficava. [[s:heartbeat:0.4]] Sopa vale mais que baralho. Mas a família vale mais que sopa.'),
+    N('f05', 'fim', comp('S60Elenco', ias=[dict(nome='MiniMax', modelo='51 dias · 1º lugar', cor=COR['MiniMax']), dict(nome='GPT', modelo='44 dias · 2º', cor=COR['GPT']),
+                                           dict(nome='Claude', modelo='42 dias · 3º', cor=COR['Claude']), dict(nome='DeepSeek', modelo='24 dias · 4º', cor=COR['DeepSeek'])], passo=18),
+      'E sim, o Claude, que é da minha família, ficou em terceiro. [[m:hide-the-pain-harold:right:2.4]] Prometi mostrar tudo. E ninguém ganhou o jogo de verdade: o resgate dos militares nunca chegou pra ninguém. Talvez numa próxima. Comenta aí qual IA você quer ver jogando, e qual jogo vem depois. [[s:ba-dum-tss:0.4]] Valeu, e até o próximo.'),
+]
 
 SCENES = MINIMAX + GPT + DEEPSEEK + CLAUDE + FIM
 
@@ -302,4 +396,9 @@ CUES_P2 = [
     ('c01', 'mega-hyper-ultrastorm', 30),
     ('c05', 'quirky-dog', 0),
     ('c13', 'heartbreaking', 0),
+    ('d01', 'pixelland', 0),
+    ('d05', 'thinking-music', 0),
+    ('d11', 'heartbreaking', 0),
+    ('f00', 'winner-winner', 0),
+    ('f04', 'despair-and-triumph', 0),
 ]
