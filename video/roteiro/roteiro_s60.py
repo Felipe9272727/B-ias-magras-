@@ -102,6 +102,9 @@ SCENES = [
     N('r06', 'regras', coleta('ep5_claude', de=8, vel=1, replay=True, rotulo='MODELOS 3D GRATUITOS · KENNEY · CC0'),
       'E antes que alguém pergunte: não, esses não são os bonecos do jogo. Os modelos oficiais têm direito autoral, então a casa e a família em 3D são modelos gratuitos, de domínio público. [[m:free-real-estate:right:2.2]] Eles parecem mais felizes que os originais. A radiação é a mesma.'),
 
+    N('r07', 'regras', comp('S60Aviso', titulo='AVISO', linhas=['Alguns bonecos do abrigo 2D vieram com defeito de fábrica.', 'A perna do Tico passa bem.', 'Pedimos desculpas. A radiação também.']),
+      '[[s:record-scratch:0.5]] Um aviso: alguns bonecos do abrigo em 2D vieram com defeito de fábrica. Uma perna torta aqui, um corte ali. [[m:hide-the-pain-harold:right:2.6]] Eles também tão sobrevivendo como podem. Pedimos desculpas. Principalmente pra perna do Tico.'),
+
     # ================================================================== TESTES (ep1)
     N('e01', 'testes', titulo('Antes de valer', 'OS TESTES QUE DERAM ERRADO', '4 coletas · 0 dias no abrigo', cor='#ff5a3c'),
       '[[s:record-scratch:0.5]] Antes da partida valendo, os testes. E eles deram muito errado.'),

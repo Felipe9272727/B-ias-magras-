@@ -100,6 +100,28 @@ const Fundo: React.FC<{cor?: string}> = ({cor = '#5a1414'}) => {
 const FAMILIA = [['pai', 'Osvaldo', 'o pai'], ['mae', 'Celeste', 'a mãe'], ['filha', 'Juju', 'a filha'], ['filho', 'Tico', 'o filho']] as const;
 
 // ---------------------------------------------------------------- cartão de capítulo
+// ---------------------------------------------------------------- aviso em "filme antigo" preto e branco
+export const S60Aviso: React.FC<{titulo: string; linhas: string[]; passo?: number}> = ({titulo, linhas, passo = 60}) => {
+  const f = useCurrentFrame();
+  const treme = Math.sin(f * 1.7) * 2 + (f % 23 === 0 ? 6 : 0);
+  const pisca = 0.88 + 0.12 * Math.sin(f * 2.9) * Math.sin(f * 0.7);
+  const riscos = Array.from({length: 5}, (_, i) => ((f * (7 + i * 3) + i * 397) % 1920));
+  const ap = (i: number) => interpolate(f, [14 + i * passo, 24 + i * passo], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{background: '#0d0d0d', filter: `grayscale(1) contrast(1.15) brightness(${pisca.toFixed(3)})`}}>
+      <AbsoluteFill style={{transform: `translate(${treme}px, ${-treme / 2}px)`, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '0 220px'}}>
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 96, color: '#f4f1e8', letterSpacing: 6, border: '6px solid #f4f1e8', padding: '6px 40px', marginBottom: 40}}>{titulo}</div>
+        {linhas.map((l, i) => (
+          <div key={i} style={{fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: 50, lineHeight: 1.3, color: '#f4f1e8', textAlign: 'center', marginTop: 18, opacity: ap(i), transform: `translateY(${(1 - ap(i)) * 12}px)`}}>{l}</div>
+        ))}
+      </AbsoluteFill>
+      {riscos.map((x, i) => <div key={i} style={{position: 'absolute', left: x, top: 0, bottom: 0, width: 2, background: 'rgba(255,255,255,0.18)'}} />)}
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.85))'}} />
+      <AbsoluteFill style={{mixBlendMode: 'screen', opacity: 0.35, backgroundImage: `url(${staticFile('sessenta/abrigo2d/grao.png')})`, backgroundPosition: `${(f * 137) % 512}px ${(f * 251) % 512}px`}} />
+    </AbsoluteFill>
+  );
+};
+
 export const S60Titulo: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string; fundo?: string}> = ({kicker, title, subtitle, color = '#f2c230', fundo}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -253,6 +275,8 @@ export const SessentaVisual: React.FC<{name: string; props: Record<string, any>;
       return <S60Grade {...(p as any)} chaves={chaves} />;
     case 'S60Dia':
       return <S60Dia {...(p as any)} timeline={timeline} />;
+    case 'S60Aviso':
+      return <S60Aviso {...(p as any)} />;
     case 'S60Titulo':
       return <S60Titulo {...(p as any)} />;
     case 'S60Familia':
