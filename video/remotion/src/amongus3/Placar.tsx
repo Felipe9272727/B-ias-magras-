@@ -14,7 +14,7 @@ export const AU3Placar: React.FC<{ps: Record<string, Partida2>; ate?: number; co
   const res = (n: number): Res => corte[String(n)] ?? ps[String(n)].resultado;
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const ns = [1, 2, 3, 4].filter((n) => n <= ate && ps[String(n)]?.resultado);
+  const ns = [1, 2, 3, 4, 5].filter((n) => n <= ate && ps[String(n)]?.resultado);
   const tri = ns.filter((n) => res(n).time === 'tripulante').length;
   const imp = ns.filter((n) => res(n).time === 'impostor').length;
   const pal = ns.filter((n) => res(n).time === 'palhaco').length;

@@ -27,6 +27,11 @@ ESCOLHA = {
     '4-2': [('Laranja', 1, 190), ('Branco', 2, 220), ('Lima', 2, 170)],
     '4-3': [('Laranja', 1, 190), ('Ciano', 2, 200), ('Preto', 2, 170)],
     '4-4': [('Rosa', 1), ('Azul', 1, 170), ('Bordo', 1, 150), ('Laranja', 2, 200)],
+    # partida 5 (bônus): o Possuidor
+    '5-0': [('Preto', 1, 120), ('Lima', 1, 120), ('Verde', 1, 120), ('Cinza', 1, 90)],
+    '5-1': [('Roxo', 1, 120), ('Bordo', 1, 140), ('Preto', 1, 150)],
+    '5-2': [('Amarelo', 1), ('Rosa', 1, 190), ('Cinza', 1, 270), ('Cinza', 2, 250)],
+    '5-3': [('Laranja', 1, 260), ('Rosa', 1, 190), ('Cinza', 1, 150), ('Preto', 2, 130), ('Laranja', 2, 120)],
     '4-5': [('Azul', 1, 230), ('Laranja', 2), ('Azul', 2), ('Rosa', 2, 190)],
 }
 

@@ -162,7 +162,7 @@ def carregar_roteiro():
 def partidas(ordem=None):
     """As partidas na ordem do vídeo: `ordem` (do roteiro, ORDEM) diz qual partida do log é a 1ª, 2ª... do vídeo."""
     out = {}
-    for i in (1, 2, 3, 4):
+    for i in (1, 2, 3, 4, 5):
         f = LOGS / f'partida{(ordem or {}).get(i, i)}.json'
         if not f.exists():
             continue

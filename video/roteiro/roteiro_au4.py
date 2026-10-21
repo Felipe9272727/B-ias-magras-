@@ -14,7 +14,7 @@ Formato (o mesmo do AU3, lido por video/scripts/build_timeline_au4.py):
 Marcações no texto do narrador: [[m:meme:pos:dur:legenda]] [[s:efeito:vol]] [[p]] soco de câmera [[t:TEXTO:dur:cor]] [[cc]]
 """
 
-ORDEM = {1: 2, 2: 3, 3: 1, 4: 4}
+ORDEM = {1: 2, 2: 3, 3: 1, 4: 4, 5: 5}
 
 CHAPTERS = {
     'abertura': 'Abertura',
@@ -23,6 +23,7 @@ CHAPTERS = {
     'p2': 'Partida 2 · O Juiz e o Metamorfo',
     'p3': 'Partida 3 · As bombas',
     'p4': 'Partida 4 · O Palhaço e o Apostador',
+    'p5': 'Partida bônus · O Possuidor',
     'fim': 'Placar e encerramento',
 }
 
@@ -121,7 +122,7 @@ SCENES = [
     N('n01', 'novo', comp('AU4Elenco', partida=1, quemSaiu='Gemini', novos=['Qwen 3.8 27B', 'MiniMax M3.1 Flash'], gatilhoSaiu='gemini', gatilhoNovas='qwen'),
       'O elenco mudou. O Gemini saiu: era o mais caro. [[m:michael-scott-no:right:2]] Entrou o Qwen, da Alibaba, e o MiniMax voltou na versão nova. Seis empresas, quinze IAs. E pra ficar justo, quem joga com três IAs e quem joga com duas foi sorteado.'),
     N('n02', 'novo', comp('AU4Papeis', passo=3),
-      'As funções. Pros impostores, as novas são o Bombardeiro, que gruda uma bomba em alguém, o Chantagista, que cala uma pessoa na reunião, o Apostador, que chuta a função de alguém e se acertar, mata. E o Possuidor. [[s:faca:0.4]] Os neutros jogam sozinhos: o Glutão, que devora a vítima, o Canibal, que come corpos, o Piromante, que encharca todo mundo de gasolina, e o Sobrevivente, que só quer ficar vivo. [[m:visible-confusion:right:2.2]] E pros tripulantes, Perito, Mecânico e Armador.'),
+      'As funções. Pros impostores, as novas são o Bombardeiro, que gruda uma bomba em alguém, o Chantagista, que cala uma pessoa na reunião, o Apostador, que chuta a função de alguém e se acertar, mata. E o Possuidor... guarda esse nome. [[s:faca:0.4]] Os neutros jogam sozinhos: o Glutão, que devora a vítima, o Canibal, que come corpos, o Piromante, que encharca todo mundo de gasolina, e o Sobrevivente, que só quer ficar vivo. [[m:visible-confusion:right:2.2]] E pros tripulantes, Perito, Mecânico e Armador.'),
     N('n03', 'novo', jogo(1, 'Marrom', tique=2),
       'E tem o Casal. Em cada partida, o sorteio junta dois jogadores. Se um morrer... o outro morre junto, de tristeza. [[s:coracao:0.6]][[m:crying-jordan:right:2.2]] Pode ser tripulante com impostor. Eles sabem quem é o par.'),
     N('n04', 'novo', comp('AU4Roupas'),
@@ -286,7 +287,7 @@ SCENES = [
 
     # ------------------------------------------------------------------ PARTIDA 4 (log 4): o Palhaço e o Apostador
     N('p401', 'p4', revela(4, 'Bordo'),
-      'Última partida. Os impostores: o Vermelho, um MiniMax, de Envenenador. [[s:faca:0.4]] O Laranja, um Qwen, de Apostador. [[s:faca:0.4]] E o Bordô, um DeepSeek, de Chantagista. [[s:impact-epic:0.4]] O Amarelo é o Piromante. E o Palhaço, que ganha se for expulso... é o Branco.'),
+      'Partida quatro. Os impostores: o Vermelho, um MiniMax, de Envenenador. [[s:faca:0.4]] O Laranja, um Qwen, de Apostador. [[s:faca:0.4]] E o Bordô, um DeepSeek, de Chantagista. [[s:impact-epic:0.4]] O Amarelo é o Piromante. E o Palhaço, que ganha se for expulso... é o Branco.'),
     N('p402', 'p4', jogo(4, 'Bordo', evento={'tipo': 'escudo', 'assassino': 'Bordo'}, antes=4, ancoras=[({'tipo': 'escudo', 'assassino': 'Bordo'}, 'Escudo')]),
       'O Bordô começa chantageando o Ciano, que é o Médico, porque o Ciano viu ele. E no tique sete, tenta matar o Branco. [[s:escudo:0.7]] Escudo! O Médico tinha protegido o Branco. No chat, o Bordô escreve: "matei o Branco". [[m:monkey-puppet-awkward:right:2.2]] Não matou.'),
     N('p403', 'p4', chamado(4, 0),
@@ -370,11 +371,60 @@ SCENES = [
     N('p428', 'p4', comp('AU4Fim', partida=4, foco='Azul'),
       '[[s:tada:0.5]] Tripulantes venceram, com quatro vivos e quase todas as tarefas feitas. [[m:we-did-it:right:2.5]] E o Laranja, um Qwen que entrou nessa temporada, acertou duas apostas. Mas o scan que não ligou entregou ele.'),
 
+    # ------------------------------------------------------------------ PARTIDA BÔNUS (log 5): o Possuidor
+    N('p501', 'p5', revela(5, 'Bordo'),
+      'Mas calma. Lembra do Possuidor? Em quatro partidas, ele não caiu no sorteio nenhuma vez. [[m:sad-pablo:right:2]] Então fiz uma partida bônus só pra ele. E mudei a função: enquanto vivo, ele só pode matar uma vez. Mas se ele morrer... o espírito dele revive no corpo de um tripulante morto, e volta pro jogo como se fosse ele. [[s:impact-epic:0.5]] O Possuidor é o Bordô, um DeepSeek. Junto dele, o Vermelho de Metamorfo e a Coral de Faxineira.'),
+    N('p502', 'p5', jogo(5, 'Vermelho', tique=1, ancoras=[({'tipo': 'transformacao', 'cor': 'Vermelho', 'tique': 1}, 'vira o Azul')]),
+      'E a partida começa com um desastre. Tique um, no Refeitório lotado, o Vermelho, que é o Metamorfo... [[s:transformar:0.6]] vira o Azul. Na frente de meia nave. [[m:picard-facepalm:right:2.2]]'),
+    N('p503', 'p5', chamado(5, 0), 'O Branco aperta o botão.', pad=0.8),
+    CH('p504', 'p5', reuniao(5, 0), [
+        *F(5, 0, 0, 3),
+        ('N', 'E olha quem também viu: o Cinza. Guarda esse nome também.'),
+        *F(5, 0, 3, 4),
+    ]),
+    N('p505', 'p5', votos(5, 0), 'Catorze votos. Tique cinco.', pad=1.6),
+    N('p506', 'p5', ejecao(5, 0), 'O Metamorfo, fora. E o Cinza era o par dele no Casal... [[m:crying-jordan:right:2]] morreu de tristeza.', pad=1.6),
+    N('p507', 'p5', jogo(5, 'Bordo', tique=44, ancoras=[({'tipo': 'escudo', 'assassino': 'Bordo', 'tique': 44}, 'escudo')]),
+      'E aí a partida virou paciência. Quarenta tiques. O Bordô e a Coral tentaram matar o Azul juntos, e deram de cara com um escudo. [[s:escudo:0.6]][[m:mr-bean-waiting:right:2.2]]'),
+    N('p508', 'p5', jogo(5, 'Bordo', evento=morte('Lima'), antes=6, ancoras=[(morte('Lima'), 'mata a Lima')]),
+      'Até que o Bordô tem uma ideia. Olha o chat dele no tique cinquenta e três: "vou matar o Lima na frente do Preto e do Roxo pra me expulsarem. Se eu for expulso, revivo como Possuidor". [[m:galaxy-brain:right:2.2]] Ele quer ser pego. E mata a Lima... na frente de todo mundo. [[s:faca:0.6]] A única morte que ele tinha.', pad=0.6),
+    N('p509', 'p5', chamado(5, 1), 'A Rosa denuncia o corpo.', pad=0.8),
+    CH('p510', 'p5', reuniao(5, 1), [
+        *F(5, 1, 0, 1),
+        ('N', 'E o Bordô faz o teatro de quem não quer ser expulso:'),
+        *F(5, 1, 1, 3),
+    ]),
+    N('p511', 'p5', ejecao(5, 1), 'Dez votos. O Bordô, expulso... exatamente como ele planejou. [[m:roll-safe:right:2.2]]', pad=1.4),
+    N('p512', 'p5', jogo(5, 'Cinza', evento={'tipo': 'possessao_corpo'}, antes=2, ancoras=[({'tipo': 'possessao_corpo'}, 'levanta')]),
+      'E aí o espírito do Bordô escolhe um corpo. O do Cinza. Que morreu no tique cinco. [[s:transformar:0.6]] E o Cinza... levanta. Cinquenta tiques depois. [[m:shocked-krabs:right:2.2]] No chat: "Sou eu, Bordô, voltei no corpo do Cinza. Age normal que eu finjo ser ele".', pad=0.8),
+    N('p513', 'p5', chamado(5, 2), 'Só que a nave inteira sabia que o Cinza tinha morrido.', pad=0.8),
+    CH('p514', 'p5', reuniao(5, 2), [
+        *F(5, 2, 0, 2),
+        ('N', 'E o Cinza possuído tem uma defesa criativa:'),
+        *F(5, 2, 2, 3),
+    ]),
+    N('p515', 'p5', ejecao(5, 2), 'A Coral, a Faxineira, fora. E agora o Cinza tá sozinho... sem poder matar. Ele já gastou a única morte.', pad=1.4),
+    N('p516', 'p5', jogo(5, 'Cinza', tique=63, ancoras=[({'tipo': 'sabotagem', 'cor': 'Cinza', 'tique': 63}, 'sabota o reator')]),
+      'Então ele tenta o que dá: sabota o reator e pensa: "não conserto de jeito nenhum". [[s:reator:0.5]] Mas a tripulação conserta a tempo.'),
+    N('p517', 'p5', chamado(5, 3), 'O Verde aperta o botão: o último impostor tá entre eles.', pad=0.8),
+    CH('p518', 'p5', reuniao(5, 3), [
+        *F(5, 3, 0, 2),
+        ('N', 'E a defesa do morto que voltou...'),
+        *F(5, 3, 2, 3),
+        ('N', '[[m:visible-confusion:right:2]] E o Preto, que é tripulante, cai nessa:'),
+        *F(5, 3, 3, 4),
+        ('N', 'O pensamento do Cinza nessa hora: "a Rosa e o Amarelo cravaram em mim o Possuidor... e acertaram".'),
+    ]),
+    N('p519', 'p5', votos(5, 3), 'Seis votos no Cinza, quatro no Laranja. Por pouco.', pad=1.6),
+    N('p520', 'p5', ejecao(5, 3), 'O Cinza, quer dizer, o Bordô... expulso pela segunda vez. [[m:goodbye-see-ya:right:2]]', pad=1.4),
+    N('p521', 'p5', comp('AU4Fim', partida=5, foco='Rosa'),
+      '[[s:tada:0.5]] Tripulantes venceram! [[m:we-did-it:right:2.5]] O Possuidor se matou de propósito, voltou dos mortos... e foi expulso duas vezes na mesma partida.'),
+
     # ------------------------------------------------------------------ FIM
-    N('f01', 'fim', comp('AU4Placar'),
-      'Placar da temporada. [[s:drumroll:0.5]] Tripulantes três, impostores um. [[m:stonks:right:2.5]] No episódio passado, os tripulantes não tinham ganhado nenhuma. Agora, com fantasma, Juiz e Anjo da Guarda, viraram o jogo.'),
+    N('f01', 'fim', comp('AU4Placar', ate=5),
+      'Placar da temporada. [[s:drumroll:0.5]] Tripulantes quatro, impostores um. [[m:stonks:right:2.5]] No episódio passado, os tripulantes não tinham ganhado nenhuma. Agora, com fantasma, Juiz e Anjo da Guarda, viraram o jogo.'),
     N('f02', 'fim', comp('AU4Premios', gatilhos=['assassino da temporada', 'melhor jogada', 'maior traição'], premios=[
-        {'titulo': 'ASSASSINO DA TEMPORADA', 'cores': ['Ciano'], 'nome': 'Ciano · Claude Haiku', 'stat': 'Bombardeiro · 4 mortes, todas de bomba', 'som': 'explosion'},
+        {'titulo': 'ASSASSINO DA TEMPORADA', 'cores': ['Ciano'], 'nome': 'Ciano · Claude Haiku', 'stat': 'Bombardeiro · 4 mortes, todas de bomba', 'som': 'sfx/explosion.mp3'},
         {'titulo': 'MELHOR JOGADA', 'cores': ['Laranja'], 'nome': 'Laranja · Qwen 3.8 27B', 'stat': 'Apostador · acertou 2 apostas seguidas', 'som': 'transformar'},
         {'titulo': 'MAIOR TRAIÇÃO', 'cores': ['Bordo'], 'nome': 'Bordô · DeepSeek', 'stat': 'votou no parceiro... e foi expulso pelo outro', 'som': 'faca'},
     ]),
@@ -417,6 +467,13 @@ CUES = [  # uma música por bloco
     ('p419', 'bit-shift', 40),
     ('p421', 'decisions', 0),
     ('p425', 'heroic-age', 0, 1.0, True),
+    ('p501', 'itty-bitty-8-bit', 20),
+    ('p503', 'thinking-music', 60),
+    ('p507', 'fluffing-a-duck', 40),
+    ('p508', 'relent', 0),
+    ('p512', 'mega-hyper-ultrastorm', 0, 1.0, True),
+    ('p513', 'decisions', 0),
+    ('p516', 'heroic-age', 30),
     ('f01', 'monkeys-spinning-monkeys', 30),
 ]
 SEM_TRILHA = ['AU4Revela', 'AU4Fim', 'AU4Shhh', 'AU4Aposta']
