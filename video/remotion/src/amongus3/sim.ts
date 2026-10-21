@@ -37,7 +37,8 @@ export type Sim = {
   inicioTique: number[];
   q: (cor: string, f: number) => Q | null;
   eventos: EvQ[];
-  corpos: (f: number) => {cor: string; x: number; y: number; arrasto?: number}[];
+  // causa: faca, tiro, bomba, fogo, casal, veneno (AU4); modo/k: o Glutão engolindo (devorado) ou o Canibal comendo (comido), k de 0 a 1
+  corpos: (f: number) => {cor: string; x: number; y: number; arrasto?: number; desde: number; causa?: string; modo?: 'devorado' | 'comido'; k?: number; por?: string}[];
   reunioes: {quadro: number; tique: number; idx: number}[];
   tarefas: (f: number) => number;
   sabotagem: (f: number) => string | null;
@@ -81,7 +82,16 @@ export function simular(p: Partida2): Sim {
   const eventos: EvQ[] = [];
   const reunioes: Sim['reunioes'] = [];
   const inicioTique: number[] = [0, 0];
-  const corposVivos: {cor: string; x: number; y: number; desde: number; ate: number; limpo?: number}[] = [];
+  const corposVivos: {cor: string; x: number; y: number; desde: number; ate: number; limpo?: number; causa?: string; devorado?: boolean; por?: string; comido?: number}[] = [];
+  // AU4: quem morre no meio do tique por bomba, fogo ou casal (o retrato do estado é tirado antes da reunião)
+  const matar = (cor: string, causa: string) => {
+    const v = st[cor];
+    if (!v?.vivo) return null;
+    v.vivo = false; v.rota = [];
+    envenenados.delete(cor);
+    corposVivos.push({cor, x: v.pos.x, y: v.pos.y, desde: f, ate: Infinity, causa});
+    return v.pos;
+  };
   const tarefasQ: number[] = [];
   const sabQ: (string | null)[] = [];
   const portasQ: string[][] = [];
@@ -116,6 +126,18 @@ export function simular(p: Partida2): Sim {
     const ev = p.eventos.filter((e) => e.tique === t);
     const dutoDe: Record<string, any> = {};
     for (const e of ev) if (e.tipo === 'duto') dutoDe[e.cor] = e;
+    // AU4: quem já está morto no retrato deste tique sem uma morte animada nele (expulso, Casal ou Apostador na reunião
+    // anterior) sai de cena em silêncio; antes, o simulador do AU3 deixava essa gente andando
+    // no tique da reunião o retrato já é de depois dela: as mortes da reunião (expulso, Casal, Apostador) só valem depois do corte
+    const tiqueDeReuniao = p.reunioes.some((r) => r.tique === t);
+    const estAntes = tiqueDeReuniao ? p.tiques[t - 1]?.estado : est;
+    const mortoNoTique = (cor: string) => est?.jogadores.some((j) => j.cor === cor && !j.vivo) ?? false;
+    const animadas = new Set<string>();
+    for (const e of ev) {
+      const cs = e.tipo === 'morte' || e.tipo === 'morte_veneno' || e.tipo === 'casal_morre' ? [e.vitima] : e.tipo === 'xerife' ? [e.acertou ? e.alvo : e.xerife] : e.tipo === 'bomba' || e.tipo === 'incendio' ? e.mortos ?? [] : [];
+      for (const c of cs) if (mortoNoTique(c) && !(tiqueDeReuniao && e.tipo === 'casal_morre')) animadas.add(c);
+    }
+    for (const j of estAntes?.jogadores ?? []) if (!j.vivo && st[j.cor]?.vivo && !animadas.has(j.cor)) { st[j.cor].vivo = false; st[j.cor].rota = [] }
     // destino de cada um: o ponto do motor no fim do tique
     const ocupados: Pt[] = [];
     for (const cor of CORES) {
@@ -125,6 +147,10 @@ export function simular(p: Partida2): Sim {
       const d = dec[cor];
       e.tarefa = !!d && (/^fazer tarefa|^fingir|^consertar|^olhar|^ver sinais/.test(d.acao));
       if (dutoDe[cor]) { const v = S(dutoDe[cor].de).duto; if (v) ir(e, v); continue }
+      // o Canibal vai até o corpo como ele está no vídeo (o motor manda para o ponto do corpo no motor)
+      const come = ev.find((x) => x.tipo === 'canibal_come' && x.cor === cor);
+      const corpo = come && corposVivos.find((c) => c.cor === come.corpo && c.ate === Infinity);
+      if (corpo) { const lado = {x: corpo.x + 55, y: corpo.y}; ir(e, livre3(lado) ? lado : soltar(lado)); continue }
       if (!ej?.ponto) continue;
       const alvo = afastar(ej.ponto, ocupados);
       ocupados.push(alvo);
@@ -191,8 +217,8 @@ export function simular(p: Partida2): Sim {
           quem.vivo = false;
           v.rota = [];
           envenenados.delete(morto);
-          corposVivos.push({cor: morto, x: quem.pos.x, y: quem.pos.y, desde: f, ate: Infinity});
-          eventos.push({quadro: f, ...m, x: quem.pos.x, y: quem.pos.y});
+          corposVivos.push({cor: morto, x: quem.pos.x, y: quem.pos.y, desde: f, ate: Infinity, causa: m.tipo === 'xerife' ? 'tiro' : 'faca', devorado: !!m.devorado, por: cA});
+          eventos.push({quadro: f, ...m, x: quem.pos.x, y: quem.pos.y, ...(m.tipo === 'xerife' ? {de: {x: a.pos.x, y: a.pos.y}} : {})});
         }
       }
       if (k === Math.round(dur * 0.5)) {
@@ -206,11 +232,22 @@ export function simular(p: Partida2): Sim {
             if (v?.vivo) {
               v.vivo = false; v.rota = [];
               envenenados.delete(e.vitima);
-              corposVivos.push({cor: e.vitima, x: v.pos.x, y: v.pos.y, desde: f, ate: Infinity});
+              corposVivos.push({cor: e.vitima, x: v.pos.x, y: v.pos.y, desde: f, ate: Infinity, causa: 'veneno'});
               eventos.push({quadro: f, ...e, x: v.pos.x, y: v.pos.y});
             }
             continue;
           }
+          if (e.tipo === 'bomba' || e.tipo === 'incendio') {
+            // a bomba explode em cima do portador; o fogo pega em todo mundo encharcado, cada um onde está
+            const centro = st[e.portador ?? e.cor]?.pos;
+            const pos = (e.mortos ?? []).filter((c: string) => mortoNoTique(c)).map((c: string) => ({cor: c, ...(matar(c, e.tipo === 'bomba' ? 'bomba' : 'fogo') ?? st[c].pos)}));
+            const c0 = centro ?? pos[0] ?? {x: 0, y: 0};
+            eventos.push({quadro: f, ...e, x: c0.x, y: c0.y, posMortos: pos});
+            continue;
+          }
+          // o Casal morre logo depois do par (espera a morte do par acontecer no vídeo)
+          if (e.tipo === 'casal_morre') { if (animadas.has(e.vitima)) atrasados.push(e); continue }
+          if (e.tipo === 'canibal_come') { atrasados.push(e); continue }
           if (e.tipo === 'veneno') envenenados.add(e.vitima);
           const q = e.cor && st[e.cor] ? st[e.cor].pos : undefined;
           eventos.push({quadro: f, ...e, ...(q && e.x === undefined ? {x: q.x, y: q.y} : {})});
@@ -220,11 +257,30 @@ export function simular(p: Partida2): Sim {
       }
       for (let i = atrasados.length - 1; i >= 0; i--) {
         const e = atrasados[i];
-        const quem = e.tipo === 'limpeza' ? e.corpo : e.vitima;
+        const quem = e.tipo === 'limpeza' || e.tipo === 'canibal_come' ? e.corpo : e.vitima;
         const c = corposVivos.find((c) => c.cor === quem && c.ate === Infinity);
+        if (e.tipo === 'casal_morre') {
+          const par = corposVivos.find((c) => c.cor === e.par);
+          if ((par && f >= par.desde + 18) || (!par && !st[e.par]?.vivo) || ultimo) {
+            const q = matar(e.vitima, 'casal');
+            if (q) eventos.push({quadro: f, ...e, x: q.x, y: q.y});
+            atrasados.splice(i, 1);
+          }
+          continue;
+        }
+        if (e.tipo === 'canibal_come') {
+          // o Canibal come quando chega no corpo (o motor manda ele para o ponto do corpo)
+          const can = st[e.cor];
+          if (c && (dist(can.pos, c) < 110 || ultimo)) {  // o tique espera ele chegar (como na facada)
+            c.comido = f; c.ate = f + 50; c.por = e.cor;
+            eventos.push({quadro: f, ...e, x: c.x, y: c.y});
+            atrasados.splice(i, 1);
+          } else if (!c) atrasados.splice(i, 1);
+          continue;
+        }
         if (c && f >= c.desde + (e.tipo === 'limpeza' ? 24 : 30)) {
           if (e.tipo === 'limpeza') { c.limpo = f; c.ate = f + 45 }
-          eventos.push({quadro: f, ...e, x: c.x, y: c.y});
+          eventos.push({quadro: f, ...e, x: c.x, y: c.y, ...(c.devorado ? {devorado: true} : {})});
           atrasados.splice(i, 1);
         } else if (!c && (ultimo || !mortes.some((m) => (m.vitima ?? m.alvo) === quem || m.xerife === quem))) {
           // a morte foi num tique anterior (corpo já no chão desde antes) ou nunca acontece: sai agora
@@ -265,6 +321,7 @@ export function simular(p: Partida2): Sim {
       for (const c of corposVivos) if (c.ate === Infinity) c.ate = f;
       const ex = p.reunioes[r].expulso;
       if (ex && st[ex]) st[ex].vivo = false;
+      for (const j of est?.jogadores ?? []) if (!j.vivo && st[j.cor]) st[j.cor].vivo = false; // Casal e Apostador da reunião
       for (const cor of CORES) if (st[cor].vivo) { st[cor].pos = assento(cor); st[cor].rota = []; st[cor].tarefa = false }
       sab = null;
     }
@@ -286,7 +343,13 @@ export function simular(p: Partida2): Sim {
       if (!(fl & 1)) return null;
       return {x: b[k * 4], y: b[k * 4 + 1], vivo: true, andando: !!(fl & 2), dir: fl & 4 ? -1 : 1, tarefa: !!(fl & 8), alpha: fl & 16 ? 0.28 : 1, aparente: CORES[b[k * 4 + 3]] ?? cor, escala: 1};
     },
-    corpos: (fr) => corposVivos.filter((c) => fr >= c.desde && fr < c.ate).map((c) => ({cor: c.cor, x: c.x, y: c.y, arrasto: c.limpo !== undefined && fr >= c.limpo ? (fr - c.limpo) / 45 : undefined})),
+    corpos: (fr) => corposVivos.filter((c) => fr >= c.desde && fr < c.ate).map((c) => {
+      const base = {cor: c.cor, x: c.x, y: c.y, desde: c.desde, causa: c.causa, por: c.por};
+      // o Glutão engole na hora da morte (a bocarra começa junto com ela)
+      if (c.devorado) return {...base, modo: 'devorado' as const, k: (fr - c.desde) / 45};
+      if (c.comido !== undefined && fr >= c.comido) return {...base, modo: 'comido' as const, k: (fr - c.comido) / 50};
+      return {...base, arrasto: c.limpo !== undefined && fr >= c.limpo ? (fr - c.limpo) / 45 : undefined};
+    }),
     tarefas: (fr) => em(tarefasQ, fr, 0),
     sabotagem: (fr) => em(sabQ, fr, null),
     portas: (fr) => em(portasQ, fr, []),

@@ -10,6 +10,7 @@ import {Arte} from '../amongus/nave/Arte';
 import {ArteSkeld, pontoV5} from '../amongus/nave/ArteSkeld';
 import {Crewmate4} from '../amongus/Crewmate4';
 import {Efeito} from './Efeitos';
+import {Corpo4, DUR_EFEITO4, Efeito4, MarcasJogador, TampasDuto, animDuto} from '../amongus4/Efeitos4';
 import {NAVE, salaEm} from '../amongus/nave/mapa';
 import type {Sala} from '../amongus/nave/spec';
 import {FONT} from '../theme';
@@ -172,9 +173,14 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
         {s.portas(f).flatMap((sala) => PORTAS[sala] ?? []).map((d, i) => (
           <div key={'p' + i} style={{position: 'absolute', left: d.x, top: d.y - 10, width: 48, height: 58, background: 'repeating-linear-gradient(90deg, #8a94a3 0 10px, #5b6370 10px 14px)', border: '4px solid #10141b', boxShadow: '0 0 18px #ff3b3b'}} />
         ))}
+        {v5 && <TampasDuto s={s} f={f} ponto={(sala) => { const d = NAVE.salas[sala as Sala]?.duto; return d ? pontoV5(sala as Sala, d) : null }} />}
         {s.corpos(f).map((c) => (
           <div key={'c' + c.cor} style={{position: 'absolute', left: ajusta(c).x - 40 - (c.arrasto ?? 0) * 140, top: ajusta(c).y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
-            {v5 ? <Crewmate4 cor={c.cor} size={80} morto roupa={skins?.[c.cor]?.roupa ?? undefined} /> : <Crewmate cor={c.cor} size={80} morto />}
+            {v5 ? (
+              <Corpo4 c={c} f={f} s={s}
+                desenho={() => <Crewmate4 cor={c.cor} size={80} morto roupa={skins?.[c.cor]?.roupa ?? undefined} />}
+                vivo={() => <Crewmate4 cor={c.cor} size={76} t={frame} cosmetico={skins?.[c.cor]?.cabeca ?? undefined} roupa={skins?.[c.cor]?.roupa ?? undefined} />} />
+            ) : <Crewmate cor={c.cor} size={80} morto />}
           </div>
         ))}
         {fantasmas.map((g: any) => (
@@ -190,13 +196,22 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
           const vermelho = papeis && info.time === 'impostor';
           const roxo = papeis && info.time === 'neutro';
           const veneno = s.envenenados(f).includes(c);
+          // AU4: entrando/saindo do duto (afunda/pula da tampa) e o Glutão de barriga cheia depois de engolir
+          const dt = v5 ? animDuto(s, c, f) : {};
+          const comeu = v5 ? s.eventos.find((e) => e.tipo === 'morte' && e.devorado && e.assassino === c && f >= e.quadro + 12 && f < e.quadro + 75) : undefined;
+          const barriga = comeu ? 1 + 0.16 * Math.sin(Math.min(1, (f - comeu.quadro - 12) / 12) * Math.PI / 2) * (1 - Math.max(0, (f - comeu.quadro - 50) / 25)) : 1;
           return (
             <div key={c} style={{position: 'absolute', left: q!.x - 38, top: q!.y - 88, opacity: q!.alpha}}>
               <div style={{position: 'absolute', left: 8, top: 82, width: 60, height: 14, borderRadius: '50%', background: '#00000055'}} />
               {veneno && <div style={{position: 'absolute', left: 50, top: -4, width: 22, height: 22, borderRadius: '50% 50% 50% 0', transform: `rotate(-45deg) translateY(${(frame % 30) / 3}px)`, background: '#7dff5a', border: '3px solid #0b3d10', opacity: 0.9}} />}
+              {v5 && <MarcasJogador s={s} cor={c} f={f} papeis={papeis} />}
               {v5 ? (
+                <div style={dt.clip ? {position: 'relative', marginTop: -70, paddingTop: 70, height: 160, overflow: 'hidden'} : undefined}>
+                <div style={{transform: `${dt.transform ?? ''} scale(${barriga}, ${1 + (barriga - 1) * 0.4})`, transformOrigin: '50% 100%'}}>
                 <Crewmate4 cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0}
                   cosmetico={skins?.[q!.aparente]?.cabeca ?? undefined} roupa={skins?.[q!.aparente]?.roupa ?? undefined} pet={skins?.[q!.aparente]?.pet ?? undefined} />
+                </div>
+                </div>
               ) : (
                 <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
               )}
@@ -209,6 +224,7 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
         })}
         {/* efeitos de poder no mundo */}
         {s.eventos.filter((e) => f >= e.quadro && f < e.quadro + 75).map((e, i) => <Efeito key={'e' + i} e={e} s={s} f={f} />)}
+        {v5 && s.eventos.filter((e) => f >= e.quadro && f < e.quadro + DUR_EFEITO4).map((e, i) => <Efeito4 key={'e4' + i} e={e} s={s} f={f} />)}
         {s.eventos.filter((e) => f >= e.quadro && f < e.quadro + 40).map((e, i) => {
           const k = (f - e.quadro) / 40;
           const qq = e.cor ? s.q(e.cor, f) : null;
@@ -222,7 +238,9 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
 };
 
 // efeitos sonoros dos eventos da partida dentro do trecho [de, de+dur): o que acontece perto da câmera (ou com o foco)
-const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos', morte_veneno: 'faca', veneno: 'sumir', recrutamento: 'transformar', foto: 'sfx/camera-shutter.mp3', alerta_barulhento: 'emergencia', conserto: 'tarefa'};
+const SOM_EVENTO: Record<string, string> = {morte: 'faca', xerife: 'tiro', duto: 'duto', escudo: 'escudo', invisivel: 'sumir', transformacao: 'transformar', limpeza: 'passos', morte_veneno: 'faca', veneno: 'sumir', recrutamento: 'transformar', foto: 'sfx/camera-shutter.mp3', alerta_barulhento: 'emergencia', conserto: 'tarefa',
+  // AU4
+  bomba: 'sfx/explosion.mp3', incendio: 'sfx_au4/fogo.mp3', casal_morre: 'sfx_au4/coracao.mp3', canibal_come: 'sfx_au4/crunch.mp3', gasolina: 'sfx_au4/splash.mp3', bomba_plantada: 'sfx_au4/bip.mp3'};
 export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string; mapa?: Mapa}> = React.memo(({s, de, dur, foco, mapa}) => {
   const lista: {em: number; nome: string; vol: number}[] = [];
   for (const e of s.eventos) {
@@ -230,8 +248,9 @@ export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string; 
     if (em < 0 || em >= dur) continue;
     const cam = s.q(foco, e.quadro) ?? s.corpos(e.quadro).find((c) => c.cor === foco);
     const perto = !cam || e.x === undefined || Math.hypot(e.x - cam.x, e.y - cam.y) < 900;
-    const meu = e.cor === foco || e.vitima === foco || e.assassino === foco;
+    const meu = e.cor === foco || e.vitima === foco || e.assassino === foco || e.portador === foco || (e.mortos ?? []).includes(foco);
     let nome = SOM_EVENTO[e.tipo];
+    if (e.tipo === 'morte' && e.devorado) nome = 'sfx_au4/nhac.mp3';
     if (e.tipo === 'tarefa') nome = e.cor === foco ? 'tarefa' : '';
     if (e.tipo === 'sabotagem') nome = e.subtipo === 'Reator' || e.subtipo === 'O2' ? 'reator' : 'luzes';
     if (!nome || (!perto && !meu && !['sabotagem', 'alerta_barulhento'].includes(e.tipo))) continue;
@@ -250,6 +269,8 @@ export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = 
   let cx = 0, cy = 0, n = 0;
   for (let d = 0; d < 8; d++) {
     const q = s.q(foco, f - d);
+    // duto (salto de posição): a câmera vai junto, sem passar pelo meio do caminho
+    if (q && n && Math.hypot(q.x - cx / n, q.y - cy / n) > 300) break;
     if (q) { cx += q.x; cy += q.y; n++ }
   }
   if (!n) {
@@ -265,13 +286,17 @@ export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = 
   const tela = monitorAberto(s, foco, f);
   const sabReator = sab === 'Reator' || sab === 'O2';
   // flash vermelho de morte perto da câmera
-  const morteRecente = s.eventos.find((e) => (e.tipo === 'morte' || e.tipo === 'xerife' || e.tipo === 'morte_veneno') && f >= e.quadro && f < e.quadro + 12 && Math.hypot(e.x - cx, e.y - cy) < 700);
+  const morteRecente = s.eventos.find((e) => (e.tipo === 'morte' || e.tipo === 'xerife' || e.tipo === 'morte_veneno' || e.tipo === 'casal_morre') && f >= e.quadro && f < e.quadro + 12 && Math.hypot(e.x - cx, e.y - cy) < 700);
+  // explosão perto: a tela treme e fica branca por um instante
+  const bum = s.eventos.find((e) => (e.tipo === 'bomba' || e.tipo === 'incendio') && f >= e.quadro && f < e.quadro + 24 && Math.hypot(e.x - cx, e.y - cy) < 1100);
+  if (bum) { const a = (1 - (f - bum.quadro) / 24) * 22; cx += a * Math.sin(f * 2.1); cy += a * Math.cos(f * 2.7) }
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       <Mundo p={p} s={s} f={f} frame={frame} cx={cx} cy={cy} escala={ESCALA} w={1920} h={1080} papeis={papeis} sabReator={sabReator} skins={skins} />
       {/* visão: escuro fora do círculo (bem menor com as luzes sabotadas) */}
       <AbsoluteFill style={{background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.72}px, rgba(0,0,0,${luzes ? 0.97 : 0.62}) ${raio}px)`}} />
       {sabReator && <AbsoluteFill style={{background: '#ff0000', opacity: 0.12 + 0.1 * Math.sin(frame / 4)}} />}
+      {bum && <AbsoluteFill style={{background: bum.tipo === 'bomba' ? '#fff3c4' : '#ff8a1f', opacity: interpolate(f - bum.quadro, [0, 2, 14], [0, 0.75, 0], {extrapolateRight: 'clamp'})}} />}
       {morteRecente && <AbsoluteFill style={{background: '#ff1e1e', opacity: interpolate(f - morteRecente.quadro, [0, 3, 12], [0, 0.45, 0])}} />}
       {/* nome da sala (o jogo mostra ao entrar) */}
       {salaAtual && <div style={{position: 'absolute', left: 0, right: 0, bottom: 34, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 4, color: '#ffffffcc', WebkitTextStroke: '1.5px #000'}}>{NAVE.salas[salaAtual as Sala].nome.toUpperCase()}</div>}
