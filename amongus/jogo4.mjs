@@ -1,4 +1,4 @@
-// Among Us 4: 15 IAs de 6 empresas (DeepSeek, Claude Haiku, GPT, Qwen, GLM e MiniMax M3.1 Flash, grátis; o Qwen entra no lugar do Gemini,
+// Among Us 4: 15 IAs de 6 empresas (DeepSeek, Claude Haiku, GPT, Ministral, GLM e MiniMax M3.1 Flash, grátis; o Ministral entra no lugar do Gemini,
 // que era o mais caro) e 3 impostores. Mesmo motor por tiques do Among Us 3 (jogo3.mjs), com o que os comentários do
 // vídeo 3 pediram (video/youtube/au4/ideias_comentarios.md):
 //  - quem morre vira FANTASMA e continua no jogo: atravessa parede (vai a qualquer sala num tique) e continua fazendo
@@ -57,7 +57,7 @@ function embaralhar(arr) {
 // ---------- configuração ----------
 export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo']
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', mock: 'Mock',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', mock: 'Mock',
 }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
@@ -240,7 +240,7 @@ function montarPartida() {
   if (!DA_TEMPORADA) {  // partida avulsa: sorteio pela semente
     const imps = embaralhar(IMPOSTORES).slice(0, 3)
     const todos = embaralhar([...imps, ...embaralhar(NEUTROS).slice(0, 2), ...embaralhar(TRIPULANTES).slice(0, 10)])
-    const empresas = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:qwen/qwen3.8-flash', 'or:minimax/minimax-m3.1-flash:free', 'or:z-ai/glm-5.3-flash']
+    const empresas = ['or:deepseek/deepseek-v4.1-flash', 'haiku', 'or:openai/gpt-5.6-luna', 'or:mistralai/ministral-14b-2512', 'or:minimax/minimax-m3.1-flash:free', 'or:z-ai/glm-5.3-flash']
     const vagas = embaralhar(empresas.flatMap((p, i) => (i < 3 ? [p, p, p] : [p, p])))
     CORES.forEach((c, i) => { papeis[c] = todos[i]; provs[c] = vagas[i] })
   }

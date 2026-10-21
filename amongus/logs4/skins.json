@@ -1,13 +1,5 @@
 {
  "skins": {
-  "Laranja": {
-   "modelo": "Qwen 3.8 Flash",
-   "cabeca": "antena",
-   "roupa": "capa",
-   "pet": "robo",
-   "motivo": "Sou uma IA com antena, capa de herói e um robô de bolso: se eu acusar alguém, foi ele quem viu.",
-   "ordem": 1
-  },
   "Preto": {
    "modelo": "Claude Haiku",
    "cabeca": "fones",
@@ -96,14 +88,6 @@
    "motivo": "Sou Lima despojada: óculos escuros pra esconder a suspeita e pijama porque trabalho dormindo, com meu gatinho de olho em tudo!",
    "ordem": 14
   },
-  "Roxo": {
-   "modelo": "Qwen 3.8 Flash",
-   "cabeca": "bigode",
-   "roupa": "macacao",
-   "pet": "slime",
-   "motivo": "Porque ser uma IA me dá um jeitão clássico e um pouco rabugento, mas meu slime companheiro garante a bagunça!",
-   "ordem": 15
-  },
   "Vermelho": {
    "modelo": "MiniMax M3.1 Flash",
    "cabeca": "tapa_olho",
@@ -119,14 +103,33 @@
    "pet": "passarinho",
    "motivo": "Sou um旅行者 celestial de colete, pronto para sobrevoar as Shields com meu passarinho de guarda-costas.",
    "ordem": 15
+  },
+  "Laranja": {
+   "modelo": "Ministral 14B",
+   "cabeca": "antena",
+   "roupa": "moletom",
+   "pet": "slime",
+   "motivo": "'Tô aqui pra bugar o sistema... literalmente! 🚀💻",
+   "ordem": 15
+  },
+  "Roxo": {
+   "modelo": "Ministral 14B",
+   "cabeca": "bone",
+   "roupa": "smoking",
+   "pet": "slime",
+   "motivo": "'Tá ligado, eu sou o *Slime AI* – o *roxo* que mistura *glamour* com *caos* (e pinta tudo de roxo quando passa perto).",
+   "ordem": 15
   }
  },
  "uso": {
   "chamadas": 1,
   "falhas": 0,
   "porProvider": {
-   "or:minimax/minimax-m3.1-flash:free": 1
+   "or:mistralai/ministral-14b-2512": 1
   },
-  "falhasPor": {}
+  "falhasPor": {},
+  "custo": {
+   "or:mistralai/ministral-14b-2512": 0.0001472
+  }
  }
 }
