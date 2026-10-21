@@ -7,6 +7,8 @@ import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remoti
 import {Som} from './Telas';
 import {Crewmate, COR} from '../amongus/Crewmate';
 import {Arte} from '../amongus/nave/Arte';
+import {ArteSkeld, pontoV5} from '../amongus/nave/ArteSkeld';
+import {Crewmate4} from '../amongus/Crewmate4';
 import {Efeito} from './Efeitos';
 import {NAVE, salaEm} from '../amongus/nave/mapa';
 import type {Sala} from '../amongus/nave/spec';
@@ -28,8 +30,14 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
   'Mistral Large 4': {nome: 'Mistral', cor: '#e8a000'},
   'GLM 5.3 Flash': {nome: 'GLM', cor: '#0f9d8a'},
   'MiniMax M3': {nome: 'MiniMax', cor: '#e2325a'},
+  'MiniMax M3.1 Flash': {nome: 'MiniMax', cor: '#e2325a'},
+  'Qwen 3.8 27B': {nome: 'Qwen', cor: '#615ced'},
+  'Ministral 14B': {nome: 'Mistral', cor: '#e8a000'},
 };
-export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança'};
+export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança', Glutao: 'Glutão', Mecanico: 'Mecânico'};
+
+// AU4: skin que cada IA escolheu (logs4/skins.json)
+export type Skins = Record<string, {cabeca?: string | null; roupa?: string | null; pet?: string | null}>;
 
 // portas de cada sala: células 'D' encostadas no piso dela (para desenhar as portas trancadas)
 const PORTAS: Record<string, {x: number; y: number; vertical: boolean}[]> = {};
@@ -43,7 +51,7 @@ for (const s of Object.keys(NAVE.salas) as Sala[]) {
   }
 }
 
-type Props = {p: Partida2; de: number; mapa?: Mapa; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean};
+type Props = {p: Partida2; de: number; mapa?: Mapa; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean; skins?: Skins};
 
 // ícones dos botões, desenhados (sem emoji): branco com contorno preto grosso, como os do jogo
 const tr = {stroke: '#000', strokeWidth: 5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
@@ -148,18 +156,31 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
 };
 
 // o mundo (mapa, corpos, tripulantes, efeitos) visto de um ponto (cx, cy); usado pela câmera do jogador e pelas câmeras de segurança
-export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx: number; cy: number; escala: number; w: number; h: number; papeis?: boolean; sabReator?: boolean; nomes?: boolean}> = ({p, s, f, frame, cx, cy, escala, w, h, papeis = false, sabReator = false, nomes = true}) => {
-  const vivos = CORES.map((c) => ({c, q: s.q(c, f)})).filter((x) => x.q).sort((a, b) => a.q!.y - b.q!.y);
+export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx: number; cy: number; escala: number; w: number; h: number; papeis?: boolean; sabReator?: boolean; nomes?: boolean; skins?: Skins}> = ({p, s, f, frame, cx, cy, escala, w, h, papeis = false, sabReator = false, nomes = true, skins}) => {
+  // AU4 (com skins): mapa v5 (salas em polígono), tripulante novo com a skin de cada IA, e quem caiu num canto cortado vai para dentro da sala
+  const v5 = !!skins;
+  const ajusta = <T extends {x: number; y: number}>(q: T): T => (v5 ? {...q, ...pontoV5(salaEm({x: q.x, y: q.y}) as Sala, q)} : q);
+  const vivos = CORES.map((c) => ({c, q: s.q(c, f)})).filter((x) => x.q).map((x) => ({c: x.c, q: ajusta(x.q!)})).sort((a, b) => a.q!.y - b.q!.y);
+  // fantasmas (AU4): quem morreu continua andando pela nave, translúcido; a posição vem do estado do tique (eles atravessam paredes)
+  const tk = s.inicioTique.findIndex((q0, i) => q0 <= f && (s.inicioTique[i + 1] ?? Infinity) > f);
+  const est = (p.tiques as any[])[Math.max(0, tk)]?.estado?.jogadores ?? [];
+  const fantasmas = v5 ? est.filter((j: any) => !j.vivo && !s.corpos(f).some((c) => c.cor === j.cor)).map((j: any) => ({...j, ponto: ajusta(j.ponto)})) : [];
   return (
       <div style={{position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0', transform: `translate(${w / 2 - cx * escala}px, ${h / 2 - cy * escala}px) scale(${escala})`}}>
-        <Arte v3 alertaReator={sabReator ? 0.12 + 0.1 * Math.sin(frame / 4) : 0} />
+        {v5 ? <ArteSkeld alertaReator={sabReator ? 0.12 + 0.1 * Math.sin(frame / 4) : 0} /> : <Arte v3 alertaReator={sabReator ? 0.12 + 0.1 * Math.sin(frame / 4) : 0} />}
         {/* portas trancadas (sabotagem de portas): grade vermelha e cinza na passagem */}
         {s.portas(f).flatMap((sala) => PORTAS[sala] ?? []).map((d, i) => (
           <div key={'p' + i} style={{position: 'absolute', left: d.x, top: d.y - 10, width: 48, height: 58, background: 'repeating-linear-gradient(90deg, #8a94a3 0 10px, #5b6370 10px 14px)', border: '4px solid #10141b', boxShadow: '0 0 18px #ff3b3b'}} />
         ))}
         {s.corpos(f).map((c) => (
-          <div key={'c' + c.cor} style={{position: 'absolute', left: c.x - 40 - (c.arrasto ?? 0) * 140, top: c.y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
-            <Crewmate cor={c.cor} size={80} morto />
+          <div key={'c' + c.cor} style={{position: 'absolute', left: ajusta(c).x - 40 - (c.arrasto ?? 0) * 140, top: ajusta(c).y - 78, opacity: 1 - (c.arrasto ?? 0)}}>
+            {v5 ? <Crewmate4 cor={c.cor} size={80} morto roupa={skins?.[c.cor]?.roupa ?? undefined} /> : <Crewmate cor={c.cor} size={80} morto />}
+          </div>
+        ))}
+        {fantasmas.map((g: any) => (
+          <div key={'g' + g.cor} style={{position: 'absolute', left: g.ponto.x - 38, top: g.ponto.y - 98 - 6 * Math.sin((frame + CORES.indexOf(g.cor) * 9) / 14)}}>
+            <Crewmate4 cor={g.cor} size={76} fantasma t={frame} cosmetico={skins?.[g.cor]?.cabeca ?? undefined} />
+            {g.fantasma && <div style={{position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 16, color: '#cfe3ff', WebkitTextStroke: '0.6px #000', opacity: 0.85}}>{g.fantasma === 'Anjo' ? '😇 Anjo' : '📨 Influencer'}</div>}
           </div>
         ))}
         {vivos.map(({c, q}) => {
@@ -173,7 +194,12 @@ export const Mundo: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx:
             <div key={c} style={{position: 'absolute', left: q!.x - 38, top: q!.y - 88, opacity: q!.alpha}}>
               <div style={{position: 'absolute', left: 8, top: 82, width: 60, height: 14, borderRadius: '50%', background: '#00000055'}} />
               {veneno && <div style={{position: 'absolute', left: 50, top: -4, width: 22, height: 22, borderRadius: '50% 50% 50% 0', transform: `rotate(-45deg) translateY(${(frame % 30) / 3}px)`, background: '#7dff5a', border: '3px solid #0b3d10', opacity: 0.9}} />}
-              <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
+              {v5 ? (
+                <Crewmate4 cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0}
+                  cosmetico={skins?.[q!.aparente]?.cabeca ?? undefined} roupa={skins?.[q!.aparente]?.roupa ?? undefined} pet={skins?.[q!.aparente]?.pet ?? undefined} />
+              ) : (
+                <Crewmate cor={q!.aparente} size={76} passo={q!.andando ? (f + CORES.indexOf(c) * 5) / 8.5 : 0} anim={q!.andando ? 'andando' : q!.tarefa ? 'tarefa' : 'parado'} t={frame + CORES.indexOf(c) * 11} virado={q!.dir < 0} />
+              )}
               <div style={{position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 800, fontSize: 19, color: vermelho ? '#ff4040' : roxo ? '#c08bff' : '#fff', WebkitTextStroke: '0.8px #000', textShadow: '0 2px 0 #000, 0 0 3px #000'}}>
                 {nomes && nome}
                 {nomes && nome === c && <span style={{marginLeft: 5, fontSize: 11, padding: '1px 5px', borderRadius: 5, verticalAlign: 'middle', background: emp.cor, color: '#fff', WebkitTextStroke: '0', textShadow: 'none', border: '1px solid #fff6'}}>{emp.nome}</span>}
@@ -214,7 +240,7 @@ export const SonsJogo: React.FC<{s: Sim; de: number; dur: number; foco: string; 
   return <>{lista.map((x, i) => <Som key={i} nome={x.nome} em={x.em} vol={x.vol} />)}</>;
 });
 
-export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = true, monitor = true, sons = true, chat = false}) => {
+export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = true, monitor = true, sons = true, chat = false, skins}) => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const s = simular(p);
@@ -242,7 +268,7 @@ export const Jogo: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = 
   const morteRecente = s.eventos.find((e) => (e.tipo === 'morte' || e.tipo === 'xerife' || e.tipo === 'morte_veneno') && f >= e.quadro && f < e.quadro + 12 && Math.hypot(e.x - cx, e.y - cy) < 700);
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <Mundo p={p} s={s} f={f} frame={frame} cx={cx} cy={cy} escala={ESCALA} w={1920} h={1080} papeis={papeis} sabReator={sabReator} />
+      <Mundo p={p} s={s} f={f} frame={frame} cx={cx} cy={cy} escala={ESCALA} w={1920} h={1080} papeis={papeis} sabReator={sabReator} skins={skins} />
       {/* visão: escuro fora do círculo (bem menor com as luzes sabotadas) */}
       <AbsoluteFill style={{background: `radial-gradient(circle at 50% 50%, transparent ${raio * 0.72}px, rgba(0,0,0,${luzes ? 0.97 : 0.62}) ${raio}px)`}} />
       {sabReator && <AbsoluteFill style={{background: '#ff0000', opacity: 0.12 + 0.1 * Math.sin(frame / 4)}} />}
