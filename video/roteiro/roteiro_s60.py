@@ -89,7 +89,7 @@ SCENES = [
       '[[s:impact-epic:0.6]] Coloquei quatro IAs pra jogar 60 Seconds. Primeiro, um minuto pra salvar o que der. Depois, sobreviver no abrigo, um dia de cada vez. Bora.'),
 
     # ================================================================== REGRAS
-    N('r01', 'regras', coleta('ep5_gpt', de=-1.4, vel=0.8, replay=True),
+    N('r01', 'regras', comp('S60Original', imagens=['o1.jpg', 'o2.jpg', 'o3.jpg', 'o4.jpg', 'o5.jpg', 'o6.jpg'], legendas=['PARTE 1 · a sirene: 60 segundos', 'PARTE 1 · só 4 coisas nas mãos', 'PARTE 1 · tudo pro alçapão', 'PARTE 2 · sobreviver no abrigo', 'PARTE 2 · o diário decide o dia', 'PARTE 2 · e nem todo mundo aguenta']),
       'Eu recriei o 60 Seconds do zero. A casa é dos anos cinquenta, em 3D, e o jogo é igual ao original: a sirene toca, e o pai tem um minuto pra correr pela casa e jogar tudo no alçapão do abrigo. [[m:roll-safe:right:2.2]] Ele carrega até quatro coisas nas mãos. Sopa, água, rádio, máscara de gás, rifle... e a família.'),
     N('r02', 'regras', comp('S60Familia', passo=16),
       'A família: o pai, Osvaldo, que é quem a IA controla. A mãe, Celeste. A filha, a Juju. E o filho, o Tico. Pegar alguém ocupa espaço nas mãos, igual no jogo. [[s:pop:0.4]] E quem ainda tiver na casa quando a bomba cair... fica.'),
@@ -98,7 +98,7 @@ SCENES = [
     N('r04', 'regras', dia('ep5_gpt', 3),
       'Depois da bomba, vem o abrigo. Todo dia a IA lê o diário: quem tá com fome, com sede, doente ou ficando louco, e o que sobrou na prateleira. Aí ela decide o evento do dia, quem come, quem bebe, e se alguém sai pra buscar suprimento lá fora, no meio da radiação. [[s:heartbeat:0.4]] Uma lata de sopa dá quatro porções. Cada saída pra rua é uma expedição. E quem sai... pode não voltar. Ganha quem aguentar mais dias.'),
     N('r05', 'regras', comp('S60Elenco', ias=IAS, passo=18),
-      'Os jogadores. O GPT, na versão Terra, da OpenAI. O DeepSeek, na versão Flash. O MiniMax, que lançou essa semana e entrou como participante surpresa. E o Claude, da Anthropic. [[s:ba-dum-tss:0.4]] Que sou eu. Todos na mesma casa, com os mesmos itens nos mesmos lugares, e a mesma sorte.'),
+      'Os jogadores. O GPT, na versão Terra, da OpenAI. O DeepSeek, na versão Flash. O MiniMax, que lançou essa semana e entrou como participante surpresa. E o Claude, da Anthropic. [[s:ba-dum-tss:0.4]] Todos na mesma casa, com os mesmos itens nos mesmos lugares, e a mesma sorte.'),
     N('r06', 'regras', coleta('ep5_claude', de=8, vel=1, replay=True, rotulo='MODELOS 3D GRATUITOS · KENNEY · CC0'),
       'E antes que alguém pergunte: não, esses não são os bonecos do jogo. Os modelos oficiais têm direito autoral, então a casa e a família em 3D são modelos gratuitos, de domínio público. [[m:free-real-estate:right:2.2]] Eles parecem mais felizes que os originais. A radiação é a mesma.'),
 

@@ -200,7 +200,7 @@ GPT = [
 
 CLAUDE = [
     N('c00', 'claude', titulo('Partida 4', 'CLAUDE', 'Sonnet · Anthropic', cor=COR['Claude']),
-      '[[s:impact-epic:0.5]] E agora, a última partida. O Claude. Da mesma família que eu. [[m:sweating:right:2.2]] Então eu tô torcendo, mas eu prometi mostrar tudo.'),
+      '[[s:impact-epic:0.5]] E agora, a última partida. O Claude. [[m:sweating:right:2.2]]'),
     CH('c01', 'claude', coleta(CL, de=0), [
         ('N', 'E o Claude começa diferente. Em vez de pegar o Tico, que tava do lado, ele passa reto.'),
         ('Claude', 'Celeste, Juju, vão para o abrigo! Já volto com comida!', 2.7),
@@ -358,7 +358,7 @@ DEEPSEEK = [
     CH('d12', 'deepseek', dia(DS, 24), [
         ('N', 'Bandidos. E o DeepSeek não tinha cadeado. Nem rifle. Ele não fez nada.'),
         ('DeepSeek', 'Dia 24: sem monstros nem cavaleiros, só sopa, água e o Tico perguntando se o resgate vem com sobremesa.', ('dia', 24)),
-        ('N', '[[s:record-scratch:0.5]] E os bandidos levaram a Celeste. [[x:0.6:10]] O Tico ficou sozinho. E sem nenhum adulto no abrigo... [[p]] [[t:24 DIAS:2.2:#4d6bfe]] Fim de jogo. Vinte e quatro dias. Com a despensa cheia. [[m:mission-failed:right:2.4]] Agora falta um. O da minha família.'),
+        ('N', '[[s:record-scratch:0.5]] E os bandidos levaram a Celeste. [[x:0.6:10]] O Tico ficou sozinho. E sem nenhum adulto no abrigo... [[p]] [[t:24 DIAS:2.2:#4d6bfe]] Fim de jogo. Vinte e quatro dias. Com a despensa cheia. [[m:mission-failed:right:2.4]] Agora falta um.'),
     ], pad=1.2),
 ]
 
@@ -380,7 +380,7 @@ FIM = [
       'E olha o padrão. Quem deixou gente pra trás na coleta, pagou no abrigo. O GPT e o DeepSeek perderam a Juju. O Claude perdeu a Celeste e a Juju. E cada um teve que mandar menos gente pra rua, com menos gente pra cuidar de quem ficava. [[s:heartbeat:0.4]] Sopa vale mais que baralho. Mas a família vale mais que sopa.'),
     N('f05', 'fim', comp('S60Elenco', ias=[dict(nome='MiniMax', modelo='51 dias · 1º lugar', cor=COR['MiniMax']), dict(nome='GPT', modelo='44 dias · 2º', cor=COR['GPT']),
                                            dict(nome='Claude', modelo='42 dias · 3º', cor=COR['Claude']), dict(nome='DeepSeek', modelo='24 dias · 4º', cor=COR['DeepSeek'])], passo=18),
-      'E sim, o Claude, que é da minha família, ficou em terceiro. [[m:hide-the-pain-harold:right:2.4]] Prometi mostrar tudo. E ninguém ganhou o jogo de verdade: o resgate dos militares nunca chegou pra ninguém. Talvez numa próxima. Comenta aí qual IA você quer ver jogando, e qual jogo vem depois. [[s:ba-dum-tss:0.4]] Valeu, e até o próximo.'),
+      '[[m:hide-the-pain-harold:right:2.4]] E ninguém ganhou o jogo de verdade: o resgate dos militares nunca chegou pra ninguém. Talvez numa próxima. Comenta aí qual IA você quer ver jogando, e qual jogo vem depois. [[s:ba-dum-tss:0.4]] Valeu, e até o próximo.'),
 ]
 
 SCENES = MINIMAX + GPT + DEEPSEEK + CLAUDE + FIM

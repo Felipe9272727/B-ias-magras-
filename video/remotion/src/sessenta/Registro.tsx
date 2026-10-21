@@ -122,6 +122,31 @@ export const S60Aviso: React.FC<{titulo: string; linhas: string[]; passo?: numbe
   );
 };
 
+// ---------------------------------------------------------------- o jogo original (screenshots, só no render; não vão pro git)
+export const S60Original: React.FC<{imagens: string[]; legendas?: string[]}> = ({imagens, legendas = []}) => {
+  const f = useCurrentFrame();
+  const {durationInFrames} = useVideoConfig();
+  const cada = durationInFrames / imagens.length;
+  return (
+    <AbsoluteFill style={{background: '#000'}}>
+      {imagens.map((im, i) => {
+        const t = f - i * cada;
+        const o = interpolate(t, [-8, 6, cada - 4, cada + 8], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+        if (o <= 0) return null;
+        const z = 1.04 + 0.08 * (t / cada);
+        return (
+          <AbsoluteFill key={im} style={{opacity: o}}>
+            <Img src={staticFile(`sessenta/oficial/${im}`)} style={{width: 1920, height: 1080, objectFit: 'cover', transform: `scale(${z}) translateX(${(i % 2 ? -1 : 1) * 14 * (t / cada)}px)`}} />
+            {legendas[i] && <div style={{position: 'absolute', left: 60, bottom: 150, fontFamily: FONT.display, fontWeight: 900, fontSize: 46, color: '#fff', background: '#000c', padding: '8px 22px', borderRadius: 12}}>{legendas[i]}</div>}
+          </AbsoluteFill>
+        );
+      })}
+      <div style={{position: 'absolute', left: 60, top: 50, fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: '#fff', background: '#e8411b', padding: '8px 24px', borderRadius: 14, border: '4px solid #fff', transform: 'rotate(-2deg)'}}>O JOGO ORIGINAL · 60 SECONDS!</div>
+      <div style={{position: 'absolute', right: 40, bottom: 30, fontFamily: FONT.display, fontWeight: 700, fontSize: 22, color: '#ddd', background: '#0009', padding: '4px 12px', borderRadius: 8}}>imagens: 60 Seconds! · Robot Gentleman</div>
+    </AbsoluteFill>
+  );
+};
+
 export const S60Titulo: React.FC<{kicker?: string; title: string; subtitle?: string; color?: string; fundo?: string}> = ({kicker, title, subtitle, color = '#f2c230', fundo}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -277,6 +302,8 @@ export const SessentaVisual: React.FC<{name: string; props: Record<string, any>;
       return <S60Dia {...(p as any)} timeline={timeline} />;
     case 'S60Aviso':
       return <S60Aviso {...(p as any)} />;
+    case 'S60Original':
+      return <S60Original {...(p as any)} />;
     case 'S60Titulo':
       return <S60Titulo {...(p as any)} />;
     case 'S60Familia':
