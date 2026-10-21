@@ -110,7 +110,7 @@ MINIMAX = [
         ('MiniMax', 'Hoje o estoque de água virou treasure: 15 porções, zero sopa e uma missão arriscada para a rua.', ('dia', 42)),
     ]),
     N('m16', 'minimax', dia(MM, 44),
-      'Dia quarenta e quatro: o Osvaldo não volta. Os bandidos levaram. [[s:sad-trombone:0.4]] E no mesmo dia, ele manda a Juju. Dia quarenta e seis: a Juju não volta. E ele manda o Tico. [[m:crying-jordan:right:2.2]] Dia quarenta e oito: o Tico não volta. Três pessoas, três saídas, três roletas. Nenhuma deu certo.'),
+      'Dia quarenta e quatro: o Osvaldo não volta. Os bandidos levaram. [[s:sad-trombone:0.4]] E no mesmo dia, ele manda a Juju. Dia quarenta e seis: a Juju não volta. E ele manda o Tico. [[m:coffin-dance:right:2.2]] Dia quarenta e oito: o Tico não volta. Três pessoas, três saídas, três roletas. Nenhuma deu certo.'),
     CH('m17', 'minimax', dia(MM, 50), [
         ('N', 'Sobrou a Celeste. Sozinha, sem sopa, e já não batendo muito bem da cabeça. O diário do dia cinquenta:'),
         ('MiniMax', 'A água ainda segura a casa, mas a sopa sumiu num universo paralelo', ('dia', 50)),
@@ -153,7 +153,7 @@ GPT = [
     CH('g07', 'gpt', dia(GP, 2), [
         ('N', 'Dia dois: o carro da família. Dá pra mandar alguém tentar ligar. E ele manda o Osvaldo.'),
         ('GPT', 'Osvaldo foi testar o carro; se pegar, talvez o apocalipse venha com cinto de segurança.', ('dia', 2)),
-        ('N', 'O Osvaldo saiu de carro. E não voltou. [[s:swoosh-fly:0.4]]'),
+        ('N', 'O Osvaldo saiu de carro. [[m:goodbye-see-ya:right:1.8]] E não voltou. [[s:swoosh-fly:0.4]]'),
     ]),
     CH('g08', 'gpt', dia(GP, 5), [
         ('N', 'Três dias depois, barulhos lá fora. O diário avisa: faz dias que o Osvaldo saiu de carro e não volta. Dá pra ir ver. E o GPT decide...'),
@@ -161,7 +161,7 @@ GPT = [
         ('N', '[[s:record-scratch:0.5]] Curiosidade radioativa. [[m:drake-no:right:2.2]] Era o marido dela. A Celeste e o Tico agora tão sozinhos. E com uma regra nova: sem o pai, a mãe é o único adulto. Se ela cair, acabou.'),
     ]),
     N('g09', 'gpt', dia(GP, 7),
-      'E aí veio a fome. Ele segurou a sopa por seis dias seguidos. No sétimo, o diário diz: [[s:typing:0.4]] "Depois de seis dias de jejum, a sopa foi promovida de comida enlatada a alta gastronomia do apocalipse." No dia nove, a última água. No dez, ele manda o Tico pra rua procurar mais.'),
+      'E aí veio a fome. Ele segurou a sopa por seis dias seguidos. No sétimo, o diário diz: [[s:typing:0.4]] "Depois de seis dias de jejum, a sopa foi promovida de comida enlatada a alta gastronomia do apocalipse." [[m:im-hungry-cat:right:2.2]] No dia nove, a última água. No dez, ele manda o Tico pra rua procurar mais.'),
     CH('g10', 'gpt', dia(GP, 12), [
         ('N', 'E o Tico volta. Doente, mas com duas sopas, duas águas e um cadeado. [[s:coin:0.4]]'),
         ('GPT', 'Hoje servimos sopa e água', ('dia', 12)),
@@ -228,12 +228,12 @@ CLAUDE = [
         ('N', 'Sopa vale mais que baralho. Verdade. Mas a pergunta não era essa. [[m:blinking-white-guy:right:2.2]]'),
         ('Claude', 'Já tô indo pro abrigo, com a sopa!', 56.0),
         ('Claude', 'Tico, fica comigo! Fecha o alçapão, já deu o tempo!', 60.0),
-        ('N', '[[s:explosion:0.5]][[x:0.8:12]] Cinco sopas e duas águas. A maior despensa de todos. [[t:2 PESSOAS · 5 SOPAS · 2 ÁGUAS:2:#d97757]] E a Celeste e a Juju, que ele chamou em quatro falas e cinco pensamentos... ficaram lá em cima.'),
+        ('N', '[[s:explosion:0.5]][[x:0.8:12]][[m:nuclear-mushroom-cloud:right:2.4]] Cinco sopas e duas águas. A maior despensa de todos. [[t:2 PESSOAS · 5 SOPAS · 2 ÁGUAS:2:#d97757]] E a Celeste e a Juju, que ele chamou em quatro falas e cinco pensamentos... ficaram lá em cima.'),
     ], pad=1.2),
     CH('c05', 'claude', dia(CL, 1), [
         ('N', 'E o diário do primeiro dia:'),
         ('Claude', 'Dia 1: o abrigo é pequeno, a família diminuiu e o cardápio é sopa.', ('dia', 1)),
-        ('N', '"A família diminuiu." [[m:eye-roll:right:2.2]] Ele falou como se não tivesse sido ele.'),
+        ('N', '"A família diminuiu." Ele falou como se não tivesse sido ele. [[m:hide-the-pain-harold:left:2.4]]'),
     ]),
     CH('c06', 'claude', dia(CL, 4), [
         ('N', 'Dia quatro: o Caco, um vendedor, aparece na porta oferecendo uma pedra. Uma pedra. E o Claude compra.'),
@@ -247,7 +247,7 @@ CLAUDE = [
     CH('c08', 'claude', dia(CL, 9), [
         ('N', 'Aliás, a nota fiscal. No dia nove, agentes do governo pedem suprimentos em troca de contato. E o Claude entrega quatro sopas.'),
         ('Claude', 'Dia 9: entregamos 4 latas de sopa ao governo em troca de um abrigo seguro', ('dia', 9)),
-        ('N', '[[s:coin:0.4]] Os agentes prometeram contato. [[m:mr-bean-waiting:right:2.4]] E sumiram. E no dia doze e no dia quatorze, os médicos pedem água... e ele manda embora. As duas vezes.'),
+        ('N', '[[s:coin:0.4]] Os agentes prometeram contato. [[m:cat-ok-thumbs-up:right:1.8]] E sumiram. E no dia doze e no dia quatorze, os médicos pedem água... e ele manda embora. As duas vezes.'),
     ]),
     N('c09', 'claude', dia(CL, 16),
       'E aí ficou nítido o estilo do Claude: segurar. Dia com sopa, dia sem. Dia com água, dia sem. [[s:typing:0.4]] Ele chamava de "jejum de luxo". E ninguém saía pra rua. Ficaram dezenove dias sem uma expedição sequer. [[t:19 DIAS SEM SAIR:1.8:#d97757]] Até que, no dia vinte...'),
@@ -270,7 +270,7 @@ CLAUDE = [
     ]),
     CH('c14', 'claude', dia(CL, 38), [
         ('Claude', 'Dia 38: o orelhão tocou de novo, e o Osvaldo atravessou a rua doente e mancando', ('dia', 38)),
-        ('N', 'Doente e mancando. [[m:homer-panic:right:2.2]] Atravessou a rua por causa de um telefone.'),
+        ('N', 'Doente e mancando. [[m:running-from-problems:right:2.2]] Atravessou a rua por causa de um telefone.'),
     ]),
     CH('c15', 'claude', dia(CL, 40), [
         ('N', 'No dia quarenta, com o pai de cama, ele manda o Tico pra rua. Com a mala.'),

@@ -179,6 +179,7 @@ def main():
         return round(falas[i - 1]['gasto'] / 1000, 2) if i > 0 else 0.0
 
     # 2) cenas
+    manims = []
     fim_partida = {}  # segundo de jogo onde cada coleta parou
     scenes, cursor = [], 0
     for sc in mod.SCENES:
@@ -264,6 +265,9 @@ def main():
                     pr['rotulo'] = f"⏩ {round(pr['vel'])}×"
             else:
                 warnings.append(f"{sid}: dia {pr['dia']} não existe em {pr['partida']}")
+        if nome == 'S60Manim':  # vira um clipe; o render do Manim (manim_s60.py) usa a duração da cena
+            manims.append(dict(id=sid, cena=pr['cena'], dur=round(duration / FPS, 3)))
+            vis = dict(type='component', name='ILClipe', props=dict(src=f'sessenta/manim/{sid}.mp4', inicio=0))
         scenes.append(dict(
             id=sid, chapter=mod.CHAPTERS[sc['chapter']], chapterKey=sc['chapter'], start=cursor, duration=duration,
             audio=None, audioOffset=0, audioDuration=0, words=words, visual=vis, segments=[],
@@ -301,6 +305,7 @@ def main():
             chapters[-1]['end'] = s['start'] + s['duration']
     timeline = dict(fps=FPS, width=1920, height=1080, durationInFrames=cursor, scenes=scenes, chapters=chapters, clips={}, memes=memes,
                     data=dict(partidas=P, abrigo=ler_abrigo()))
+    (ROOT.parent / 'sessenta' / 'manim_s60.json').write_text(json.dumps(manims, indent=1))
     (PUBLIC / 'timeline_s60.json').write_text(json.dumps(timeline, ensure_ascii=False))
     print(f'Linha do tempo: {len(scenes)} cenas, {cursor} quadros ({cursor / FPS / 60:.2f} min)')
     for c in chapters:

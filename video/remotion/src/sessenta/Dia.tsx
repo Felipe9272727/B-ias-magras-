@@ -76,8 +76,18 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
 
   // câmera: começa um pouco aberta e vai fechando devagar; quando o diário abre, desliza para a esquerda
   const abre = spring({frame: frame - ABRE * FPS, fps: FPS, config: {damping: 18, mass: 0.9}});
-  const zoom = interpolate(s, [0, ABRE], [1.0, 1.06], cl) + 0.04 * abre;
-  const dx = -260 * abre;
+  // movimento contínuo (tempo real da cena, não do dia): deriva, zoom subindo devagar e um "punch" em cada pessoa a cada 4,5 s
+  const fr = useCurrentFrame();
+  const sr = fr / FPS;
+  const SEG = 4.5;
+  const seg = Math.floor(sr / SEG);
+  const punch = spring({frame: fr - seg * SEG * FPS, fps: FPS, config: {damping: 14, mass: 0.7}});
+  const quem = (k: number) => cena.lugares[dentro.length ? dentro[((k % dentro.length) + dentro.length) % dentro.length].id : 'pai'];
+  const ox = interpolate(punch, [0, 1], [quem(seg - 1)?.x ?? 960, quem(seg)?.x ?? 960]);
+  const zoom = interpolate(s, [0, ABRE], [1.0, 1.06], cl) + 0.04 * abre + Math.min(0.08, 0.004 * sr) + 0.035 * Math.sin(Math.PI * Math.min(1, punch)) + (seg > 0 ? 0.02 : 0);
+  const dx = -260 * abre + 18 * Math.sin(sr * 0.35);
+  const dy = 10 * Math.sin(sr * 0.5 + 1);
+  const luz = 0.10 + 0.025 * Math.sin(sr * 7.3) * Math.sin(sr * 2.1) + (Math.sin(sr * 13) > 0.97 ? -0.05 : 0);
 
   // itens da família no cenário (sopa e água viram fileiras na prateleira)
   const objetos: React.ReactNode[] = [];
@@ -99,10 +109,11 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
     const v = variante(p, fig);
     const [w, h] = fig.viewBox;
     const k = lug.escala;
-    const respira = 1 + 0.008 * Math.sin(s * 2.2 + lug.x);
+    const respira = 1 + 0.012 * Math.sin(sr * 2.2 + lug.x);
+    const balanca = 1.2 * Math.sin(sr * 1.1 + lug.x / 90);
     const treme = v.treme ? Math.sin(frame * 1.9) * 3 : 0;
     return (
-      <div style={{position: 'absolute', left: lug.x - fig.pes[0] * k + treme, top: lug.y - fig.pes[1] * k, width: w * k, height: h * k, transform: `scaleY(${respira})`, transformOrigin: `${fig.pes[0] * k}px ${fig.pes[1] * k}px`}}>
+      <div style={{position: 'absolute', left: lug.x - fig.pes[0] * k + treme, top: lug.y - fig.pes[1] * k, width: w * k, height: h * k, transform: `scaleY(${respira}) rotate(${balanca}deg)`, transformOrigin: `${fig.pes[0] * k}px ${fig.pes[1] * k}px`}}>
         <Img src={staticFile(`sessenta/abrigo2d/personagens/${p.id}/${v.arq}`)} style={{width: '100%', height: '100%', filter: v.filtro}} />
       </div>
     );
@@ -114,14 +125,23 @@ export const Dia: React.FC<Props> = ({dados, vel = 1}) => {
 
   return (
     <AbsoluteFill style={{background: '#1c1b19', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `translateX(${dx}px) scale(${zoom})`, transformOrigin: '50% 60%'}}>
+      <AbsoluteFill style={{transform: `translate(${dx}px, ${dy}px) scale(${zoom})`, transformOrigin: `${ox}px 62%`}}>
         <Img src={staticFile('sessenta/abrigo2d/fundo.svg')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
         {objetos}
         {[...dentro].sort((a, b) => (cena.lugares[a.id]?.y ?? 0) - (cena.lugares[b.id]?.y ?? 0)).map((p) => <Pessoa key={p.id} p={p} />)}
         <Img src={staticFile('sessenta/abrigo2d/frente.svg')} style={{position: 'absolute', inset: 0, width: 1920, height: 1080}} />
       </AbsoluteFill>
       {/* luz amarelada da lâmpada e vinheta */}
-      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 45% 35%, rgba(255,220,150,0.10), rgba(0,0,0,0.55) 85%)'}} />
+      <AbsoluteFill style={{background: `radial-gradient(ellipse at 45% 35%, rgba(255,220,150,${luz.toFixed(3)}), rgba(0,0,0,0.55) 85%)`}} />
+      {/* poeira no ar, na luz da lâmpada */}
+      <AbsoluteFill style={{pointerEvents: 'none'}}>
+        {Array.from({length: 26}, (_, i) => {
+          const r = (n: number) => ((Math.sin(i * 127.1 + n * 311.7) * 43758.5453) % 1 + 1) % 1;
+          const x = (r(1) * 1920 + sr * (8 + r(2) * 14) + 30 * Math.sin(sr * 0.6 + i)) % 1920;
+          const y = (r(3) * 1080 - sr * (5 + r(4) * 10) + 2160) % 1080;
+          return <div key={i} style={{position: 'absolute', left: x, top: y, width: 3 + r(5) * 4, height: 3 + r(5) * 4, borderRadius: '50%', background: 'rgba(255,235,190,0.55)', filter: 'blur(1px)', opacity: 0.25 + 0.5 * r(6)}} />;
+        })}
+      </AbsoluteFill>
       {/* cabeçalho */}
       <div style={{position: 'absolute', left: 30, top: 24, display: 'flex', gap: 14, alignItems: 'center'}}>
         <div style={{padding: '6px 22px', borderRadius: 14, background: ia.cor, border: '4px solid #fff', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff'}}>{ia.nome}</div>
