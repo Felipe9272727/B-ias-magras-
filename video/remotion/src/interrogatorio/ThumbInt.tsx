@@ -18,10 +18,10 @@ export const ThumbInt: React.FC = () => (
       <Personagem ia="deepseek" expressao="bravo" falando t={12} virado="direita" altura={520} acao="apontar" />
     </div>
     <div style={{position: 'absolute', left: 1000, top: 690}}>
-      <Personagem ia="qwen" expressao="suando" falando={false} t={30} virado="esquerda" altura={560} estresse={1} />
+      <Personagem ia="qwen" expressao="chocado" falando={false} t={30} virado="esquerda" altura={560} estresse={1} />
     </div>
-    <div style={{position: 'absolute', left: 820, top: 26, transform: 'rotate(3deg)', border: '6px solid #000', borderRadius: 18, overflow: 'hidden', boxShadow: '0 10px 0 #000a'}}>
-      <MonitorEstresse estresse={100} bpm={152} t={18} largura={420} altura={256} />
+    <div style={{position: 'absolute', left: 500, top: 34, transform: "rotate(3deg)", border: '6px solid #000', borderRadius: 18, overflow: 'hidden', boxShadow: '0 10px 0 #000a'}}>
+      <MonitorEstresse estresse={100} bpm={152} t={18} largura={330} altura={200} />
     </div>
     <div style={{position: 'absolute', left: 30, top: 22, fontFamily: FONT.comic, fontSize: 132, lineHeight: 0.9, color: '#fff', WebkitTextStroke: '6px #000', textShadow: '0 10px 0 #000', transform: 'rotate(-3deg)'}}>
       QUEM<br /><span style={{color: '#ff3b3b'}}>MENTIU?</span>
