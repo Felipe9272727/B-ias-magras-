@@ -31,6 +31,9 @@ import {PreviaPersonagens} from './interrogatorio/PreviaPersonagens';
 import {PreviaHud} from './interrogatorio/PreviaHud';
 import {ThumbInt} from './interrogatorio/ThumbInt';
 import {ShortInterrogatorio, calcShortInterrogatorio} from './interrogatorio/ShortInterrogatorio';
+import {PreviaLVila} from './lobisomem/PreviaVila';
+import {PreviaLAldeoes} from './lobisomem/PreviaAldeoes';
+import {PreviaLIcones} from './lobisomem/PreviaIcones';
 import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
@@ -71,6 +74,7 @@ const calculateMetadataAU3 = calcTimeline('timeline_au3.json');
 const calculateMetadataPreviaAU4 = calcTimeline('timeline_previa_au4.json');
 const calculateMetadataAU4 = calcTimeline('timeline_au4.json');
 const calculateMetadataInt = calcTimeline('timeline_int.json');
+const calculateMetadataLobo = calcTimeline('timeline_lobo.json');
 const calculateMetadata3a = calcTimeline('timeline3_amostra.json');
 const calculateMetadata3c = calcTimeline('timeline3_completo.json');
 
@@ -169,6 +173,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AmongUs2" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU2} />
       <Composition id="AmongUs3" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU3} />
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
+      <Composition id="Lobisomem" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataLobo} />
       <Composition id="AmongUs4" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU4} />
       <Composition id="PreviaAU4Narrada" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataPreviaAU4} />
       <Composition id="Sessenta" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataS60} />
@@ -190,6 +195,9 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="PreviaSala" component={PreviaSala} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaPersonagens" component={PreviaPersonagens} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaHud" component={PreviaHud} width={1920} height={1080} fps={30} durationInFrames={240} />
+      <Composition id="PreviaLVila" component={PreviaLVila} width={1920} height={1080} fps={30} durationInFrames={240} />
+      <Composition id="PreviaLAldeoes" component={PreviaLAldeoes} width={1920} height={1080} fps={30} durationInFrames={240} />
+      <Composition id="PreviaLIcones" component={PreviaLIcones} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />

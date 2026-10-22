@@ -13,6 +13,7 @@ import {BigText, EndScreen, Lessons, PlannerVsNet, SensorPanel, UIPan} from './M
 import type {HL} from './hl';
 import {AmongUsVisual} from '../amongus/Registro';
 import {INTVisual} from '../interrogatorio/Cenas';
+import {LOBVisual} from '../lobisomem/Cenas';
 import {IlhaVisual} from '../ilha/Registro';
 import {OvercookedVisual} from '../overcooked/Registro';
 import {SessentaVisual} from '../sessenta/Registro';
@@ -58,6 +59,7 @@ export const SceneVisual: React.FC<Props> = ({scene, timeline, highlights}) => {
     case 'BigText':
       return <BigText text={p.text} sub={p.sub} color={p.color} />;
     default:
+      if (v.name.startsWith('LOB')) return <LOBVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('INT')) return <INTVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('AU')) return <AmongUsVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('IL')) return <IlhaVisual name={v.name} props={p} timeline={timeline} />;

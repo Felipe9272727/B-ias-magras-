@@ -7,6 +7,7 @@ import {Captions, ClipInfo, ClipView, MemeCard, ModoShort, TextPop} from './comp
 import {SceneVisual} from './scenes/registry';
 import {escolherTransicao, TransicaoEntrada} from './amongus/Transicoes';
 import {escolherTransicaoInt, TransicaoInt} from './interrogatorio/Transicoes';
+import {escolherTransicaoLobo, TransicaoLobo} from './lobisomem/Transicoes';
 
 // Nome do componente visual da cena (só para cenas de componente); usado nas transições.
 const nomeVisual = (s: Scene | undefined): string | undefined =>
@@ -118,6 +119,10 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
       {/* Interrogatório: transições próprias (grades, flash de perícia, fita, lupa) */}
       {scene.visual.type === 'component' && scene.visual.name.startsWith('INT') ? (
         <TransicaoInt tipo={escolherTransicaoInt(anterior, scene.visual.name)} />
+      ) : null}
+      {/* Lobisomem: garras, nuvens, pergaminho e sino */}
+      {scene.visual.type === 'component' && scene.visual.name.startsWith('LOB') ? (
+        <TransicaoLobo tipo={escolherTransicaoLobo(anterior, scene.visual.name)} />
       ) : null}
     </AbsoluteFill>
   );
