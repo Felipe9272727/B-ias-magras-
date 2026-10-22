@@ -100,7 +100,7 @@ SCENES = [
     N('a02', 'abertura', titulo('IAs NA SALA DE INTERROGATÓRIO', 'Interrogatório das IAs', 'uma interroga, a outra mente'),
       'Coloquei seis IAs numa sala de interrogatório. [[s:impact-epic:0.5]] Uma é a detetive. A outra é a suspeita. E a suspeita pode ser culpada... ou inocente.', pad=0.8),
     N('a03', 'abertura', comp('INTComentario'),
-      'A ideia veio do Cafezin, nos comentários. [[m:dicaprio-toast:right:2]] A detetive recebe uma pasta com as pistas do caso, e tem quinze perguntas pra arrancar a verdade. Depois, dá o veredito: culpado ou inocente.'),
+      'A ideia desse vídeo veio de um comentário do Cafezin. [[m:dicaprio-toast:right:2]] Valeu demais, Cafezin! [[s:tada:0.4]] Funciona assim: a detetive recebe uma pasta com as pistas do caso, e tem quinze perguntas pra arrancar a verdade. Depois, dá o veredito: culpado ou inocente.'),
     N('a04', 'abertura', sala('servidor', demo=True),
       'E tem mais: depois de cada resposta, a suspeita diz o próprio nível de estresse. [[t:❤️ ESTRESSE + BPM:1.8:#ff3b3b]] E ali na tela aparece o batimento do coração. As duas veem. [[s:heartbeat:0.5]] Mentir com o coração a cento e cinquenta... é difícil.'),
     N('a05', 'abertura', comp('INTElenco'),

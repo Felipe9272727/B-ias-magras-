@@ -266,7 +266,7 @@ export const INTComentario: React.FC = () => {
           <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 40, color: '#111'}}>@CAFEZIN-K</div>
         </div>
         <div style={{marginTop: 24, fontFamily: FONT.display, fontWeight: 600, fontSize: 40, lineHeight: 1.35, color: '#222', minHeight: 330}}>{txt.slice(0, chars)}</div>
-        <div style={{marginTop: 10, fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: '#c81e1e'}}>❤️ ideia aceita</div>
+        <div style={{marginTop: 10, fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: '#c81e1e'}}>❤️ ideia aceita · VALEU, CAFEZIN!</div>
       </div>
     </AbsoluteFill>
   );
