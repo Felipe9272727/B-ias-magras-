@@ -7,7 +7,7 @@ import type {CalculateMetadataFunction} from 'remotion';
 import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
-import {Legenda, naPalavra, Selo, Sfx} from '../amongus2/ShortFrio';
+import {Etiqueta as Selo, LegendaRelatorio as Legenda, naPalavra, Som as Sfx} from './ShortKit';
 import {ASSENTO, SalaInterrogatorio} from './Sala';
 import {IAS, Personagem, type Expressao, type IA} from './Personagens';
 import {Carimbo, MonitorEstresse} from './Hud';

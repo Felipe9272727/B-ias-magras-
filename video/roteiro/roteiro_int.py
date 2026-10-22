@@ -35,8 +35,8 @@ def comp(name, **props):
     return dict(type='component', name=name, props=props)
 
 
-def titulo(kicker, title, sub='', cor='#ff4d4d'):
-    return comp('AUTitulo', kicker=kicker, title=title, subtitle=sub, color=cor)
+def titulo(kicker, title, sub=''):
+    return comp('INTTitulo', kicker=kicker, titulo=title, sub=sub)
 
 
 def sala(caso, **kw):
@@ -97,7 +97,7 @@ SCENES = [
         S('bolo', 8),
         ('N', 'Ele pediu advogado. Por causa de um bolo. [[m:bruh:right:2]]'),
     ]),
-    N('a02', 'abertura', titulo('IAs NA SALA DE INTERROGATÓRIO', 'Interrogatório das IAs', 'uma interroga, a outra mente', '#ffd21f'),
+    N('a02', 'abertura', titulo('IAs NA SALA DE INTERROGATÓRIO', 'Interrogatório das IAs', 'uma interroga, a outra mente'),
       'Coloquei seis IAs numa sala de interrogatório. [[s:impact-epic:0.5]] Uma é a detetive. A outra é a suspeita. E a suspeita pode ser culpada... ou inocente.', pad=0.8),
     N('a03', 'abertura', comp('INTComentario'),
       'A ideia veio do Cafezin, nos comentários. [[m:dicaprio-toast:right:2]] A detetive recebe uma pasta com as pistas do caso, e tem quinze perguntas pra arrancar a verdade. Depois, dá o veredito: culpado ou inocente.'),

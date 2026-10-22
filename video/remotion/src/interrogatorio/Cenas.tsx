@@ -2,7 +2,7 @@
 // é dos Haikus; aqui ela é ligada ao log de cada caso (timeline.data.casos[caso], de interrogatorio/logs/<caso>.json):
 // quem está falando, a expressão e o gesto que a própria IA escolheu, e o estresse/BPM que o suspeito informou.
 import React from 'react';
-import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import type {Scene, Timeline} from '../types';
 import {FONT} from '../theme';
 import {ASSENTO, SalaInterrogatorio} from './Sala';
@@ -70,15 +70,20 @@ export const INTSala: React.FC<{L: Log; chat: Item[]; carimbo?: string; demo?: b
     estresse = antes.e + (a.e - antes.e) * k;
     bpm = Math.round(antes.bpm + (a.bpm - antes.bpm) * k);
   }
-  // câmera: vai até quem está falando (média dos últimos 14 quadros, para não dar tranco)
+  // câmera: corta para quem está falando e vai fechando (push-in) durante a fala; nas falas longas, corta no meio
+  // para a reação de quem ouve (~1 s). Média curta (6 quadros): parece corte, sem tranco.
+  const alvoCam = (q: number) => {
+    if (demo) return {x: 0.55, z: 1.2 + 0.35 * Math.min(1, q / D)};
+    const fa = agora(q);
+    if (!fa) return {x: 0, z: 1.05};
+    const lado = fa.it.cor === det ? -0.55 : 0.55;
+    const dur = fa.it.ate - fa.it.at, meio = fa.it.at + dur / 2;
+    if (dur > 170 && q >= meio && q < meio + 32) return {x: -lado * 1.05, z: 1.55}; // reação de quem ouve
+    return {x: lado, z: 1.25 + 0.3 * Math.min(1, (q - fa.it.at) / 150)};
+  };
   let cx = 0, cz = 0;
-  for (let i = 0; i < 14; i++) {
-    const q = f - i;
-    const fa = demo ? {it: {cor: sus}} : agora(q);
-    const alvo = !fa ? 0 : fa.it.cor === det ? -0.55 : 0.55;
-    cx += alvo; cz += fa ? 1.28 : 1.05;
-  }
-  cx /= 14; cz /= 14;
+  for (let i = 0; i < 6; i++) { const a = alvoCam(f - i); cx += a.x; cz += a.z }
+  cx /= 6; cz /= 6;
   // expressão e gesto: de quem fala, os da própria fala; do outro, os da última fala dele
   const ult = (papel: 'detetive' | 'suspeito') => {
     let e: Ent | undefined = L.historico.filter((x) => x.quem === papel && x.k < (primeiro?.k ?? 1)).pop();
@@ -90,7 +95,8 @@ export const INTSala: React.FC<{L: Log; chat: Item[]; carimbo?: string; demo?: b
   const tCarimbo = 8;
   const tremor = carimbo ? interpolate(f, [tCarimbo + 6, tCarimbo + 22], [1, 0], cl) : estresse > 95 ? 0.12 : 0;
   const luz = estresse > 90 ? 0.78 + 0.22 * Math.abs(Math.sin(f / 5)) : 1;
-  const nDet = Math.max(1, ...ents.filter(({e}) => e?.quem === 'detetive' && f >= 0).map(({e}) => e!.k), ed?.k ?? 1);
+  // número da pergunta: a rodada da última fala que já apareceu (de qualquer um); depois da 15ª é o veredito
+  const nDet = Math.max(1, primeiro?.k ?? 1, ...ents.filter(({it, e}) => e && f >= it.at).map(({e}) => e!.k));
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <SalaInterrogatorio
@@ -108,7 +114,23 @@ export const INTSala: React.FC<{L: Log; chat: Item[]; carimbo?: string; demo?: b
       />
       {/* sinais vitais grandes no canto, para dar pra ler no celular */}
       <div style={{position: 'absolute', left: 24, top: 24}}><MonitorEstresse estresse={estresse} bpm={bpm} t={f} largura={330} altura={200} /></div>
-      {!demo && <Contador n={Math.min(15, nDet)} total={15} />}
+      {/* a cada resposta do suspeito: quanto o estresse subiu (ou caiu), saltando do monitor */}
+      {!demo && ents.map(({it, e}, i) => {
+        if (!e || e.quem !== 'suspeito' || e.estresse == null) return null;
+        const ant = L.historico.filter((x) => x.quem === 'suspeito' && x.k < e.k).pop()?.estresse ?? (L.caso.culpado ? 35 : 30);
+        const d = e.estresse - ant;
+        const t0 = it.at + 10;
+        if (Math.abs(d) < 3 || f < t0 || f > t0 + 45) return null;
+        const k = interpolate(f, [t0, t0 + 45], [0, 1], cl);
+        return (
+          <div key={'d' + i} style={{position: 'absolute', left: 250, top: 150 - k * 90, opacity: 1 - k * k, transform: `scale(${1 + 0.5 * Math.max(0, 1 - (f - t0) / 6)}) rotate(-6deg)`, fontFamily: FONT.comic, fontSize: 64, color: d > 0 ? '#ff3b3b' : '#5ff08a', WebkitTextStroke: '3px #000', whiteSpace: 'nowrap'}}>
+            {d > 0 ? `+${d}` : d} ❤️{d >= 12 ? ' MENTIRA?' : ''}
+          </div>
+        );
+      })}
+      {!demo && (nDet <= 15 ? <Contador n={nDet} total={15} /> : (
+        <div style={{position: 'absolute', right: 36, top: 30, padding: '8px 26px', background: '#e8202a', border: '6px solid #000', borderRadius: 16, fontFamily: FONT.comic, fontSize: 52, letterSpacing: 3, color: '#fff', WebkitTextStroke: '2px #000', transform: `rotate(2deg) scale(${1 + 0.05 * Math.sin(f / 4)})`}}>⚖️ VEREDITO</div>
+      ))}
       <Placa nome={IAS[det].nome} papel="DETETIVE" cor={IAS[det].cor} at={2} lado="esquerda" />
       <Placa nome={IAS[sus].nome} papel="SUSPEITO" cor={IAS[sus].cor} at={6} lado="direita" />
       {chat.map((it, i) => {
@@ -173,8 +195,16 @@ export const INTVerdade: React.FC<{L: Log; scene: Scene}> = ({L, scene}) => {
   const [tAc] = gatilhos(scene, [L.acertou ? 'acertou' : 'errou']);
   const k = spring({frame: f - 6, fps, config: {damping: 13, stiffness: 150}});
   const sus = L.caso.suspeito;
+  const {durationInFrames: D} = useVideoConfig();
+  const zoom = interpolate(f, [0, D], [1, 1.12], cl);
+  const pulo = tAc >= 0 && f >= tAc ? Math.max(0, 1 - (f - tAc) / 10) * 30 : 0;
+  const provas = PROVAS[L.caso.id] ?? ['❓'];
   return (
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{transform: `scale(${zoom}) translateY(${-pulo}px)`}}>
     <AbsoluteFill style={{background: L.caso.culpado ? 'radial-gradient(circle at 50% 45%, #5a1010 0%, #1a0505 60%, #000 100%)' : 'radial-gradient(circle at 50% 45%, #10502a 0%, #05180c 60%, #000 100%)', overflow: 'hidden'}}>
+      <Raios cor={L.caso.culpado ? '#ff5a5a' : '#5ff08a'} />
+      <Provas itens={provas} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontFamily: FONT.comic, fontSize: 120, color: '#ffd21f', WebkitTextStroke: '5px #000', letterSpacing: 6, transform: `scale(${k})`}}>A VERDADE</div>
       <div style={{position: 'absolute', left: 960 - 260, top: 260, width: 520, height: 600}}>
         <div style={{position: 'absolute', left: 30, top: 0}}>
@@ -186,9 +216,38 @@ export const INTVerdade: React.FC<{L: Log; scene: Scene}> = ({L, scene}) => {
           {IAS[sus].nome.toUpperCase()} ERA {L.caso.culpado ? 'CULPADO' : 'INOCENTE'}
         </span>
       </div>
-      {tAc >= 0 && <Carimbo texto={L.acertou ? 'ACERTOU' : 'ERROU'} cor={L.acertou ? '#1f8f3a' : '#e8202a'} at={tAc} x={1500} y={300} rot={10} />}
-      {tAc >= 0 && <div style={{position: 'absolute', left: 1300, top: 400, width: 420, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', opacity: interpolate(f, [tAc + 6, tAc + 14], [0, 1], cl)}}>detetive: {IAS[L.caso.detetive].nome}</div>}
+      {tAc >= 0 && <Carimbo texto={L.acertou ? 'ACERTOU' : 'ERROU'} cor={L.acertou ? '#1f8f3a' : '#e8202a'} at={tAc} x={1380} y={560} rot={8} />}
+      {tAc >= 0 && <div style={{position: 'absolute', left: 1180, top: 680, width: 420, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', opacity: interpolate(f, [tAc + 6, tAc + 14], [0, 1], cl)}}>detetive: {IAS[L.caso.detetive].nome}</div>}
     </AbsoluteFill>
+    </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+// as provas de cada caso, flutuando atrás do suspeito na tela da verdade
+const PROVAS: Record<string, string[]> = {
+  macarena: ['🎵', '🔊', '🪈', '🎧'], bolo: ['🎂', '🍴', '🕯️', '🍫'], carro: ['🚗', '💅', '✨', '🎨'],
+  audio: ['🎤', '📱', '💸', '🚿'], servidor: ['🔌', '🔋', '🎮', '🛏️'], peixe: ['🐟', '💃', '📝', '🫧'],
+};
+const Raios: React.FC<{cor: string}> = ({cor}) => {
+  const f = useCurrentFrame();
+  return (
+    <svg width={1920} height={1080} style={{position: 'absolute'}}>
+      {Array.from({length: 16}, (_, i) => {
+        const a = (i / 16) * Math.PI * 2 + f / 90;
+        return <path key={i} d={`M960 560 L${960 + Math.cos(a - 0.09) * 1400} ${560 + Math.sin(a - 0.09) * 1400} L${960 + Math.cos(a + 0.09) * 1400} ${560 + Math.sin(a + 0.09) * 1400} Z`} fill={cor} opacity={0.12} />;
+      })}
+    </svg>
+  );
+};
+const Provas: React.FC<{itens: string[]}> = ({itens}) => {
+  const f = useCurrentFrame();
+  return (
+    <>
+      {itens.map((e, i) => {
+        const x = [330, 1590, 420, 1500][i % 4], y = [300, 330, 760, 760][i % 4];
+        return <div key={i} style={{position: 'absolute', left: x - 60, top: y - 60 + Math.sin(f / 18 + i * 1.7) * 22, fontSize: 120, transform: `rotate(${Math.sin(f / 25 + i) * 12}deg)`, filter: 'drop-shadow(0 8px 0 #0008)'}}>{e}</div>;
+      })}
+    </>
   );
 };
 
@@ -299,8 +358,9 @@ export const INTPlacar: React.FC<{casos: Record<string, Log>; scene: Scene}> = (
   const lista = Object.values(casos);
   const [tAc] = gatilhos(scene, ['acertaram']);
   return (
-    <AbsoluteFill style={{background: 'linear-gradient(#1a1030, #07050d)'}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', fontFamily: FONT.comic, fontSize: 96, color: '#ffd21f', WebkitTextStroke: '4px #000'}}>PLACAR FINAL</div>
+    <AbsoluteFill style={{background: 'linear-gradient(#1a1030, #07050d)', overflow: 'hidden'}}>
+      <Raios cor="#ffd21f" />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 30, textAlign: 'center', fontFamily: FONT.comic, fontSize: 96, color: '#ffd21f', WebkitTextStroke: '4px #000', transform: `scale(${1 + 0.03 * Math.sin(f / 8)})`}}>PLACAR FINAL</div>
       {ORDEM_IAS.map((ia, i) => {
         const comoDet = lista.find((L) => L.caso.detetive === ia);
         const comoSus = lista.find((L) => L.caso.suspeito === ia);
@@ -311,12 +371,39 @@ export const INTPlacar: React.FC<{casos: Record<string, Log>; scene: Scene}> = (
             <div style={{position: 'relative', width: 120, height: 120}}><div style={{position: 'absolute', left: 60, top: 118}}><Personagem ia={ia} expressao={comoDet?.acertou ? 'confiante' : 'culpado'} falando={false} t={f + i * 9} altura={130} /></div></div>
             <div style={{width: 260, fontFamily: FONT.comic, fontSize: 60, color: IAS[ia].cor, WebkitTextStroke: '2px #000'}}>{IAS[ia].nome}</div>
             <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff'}}>
-              detetive: <span style={{color: comoDet?.acertou ? '#5ff08a' : '#ff6060', opacity: f >= tAc ? 1 : 0}}>{comoDet?.acertou ? '✅ ACERTOU' : '❌ ERROU'}</span>
+              detetive: <span style={{display: 'inline-block', color: comoDet?.acertou ? '#5ff08a' : '#ff6060', opacity: f >= tAc + i * 12 ? 1 : 0, transform: `scale(${f >= tAc + i * 12 ? 1 + 0.6 * Math.max(0, 1 - (f - tAc - i * 12) / 8) : 1})`}}>{comoDet?.acertou ? '✅ ACERTOU' : '❌ ERROU'}</span>
+              {tAc >= 0 && <Sequence from={tAc + i * 12} durationInFrames={40}><Audio src={staticFile(comoDet?.acertou ? 'sfx/correct-ding.mp3' : 'sfx/wrong-buzzer.mp3')} volume={0.35} /></Sequence>}
             </div>
             <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff'}}>suspeito: <span style={{color: '#ffd21f'}}>{sus}</span></div>
           </div>
         );
       })}
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- título do vídeo (a pasta do caso carimbada)
+export const INTTitulo: React.FC<{kicker: string; titulo: string; sub: string}> = ({kicker, titulo, sub}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const s = (d: number) => spring({frame: f - d, fps, config: {damping: 11, stiffness: 170}});
+  const balanca = Math.sin(f / 22) * 3;
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 18%, #fff3b0 0%, #a8862e 16%, #2c2210 48%, #080604 100%)', overflow: 'hidden'}}>
+      <svg width={1920} height={1080} style={{position: 'absolute'}}>
+        <g transform={`rotate(${balanca} 960 0)`}>
+          <line x1={960} y1={0} x2={960} y2={120} stroke="#111" strokeWidth={8} />
+          <path d="M880 120 L1040 120 L1000 170 L920 170 Z" fill="#2b2f38" stroke="#111" strokeWidth={6} />
+          <path d="M920 170 L1000 170 L1400 1080 L520 1080 Z" fill="#fff6c8" opacity={0.1} />
+        </g>
+      </svg>
+      <div style={{position: 'absolute', left: 360, top: 230, width: 1200, height: 640, background: '#d9b678', border: '8px solid #3a2810', borderRadius: 20, boxShadow: '0 24px 0 #0009', transform: `translateY(${(1 - s(0)) * 900}px) rotate(-2deg)`}}>
+        <div style={{position: 'absolute', left: 40, top: -60, width: 360, height: 70, background: '#d9b678', border: '8px solid #3a2810', borderBottom: 'none', borderRadius: '16px 16px 0 0', fontFamily: FONT.mono, fontWeight: 700, fontSize: 26, color: '#3a2810', padding: '14px 20px'}}>ARQUIVO Nº 0001</div>
+        <div style={{position: 'absolute', left: 60, right: 60, top: 70, fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#3a2810', letterSpacing: 4}}>{kicker}</div>
+        <div style={{position: 'absolute', left: 60, right: 60, top: 140, fontFamily: FONT.comic, fontSize: 150, lineHeight: 0.95, color: '#fff', WebkitTextStroke: '6px #000', textShadow: '0 10px 0 #000', transform: `scale(${s(10)})`, transformOrigin: 'left center'}}>{titulo}</div>
+        <div style={{position: 'absolute', left: 60, right: 60, top: 470, fontFamily: FONT.display, fontWeight: 800, fontSize: 46, color: '#3a2810'}}>{sub}</div>
+      </div>
+      <Carimbo texto="CONFIDENCIAL" at={26} x={1400} y={800} rot={-10} />
     </AbsoluteFill>
   );
 };
@@ -331,6 +418,7 @@ export const INTVisual: React.FC<{name: string; props: Record<string, any>; scen
     case 'INTCapa': return <INTCapa L={L} n={p.n} />;
     case 'INTVerdade': return <INTVerdade L={L} scene={scene} />;
     case 'INTComentario': return <INTComentario />;
+    case 'INTTitulo': return <INTTitulo kicker={p.kicker} titulo={p.titulo} sub={p.sub} />;
     case 'INTElenco': return <INTElenco fim={p.fim} />;
     case 'INTLobby': return <INTLobby L={L} proximo={p.proximo} chat={(p.chat ?? []) as Item[]} />;
     case 'INTPlacar': return <INTPlacar casos={casos} scene={scene} />;

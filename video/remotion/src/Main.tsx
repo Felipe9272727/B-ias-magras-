@@ -6,6 +6,7 @@ import {C} from './theme';
 import {Captions, ClipInfo, ClipView, MemeCard, ModoShort, TextPop} from './components/overlays';
 import {SceneVisual} from './scenes/registry';
 import {escolherTransicao, TransicaoEntrada} from './amongus/Transicoes';
+import {escolherTransicaoInt, TransicaoInt} from './interrogatorio/Transicoes';
 
 // Nome do componente visual da cena (só para cenas de componente); usado nas transições.
 const nomeVisual = (s: Scene | undefined): string | undefined =>
@@ -111,8 +112,12 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
         </Sequence>
       ) : null}
       {/* Transição de entrada (Among Us): só nas cenas de componente AU, por cima de tudo */}
-      {scene.visual.type === 'component' && (scene.visual.name.startsWith('AU') || scene.visual.name.startsWith('INT')) ? (
+      {scene.visual.type === 'component' && scene.visual.name.startsWith('AU') ? (
         <TransicaoEntrada tipo={escolherTransicao(anterior, scene.visual.name)} />
+      ) : null}
+      {/* Interrogatório: transições próprias (grades, flash de perícia, fita, lupa) */}
+      {scene.visual.type === 'component' && scene.visual.name.startsWith('INT') ? (
+        <TransicaoInt tipo={escolherTransicaoInt(anterior, scene.visual.name)} />
       ) : null}
     </AbsoluteFill>
   );
