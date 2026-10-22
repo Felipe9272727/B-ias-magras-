@@ -178,11 +178,11 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
         position: 'absolute',
         left: '50%',
         top: '50%',
-        width: 900,
-        height: 620,
-        marginLeft: -450,
-        marginTop: -310,
-        transform: `translateY(${(1 - entrada) * 900}px)`,
+        width: 1300,
+        height: 900,
+        marginLeft: -650,
+        marginTop: -450,
+        transform: `translateY(${(1 - entrada) * 1100}px)`,
         overflow: 'hidden',
       }}
     >
@@ -217,8 +217,8 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
           position: 'absolute',
           left: 0,
           top: 60,
-          width: 900,
-          height: 560,
+          width: 1300,
+          height: 840,
           boxSizing: 'border-box',
           background: '#c99a55',
           border: '6px solid #3b2a12',
@@ -232,8 +232,8 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
           position: 'absolute',
           left: 50,
           top: folhaTopo,
-          width: 800,
-          height: 500,
+          width: 1200,
+          height: 780,
           boxSizing: 'border-box',
           background: '#f7f0dc',
           border: '4px solid #7a6040',
@@ -245,13 +245,13 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
         <svg style={{position: 'absolute', left: 14, top: -22, transform: 'rotate(-12deg)'}} width="46" height="78" viewBox="0 0 46 78">
           <path d="M10 40 V12 a10 10 0 0 1 20 0 V56 a7 7 0 0 1 -14 0 V16" fill="none" stroke="#7d8790" strokeWidth="5" strokeLinecap="round" />
         </svg>
-        <div style={{position: 'absolute', left: 40, top: 34, width: 520, fontFamily: FONT.display, fontWeight: 900, fontSize: 42, lineHeight: 1.1, color: '#2b1d0e'}}>
+        <div style={{position: 'absolute', left: 40, top: 34, width: 860, whiteSpace: 'nowrap', fontFamily: FONT.display, fontWeight: 900, fontSize: 46, lineHeight: 1.1, color: '#2b1d0e'}}>
           {titulo.toUpperCase()}
         </div>
-        <div style={{position: 'absolute', left: 40, top: 112, fontFamily: FONT.mono, fontWeight: 700, fontSize: 19, color: '#5a4630'}}>
+        <div style={{position: 'absolute', left: 40, top: 104, fontFamily: FONT.mono, fontWeight: 700, fontSize: 22, color: '#5a4630'}}>
           Local: {local} · Hora: {hora}
         </div>
-        <div style={{position: 'absolute', left: 40, top: 150, width: 520, borderTop: '3px solid #2b1d0e'}} />
+        <div style={{position: 'absolute', left: 40, top: 146, width: 860, borderTop: '3px solid #2b1d0e'}} />
         {/* carimbo CONFIDENCIAL */}
         <div
           style={{
@@ -275,9 +275,9 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
         <div
           style={{
             position: 'absolute',
-            left: 572,
-            top: 96,
-            width: 190,
+            left: 940,
+            top: 110,
+            width: 220,
             boxSizing: 'border-box',
             background: '#fff',
             padding: '12px 12px 0',
@@ -292,7 +292,7 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
           </div>
         </div>
         {/* pistas: digitadas uma a uma e depois carimbadas com OK */}
-        <div style={{position: 'absolute', left: 40, top: 190, width: 470, display: 'flex', flexDirection: 'column', gap: 18}}>
+        <div style={{position: 'absolute', left: 40, top: 176, width: 860, display: 'flex', flexDirection: 'column', gap: 14}}>
           {pistas.map((p, i) => {
             const dt = t - p.at;
             const k = mola(dt, fps, {damping: 12, stiffness: 220});
@@ -332,7 +332,7 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
                 >
                   {iconeDe(p.texto)}
                 </div>
-                <div style={{flex: 1, fontFamily: FONT.mono, fontWeight: 700, fontSize: 22, lineHeight: 1.3, color: '#2b1d0e'}}>
+                <div style={{flex: 1, fontFamily: FONT.mono, fontWeight: 700, fontSize: 30, lineHeight: 1.25, color: '#2b1d0e'}}>
                   {p.texto.slice(0, chars)}
                   {digitando && t % 8 < 4 && <span>▌</span>}
                 </div>
@@ -367,13 +367,13 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
           position: 'absolute',
           left: 0,
           top: 60,
-          width: 900,
-          height: 560,
+          width: 1300,
+          height: 840,
           boxSizing: 'border-box',
           background: '#e0b46a',
           border: '6px solid #3b2a12',
           borderRadius: '0 18px 18px 18px',
-          transform: `translateY(${-capa * 700}px) rotate(${-capa * 3}deg)`,
+          transform: `translateY(${-capa * 1050}px) rotate(${-capa * 3}deg)`,
         }}
       >
         <div
