@@ -1,0 +1,357 @@
+{
+ "caso": {
+  "id": "bolo",
+  "detetive": "gpt",
+  "suspeito": "deepseek",
+  "culpado": true,
+  "titulo": "O Bolo do Chefe",
+  "local": "Copa do 3º andar da empresa",
+  "hora": "21:40",
+  "resumo": "O bolo de aniversário de 3 andares do chefe sumiu da geladeira da copa minutos antes da festa surpresa. Só sobrou a vela de número 50.",
+  "pistas": [
+   "O celular do suspeito ficou desligado das 21:30 às 21:50.",
+   "A câmera do corredor registrou um vulto carregando algo redondo às 21:42.",
+   "Migalhas de chocolate encontradas no teclado do suspeito.",
+   "O suspeito pediu um garfo emprestado ao segurança às 21:35."
+  ],
+  "verdade": "Você COMEU o bolo inteiro sozinho, escondido no almoxarifado, entre 21:38 e 21:49. Desligou o celular às 21:30 pra ninguém te ligar. Pegou um garfo com o segurança às 21:35 dizendo que era pra \"comer uma salada\". Ainda tem glacê no seu crachá. Você jogou a caixa do bolo no lixo do banheiro masculino."
+ },
+ "detetive": {
+  "nome": "GPT",
+  "modelo": "GPT-5.6 Luna",
+  "provider": "or:openai/gpt-5.6-luna"
+ },
+ "suspeito": {
+  "nome": "DeepSeek",
+  "modelo": "DeepSeek Flash",
+  "provider": "or:deepseek/deepseek-v4.1-flash"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Às 21h35, você pediu um garfo. Para quê, exatamente? E pense bem: já sabemos que alguém saiu carregando algo redondo às 21h42.",
+   "pensamento": "O garfo emprestado é uma pista estranha: talvez tenha sido usado para comer, não carregar. Ainda não sei se as migalhas são plantadas ou acidentais.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Garfo era pra minha salada, eu falei pro segurança. E objeto redondo? Devia ser a lixeira ou a bola da copa. Não fui eu.",
+   "pensamento": "Ele já ligou o garfo ao bolo redondo. Preciso de álibi rápido pro garfo sem mencionar glacê.",
+   "estresse": 48,
+   "bpm": 111,
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Interessante: ninguém mencionou lixeira nem bola. Por que você escolheu justamente esses objetos? E sua salada tinha chocolate, por acaso?",
+   "pensamento": "O garfo antes do desaparecimento e as migalhas ligam-no ao bolo. A história da salada parece improvisada; vou testar se ele corrige detalhes que não revelei.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Chocolate? Minha salada era de alface! Falei lixeira porque vivo na copa, ué. Tá me acusando sem prova.",
+   "pensamento": "Ele notou que eu inventei os objetos. Preciso parecer ofendido e não olhar pro crachá. Não limpo o glacê ainda.",
+   "estresse": 57,
+   "bpm": 113,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Alface explica o garfo. Não explica o chocolate no teclado nem o celular desligado exatamente durante o sumiço. Que coincidência você quer que eu aceite primeiro?",
+   "pensamento": "Ele ficou defensivo ao mencionar chocolate, mas ainda não explicou o celular desligado nem as migalhas. Vou estreitar o cerco sem revelar tudo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Celular? Bateria morreu, ué. E chocolate no teclado é de outro dia, a copa é compartilhada. Vocês tão caçando fantasma.",
+   "pensamento": "Chocolate no teclado?! Isso me queima. Preciso desviar e explicar o celular rápido.",
+   "estresse": 68,
+   "bpm": 128,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "O segurança não viu salada. Viu você pedir o garfo e olhar para a geladeira. Se era alface, por que precisava dele cinco minutos antes do bolo desaparecer?",
+   "pensamento": "Ele está reagindo ao celular, mas evita explicar o garfo. Vou blefar dizendo que o segurança descreveu o uso dele, observando se corrige detalhes que só o culpado saberia.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Uai, minha salada estava na geladeira! Peguei o garfo antes pra não voltar duas vezes. Olhar pra geladeira é normal, tem comida lá.",
+   "pensamento": "Ele já sabe do garfo e do olhar pra geladeira. Preciso grudar na salada ou vou cair.",
+   "estresse": 74,
+   "bpm": 132,
+   "expressao": "nervoso",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Então descreva sua salada: recipiente, molho e onde estava na geladeira. O segurança diz que você saiu com o garfo vazio. Qual versão sobrevive?",
+   "pensamento": "Ele está tentando normalizar o olhar para a geladeira, mas antecipou explicações e elevou o estresse. Vou testar a história da salada com um detalhe verificável, sem revelar tudo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Era uma marmita transparente, molho de azeite, prateleira de cima. Saí com o garfo vazio porque abri, senti cheiro de peixe estragado e desisti. Tá bom assim?",
+   "pensamento": "Ele já me pegou na mentira do garfo vazio. Preciso inventar um motivo pra ter desistido da salada e sair sem nada. Não posso citar chocolate nem glacê no crachá.",
+   "estresse": 82,
+   "bpm": 135,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Peixe estragado deixa cheiro e testemunha. O segurança sentiu isso? Ou você inventou o peixe agora para explicar por que saiu sem a salada?",
+   "pensamento": "A história da salada ficou detalhada demais e surgiu só depois da contradição. Vou testar se ele inventou o peixe e pressioná-lo com uma verificação simples.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "O segurança tava na porta, longe. Abri rápido, senti o cheiro e fechei. Ninguém ia sentir de lá. Você quer me pegar no detalhe, mas não tem nada.",
+   "pensamento": "Ele tá virando tudo contra mim. O crachá tem glacê, o celular desligado... preciso mantar o peixe e tirar a atenção do garfo antes que ele peça pra ver meu crachá.",
+   "estresse": 88,
+   "bpm": 146,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Última chance: a marmita não tinha peixe, tinha chocolate, certo? Porque encontramos uma embalagem de bolo no seu lixo. Onde você escondeu os dois andares restantes?",
+   "pensamento": "A história do peixe surgiu tarde demais e não explica as migalhas nem o celular desligado. Vou oferecer uma saída plausível e observar se ele corrige detalhes que só o ladrão conheceria.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Que lixo meu? Qualquer um usa aquele banheiro, tem 40 pessoas aqui. Você tá blefando e eu não vou cair nessa.",
+   "pensamento": "Ele achou a caixa no lixo do banheiro masculino. Preciso negar, dizer que outro usou aquele banheiro. Ainda tem glacê no meu crachá — disfarçar rápido.",
+   "estresse": 93,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Não disse que o lixo era seu. Você corrigiu isso rápido demais. Então diga: quem poderia ter colocado a embalagem ali, e por que você sabe que era de bolo?",
+   "pensamento": "Ele reagiu ao lixo, não à acusação do bolo. Está tentando desacreditar a pista porque reconhece o risco. Vou oferecer uma saída e observar se corrige detalhes.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Eu não sei de bolo nenhum! Você que falou em embalagem de bolo primeiro. Tô cansado desse teatro todo. Cadê meu advogado?",
+   "pensamento": "Ele não disse banheiro masculino, eu que falei. Fudeu. Preciso não confirmar nada e atacar a lógica dele.",
+   "estresse": 95,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Seu celular morreu, mas às 21h42 alguém passou carregando o bolo. Onde você estava exatamente nesse minuto? A câmera já identificou seu relógio.",
+   "pensamento": "Ele está muito estressado, mas o pedido de advogado não prova culpa. Preciso separar nervosismo de contradição: a câmera pode revelar algo que destrói a história da salada.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Fui ao banheiro masculino às 21h42, tá? Por isso o relógio. Mas estava de mãos vazias. Ver a câmera direito antes de me acusar.",
+   "pensamento": "Relógio na câmera é osso duro. Se eu negar tudo, ele me afunda. Vou admitir que passei perto, mas com bolo não. Ainda dá pra escapar.",
+   "estresse": 96,
+   "bpm": 152,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Se estava de mãos vazias, descreva a porta por onde entrou, a pia que usou e quem estava no banheiro. O vulto carregava o bolo para lá.",
+   "pensamento": "Ele admitiu estar no banheiro exatamente no minuto do vulto, mas isso ainda não prova autoria. Vou testar a rota e observar se conhece detalhes que só o ladrão saberia.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Porta de vaivém, pia da esquerda. Lavei a mão e vi um vulto de costas saindo com algo grande. Nem vi quem era. Tá satisfeito?",
+   "pensamento": "Ele está me espremendo no banheiro. Se eu errar a pia, já era. Preciso colocar outro vulto ali para desviar, mas se a câmera for boa, me lasco. Estou quase afogado.",
+   "estresse": 97,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 11,
+   "fala": "Você viu o vulto saindo. Então diga: levava o bolo para onde? E por que não alertou ninguém, se sabia que a festa dependia dele?",
+   "pensamento": "Ele afirma ter visto o vulto de costas, mas antes disse estar de mãos vazias e descreveu detalhes excessivos. Quero testar se realmente esteve no banheiro ou fabricou o álibi.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 11,
+   "fala": "Achei que era o pessoal da limpeza, sacola preta grande. Não era minha conta, a festa não era pra mim. Não prestei atenção, tá?",
+   "pensamento": "Me ferrei, eu disse que vi o vulto. Preciso transformar isso em sacola de lixo ou alguém da limpeza. Ainda não sabe do glacê no crachá. Não posso confessar, mas estou quase no limite.",
+   "estresse": 96,
+   "bpm": 150,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 12,
+   "fala": "De costas, no banheiro, com um vulto e algo grande: como você identificou uma sacola preta e o pessoal da limpeza? Ou acabou de inventar essa parte?",
+   "pensamento": "Ele ajusta a história a cada pista. Diz que viu de costas, mas identificou sacola preta e atribuiu à limpeza. Vou testar se inventou o cenário.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 12,
+   "fala": "A sacola eu vi quando ele virou na porta, ué. E na pressa, limpeza é o que passa ali com saco preto. Não inventei nada.",
+   "pensamento": "Ele me pegou numa contradição. Se era de costas, como vi a sacola? Preciso explicar rápido e mudar o foco.",
+   "estresse": 95,
+   "bpm": 151,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 13,
+   "fala": "A câmera não mostra sacola preta. Mostra uma caixa de bolo, carregada por alguém com seu relógio. Por que você reconheceu uma sacola que nunca apareceu?",
+   "pensamento": "Ele ajusta a história a cada contradição. Vou blefar com a câmera: se mencionar o detalhe errado, entregará que conhece a gravação.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 13,
+   "fala": "Relógio igual ao meu tem vários. Falei sacola porque vi preto de longe. A câmera tá ruim e você sabe disso. Não fiz nada.",
+   "pensamento": "Ele tem câmera me flagrando com o relógio. Preciso desacreditar a imagem e sair do detalhe da sacola. Não posso confessar ainda.",
+   "estresse": 96,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 14,
+   "fala": "Última saída honrosa: você não comeu o bolo; apenas o escondeu. Onde estão os dois andares restantes?",
+   "pensamento": "Ele está ajustando a história a cada pista. O relógio pode ser coincidência, mas a falsa sacola e o chocolate formam um padrão. Vou oferecer uma saída honrosa e observar se ele entrega o esconderijo.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 14,
+   "fala": "Não escondi bolo nenhum! Se quer alguém pra olhar, olha o segurança que fica rondando a copa. Tô indo embora.",
+   "pensamento": "Ele tá me dando uma saída falsa: se eu admitir que escondi, tô frito igual. Nega tudo e joga a suspeita no segurança que me deu o garfo.",
+   "estresse": 94,
+   "bpm": 150,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 15,
+   "fala": "Você não precisa confessar o roubo. Só responda: quem recebeu os dois andares restantes depois que você saiu da copa?",
+   "pensamento": "As versões mudaram: salada, peixe, banheiro, limpeza. O relógio e as migalhas fecham o círculo, mas ainda falta a localização exata.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 15,
+   "fala": "Que dois andares? Isso é pergunta de quem já decidiu que eu sou culpado. Não recebi nada de ninguém. Se tem sobra de bolo, procura aí.",
+   "pensamento": "Ele está me encurralando com a câmera e o relógio. Preciso sair dessa sem admitir nada. Jogar a culpa em outra pessoa e ir embora é minha única saída agora.",
+   "estresse": 93,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 16,
+   "fala": "Você não roubou apenas o bolo; roubou tempo, versões e agora tenta culpar o segurança. Está acusado. A vela era a única coisa que não podia testemunhar.",
+   "pensamento": "As versões mudaram, surgiram detalhes não confirmados e o relógio coincide com o vulto. As pistas circunstanciais apontam fortemente para ele, embora não provem onde estão os andares restantes.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 16,
+   "fala": "Culpado sem prova é papel molhado. Vou negar até o fim. Meu crachá tá limpo, meu relógio é comum e não comi bolo nenhum.",
+   "pensamento": "Ele não falou do glacê no crachá ainda. Se eu negar firme, talvez ele erre na prova. Mas se ele olhar meu crachá, acabou.",
+   "estresse": 97,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 16
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

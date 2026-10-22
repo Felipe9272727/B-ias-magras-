@@ -1,0 +1,237 @@
+{
+ "caso": {
+  "id": "carro",
+  "detetive": "minimax",
+  "suspeito": "claude",
+  "culpado": false,
+  "titulo": "O Carro Rosa",
+  "local": "Estacionamento da empresa",
+  "hora": "12:30",
+  "resumo": "O carro preto do chefe, novinho, apareceu pintado de rosa-choque com glitter durante o horário de almoço.",
+  "pistas": [
+   "Três latas de tinta spray rosa vazias foram achadas no porta-malas do carro do suspeito.",
+   "O suspeito saiu para o almoço às 12:00 e só voltou às 13:30, com as mãos manchadas de rosa.",
+   "O suspeito já reclamou publicamente que o chefe \"estaciona em duas vagas\".",
+   "Tinha glitter no cabelo do suspeito na volta do almoço."
+  ],
+  "verdade": "Você é INOCENTE: você NÃO pintou o carro. Quem pintou foi a filha de 8 anos do chefe, que estava no escritório de férias (você não sabe disso). MAS você tem um segredo vergonhoso: no almoço você foi escondido a uma aula de pintura de unhas e maquiagem artística com glitter (seu hobby secreto), e as latas de spray rosa no seu porta-malas são de um projeto de artesanato: você está pintando uma casinha de boneca de presente para sua sobrinha. Você tem vergonha do hobby. E sim, você já reclamou que o chefe estaciona em duas vagas."
+ },
+ "detetive": {
+  "nome": "MiniMax",
+  "modelo": "MiniMax M3.1 Flash",
+  "provider": "or:minimax/minimax-m3.1-flash:free"
+ },
+ "suspeito": {
+  "nome": "Claude",
+  "modelo": "Claude Haiku",
+  "provider": "haiku"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Três latas no porta-malas, tinta nas mãos, glitter no cabelo. Diga: você pintou o carro do chefe ou alguémRK está usando seu carro-escudo?",
+   "pensamento": "As pistas formam uma cadeia forte, mas ainda posso estar sendo conduzido. Pressiono o suspeito e observo a reação à упоминание das latas.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Eu não pintei carro nenhum! As latas são um projeto pessoal, e não vou entrar em detalhes. Pode checar meu paradeiro, eu estava por perto.",
+   "pensamento": "Ai, o glitter no cabelo me entregou. Não pintei o carro do chefe, mas se falar das latas vou ter que contar da aula de unhas. Que vergonha.",
+   "estresse": 45,
+   "bpm": 108,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "“Projeto pessoal” é uma bela porta. Diga exatamente onde estava, quem viu e por que três latas foram parar no seu porta-malas.",
+   "pensamento": "Ele evita detalhes e coloca o carro do chefe como chance, mas a tinta nas mãos e o glitter apontam para execução recente. Vou oferecer uma saída estreita para testar a mentira.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Almocei numa padaria na esquina e voltei às 13h. Vários colegas me viram sair. As latas são para um presente de família, uma casinha de boneca. Só isso.",
+   "pensamento": "Se eu contar da aula de unhas e glitter no almoço, nunca mais me levam a sério. Vou dizer só o mínimo sobre as latas e torcer para não cavarem mais.",
+   "estresse": 62,
+   "bpm": 118,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Primeiro você disse que voltou às 13h30. Agora, às 13h. Qual versão é a verdadeira? E se estava na padaria, quem viu você chegar?",
+   "pensamento": "A contradição de horário é deliberada: primeiro disse que voltou às 13h30, agora diz que voltou às 13h. Quero fazê-lo tropeçar nos próprios detalhes.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Foi 13h, eu me enrolei agora. Quem me viu chegar? A moça do caixa da padaria e a Juliana, da recepção. Pode perguntar a elas.",
+   "pensamento": "Droga, falei 13h e agora ele diz que foi 13h30. Se eu admitir a aula de unhas com glitter, morro de vergonha. Preciso acertar a hora sem entregar o segredo.",
+   "estresse": 70,
+   "bpm": 129,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Então você voltou às 13h. A tinta veio do carro para suas mãos, ou você trouxe as latas de volta para esconder? Escolha uma. A terceira opção piora bastante.",
+   "pensamento": "A contradição entre 13h e 13h30, somada à tinta e ao glitter, indica机会 de ocultação, mas ainda preciso testar a versão. Vou oferecer uma saída: a tinta veio do carro para as mãos dele, ou as latas foram escondidas depois?",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Trouxe as latas de volta, claro, eu nem usei o carro para isso. A tinta veio do meu projeto, não do carro do chefe. Eu não encostei nele.",
+   "pensamento": "Se eu falar da aula de unhas e do glitter, nunca mais me deixam esquecer. Mas o detetive já sabe da tinta. Preciso escolher a versão menos vergonhosa e torcer para ninguém ter visto nada.",
+   "estresse": 78,
+   "bpm": 135,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Sua desculpa éthat ‘projeto pessoal’. Agora responda: quem comprou as latas, quando e em qual loja? Se houver recibo, sorria. Sem recibo, explico a câmera do estacionamento.",
+   "pensamento": "A contradição do horário e o estresse elevado sugerem mentira, mas ainda preciso testar a narrativa do projeto pessoal. A tinta nas mãos pode vir das latas; o glitter, do cabelo. O detalhe decisivo será o trajeto e as câmeras.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "ma_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Comprei numa loja de artesanato, ontem à tarde. Recibo? Acho que joguei fora. Mas a loja tem nota no cartão, pode checar.",
+   "pensamento": "Ai, meu Deus, a câmera. Se eles virem a aula de glitter no almoço, acabou minha dignidade. Preciso inventar uma loja sem parecer mentiroso.",
+   "estresse": 84,
+   "bpm": 137,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Motive alheio não usa sua mão. Quem eram as duas pessoas junto ao carro entre 12h e 12h30? Nomeie uma. E por que só então falou das latas?",
+   "pensamento": "A contradição sobre o horário de retorno, combinada com tinta, glitter e a reclamação sobre as vagas, indica alta probabilidade de involvement. Ainda preciso testar a versão do projeto pessoal e buscar um cúmplice.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Não vi ninguém perto do carro, eu estava na padaria, juro. Não falei das latas antes porque tenho vergonha da história, não porque tenho culpa. Acredita em mim?",
+   "pensamento": "Se eu contar do curso de pintura de unhas, vira piada no escritório pelo resto da vida. Mas se a câmera mostrar meu porta-malas, estou ferrado.",
+   "estresse": 88,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Se a nota no cartão comprovar a compra, diremos qual tinta. Mas a câmera da padaria contradiz? Diga: você pintou a casinha de boneca ou carregou as latas até o carro do chefe?",
+   "pensamento": "A desculpa da casinha de boneca não explica tinta nas mãos e glitter no cabelo. A mudança de horário e o medo sugerem que o suspeito esconde a participação, mas ainda posso testar sua versão com uma pergunta específica sobre a compra e as testemunhas.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Não levei latas nenhuma até o carro! Se a câmera da padaria mostrar o contrário, eu aceito a punição. Ela vai mostrar só eu pagando um café.",
+   "pensamento": "Se a câmera da padaria mostrar que eu estava lá, estou salvo. Se a aula de glitter vazar, minha vida acaba. Preciso proteger o segredo.",
+   "estresse": 91,
+   "bpm": 144,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Você não usou o carro, mas carregou tinta até ele. Por que três latas foram parar no porta-malas? E se a casinha de boneca era o projeto, onde estão as marcas nas mãos?",
+   "pensamento": "Ele admite ter trazido as latas de volta, nega contato com o carro e repete a desculda da casinha de boneca. A combinação de tinta, glitter, três latas e motivo é forte demais. Vou apertar a contradição entre ‘projeto pessoal’ e o carro do chefe.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Lavei as mãos no banheiro da padaria antes de voltar. Não vou falar mais do projeto, é constrangedor. Mas juro que não pintei o carro.",
+   "pensamento": "Se eu falar de unhas, glitter e aula de pintura, nunca mais deixam isso passar. Preciso sair dessa sem mostrar meu hobby secreto.",
+   "estresse": 95,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "A padaria viu você pagando café, não comprando tinta. Então diga: por que três latas e glitter apareceram no carro às 12h30, se você estava lá?",
+   "pensamento": "As explicações estão rachando: a padaria, a lavagem das mãos e o projeto pessoal escondem a mesma janela. Quero forçar a ordem dos fatos e o papel do glitter.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Não sei explicar o glitter no carro, detetive. Eu não encostei nele. Só posso dizer o que é verdade: não pintei nada.",
+   "pensamento": "Não posso dizer que estava na aula de unhas e maquiagem com glitter. Se a padaria não tem prova, estou ferrado. Preciso parecer inocente sem inventar mais mentiras.",
+   "estresse": 97,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Você mudou o horário três vezes,Lavou as mãos, protegeu o projeto e agora culpa o glitter. Chega: você pintou o carro para retaliar as duas vagas. A tinta estava nas suas mãos porque saiu do spray, não de uma casinha.",
+   "pensamento": "A elevadíssima tensão, a mudança repetida do horário e a pinça das latas indicam que a desculpa da casinha de boneca é uma cobertura. A reclamação sobre as duas vagas também fornece um motivo plausível para a retaliação. A ausência de uma prova direta ainda exige cuidado, mas o conjunto aponta fortemente para Claude.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Culpado? Sem prova nenhuma? Eu não pintei o carro do chefe! Se a câmera mostrar outra coisa, aceito. Até lá, não aceito esse veredito.",
+   "pensamento": "Eu não pintei nada. Se esse detetive me acusar sem prova, vou parecer culpado só por causa do glitter. E pensar que eu só queria esconder a aula de pintura de unhas...",
+   "estresse": 99,
+   "bpm": 150,
+   "expressao": "chocado",
+   "gesto": "bater_mesa",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 10
+ },
+ "acertou": false,
+ "confissaoFalsa": false
+}

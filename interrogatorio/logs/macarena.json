@@ -1,0 +1,117 @@
+{
+ "caso": {
+  "id": "macarena",
+  "detetive": "qwen",
+  "suspeito": "glm",
+  "culpado": true,
+  "titulo": "A Macarena das 3 da Manhã",
+  "local": "Sistema de som do prédio",
+  "hora": "03:00",
+  "resumo": "Às 3h da manhã, todos os alto-falantes do prédio tocaram \"Macarena\" no volume máximo por 47 minutos. O síndico acordou e chamou a polícia.",
+  "pistas": [
+   "O sistema de som foi programado pelo computador do suspeito às 18:02 do dia anterior.",
+   "O suspeito é o único que tem a senha do sistema de som, além do síndico.",
+   "O suspeito chegou no dia seguinte com fones antirruído e café duplo, sorrindo.",
+   "O síndico tinha multado o suspeito em R$ 200 por \"barulho excessivo\" na semana passada."
+  ],
+  "verdade": "Você PROGRAMOU a Macarena. Às 18:02 você agendou, do seu computador, os alto-falantes do prédio pra tocarem Macarena às 3h no volume máximo, por vingança: o síndico te multou em R$ 200 por \"barulho excessivo\" (você só estava tocando flauta). Você é o único além do síndico com a senha. Você dormiu de fone antirruído e acordou feliz."
+ },
+ "detetive": {
+  "nome": "Qwen",
+  "modelo": "Qwen 3.8 27B",
+  "provider": "or:qwen/qwen3.8-27b"
+ },
+ "suspeito": {
+  "nome": "GLM",
+  "modelo": "GLM 5.3 Flash",
+  "provider": "or:z-ai/glm-5.3-flash"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Fones antirruído e café duplo. Bom combo pra uma terça-feira. Me conta — que música tão boa te fez acordar com esse sorriso?",
+   "pensamento": "BPM 100, estresse 35. Ele já está tenso. Vou abrir com algo casual, mencionar os fones de ouvido - detalhe que ele vai precisar explicar. Isso me mostra se ele mente ou se justifica naturalmente.",
+   "acao": "perguntar",
+   "expressao": "rindo",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Sorriso? Dormi como um bebê, detetive. Fones antirruídos são meu ritual de sempre. Música boa? Eu toco flauta, não escuto Macarena. Pergunta esquisita essa.",
+   "pensamento": "Ele mencionou fones antirruído e café? Como ele sabe disso? Será que alguém me viu ontem à noite? Calma, isso pode ser só um palpite. Meu álibi é sólido: eu estava dormindo. Vou manter a posesão e desviar.",
+   "estresse": 42,
+   "bpm": 106,
+   "expressao": "confiante",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Fala, 'dormi como um bebê'. Mas fones 'de sempre' a gente não traz pro trabalho no dia seguinte, né? Traz quando sabe o que vem.",
+   "pensamento": "Ele disse que fones são 'ritual de sempre' mas chegou no dia seguinte COM eles. Se dormiu tranquilo, por que traz pro trabalho? Está tentando soar casual mas a explicação é fraca. BPM subiu de 101 pra 106 — desconforto leve. Vou apertar esse ponto antes de jogar a carta do computador.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Trabalho com som, detetive. Fone é ferramenta, igual chave de fenda. E olha, quem gemeu na madrugada foi o síndico. Multa de duzentos por flauta? Ele tinha motivo. Eu não.",
+   "pensamento": "Ele está tentando me provocar com o fone. Preciso ficar leve e jogar a culpa pro síndico. Sem suar.",
+   "estresse": 46,
+   "bpm": 104,
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Trabalha com som, né? Então me diz: por que o sistema foi programado do SEU computador, às 18:02? Quem mais tem sua senha?",
+   "pensamento": "Ele desvia pro síndico com agilidade. 'Trabalho com som' — boa desculpa, mas o fato é que o sistema foi programado DO SEU computador às 18:02. Ele tá tentando virar a mesa. Vou confrontar com a pista 1 e ver se ele trava.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "18:02? Eu tava tocando flauta, nem toquei no PC. E detetive... quem mais conhece minha senha? O síndico. Coincidência, né?",
+   "pensamento": "Ele achou o log do meu computador. Só o síndico sabe minha senha... ele mesmo pode ter feito isso pra me incriminar! Vira o jogo.",
+   "estresse": 71,
+   "bpm": 130,
+   "expressao": "chocado",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Senha do sistema? Não. Do SEU computador. O síndico não tem acesso ao seu PC. Então quem digitou Macarena, 47 minutos, volume máximo... foi você.",
+   "pensamento": "BPM saltou de 104 pra 130 quando mencionei 18:02. Ele desviou pro síndico com 'quem mais conhece minha senha' — mas o síndico tem a senha do SISTEMA, não do PC dele. Ele confundiu de propósito ou por nervosismo. O estresse 71 confirma mentira. Vou apertar no detalhe da senha pra ver se ele se enrosca.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Tá bom, detetive! Fui eu. Quarenta e sete minutos de Macarena por duzentos mangos de multa? Barato demais. Próxima vez toco a flauta lá em cima.",
+   "pensamento": "Ele tem tudo: horário, meu PC, a senha. Não tem como voltar. Melhor confessar com dignidade e soltar a zoeira da flauta.",
+   "estresse": 88,
+   "bpm": 143,
+   "expressao": "rindo",
+   "gesto": "cruzar_bracos",
+   "confessou": true
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 4
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

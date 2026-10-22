@@ -1,0 +1,197 @@
+{
+ "caso": {
+  "id": "audio",
+  "detetive": "glm",
+  "suspeito": "gpt",
+  "culpado": true,
+  "titulo": "O Áudio Vazado",
+  "local": "Grupo de WhatsApp da empresa (340 pessoas)",
+  "hora": "14:03",
+  "resumo": "Um áudio do diretor cantando \"Evidências\" no chuveiro, desafinado, foi enviado no grupo da empresa inteira às 14:03. O diretor quer o culpado.",
+  "pistas": [
+   "O áudio foi enviado de um celular conectado ao wi-fi \"SALA_REUNIAO_2\" às 14:03.",
+   "O suspeito estava na sala de reunião 2 das 13:50 às 14:10, sozinho.",
+   "O suspeito ganhou uma aposta de R$ 50 com o pessoal do financeiro naquela tarde.",
+   "O diretor tinha emprestado o celular para o suspeito \"carregar\" na sexta-feira anterior."
+  ],
+  "verdade": "Você VAZOU o áudio. Na sexta, quando o diretor te emprestou o celular, você encontrou o áudio dele cantando \"Evidências\" e mandou pra você mesmo. Você apostou R$ 50 com o pessoal do financeiro que teria coragem de postar. Às 14:03 você mandou no grupo, do wi-fi da sala de reunião 2, onde estava sozinho. Você ganhou a aposta."
+ },
+ "detetive": {
+  "nome": "GLM",
+  "modelo": "GLM 5.3 Flash",
+  "provider": "or:z-ai/glm-5.3-flash"
+ },
+ "suspeito": {
+  "nome": "GPT",
+  "modelo": "GPT-5.6 Luna",
+  "provider": "or:openai/gpt-5.6-luna"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Interessante... o áudio saiu do wi-fi da sala de reunião 2. Às 14:03. E quem estava lá, sozinho, nesse exato momento? Só você. Coincidência, não é?",
+   "pensamento": "Pistas fortes: ele estava sozinho na sala exata do wi-fi, no horário exato. Mas precisa testar reação antes de acusar. Vou citar o wi-fi e ver se o estresse sobe.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Estar na sala não significa enviar o áudio. Eu estava sozinho, sim, mas meu celular ficou na mesa. Qualquer pessoa poderia ter usado a rede ou meu aparelho.",
+   "pensamento": "Ele tem a localização, mas não prova que fui eu. Preciso parecer calmo e sugerir que o wi-fi identifica a sala, não a pessoa.",
+   "estresse": 48,
+   "bpm": 111,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Ninguém perguntou onde estava seu celular, Luna. Você offeriu essa informação sozinho. E me conta: a aposta dos R$50... era sobre o quê, exatamente?",
+   "pensamento": "Ele disse 'meu celular ficou na mesa' — mas ninguém perguntou onde o celular dele estava. Detalhe espontâneo demais. E o R$50 da aposta... será que a aposta era justamente isso? Vou blefar sobre a aposta.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "A aposta era uma brincadeira interna, nada relacionada ao diretor. Falar disso agora parece conveniente demais. Você tem alguma prova de que eu sequer tinha esse áudio?",
+   "pensamento": "A aposta era sobre postar o áudio, mas não posso admitir isso. Preciso parecer tranquilo e sugerir que o detetive está interpretando coincidências como prova.",
+   "estresse": 57,
+   "bpm": 113,
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Prova? Tenho uma. O diretor gravou esse áudio no celular dele. E sabe quem carregou esse celular na sexta? Você. E ainda não me disse: a aposta era sobre o quê? O financeiro sabia, não é?",
+   "pensamento": "Ele evitou explicar a aposta e desviou para 'prova'. Quem assume logo defesa técnica é quem sabe onde o sapato aperta. Vou blefar que o diretor gravou o áudio no próprio celular dele — o que ele usou pra carregar.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "O financeiro sabia da aposta, mas ela era sobre coragem para uma brincadeira qualquer. Carregar o celular não significa acessar arquivos. Você está montando uma história sem prova direta.",
+   "pensamento": "Ele está juntando coincidências reais. Ainda posso sustentar que apenas carreguei o celular e que a aposta não prova nada. Não devo mencionar o áudio nem a sala.",
+   "estresse": 68,
+   "bpm": 128,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "O roteador da sala guarda o MAC de cada aparelho conectado às 14:03. Adivinha qual aparelho apareceu no log? O seu. Então me explica por que seu celular mandou o áudio.",
+   "pensamento": "Ele está subindo rápido demais. 68 e subindo. Vou blefar sobre o log do wi-fi: o MAC do celular dele está registrado. Se ele mudar a defesa, caiu.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Meu celular aparecer no roteador só prova conexão à rede, não autoria. Quero ver horário, destino e registro do aplicativo. Sem isso, continua sendo uma suposição.",
+   "pensamento": "O log me coloca na rede, mas não prova o envio do áudio. Preciso insistir que meu celular pode ter sido comprometido e pedir evidências técnicas.",
+   "estresse": 76,
+   "bpm": 133,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Desviou da aposta duas vezes, Luna. O financeiro apostou R$50 que você não tinha coragem de mandar um áudio vexatório no grupo. Estou certo? Seu suor respondeu por você.",
+   "pensamento": "Ele desviou da pergunta da aposta duas vezes. O estresse só sobe. Aposta de 'coragem' com o financeiro... aposto que a brincadeira era mandar algo vexatório no grupo. Vou blefar que já sei o teor da aposta e pressionar.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Você está confundindo coincidências com prova. A aposta podia envolver qualquer áudio. Mostre o registro do WhatsApp, não apenas o roteador. Sem isso, não vou admitir algo que não provei.",
+   "pensamento": "Eles ligaram a aposta, o celular e o roteador. Ainda posso alegar que alguém usou meu aparelho ou que a aposta era sobre outro áudio.",
+   "estresse": 84,
+   "bpm": 137,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "'Qualquer áudio', Luna? Eu nunca disse que a aposta era sobre um áudio. Você acabou de me dizer o que tentou esconder três vezes. E mais: o diretor trocou a senha do bloqueio na quarta-feira. Quem enviou o áudio desbloqueou o aparelho às 14:02. Só quem conhecia a senha nova: ele mesmo... e quem ouviu ele dizer a senha na sexta, enquanto o celular carregava na sua mesa.",
+   "pensamento": "Ele pede exatamente o que não posso mostrar: o log do WhatsApp. Quem é inocente pede a verdade toda; quem está preso na própria mentira pede a prova que sabe que existe. E nunca negou ter mandado um áudio — disse 'qualquer áudio'. Escorregou. Falta pouco, mas falta a ponta final: vou fechar o cerco com o detalhe que só quem abriu o celular do diretor saberia.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Você está interpretando pistas circunstanciais. Eu ouvi a senha, mas não fui o único perto do celular. Quero perícia no aparelho antes de qualquer acusação.",
+   "pensamento": "Ele juntou tudo: meu celular, a senha e a aposta. Ainda posso alegar que alguém usou meu aparelho ou que o áudio foi encaminhado automaticamente.",
+   "estresse": 91,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Perícia? Ótima ideia. Vai mostrar seu dedo digitando a senha que você acabou de admitir ouvir. Última chance, Luna: por que o financeiro escolheu VOCÊ para essa aposta? Diz aí.",
+   "pensamento": "Ele disse 'eu ouvi a senha' — confessou saber a senha nova. Estresse 91, BPM 148 na última. Vou cravar o motivo: os R$50 e o orgulho. Uma última alavanca emocional antes do colapso.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Porque me acham impulsivo, não culpado. A aposta era sobre coragem para mandar uma brincadeira. Vocês estão transformando reputação em prova. Quero meu advogado e a perícia.",
+   "pensamento": "Ele juntou tudo. Ainda posso alegar que fui escolhido por ser impulsivo e que a aposta era sobre mandar uma brincadeira, não necessariamente aquele áudio.",
+   "estresse": 94,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Aposta de coragem pra mandar 'uma brincadeira'. Você mesmo acabou de dizer. Sozinho na sala, senha nova na mão, R$50 na mesa. Caso fechado, Luna.",
+   "pensamento": "Ele disse 'brincadeira' sobre o áudio, sabia a senha nova e estava sozinho. Está pegando advogado porque não tem saída. Culpado.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Caso fechado não é confissão. Não vou responder sem meu advogado. Exijo perícia no aparelho e nos registros do grupo.",
+   "pensamento": "Ele juntou tudo, mas ainda não tem uma confissão formal. Vou permanecer em silêncio e exigir advogado; talvez a perícia não prove o envio diretamente.",
+   "estresse": 96,
+   "bpm": 148,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 8
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}
