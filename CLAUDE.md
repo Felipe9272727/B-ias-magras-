@@ -2,6 +2,8 @@
 
 - **Pensamento das personagens: NUNCA usar sussurro** (nada de `[whispers]` no ElevenLabs nem voz sussurrada). Para mostrar que é
   pensamento, usar **ECO** na voz (ex.: ffmpeg `aecho`) mantendo a voz normal. Regra de ouro do Felipe.
+- **NUNCA usar emoji dentro dos vídeos** (principalmente nos Shorts): selos, balões, placas, ícones e efeitos são desenhados
+  em SVG (ícone próprio, inline). Regra de ouro do Felipe (crítica do público). Emoji só pode aparecer em texto de título/descrição.
 - O narrador nunca diz nem sugere que é o Claude ou uma IA da Anthropic.
 - Vídeos longos: no máximo ~35 min. A melhor partida/parte vai por último.
 - Entre uma partida e outra: transição de **lobby** (até 5 s) com duas IAs conversando sobre a partida que acabou; cada uma
