@@ -152,7 +152,7 @@ def carregar_roteiro():
 
 def partidas(ordem=None):
     """Os logs dos casos do interrogatório (interrogatorio/logs/<id>.json), por id."""
-    return {f.stem: json.loads(f.read_text()) for f in sorted(LOGS_INT.glob('*.json'))}
+    return {f.stem: json.loads(f.read_text()) for f in sorted(LOGS_INT.glob('*.json')) if f.stem != 'lobby'}
 
 
 def curto(t, mx=170):

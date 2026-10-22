@@ -57,7 +57,7 @@ export const SceneVisual: React.FC<Props> = ({scene, timeline, highlights}) => {
     case 'BigText':
       return <BigText text={p.text} sub={p.sub} color={p.color} />;
     default:
-      if (v.name.startsWith('AU')) return <AmongUsVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
+      if (v.name.startsWith('AU') || v.name.startsWith('INT')) return <AmongUsVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('IL')) return <IlhaVisual name={v.name} props={p} timeline={timeline} />;
       if (v.name.startsWith('OC')) return <OvercookedVisual name={v.name} props={p} scene={scene} timeline={timeline} />;
       if (v.name.startsWith('S60')) return <SessentaVisual name={v.name} props={p} scene={scene} timeline={timeline} />;

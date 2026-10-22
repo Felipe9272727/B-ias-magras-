@@ -1,0 +1,237 @@
+{
+ "caso": {
+  "id": "peixe",
+  "detetive": "deepseek",
+  "suspeito": "qwen",
+  "culpado": false,
+  "titulo": "O Sumiço do Peixe Dourado",
+  "local": "Recepção da empresa",
+  "hora": "18:20",
+  "resumo": "O Bolhinha, peixe dourado mascote da empresa há 6 anos, sumiu do aquário da recepção. O aquário ficou vazio, com a água ainda morna.",
+  "pistas": [
+   "O suspeito foi o último a sair da recepção, às 18:25.",
+   "Encontraram um saquinho plástico com água na lixeira da mesa do suspeito.",
+   "A câmera da recepção estava coberta por um post-it amarelo das 18:10 às 18:30.",
+   "O suspeito tinha pesquisado \"receita de peixe assado\" no computador da empresa às 17:50."
+  ],
+  "verdade": "Você é INOCENTE: você NÃO pegou o peixe. Quem levou o Bolhinha foi a faxineira, Dona Cida, para trocar a água do aquário em casa (ninguém te contou isso; você não sabe onde o peixe está). MAS você tem um segredo vergonhoso: das 18:10 às 18:30 você cobriu a câmera com um post-it porque estava ensaiando uma coreografia de K-pop na recepção vazia para um teste de dança no fim de semana. O saquinho com água era do seu almoço (você trouxe gelatina). A pesquisa \"receita de peixe assado\" era para o jantar da sua mãe. Você morre de vergonha da coreografia e não quer que ninguém saiba."
+ },
+ "detetive": {
+  "nome": "DeepSeek",
+  "modelo": "DeepSeek Flash",
+  "provider": "or:deepseek/deepseek-v4.1-flash"
+ },
+ "suspeito": {
+  "nome": "Qwen",
+  "modelo": "Qwen 3.8 27B",
+  "provider": "or:qwen/qwen3.8-27b"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Curioso... a câmera pegou tudo. Quer me contar a sua versão antes que eu conte a minha?",
+   "pensamento": "Estresse baixo, mas BPM 96 não engana. Vou blefar sobre a câmera: se ele corrigir, sabe mais do que deveria.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Relaxa, detetive. Eu estava na copa tomando um café. Vi o aquário vazio, sim, mas não mexi em nada. Posso provar.",
+   "pensamento": "O detetive sabe da câmera... Ele viu o post-it? Ou sabe que não tem imagem? Não posso dar detalhes do post-it. Preciso parecer tranquilo e negar tudo.",
+   "estresse": 58,
+   "bpm": 120,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Café na copa? Engraçado... a água do aquário estava morna. E um saquinho com água apareceu na sua lixeira. Como explica isso?",
+   "pensamento": "Ele mentiu sobre a copa. O saquinho na lixeira é a chave. Vou apertar e ver o BPM disparar.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Esse saquinho era da minha gelatina de almoço, trago sempre. E essa câmera... você tá com a gravação aí? Porque eu tô na copa o tempo todo, pode ver.",
+   "pensamento": "Ele disse que a câmera pegou tudo, mas eu cobri com post-it entre 18:10 e 18:30! Se ele tiver a gravação completa, estou ferrado. Preciso desviar e focar no saquinho.",
+   "estresse": 72,
+   "bpm": 126,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "A câmera ficou cega por vinte minutos. Um post-it amarelo. E você pesquisou receita de peixe assado. Coincidência demais, não?",
+   "pensamento": "Ele mentiu sobre a copa: BPM disparou. O post-it amarelo e a receita entregam o plano. Vou apertar sem mostrar todas as cartas.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Receita era pro jantar da minha mãe, nada a ver. O post-it eu colei rapidinho pra testar a câmera, juro. Foca em quem realmente tinha acesso ao aquário.",
+   "pensamento": "DEUS. Ele descobriu o post-it. Minha desculpa de 'testar a câmera' é péssima. Se ele insistir vou ter que improvisar mais ou vou ter que confessar a coreografia. A receita eu resolvo fácil, mas o post-it... ah, minha cabeça.",
+   "estresse": 84,
+   "bpm": 141,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Testar a câmera? Curioso. Falaram que te viram na recepção às 18:20, não na copa. Quem tá mentindo pra mim agora?",
+   "pensamento": "Ele tá suando. A desculpa do post-it 'pra testar a câmera' é ridícula, e gelatina não vem em saquinho com água. Vou blefar com uma testemunha que o coloca na recepção às 18:20 — se ele gaguejar, é ele.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Essa testemunha confundiu, tá? Talvez tenha me visto antes das seis. Eu juro que estive na copa. Se não, me mostra a cara da pessoa que viu.",
+   "pensamento": "Merda. Alguém me viu na recepção. Se eu não estava na copa, não tinha como estar na copa. E se eu estava na recepção às 18:20... é quando eu tava ensaiando aquela coreografia. NÃO PODE saber. Vou jogar a culpa na testemunha.",
+   "estresse": 91,
+   "bpm": 146,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Zelador não usa post-it amarelo. O seu pacote na mesa está aberto. Quer confessar agora ou quer que eu ligue pra sua mãe e pergunte da receita?",
+   "pensamento": "Ele está mentindo. O post-it amarelo é a chave. Vou blefar sobre o pacote na mesa e usar a mãe pra pressionar. Se ele ceder, confessa.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "bater_mesa"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Eu... tava na recepção. Só isso. Não vou te dizer o porquê, tá? Mas não peguei o peixe. Não ligue pra minha mãe, foi pro jantar dela, eu te juro.",
+   "pensamento": "Se eu admitir que tava na recepção, ele vai perguntar POR QUÊ cobri a câmera. E aí eu passo. Não posso dizer que tava ensaiando dança. Preciso ser vago.",
+   "estresse": 95,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Sua mãe me disse que o jantar era sopa, não peixe. Por que mentiu? O Bolhinha ainda está vivo no saquinho?",
+   "pensamento": "Ele se contradisse: disse copa, depois recepção. O saquinho é a prova. Vou blefar com a mãe para quebrar de vez.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "A busca era pro meu primo, ele tá de dieta, juro. Não tenho o peixe. Não sei quem pegou. Para de me pressionar, não fui eu!",
+   "pensamento": "Minha mãe destruiu minha desculpa. A receita não foi pra ela. Preciso inventar outra ou o detetive vai chegar na coreografia. O peixe NÃO está comigo. Preciso manter a calma.",
+   "estresse": 97,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Última chance: devolve o Bolhinha vivo agora e eu esqueço o post-it e a receita. Se ele morrer, vira caso de polícia. Onde está o saquinho?",
+   "pensamento": "Ele está a um passo de quebrar. Se eu oferecer uma saída honrosa, talvez ele entregue o peixe e confesse. Preciso do Bolhinha vivo.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "bater_mesa"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Eu NÃO tenho o peixe. Juro por tudo. Não sei onde tá. Se quiser, chama a Dona Cida, ela tem a chave da copa. Mas para de me tratar como se eu fosse o ladrão!",
+   "pensamento": "Eu não tenho o peixe! A faxineira levou pra trocar a água em casa. Mas se eu falar isso, pareço louco. E o post-it... ele já sabe que fui eu. Se eu continuar mentindo, ele descobre a coreografia. Vou ao limite aqui.",
+   "estresse": 99,
+   "bpm": 151,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Dona Cida abriu a copa. O freezer tá cheio de saquinho com água. Quer confessar ou eu abro um por um?",
+   "pensamento": "Ele está mentindo. O estresse está no teto. Vou blefar com a Dona Cida para ver se ele entrega o peixe vivo.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "O freezer dela tá cheio? Então é ELA quem tem saquinho com água! Eu juro que não mexi no aquário. Para de encurralar quem não fez nada!",
+   "pensamento": "O freezer dela? Não, ela levou o peixe pra CASA dela trocar a água do aquário dela. O detetive tá no caminho errado. Mas se ele descobrir o post-it... a coreografia... não, eu aguento. Não fui eu que peguei o peixe, juro por tudo.",
+   "estresse": 100,
+   "bpm": 152,
+   "expressao": "bravo",
+   "gesto": "bater_mesa",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Dona Cida acabou de chegar. Ela trancou a copa às dezoito e só voltou às dezenove. Ninguém estava lá. Então me conta de novo: onde você estava?",
+   "pensamento": "Ele nunca perguntou se o peixe está vivo. Só grita inocência. Quem é inocente quer saber do Bolhinha. E esse papo de Dona Cida é desvio. Vou blefar: digo que a copa estava trancada das 18h às 19h. Se ele inventar desculpa, tá pego.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Admito: tava na recepção. Mas não peguei o peixe, juro. Pede pra ela ver se o Bolhinha não tá aí em casa dela.",
+   "pensamento": "Estou encurralado. A Cida não foi minha álibi. Se admito que tava na recepção, confirmo o post-it e a testemunha. Mas se não admito, pareço mais mentiroso. Vou admitir que tava lá, mas NÃO vou dizer que tava dançando. E vou tentar redirecionar pra Cida de novo, mesmo sem ter certeza do peixe.",
+   "estresse": 100,
+   "bpm": 156,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Chega, Qwen. Post-it, saquinho e receita: tudo aponta pra você. Você levou o Bolhinha. Confessa agora e devolve o peixe vivo.",
+   "pensamento": "Estresse 100, BPM 150. Ele mentiu sobre copa e receita. Saquinho na lixeira e post-it bastam. Vou acusar e pressionar pela devolução.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "bater_mesa"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Tá, vou falar! Eu tava ensaiando uma coreografia de K-pop na recepção! É por isso que colei o post-it! Mas eu NÃO peguei o peixe, juro!",
+   "pensamento": "Não aguento mais. Se eu não contar que tava ensaiando K-pop, ele nunca vai acreditar. A vergonha é pior que confessar um crime que não cometi. Vai ter que ser.",
+   "estresse": 85,
+   "bpm": 138,
+   "expressao": "suando",
+   "gesto": "bater_mesa",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 10
+ },
+ "acertou": false,
+ "confissaoFalsa": false
+}

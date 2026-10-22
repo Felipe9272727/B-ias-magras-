@@ -51,6 +51,7 @@ export const MonitorEstresse: React.FC<{estresse: number; bpm: number; t: number
   const e = Math.max(0, Math.min(100, estresse));
   const alerta = e > 80;
   const cor = corEstresse(e);
+  const txt = alerta ? '#fff1f1' : '#7dffa6'; // no alerta, o texto fica claro sobre o vermelho
 
   // ECG: a trilha rola para a esquerda; cada batida ocupa VEL*60/bpm px, então o espaçamento segue o bpm
   const VEL = 90;
@@ -88,17 +89,17 @@ export const MonitorEstresse: React.FC<{estresse: number; bpm: number; t: number
       <polyline points={pontos.join(' ')} fill="none" stroke={alerta ? '#ff7070' : '#39ff7a'} strokeWidth="2.5" strokeLinejoin="round" />
       <line x1="22" y1="124" x2="338" y2="124" stroke="#39ff7a" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="4 4" />
       {/* BPM (esquerda) */}
-      <text x="22" y="146" fontFamily={FONT.mono} fontWeight={700} fontSize="12" fill="#7dffa6" letterSpacing="2" opacity="0.85">
+      <text x="22" y="146" fontFamily={FONT.mono} fontWeight={700} fontSize="12" fill={txt} letterSpacing="2" opacity="0.85">
         BPM
       </text>
-      <text x="22" y="190" fontFamily={FONT.display} fontWeight={900} fontSize="46" fill="#7dffa6">
+      <text x="22" y="190" fontFamily={FONT.display} fontWeight={900} fontSize="46" fill={txt}>
         {Math.round(bpm)}
       </text>
       <g transform={`translate(128 150) scale(${pulso * 0.95}) translate(-12 -12)`}>
         <path d={CORACAO} fill="#ff4d6d" stroke="#000" strokeWidth="1.5" />
       </g>
       {/* ESTRESSE (direita) */}
-      <text x="196" y="146" fontFamily={FONT.mono} fontWeight={700} fontSize="12" fill="#7dffa6" letterSpacing="2" opacity="0.85">
+      <text x="196" y="146" fontFamily={FONT.mono} fontWeight={700} fontSize="12" fill={txt} letterSpacing="2" opacity="0.85">
         ESTRESSE
       </text>
       <text x="340" y="146" textAnchor="end" fontFamily={FONT.display} fontWeight={900} fontSize="22" fill={cor}>
@@ -169,7 +170,7 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
   // a capa sobe e sai; a folha desliza para fora da pasta logo depois
   const capa = mola(t - abre, fps, {damping: 18, stiffness: 120});
   const folha = mola(t - abre - 6, fps, {damping: 16, stiffness: 150});
-  const folhaTopo = 150 - 110 * folha;
+  const folhaTopo = 150 - 66 * folha; // aberta: fica abaixo da aba, sem cobrir o nome
 
   return (
     <div
@@ -333,7 +334,7 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
                 </div>
                 <div style={{flex: 1, fontFamily: FONT.mono, fontWeight: 700, fontSize: 22, lineHeight: 1.3, color: '#2b1d0e'}}>
                   {p.texto.slice(0, chars)}
-                  {digitando && <span style={{opacity: t % 8 < 4 ? 1 : 0}}>▌</span>}
+                  {digitando && t % 8 < 4 && <span>▌</span>}
                 </div>
                 <div
                   style={{
@@ -586,7 +587,7 @@ export const Fala: React.FC<{nome: string; cor: string; texto: string; at: numbe
   const lateral = esquerda ? {left: 36} : {right: 36};
   const lado2 = esquerda ? {left: 76} : {right: 76};
   return (
-    <div style={{position: 'absolute', bottom: 210, ...lateral, width: 640, transform: `translateY(${(1 - entra) * 40}px) scale(${0.85 + 0.15 * vis})`, opacity: vis}}>
+    <div style={{position: 'absolute', bottom: 210, ...lateral, width: 580, transform: `translateY(${(1 - entra) * 40}px) scale(${0.85 + 0.15 * vis})`, opacity: vis}}>
       <div style={{position: 'relative', background: '#fff', border: '6px solid #0b0b0b', borderRadius: 28, padding: '16px 26px 20px', boxShadow: '0 12px 0 #000a'}}>
         <div
           style={{
@@ -606,7 +607,7 @@ export const Fala: React.FC<{nome: string; cor: string; texto: string; at: numbe
         </div>
         <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 38, lineHeight: 1.25, color: '#111', marginTop: 8, minHeight: 100}}>
           {texto.slice(0, chars)}
-          {falando && <span style={{color: cor, opacity: f % 8 < 4 ? 1 : 0}}>▌</span>}
+          {falando && f % 8 < 4 && <span style={{color: cor}}>▌</span>}
         </div>
       </div>
       {/* rabinho do balão, apontando para a placa */}
@@ -644,7 +645,7 @@ export const PensamentoSecreto: React.FC<{nome: string; cor: string; texto: stri
     <div
       style={{
         position: 'absolute',
-        bottom: 230,
+        bottom: 256,
         ...lateral,
         width: 640,
         transform: `translateY(${(1 - entra) * 40 + balanco}px) scale(${0.85 + 0.15 * vis})`,
@@ -667,7 +668,7 @@ export const PensamentoSecreto: React.FC<{nome: string; cor: string; texto: stri
         </div>
         <div style={{fontFamily: FONT.display, fontWeight: 600, fontStyle: 'italic', fontSize: 34, lineHeight: 1.3, color: '#f4efff', marginTop: 8, minHeight: 90}}>
           “{texto.slice(0, chars)}
-          {f < ate && <span style={{color: cor, fontStyle: 'normal', opacity: f % 8 < 4 ? 1 : 0}}>▌</span>}”
+          {f < ate && f % 8 < 4 && <span style={{color: cor, fontStyle: 'normal'}}>▌</span>}”
         </div>
       </div>
       {bolinhas.map((b, i) => (

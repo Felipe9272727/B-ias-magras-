@@ -24,7 +24,7 @@ export const PreviaHud: React.FC = () => {
     <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 40%, #2a2f3a 0%, #151a22 55%, #07090c 100%)', overflow: 'hidden', fontFamily: 'Poppins, sans-serif'}}>
       {/* monitor de sinais vitais no canto superior esquerdo */}
       <div style={{position: 'absolute', left: 36, top: 36}}>
-        <MonitorEstresse estresse={estresse} bpm={bpm} t={f} largura={420} altura={256} />
+        <MonitorEstresse estresse={estresse} bpm={bpm} t={f} largura={470} altura={286} />
       </div>
 
       <Contador n={n} total={20} />

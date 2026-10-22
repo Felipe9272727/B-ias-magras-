@@ -342,6 +342,10 @@ export const SalaInterrogatorio: React.FC<{
               <clipPath id={idTeto}>
                 <polygon points={pts([ladoEsq(U_MIN, 0), ladoDir(U_MIN, 0), ladoDir(1, 0), ladoEsq(1, 0)])} />
               </clipPath>
+              <radialGradient id={`${idBrilho}-parede`}>
+                <stop offset="0" stopColor="#fff2c0" stopOpacity={0.45} />
+                <stop offset="1" stopColor="#fff2c0" stopOpacity={0} />
+              </radialGradient>
               <linearGradient id={idVidro} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" stopColor="#33454f" />
                 <stop offset="0.5" stopColor="#1a252d" />
@@ -359,6 +363,10 @@ export const SalaInterrogatorio: React.FC<{
             <g clipPath={`url(#${idEsq})`}>{azEsq}</g>
             <polygon points={pts([ladoEsq(U_MIN, 0), ladoEsq(1, 0), ladoEsq(1, 1), ladoEsq(U_MIN, 1)])} fill="none" stroke={INK} strokeWidth={SW} />
 
+            {/* rodapés das paredes laterais, para fechar a sala com a parede do fundo */}
+            <polygon points={pts([ladoEsq(U_MIN, 0.975), ladoEsq(1, 0.975), ladoEsq(1, 1), ladoEsq(U_MIN, 1)])} fill="#2b2f3a" />
+            <polygon points={pts([ladoDir(U_MIN, 0.975), ladoDir(1, 0.975), ladoDir(1, 1), ladoDir(U_MIN, 1)])} fill="#262a34" />
+
             {/* parede direita */}
             <polygon points={pts([ladoDir(U_MIN, 0), ladoDir(1, 0), ladoDir(1, 1), ladoDir(U_MIN, 1)])} fill="#4c8077" />
             <g clipPath={`url(#${idDir})`}>{azDir}</g>
@@ -375,6 +383,9 @@ export const SalaInterrogatorio: React.FC<{
             <rect x={330} y={612} width={1260} height={88} fill="#4f9288" />
             <rect x={330} y={612} width={1260} height={8} fill="#2b5f58" />
             <rect x={330} y={692} width={1260} height={8} fill="#2b2f3a" />
+
+            {/* poça de luz da lâmpada na parede do fundo (dá sensação de luz quente no centro) */}
+            <ellipse cx={960} cy={430} rx={640} ry={330} fill={`url(#${idBrilho}-parede)`} opacity={0.5 * L + 0.2} />
 
             {/* porta de metal */}
             {porta}
@@ -529,7 +540,7 @@ export const SalaInterrogatorio: React.FC<{
         </Camada>
 
         {/* ===== ATMOSFERA: escuro nas bordas e escurecimento quando a luz cai (sem paralaxe) ===== */}
-        <div style={{position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10, background: 'radial-gradient(ellipse 75% 70% at 50% 42%, rgba(0,0,0,0) 45%, rgba(8,6,16,0.8) 100%)'}} />
+        <div style={{position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10, background: 'radial-gradient(ellipse 70% 66% at 50% 40%, rgba(0,0,0,0) 40%, rgba(8,6,16,0.88) 100%)'}} />
         <div style={{position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 11, background: `rgba(6,6,18,${0.55 * (1 - L)})`}} />
       </div>
     </div>

@@ -111,7 +111,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
         </Sequence>
       ) : null}
       {/* Transição de entrada (Among Us): só nas cenas de componente AU, por cima de tudo */}
-      {scene.visual.type === 'component' && scene.visual.name.startsWith('AU') ? (
+      {scene.visual.type === 'component' && (scene.visual.name.startsWith('AU') || scene.visual.name.startsWith('INT')) ? (
         <TransicaoEntrada tipo={escolherTransicao(anterior, scene.visual.name)} />
       ) : null}
     </AbsoluteFill>

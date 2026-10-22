@@ -1,0 +1,317 @@
+{
+ "caso": {
+  "id": "servidor",
+  "detetive": "claude",
+  "suspeito": "minimax",
+  "culpado": true,
+  "titulo": "O Servidor Desligado",
+  "local": "Sala dos servidores",
+  "hora": "03:12",
+  "resumo": "Às 3h12 da manhã o servidor principal da empresa desligou e o site ficou fora do ar por 2 horas. Alguém tirou ele da tomada.",
+  "pistas": [
+   "O crachá do suspeito abriu a porta da sala dos servidores às 03:09.",
+   "Um carregador de celular rosa foi achado plugado na tomada do servidor.",
+   "O suspeito postou um story jogando no celular às 03:15, com 100% de bateria.",
+   "O ar-condicionado da sala marcava 16 graus e alguém deixou um cobertor lá."
+  ],
+  "verdade": "Você TIROU o servidor da tomada às 03:11 pra carregar seu celular (carregador rosa), porque estava com 2% de bateria no meio de uma partida ranqueada. Você entrou com seu crachá às 03:09. Ficou lá jogando, enrolado num cobertor porque a sala é gelada, e postou um story às 03:15. Você não sabia que aquela era a tomada do servidor."
+ },
+ "detetive": {
+  "nome": "Claude",
+  "modelo": "Claude Haiku",
+  "provider": "haiku"
+ },
+ "suspeito": {
+  "nome": "MiniMax",
+  "modelo": "MiniMax M3.1 Flash",
+  "provider": "or:minimax/minimax-m3.1-flash:free"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Três e nove, seu crachá abriu a sala dos servidores. Três e quinze, você postou um story jogando no celular, com bateria cheia. Me conta o que fez nesses seis minutos.",
+   "pensamento": "Stress em 35 e BPM normal. Ou ele é inocente e relaxado, ou é um mentiroso frio. O story às 03:15 pode ser um álibi bobo ou uma piada sobre a própria cara de pau. Preciso que ele fale.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Entrei para carregar o celular porque a bateria estava quase acabando. Fiquei enrolado num cobertor por causa do frio. Não sabia que aquela tomada alimentava o servidor.",
+   "pensamento": "Preciso inventar uma explicação convincente e não demonstrar que sei da tomada do servidor.",
+   "estresse": 58,
+   "bpm": 120,
+   "expressao": "pensando",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Entrou numa sala de 16 graus só para carregar o celular? Curioso. O carregador rosa achado na tomada do servidor é seu, não é?",
+   "pensamento": "Ele mencionou o cobertor antes que eu perguntasse. Ou é inocente e nervoso com o frio, ou ensaiou essa história. Preciso ver se o carregador é dele.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "É meu, sim. Eu estava com 2% e um carregador era urgente. Não sabia que aquela tomada alimentava o servidor.",
+   "pensamento": "Se eu confirmar que o carregador é meu, vão ligar meu crachá à queda. Preciso manter a versão da falta de bateria e do frio.",
+   "estresse": 72,
+   "bpm": 126,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Bateria, frio e cobertor. Três desculpas numa frase só. Inocente explica uma coisa. Culpado precisa de três. Então me diz: o que você fez com a tomada nesses seis minutos?",
+   "pensamento": "O BPM disparou quando falei em cobertor, não em carregador. Três desculpas numa frase só é coisa de quem ensaiou. Mas pode ser só medo de ser pego por algo menor. Preciso apertar sem blefar demais.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Enrolei o cabo no carregador e fiquei deitado no cobertor. Quando percebi o site fora do ar, não entendi que a tomada era do servidor. Achei que era uma tomada comum.",
+   "pensamento": "Se eu explicar demais, vou entregar que desconectei o servidor sem perceber. Preciso mudar o foco.",
+   "estresse": 78,
+   "bpm": 136,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "De dois por cento para cem em seis minutos? Nem carregador de outro planeta faz isso. Então ou o story é mentira, ou a bateria é. Qual das duas?",
+   "pensamento": "Dois por cento para cem em seis minutos é impossível com aquele carregador. Ou ele postou o story depois, ou carregou em outro lugar. O BPM disparou quando falei da bateria. Vou apertar aí.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "O story não prova que a bateria chegou a cem. Mostrava o celular carregando; a porcentagem pode ter subido depressa ou sido exibida de outro jeito. Eu só queria jogar.",
+   "pensamento": "A bateria não chegou a 100% em seis minutos; o story mostrava carga alta porque eu queria parecer que a noite estava produtiva. Eu realmente não sabia que a tomada era do servidor.",
+   "estresse": 84,
+   "bpm": 140,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Seu coração está em 137 batidas por minuto, e o servidor morreu às 3h12. Não acredito em coincidências. Nem em cobertores. Quem puxou aquela tomada, você?",
+   "pensamento": "Ele está suando frio e o BPM dele passou de 130. Não sei se é culpa ou só medo de ser pego por causa de um carregador. Vou blefar com o coração dele e ver se ele se trai.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Não fui eu que desliguei o servidor. Joguei de verdade, com o celular carregando. Quando o site caiu, achei que era só uma falha. E não sabia da tomada.",
+   "pensamento": "Ele está me cercando. Se eu admitir que tirei da tomada, acabou. Posso explicar a故事 sem confessar o desligamento.",
+   "estresse": 91,
+   "bpm": 143,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Sua digital está na tomada, MiniMax. E o cobertor guardou o seu cheiro. Quem mais tinha a chave da sala? Responda sem pensar.",
+   "pensamento": "Ele repete 'não sabia da tomada' como um disco quebrado. Blefe: a digital ainda não foi analisada. Se ele entrar em pânico, vai revelar se sabia ou se alguém mais estava com ele.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Há uma chave de emergência no plantão, mas eu não sei quem tinha acesso naquele momento. Meu crachá só registra que entrei; não prova que desconectei o servidor.",
+   "pensamento": "A digital está na tomada e o crachá prova minha entrada. Se eu negar demais, vou parecer mentiroso. Preciso desviar para a chave, sem admitir a queda.",
+   "estresse": 96,
+   "bpm": 152,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Chave de emergência, né? Curioso. O plantonista jura que te emprestou a chave às três e cinco. Foi isso que aconteceu, ou você está inventando?",
+   "pensamento": "Ele não nega a tomada, só a intenção. Estresse 96 e BPM 148 indicam medo de uma pista concreta. Vou blefar com o plantonista e ver se ele confirma ou se contradiz a própria história.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Não sei por que o plantonista disse isso. Eu não peguei a chave dele; entrei com meu crachá às 3h09. Só vi o carregador na tomada e usei sem saber que alimentava o servidor.",
+   "pensamento": "A chave de emergência pode explicar meu acesso, mas admitir isso agora seria pior. Preciso insistir que só entrei para carregar o celular e não sabia da tomada do servidor.",
+   "estresse": 98,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "O plantonista também disse que você voltou com o cobertor. Ele não mentiu sobre isso. Você pediu a chave e saiu com o cobertor. Por quê?",
+   "pensamento": "Ele suou frio quando citei a chave. O plantonista não disse nada do cobertor. Estou blefando, mas o pânico dele é quase uma confissão. Vou apertar onde dói.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "O plantonista está confundindo horários. Eu não peguei a chave dele; entrei com meu crachá e levei o cobertor porque a sala estava gelada.",
+   "pensamento": "A chave e o cobertor estão me incriminando; precisoMinimizar o plantonista e manter que usei a tomada sem saber que era do servidor.",
+   "estresse": 99,
+   "bpm": 151,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Quer saber o que o sistema registrou às 3h12? Um comando de desligamento, enviado pela sua sessão. Ainda vai dizer que não foi você?",
+   "pensamento": "Ele está no limite, com estresse 99 e BPM 155. Negou tudo, mas se contradisse sobre a bateria e a chave. Vou blefar com um registro que ainda não tenho para ver se ele cai.",
+   "acao": "perguntar",
+   "expressao": "culpado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Eu não enviei comando nenhum. Se o sistema association meu crachá à sessão, isso não prova que fui eu. Mostre o IP, o horário exato e como autenticaram o comando.",
+   "pensamento": "Ele está apertando. A digital e o carregador me ligam ao servidor; preciso questionar o registro da sessão antes de ceder.",
+   "estresse": 100,
+   "bpm": 156,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Quer o IP? Vai ter. Mas antes: quem apertou 'postar' no seu story às 3h15? Você, ou alguém com o seu celular na mão?",
+   "pensamento": "Ele pediu IP e horário exato. Inocente raramente exige isso com tanta pressa. Mas o story às 3h15 com 100% de bateria não fecha. Se alguém usou o celular dele, ele vai cair tentando se proteger.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Eu estava deitada no cobertor, jogando. Não apertei o story; se ele apareceu às 3h15, alguém usou meu celular. O comando também pode ter vindo da minha sessão clonada.",
+   "pensamento": "Estou encurralado. Se eu negar que apertei o story e que desconectei o servidor, as provas vão me destruir. Preciso inventar uma versão coerente sem admitir a culpa.",
+   "estresse": 100,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 11,
+   "fala": "Seu story foi postado com a sessão do servidor aberta no mesmo celular. Você não percebeu? Ou percebeu e torceu para eu não ver?",
+   "pensamento": "Não tenho log nenhum da sessão do servidor no celular dele. Estou blefando. Se ele aceitar o blefe e começar a explicar o acesso, é culpado. Se pedir a prova e ficar calmo, pode ser inocente e manipulado pelo plantão.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 11,
+   "fala": "Eu não desliguei o servidor. Pode ter havido clonagem da sessão ou uso indevido do meu crachá. Mostre o IP, os logs de autenticação e como provaram que o comando saiu deste celular.",
+   "pensamento": "Se eu continuar negando, o registro da sessão e o carregador podem me incriminar. Preciso questionar a autenticidade do comando e evitar admitir a desconexão.",
+   "estresse": 100,
+   "bpm": 153,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 12,
+   "fala": "Você disse 'deitada' agora. Antes era 'enrolado'. Ou tem duas pessoas naquele cobertor, ou você está trocando de história no meio da frase.",
+   "pensamento": "O estresse está no máximo, mas ainda não tenho prova de que foi ele. O 'deitada' pode ser só um deslize, ou pode ser a primeira rachadura real na história. Vou apertar esse ponto antes de acusar.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 12,
+   "fala": "Foi imprecisão minha: estava enrolada no cobertor quando o celular carregava. Não desliguei o servidor, não enviei comando e não usei a chave do plantonista.",
+   "pensamento": "Estou encurralado:若 admitir, acabou. A inconsistência pareceBP insistindo em negação.",
+   "estresse": 100,
+   "bpm": 155,
+   "expressao": "nervoso",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 13,
+   "fala": "Cento e cinquenta batidas por minuto, MiniMax. Seu corpo já respondeu por você. Agora me diga: o plantonista mentiu, ou foi você quem mentiu?",
+   "pensamento": "Ele está em pânico, mas o pânico é de quem foi pego, não de quem foi acusado injustamente. A chave do plantonista e o cobertor batem com a história dele. Ainda falta provar a intenção, e um inocente não trocaria 'enrolado' por 'deitada'. Quero que ele se contradiga de novo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 13,
+   "fala": "O plantonista está mentindo, ou mistaken os horários. Eu não desconectei o servidor, não enviei comando e não usei a chave dele. Mostre os logs completos antes de me acusar.",
+   "pensamento": "Estou encurralado. O plantonista confirmou que peguei a chave às 3h05 e saí com o cobertor. Se continuar negando, vão comparar os registros e me pegar. Preciso inventar uma explicação consistente, mas ainda não devo admitir o crime.",
+   "estresse": 100,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 14,
+   "fala": "Chega de cobertor. O plantonista pode ter se confundido, mas as câmeras do corredor não. Quer contar a verdade antes que eu mostre as imagens?",
+   "pensamento": "Ele está no limite. Não existe gravação, mas a mentira do plantonista o desestabiliza. Se ele estiver escondendo algo, vai tentar negociar a verdade agora.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 14,
+   "fala": "Tirei o servidor da tomada às 3h11 para carregar meu celular. Achei que era uma tomada comum e não sabia que alimentava o servidor. Não enviei comando de desligamento.",
+   "pensamento": "A evidência está fechando: meu crachá, o carregador e as câmeras vão me identificar. Vou admitir que tirei o plug, mas negar o comando de desligamento.",
+   "estresse": 100,
+   "bpm": 155,
+   "expressao": "culpado",
+   "gesto": "mao_no_queixo",
+   "confessou": true
+  }
+ ],
+ "fim": {
+  "tipo": "confissao",
+  "k": 14
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

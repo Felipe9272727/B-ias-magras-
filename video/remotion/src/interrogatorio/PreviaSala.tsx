@@ -8,7 +8,7 @@ import {ASSENTO, Camera, SalaInterrogatorio} from './Sala';
 const Bloco: React.FC<{cor: string; nome: string}> = ({cor, nome}) => (
   <div
     style={{
-      width: ASSENTO.altura,
+      width: 300, // mais estreito que um personagem de verdade, para não esconder o cenário
       height: ASSENTO.altura,
       background: cor,
       border: '6px solid #14141f',
