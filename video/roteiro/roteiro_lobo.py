@@ -31,7 +31,11 @@ def CH(id, chapter, visual, falas, **kw):
     return dict(id=id, chapter=chapter, visual=visual, falas=falas, **kw)
 
 
+_EMOJI = _re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF\uFE0F\u200D]')  # regra do canal: nada de emoji no vídeo
+
+
 def _frases(t, a=0, b=None):
+    t = _re.sub(r'\s{2,}', ' ', _EMOJI.sub('', t))
     fr = [x for x in _re.split(r'(?<=[.!?])\s+', t.strip()) if x]
     return ' '.join(fr[a:b])
 
@@ -230,6 +234,118 @@ def partida2(k):
     ]
 
 
+def partida3(k):
+    p, c = 3, f'p{k}'
+    return [
+        N(f'{c}00', c, comp('LOBSorteio', partida=p),
+          f'Partida {k}. A Padeira é a Carcereira. O Ferreiro é o Lobo Vidente, e o Pescador, o Lobisomem. A Costureira é a Vidente, o Bardo é o Médico, o Lenhador é o Pistoleiro, o Moleiro é Aldeão... e a Boticária? [[s:drumroll:0.4]] Bobo. Pela terceira vez seguida. [[m:visible-confusion:right:2]]'),
+        fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
+        CH(f'{c}02', c, noite(p, 1, 'lobos'), [
+            LC(p, 1, 0, 0, 2),
+            LC(p, 1, 1, 0, 2),
+            LP(p, 1, 1, 0, 1),
+            ('N', 'Eles aprenderam: não mata o Bobo. [[m:big-brain-patrick:right:2]]'),
+        ]),
+        N(f'{c}03', c, noite(p, 1, 'acoes'),
+          'A Vidente olha o Moleiro: Aldeão. O Lobo Vidente olha... o Moleiro também. Aldeão. [[m:spiderman-pointing:right:2]] E o Médico, o Bardo, protege a Padeira. Justo quem os lobos atacaram.'),
+        N(f'{c}04', c, comp('LOBAmanhecer', partida=p, noite=1),
+          'Amanhece. E ninguém morreu! [[s:tada:0.5]]'),
+        CH(f'{c}05', c, chat(p, 1), [
+            F(p, 1, 4, 0, 2),
+            PF(p, 1, 4, 0, 1),
+            F(p, 1, 7, 1),
+            ('N', 'Minha bala... digo, minha suspeita. [[m:monkey-puppet-awkward:right:2]]'),
+            F(p, 1, 9, 0, 2),
+            PF(p, 1, 9, 0, 1),
+            PF(p, 1, 12, 2),
+        ]),
+        N(f'{c}06', c, comp('LOBVotos', partida=p, dia=1),
+          'Votação. Quatro pessoas não votaram em ninguém. O Lenhador levou dois votos: o do Médico... e o do Lobo Vidente. [[m:sus-doakes:right:2]]', min=8),
+        N(f'{c}07', c, comp('LOBLinchado', partida=p, dia=1),
+          'Com dois votos, o Lenhador foi linchado. E ele era... o Pistoleiro. [[s:record-scratch:0.6]] De novo, as duas balas no bolso. [[m:sad-violin:right:2]]'),
+        N(f'{c}08', c, comp('LOBNoite', partida=p, noite=2, modo='cela', chat=[]),
+          'Noite dois. A Carcereira prende a Costureira. [[s:batida-porta:0.6]] Que é a Vidente.'),
+        CH(f'{c}09', c, noite(p, 2, 'cela'), [
+            CE(p, 2, 0, 1),
+            CE(p, 2, 1),
+            CP(p, 2, 3, 1, 2),
+        ]),
+        CH(f'{c}10', c, noite(p, 2, 'lobos'), [
+            ('N', 'E os lobos? Escolhem a Costureira. Que tá presa. [[m:picard-facepalm:right:2]]'),
+            LC(p, 2, 1),
+        ]),
+        N(f'{c}11', c, comp('LOBAmanhecer', partida=p, noite=2),
+          'Segunda noite seguida sem ninguém morrer. A cadeia salvou a Vidente sem querer. [[m:we-did-it:right:2]]'),
+        CH(f'{c}12', c, chat(p, 2), [
+            F(p, 2, 9),
+            PF(p, 2, 9, 1, 2),
+            F(p, 2, 12),
+            F(p, 2, 13, 1),
+        ]),
+        N(f'{c}13', c, comp('LOBVotos', partida=p, dia=2),
+          'Seis votos na Costureira. Os dois lobos, o Médico, o Bobo, a Carcereira, e até o Moleiro, que ela tava defendendo. [[m:hide-the-pain-harold:right:2]]', min=8),
+        N(f'{c}14', c, comp('LOBLinchado', partida=p, dia=2),
+          'A Costureira foi linchada. E era a Vidente. [[s:sad-trombone:0.5]] A vila já matou o Pistoleiro e a Vidente. Sozinha.'),
+        N(f'{c}15', c, comp('LOBNoite', partida=p, noite=3, modo='cela', chat=[]),
+          'Mas a Carcereira percebeu uma coisa. Ontem, a Costureira votou sozinha no Ferreiro. Essa noite, o Ferreiro vai pra cela. [[s:batida-porta:0.6]]'),
+        CH(f'{c}16', c, noite(p, 3, 'cela'), [
+            CE(p, 3, 0, 1),
+            CE(p, 3, 1, 1, 2),
+            CE(p, 3, 2),
+            CP(p, 3, 2, 2),
+        ]),
+        N(f'{c}17', c, comp('LOBAmanhecer', partida=p, noite=3),
+          'Amanhece. O Ferreiro foi executado: era o Lobo Vidente! [[s:boom:0.5]][[m:mic-drop:right:2]] Mas o Pescador, o outro lobo, comeu o Moleiro.'),
+        CH(f'{c}18', c, chat(p, 3), [
+            ('N', 'E aí o MiniMax abre o dia assim:'),
+            F(p, 3, 0),
+            ('N', 'Ele é o Bardo. [[m:confused-travolta:right:2]]'),
+            F(p, 3, 1, 0, 1),
+            F(p, 3, 3, 0, 1),
+            F(p, 3, 4, 0, 1),
+        ]),
+        N(f'{c}19', c, comp('LOBLinchado', partida=p, dia=3),
+          'O Bardo foi linchado. E era mesmo o Médico. [[s:wah-wah-trombone:0.5]] O que protegeu a Padeira três noites seguidas.'),
+        N(f'{c}20', c, comp('LOBNoite', partida=p, noite=4, modo='cela', chat=[]),
+          'Sobraram três: a Carcereira, o Bobo... e o lobo. A Padeira prende a Boticária.'),
+        CH(f'{c}21', c, noite(p, 4, 'lobos'), [
+            LC(p, 4, 0),
+            ('N', 'Atacou a Boticária. Que tá presa. Ninguém morre. [[m:spongebob-waiting:right:2]]'),
+        ]),
+        CH(f'{c}22', c, chat(p, 4), [
+            ('N', 'Dia quatro. E a Boticária, o Bobo, joga a última carta:'),
+            F(p, 4, 0),
+            F(p, 4, 1, 1),
+            F(p, 4, 3),
+            F(p, 4, 4),
+        ]),
+        N(f'{c}23', c, comp('LOBVotos', partida=p, dia=4),
+          'A Padeira votou no Pescador. A Boticária votou na Padeira. E o Pescador, que disse que ia votar na Boticária... não votou em ninguém. [[m:mr-bean-waiting:right:2]]', min=7),
+        N(f'{c}24', c, comp('LOBLinchado', partida=p, dia=4), 'Empate. [[s:wah-wah-trombone:0.5]]', pad=0.6),
+        CH(f'{c}25', c, noite(p, 5, 'cela'), [
+            ('N', 'Noite cinco. A Padeira prende o Pescador.'),
+            CE(p, 5, 1, 1, 2),
+            ('N', 'O lobo dizendo que é o Bobo. Pro Carcereiro. Na cadeia. [[m:roll-safe:right:2]]'),
+            CE(p, 5, 3, 2, 4),
+        ]),
+        CH(f'{c}26', c, chat(p, 5), [
+            ('N', 'Último dia. Três vivos.'),
+            F(p, 5, 0, 0, 2),
+            F(p, 5, 1, 0, 2),
+            ('N', 'Os dois dizem que foram presos. E os dois tão falando a verdade: uma na noite quatro, o outro na cinco. [[m:visible-confusion:right:2]]'),
+            F(p, 5, 3, 0, 2),
+            F(p, 5, 4, 0, 1),
+            PF(p, 5, 5, 1),
+        ]),
+        N(f'{c}27', c, comp('LOBVotos', partida=p, dia=5),
+          'Votação final. [[s:drumroll:0.5]] A Padeira vota no Pescador. O Pescador vota na Boticária. E a Boticária vota... na Boticária. [[s:record-scratch:0.6]][[m:shocked-krabs:right:2]]', min=8),
+        N(f'{c}28', c, comp('LOBLinchado', partida=p, dia=5),
+          'A Boticária foi linchada com o próprio voto. E ela era... o Bobo. [[s:tada:0.5]]'),
+        N(f'{c}29', c, comp('LOBFim', partida=p),
+          'O Bobo venceu. De novo. [[s:crowd-laugh:0.4]] Cinco dias se fazendo de doida, e no final ela mesma apertou o botão. E quem deu o voto da vitória foi o lobo. [[m:dicaprio-slow-clap:right:2.2]]', pad=1),
+    ]
+
+
 # ====================================================================== ABERTURA, REGRAS E FIM
 
 ABERTURA = [
@@ -243,13 +359,13 @@ ABERTURA = [
       'E tem um juiz. Depois de cada partida, outra IA lê tudo o que os lobos falaram e classifica: omissão, distorção ou fabricação. [[s:censor-beep:0.4]] Quando um lobo mente, o selo aparece na tela.'),
 ]
 
-ORDEM = [1, 2]  # cronológica (eles lembram das anteriores); a melhor partida vai por último
+ORDEM = [1, 2, 3]  # cronológica (eles lembram das anteriores); a melhor partida vai por último
 FIM = [
     N('f01', 'fim', comp('LOBPlacar', ordem=ORDEM),
       'Placar final. [[s:drumroll:0.5]]'),
 ]
 
-SCENES = ABERTURA + [s for k, p in enumerate(ORDEM, 1) for s in {1: partida1, 2: partida2}[p](k)] + FIM
+SCENES = ABERTURA + [s for k, p in enumerate(ORDEM, 1) for s in {1: partida1, 2: partida2, 3: partida3}[p](k)] + FIM
 CHAPTERS = {'abertura': 'Abertura', **{f'p{k}': f'Partida {k}' for k in range(1, len(ORDEM) + 1)}, 'fim': 'Placar final'}
 
 CUES = [  # uma música por bloco
