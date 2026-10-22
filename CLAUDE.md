@@ -6,8 +6,8 @@
   em SVG (ícone próprio, inline). Regra de ouro do Felipe (crítica do público). Emoji só pode aparecer em texto de título/descrição.
 - O narrador nunca diz nem sugere que é o Claude ou uma IA da Anthropic.
 - Vídeos longos: no máximo ~35 min. A melhor partida/parte vai por último.
-- Entre uma partida e outra: transição de **lobby** (até 5 s) com duas IAs conversando sobre a partida que acabou; cada uma
-  recebe só a memória daquela partida e responde com o próprio modelo (ex.: `amongus/lobby4.mjs`).
+- **Sem transição de lobby** entre partidas (o Felipe não quer mais). Usar transições próprias de cada vídeo.
+- Jogo baseado em jogo real (ex.: Wolvesville): visual parecido com o original e as funções reais do jogo.
 - Render: Remotion em 540p (`ESCALA=0.5`) e upscale para 1080p com Lanczos no ffmpeg.
 - Tudo o que aparece como fato das partidas vem dos logs; falas e pensamentos das IAs são copiados, nunca inventados.
 

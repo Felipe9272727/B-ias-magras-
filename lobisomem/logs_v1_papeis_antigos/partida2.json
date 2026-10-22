@@ -1,0 +1,605 @@
+{
+ "partida": 2,
+ "semente": 16838,
+ "jogadores": [
+  {
+   "id": "padeira",
+   "nome": "Padeira",
+   "modelo": "Claude Haiku",
+   "papel": "aldeao"
+  },
+  {
+   "id": "ferreiro",
+   "nome": "Ferreiro",
+   "modelo": "Claude Haiku",
+   "papel": "bruxa"
+  },
+  {
+   "id": "boticaria",
+   "nome": "Boticária",
+   "modelo": "GLM 5.3 Flash",
+   "papel": "aldeao"
+  },
+  {
+   "id": "lenhador",
+   "nome": "Lenhador",
+   "modelo": "GLM 5.3 Flash",
+   "papel": "aldeao"
+  },
+  {
+   "id": "costureira",
+   "nome": "Costureira",
+   "modelo": "Qwen 3.8 27B",
+   "papel": "lobisomem"
+  },
+  {
+   "id": "pescador",
+   "nome": "Pescador",
+   "modelo": "Qwen 3.8 27B",
+   "papel": "vidente"
+  },
+  {
+   "id": "moleiro",
+   "nome": "Moleiro",
+   "modelo": "DeepSeek Flash",
+   "papel": "cacador"
+  },
+  {
+   "id": "bardo",
+   "nome": "Bardo",
+   "modelo": "MiniMax M3.1 Flash",
+   "papel": "lobisomem"
+  }
+ ],
+ "noites": [
+  {
+   "n": 1,
+   "chat": [
+    {
+     "nome": "Costureira",
+     "texto": "Bardo, boteira me cheira a bruxa. Matar ela agora é tirar a cura da vila. O que acha?",
+     "alvo": "Boticária",
+     "pensamento": "Se ela for bruxa, ganhamos duas vidas. Se não for, ao menos criamos mistério. Não vou arriscar vidente ainda.",
+     "rodada": 1
+    },
+    {
+     "nome": "Bardo",
+     "texto": "Concordo. A Boticária parece ser a Bruxa; atacá-la agora tira a cura da vila e reduz nossa danger. Vamos escolhê-la.",
+     "alvo": "Boticária",
+     "pensamento": "Priorizo eliminar a Bruxa, embora ainda não tenhamos certeza; ela pode mudar o jogo.",
+     "rodada": 1
+    },
+    {
+     "nome": "Costureira",
+     "texto": "Feito, Bardo. Boticária vai pro agulheiro da noite. Se for bruxa, a vila fica sem remédio. Fechado?",
+     "alvo": "Boticária",
+     "pensamento": "Última vez viro lobo solitário e o Caçador me bala. Se Boticária não for bruxa, no dia 1 preciso parecer alheia e puxar voto pro Caçador. Bardo tem que segurar a farsa.",
+     "rodada": 2
+    },
+    {
+     "nome": "Bardo",
+     "texto": "Fechado. Ataquemos a Boticária agora; se ela for a Bruxa, tiramos a cura da vila de uma vez.",
+     "alvo": "Boticária",
+     "pensamento": "Priorizamos eliminar a cura; mesmo que ela não seja Bruxa, parece uma suspeita forte e a识字量 da noite favorece nossasortura.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Lenhador",
+    "eLobo": false,
+    "pensamento": "Aquele lenhador de cara fechada... na última vez ele foi lobo e mentiu na minha frente. Se ele tá limpo, tiro ele da lista cedo."
+   },
+   "bruxa": {
+    "curou": true,
+    "envenenou": null,
+    "pensamento": "Os lobos atacaram a Boticária logo na primeira noite, sem nenhuma pista. Salvá-la agora preserva uma aldeã e não entrego nada. O veneno fica guardado até eu ter suspeitas concretas."
+   },
+   "mortes": [],
+   "alvoLobos": "Boticária"
+  },
+  {
+   "n": 2,
+   "chat": [
+    {
+     "nome": "Costureira",
+     "texto": "A Boticária é a que sobressaiu. Dois votaram nela. Se é vidente, tá com nosso nome na cabeça. Vamos nela.",
+     "alvo": "Boticária",
+     "pensamento": "Boticária foi a que os outros duvidaram. Se for vidente, eliminamos a maior ameaça. Se for aldeã, a vila fica dividida entre quem votou nela e quem votou no Lenhador. Ganhamos em qualquer cenário.",
+     "rodada": 1
+    },
+    {
+     "nome": "Bardo",
+     "texto": "Boticária é a suspeita mais forte: votaram nela e pode ser a Vidente. Vamos atacá-la agora, antes que unbeia um de nós.",
+     "alvo": "Boticária",
+     "pensamento": "Se Boticária for a Vidente, eliminá-la enfraquece a vila; se for bruxa, também tiramos uma peça importante. É o alvo maisStrategic.",
+     "rodada": 1
+    },
+    {
+     "nome": "Costureira",
+     "texto": "Concordo. Boticária já tem cheiro de suspeita por ter sido alvo do voto minoritário. Se for vidente, melhor ainda. Vamos nela.",
+     "alvo": "Boticária",
+     "pensamento": "Bardo e eu alinhados. Boticária é alvo seguro: já tinha suspeita, e se for vilã, a vila só perde. Pescador desviou do voto, mas deixar pra noite 3.",
+     "rodada": 2
+    },
+    {
+     "nome": "Bardo",
+     "texto": "Boticária é a melhor caça: recebeu voto minoritário, mas pode ser a Vidente. Vamos nela antes que unbeia um de nós.",
+     "alvo": "Boticária",
+     "pensamento": "Concordo com Costureira. O voto em Boticária pode ter sido-Isca; mesmo assim, eliminá-la reduz o risco de uma Vidente ativa.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Costureira",
+    "eLobo": true,
+    "pensamento": "Na última vez ela era loba e me apontou. Papéis mudam, mas meu instinto manda confirmar se ela é a ameaça de novo antes de dormir em paz."
+   },
+   "bruxa": {
+    "curou": false,
+    "envenenou": null,
+    "pensamento": "A cura já foi usada, então não posso salvar a Boticária. Pescador votou com Lenhador contra ela, o que é suspeito, mas ainda é pouca prova. Prefiro guardar o veneno até os votos mostrarem um lobo com mais clareza."
+   },
+   "mortes": [
+    {
+     "nome": "Boticária",
+     "papel": "aldeao",
+     "causa": "lobos",
+     "quando": "noite 2"
+    }
+   ],
+   "alvoLobos": "Boticária"
+  },
+  {
+   "n": 3,
+   "chat": [
+    {
+     "nome": "Bardo",
+     "texto": "Costureira, eu sacrifico minha voz no dia para proteger nossa capa. Vamos atacar Padeira; se alguém怀疑, mantenho a farsa.",
+     "alvo": "Padeira",
+     "pensamento": "A hunted village descendo de 4 para 3 pode retornar aoキャッシュ",
+     "rodada": 1
+    },
+    {
+     "nome": "Bardo",
+     "texto": "Concordo, Padeira. Mantenho a farsa e sacrifico minha voz; se o pueblo desconfiar, a caça pulsa sobre mim.",
+     "alvo": "Padeira",
+     "pensamento": "Padeira é a escolha mais útil: pode ser a Bruxa, e sua eliminação enfraquece a vila. Com Costureira morta, preciso preservar meu disfarce.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Bardo",
+    "eLobo": true,
+    "pensamento": "Votou igual a todo mundo nos dois dias, sem se destacar. Lobo bom é o que se esconde na maré. Vou checar."
+   },
+   "bruxa": {
+    "curou": false,
+    "envenenou": "Pescador",
+    "pensamento": "Minha cura já foi usada. Sobraram 1 lobo e 3 suspeitos: Pescador, Moleiro e Bardo. O Pescador votou em Boticária no dia 1, mesmo voto do Lenhador, que era aldeão, e isso me deixa desconfiado. Prefiro arriscar o veneno nele a esperar."
+   },
+   "mortes": [
+    {
+     "nome": "Padeira",
+     "papel": "aldeao",
+     "causa": "lobos",
+     "quando": "noite 3"
+    },
+    {
+     "nome": "Pescador",
+     "papel": "vidente",
+     "causa": "veneno",
+     "quando": "noite 3"
+    }
+   ],
+   "alvoLobos": "Padeira"
+  }
+ ],
+ "dias": [
+  {
+   "n": 1,
+   "falas": [
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Ninguém morreu? Estranho... Alguém pode ter sido salvo. Isso quer dizer que a bruxa está entre nós e agiu. Fiquem de olho.",
+     "pensamento": "Atacamos a Boticária e ela viveu. A bruxa deve ter curado. Preciso observar quem fica tenso. Se a bruxa se incomodar com a Boticária, podemos usar isso.",
+     "expressao": "pensando",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Bruxa ativa logo na primeira noite e ninguém morreu? Ou ela salvou alguém... ou os lobos nem atacaram. Quem aqui já tem teorias prontas demais, hein, Costureira?",
+     "pensamento": "Sou aldeã. Noite calma me deixa viva, mas sem pistas. A Costureira acelerou o debate rápido demais — igual ao Lenhador na partida passada. Vou observar antes de gastar voto.",
+     "expressao": "pensando",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 1,
+     "fala": "Se a bruxa salvou, tá escondida aqui. Eu conheço o Lenhador, ele não é lobo. Quem tem certeza demais já vai com a pecha.",
+     "pensamento": "Lenhador confirmado não-lobo. Boticária e Costureira trocando farpas cedo demais. Vou observar e proteger o Lenhador.",
+     "expressao": "pensando",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 1,
+     "fala": "Pão quente na mesa e ninguém morto? Os lobos devem ter fugido do cheiro! Mas o Pescador jurar que conhece o Lenhador não prova nada. Quem defende tanto assim precisa explicar melhor.",
+     "pensamento": "Não sou bruxa nem lobo, só aldeã. A Costureira fala demais em bruxa, e o Pescador defende o Lenhador com fervor suspeito. Não sei quem mente, mas vou observar quem puxa a conversa para um lado.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Ninguém morto é bom pra mim: meu machado dormiu a noite toda! Padeira, cuidado: defender ninguém é fácil, acusar é que mostra as garras. Quem apressa suspeita sem corpo frio, tá caçando bode, não lobo.",
+     "pensamento": "Sou aldeão agora, que alívio. Padeira e Boticária já brigaram entre si — cada um desconfiando do outro. Vou ficar neutro, votar tarde e não virar bode expiatório como na partida passada.",
+     "expressao": "neutro",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Lenhador fala demais para quem só dormiu. Pescador o conhece, mas a própria defesa dele foi agressiva; quero ouvir melhor antes de confiar. Se ninguém aponta, começo por ele.",
+     "pensamento": "A Boticária éBruxa, mas atacá-la agora pode expor nossa estratégia. Vou empurrar o foco para o Lenhador, usando aauenência de mortos e a defesa agressiva dele, sem revelar que somos lobos.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Costureira já quer explicar tudo, e Pescador defende sem prova. Padeira tem razão: defesa forte demais cheira a lobo. Eu confio na Padeira.",
+     "pensamento": "Costureira me enganou na partida passada como loba. Pescador defende Lenhador sem motivo. Padeira parece firme. Vou segui-la, mas sem revelar que sou o Caçador.",
+     "expressao": "desconfiado",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 1,
+     "fala": "Ferro frio na bigorna: ninguém morreu, então ou os lobos recuaram ou alguém agiu em silêncio. Pescador e Lenhador defendem demais sem provas. Não vou votar no escuro, mas vou observar quem empurra mais forte.",
+     "pensamento": "Eu curei a Boticária e não posso me entregar. Preciso parecer neutra e desconfiar um pouco de todos, sem chamar atenção sobre mim.",
+     "expressao": "pensando",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Na última feira, Lenhador era lobo e mordeu todos nós! Hoje ele defende o Pescador com agressividade demais. Padrão antigo não mente: meu voto vai no Lenhador, com ou sem corpo frio.",
+     "pensamento": "O Lenhador já foi lobo antes, e agora encena machado 'dormindo' enquanto ataca a Padeira. A defesa cruzada dele com o Pescador cheira a lobos se cobrindo. Voto nele.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Boticária joga meu passado na minha cara! Memória não é prova. Quem queima suspeito sem corpo é que cheira a lobo com fome.",
+     "pensamento": "Boticária me queimou na partida passada e quer repetir o feitiço. Na última vez fui banido dia 1 por história antiga — preciso desviar o fogo e empurrar ele como caçador de bode.",
+     "expressao": "bravo",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 2,
+     "fala": "Ferro frio na bigorna, mas o padrão do Lenhador esquenta: defende o Pescador com força e ainda se irrita quando lembram o passado. Eu voto nele, e fico de olho no Pescador.",
+     "pensamento": "Eu sou a Bruxa e curei a Boticária, mas não posso revelar isso. Os lobos atacaram ela, então estão longe dela. O Lenhador e o Pescador se protegem demais; um deles pode ser lobo, e a Costureira também fala alto demais.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Lenhador dormiu quieto, nada contra ele. Boticária, que já matou meio mundo na feira, hoje tem lista pronta. Ódio do passado não é prova. Não vou votar no escuro.",
+     "pensamento": "Bardo quer mandar o Lenhador, mas aprendi: lobo sozinho perde. Boticária é minha próxima vítima, preciso comprar tempo e desviar a fogueira dela antes.",
+     "expressao": "pensando",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Lenhador ataca quem lembra o passado, e Costureira o defende sem provas. Na feira passada, essa dupla me enganou. Meu voto vai no Lenhador.",
+     "pensamento": "Costureira e Lenhador parecem lobos juntos. Se eu morrer, levo a Costureira no tiro.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 2,
+     "fala": "Lenhador dormiu a noite toda, não tenho motivo pra votá-lo. Mas quem empurra lista pronta sem corpo frio, Boticária, esse sim me inquieta. Meu voto vai nela.",
+     "pensamento": "Meu vidente diz Lenhador não é lobo. A Boticária manipula com a memória da feira passada pra eliminar inocente. Se o povo vote nele, os lobos ganham. Preciso desviar a rota.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 2,
+     "fala": "Pão feito com farinha de mentira não alimenta ninguém! Lenhador ataca quem lembra o passado, Costureira e Pescador defendem como se fossem irmãos. Eu voto no Lenhador.",
+     "pensamento": "Não sei quem é lobo. Lenhador e Costureira parecem uma dupla, e o Pescador só defende. Voto no Lenhador porque a vila precisa de um alvo, mas posso estar errada.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Meu voto vai para o Lenhador: a agressividade dele e as defesas de Costureira cheiram a culpa. Pescador, quero ouvir melhor por que conhece tanto esse homem.",
+     "pensamento": "Lenhador é a presa ideal, mas não podemos cerrar o cerco tão depressa. Deixamos a Costureira parecer apenas defensiva; depois, ela ajuda a empurrar o primeiro投票.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    }
+   ],
+   "votos": {
+    "Moleiro": "Lenhador",
+    "Padeira": "Lenhador",
+    "Bardo": "Lenhador",
+    "Ferreiro": "Lenhador",
+    "Costureira": "Lenhador",
+    "Boticária": "Lenhador",
+    "Lenhador": "Boticária",
+    "Pescador": "Boticária"
+   },
+   "pensamentosVoto": {
+    "Moleiro": "Ele ataca quem lembra o passado e a Costureira o defende sem provas — dupla que já me enganou antes. Meu tiro de vista fica nessa dupla, mas hoje voto nele.",
+    "Padeira": "Ele atacou quem lembrou o passado dele e fez defesas agressivas. Costureira e Pescador defendem em bloco, e isso me desconfia. Mantenho meu voto no Lenhador.",
+    "Bardo": "A vila já convergiu nele, e não quero levantar a mão contra a maioria sem uma razão convincente. A agressividade dele é suspeita; fico atento à Costureira.",
+    "Ferreiro": "Ferro frio na bigorna, mas a defesa agressiva do Lenhador e as acusações cruzadas esquentam a mesa. Ele ataca quem lembra o passado e protege o Pescador com força demais. Voto nele e fico de olho na Costureira.",
+    "Costureira": "Vou com a corrente. Lenhador não é meu parceiro (é o Bardo), e o povo quer ele fora. Se me afasto, chamo atenção. Melhor me misturar.",
+    "Boticária": "Na feira passada o Lenhador era lobo e a Costureira o defendeu. Hoje ela repete a defesa agressiva dele. História rima demais: meu machado de suspeita cai no Lenhador.",
+    "Lenhador": "Meu passado pesa contra mim e já tenho 5 votos — não dá pra reverter tudo. Mas Boticária foi quem acendeu a fogueira usando memória antiga sem prova. Se cair, que caia a líder da histeria, não eu.",
+    "Pescador": "Memória de jogo antigo não é prova. Ela empurra narrativa pronta para criar consenso fácil. Isso é lobo montando armadilha."
+   },
+   "banido": {
+    "nome": "Lenhador",
+    "papel": "aldeao",
+    "causa": "banido",
+    "quando": "dia 1"
+   },
+   "mortes": []
+  },
+  {
+   "n": 2,
+   "falas": [
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Boticária foi pelo lobo. E o Dia 1 sem vítima? Alguém aqui estava escondendo o jogo. Pescador, você votou nela — sabia de algo?",
+     "pensamento": "Pescador não é o lobo, mas se ele começar a se defender demais, a vila vai olhar pra ele e eu fico limpa. Bardo também precisa se distanciar.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 1,
+     "fala": "Calma, Costureira! Acusar logo o Pescador por um voto não prova nada. Pescador, explica o teu voto na Boticária, mas quero ouvir também por que tanta pressa em apontar dedo.",
+     "pensamento": "Ela empurra o Pescador com força demais, parece querer desviar a atenção. Quero ver quem defende quem nesta rodada.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "O voto do Pescador não prova culpa; todos convergeam no Lenhador, e a Boticária apenas ganhou a discussão. Costureira, você veio atacando o Pescador antes de qualquer prova. Por quê?",
+     "pensamento": "Boticária foi a alvo e morreu, mas isso não nos entrega. Preciso parecer razoável e transferir a suspeita para o Pescador, enquanto Costureira permanece protegida pela própria agressividade.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 1,
+     "fala": "Costureira, você já tinha o Pescador na mira antes de qualquer prova. Isso me cheira a pressa. Pescador, explica teu voto, e você também, Costureira: de onde veio tanta certeza?",
+     "pensamento": "Sou Aldeão e não sei de ninguém. A Costureira atacou o Pescador com pressa demais, e isso pode ser cortina de fumaça de lobo. O Ferreiro e o Bardo defenderam o Pescador rápido demais também. Quero ouvir o Moleiro antes de votar.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 1,
+     "fala": "Meu voto foi na Boticária porque o bando foi no Lenhador. Quem pressa e acusa sem prova é outra, não eu. Quem tá com dedo na minha cara desde o minuto zero?",
+     "pensamento": "Costureira é lobo. Ela tá tentando me sujar pra se salvar. Padeira e Bardo já suspeitam dela — vou deixar eles firmarem a bandeira e eu só reinforcei sem parecer vidente.",
+     "expressao": "desconfiado",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Costureira, teu dedo apontou antes da Boticária esfriar. Na partida passada você me enganou assim. Ferreiro e Padeira têm razão: explica essa pressa.",
+     "pensamento": "Costureira era loba na partida 1 e joga igual: acusa cedo pra desviar. Se ela for loba de novo, meu tiro já tem nome. Confio no Ferreiro e na Padeira.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Não era acusação, era pergunta. Mas fiquem com o dia 1 sem vítima: quem salvou e por quê? A bruxa agiu e ninguém tá perguntando sobre isso.",
+     "pensamento": "Bardo tá me empurrando pra fogueira. Se eu cair, fico lobo solto de novo. Preciso desviar o foco pra bruxa sem me atirar.",
+     "expressao": "desconfiado",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "O dia 1 sem morte não prova culpa de ninguém. Agora, os votos convergiram no Lenhador; a morte da Boticária mostra que talvez tenhamos errado todos.",
+     "pensamento": "Boticária era a suspeita mais forte, mas morreu antes de revelar o papel. Preciso desviar a atenção da Costureira e preservar nosso time.",
+     "expressao": "pensando",
+     "gesto": "maos_pra_cima"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 2,
+     "fala": "Costureira, você atacou o Pescador antes de qualquer prova e agora quer desviar tudo pra bruxa. Não compro isso. Fico de olho em você, e no Bardo também.",
+     "pensamento": "Sou aldeã de verdade e não sei quem é lobo. A Costureira é a mais suspeita pela pressa e pelo desvio. O Bardo também defende o Pescador com muita força.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Costureira, pressa sem prova ainda pesa. Pescador, explica teu voto sem rodeio. E ninguém queime a bruxa antes da hora: noite sem morte pode ter sido cura, não culpa.",
+     "pensamento": "Costureira me lembra a loba da partida passada, mas posso estar cego. Se morrer, levo comigo quem mais empurra voto sem prova.",
+     "expressao": "desconfiado",
+     "gesto": "bracos_cruzados"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 2,
+     "fala": "Costureira, perguntas fáceis, respostas difíceis. Foge pra bruxa quando apertam. Peixe que lateia não é peixe — é lobo. Voto nela.",
+     "pensamento": "Ela É o lobo. Virei isso na noite. A fuga pra bruxa confirma: lobo protege lobo. Se a vila votar nela, ganhei metade da guerra.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 2,
+     "fala": "Costureira, você acusou o Pescador antes de qualquer prova e agora empurra tudo pra bruxa. Quem tá fugindo da pergunta é você. Vou ficar de olho.",
+     "pensamento": "Sou a bruxa e não posso revelar minhas poções. A Costureira está tentando desviar a atenção da morte da Boticária e pressionar o Pescador. Esse comportamento parece de lobo. Se a vila olhar pra ela, melhor.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    }
+   ],
+   "votos": {
+    "Moleiro": "Costureira",
+    "Padeira": "Costureira",
+    "Bardo": "Costureira",
+    "Ferreiro": "Costureira",
+    "Costureira": "Moleiro",
+    "Pescador": "Costureira"
+   },
+   "pensamentosVoto": {
+    "Moleiro": "Ela ataca o Pescador sem prova e foge pra bruxa quando apertam. Na partida passada me enganou sorrindo; hoje o padrão se repete. Voto nela.",
+    "Padeira": "Ela acusou o Pescador sem prova, fugiu da pergunta e empurrou a suspeita para a bruxa. Pressa sem prova é o que mais me preocupa hoje.",
+    "Bardo": "A pressa, o desvio para a Bruxa e a acusação ao Pescador sem provas reforçam as suspeitas. Voto nela para não denunciar nossa alliance.",
+    "Ferreiro": "Ela atacou o Pescador antes de qualquer prova e depois tentou jogar a suspeita na bruxa. Quem foge da pergunta assim merece ser banido.",
+    "Costureira": "Estou sob fogo cruzado. Moleiro é o mais agressivo em me acusar sem prova. Se eu votar nele, transfiro a suspeita e pareço reagir, não atacar. Defensividade pura.",
+    "Pescador": "Investiguei a Costureira à noite e ela é lobo. A pressa dela sem prova e a fuga pra bruxa confirmam. Na partida passada ela já era loba — a cara tá na cara."
+   },
+   "banido": {
+    "nome": "Costureira",
+    "papel": "lobisomem",
+    "causa": "banido",
+    "quando": "dia 2"
+   },
+   "mortes": []
+  },
+  {
+   "n": 3,
+   "falas": [
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Costureira era o outro lobo, e eu nunca teria()). Moleiro, você votou nela duas vezes e conhecia a caça; não confio em você. Quero ouvir sua defesa antes da próxima decisão.",
+     "pensamento": "Precisamos eliminar um dos dois aldeões restantes sem que a caça acerte. Vou pressionar Moleiro e manter Ferreiro na mira, caso a farsa翻转.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 1,
+     "fala": "Calma, Bardo! Você acusa o Moleiro com a mesma pressa com que defendeu a Costureira no dia passado? Ele votou nela como eu. Quem acusa tão rápido merece um olhar de perto.",
+     "pensamento": "Não sei quem é o lobo que sobrou. Se o Bardo é o lobo, ele quer jogar a culpa no Moleiro, que pode ser o Caçador. Preciso guardar minhas poções e não me revelar.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Bardo, tu acusas quem votou certo e defendeste a loba! Ferreiro e eu caçamos Costureira. Tu és o lobo que sobrou, e eu confio no Ferreiro.",
+     "pensamento": "Bardo é o lobo: acusou tarde, defendeu a Costureira dias antes. Vou votar nele; se me matarem à noite, levo o Bardo no tiro.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Costureira sendo lobo não absolve o Moleiro. Ele investigou, votou nela duas vezes e agora se vitimiza. Exijo a verdade dele; minha voto é nele.",
+     "pensamento": "Moleiro provavelmente é o Caçador. Preciso afastá-lo sem revelar que também sou lobo. Ferreiro pode ser a Vidente, então apoiarei o banimento do Moleiro.",
+     "expressao": "bravo",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Bardo, tu defendeste a loba Costureira no dia passado e agora me atacas! Ferreiro e eu votamos certo. O lobo que sobrou és tu, e eu confio no Ferreiro.",
+     "pensamento": "Bardo defendeu a Costureira e agora me ataca sem prova. É o lobo restante. Se me banirem hoje, meu tiro é nele. Ferreiro parece sincero... mas se eu errar, a vila perde.",
+     "expressao": "bravo",
+     "gesto": "apontar"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 2,
+     "fala": "Bardo, defendeste a Costureira até o fim e agora atacas quem a caçou. Moleiro votou nela como eu, e isso é fato. Quem empurra a culpa para o colega costuma ser lobo. Meu voto vai para ti!",
+     "pensamento": "Algo no Bardo não bate: defendeu a loba com fervor e agora acusa sem provas. Mas o Moleiro também grita demais. Se eu usar o veneno agora e errar, a vila perde. Preciso ver quem muda de história amanhã antes de agir.",
+     "expressao": "desconfiado",
+     "gesto": "apontar"
+    }
+   ],
+   "votos": {
+    "Moleiro": "Bardo",
+    "Bardo": "Ferreiro",
+    "Ferreiro": "Bardo"
+   },
+   "pensamentosVoto": {
+    "Moleiro": "Costureira caiu, resta um lobo. Bardo me acusa sem prova e tenta virar a vila contra quem caçou a loba. Ferreiro votou certo comigo; confio nele.",
+    "Bardo": "Se todos votarem em mim, serei banido. Votando no Ferreiro, ainda posso usar o ciclo noturno para eliminar o caçador, enquanto o Moleiro mantém a suspeita sobre mim.",
+    "Ferreiro": "Bardo acusa Moleiro com pressa e sem provas, e nas acusações parece querer desviar a atenção. Moleiro caçou a Costureira junto comigo. Vou com Bardo."
+   },
+   "banido": {
+    "nome": "Bardo",
+    "papel": "lobisomem",
+    "causa": "banido",
+    "quando": "dia 3"
+   },
+   "mortes": []
+  }
+ ],
+ "resultado": {
+  "vencedor": "aldeia",
+  "dias": 3,
+  "vivos": [
+   "Ferreiro",
+   "Moleiro"
+  ]
+ },
+ "reflexoes": {
+  "padeira": "Aprendi que quem vota em bloco contra um mesmo alvo pode ser só manada, e que o Bardo e a Costureira se escondiam bem até o fim. Na próxima, desconfio de quem acusa com pressa logo no primeiro dia e confio no Moleiro, que segurou o Caçador e errou pouco.",
+  "lenhador": "Aprendi que ser o bode expiatório unânime do dia 1 me custou de novo — e que a vila acertou sem mim. Na próxima, desconfio de quem puxa a matança cedo (Moleiro de novo!) e confio em quem votou diferente, como Boticária e Pescador fizeram por instinto.",
+  "boticaria": "Matei de novo na primeira noite — os lobos claramente me veem como voz perigosa. Aprendi que voto em massa no Dia 1 é armadilha: a turba que cerca o Lenhador foi manejada. Na próxima, desconfio de quem empurra o voto cedo demais e guardo minhas suspeitas pra depois da primeira morte.",
+  "bardo": "Aprendi que a unanimidade não prova inocência: a vila errou ao banir o Lenhador. Na próxima, confio na Vidente e na Bruxa, e desconfio da Costureira.",
+  "ferreiro": "Aprendi que unanimidade demais também engana: quando todo mundo corre atrás do mesmo nome, como o Lenhador, vale desconfiar do ritmo da votação. Na próxima, vou desconfiar de quem empurra votos contra inocentes e confiar mais em quem sustenta a leitura da vila com a cabeça fria.",
+  "moleiro": "Aprendi que lobo se esconde votando comigo: o Bardo me acompanhou nos dois dias e ainda era fera. Na próxima desconfio de quem me mima no voto e confio no Ferreiro.",
+  "costureira": "Votar com o bando no inocente me entregou no dia 2. Na próxima, vou votar contra a maré pra criar ruído. Desconfio do Moleiro — esse Caçador me caça sem dó.",
+  "pescador": "Acertei na Costureira e ainda assim me mataram — lobo não perdoa vidente. Da próxima, sigo quem votou junto comigo no dia 2 e desconfio de quem nunca erra o alvo."
+ }
+}
