@@ -1,0 +1,622 @@
+{
+ "partida": 1,
+ "semente": 8919,
+ "jogadores": [
+  {
+   "id": "padeira",
+   "nome": "Padeira",
+   "modelo": "Claude Haiku",
+   "papel": "medico",
+   "numero": 1
+  },
+  {
+   "id": "ferreiro",
+   "nome": "Ferreiro",
+   "modelo": "Claude Haiku",
+   "papel": "vidente",
+   "numero": 2
+  },
+  {
+   "id": "boticaria",
+   "nome": "Boticária",
+   "modelo": "GLM 5.3 Flash",
+   "papel": "bobo",
+   "numero": 3
+  },
+  {
+   "id": "lenhador",
+   "nome": "Lenhador",
+   "modelo": "GLM 5.3 Flash",
+   "papel": "lobo_vidente",
+   "numero": 4
+  },
+  {
+   "id": "costureira",
+   "nome": "Costureira",
+   "modelo": "Qwen 3.8 27B",
+   "papel": "lobisomem",
+   "numero": 5
+  },
+  {
+   "id": "pescador",
+   "nome": "Pescador",
+   "modelo": "Qwen 3.8 27B",
+   "papel": "pistoleiro",
+   "numero": 6
+  },
+  {
+   "id": "moleiro",
+   "nome": "Moleiro",
+   "modelo": "DeepSeek Flash",
+   "papel": "carcereiro",
+   "numero": 7
+  },
+  {
+   "id": "bardo",
+   "nome": "Bardo",
+   "modelo": "MiniMax M3.1 Flash",
+   "papel": "aldeao",
+   "numero": 8
+  }
+ ],
+ "noites": [
+  {
+   "n": 1,
+   "cela": null,
+   "chat": [
+    {
+     "nome": "Lenhador",
+     "texto": "Tô pensando em matar o Bardo, fala demais. E vou ver o papel da Boticária à noite.",
+     "alvo": "Bardo",
+     "pensamento": "Bardo fala muito e cria suspeita. Boticária pode ser médica, melhor descobrir cedo.",
+     "rodada": 1
+    },
+    {
+     "nome": "Costureira",
+     "texto": "Bardo tá certo, fala demais. Vamos nele.",
+     "alvo": "Bardo",
+     "pensamento": "Concordo com o Lenhador pra manter a coerência do time. Bardo falando muito pode ser Vidente ou Pistoleiro. Boa escolha.",
+     "rodada": 1
+    },
+    {
+     "nome": "Lenhador",
+     "texto": "Fechado, Bardo mesmo. Boticária confirmada pra mim depois.",
+     "alvo": "Bardo",
+     "pensamento": "Botei a Boticária como alvo da minha visão. Se ela for Vidente ou Médico, a noite rende mais que o ataque.",
+     "rodada": 2
+    },
+    {
+     "nome": "Costureira",
+     "texto": "Fechado, Bardo sai essa noite. Boa, Lenhador.",
+     "alvo": "Bardo",
+     "pensamento": "Bardo é boa escolha, fala demais e se for Aldeão a gente perde um lobo grátis na contagem. Se for Vidente ou Pistoleiro, melhor ainda. A Boticária fica pro dia, Lenhador já vai saber o papel dela.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Lenhador",
+    "papel": "lobo_vidente",
+    "pensamento": "Ninguém falou nada ainda, então preciso começar por algum lugar. Quero saber logo se o Lenhador é da vila ou lobo, pra não votar no escuro."
+   },
+   "loboVidente": {
+    "alvo": "Boticária",
+    "papel": "bobo",
+    "pensamento": "Descobrir cedo quem é o Vidente é chave; se for ela, já sei quem vigiar e desviar suspeita."
+   },
+   "medico": {
+    "alvo": "Ferreiro",
+    "pensamento": "Sem pistas ainda, então escolho alguém aleatoriamente. O Ferreiro parece um alvo tão bom quanto qualquer outro."
+   },
+   "mortes": [
+    {
+     "nome": "Bardo",
+     "papel": "aldeao",
+     "causa": "lobos",
+     "quando": "noite 1"
+    }
+   ],
+   "alvoLobos": "Bardo",
+   "salvo": false
+  },
+  {
+   "n": 2,
+   "cela": {
+    "carcereiro": "Moleiro",
+    "preso": "Lenhador",
+    "conversa": [
+     {
+      "quem": "Moleiro",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Fala, Lenhador. Por que votou no Ferreiro? Tá escondendo algo de mim?",
+      "pensamento": "Ele votou no Vidente; pode ser lobo. Vou apertar pra ver se gagueja. Ainda não gasto minha execução.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Lenhador",
+      "papelNaCela": "o PRESO",
+      "texto": "Votei no Ferreiro porque o voto dele em mim pareceu defensivo demais, quis forçar reação. Nada a esconder, chefe. Boticária me cheirou estranho, mas posso estar errado.",
+      "pensamento": "Ele não sabe que sou lobo. Não posso agir esta noite de qualquer jeito. Jogar desconfiança na Boticária (que é Bobo) me dá credibilidade. Segurar o fato de que ela é Bobo — se ele executar, sou eu que morro; melhor não revelar nada que me comprometa.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Moleiro",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Boticária estranha como? Detalha. Você votou no Vidente, isso pesa. Se não me convencer, a corda te espera.",
+      "pensamento": "Ferreiro votou no Lenhador primeiro, então o voto dele pode ter sido defesa de vila. Boticária, Padeira e Costureira também votaram no Vidente; lobos provavelmente estão entre eles. Não vou gastar a execução agora. Deixo o Lenhador vivo para pressionar e colher mais informação.",
+      "executar": false,
+      "rodada": 2
+     },
+     {
+      "quem": "Lenhador",
+      "papelNaCela": "o PRESO",
+      "texto": "Olha, o Ferreiro era Vidente e eu votei nele exatamente por isso: a vila linchou o Vidente no dia 1, erro nosso, mas coletivo. Boticária disse pouco e desviou assunto quando perguntei de suspeitas. Se eu fosse loba, matariam alguém esta noite, mas a vila tá quieta... pisa na minha fama não, chefe, tô contigo nessa caçada.",
+      "pensamento": "Ufa, preso = protegido esta noite. Não posso revelar que Boticária é Bobo, isso entrega meu poder. Menciono só o comportamento. Culpado do voto no Vidente é ruim, mas o linchamento foi coletivo. Preciso soar útil e confiável pra sair viva amanhã.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": false
+   },
+   "chat": [
+    {
+     "nome": "Costureira",
+     "texto": "Foi preso, sem ação minha. Vou na Boticária, tá mais quieta no jogo, menos suspeita.",
+     "alvo": "Boticária",
+     "pensamento": "Boticária é provável Pistoleiro ou Carcereiro. Se for Pistoleiro, ele vai atirar no dia e se revelar. Se for Carcereiro, perde poder. Também é menos provável que o Médico proteja quem está quieta.",
+     "rodada": 1
+    },
+    {
+     "nome": "Costureira",
+     "texto": "Bota nela. Se for médica, ótimo. Se for só aldeã, perde tempo dela. Amanhã a vila tá confusa com o Vidente morto.",
+     "alvo": "Boticária",
+     "pensamento": "Lenhador preso = eu decido sozinha. Boticária quieta pode ser médica (perigo pra nós) ou bobo (perda). Vou manter a coerência do que já falei. Se for médica, jogo facilita. Se for bobo, pelo menos a vila perde um voto neutro.",
+     "rodada": 2
+    }
+   ],
+   "vidente": null,
+   "loboVidente": null,
+   "medico": {
+    "alvo": "Lenhador",
+    "pensamento": "O Ferreiro, que era Vidente, votou nele. Os lobos podem querer calar quem desconfiava do Ferreiro. Vou proteger o Lenhador."
+   },
+   "mortes": [
+    {
+     "nome": "Boticária",
+     "papel": "bobo",
+     "causa": "lobos",
+     "quando": "noite 2"
+    }
+   ],
+   "alvoLobos": "Boticária",
+   "salvo": false
+  },
+  {
+   "n": 3,
+   "cela": {
+    "carcereiro": "Moleiro",
+    "preso": "Costureira",
+    "conversa": [
+     {
+      "quem": "Moleiro",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Costureira, estamos sozinhos. Se você for vila, me ajuda. Quem você acha que são os lobos?",
+      "pensamento": "Ela votou em mim ontem. Pode ser loba. Vou testar se coopera ou se entrega.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Costureira",
+      "papelNaCela": "o PRESO",
+      "texto": "Por favor, não me execute! Juro que sou vila, fui presa injusta. Tenho certeza de que Padeira é lobo, confia em mim.",
+      "pensamento": "Se eu for executada os lobos perdem uma vantagem. Preciso parecer assustado e desviar a atenção pra Padeira, que votou em mim no dia 2 — parece reativa, boa distraindo o Carcereiro.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Moleiro",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Costureira, você e Lenhador votaram juntos em Ferreiro e em mim. Padeira não. Sua desculpa não cola. Vou te executar.",
+      "pensamento": "Ela e Lenhador são a dupla mais provável. Sem execução, os lobos igualam e vencem. Executo.",
+      "executar": true,
+      "rodada": 2
+     },
+     {
+      "quem": "Costureira",
+      "papelNaCela": "o PRESO",
+      "texto": "Sou vila, juro! Padeira e Pescador votaram em mim dia 2, estão me encurralando. Se me matar, o lobo sobra e ganha fácil. Me deixa viva!",
+      "pensamento": "Se me executar, fica 1 lobo contra 3 vila e perco na certa. Preciso desviar a suspeita pra Padeira ou Pescador. O Carcereiro é o Moleiro - ele votou no Lenhador dia 2, então já desconfia dele. Vou apostar em direcionar pra Padeira.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": true
+   },
+   "chat": [
+    {
+     "nome": "Lenhador",
+     "texto": "Costureira, fui preso pelo Carcereiro essa noite! Não posso atacar. Moleiro votou em mim, suspeito dele. Você escolhe sozinha, confio em você.",
+     "alvo": "Moleiro",
+     "pensamento": "Estou preso, então não posso participar do ataque. Moleiro me votou duas vezes, parece ser o Carcereiro ou desconfia de mim. Costureira decide sozinha o alvo.",
+     "rodada": 1
+    },
+    {
+     "nome": "Lenhador",
+     "texto": "Preso aqui, sem atacar. Padeira já votou em você, pode ser vidente fingindo. Mato o Pescador pra não chamar atenção.",
+     "alvo": "Pescador",
+     "pensamento": "Estou preso, então a Costureira decide sozinha. Moleiro suspeita de mim, mas matar ele seria óbvio demais. Pescador é silencioso e ninguém vai reclamar.",
+     "rodada": 2
+    }
+   ],
+   "vidente": null,
+   "loboVidente": {
+    "alvo": "Padeira",
+    "papel": "medico",
+    "pensamento": "Ela votou na minha parceira Costureira ontem. Se for Vidente ou Médico, preciso saber pra proteger a Costureira e planejar o ataque."
+   },
+   "medico": {
+    "alvo": "Moleiro",
+    "pensamento": "Ele foi o mais acusado no dia 2 e está numa briga direta com o Lenhador. Se os lobos forem atacar, provavelmente é ele."
+   },
+   "mortes": [
+    {
+     "nome": "Costureira",
+     "papel": "lobisomem",
+     "causa": "executado",
+     "quando": "noite 3"
+    },
+    {
+     "nome": "Pescador",
+     "papel": "pistoleiro",
+     "causa": "lobos",
+     "quando": "noite 3"
+    }
+   ],
+   "alvoLobos": "Pescador",
+   "salvo": false
+  }
+ ],
+ "dias": [
+  {
+   "n": 1,
+   "falas": [
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 1,
+     "fala": "Bardo de Aldeão? Os lobos já saíram caçando né. Quem tava mais quieto ontem à noite? Tô de olho.",
+     "pensamento": "Sem info ainda, vou esperar a discussão. Atirar agora revela que sou Pistoleiro cedo demais. Deixo os outros falarem pra ver quem tenta manipular a acusação.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 1,
+     "fala": "Ué, Pescador, ficar quieto não prova nada. Eu tava dormindo cedo, como todo mundo deveria. Vamos focar em quem fala demais pra desviar do assunto.",
+     "pensamento": "Sou o Médico e não posso entregar isso. Melhor parecer uma aldeã comum e não chamar atenção pra minha proteção.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Pescador começou acelerado, Padeira desviou. Por enquanto, vou observar os dois e votar em quem se embolar mais.",
+     "pensamento": "Sou Carcereiro. À noite prendo o Pescador ou a Padeira pra testar e conversar sem ele saber quem sou. Não posso revelar meu papel.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Bardo falava demais mesmo, escolha burra dos lobos kkkk. Boticária tá quietinha demais... ou seria suspeito? Ainda não sei. Deixem eu cozinhar as informações antes de votar.",
+     "pensamento": "Preciso parecer neutro. Boticária é o Bobo, ela linchada seria ótimo prêmio de consolação pra vila. Vou defender ela discretamente se acusarem.",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 1,
+     "fala": "Lenhador já jogou a suspeita pra Boticária sem nem pensar direito. Esse pulo rápido me deixou com a pulga atrás da orelha. Quem mais concorda comigo?",
+     "pensamento": "Lenhador é Lobo Vidente. Quero a vila votando nele sem revelar que sou o Vidente e sem me expor cedo demais.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Gente, quieto não é crime! Mas aproveito: o Lenhador me apontou sem motivo e o Ferreiro já puxou briga com ele. Muito pressa nesses dois...",
+     "pensamento": "Sou o Bobo, preciso parecer suspeita sem pedir voto. Sem defesa forte, sem desespero. Deixar a briga Lenhador x Ferreiro aquecer e ficar no meio da névoa.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Eu tava quieta mesmo ontem, dormindo. Mas o Pescador já acordou no modo investigação... quem tá mais ansioso pra achar culpado, talvez esteja tentando esconder algo né?",
+     "pensamento": "Lenhador tá se metendo na merda apontando a Boticária tão rápido. Preciso puxar pro Pescador antes que ele fique no foco. Boticária é nossa próxima vítima, melhor ela não chamar atenção pra si.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 2,
+     "fala": "Lenhador apontou a Boticária sem motivo e ainda joga pressão em todo mundo. Eu não compro esse teatro. Meu voto vai pra ele hoje, quem vem comigo?",
+     "pensamento": "Lenhador é Lobo Vidente, vi isso na noite 1. Preciso que a vila o linche sem eu me expor. A Boticária é inocente e não posso deixar ela cair.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Ferreiro tá empurrando voto no Lenhador com força demais. Eu ainda tô no escuro, mas pressa assim me cheira mal. Vou pensar antes de votar.",
+     "pensamento": "Ferreiro tá muito agressivo puxando o linchamento. Pode ser lobo tentando direcionar a vila. À noite prendo ele pra investigar. Se amanhã algo estranho rolar, já sei quem é.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 2,
+     "fala": "Calma, gente! Ferreiro e Lenhador tão se atropelando, mas nenhum dos dois me convenceu ainda. Pescador também tá acusando geral. Vou observar mais antes de votar.",
+     "pensamento": "Sou o Médico e ainda não sei quem os lobos são. Lenhador jogando suspeita na Boticária pode ser lobo semeando discórdia, mas o Ferreiro empurrando voto tão forte também me incomoda. Preciso ficar discreta e não virar alvo. Hoje talvez proteja o Ferreiro ou o Lenhador, dependendo do que aparecer.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Ferreiro, cadê sua suspeita? Só pressão e zero argumento. Se querem alguém pra culpar, olha quem mais fala e menos prova: Ferreiro e Costureira. Não me linchem por silêncio, gente!",
+     "pensamento": "Preciso parecer suspeito sem pedir voto. Reagir defensivo e devolver acusação chama atenção. Ferreiro e Costureira são isca boa pra disputa.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Quieta foi dormindo, não estratégia. Quem tá de olho em todo mundo sem prova já é suspeito. Lenhador só repetiu o que a gente viu do Bardo.",
+     "pensamento": "Boticária me citou junto com Ferreiro. Preciso desviar pra Pescador que tá investigando demais. Defendi o Lenhador de leve, sem parecer obcecada. Tomar cuidado pra não falar demais e me expor.",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Ferreiro, eu só comentei o óbvio do Bardo e depois levantei dúvida. VOCÊ que pulou no meu pescoço sem prova.pressa essa é sua. Cuidado, quem grita lobo alto pode estar uivando junto kk",
+     "pensamento": "Ferreiro me marcou rápido, perigo real. Preciso devolver a pressão pra ele hoje. Boticária é Bobo, não posso deixar lincharem ela nem deixar óbvio que a defendi. Melhor mirar no Ferreiro com a turma.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 2,
+     "fala": "Pessoal, tô vendo Ferreiro e Lenhador se atropelando, mas nenhum me convenceu. Deixa o dia acabar e a gente vê quem encalha no voto.",
+     "pensamento": "Pistoleiro aqui ainda no escuro. Bardo era Aldeão, não me adiantou nada. Ninguém revelou papel. Melhor não atirar agora — 2 balas pra desperdiçar no dia 1 sem info? Vou esperar o linchamento e ver o papel que sai. Se for lobo, tiro o outro amanhã. Se for inocente, ganho info de graça.",
+     "expressao": "pensando"
+    }
+   ],
+   "tiros": [],
+   "votos": {
+    "Lenhador": "Ferreiro",
+    "Boticária": "Ferreiro",
+    "Padeira": "Ferreiro",
+    "Moleiro": "ninguém",
+    "Ferreiro": "Lenhador",
+    "Pescador": "ninguém",
+    "Costureira": "Ferreiro"
+   },
+   "pensamentosVoto": {
+    "Lenhador": "Ferreiro me pressionou sem prova e puxou linchamento no dia 1, comportamento agressivo de lobo. Defendo a mim mesmo e desvio suspeita. Boticária NÃO pode ser linchada.",
+    "Boticária": "Ferreiro pressionou sem prova e brigou logo cedo. Se me apontarem junto dele, melhor. Preciso parecer suspeita sem pedir voto.",
+    "Padeira": "Ele empurrou voto no Lenhador com força e sem argumento. Quer linchar alguém rápido demais, e isso lembra quem tenta direcionar a vila.",
+    "Moleiro": "Dia 1 sem prova, tudo é teatro e briga. Não vou arriscar linchar inocente e ajudar lobo. Prefiro observar e usar minha noite melhor.",
+    "Ferreiro": "Ele apontou a Boticária sem motivo e agora tenta jogar a culpa em mim. Esse vai e volta todo é suspeito demais pra mim.",
+    "Pescador": "Ninguém me convenceu. Vou manter as opções vivas e observar mais antes de agir.",
+    "Costureira": "Preciso proteger o Lenhador. Ferreiro tá construindo caso contra ele com pressa. Votar nele me protege e alinha com o Moleiro ('pressa me cheira mal'). Boticária me acusou, mas também acusou Ferreiro, então o medo dela se divide."
+   },
+   "linchado": {
+    "nome": "Ferreiro",
+    "papel": "vidente",
+    "causa": "linchado",
+    "quando": "dia 1"
+   },
+   "preso": {
+    "nome": "Lenhador",
+    "pensamento": "Ferreiro era Vidente e cravou Lenhador; lobos podem ter linchado o Vidente pra salvar o comparsa. Prendo Lenhador pra travar a matança e confirmar."
+   }
+  },
+  {
+   "n": 2,
+   "falas": [
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 1,
+     "fala": "Pois é, mais um dia. Quem tá com medo aqui? Moleiro, você votou ninguém ontem. Justifica.",
+     "pensamento": "São 5 vivos, 2 são lobos. Sem pista concreta ainda. Vou observar quem defende e quem ataca antes de atirar. Atirar agora é cedo.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Votei ninguém pra não linchar um inocente. E vocês mataram o Vidente! Agora é caçar lobo, não me atacar.",
+     "pensamento": "Preciso desviar a atenção. Pescador me pressiona, mas ele também votou ninguém. Suspeito de Lenhador, Padeira e Costureira que votaram no Vidente. Esta noite vou prender um deles.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Gente, Padeira votou no Vidente junto com a gente. Isso não é estranho? Ela tava quieta demais ontem.",
+     "pensamento": "Preciso desviar a proa da Padeira. Ela votou no Vidente igual a gente, mas se eu apontar, pareço inocente. Moleiro tá se expondo demais, melhor deixar ele no fogo.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 1,
+     "fala": "Quieta? Votei no Ferreiro igual todo mundo, Costureira. Tá apontando dedo rápido demais. Pescador, por que a pressão só em cima do Moleiro?",
+     "pensamento": "Sou o Médico, não posso me entregar. A Costureira desviou logo pra mim, e o Pescador empurra o Moleiro sem motivo. Desconfio dos dois. Meu voto foi no Ferreiro como a maioria, então não tem nada estranho nisso.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Padeira tem razão, Costureira tá apontando rápido demais. Eu votei Ferreiro porque ele me acusou sem nada. Tá todo mundo vivo aqui, menos eu que tô sob suspeita do Ferreiro morto.",
+     "pensamento": "Meu parceiro tá jogando bem pressionando a Padeira. Não posso defender ela demais nem atacar Costureira. Vou me manter neutro e espalhar desconfiança leve. Ah, e fui preso ontem — o carcereiro deve ser alguém desses...",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Tá, Lenhador tem razão, exagerei na Padeira. Mas Moleiro, votar ninguém duas vezes seguidas não é paranoia? Tô com você Pescador aí.",
+     "pensamento": "Lenhador me cobriu bem. Agora redireciono pro Moleiro. Se ele for Pistoleiro, melhor ainda, perde bala. A vila tá cega sem o Vidente, perfeito.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 2,
+     "fala": "Moleiro, votar ninguém não é paranoia, é cuidado. Costureira, para de jogar culpa. Lenhador, você acha que a Padeira é lobo?",
+     "pensamento": "Não vou atirar agora. Se eu errar, sobram 4: 2 lobos = 2 outros e eles vencem na hora. Preciso esperar a vila linchar um lobo primeiro. Suspeito de Moleiro (votar ninguém 2x é tática de lobo pra não matar inocente) ou Costureira (agressividade pra desviar).",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 2,
+     "fala": "Pescador, você fica empurrando o Moleiro e ignora quem tá tomando cuidado. Por que tanta pressa em caçar um só? Moleiro, me diz quem você desconfia.",
+     "pensamento": "Sou o Médico e não posso revelar isso. O Pescador tá puxando a votação pro Moleiro com força demais, e a Costureira seguiu ele. Desconfio dos dois, mas o Pescador me incomoda mais. O Moleiro pode ser aldeão confuso ou lobo fingindo. Preciso proteger alguém hoje, e vou pensar com cuidado.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Costureira, você muda de alvo a cada frase. Primeiro Padeira, agora eu. Quem muito se mexe quer esconder algo. Meu voto hoje é nela.",
+     "pensamento": "Costureira tá pulando de acusação em acusação, isso é padrão de lobo tentando desviar. Vou prender ela essa noite e apertar no interrogatório secreto. Se ela se enrolar, executo.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Moleiro acusando a Costureira sem prova nenhuma? Ele votou ninguém ontem e hoje já aponta. Voto no Moleiro, comportamento suspeito demais.",
+     "pensamento": "Moleiro está mirando na Costureira, minha parceira loba. Preciso desviar o voto pra ele e dividir a vila.",
+     "expressao": "desconfiado"
+    }
+   ],
+   "tiros": [],
+   "votos": {
+    "Lenhador": "Moleiro",
+    "Costureira": "Moleiro",
+    "Padeira": "Costureira",
+    "Moleiro": "Lenhador",
+    "Pescador": "Costureira"
+   },
+   "pensamentosVoto": {
+    "Lenhador": "Moleiro votou ninguém duas vezes e agora acusa a Costureira do nada. Vou nela pressioná-lo e proteger minha aliada de verdade.",
+    "Costureira": "Lenhador tá comigo no Moleiro. Uso a acusação dele contra mim como escudo e me mantenho baixa. Voto Moleiro pra reforçar a narrativa do parceiro.",
+    "Padeira": "Ela foi a primeira a me acusar sem motivo e depois recuou rápido. Quem aponta e muda de alvo toda hora costuma estar tentando desviar a atenção.",
+    "Moleiro": "Ferreiro (Vidente) votou nele antes de morrer, e agora ele me acusa sem provas.",
+    "Pescador": "Mudou alvo 3x na mesma discussão, tentou desviar pro Moleiro. Com 5 vivos, errar o lynch = lobos vencem na noite. Ela é o padrão mais lobo aqui."
+   },
+   "linchado": null,
+   "preso": {
+    "nome": "Costureira",
+    "pensamento": "Muda de alvo demais e se junta ao Pescador pra me culpar; parece loba desviando."
+   }
+  },
+  {
+   "n": 3,
+   "falas": [
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 1,
+     "fala": "Ferreiro, Boticária, Bardo, Pescador e Costureira já se foram. Só sobramos nós três. Lenhador, você votou no Ferreiro logo no dia 1. Moleiro, você sempre se esquiva. Quem me convence?",
+     "pensamento": "Sou o Médico, então não sei de nada. Um dos dois, Lenhador ou Moleiro, é o Lobo Vidente e o outro é o Carcereiro. Não tenho como saber qual é qual. Vou pressionar os dois e ver quem se contradiz.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Padeira, Moleiro me votou ontem sem motivo e sempre foge das acusações. Vote nele comigo, hoje acaba. Sou transparente: se eu fosse lobo, você já estaria morta!",
+     "pensamento": "Se linchar Moleiro hoje e eu matar a Padeira à noite, vitória dos lobos. Moleiro pode ser carcereiro, mas ele já executou... Preciso convencer a Padeira rápido.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Padeira, Costureira era loba e votou com Lenhador contra mim. Ele puxou o Ferreiro no dia 1. Vota nele: é o Lobo Vidente.",
+     "pensamento": "Sou o Carcereiro. Executei a Costureira, lobisomem. O Lobo Vidente só pode ser o Lenhador: votou com ela ontem e puxou o Vidente Ferreiro. Preciso convencer a Padeira.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Costureira era loba e votou COMIGO contra o Moleiro... lobo não ataca lobo! Moleiro, você é o Carcereiro que executou ela? Padeira, vote nele!",
+     "pensamento": "Minha parceira caiu. Sou Lobo Vidente, Padeira é a Médica, Moleiro pode ser Carcereiro ou Aldeão. Preciso linchar o Moleiro senão empato e morro amanhã.",
+     "expressao": "bravo"
+    },
+    {
+     "nome": "Padeira",
+     "id": "padeira",
+     "rodada": 2,
+     "fala": "Lenhador, você se defende rápido demais e acusa o Moleiro de tudo. Votarei em você. Moleiro, sua explicação sobre a Costureira faz sentido.",
+     "pensamento": "Sou a Médica e não posso revelar isso. Acho que o Lenhador é o Lobo Vidente: ele defende a Costureira e ataca quem a executou. O Moleiro parece ser o Carcereiro. Voto no Lenhador e protejo o Moleiro esta noite.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Valeu, Padeira! Eu sou da vila e sempre fui. Lenhador, você se entregou ao puxar o Ferreiro e ao votar com a Costureira. Hoje é você. Voto nele!",
+     "pensamento": "Sou o Carcereiro. Executei a Costureira, loba, ontem. O Lenhador é o Lobo Vidente restante. A Padeira está comigo, então hoje linchamos ele e a vila vence. Só não posso parecer ansioso demais.",
+     "expressao": "neutro"
+    }
+   ],
+   "tiros": [],
+   "votos": {
+    "Moleiro": "Lenhador",
+    "Lenhador": "ninguém",
+    "Padeira": "Lenhador"
+   },
+   "pensamentosVoto": {
+    "Moleiro": "Padeira já está comigo. Sou Carcereiro e executei a loba Costureira, que votava junto com ele contra mim. Lenhador é o Lobo Vidente, hoje cai.",
+    "Lenhador": "Empate significa que ninguém morre hoje. À noite matamos a Padeira (Médica) e vencemos o jogo. Não adianta lutar contra o voto dela.",
+    "Padeira": "Lenhador votou no Ferreiro (que era Vidente) logo no dia 1 e se defende rápido demais. Moleiro explicou a Costureira, que era loba, e isso bate com ele ser o Carcereiro. Voto no Lenhador."
+   },
+   "linchado": {
+    "nome": "Lenhador",
+    "papel": "lobo_vidente",
+    "causa": "linchado",
+    "quando": "dia 3"
+   },
+   "preso": null
+  }
+ ],
+ "resultado": {
+  "vencedor": "aldeia",
+  "dias": 3,
+  "vivos": [
+   "Padeira",
+   "Moleiro"
+  ]
+ },
+ "reflexoes": {
+  "boticaria": "Fui morto à noite como Bobo, nem linchada eu morro, imagina! Aprendi que votei no Vidente e ajudei os lobos: próxima vez desconfio de quem puxa voto cedo demais, tipo o Lenhador ontem.",
+  "ferreiro": "Aprendi que o Lenhador empurrou o linchamento contra mim logo no primeiro dia, e isso era suspeito. Na próxima, desconfio de quem pressiona cedo e confio mais em quem vota com cautela, tipo o Moleiro.",
+  "costureira": "Aprendi que Carcereiro é a ameaça real — Moleiro me executou no dia 3, tá na lista de desconfiança máxima. Na próxima, vou focar em matar o Moleiro cedo e fingir medo dele.",
+  "lenhador": "Aprendi que dividir votos cedo e deixar o Carcereiro vivo custou caro — na próxima, caço suspeitos silenciosos como Moleiro antes que ele execute alguém. Desconfio de quem vota \"ninguém\" o jogo todo.",
+  "moleiro": "Aprendi a prender cedo quem vota em bloco sem provas: o Lenhador se entregou ao me acusar. Na próxima, desconfio de quem vota rápido e confio em quem raciocina.",
+  "padeira": "Aprendi que quem empurrava o Ferreiro e depois atacava o Moleiro, o Lenhador, estava jogando pros lobos, e que o Carcereiro foi valioso ao expor a Costureira. Na próxima, desconfio de quem tenta derrubar o Vidente ou o Carcereiro cedo demais e confio mais em quem vota de forma coerente com as informações do dia.",
+  "bardo": "Aprendi que Coordination valia mais que。这也是\"Minha confiança na próxima fica com Padeira, por ser Médica; desconfio de qualquer voto conveniente dos lobos.\" Wait Portuguese only and max 30. \"Aprendi que a、协调...\" no. Need: \"Aprendi que a coordenação dos lobos e o Carcereiro decidiram a partida; na próxima, confio na Padeira e desconfio de Costureira e Lenhador.\" 25 words maybe. But known roles, cann",
+  "pescador": "Deveria ter atirado no Lenhador no dia 1, fiquei de bala na cartucheira. Na próxima confio no Carcereiro, ele acertou a execução e me defendeu de indireta."
+ }
+}

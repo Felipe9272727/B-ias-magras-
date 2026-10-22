@@ -31,9 +31,6 @@ import {PreviaPersonagens} from './interrogatorio/PreviaPersonagens';
 import {PreviaHud} from './interrogatorio/PreviaHud';
 import {ThumbInt} from './interrogatorio/ThumbInt';
 import {ShortInterrogatorio, calcShortInterrogatorio} from './interrogatorio/ShortInterrogatorio';
-import {PreviaLVila} from './lobisomem/PreviaVila';
-import {PreviaLAldeoes} from './lobisomem/PreviaAldeoes';
-import {PreviaLIcones} from './lobisomem/PreviaIcones';
 import {PreviaLobo} from './lobisomem/PreviaLobo';
 import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {Dia, calcDia} from './sessenta/Dia';
@@ -196,10 +193,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="PreviaSala" component={PreviaSala} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaPersonagens" component={PreviaPersonagens} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaHud" component={PreviaHud} width={1920} height={1080} fps={30} durationInFrames={240} />
-      <Composition id="PreviaLVila" component={PreviaLVila} width={1920} height={1080} fps={30} durationInFrames={240} />
-      <Composition id="PreviaLAldeoes" component={PreviaLAldeoes} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaLobo" component={PreviaLobo} width={1920} height={1080} fps={30} durationInFrames={180} />
-      <Composition id="PreviaLIcones" component={PreviaLIcones} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />

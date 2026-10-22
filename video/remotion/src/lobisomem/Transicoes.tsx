@@ -1,93 +1,76 @@
-// Transições do Lobisomem (feitas do zero para a vila): começam no quadro 0 da cena e somem sozinhas.
-//  - 'garras': três rasgos de garra cortam a tela e abrem a cena (a noite caindo, lobos)
-//  - 'nuvens': nuvens cobrem a tela e se abrem (amanhecer, mudança de dia)
-//  - 'pergaminho': um pergaminho desenrola de cima a baixo (títulos, placar, votação)
-//  - 'sino': ondas do sino da vila saem do centro (volta para o debate)
+// Transições do Lobisomem (estilo Wolvesville, feitas do zero): começam no quadro 0 da cena e somem sozinhas.
+//  - 'noite': uma lua cheia cresce do centro cobrindo a tela de azul-escuro e abre
+//  - 'dia': raios de sol amarelos giram e abrem a cena
+//  - 'rosa': faixas rosa com patas passam na diagonal (títulos, papéis, placar, fim)
+//  - 'corte': flash curto entre telas do jogo (votação, linchamento, tiro)
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
 
-export type TipoTransicaoLobo = 'garras' | 'nuvens' | 'pergaminho' | 'sino' | 'nenhuma';
+export type TipoTransicaoLobo = 'noite' | 'dia' | 'rosa' | 'corte' | 'nenhuma';
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 export const escolherTransicaoLobo = (anterior: string | undefined, atual: string): TipoTransicaoLobo => {
   if (!anterior) return 'nenhuma';
-  if (atual === 'LOBNoite') return 'garras';
-  if (atual === 'LOBAmanhecer') return 'nuvens';
-  if (['LOBTitulo', 'LOBPlacar', 'LOBVotos', 'LOBElenco', 'LOBPapeis', 'LOBLobby', 'LOBRegras'].includes(atual)) return 'pergaminho';
-  if (atual === 'LOBFogueira' && anterior !== 'LOBFogueira') return 'sino';
+  if (atual === 'LOBFase') return 'rosa';
+  if (atual === 'LOBNoite' && anterior !== 'LOBNoite') return 'noite';
+  if (atual === 'LOBAmanhecer') return 'dia';
+  if (['LOBTitulo', 'LOBPlacar', 'LOBPapeis', 'LOBFim', 'LOBElenco', 'LOBSorteio'].includes(atual)) return 'rosa';
+  if (['LOBVotos', 'LOBLinchado', 'LOBTiro'].includes(atual) && anterior !== atual) return 'corte';
   return 'nenhuma';
 };
 
-const Garras: React.FC = () => {
+const Noite: React.FC = () => {
   const f = useCurrentFrame();
   if (f > 16) return null;
-  const abre = interpolate(f, [4, 16], [0, 1], {...cl, easing: Easing.in(Easing.cubic)});
-  const risco = (i: number) => {
-    const k = interpolate(f, [i * 1.5, i * 1.5 + 5], [0, 1], cl);
-    const x0 = 520 + i * 360;
-    return <path key={i} d={`M${x0 - 300} -60 Q${x0} 540 ${x0 + 260} 1140`} fill="none" stroke="#fff3d6" strokeWidth={34 * (1 - abre * 0.6)} strokeLinecap="round" strokeDasharray="1600" strokeDashoffset={1600 * (1 - k)} />;
-  };
+  const abre = interpolate(f, [3, 16], [0, 1], {...cl, easing: Easing.in(Easing.cubic)});
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
-      <AbsoluteFill style={{background: '#0a0612', opacity: 1 - abre}} />
-      <svg width={1920} height={1080} style={{position: 'absolute', opacity: 1 - abre * 0.9}}>
-        {[0, 1, 2].map(risco)}
+      <AbsoluteFill style={{background: '#0b1630', clipPath: `circle(${(1 - abre) * 120}% at 50% 50%)`}} />
+      <div style={{position: 'absolute', left: 960 - 120, top: 540 - 120, width: 240, height: 240, borderRadius: 999, background: '#fff3c4', boxShadow: '0 0 90px 30px rgba(255,243,196,0.5)', transform: `scale(${1 - abre})`}} />
+    </AbsoluteFill>
+  );
+};
+
+const Dia: React.FC = () => {
+  const f = useCurrentFrame();
+  if (f > 16) return null;
+  const abre = interpolate(f, [2, 16], [0, 1], {...cl, easing: Easing.inOut(Easing.quad)});
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none', opacity: 1 - abre}}>
+      <AbsoluteFill style={{background: '#ffe082'}} />
+      <svg width={1920} height={1080} style={{position: 'absolute'}}>
+        <g transform={`translate(960 540) rotate(${f * 6})`}>
+          {Array.from({length: 12}).map((_, i) => <path key={i} d="M0 0 L-90 -1300 L90 -1300Z" fill="#ffca28" transform={`rotate(${i * 30})`} />)}
+        </g>
+        <circle cx={960} cy={540} r={180 * (1 + abre * 3)} fill="#fff8e1" />
       </svg>
     </AbsoluteFill>
   );
 };
 
-const Nuvens: React.FC = () => {
+const Rosa: React.FC = () => {
   const f = useCurrentFrame();
   if (f > 18) return null;
-  const abre = interpolate(f, [2, 18], [0, 1], {...cl, easing: Easing.inOut(Easing.quad)});
-  const nuvem = (x: number, y: number, r: number, lado: number, i: number) => (
-    <g key={i} transform={`translate(${x + lado * abre * 1300} ${y})`}>
-      {[0, 1, 2, 3].map((k) => <circle key={k} cx={k * r * 0.8 - r} cy={(k % 2) * -r * 0.4} r={r} fill="#f4f1ea" stroke="#14141f" strokeWidth={8} />)}
-    </g>
-  );
   return (
-    <AbsoluteFill style={{pointerEvents: 'none'}}>
-      <svg width={1920} height={1080}>
-        {[[300, 200, 220, -1], [1500, 260, 240, 1], [500, 640, 260, -1], [1400, 760, 250, 1], [960, 450, 280, 1], [150, 980, 230, -1], [1800, 1000, 220, 1]].map(([x, y, r, l], i) => nuvem(x, y, r, l, i))}
-      </svg>
+    <AbsoluteFill style={{pointerEvents: 'none', overflow: 'hidden'}}>
+      {[0, 1, 2, 3].map((i) => {
+        const k = interpolate(f, [i * 1.5, i * 1.5 + 14], [0, 1], {...cl, easing: Easing.inOut(Easing.cubic)});
+        return <div key={i} style={{position: 'absolute', left: -600, top: -300 + i * 420, width: 3200, height: 440, background: i % 2 ? '#ff3d7f' : '#e91e63', transform: `rotate(-14deg) translateX(${-3300 + k * 6600}px)`}} />;
+      })}
     </AbsoluteFill>
   );
 };
 
-const Pergaminho: React.FC = () => {
+const Corte: React.FC = () => {
   const f = useCurrentFrame();
-  if (f > 16) return null;
-  const desce = interpolate(f, [0, 8], [0, 1], {...cl, easing: Easing.out(Easing.quad)});
-  const some = interpolate(f, [9, 16], [0, 1], cl);
-  return (
-    <AbsoluteFill style={{pointerEvents: 'none', transform: `translateY(${some * -1150}px)`}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 1080 * desce, background: 'linear-gradient(90deg, #d8bf8a, #efe0b8 50%, #d8bf8a)', borderBottom: '10px solid #5a3b1d'}} />
-      <div style={{position: 'absolute', left: -20, right: -20, top: 1080 * desce - 50, height: 80, borderRadius: 40, background: 'linear-gradient(#a8763c, #6b4520)', border: '8px solid #2a1a0a'}} />
-    </AbsoluteFill>
-  );
-};
-
-const Sino: React.FC = () => {
-  const f = useCurrentFrame();
-  if (f > 14) return null;
-  return (
-    <AbsoluteFill style={{pointerEvents: 'none'}}>
-      <svg width={1920} height={1080}>
-        {[0, 1, 2].map((i) => {
-          const k = interpolate(f, [i * 2, i * 2 + 12], [0, 1], cl);
-          return <circle key={i} cx={960} cy={540} r={60 + k * 1100} fill="none" stroke="#ffd36b" strokeWidth={26 * (1 - k)} opacity={1 - k} />;
-        })}
-      </svg>
-      <AbsoluteFill style={{background: '#fff8e0', opacity: interpolate(f, [0, 5], [0.55, 0], cl)}} />
-    </AbsoluteFill>
-  );
+  const o = interpolate(f, [0, 6], [0.7, 0], cl);
+  return o > 0 ? <AbsoluteFill style={{pointerEvents: 'none', background: '#fff', opacity: o}} /> : null;
 };
 
 export const TransicaoLobo: React.FC<{tipo: TipoTransicaoLobo}> = ({tipo}) => {
-  if (tipo === 'garras') return <Garras />;
-  if (tipo === 'nuvens') return <Nuvens />;
-  if (tipo === 'pergaminho') return <Pergaminho />;
-  if (tipo === 'sino') return <Sino />;
+  if (tipo === 'noite') return <Noite />;
+  if (tipo === 'dia') return <Dia />;
+  if (tipo === 'rosa') return <Rosa />;
+  if (tipo === 'corte') return <Corte />;
   return null;
 };

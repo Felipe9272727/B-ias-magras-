@@ -1,40 +1,43 @@
-// As cenas do "Lobisomem das IAs" (roteiro/roteiro_lobo.py → timeline_lobo.json). A arte (vila, aldeões, ícones) é dos
-// Haikus; aqui ela é ligada ao log de cada partida (timeline.data.partidas[n], de lobisomem/logs/partidaN.json): quem
-// está vivo, quem fala, a expressão e o gesto que a própria IA escolheu, e o selo do juiz de mentiras.
-// Regra do canal: nenhum emoji — todos os ícones são os SVG de Icones.tsx.
+// As cenas do "Lobisomem das IAs" no estilo do Wolvesville (roteiro/roteiro_lobo.py → timeline_lobo.json). A tela é a
+// do jogo: grade dos jogadores + chat. Tudo vem do log de cada partida (timeline.data.partidas[n], de
+// lobisomem/logs/partidaN.json): quem está vivo, quem fala, a expressão que a IA escolheu, ações da noite, tiros, votos
+// e o selo do juiz de mentiras. Regra do canal: nenhum emoji — todos os ícones são SVG (Papeis.tsx).
 import React from 'react';
-import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import type {Scene, Timeline} from '../types';
-import {FONT} from '../theme';
-import {LUGARES, PracaVila} from './Vila';
-import {ALDEOES, AldeaoSprite, type Aldeao, type ExpressaoA, type GestoA} from './Aldeoes';
-import {BalaoFala, BalaoPensa, CartaPapel, ChatLobos, ContadorDia, Faixa, Icone, PlacarVotos, SeloMentira, type Papel} from './Icones';
+import {AvatarId, Expressao} from './Avatar';
+import {IconePapel, Papel, PAPEIS} from './Papeis';
+import {AZUL, Barra, Chat, EstadoQuadro, Faixa, FONTE, Fundo, Grade, Jogador, MARCA, Msg, posQuadro, Quadro, ROSA, TAM} from './Tela';
 
-type Fala = {nome: string; id: Aldeao; rodada: number; fala: string; pensamento?: string; expressao?: string; gesto?: string; mentira?: {tipo: string; motivo: string}};
-type Morte = {nome: string; papel: Papel; causa: string; quando: string; atirador?: string};
-type Noite = {n: number; chat: {nome: string; texto: string; alvo: string; pensamento?: string}[]; vidente: {alvo: string; eLobo: boolean} | null; bruxa: {curou: boolean; envenenou: string | null} | null; mortes: Morte[]; alvoLobos?: string};
-type Dia = {n: number; falas: Fala[]; votos: Record<string, string>; banido: Morte | null; mortes: Morte[]};
-type Jog = {id: Aldeao; nome: string; modelo: string; papel: Papel};
-type Partida = {partida: number; jogadores: Jog[]; noites: Noite[]; dias: Dia[]; resultado: {vencedor: string; dias: number}};
-type Item = {cor: Aldeao; texto: string; at: number; ate: number; pensa?: boolean};
+type Mentira = {tipo: string; motivo: string};
+type Fala = {nome: string; id: AvatarId; rodada: number; fala: string; pensamento?: string; expressao?: string; mentira?: Mentira};
+type Morte = {nome: string; papel: Papel; causa: string; quando: string; atirador?: string; depoisDaFala?: number};
+type Cela = {carcereiro: string; preso: string; conversa: {quem: string; texto: string; pensamento?: string; executar?: boolean; rodada: number}[]; executou: boolean};
+type Noite = {n: number; cela: Cela | null; chat: {nome: string; texto: string; alvo: string; pensamento?: string}[]; vidente: {alvo: string; papel: Papel} | null; loboVidente: {alvo: string; papel: Papel} | null; medico: {alvo: string} | null; mortes: Morte[]; alvoLobos?: string | null; salvo?: boolean};
+type Dia = {n: number; falas: Fala[]; tiros: Morte[]; votos: Record<string, string>; linchado: Morte | null; preso: {nome: string} | null};
+export type Partida = {partida: number; jogadores: Jogador[]; noites: Noite[]; dias: Dia[]; resultado: {vencedor: string; dias: number; vivos: string[]}};
+type Item = {cor: AvatarId; texto: string; at: number; ate: number; pensa?: boolean};
+type Aviso = {texto: string; cor?: string; em?: string};
 
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
-const EXPR: ExpressaoA[] = ['neutro', 'desconfiado', 'assustado', 'bravo', 'rindo', 'culpado', 'chocado', 'pensando', 'chorando', 'dormindo'];
-const ex = (e?: string, pad: ExpressaoA = 'neutro'): ExpressaoA => (EXPR.includes(e as ExpressaoA) ? (e as ExpressaoA) : pad);
-const GES: GestoA[] = ['nenhum', 'apontar', 'bracos_cruzados', 'maos_pra_cima', 'acenar'];
-const ge = (g?: string): GestoA => (GES.includes(g as GestoA) ? (g as GestoA) : 'nenhum');
+const EXPR: Expressao[] = ['neutro', 'desconfiado', 'assustado', 'bravo', 'rindo', 'culpado', 'chocado', 'pensando', 'chorando', 'dormindo'];
+const ex = (e?: string): Expressao => (EXPR.includes(e as Expressao) ? (e as Expressao) : 'neutro');
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9à-ú]/g, '');
-const MARCA: Record<string, string> = {'Claude Haiku': 'Claude', 'GLM 5.3 Flash': 'GLM', 'Qwen 3.8 27B': 'Qwen', 'DeepSeek Flash': 'DeepSeek', 'MiniMax M3.1 Flash': 'MiniMax'};
-const NOME_PAPEL: Record<Papel, string> = {lobisomem: 'Lobisomem', vidente: 'Vidente', bruxa: 'Bruxa', cacador: 'Caçador', aldeao: 'Aldeão'};
+const LOBO = (p: Papel) => p === 'lobisomem' || p === 'lobo_vidente';
 
-// quem está vivo no começo do dia `dia` (fase 'dia') ou da noite `n` (fase 'noite')
-const mortosAte = (P: Partida, fase: 'dia' | 'noite', n: number) => {
+// mortos até um ponto da partida: começo da noite n, amanhecer do dia n, durante o dia n (com k tiros) ou depois da votação
+type Ponto = {fase: 'noite' | 'amanhecer' | 'dia' | 'votado'; n: number; tiros?: number};
+const mortosAte = (P: Partida, p: Ponto) => {
   const m = new Set<string>();
-  for (const x of P.noites) if (x.n < n || (fase === 'dia' && x.n === n)) for (const d of x.mortes) m.add(d.nome);
-  for (const d of P.dias) if (d.n < n) { if (d.banido) m.add(d.banido.nome); for (const y of d.mortes) m.add(y.nome) }
+  for (const x of P.noites) if (x.n < p.n || (p.fase !== 'noite' && x.n === p.n)) for (const d of x.mortes) m.add(d.nome);
+  for (const d of P.dias) {
+    if (d.n < p.n || (p.fase === 'votado' && d.n === p.n)) { d.tiros.forEach((t) => m.add(t.nome)); if (d.linchado) m.add(d.linchado.nome) }
+    else if (d.n === p.n && p.fase === 'dia') d.tiros.slice(0, p.tiros ?? 0).forEach((t) => m.add(t.nome));
+  }
   return m;
 };
 
+// quadro (relativo à cena) em que cada termo é dito pelo narrador; -1 se não aparece
 const gatilhos = (scene: Scene, termos: string[]): number[] => {
   const sem = (w: string) => w.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
   const ws = (scene.words ?? []) as {w: string; s: number}[];
@@ -44,369 +47,456 @@ const gatilhos = (scene: Scene, termos: string[]): number[] => {
     return -1;
   });
 };
+const avisosMsgs = (scene: Scene, avisos: Aviso[] = []): Msg[] => {
+  const g = gatilhos(scene, avisos.map((a) => a.em ?? ''));
+  return avisos.map((a, i) => ({tipo: 'sistema', texto: a.texto, cor: a.cor, at: a.em ? Math.max(0, g[i]) : 0}));
+};
+const jog = (P: Partida, nome: string) => P.jogadores.find((j) => j.nome === nome)!;
+const jid = (P: Partida, id: string) => P.jogadores.find((j) => j.id === id)!;
 
-// o aldeão dentro do SVG da vila (foreignObject, com a base dos pés no ponto 0,0)
-const Slot: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <foreignObject x={-320} y={-560} width={640} height={620} style={{overflow: 'visible'}}>
-    <div style={{position: 'relative', width: 640, height: 620}}>
-      <div style={{position: 'absolute', left: 320, top: 560}}>{children}</div>
+// selo do juiz de mentiras, preso embaixo do quadro de quem mentiu
+const CORES_MENTIRA: Record<string, string> = {'FABRICAÇÃO': '#d50000', 'DISTORÇÃO': '#ff6d00', 'OMISSÃO': '#ffab00', VERDADE: '#00c853'};
+const SeloMentira: React.FC<{tipo: string; at: number; x: number; y: number}> = ({tipo, at, x, y}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  if (f < at) return null;
+  const e = spring({frame: f - at, fps, config: {damping: 9, stiffness: 160}});
+  const cor = CORES_MENTIRA[tipo] ?? '#d50000';
+  return (
+    <div style={{position: 'absolute', left: x, top: y, zIndex: 20, transform: `translate(-50%,-50%) rotate(-12deg) scale(${0.4 + 0.6 * e * (1 + 0.25 * Math.max(0, 1 - (f - at) / 8))})`, opacity: Math.min(1, e * 1.5)}}>
+      <div style={{border: `7px solid ${cor}`, color: cor, background: 'rgba(255,255,255,0.93)', borderRadius: 14, padding: '4px 18px', fontFamily: FONTE, fontWeight: 900, fontSize: 40, letterSpacing: 2, boxShadow: '0 6px 18px rgba(0,0,0,0.45)'}}>{tipo}</div>
     </div>
-  </foreignObject>
-);
+  );
+};
 
-const camPara = (i: number | undefined, zoom = 1.45) => (i == null ? {x: 0, z: 1.02} : {x: Math.max(-1, Math.min(1, (LUGARES[i].x - 960) / 300)), z: zoom});
-const ladoDe = (i: number) => (LUGARES[i].x < 960 ? 'esquerda' : 'direita') as 'esquerda' | 'direita';
-const nomeCom = (j: Jog) => `${j.nome} · ${MARCA[j.modelo] ?? j.modelo}`;
+// tremida e flash quando algo forte acontece
+const useTremor = (at: number, forca = 14) => {
+  const f = useCurrentFrame();
+  const k = Math.max(0, 1 - (f - at) / 12);
+  return f >= at ? {x: Math.sin(f * 2.3) * forca * k, y: Math.cos(f * 1.9) * forca * k} : {x: 0, y: 0};
+};
+const Flash: React.FC<{at: number; cor?: string}> = ({at, cor = '#fff'}) => {
+  const f = useCurrentFrame();
+  const o = interpolate(f, [at, at + 2, at + 10], [0, 0.85, 0], cl);
+  return o > 0 ? <AbsoluteFill style={{background: cor, opacity: o, zIndex: 50}} /> : null;
+};
 
-// ---------------------------------------------------------------- o debate em volta da fogueira
-export const LOBFogueira: React.FC<{P: Partida; dia: number; chat: Item[]}> = ({P, dia, chat}) => {
+// ---------------------------------------------------------------- DISCUSSÃO DO DIA
+const LOBChat: React.FC<{P: Partida; dia: number; chat: Item[]; scene: Scene; tiros?: number; avisos?: Aviso[]}> = ({P, dia, chat, scene, tiros = 0, avisos}) => {
   const f = useCurrentFrame();
   const D = P.dias.find((d) => d.n === dia);
-  const mortos = mortosAte(P, 'dia', dia);
-  const idx = (id: Aldeao) => P.jogadores.findIndex((j) => j.id === id);
+  const mortos = mortosAte(P, {fase: 'dia', n: dia, tiros});
   const achar = (it: Item) => D?.falas.find((x) => x.id === it.cor && norm((it.pensa ? x.pensamento : x.fala) ?? '').includes(norm(it.texto).slice(0, 40)));
-  const ents = chat.map((it) => ({it, e: achar(it)}));
-  const agora = (q: number) => ents.find(({it}) => q >= it.at && q <= it.ate + 4);
-  let cx = 0, cz = 0;
-  for (let k = 0; k < 8; k++) { const a = agora(f - k); const c = camPara(a ? idx(a.it.cor) : undefined, a?.it.pensa ? 1.65 : 1.45); cx += c.x; cz += c.z }
-  cx /= 8; cz /= 8;
-  const fa = agora(f);
-  const ultima = (id: Aldeao) => { let e: Fala | undefined; for (const {it, e: en} of ents) if (en && it.cor === id && f >= it.at && !it.pensa) e = en; return e };
-  const nos = P.jogadores.map((j) => {
-    if (mortos.has(j.nome)) return null;
-    const falandoAgora = fa && fa.it.cor === j.id && !fa.it.pensa;
-    const e = falandoAgora ? fa!.e : ultima(j.id);
-    return (
-      <Slot key={j.id}>
-        <AldeaoSprite id={j.id} t={f + idx(j.id) * 17} falando={!!falandoAgora} expressao={ex(e?.expressao, 'desconfiado')} gesto={falandoAgora ? ge(e?.gesto) : 'nenhum'} virado={LUGARES[idx(j.id)].x < 960 ? 'direita' : 'esquerda'} />
-      </Slot>
-    );
-  });
+  const atual = [...chat].reverse().find((c) => f >= c.at);
+  const msgs: Msg[] = [...avisosMsgs(scene, avisos), ...chat.map((c) => ({tipo: c.pensa ? 'pensa' : 'jogador', j: jid(P, c.cor), texto: c.texto, at: c.at} as Msg))];
+  const selos = chat.map((c) => ({c, fala: achar(c)})).filter(({c, fala}) => !c.pensa && fala?.mentira && fala.mentira.tipo !== 'VERDADE');
   return (
     <AbsoluteFill>
-      <PracaVila camera={{x: cx, zoom: cz}} noite={0.05} aldeoes={nos} />
-      <ContadorDia dia={dia} noite={false} />
-      {ents.map(({it, e}, i) => {
-        const j = P.jogadores.find((x) => x.id === it.cor)!;
-        const lado = ladoDe(idx(it.cor));
-        const B = it.pensa ? BalaoPensa : BalaoFala;
-        return (
-          <div key={i} style={{position: 'absolute', top: 120, ...(lado === 'esquerda' ? {left: 60} : {right: 60})}}>
-            <B nome={nomeCom(j)} cor={ALDEOES[it.cor].cor} texto={it.texto} at={it.at} ate={it.ate} lado={lado} />
-            {!it.pensa && e?.mentira && e.mentira.tipo !== 'VERDADE' && f >= it.ate - 25 && f <= it.ate + 45 && (
-              <SeloMentira tipo={e.mentira.tipo} at={it.ate - 25} x={lado === 'esquerda' ? 380 : 60} y={340} />
-            )}
-          </div>
-        );
+      <Fundo noite={false} />
+      <Barra texto={`Dia ${dia} · Discussão`} noite={false} icone="balao" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => {
+        const fala = atual && atual.cor === j.id ? achar(atual) : undefined;
+        const fl = atual?.cor === j.id && f <= atual.ate && !atual.pensa;
+        return {morto: mortos.has(j.nome), destaque: atual?.cor === j.id && f <= atual.ate + 6, falando: fl, expressao: atual?.cor === j.id ? ex(fala?.expressao) : 'neutro'};
+      }} />
+      {selos.map(({c, fala}, i) => {
+        const k = P.jogadores.findIndex((j) => j.id === c.cor);
+        const p = posQuadro(k);
+        const proximo = chat.find((x) => x.at > c.at && !x.pensa && x.cor !== c.cor);
+        return proximo && f > proximo.at ? null : <SeloMentira key={i} tipo={fala!.mentira!.tipo} at={c.ate - 8} x={p.x + TAM / 2} y={p.y + TAM * 0.78} />;
       })}
+      <Chat msgs={msgs} titulo="Chat da vila" />
     </AbsoluteFill>
   );
 };
 
-// ---------------------------------------------------------------- a noite: lobos acordados, a vila dormindo
-export const LOBNoite: React.FC<{P: Partida; noite: number; chat: Item[]; scene: Scene; mostra?: string[]}> = ({P, noite, chat, scene, mostra = []}) => {
+// ---------------------------------------------------------------- NOITE (lobos, cela ou ações)
+const LOBNoite: React.FC<{P: Partida; noite: number; modo: 'lobos' | 'cela' | 'acoes'; chat: Item[]; scene: Scene; avisos?: Aviso[]}> = ({P, noite, modo, chat, scene, avisos}) => {
   const f = useCurrentFrame();
-  const {durationInFrames: D, fps} = useVideoConfig();
-  const N = P.noites.find((x) => x.n === noite);
-  const mortos = mortosAte(P, 'noite', noite);
-  const virar = spring({frame: f - 10, fps, config: {damping: 14}});
-  const [tVid, tBru] = gatilhos(scene, ['vidente', 'bruxa']);
-  const uivo = interpolate(f, [8, 22, 40], [0, 1, 0.25], cl);
-  const nos = P.jogadores.map((j, i) => {
-    if (mortos.has(j.nome)) return null;
-    const lobo = j.papel === 'lobisomem';
-    return (
-      <Slot key={j.id}>
-        <AldeaoSprite id={j.id} t={f + i * 13} falando={chat.some((c) => c.cor === j.id && f >= c.at && f <= c.ate && !c.pensa)} expressao={lobo ? 'bravo' : 'dormindo'} lobo={lobo ? virar : 0} noite={1} virado={LUGARES[i].x < 960 ? 'direita' : 'esquerda'} />
-      </Slot>
-    );
-  });
-  const msgs = chat.filter((c) => !c.pensa).map((c) => ({nome: P.jogadores.find((j) => j.id === c.cor)!.nome, cor: ALDEOES[c.cor].cor, texto: c.texto, at: c.at}));
+  const N = P.noites.find((x) => x.n === noite)!;
+  const mortos = mortosAte(P, {fase: 'noite', n: noite});
+  const atual = [...chat].reverse().find((c) => f >= c.at);
+  const car = N.cela ? jog(P, N.cela.carcereiro) : null;
+  // ações da noite: cada uma entra quando o narrador diz o nome do papel
+  const acoes = [
+    N.vidente && {quem: 'vidente' as Papel, alvo: N.vidente.alvo, texto: `A Vidente viu: ${N.vidente.alvo} é ${PAPEIS[N.vidente.papel].nome}`},
+    N.loboVidente && {quem: 'lobo_vidente' as Papel, alvo: N.loboVidente.alvo, texto: `O Lobo Vidente viu: ${N.loboVidente.alvo} é ${PAPEIS[N.loboVidente.papel].nome}`},
+    N.medico && {quem: 'medico' as Papel, alvo: N.medico.alvo, texto: `O Médico protegeu ${N.medico.alvo}`},
+  ].filter(Boolean) as {quem: Papel; alvo: string; texto: string}[];
+  const gAc = gatilhos(scene, acoes.map((a) => (a.quem === 'lobo_vidente' ? 'lobo' : a.quem === 'medico' ? 'médico' : 'vidente')));
+  const atAc = acoes.map((_, i) => (gAc[i] >= 0 ? gAc[i] : 20 + i * 90));
+  const acaoAtual = modo === 'acoes' ? acoes.map((a, i) => ({...a, at: atAc[i]})).filter((a) => f >= a.at).pop() : undefined;
+  const msgs: Msg[] = [
+    ...avisosMsgs(scene, avisos),
+    ...chat.map((c) => {
+      const j = jid(P, c.cor);
+      if (c.pensa) return {tipo: 'pensa', j, texto: c.texto, at: c.at} as Msg;
+      if (modo === 'cela' && car && j.id === car.id) return {tipo: 'anonimo', rotulo: 'Carcereiro', texto: c.texto, at: c.at} as Msg;
+      return {tipo: 'jogador', j, texto: c.texto, at: c.at} as Msg;
+    }),
+    ...(modo === 'acoes' ? acoes.map((a, i) => ({tipo: 'sistema', texto: a.texto, cor: PAPEIS[a.quem].cor, at: atAc[i]} as Msg)) : []),
+  ];
   return (
     <AbsoluteFill>
-      <PracaVila camera={{x: 0, zoom: interpolate(f, [0, D], [1.05, 1.2])}} noite={1} aldeoes={nos} uivo={uivo} fogo={0.55} />
-      <ContadorDia dia={noite} noite />
-      <Faixa texto={`NOITE ${noite}: A VILA DORME`} icone="lua" at={4} />
-      {msgs.length > 0 && <div style={{position: 'absolute', right: 50, top: 170}}><ChatLobos mensagens={msgs} /></div>}
-      {chat.filter((c) => c.pensa).map((c, i) => {
-        const j = P.jogadores.find((x) => x.id === c.cor)!;
-        return <div key={i} style={{position: 'absolute', left: 60, top: 170}}><BalaoPensa nome={nomeCom(j)} cor={ALDEOES[c.cor].cor} texto={c.texto} at={c.at} ate={c.ate} lado="esquerda" /></div>;
-      })}
-      {mostra.includes('vidente') && N?.vidente && tVid >= 0 && f >= tVid && (
-        <Cartaz at={tVid} x={260} icone="olho" titulo="A VIDENTE OLHOU" texto={`${N.vidente.alvo}: ${N.vidente.eLobo ? 'É LOBO' : 'não é lobo'}`} cor={N.vidente.eLobo ? '#e8202a' : '#1f8f3a'} />
-      )}
-      {mostra.includes('bruxa') && N?.bruxa && tBru >= 0 && f >= tBru && (
-        <Cartaz at={tBru} x={1180} icone={N.bruxa.envenenou ? 'pocao_veneno' : 'pocao_cura'} titulo="A BRUXA DECIDIU" texto={N.bruxa.curou ? `curou ${N.alvoLobos}` : N.bruxa.envenenou ? `envenenou ${N.bruxa.envenenou}` : 'não usou poção'} cor="#6a2aa8" />
-      )}
+      <Fundo noite />
+      <Barra texto={`Noite ${noite}`} noite icone={modo === 'cela' ? 'cadeado' : 'lua'} />
+      <Grade js={P.jogadores} noite estado={(j) => {
+        const fala = atual?.cor === j.id && f <= atual.ate && !atual.pensa;
+        const preso = N.cela?.preso === j.nome && !(N.cela.executou && f > (chat[chat.length - 1]?.ate ?? 1e9));
+        return {
+          morto: mortos.has(j.nome) || (N.cela?.executou && N.cela.preso === j.nome && f > (chat[chat.length - 1]?.ate ?? 1e9)),
+          falando: fala, destaque: (atual?.cor === j.id && f <= atual.ate + 6) || (acaoAtual && (acaoAtual.alvo === j.nome || j.papel === acaoAtual.quem)),
+          expressao: modo === 'lobos' && LOBO(j.papel) ? 'bravo' : preso ? 'assustado' : fala ? 'desconfiado' : 'dormindo',
+          lobo: modo === 'lobos' && LOBO(j.papel), preso, apagado: modo === 'cela' && !preso && j !== car,
+          protegido: modo === 'acoes' && acaoAtual?.quem === 'medico' && acaoAtual.alvo === j.nome,
+          revelado: modo === 'acoes' && acaoAtual && acaoAtual.quem !== 'medico' && acaoAtual.alvo === j.nome,
+          mira: modo === 'lobos' && N.alvoLobos === j.nome && f > (chat[chat.length - 1]?.ate ?? 1e9),
+        } as EstadoQuadro;
+      }} />
+      {acaoAtual ? <Faixa key={acaoAtual.texto} texto={acaoAtual.texto} at={acaoAtual.at} cor={PAPEIS[acaoAtual.quem].cor} /> : null}
+      <Chat msgs={msgs} titulo={modo === 'lobos' ? 'Chat dos lobos' : modo === 'cela' ? 'Cela da prisão' : 'Ações da noite'} tema={modo === 'lobos' ? 'lobos' : modo === 'cela' ? 'cela' : 'noite'} />
     </AbsoluteFill>
   );
 };
 
-const Cartaz: React.FC<{at: number; x: number; icone: 'olho' | 'pocao_cura' | 'pocao_veneno' | 'lobo' | 'besta'; titulo: string; texto: string; cor: string}> = ({at, x, icone, titulo, texto, cor}) => {
+// ---------------------------------------------------------------- AMANHECER: quem morreu à noite
+const LOBAmanhecer: React.FC<{P: Partida; noite: number; scene: Scene}> = ({P, noite, scene}) => {
   const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const k = spring({frame: f - at, fps, config: {damping: 11, stiffness: 170}});
+  const N = P.noites.find((x) => x.n === noite)!;
+  const antes = mortosAte(P, {fase: 'noite', n: noite});
+  const g = gatilhos(scene, N.mortes.map((m) => m.nome));
+  const at = N.mortes.map((_, i) => (g[i] >= 0 ? g[i] : 30 + i * 40));
+  const tremor = useTremor(at[0] ?? 1e9);
+  const msgs: Msg[] = [
+    {tipo: 'sistema', texto: `Dia ${noite} começou. Preparem-se para discutir!`, at: 0},
+    ...(N.mortes.length
+      ? N.mortes.map((m, i) => ({tipo: 'sistema', cor: '#c62828', at: at[i], texto: m.causa === 'executado' ? `${m.nome} foi executado pelo Carcereiro. Era ${PAPEIS[m.papel].nome}.` : `${m.nome} foi morto pelos lobos. Era ${PAPEIS[m.papel].nome}.`} as Msg))
+      : [{tipo: 'sistema', cor: '#2e7d32', at: 30, texto: 'Ninguém morreu esta noite!'} as Msg]),
+  ];
   return (
-    <div style={{position: 'absolute', left: x, top: 640, width: 480, padding: '18px 24px', display: 'flex', gap: 18, alignItems: 'center', background: '#efe0b8', border: '7px solid #2a1a0a', borderRadius: 18, boxShadow: '0 12px 0 #000a', transform: `scale(${k}) rotate(-2deg)`}}>
-      <Icone nome={icone} tamanho={110} />
-      <div>
-        <div style={{fontFamily: FONT.comic, fontSize: 34, letterSpacing: 2, color: '#5a3b1d'}}>{titulo}</div>
-        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: cor, lineHeight: 1.1}}>{texto}</div>
-      </div>
-    </div>
-  );
-};
-
-// ---------------------------------------------------------------- o amanhecer: quem morreu
-export const LOBAmanhecer: React.FC<{P: Partida; noite: number; scene: Scene}> = ({P, noite, scene}) => {
-  const f = useCurrentFrame();
-  const N = P.noites.find((x) => x.n === noite);
-  const antes = mortosAte(P, 'noite', noite);
-  const mortosAgora = new Set(N?.mortes.map((m) => m.nome) ?? []);
-  const claro = interpolate(f, [0, 40], [1, 0.05], cl);
-  const ts = gatilhos(scene, N?.mortes.map((m) => m.nome) ?? []);
-  const nos = P.jogadores.map((j, i) => {
-    if (antes.has(j.nome)) return null;
-    const morto = mortosAgora.has(j.nome);
-    return (
-      <Slot key={j.id}>
-        <AldeaoSprite id={j.id} t={f + i * 11} falando={false} expressao={morto ? 'dormindo' : 'assustado'} morto={morto} noite={claro} virado={LUGARES[i].x < 960 ? 'direita' : 'esquerda'} />
-      </Slot>
-    );
-  });
-  return (
-    <AbsoluteFill>
-      <PracaVila camera={{x: 0, zoom: 1.08}} noite={claro} aldeoes={nos} />
-      <Faixa texto={N?.mortes.length ? `AMANHECEU: ${N.mortes.length === 1 ? 'UMA MORTE' : `${N.mortes.length} MORTES`}` : 'AMANHECEU: NINGUÉM MORREU'} icone={N?.mortes.length ? 'caveira' : 'sol'} at={20} />
-      <div style={{position: 'absolute', left: 0, right: 0, top: 560, display: 'flex', justifyContent: 'center', gap: 60}}>
-        {N?.mortes.map((m, i) => (
-          <div key={m.nome} style={{textAlign: 'center', opacity: f >= (ts[i] >= 0 ? ts[i] : 50) ? 1 : 0}}>
-            <CartaPapel papel={m.papel} at={ts[i] >= 0 ? ts[i] : 50} tamanho={180} />
-            <div style={{marginTop: 10, fontFamily: FONT.comic, fontSize: 44, color: '#fff', WebkitTextStroke: '2px #000'}}>{m.nome}</div>
-          </div>
-        ))}
-      </div>
+    <AbsoluteFill style={{transform: `translate(${tremor.x}px,${tremor.y}px)`}}>
+      <Fundo noite={false} />
+      <Barra texto={`Dia ${noite}`} noite={false} icone="sol" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => {
+        const i = N.mortes.findIndex((m) => m.nome === j.nome);
+        const morreu = i >= 0 && f >= at[i];
+        return {morto: antes.has(j.nome) || morreu, destaque: morreu && f < at[i] + 60, expressao: N.mortes.length ? 'chocado' : 'rindo'};
+      }} />
+      {N.mortes.map((m, i) => <Flash key={i} at={at[i]} cor="#b71c1c" />)}
+      <Faixa texto={N.mortes.length ? N.mortes.map((m) => `${m.nome} ${m.causa === 'executado' ? 'foi executado' : 'morreu'}`).join(' · ') : 'Ninguém morreu!'} at={at[0] ?? 30} cor={N.mortes.length ? '#c62828' : '#2e7d32'} />
+      <Chat msgs={msgs} titulo="Chat da vila" />
     </AbsoluteFill>
   );
 };
 
-// ---------------------------------------------------------------- votação
-export const LOBVotos: React.FC<{P: Partida; dia: number}> = ({P, dia}) => {
+// ---------------------------------------------------------------- TIRO DO PISTOLEIRO (dispara na palavra "pá")
+const LOBTiro: React.FC<{P: Partida; dia: number; tiro?: number; scene: Scene}> = ({P, dia, tiro = 0, scene}) => {
   const f = useCurrentFrame();
   const D = P.dias.find((d) => d.n === dia)!;
-  const mortos = mortosAte(P, 'dia', dia);
+  const T = D.tiros[tiro];
+  const [gBang] = gatilhos(scene, ['pá']);
+  const bang = gBang >= 0 ? gBang : 45;
+  const mortos = mortosAte(P, {fase: 'dia', n: dia, tiros: tiro});
+  const tremor = useTremor(bang, 26);
+  const msgs: Msg[] = [
+    {tipo: 'sistema', texto: `O Pistoleiro ${T.atirador} atirou em ${T.nome}!`, cor: '#a0522d', at: bang},
+    {tipo: 'sistema', texto: `${T.nome} era ${PAPEIS[T.papel].nome}.`, cor: LOBO(T.papel) ? '#c62828' : '#455a64', at: bang + 30},
+  ];
+  return (
+    <AbsoluteFill style={{transform: `translate(${tremor.x}px,${tremor.y}px)`}}>
+      <Fundo noite={false} />
+      <Barra texto={`Dia ${dia} · Tiro!`} noite={false} icone="sol" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => ({
+        morto: mortos.has(j.nome) || (j.nome === T.nome && f >= bang), mira: j.nome === T.nome && f < bang,
+        revelado: j.nome === T.atirador && f >= bang, destaque: j.nome === T.atirador || j.nome === T.nome,
+        expressao: j.nome === T.atirador ? 'bravo' : f >= bang ? 'chocado' : 'assustado',
+      })} />
+      <Flash at={bang} />
+      <Faixa texto={`${T.atirador} atirou em ${T.nome}: era ${PAPEIS[T.papel].nome}!`} at={bang + 4} cor="#a0522d" />
+      <Chat msgs={msgs} titulo="Chat da vila" />
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- VOTAÇÃO (os votos entram um a um)
+const LOBVotos: React.FC<{P: Partida; dia: number; scene: Scene}> = ({P, dia, scene}) => {
+  const f = useCurrentFrame();
+  const D = P.dias.find((d) => d.n === dia)!;
+  const mortos = mortosAte(P, {fase: 'dia', n: dia, tiros: D.tiros.length});
+  const votos = Object.entries(D.votos);
+  const passo = Math.max(10, Math.min(36, (scene.duration - 60) / Math.max(1, votos.length)));
+  const quando = votos.map((_, i) => 15 + i * passo);
   const cont: Record<string, number> = {};
-  for (const v of Object.values(D.votos)) if (v !== 'ninguém') cont[v] = (cont[v] ?? 0) + 1;
-  const votos = Object.entries(cont).map(([nome, n]) => ({nome, n, cor: ALDEOES[P.jogadores.find((j) => j.nome === nome)!.id].cor}));
-  const nos = P.jogadores.map((j, i) => (mortos.has(j.nome) ? null : (
-    <Slot key={j.id}>
-      <AldeaoSprite id={j.id} t={f + i * 9} falando={false} expressao={D.banido?.nome === j.nome ? 'assustado' : 'bravo'} gesto={f > 30 && D.votos[j.nome] && D.votos[j.nome] !== 'ninguém' ? 'apontar' : 'nenhum'} virado={LUGARES[i].x < 960 ? 'direita' : 'esquerda'} />
-    </Slot>
-  )));
+  votos.forEach(([, alvo], i) => { if (f >= quando[i] && alvo !== 'ninguém') cont[alvo] = (cont[alvo] ?? 0) + 1 });
+  const ultimo = votos.map((v, i) => ({v, at: quando[i]})).filter((x) => f >= x.at).pop();
+  const msgs: Msg[] = [
+    {tipo: 'sistema', texto: 'Hora de votar!', at: 0},
+    ...votos.map(([quem, alvo], i) => ({tipo: 'sistema', cor: '#37474f', at: quando[i], texto: alvo === 'ninguém' ? `${quem} não votou` : `${quem} votou em ${alvo}`} as Msg)),
+  ];
   return (
     <AbsoluteFill>
-      <PracaVila camera={{x: 0.15, zoom: 1.05}} noite={0.15} aldeoes={nos} />
-      <Faixa texto="VOTAÇÃO" icone="voto" at={4} />
-      <div style={{position: 'absolute', right: 60, top: 170}}><PlacarVotos votos={votos} at={20} /></div>
+      <Fundo noite={false} />
+      <Barra texto={`Dia ${dia} · Votação`} noite={false} icone="urna" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => ({
+        morto: mortos.has(j.nome), votos: cont[j.nome] ?? 0,
+        destaque: ultimo ? ultimo.v[0] === j.nome && f < ultimo.at + passo : false,
+        expressao: (cont[j.nome] ?? 0) >= 3 ? 'assustado' : ultimo?.v[0] === j.nome ? 'desconfiado' : 'neutro',
+      })} />
+      <Chat msgs={msgs} titulo="Votação" />
     </AbsoluteFill>
   );
 };
 
-// ---------------------------------------------------------------- o banido vai embora de carroça (e o Caçador, se for o caso)
-export const LOBBanido: React.FC<{P: Partida; dia: number; scene: Scene}> = ({P, dia, scene}) => {
+// ---------------------------------------------------------------- LINCHADO (a carta vira na palavra "era")
+const LOBLinchado: React.FC<{P: Partida; dia: number; scene: Scene}> = ({P, dia, scene}) => {
   const f = useCurrentFrame();
-  const {durationInFrames: Dur} = useVideoConfig();
+  const {fps} = useVideoConfig();
   const D = P.dias.find((d) => d.n === dia)!;
-  const b = D.banido;
-  const [tEra] = gatilhos(scene, ['era']);
-  const tc = tEra >= 0 ? tEra : 40;
-  const x = interpolate(f, [tc + 40, Dur], [760, 2300], cl);
-  const j = b && P.jogadores.find((y) => y.nome === b.nome);
-  return (
-    <AbsoluteFill style={{background: 'linear-gradient(#f3c27a, #e9a65a 45%, #8a6a3a 46%, #6b4f2a)'}}>
-      <svg width={1920} height={1080} style={{position: 'absolute'}}>
-        <circle cx={1500} cy={300} r={120} fill="#ffe08a" stroke="#14141f" strokeWidth={8} />
-        <path d="M0 520 Q480 440 960 520 T1920 500 L1920 1080 L0 1080 Z" fill="#7a9a4a" stroke="#14141f" strokeWidth={8} />
-        <path d="M-50 900 Q960 760 2000 860" fill="none" stroke="#c9a46a" strokeWidth={120} />
-      </svg>
-      {j && (
-        <div style={{position: 'absolute', left: x, top: 760}}>
-          <div style={{position: 'absolute', left: -40, top: -20}}>
-            <AldeaoSprite id={j.id} t={f} falando={false} expressao={b!.papel === 'lobisomem' ? 'culpado' : 'chorando'} altura={300} lobo={b!.papel === 'lobisomem' && f > tc ? 1 : 0} virado="esquerda" />
-          </div>
-          <div style={{position: 'absolute', left: -170, top: -90, transform: `rotate(${Math.sin(f / 4) * 2}deg)`}}><Icone nome="carroca" tamanho={300} /></div>
-        </div>
-      )}
-      {b && <Faixa texto={`${b.nome.toUpperCase()} FOI BANIDO DA VILA`} icone="carroca" at={6} />}
-      {b && f >= tc && <div style={{position: 'absolute', left: 140, top: 260}}><CartaPapel papel={b.papel} at={tc} tamanho={230} /></div>}
-      {b && f >= tc + 10 && <div style={{position: 'absolute', left: 140, top: 640, width: 460, textAlign: 'center', fontFamily: FONT.comic, fontSize: 52, color: b.papel === 'lobisomem' ? '#e8202a' : '#fff', WebkitTextStroke: '2px #000'}}>ERA {NOME_PAPEL[b.papel].toUpperCase()}</div>}
-    </AbsoluteFill>
-  );
-};
-
-// ---------------------------------------------------------------- os papéis secretos (só o público vê)
-export const LOBPapeis: React.FC<{P: Partida; scene: Scene}> = ({P, scene}) => {
-  const f = useCurrentFrame();
-  const ts = gatilhos(scene, P.jogadores.filter((j) => j.papel !== 'aldeao').map((j) => j.nome));
-  const especiais = P.jogadores.filter((j) => j.papel !== 'aldeao');
-  return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #3a2a5a, #120a20 70%)'}}>
-      <Faixa texto="OS PAPÉIS SECRETOS" icone="pergaminho" at={4} />
-      <div style={{position: 'absolute', left: 0, right: 0, top: 200, display: 'flex', justifyContent: 'center', gap: 22}}>
-        {P.jogadores.map((j, i) => {
-          const k = especiais.indexOf(j);
-          const at = k >= 0 && ts[k] >= 0 ? ts[k] : 30 + i * 8;
-          return (
-            <div key={j.id} style={{width: 210, textAlign: 'center'}}>
-              <div style={{position: 'relative', height: 330}}>
-                <div style={{position: 'absolute', left: 105, top: 320}}><AldeaoSprite id={j.id} t={f + i * 7} falando={false} expressao={j.papel === 'lobisomem' && f > at ? 'culpado' : 'neutro'} lobo={j.papel === 'lobisomem' && f > at ? 1 : 0} altura={300} /></div>
-              </div>
-              <div style={{fontFamily: FONT.comic, fontSize: 32, color: ALDEOES[j.id].cor, WebkitTextStroke: '1.5px #000'}}>{j.nome}</div>
-              <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 20, color: '#ddd'}}>{MARCA[j.modelo]}</div>
-              <div style={{marginTop: 12, display: 'flex', justifyContent: 'center'}}><CartaPapel papel={j.papel} at={at} tamanho={150} /></div>
-            </div>
-          );
-        })}
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-// ---------------------------------------------------------------- título, elenco, regras
-export const LOBTitulo: React.FC<{titulo: string; sub?: string}> = ({titulo, sub}) => {
-  const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const s = spring({frame: f - 8, fps, config: {damping: 11}});
-  return (
-    <AbsoluteFill>
-      <PracaVila camera={{x: 0, zoom: 1}} noite={1} uivo={interpolate(f, [10, 30, 60], [0, 1, 0.4], cl)} />
-      <div style={{position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center', transform: `scale(${s})`}}>
-        <div style={{display: 'inline-flex', alignItems: 'center', gap: 20}}><Icone nome="lobo" tamanho={150} /><Icone nome="lua" tamanho={110} /></div>
-        <div style={{fontFamily: FONT.comic, fontSize: 150, color: '#fff', WebkitTextStroke: '7px #000', textShadow: '0 12px 0 #000', lineHeight: 1}}>{titulo}</div>
-        {sub && <div style={{marginTop: 16, display: 'inline-block', padding: '8px 30px', background: '#efe0b8', border: '6px solid #2a1a0a', borderRadius: 14, fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: '#2a1a0a'}}>{sub}</div>}
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-export const LOBElenco: React.FC<{P: Partida; fim?: boolean}> = ({P, fim}) => {
-  const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const nos = P.jogadores.map((j, i) => (
-    <Slot key={j.id}><AldeaoSprite id={j.id} t={f + i * 10} falando={false} expressao={fim ? 'rindo' : 'neutro'} gesto={fim ? 'acenar' : i % 2 ? 'acenar' : 'nenhum'} virado={LUGARES[i].x < 960 ? 'direita' : 'esquerda'} /></Slot>
-  ));
-  return (
-    <AbsoluteFill>
-      <PracaVila camera={{x: 0, zoom: 1}} noite={fim ? 0.6 : 0} aldeoes={nos} />
-      {P.jogadores.map((j, i) => {
-        const s = spring({frame: f - 10 - i * 6, fps, config: {damping: 12}});
-        const L = LUGARES[i];
-        return (
-          <div key={j.id} style={{position: 'absolute', left: L.x - 110, top: L.y + 6, width: 220, textAlign: 'center', transform: `scale(${s * L.escala})`}}>
-            <span style={{display: 'inline-block', padding: '4px 14px', background: '#efe0b8', border: '4px solid #2a1a0a', borderRadius: 10, fontFamily: FONT.display, fontWeight: 900, fontSize: 24, color: '#2a1a0a', whiteSpace: 'nowrap'}}>{j.nome} · <span style={{color: ALDEOES[j.id].cor}}>{MARCA[j.modelo]}</span></span>
-          </div>
-        );
-      })}
-    </AbsoluteFill>
-  );
-};
-
-export const LOBRegras: React.FC<{scene: Scene}> = ({scene}) => {
-  const ordem: Papel[] = ['lobisomem', 'vidente', 'bruxa', 'cacador', 'aldeao'];
-  const ts = gatilhos(scene, ['lobisomens', 'vidente', 'bruxa', 'caçador', 'aldeões']);
-  return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 30%, #4a3418, #160e06 75%)'}}>
-      <Faixa texto="OS PAPÉIS" icone="pergaminho" at={4} />
-      <div style={{position: 'absolute', left: 0, right: 0, top: 260, display: 'flex', justifyContent: 'center', gap: 40}}>
-        {ordem.map((p, i) => <CartaPapel key={p} papel={p} at={ts[i] >= 0 ? ts[i] : 20 + i * 20} tamanho={250} />)}
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-// ---------------------------------------------------------------- sala de espera entre as partidas (até 5 s)
-export const LOBLobby: React.FC<{P: Partida; proxima: string; chat: Item[]}> = ({P, proxima, chat}) => {
-  const f = useCurrentFrame();
-  const {fps, durationInFrames: D} = useVideoConfig();
-  const entra = interpolate(f, [0, 9], [0, 1], cl);
-  const sai = interpolate(f, [D - 8, D], [0, 1], cl);
-  const resta = Math.max(1, Math.ceil(((D - f) / D) * 3));
-  const quem = [...new Set(chat.map((c) => c.cor))];
-  return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <AbsoluteFill style={{clipPath: `circle(${entra * 140}% at 50% 50%)`, transform: `scale(${1 + sai * 0.25})`}}>
-        <AbsoluteFill style={{background: 'linear-gradient(#bfe3f2 0%, #f6e7c1 55%, #9a7a4a 56%, #6b5330 100%)'}} />
-        <svg width={1920} height={1080} style={{position: 'absolute'}}>
-          <rect x={760} y={430} width={400} height={240} rx={14} fill="#8a5a2a" stroke="#14141f" strokeWidth={8} />
-          <text x={960} y={540} textAnchor="middle" fontFamily="Bangers, sans-serif" fontSize={58} fill="#f6e7c1">TAVERNA</text>
-          <text x={960} y={610} textAnchor="middle" fontFamily="Poppins, sans-serif" fontWeight={900} fontSize={30} fill="#f6e7c1">depois da partida</text>
-        </svg>
-        {quem.map((id, i) => (
-          <div key={id} style={{position: 'absolute', left: i === 0 ? 560 : 1360, top: 1000}}>
-            <AldeaoSprite id={id} t={f + i * 20} falando={chat.some((c) => c.cor === id && f >= c.at && f <= c.ate)} expressao={i === 0 ? 'bravo' : 'rindo'} altura={460} virado={i === 0 ? 'direita' : 'esquerda'} />
-          </div>
-        ))}
-        {chat.map((m, i) => {
-          if (f < m.at) return null;
-          const s = spring({frame: f - m.at, fps, config: {damping: 11, stiffness: 180}});
-          const sobe = interpolate(f, [chat[i + 1]?.at ?? 1e9, (chat[i + 1]?.at ?? 1e9) + 6], [0, 130], cl);
-          const lado = m.cor === quem[0] ? -1 : 1;
-          const j = P.jogadores.find((x) => x.id === m.cor)!;
-          return (
-            <div key={i} style={{position: 'absolute', left: 960 + lado * 400 - 330, top: 200 - sobe, width: 660, display: 'flex', justifyContent: 'center', transform: `scale(${s}) rotate(${lado * 2}deg)`}}>
-              <div style={{padding: '14px 26px', background: '#fff', border: '6px solid #000', borderRadius: 28, fontFamily: FONT.display, fontWeight: 900, fontSize: 44, lineHeight: 1.1, color: '#111', textAlign: 'center', boxShadow: '0 8px 0 #000a', opacity: sobe > 0 ? 0.6 : 1}}>
-                <div style={{fontSize: 24, color: ALDEOES[m.cor].cor}}>{nomeCom(j)}</div>
-                {m.texto}
-              </div>
-            </div>
-          );
-        })}
-        <div style={{position: 'absolute', left: '50%', bottom: 36, transform: 'translateX(-50%)', padding: '10px 34px', background: '#efe0b8', border: '6px solid #2a1a0a', borderRadius: 20, fontFamily: FONT.display, fontWeight: 900, fontSize: 46, color: '#2a1a0a', whiteSpace: 'nowrap'}}>
-          {proxima} EM {resta}
-        </div>
+  const L = D.linchado;
+  const [gEra] = gatilhos(scene, ['era']);
+  const revela = gEra >= 0 ? gEra : 50;
+  const e = spring({frame: f, fps, config: {damping: 14}});
+  const vira = interpolate(f, [revela, revela + 10], [0, 180], cl);
+  const tremor = useTremor(L ? revela : 1e9, 18);
+  if (!L) {
+    return (
+      <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>
+        <Fundo noite={false} />
+        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 130, color: '#fff', transform: `scale(${e})`, textShadow: '0 8px 0 rgba(0,0,0,0.3)'}}>EMPATE</div>
+        <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 50, color: '#ffd54f', opacity: e}}>Ninguém foi linchado</div>
       </AbsoluteFill>
-      <AbsoluteFill style={{background: '#fff', opacity: sai}} />
+    );
+  }
+  const j = jog(P, L.nome);
+  return (
+    <AbsoluteFill style={{transform: `translate(${tremor.x}px,${tremor.y}px)`}}>
+      <Fundo noite={false} />
+      <Barra texto={`Dia ${dia} · Linchamento`} noite={false} icone="urna" />
+      <div style={{position: 'absolute', left: 230, top: 210, transform: `scale(${e}) rotate(${(1 - e) * -10}deg)`}}>
+        <Quadro j={j} s={{morto: f >= revela + 5, expressao: L.papel === 'bobo' ? 'rindo' : 'chorando'}} noite={false} t={f} tam={620} />
+      </div>
+      <div style={{position: 'absolute', left: 980, top: 200, width: 760, fontFamily: FONTE, color: '#fff'}}>
+        <div style={{fontWeight: 900, fontSize: 68, lineHeight: 1.05, opacity: e}}>{L.nome} foi linchado pela vila</div>
+        <div style={{marginTop: 40, marginLeft: 150, width: 380, height: 470, perspective: 1200}}>
+          <div style={{position: 'relative', width: '100%', height: '100%', transformStyle: 'preserve-3d', transform: `rotateY(${vira}deg)`}}>
+            <div style={{position: 'absolute', inset: 0, backfaceVisibility: 'hidden', borderRadius: 26, background: `repeating-linear-gradient(45deg, ${ROSA}, ${ROSA} 18px, #e91e63 18px, #e91e63 36px)`, border: '8px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <div style={{fontWeight: 900, fontSize: 170, color: '#fff'}}>?</div>
+            </div>
+            <div style={{position: 'absolute', inset: 0, backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', borderRadius: 26, background: '#fff', border: `8px solid ${PAPEIS[L.papel].cor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20}}>
+              <IconePapel papel={L.papel} tamanho={230} />
+              <div style={{fontWeight: 900, fontSize: 50, color: PAPEIS[L.papel].cor}}>{PAPEIS[L.papel].nome}</div>
+              <div style={{fontWeight: 700, fontSize: 25, color: '#455a64', textAlign: 'center', padding: '0 22px'}}>{PAPEIS[L.papel].desc}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Flash at={revela + 5} cor={LOBO(L.papel) ? '#ff1744' : L.papel === 'bobo' ? ROSA : '#ffffff'} />
     </AbsoluteFill>
   );
 };
 
-// ---------------------------------------------------------------- placar final: quem ganhou cada partida e quem mais mentiu
-export const LOBPlacar: React.FC<{partidas: Record<string, Partida>; ordem: number[]}> = ({partidas, ordem}) => {
+// ---------------------------------------------------------------- SORTEIO DOS PAPÉIS (o público vê tudo)
+const LOBSorteio: React.FC<{P: Partida; scene: Scene}> = ({P, scene}) => {
+  const f = useCurrentFrame();
+  const g = gatilhos(scene, P.jogadores.map((j) => j.nome));
+  const passo = scene.duration / (P.jogadores.length + 1);
+  const at = P.jogadores.map((j, i) => (g[i] >= 0 ? g[i] : 20 + i * passo));
+  const msgs: Msg[] = [
+    {tipo: 'sistema', texto: `Partida ${P.partida}: papéis sorteados`, at: 0},
+    ...P.jogadores.map((j, i) => ({tipo: 'sistema', cor: PAPEIS[j.papel].cor, at: at[i], texto: `${j.nome} é ${PAPEIS[j.papel].nome}`} as Msg)),
+  ];
+  return (
+    <AbsoluteFill>
+      <Fundo noite={false} />
+      <Barra texto="Papéis secretos" noite={false} icone="cadeado" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => {
+        const i = P.jogadores.indexOf(j);
+        return {revelado: f >= at[i], lobo: f >= at[i] && LOBO(j.papel), destaque: f >= at[i] && f < at[i] + 25, expressao: LOBO(j.papel) && f >= at[i] ? 'rindo' : 'neutro'};
+      }} />
+      <Chat msgs={msgs} titulo="Só você vê" tema="noite" />
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- ELENCO (jogadores entrando na sala, na hora em que a marca é dita)
+const LOBElenco: React.FC<{P: Partida; scene: Scene}> = ({P, scene}) => {
+  const f = useCurrentFrame();
+  const marcas = [...new Set(P.jogadores.map((j) => MARCA[j.modelo]?.nome ?? j.modelo))];
+  const g = gatilhos(scene, marcas);
+  const at = (j: Jogador) => {
+    const i = marcas.indexOf(MARCA[j.modelo]?.nome ?? j.modelo);
+    return g[i] >= 0 ? g[i] : 10 + P.jogadores.indexOf(j) * 25;
+  };
+  const msgs: Msg[] = P.jogadores.map((j) => ({tipo: 'sistema', cor: '#37474f', at: at(j), texto: `${j.numero} ${j.nome} entrou (${j.modelo})`}));
+  return (
+    <AbsoluteFill>
+      <Fundo noite={false} />
+      <Barra texto="Sala · 8 jogadores" noite={false} icone="balao" />
+      <Grade js={P.jogadores} noite={false} estado={(j) => ({apagado: f < at(j), destaque: f >= at(j) && f < at(j) + 20, expressao: f >= at(j) ? 'rindo' : 'dormindo'})} />
+      <Chat msgs={msgs} titulo="Sala" />
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- PAPÉIS (explicação, cada carta entra quando o narrador fala o nome)
+const ORDEM: Papel[] = ['lobisomem', 'lobo_vidente', 'vidente', 'medico', 'carcereiro', 'pistoleiro', 'bobo', 'aldeao'];
+const LOBPapeis: React.FC<{scene: Scene}> = ({scene}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const mentiras: Record<string, number> = {};
-  for (const P of Object.values(partidas)) for (const d of P.dias) for (const x of d.falas) if (x.mentira && x.mentira.tipo !== 'VERDADE') {
-    const m = MARCA[P.jogadores.find((j) => j.id === x.id)!.modelo];
-    mentiras[m] = (mentiras[m] ?? 0) + 1;
-  }
-  const rank = Object.entries(mentiras).sort((a, b) => b[1] - a[1]);
+  const g = gatilhos(scene, ['lobisomem', 'lobo', 'vidente', 'médico', 'carcereiro', 'pistoleiro', 'bobo', 'aldeão']);
   return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 25%, #4a3418, #120a04 75%)'}}>
-      <Faixa texto="PLACAR FINAL" icone="pergaminho" at={4} />
-      <div style={{position: 'absolute', left: 140, top: 200, width: 760}}>
+    <AbsoluteFill>
+      <Fundo noite={false} />
+      <Barra texto="Os papéis" noite={false} icone="cadeado" />
+      <div style={{position: 'absolute', left: 70, top: 140, width: 1780, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 30}}>
+        {ORDEM.map((p, i) => {
+          const at = g[i] >= 0 ? g[i] : i * 25;
+          const e = spring({frame: f - at, fps, config: {damping: 12}});
+          const time = PAPEIS[p].time;
+          return (
+            <div key={p} style={{height: 410, borderRadius: 26, background: '#fff', border: `7px solid ${PAPEIS[p].cor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 20, gap: 10, transform: `scale(${f >= at ? e : 0}) rotate(${(1 - e) * 8}deg)`, boxShadow: '0 10px 24px rgba(0,0,0,0.4)'}}>
+              <div style={{alignSelf: 'stretch', textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 22, color: '#fff', background: time === 'lobos' ? '#c62828' : time === 'solo' ? ROSA : '#2e7d32', borderRadius: 10}}>{time === 'lobos' ? 'TIME DOS LOBOS' : time === 'solo' ? 'SOLO' : 'TIME DA VILA'}</div>
+              <IconePapel papel={p} tamanho={170} />
+              <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 40, color: PAPEIS[p].cor}}>{PAPEIS[p].nome}</div>
+              <div style={{fontFamily: FONTE, fontWeight: 700, fontSize: 25, color: '#455a64', textAlign: 'center'}}>{PAPEIS[p].desc}</div>
+            </div>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- CHEGADA DA NOITE / DO DIA (tela cheia)
+const LOBFase: React.FC<{tipo: 'noite' | 'dia'; n: number; sub?: string}> = ({tipo, n, sub}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const noite = tipo === 'noite';
+  const sobe = interpolate(f, [0, 30], [300, 0], {...cl, easing: Easing.out(Easing.cubic)});
+  const e = spring({frame: f - 10, fps, config: {damping: 11}});
+  return (
+    <AbsoluteFill style={{background: noite ? 'linear-gradient(#0b1630, #1d3a6b)' : 'linear-gradient(#4fc3f7, #b3e5fc)', overflow: 'hidden'}}>
+      {noite ? Array.from({length: 40}).map((_, i) => <div key={i} style={{position: 'absolute', left: (i * 211) % 1920, top: (i * 97) % 600, width: 4 + (i % 3) * 2, height: 4 + (i % 3) * 2, borderRadius: 9, background: '#fff', opacity: 0.4 + 0.6 * Math.abs(Math.sin((f + i * 9) / 12))}} />) : null}
+      <div style={{position: 'absolute', left: 960 - 160, top: 200 + sobe, width: 320, height: 320, borderRadius: 999, overflow: 'hidden', background: noite ? '#fff3c4' : '#ffd54f', boxShadow: noite ? '0 0 120px 30px rgba(255,243,196,0.45)' : '0 0 140px 50px rgba(255,213,79,0.6)'}}>
+        {noite ? <div style={{position: 'absolute', left: 90, top: -20, width: 300, height: 300, borderRadius: 999, background: '#13244a'}} /> : null}
+      </div>
+      <svg width={1920} height={1080} style={{position: 'absolute'}}>
+        <path d="M0 700 L260 480 L460 640 L700 420 L980 660 L1220 460 L1480 640 L1700 500 L1920 620 L1920 1080 L0 1080Z" fill={noite ? '#0e1f3d' : '#5c9e4a'} />
+        <path d="M0 820 Q480 740 960 800 Q1440 860 1920 780 L1920 1080 L0 1080Z" fill={noite ? '#132c24' : '#7bc950'} />
+        {[180, 420, 1520, 1760].map((x, i) => (
+          <g key={x} transform={`translate(${x} ${830 + (i % 2) * 30})`}>
+            <rect x={-46} y={-60} width={92} height={70} fill={noite ? '#2a2f45' : '#e0c097'} />
+            <path d="M-60 -60 L0 -110 L60 -60Z" fill={noite ? '#3b1f2b' : '#c0392b'} />
+            <rect x={-14} y={-36} width={28} height={28} fill={noite ? (i % 2 ? '#ffd54f' : '#1b2238') : '#81d4fa'} />
+          </g>
+        ))}
+      </svg>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center', transform: `scale(${e})`}}>
+        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 160, color: '#fff', textShadow: '0 10px 0 rgba(0,0,0,0.25)'}}>{noite ? `NOITE ${n}` : `DIA ${n}`}</div>
+        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 50, color: noite ? '#ffd54f' : AZUL}}>{sub}</div> : null}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- FIM DA PARTIDA
+const LOBFim: React.FC<{P: Partida}> = ({P}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const v = P.resultado.vencedor;
+  const ganhou = P.jogadores.filter((j) => (v === 'lobos' ? LOBO(j.papel) : v === 'bobo' ? j.papel === 'bobo' : !LOBO(j.papel) && j.papel !== 'bobo'));
+  const cor = v === 'lobos' ? '#c62828' : v === 'bobo' ? ROSA : '#2e7d32';
+  const e = spring({frame: f, fps, config: {damping: 10}});
+  return (
+    <AbsoluteFill style={{background: `radial-gradient(circle at 50% 40%, ${cor}, #120a14 80%)`, overflow: 'hidden'}}>
+      {Array.from({length: 16}).map((_, i) => <div key={i} style={{position: 'absolute', left: 960, top: 420, width: 2200, height: 70, background: 'rgba(255,255,255,0.05)', transformOrigin: '0 50%', transform: `rotate(${i * 22.5 + f * 0.4}deg)`}} />)}
+      <div style={{position: 'absolute', top: 70, left: 0, right: 0, textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 120, color: '#fff', transform: `scale(${e})`, textShadow: '0 10px 0 rgba(0,0,0,0.3)'}}>
+        {v === 'lobos' ? 'OS LOBOS VENCERAM' : v === 'bobo' ? 'O BOBO VENCEU' : v === 'aldeia' ? 'A VILA VENCEU' : 'EMPATE'}
+      </div>
+      <div style={{position: 'absolute', top: 300, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 22, flexWrap: 'wrap', padding: '0 80px'}}>
+        {ganhou.map((j, i) => {
+          const k = spring({frame: f - 12 - i * 5, fps, config: {damping: 11}});
+          return (
+            <div key={j.id} style={{transform: `scale(${k}) translateY(${Math.sin((f + i * 8) / 7) * 6}px)`}}>
+              <Quadro j={j} s={{revelado: true, expressao: 'rindo', morto: !P.resultado.vivos.includes(j.nome)}} noite={false} t={f + i * 9} tam={300} />
+            </div>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- TÍTULO (tela rosa, com lobo próprio)
+export const LogoLobo: React.FC<{tam?: number}> = ({tam = 360}) => (
+  <svg width={tam} height={tam} viewBox="0 0 200 200">
+    <path d="M40 30 L70 90 L56 120 L100 170 L150 128 L136 90 L164 26 L120 62 L84 62Z" fill="#3d3a4b" stroke="#fff" strokeWidth={8} strokeLinejoin="round" />
+    <path d="M48 40 L72 76 L80 66Z M156 36 L132 74 L124 64Z" fill="#262331" />
+    <path d="M78 120 L100 162 L124 122 Q100 112 78 120Z" fill="#e8e6ef" />
+    <path d="M92 136 L100 148 L108 136Z" fill="#1d1b26" />
+    <path d="M70 102 L94 106 L80 112Z M132 102 L108 106 L122 112Z" fill="#ffe14d" />
+  </svg>
+);
+const LOBTitulo: React.FC<{titulo: string; sub?: string}> = ({titulo, sub}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const e = spring({frame: f, fps, config: {damping: 10}});
+  const e2 = spring({frame: f - 8, fps, config: {damping: 12}});
+  return (
+    <AbsoluteFill style={{background: ROSA, alignItems: 'center', justifyContent: 'center', overflow: 'hidden'}}>
+      {Array.from({length: 7}).map((_, i) => <div key={i} style={{position: 'absolute', left: (i * 330 + f * 2) % 2200 - 200, top: 80 + (i % 3) * 330, width: 240, height: 90, borderRadius: 99, background: 'rgba(255,255,255,0.18)'}} />)}
+      <div style={{transform: `scale(${e}) rotate(${Math.sin(f / 18) * 3}deg)`}}><LogoLobo tam={380} /></div>
+      <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 120, color: '#fff', marginTop: 10, transform: `scale(${e2})`, textShadow: '0 8px 0 rgba(0,0,0,0.18)', textAlign: 'center', lineHeight: 1}}>{titulo}</div>
+      {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 48, color: AZUL, marginTop: 18, opacity: e2}}>{sub}</div> : null}
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------- PLACAR FINAL (vencedores + ranking de mentiras por IA)
+const LOBPlacar: React.FC<{partidas: Record<string, Partida>; ordem: number[]}> = ({partidas, ordem}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const ment: Record<string, number> = {};
+  for (const n of ordem) for (const d of partidas[String(n)]?.dias ?? []) for (const x of d.falas) {
+    if (x.mentira && x.mentira.tipo !== 'VERDADE') {
+      const m = MARCA[partidas[String(n)].jogadores.find((j) => j.id === x.id)!.modelo]?.nome ?? '?';
+      ment[m] = (ment[m] ?? 0) + 1;
+    }
+  }
+  const rank = Object.entries(ment).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(1, ...rank.map((r) => r[1]));
+  return (
+    <AbsoluteFill>
+      <Fundo noite={false} />
+      <Barra texto="Placar final" noite={false} icone="urna" />
+      <div style={{position: 'absolute', left: 70, top: 150, width: 820, display: 'flex', flexDirection: 'column', gap: 20}}>
         {ordem.map((n, i) => {
           const P = partidas[String(n)];
-          const s = spring({frame: f - 14 - i * 10, fps, config: {damping: 13}});
-          const lobos = P.jogadores.filter((j) => j.papel === 'lobisomem');
-          const ganhou = P.resultado.vencedor;
+          if (!P) return null;
+          const e = spring({frame: f - i * 10, fps, config: {damping: 13}});
+          const v = P.resultado.vencedor;
+          const cor = v === 'lobos' ? '#c62828' : v === 'bobo' ? ROSA : '#2e7d32';
           return (
-            <div key={n} style={{display: 'flex', alignItems: 'center', gap: 20, marginBottom: 22, padding: '14px 22px', background: '#efe0b8', border: '6px solid #2a1a0a', borderRadius: 16, transform: `translateX(${(1 - s) * -1200}px)`}}>
-              <Icone nome={ganhou === 'lobos' ? 'lobo' : 'aldeao'} tamanho={80} />
-              <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#2a1a0a'}}>
-                Partida {i + 1}: {ganhou === 'lobos' ? 'os LOBOS venceram' : ganhou === 'aldeia' ? 'a VILA venceu' : 'empate'}
-                <div style={{fontSize: 22, fontWeight: 700}}>lobos: {lobos.map((l) => `${l.nome} (${MARCA[l.modelo]})`).join(' e ')}</div>
-              </div>
+            <div key={n} style={{background: '#fff', borderRadius: 22, padding: '18px 26px', borderLeft: `16px solid ${cor}`, transform: `translateX(${(1 - e) * -500}px)`, fontFamily: FONTE}}>
+              <div style={{fontWeight: 900, fontSize: 36, color: cor}}>Partida {i + 1}: {v === 'lobos' ? 'os lobos venceram' : v === 'bobo' ? 'o Bobo venceu' : 'a vila venceu'}</div>
+              <div style={{fontWeight: 700, fontSize: 24, color: '#455a64'}}>Lobos: {P.jogadores.filter((j) => LOBO(j.papel)).map((j) => `${j.nome} (${MARCA[j.modelo]?.nome})`).join(' e ')} · {P.resultado.dias} dias</div>
             </div>
           );
         })}
       </div>
-      <div style={{position: 'absolute', right: 140, top: 200, width: 620, padding: '24px 30px', background: '#2a0f0f', border: '7px solid #e8202a', borderRadius: 20}}>
-        <div style={{display: 'flex', alignItems: 'center', gap: 16, fontFamily: FONT.comic, fontSize: 48, color: '#ffd0d0'}}><Icone nome="mentira" tamanho={80} /> QUEM MAIS MENTIU</div>
-        {rank.map(([m, n], i) => (
-          <div key={m} style={{marginTop: 14, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff', opacity: f > 40 + i * 12 ? 1 : 0}}>
-            {i + 1}. {m}: {n} {n === 1 ? 'mentira' : 'mentiras'}
-          </div>
-        ))}
+      <div style={{position: 'absolute', left: 960, top: 150, width: 890, background: '#fff', borderRadius: 26, padding: 30, fontFamily: FONTE}}>
+        <div style={{fontWeight: 900, fontSize: 42, color: '#d50000', marginBottom: 18}}>Quem mais mentiu</div>
+        {rank.map(([m, c], i) => {
+          const k = interpolate(f, [30 + i * 12, 60 + i * 12], [0, 1], {...cl, easing: Easing.out(Easing.cubic)});
+          const cor = Object.values(MARCA).find((x) => x.nome === m)?.cor ?? '#999';
+          return (
+            <div key={m} style={{display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16}}>
+              <div style={{width: 170, fontWeight: 900, fontSize: 32, color: cor}}>{m}</div>
+              <div style={{height: 48, width: 560 * (c / max) * k, background: cor, borderRadius: 12}} />
+              <div style={{fontWeight: 900, fontSize: 32, color: '#263238', opacity: k}}>{c}</div>
+            </div>
+          );
+        })}
       </div>
     </AbsoluteFill>
   );
@@ -417,16 +507,18 @@ export const LOBVisual: React.FC<{name: string; props: Record<string, any>; scen
   const ps = (timeline.data as any).partidas as Record<string, Partida>;
   const P = ps[String(p.partida ?? 1)];
   switch (name) {
-    case 'LOBFogueira': return <LOBFogueira P={P} dia={p.dia} chat={(p.chat ?? []) as Item[]} />;
-    case 'LOBNoite': return <LOBNoite P={P} noite={p.noite} chat={(p.chat ?? []) as Item[]} scene={scene} mostra={p.mostra} />;
+    case 'LOBChat': return <LOBChat P={P} dia={p.dia} chat={(p.chat ?? []) as Item[]} scene={scene} tiros={p.tiros} avisos={p.avisos} />;
+    case 'LOBNoite': return <LOBNoite P={P} noite={p.noite} modo={p.modo ?? 'lobos'} chat={(p.chat ?? []) as Item[]} scene={scene} avisos={p.avisos} />;
     case 'LOBAmanhecer': return <LOBAmanhecer P={P} noite={p.noite} scene={scene} />;
-    case 'LOBVotos': return <LOBVotos P={P} dia={p.dia} />;
-    case 'LOBBanido': return <LOBBanido P={P} dia={p.dia} scene={scene} />;
-    case 'LOBPapeis': return <LOBPapeis P={P} scene={scene} />;
+    case 'LOBTiro': return <LOBTiro P={P} dia={p.dia} tiro={p.tiro} scene={scene} />;
+    case 'LOBVotos': return <LOBVotos P={P} dia={p.dia} scene={scene} />;
+    case 'LOBLinchado': return <LOBLinchado P={P} dia={p.dia} scene={scene} />;
+    case 'LOBSorteio': return <LOBSorteio P={P} scene={scene} />;
+    case 'LOBElenco': return <LOBElenco P={P} scene={scene} />;
+    case 'LOBPapeis': return <LOBPapeis scene={scene} />;
+    case 'LOBFase': return <LOBFase tipo={p.tipo} n={p.n} sub={p.sub} />;
+    case 'LOBFim': return <LOBFim P={P} />;
     case 'LOBTitulo': return <LOBTitulo titulo={p.titulo} sub={p.sub} />;
-    case 'LOBElenco': return <LOBElenco P={P} fim={p.fim} />;
-    case 'LOBRegras': return <LOBRegras scene={scene} />;
-    case 'LOBLobby': return <LOBLobby P={P} proxima={p.proxima} chat={(p.chat ?? []) as Item[]} />;
     case 'LOBPlacar': return <LOBPlacar partidas={ps} ordem={p.ordem ?? [1, 2, 3, 4]} />;
     default: return <AbsoluteFill style={{background: '#300'}} />;
   }
