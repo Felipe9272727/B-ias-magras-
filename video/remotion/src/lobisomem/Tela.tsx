@@ -122,7 +122,7 @@ const CHAT_X = 1318;
 const CHAT_W = 566;
 const CHAT_TOPO = 120;
 const CHAT_ALT = 930;
-const altura = (m: Msg) => Math.ceil((m.texto.length + (m.j ? m.j.nome.length + 3 : 0)) / 36) * 36 + 34;
+const altura = (m: Msg) => Math.ceil((m.texto.length + (m.j ? m.j.nome.length + 3 : 0) + (m.tipo === 'pensa' ? 30 : 0)) / (m.tipo === 'sistema' ? 30 : 34)) * 36 + 24;
 
 export const Chat: React.FC<{msgs: Msg[]; titulo: string; tema?: 'dia' | 'lobos' | 'cela' | 'noite'}> = ({msgs, titulo, tema = 'dia'}) => {
   const f = useCurrentFrame();
@@ -144,10 +144,11 @@ export const Chat: React.FC<{msgs: Msg[]; titulo: string; tema?: 'dia' | 'lobos'
         <IconeUi nome={tema === 'lobos' ? 'pata' : tema === 'cela' ? 'cadeado' : 'balao'} tamanho={36} cor={corTit} />
         <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 32, color: corTit}}>{titulo}</div>
       </div>
-      <div style={{position: 'absolute', left: 0, right: 0, bottom: 14, padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 12}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 76, bottom: 14, padding: '0 20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 12, overflow: 'hidden'}}>
         {cabem.map((m, i) => {
+          const flexShrink = 0;
           const k = interpolate(f, [m.at, m.at + 7], [0, 1], {...cl, easing: Easing.out(Easing.back(1.6))});
-          const base: React.CSSProperties = {transform: `translateY(${(1 - k) * 40}px) scale(${0.9 + 0.1 * k})`, opacity: k, transformOrigin: 'left bottom', fontFamily: FONTE, fontSize: 27, lineHeight: '36px', borderRadius: 14, padding: '8px 14px'};
+          const base: React.CSSProperties = {flexShrink,transform: `translateY(${(1 - k) * 40}px) scale(${0.9 + 0.1 * k})`, opacity: k, transformOrigin: 'left bottom', fontFamily: FONTE, fontSize: 27, lineHeight: '36px', borderRadius: 14, padding: '8px 14px'};
           if (m.tipo === 'sistema') {
             return <div key={i} style={{...base, fontWeight: 800, color: '#fff', background: m.cor ?? ROSA, textAlign: 'center'}}>{m.texto}</div>;
           }
