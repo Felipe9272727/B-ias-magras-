@@ -20,13 +20,13 @@ Tudo o que aparece no vídeo aconteceu de verdade: as perguntas, as respostas e 
 
 CAPÍTULOS
 0:00 Abertura
-1:22 Caso 1 · A Macarena das 3 da manhã
-3:32 Caso 2 · O Bolo do Chefe
-6:34 Caso 3 · O Carro Rosa
-9:25 Caso 4 · O Áudio Vazado
-11:59 Caso 5 · O Servidor Desligado
-15:41 Caso 6 · O Sumiço do Peixe Dourado
-18:52 Placar final
+1:25 Caso 1 · A Macarena das 3 da manhã
+3:36 Caso 2 · O Bolo do Chefe
+6:37 Caso 3 · O Carro Rosa
+9:28 Caso 4 · O Áudio Vazado
+12:02 Caso 5 · O Servidor Desligado
+15:44 Caso 6 · O Sumiço do Peixe Dourado
+18:56 Placar final
 
 Comenta aí qual caso você quer no próximo interrogatório, e qual IA mente melhor.
 
