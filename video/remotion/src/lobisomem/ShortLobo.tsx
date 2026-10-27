@@ -52,7 +52,7 @@ const Legenda: React.FC<{palavras: Palavra[]}> = ({palavras}) => {
   const grupo = ps.slice(g0, g0 + 4);
   return (
     <div style={{position: 'absolute', left: 50, right: 50, top: 1560, textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 78, lineHeight: 1.1, WebkitTextStroke: '10px #0b1520', paintOrder: 'stroke'}}>
-      {grupo.map((p, k) => <span key={k} style={{color: g0 + k === i ? '#ffd54f' : '#fff', marginRight: 18, display: 'inline-block', transform: g0 + k === i ? 'scale(1.08)' : undefined}}>{p.w.toUpperCase()}</span>)}
+      {grupo.map((p, k) => <React.Fragment key={k}>{k ? ' ' : ''}<span style={{color: g0 + k === i ? '#ffd54f' : '#fff'}}>{p.w.toUpperCase()}</span></React.Fragment>)}
     </div>
   );
 };
@@ -80,7 +80,7 @@ const Topo: React.FC<{texto: string}> = ({texto}) => (
     <span style={{background: ROSA, color: '#fff', fontFamily: FONTE, fontWeight: 900, fontSize: 56, padding: '10px 34px', borderRadius: 20, border: '6px solid #fff'}}>{texto}</span>
   </div>
 );
-const Grande: React.FC<{j: Jogador; y?: number; tam?: number; s?: Parameters<typeof Quadro>[0]['s']}> = ({j, y = 260, tam = 720, s = {}}) => {
+const Grande: React.FC<{j: Jogador; y?: number; tam?: number; s?: Parameters<typeof Quadro>[0]['s']}> = ({j, y = 240, tam = 860, s = {}}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 12}});
@@ -98,9 +98,9 @@ const Gancho: React.FC<PB> = ({b}) => {
       <Fundo noite={false} />
       <Topo texto="LOBISOMEM DAS IAs" />
       <Grande j={J.boticaria} s={{expressao: f > naPalavra(b, 'tentou.') ? 'rindo' : 'desconfiado', falando: false}} />
-      <Selo texto="QUER SER EXPULSA" at={naPalavra(b, 'expulsa')} y={1060} />
+      <Selo texto="QUER SER EXPULSA" at={naPalavra(b, 'expulsa')} y={1150} />
       <Som src="record-scratch" at={naPalavra(b, 'expulsa')} />
-      <Selo texto="5 DIAS" at={naPalavra(b, 'cinco')} y={1300} cor="#ff6d00" rot={6} tam={96} />
+      <Selo texto="5 DIAS" at={naPalavra(b, 'cinco')} y={1370} cor="#ff6d00" rot={6} tam={96} />
       <Som src="boing" at={naPalavra(b, 'cinco')} />
     </AbsoluteFill>
   );
@@ -116,9 +116,9 @@ const Papel: React.FC<PB> = ({b}) => {
     <AbsoluteFill>
       <Fundo noite={false} />
       <Topo texto="8 IAs · 2 LOBOS · 1 BOBO" />
-      {!pensa ? <Grande j={J.boticaria} y={240} tam={560} s={{expressao: 'rindo'}} /> : <Grande j={J.boticaria} y={240} tam={560} s={{expressao: 'pensando'}} />}
+      {!pensa ? <Grande j={J.boticaria} y={210} tam={680} s={{expressao: 'rindo'}} /> : <Grande j={J.boticaria} y={210} tam={680} s={{expressao: 'pensando'}} />}
       {f >= at && !pensa ? (
-        <div style={{position: 'absolute', left: 140, right: 140, top: 870, transform: `scale(${e}) rotate(${(1 - e) * 10}deg)`, background: '#fff', borderRadius: 34, border: `10px solid ${PAPEIS.bobo.cor}`, display: 'flex', alignItems: 'center', gap: 26, padding: 26}}>
+        <div style={{position: 'absolute', left: 140, right: 140, top: 980, transform: `scale(${e}) rotate(${(1 - e) * 10}deg)`, background: '#fff', borderRadius: 34, border: `10px solid ${PAPEIS.bobo.cor}`, display: 'flex', alignItems: 'center', gap: 26, padding: 26}}>
           <IconePapel papel="bobo" tamanho={220} />
           <div style={{fontFamily: FONTE}}>
             <div style={{fontWeight: 900, fontSize: 72, color: PAPEIS.bobo.cor}}>BOBO</div>
@@ -127,7 +127,7 @@ const Papel: React.FC<PB> = ({b}) => {
         </div>
       ) : null}
       <Som src="tada" at={at} vol={0.4} />
-      <Balao b={b} y={880} />
+      <Balao b={b} y={990} />
     </AbsoluteFill>
   );
 };
@@ -139,9 +139,9 @@ const Pede: React.FC<PB> = ({b}) => {
     <AbsoluteFill>
       <Fundo noite={false} />
       <Topo texto="DIA 4" />
-      <Grande j={J.boticaria} y={220} tam={620} s={{expressao: 'rindo', falando: !!fala, destaque: !!fala}} />
-      <Balao b={b} y={900} />
-      <Selo texto="0 VOTOS" at={naPalavra(b, 'Ninguém')} y={1080} cor="#37474f" />
+      <Grande j={J.boticaria} y={210} tam={720} s={{expressao: 'rindo', falando: !!fala, destaque: !!fala}} />
+      <Balao b={b} y={1010} />
+      <Selo texto="0 VOTOS" at={naPalavra(b, 'Ninguém')} y={1180} cor="#37474f" />
       <Som src="sad-trombone" at={naPalavra(b, 'Ninguém')} vol={0.45} />
     </AbsoluteFill>
   );
@@ -151,11 +151,16 @@ const Trio: React.FC<{votos?: Record<string, number>; destaque?: string; falando
   const f = useCurrentFrame();
   return (
     <>
-      {(['padeira', 'pescador', 'boticaria'] as const).map((id, i) => (
-        <div key={id} style={{position: 'absolute', left: 40 + i * 340, top: y + (id === destaque ? -20 : 0), transform: id === destaque ? 'scale(1.08)' : undefined}}>
-          <Quadro j={J[id]} s={{votos: votos[id] ?? 0, destaque: id === destaque, falando: id === falando, expressao: id === 'boticaria' ? 'rindo' : 'desconfiado', preso: presa && id === 'boticaria' && f < 20}} noite={false} t={f + i * 9} tam={320} />
-        </div>
-      ))}
+      {(['padeira', 'pescador', 'boticaria'] as const).map((id, i) => {
+        const tam = i < 2 ? 420 : 520;
+        const left = i === 0 ? 90 : i === 1 ? 570 : 280;
+        const top = i < 2 ? y - 130 : y + 330;
+        return (
+          <div key={id} style={{position: 'absolute', left, top, transform: id === destaque ? 'scale(1.06)' : undefined, zIndex: id === destaque ? 2 : 1}}>
+            <Quadro j={J[id]} s={{votos: votos[id] ?? 0, destaque: id === destaque, falando: id === falando, expressao: id === 'boticaria' ? 'rindo' : 'desconfiado', preso: presa && id === 'boticaria' && f < 20}} noite={false} t={f + i * 9} tam={tam} />
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -168,8 +173,8 @@ const Presa: React.FC<PB> = ({b}) => {
       <Fundo noite={false} />
       <Topo texto="ÚLTIMO DIA" />
       <Trio destaque={fala ? 'boticaria' : undefined} falando={fala ? 'boticaria' : undefined} />
-      <Selo texto="3 VIVOS" at={naPalavra(b, 'três:')} y={700} cor="#c62828" tam={90} />
-      <Balao b={b} y={880} />
+      <Selo texto="3 VIVOS" at={naPalavra(b, 'três:')} y={560} cor="#c62828" tam={90} />
+      <Balao b={b} y={1230} />
     </AbsoluteFill>
   );
 };
@@ -185,8 +190,8 @@ const Voto: React.FC<PB> = ({b}) => {
     <AbsoluteFill style={{transform: `translate(${treme}px, ${-treme * 0.6}px)`}}>
       <Fundo noite={false} />
       <Topo texto="VOTAÇÃO FINAL" />
-      <Trio votos={votos} destaque={f >= v3 ? 'boticaria' : f >= v2 ? 'pescador' : 'padeira'} y={380} />
-      <Selo texto="VOTOU NELA MESMA" at={v3} y={860} tam={92} />
+      <Trio votos={votos} destaque={f >= v3 ? 'boticaria' : f >= v2 ? 'pescador' : 'padeira'} y={330} />
+      <Selo texto="VOTOU NELA MESMA" at={v3} y={1250} tam={92} />
       <Som src="drumroll" at={naPalavra(b, 'Votação')} vol={0.35} />
       <Som src="pop" at={v1} />
       <Som src="pop" at={v2} />
@@ -203,10 +208,10 @@ const Fim: React.FC<PB> = ({b}) => {
   return (
     <AbsoluteFill style={{background: `radial-gradient(circle at 50% 40%, ${ROSA}, #2a0a1a 80%)`, overflow: 'hidden'}}>
       {Array.from({length: 18}).map((_, i) => <div key={i} style={{position: 'absolute', left: 540, top: 700, width: 2400, height: 80, background: 'rgba(255,255,255,0.07)', transformOrigin: '0 50%', transform: `rotate(${i * 20 + f * 0.8}deg)`}} />)}
-      <div style={{position: 'absolute', left: 190, top: 300, transform: `scale(${e})`}}>
-        <Quadro j={J.boticaria} s={{revelado: true, expressao: 'rindo'}} noite={false} t={f} tam={700} />
+      <div style={{position: 'absolute', left: 140, top: 230, transform: `scale(${e})`}}>
+        <Quadro j={J.boticaria} s={{revelado: true, expressao: 'rindo'}} noite={false} t={f} tam={800} />
       </div>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 1090, textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 130, color: '#fff', transform: `scale(${e})`, textShadow: '0 10px 0 rgba(0,0,0,0.3)', lineHeight: 1}}>O BOBO<br />VENCEU</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 1100, textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 140, color: '#fff', transform: `scale(${e})`, textShadow: '0 10px 0 rgba(0,0,0,0.3)', lineHeight: 1}}>O BOBO<br />VENCEU</div>
       <Som src="crowd-cheer" at={4} vol={0.45} />
     </AbsoluteFill>
   );
