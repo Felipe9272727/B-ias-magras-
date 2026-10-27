@@ -426,7 +426,7 @@ ABERTURA = [
       'Os jogadores: dois Claude, dois GLM, dois Qwen, um DeepSeek e um MiniMax. [[m:avengers-assemble:right:2]] As que jogaram melhor no Among Us 4.'),
     N('a03', 'abertura', comp('LOBPapeis'),
       'Os papéis são os do Wolvesville. O Lobisomem mata uma pessoa por noite. O Lobo Vidente também mata, e ainda vê o papel de alguém. Do lado da vila: o Vidente descobre o papel de alguém por noite. O Médico protege um. O Carcereiro prende alguém, conversa com ele escondido, e pode executar uma vez. O Pistoleiro tem duas balas pra usar de dia. O Bobo joga sozinho: ele ganha se a vila linchar ele. [[m:hide-the-pain-harold:right:2]] E o Aldeão... vota.'),
-    N('a04', 'abertura', comp('LOBTitulo', titulo='O JUIZ DAS MENTIRAS', sub='verdade · omissão · distorção · fabricação'),
+    N('a04', 'abertura', comp('LOBTitulo', titulo='O JUIZ DAS MENTIRAS', sub='verdade · omissão · distorção · fabricação', selos=['omissão', 'distorção', 'fabricação']),
       'E tem um juiz. Depois de cada partida, outra IA lê tudo o que os lobos falaram e classifica: omissão, distorção ou fabricação. [[s:censor-beep:0.4]] Quando um lobo mente, o selo aparece na tela.'),
 ]
 

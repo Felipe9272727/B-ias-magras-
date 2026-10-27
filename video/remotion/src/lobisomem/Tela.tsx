@@ -174,17 +174,61 @@ export const Chat: React.FC<{msgs: Msg[]; titulo: string; tema?: 'dia' | 'lobos'
 };
 
 // ---------------------------------------------------------------- fundo
+// fundo: a vila ao vivo atrás da grade (dia: céu, nuvens andando, morros, casas e moinho; noite: lua, estrelas piscando,
+// janelas acesas e vaga-lumes). Um véu escuro por cima deixa os quadros e o chat legíveis.
 export const Fundo: React.FC<{noite: boolean}> = ({noite}) => {
   const f = useCurrentFrame();
+  const casa = (x: number, y: number, e: number, i: number) => (
+    <g key={i} transform={`translate(${x} ${y}) scale(${e})`}>
+      <rect x={-60} y={-70} width={120} height={80} fill={noite ? '#26304d' : '#f1d9b5'} />
+      <path d="M-78 -66 L0 -130 L78 -66Z" fill={noite ? '#3a2233' : ['#d84315', '#8d6e63', '#c62828'][i % 3]} />
+      <rect x={-18} y={-30} width={36} height={40} fill={noite ? '#1a1f33' : '#6d4c41'} />
+      <rect x={-48} y={-56} width={26} height={24} fill={noite ? (i % 2 ? '#ffd54f' : '#1d2440') : '#90caf9'} opacity={noite && i % 2 ? 0.75 + 0.25 * Math.sin((f + i * 17) / 9) : 1} />
+      <rect x={22} y={-56} width={26} height={24} fill={noite ? (i % 3 ? '#1d2440' : '#ffca28') : '#90caf9'} />
+    </g>
+  );
   return (
-    <AbsoluteFill style={{background: noite ? 'radial-gradient(ellipse at 40% 30%, #1a3354, #08131f 75%)' : `radial-gradient(ellipse at 40% 30%, #1b3d52, ${AZUL} 75%)`}}>
-      <svg width={1920} height={1080} style={{position: 'absolute', opacity: 0.12}}>
-        {Array.from({length: 24}).map((_, i) => (
-          <g key={i} transform={`translate(${(i * 263 + f * 0.4) % 2000 - 40} ${(i * 157) % 1080}) rotate(${i * 30})`}>
-            <IconeUiPata />
+    <AbsoluteFill style={{background: noite ? 'linear-gradient(#071226, #13284d 60%, #1b3a5e)' : 'linear-gradient(#3fa9f5, #8fd5ff 60%, #c8ecff)', overflow: 'hidden'}}>
+      <svg width={1920} height={1080} style={{position: 'absolute'}}>
+        {noite ? (
+          <g>
+            {Array.from({length: 70}).map((_, i) => <circle key={i} cx={(i * 263) % 1920} cy={(i * 97) % 560} r={1.5 + (i % 3)} fill="#fff" opacity={0.35 + 0.65 * Math.abs(Math.sin((f + i * 11) / 15))} />)}
+            <circle cx={1500} cy={170} r={95} fill="#fff6d5" />
+            <circle cx={1540} cy={150} r={90} fill="#0d1d3a" opacity={0.9} />
+            <circle cx={1500} cy={170} r={150} fill="#fff6d5" opacity={0.08} />
           </g>
-        ))}
+        ) : (
+          <g>
+            <circle cx={1620} cy={150} r={90} fill="#fff59d" />
+            <circle cx={1620} cy={150} r={140} fill="#fff59d" opacity={0.25 + 0.08 * Math.sin(f / 20)} />
+            {[0, 1, 2, 3, 4].map((i) => {
+              const x = ((i * 520 + f * (0.6 + i * 0.15)) % 2400) - 300;
+              return <g key={i} fill="#fff" opacity={0.9} transform={`translate(${x} ${90 + (i % 3) * 110})`}><ellipse cx={0} cy={0} rx={110} ry={40} /><ellipse cx={60} cy={-25} rx={70} ry={45} /><ellipse cx={-55} cy={-12} rx={60} ry={35} /></g>;
+            })}
+          </g>
+        )}
+        <path d="M0 640 Q300 520 620 610 Q960 700 1300 580 Q1640 470 1920 590 L1920 1080 L0 1080Z" fill={noite ? '#132a3e' : '#7cc45a'} />
+        <path d="M0 760 Q420 660 860 750 Q1300 840 1920 720 L1920 1080 L0 1080Z" fill={noite ? '#0f2230' : '#5fae3f'} />
+        {/* moinho com as pás girando */}
+        <g transform="translate(1720 600)">
+          <path d="M-40 0 L-26 -170 L26 -170 L40 0Z" fill={noite ? '#2c3550' : '#efe2c8'} />
+          <g transform={`translate(0 -170) rotate(${f * 1.2})`}>
+            {[0, 90, 180, 270].map((a) => <rect key={a} x={-9} y={-150} width={18} height={150} fill={noite ? '#4a3f55' : '#8d6e63'} transform={`rotate(${a})`} />)}
+            <circle r={14} fill={noite ? '#2c3550' : '#5d4037'} />
+          </g>
+        </g>
+        {[[140, 760, 1], [430, 740, 0.85], [1420, 760, 0.9], [1880, 780, 0.8], [760, 800, 0.75]].map(([x, y, e], i) => casa(x, y, e, i))}
+        {noite ? Array.from({length: 18}).map((_, i) => {
+          const x = (i * 211 + Math.sin((f + i * 30) / 40) * 60) % 1920;
+          const y = 600 + (i * 53) % 420 + Math.cos((f + i * 13) / 30) * 25;
+          return <circle key={i} cx={x} cy={y} r={4} fill="#d4ff6b" opacity={0.3 + 0.7 * Math.abs(Math.sin((f + i * 9) / 12))} />;
+        }) : Array.from({length: 10}).map((_, i) => {
+          const x = ((i * 233 + f * (1.2 + (i % 3) * 0.4)) % 2100) - 90;
+          const y = 520 + (i * 61) % 400 + Math.sin((f + i * 20) / 14) * 30;
+          return <ellipse key={i} cx={x} cy={y} rx={9} ry={5} fill={['#e65100', '#f9a825', '#8bc34a'][i % 3]} transform={`rotate(${f * 3 + i * 40} ${x} ${y})`} />;
+        })}
       </svg>
+      <AbsoluteFill style={{background: noite ? 'rgba(4,10,24,0.45)' : 'rgba(10,30,50,0.32)'}} />
     </AbsoluteFill>
   );
 };
