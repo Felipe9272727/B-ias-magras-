@@ -6,7 +6,7 @@ import {Jogo5, type Skins} from './Jogo5';
 import {simular, type Partida2} from './sim5';
 import {mapaDaCena} from '../amongus3/tempo';
 import {Ejecao2, Votacao} from './Telas5';
-import {AU5Comentarios, AU5Polus} from './Abertura5';
+import {AU5Comentarios, AU5Davi, AU5Polus} from './Abertura5';
 
 export const AU5Visual: React.FC<{name: string; props: Record<string, any>; scene: Scene; timeline: Timeline}> = ({name, props: p, scene, timeline}) => {
   const ps = (timeline.data as any).partidas as Record<string, Partida2>;
@@ -26,6 +26,8 @@ export const AU5Visual: React.FC<{name: string; props: Record<string, any>; scen
       return <Ejecao2 p={ps[String(p.partida)]} idx={p.indice} />;
     case 'AU5Comentarios':
       return <AU5Comentarios comentarios={p.comentarios} />;
+    case 'AU5Davi':
+      return <AU5Davi autor={p.autor} lista={p.lista} fim={p.fim} />;
     case 'AU5Polus':
       return <AU5Polus etiquetas={p.etiquetas} />;
     default:

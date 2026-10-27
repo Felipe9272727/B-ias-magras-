@@ -79,3 +79,42 @@ export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: str
     </AbsoluteFill>
   );
 };
+
+// o Davi (@David_alves-p1f) e os 30 comentários dele pedindo o Polus: os cartões vão caindo cada vez mais rápido e se
+// empilhando na tela, com o contador subindo; no fim, carimbo de "ATENDIDO"
+export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number}> = ({autor, lista, fim}) => {
+  const f = useCurrentFrame();
+  const {durationInFrames} = useVideoConfig();
+  const ate = fim ?? Math.round(durationInFrames * 0.78);
+  // quadro em que entra o comentário i: começa devagar (1 por segundo) e acelera
+  const entrada = (i: number) => Math.round(ate * Math.pow(i / lista.length, 1.9));
+  const n = lista.filter((_, i) => f >= entrada(i)).length;
+  const h = (i: number, k: number) => { const x = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return x - Math.floor(x) };
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 35%, #2b2350, #0d0a1c 75%)', overflow: 'hidden'}}>
+      {lista.map((t, i) => {
+        const k = f - entrada(i);
+        if (k < 0) return null;
+        const x = 80 + h(i, 1) * 1380, y = 170 + h(i, 2) * 760, rot = -8 + h(i, 3) * 16;
+        const cai = interpolate(k, [0, 8], [0, 1], {...cl, easing: Easing.out(Easing.back(1.4))});
+        return (
+          <div key={i} style={{position: 'absolute', left: x, top: y - (1 - cai) * 300, width: 520, opacity: cai, transform: `rotate(${rot}deg) scale(${0.6 + 0.4 * cai})`, padding: '14px 20px', borderRadius: 16, background: '#fff', border: '5px solid #000', boxShadow: '0 8px 0 #000', zIndex: i}}>
+            <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 22, color: '#555'}}>{autor}</div>
+            <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: t.length > 60 ? 24 : 32, lineHeight: 1.15, color: '#000', whiteSpace: 'pre-line'}}>{t}</div>
+          </div>
+        );
+      })}
+      {/* contador */}
+      <div style={{position: 'absolute', left: 0, right: 0, top: 30, display: 'flex', justifyContent: 'center', zIndex: 100}}>
+        <div style={{padding: '10px 34px', borderRadius: 20, background: '#000d', border: '6px solid #ff4d4d', fontFamily: FONT.display, fontWeight: 900, fontSize: 56, color: '#fff', transform: `scale(${1 + 0.08 * Math.max(0, 1 - (f - entrada(Math.max(0, n - 1))) / 6)})`}}>
+          {autor}: <span style={{color: '#ff4d4d'}}>{n}</span> comentário{n === 1 ? '' : 's'} pedindo o Polus
+        </div>
+      </div>
+      {f >= ate + 10 && (
+        <div style={{position: 'absolute', left: 0, right: 0, top: 420, display: 'flex', justifyContent: 'center', zIndex: 101}}>
+          <div style={{padding: '14px 50px', borderRadius: 24, border: '14px solid #0d8a2a', color: '#0d8a2a', background: 'rgba(235,255,238,.96)', fontFamily: FONT.display, fontWeight: 900, fontSize: 130, transform: `rotate(-8deg) scale(${interpolate(f - ate - 10, [0, 8], [3, 1], cl)})`, opacity: interpolate(f - ate - 10, [0, 4], [0, 1], cl)}}>ATENDIDO</div>
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
