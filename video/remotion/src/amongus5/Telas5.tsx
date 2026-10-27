@@ -6,6 +6,8 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Crewmate} from '../amongus/Crewmate';
+import {Crewmate4} from '../amongus/Crewmate4';
+type Skins5 = Record<string, {cabeca?: string | null; roupa?: string | null; pet?: string | null}>;
 import {FONT} from '../theme';
 import {CORES, Partida2} from './sim5';
 import {EMPRESA, PAPEL_NOME} from './Jogo5';
@@ -426,7 +428,7 @@ export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number
 
 // ---------- 5. Ejeção ----------
 // o expulso gira atravessando o espaço; o texto vai sendo digitado embaixo
-export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean}> = ({p, idx, mostrarPapel = true}) => {
+export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean; skins?: Skins5}> = ({p, idx, mostrarPapel = true, skins}) => {
   const f = useCurrentFrame();
   const r = p.reunioes[idx];
   // impostores restantes depois desta ejeção
@@ -447,7 +449,7 @@ export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean
       <Som nome="digitando" em={8} vol={0.35} />
       {r.expulso && (
         <div style={{position: 'absolute', left: x, top: 380, transform: `rotate(${f * 5}deg)`}}>
-          <Crewmate cor={r.expulso} size={200} />
+          <Crewmate4 cor={r.expulso} size={200} cosmetico={skins?.[r.expulso]?.cabeca ?? undefined} roupa={skins?.[r.expulso]?.roupa ?? undefined} />
         </div>
       )}
       <div style={{position: 'absolute', left: 0, right: 0, top: 640, textAlign: 'center', fontFamily: FONT.display, fontWeight: 600, fontSize: 70, color: '#fff', lineHeight: 1.4}}>
@@ -460,7 +462,7 @@ export const Ejecao2: React.FC<{p: Partida2; idx: number; mostrarPapel?: boolean
 
 // ---------- 6. Vitória / Derrota ----------
 // do ponto de vista de `foco`: Vitória (azul para tripulantes, vermelho para impostores) ou Derrota; o time vencedor em fila
-export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
+export const Fim2: React.FC<{p: Partida2; foco?: string; skins?: Skins5}> = ({p, foco, skins}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const venceu = p.resultado.time;
@@ -478,12 +480,12 @@ export const Fim2: React.FC<{p: Partida2; foco?: string}> = ({p, foco}) => {
         {ganhei ? 'Vitória' : 'Derrota'}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, top: 310, textAlign: 'center', fontFamily: FONT.display, fontWeight: 700, fontSize: 44, color: '#fff', opacity: interpolate(f, [18, 30], [0, 1], cl)}}>
-        {venceu === 'impostor' ? 'Os Impostores venceram' : venceu === 'palhaco' ? 'O Palhaço venceu sozinho' : 'Os Tripulantes venceram'} · {p.resultado.motivo}
+        {venceu === 'impostor' ? 'Os Impostores venceram' : venceu === 'palhaco' ? 'O Palhaço venceu sozinho' : venceu === 'tripulante' ? 'Os Tripulantes venceram' : `${venceu.charAt(0).toUpperCase()}${venceu.slice(1)} venceu sozinho`} · {p.resultado.motivo}
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 70, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: vencedores.length > 6 ? 6 : 30}}>
         {vencedores.map((j, i) => (
           <div key={j.cor} style={{position: 'relative', opacity: interpolate(f, [14 + i * 3, 26 + i * 3], [0, 1], cl)}}>
-            <Crewmate cor={j.cor} size={tam} fantasma={!p.tiques[p.tiques.length - 1]?.estado?.jogadores.find((x) => x.cor === j.cor)?.vivo && !!p.tiques[p.tiques.length - 1]?.estado} t={f + i * 9} />
+            <Crewmate4 cor={j.cor} size={tam} fantasma={!p.tiques[p.tiques.length - 1]?.estado?.jogadores.find((x) => x.cor === j.cor)?.vivo && !!p.tiques[p.tiques.length - 1]?.estado} t={f + i * 9} cosmetico={skins?.[j.cor]?.cabeca ?? undefined} roupa={skins?.[j.cor]?.roupa ?? undefined} pet={skins?.[j.cor]?.pet ?? undefined} />
             <div style={{position: 'absolute', left: 0, right: 0, top: -30, textAlign: 'center', fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#fff', WebkitTextStroke: '1px #000'}}>{j.cor}</div>
           </div>
         ))}

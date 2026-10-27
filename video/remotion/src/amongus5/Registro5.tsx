@@ -9,9 +9,10 @@ import type {Scene, Timeline} from '../types';
 import {Jogo5, type Skins} from './Jogo5';
 import {simular, type Partida2} from './sim5';
 import {mapaDaCena} from '../amongus3/tempo';
-import {Ejecao2, Votacao} from './Telas5';
+import {Ejecao2, Fim2, Votacao} from './Telas5';
 import {AU5Comentarios, AU5Davi, AU5Polus} from './Abertura5';
-import {AU5Casal, AU5Foto, AU5Rebobina, Pensamentos, Sobreposicoes, type Selo} from './Extras5';
+import {AU5Casal, AU5Foto, AU5Partida, AU5Rebobina, Pensamentos, Sobreposicoes, type Selo} from './Extras5';
+import {CORES} from './sim5';
 
 const semAcento = (w: string) => w.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
 // quadro (na cena) em que o narrador fala o termo; -1 se não fala
@@ -50,7 +51,7 @@ const Visual5: React.FC<{name: string; props: Record<string, any>; scene: Scene;
     case 'AU5Resultado':
       return <Votacao p={ps[String(p.partida)]} idx={p.indice} fase="resultado" mensagens={[]} chat={false} semJuiz={p.semJuiz} carimboEm={p.carimbo ? momento(scene, p.carimbo) : 20} />;
     case 'AU5Ejecao':
-      return <Ejecao2 p={ps[String(p.partida)]} idx={p.indice} />;
+      return <Ejecao2 p={ps[String(p.partida)]} idx={p.indice} skins={skins} />;
     case 'AU5Comentarios':
       return <AU5Comentarios comentarios={p.comentarios} />;
     case 'AU5Davi':
@@ -63,6 +64,10 @@ const Visual5: React.FC<{name: string; props: Record<string, any>; scene: Scene;
       return <AU5Casal a={p.a} b={p.b} timeA={p.timeA} timeB={p.timeB} chat={p.chatCasal} />;
     case 'AU5Foto':
       return <AU5Foto p={ps[String(p.partida ?? 1)]} skins={skins} tique={p.tique} cor={p.cor} legenda={p.legenda} />;
+    case 'AU5Partida':
+      return <AU5Partida n={p.n} sub={p.sub} cores={p.cores ?? CORES} skins={skins} cor={p.cor} />;
+    case 'AU5Fim':
+      return <Fim2 p={ps[String(p.partida)]} foco={p.foco} skins={skins} />;
     default:
       return null;
   }

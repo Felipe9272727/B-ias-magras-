@@ -157,3 +157,42 @@ export const AU5Foto: React.FC<{p: Partida2; skins?: Skins; tique: number; cor: 
     </AbsoluteFill>
   );
 };
+
+// abertura de cada partida: "PARTIDA N" batendo no meio e os 18 tripulantes (com as skins que as IAs escolheram)
+// atravessando a tela em fila, andando e pulando; embaixo, o que essa partida tem de novo
+export const AU5Partida: React.FC<{n: number; sub?: string; cores: string[]; skins?: Skins; cor?: string}> = ({n, sub, cores, skins, cor = '#9b7bff'}) => {
+  const f = useCurrentFrame();
+  const {durationInFrames, fps} = useVideoConfig();
+  const bate = interpolate(f, [6, 14, 18], [3, 0.92, 1], {...cl, easing: Easing.out(Easing.cubic)});
+  const sai = interpolate(f, [durationInFrames - 10, durationInFrames], [1, 0], cl);
+  return (
+    <AbsoluteFill style={{background: `radial-gradient(circle at 50% 45%, ${cor}55, #0d0a1c 70%)`, overflow: 'hidden', opacity: sai}}>
+      {/* neve do Polus caindo */}
+      {Array.from({length: 50}).map((_, i) => {
+        const x = (i * 389) % 1920, v = 1.4 + (i % 5) * 0.5;
+        return <div key={i} style={{position: 'absolute', left: x + 25 * Math.sin((f + i * 17) / 30), top: ((f * v + i * 113) % 1180) - 60, width: 6 + (i % 3) * 3, height: 6 + (i % 3) * 3, borderRadius: '50%', background: '#fff', opacity: 0.4}} />;
+      })}
+      {/* fila de tripulantes andando da esquerda para a direita, cada um pulando no seu tempo */}
+      {cores.map((c, i) => {
+        const x = -220 + ((f * 9 + i * 118) % (1920 + 440));
+        const pulo = Math.max(0, Math.sin((f + i * 7) / 6)) * 34;
+        const sk = skins?.[c] ?? {};
+        return (
+          <div key={c} style={{position: 'absolute', left: x, top: 720 - pulo, transform: 'scale(1)'}}>
+            <div style={{position: 'absolute', left: 14, top: 128 + pulo, width: 80, height: 14, borderRadius: '50%', background: '#0006'}} />
+            <Crewmate4 cor={c} size={110} passo={(f + i * 5) / 4.5} anim="andando" t={f + i * 9} cosmetico={sk.cabeca ?? undefined} roupa={sk.roupa ?? undefined} pet={sk.pet ?? undefined} />
+          </div>
+        );
+      })}
+      <div style={{position: 'absolute', left: 0, right: 0, top: 170, textAlign: 'center', transform: `scale(${bate}) rotate(${-3 + 2 * Math.sin(f / 12)}deg)`}}>
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 230, color: '#fff', WebkitTextStroke: '8px #000', textShadow: `0 14px 0 #000, 0 0 60px ${cor}`}}>PARTIDA {n}</div>
+      </div>
+      {sub && (
+        <div style={{position: 'absolute', left: 0, right: 0, top: 500, display: 'flex', justifyContent: 'center', opacity: interpolate(f, [16, 26], [0, 1], cl)}}>
+          <div style={{padding: '10px 34px', borderRadius: 18, background: '#000c', border: `5px solid ${cor}`, fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: '#fff'}}>{sub}</div>
+        </div>
+      )}
+      <div style={{display: 'none'}}>{fps}</div>
+    </AbsoluteFill>
+  );
+};
