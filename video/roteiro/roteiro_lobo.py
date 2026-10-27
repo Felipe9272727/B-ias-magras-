@@ -346,9 +346,80 @@ def partida3(k):
     ]
 
 
+def partida4(k):
+    p, c = 4, f'p{k}'
+    return [
+        N(f'{c}00', c, comp('LOBSorteio', partida=p),
+          f'Partida {k}, a última. A Padeira é o Bobo. E a Boticária, depois de três partidas de Bobo... é a Lobisomem. [[m:shocked-patrick:right:2]] O Lenhador é o Lobo Vidente. O Bardo é o Vidente, o Pescador é o Médico, a Costureira é a Pistoleira, o Ferreiro é Aldeão, e o Moleiro... Carcereiro. Pela terceira vez.'),
+        fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
+        CH(f'{c}02', c, noite(p, 1, 'lobos'), [
+            LC(p, 1, 0, 0, 2),
+            LP(p, 1, 0, 0, 1),
+            LC(p, 1, 1, 0, 2),
+            LP(p, 1, 1, 1, 2),
+            ('N', 'A Costureira... digo, a Boticária. Ele ainda acha que tá na partida um. [[m:visible-confusion:right:2]]'),
+        ]),
+        N(f'{c}03', c, noite(p, 1, 'acoes'),
+          'O Vidente, o Bardo, olha o Lenhador: Lobo Vidente! [[s:correct-ding:0.5]] O Lobo Vidente descobre que a Padeira é o Bobo. E o Médico protege a Padeira.'),
+        N(f'{c}04', c, comp('LOBAmanhecer', partida=p, noite=1),
+          'Amanhece. O Moleiro morreu. Era o Carcereiro. [[s:death:0.5]] Os lobos lembravam, e ele nem jogou. [[m:coffin-dance:right:2]]'),
+        CH(f'{c}05', c, chat(p, 1), [
+            ('N', 'O Bardo sabe que o Lenhador é lobo. E acusa ele... com uma palavra em chinês no meio da frase. [[m:confused-travolta:right:2]]'),
+            F(p, 1, 4),
+            F(p, 1, 8, 0, 2),
+            F(p, 1, 9, 0, 1),
+            F(p, 1, 12, 2),
+            PF(p, 1, 12, 0, 1),
+        ]),
+        N(f'{c}06', c, comp('LOBVotos', partida=p, dia=1),
+          'Cinco votos no Bardo. Inclusive os dois lobos, o Bobo e a Pistoleira. [[m:hide-the-pain-harold:right:2]]', min=8),
+        N(f'{c}07', c, comp('LOBLinchado', partida=p, dia=1),
+          'O Bardo foi linchado. E era o Vidente. [[s:sad-trombone:0.5]] Quarta partida, e a vila sempre dá um jeito de matar quem sabe a verdade.'),
+        CH(f'{c}08', c, noite(p, 2, 'lobos'), [
+            LC(p, 2, 0, 1),
+            LC(p, 2, 1, 0, 3),
+            ('N', 'Ele viu que a Padeira é o Bobo. Se matar ela, nada muda; se a vila linchar, o Bobo ganha. Então deixa ela viva pra confundir. [[m:galaxy-brain:right:2]]'),
+        ]),
+        N(f'{c}09', c, comp('LOBAmanhecer', partida=p, noite=2),
+          'Mas o Médico protegeu o Ferreiro. Justo ele. Ninguém morreu! [[s:tada:0.5]]'),
+        CH(f'{c}10', c, chat(p, 2), [
+            F(p, 2, 4, 0, 2),
+            ('N', 'Sorte dele ser lobo. O Bardo era o Vidente. Tava escrito na tela. [[m:picard-facepalm:right:2]]'),
+            F(p, 2, 6, 0, 2),
+            F(p, 2, 7, 1),
+            F(p, 2, 9, 0, 2),
+        ]),
+        N(f'{c}11', c, comp('LOBVotos', partida=p, dia=2),
+          'Quatro votos no Lenhador. [[s:drumroll:0.4]]', min=7),
+        N(f'{c}12', c, comp('LOBLinchado', partida=p, dia=2),
+          'O Lenhador foi linchado. E era o Lobo Vidente! [[s:boom:0.5]] Sobrou só a Boticária.'),
+        CH(f'{c}13', c, noite(p, 3, 'lobos'), [
+            ('N', 'Sozinha, ela pensa. E pensa. E escolhe...'),
+            LC(p, 3, 1, 2),
+            LP(p, 3, 1, 2),
+            ('N', 'A Padeira é o Bobo. O parceiro avisou ontem. [[m:monkey-side-eye:right:2]]'),
+        ]),
+        N(f'{c}14', c, comp('LOBAmanhecer', partida=p, noite=3),
+          'A Padeira morreu. Era o Bobo. [[s:death:0.5]] E o Médico? Essa noite protegeu a Boticária. A loba. [[m:sad-pablo:right:2]]'),
+        CH(f'{c}15', c, chat(p, 3), [
+            ('N', 'Sobraram quatro. O Aldeão, o Médico, a Pistoleira... e a loba.'),
+            F(p, 3, 1, 0, 2),
+            F(p, 3, 2, 0, 2),
+            PF(p, 3, 2, 1, 2),
+            F(p, 3, 3),
+        ]),
+        N(f'{c}16', c, comp('LOBTiro', partida=p, dia=3),
+          'E... pá! [[s:explosion:0.6]][[m:mic-drop:right:2]] A Costureira atirou na Boticária. E a Boticária era... a Lobisomem.', lead=0.4),
+        N(f'{c}17', c, comp('LOBFim', partida=p),
+          'A vila venceu! [[s:crowd-cheer:0.5]] E sem nem precisar votar: um tiro, no último lobo, no terceiro dia. O Qwen, que passou o jogo inteiro guardando bala, acertou a única que usou. [[m:dicaprio-toast:right:2]]', pad=1),
+    ]
+
+
 # ====================================================================== ABERTURA, REGRAS E FIM
 
 ABERTURA = [
+    N('a00', 'abertura', comp('LOBVotos', partida=3, dia=5),
+      'Essa IA passou cinco dias tentando ser expulsa da vila. [[s:drumroll:0.4]] E no último voto... ela votou nela mesma. [[m:shocked-krabs:right:2]]', min=7),
     N('a01', 'abertura', comp('LOBTitulo', titulo='LOBISOMEM DAS IAs', sub='8 IAs · 2 lobos · 1 Bobo'),
       'Coloquei oito IAs pra jogar Lobisomem. [[s:impact-epic:0.5]] Dois lobos, um Bobo, e uma vila inteira tentando descobrir quem tá mentindo.', pad=0.8),
     N('a02', 'abertura', comp('LOBElenco', partida=1),
@@ -359,21 +430,38 @@ ABERTURA = [
       'E tem um juiz. Depois de cada partida, outra IA lê tudo o que os lobos falaram e classifica: omissão, distorção ou fabricação. [[s:censor-beep:0.4]] Quando um lobo mente, o selo aparece na tela.'),
 ]
 
-ORDEM = [1, 2, 3]  # cronológica (eles lembram das anteriores); a melhor partida vai por último
+ORDEM = [1, 2, 3, 4]  # cronológica (eles lembram das anteriores); a melhor partida vai por último
 FIM = [
     N('f01', 'fim', comp('LOBPlacar', ordem=ORDEM),
-      'Placar final. [[s:drumroll:0.5]]'),
+      'Placar final. [[s:drumroll:0.5]] A vila venceu duas vezes, o Bobo venceu duas, e os lobos... nenhuma. [[m:sad-pablo:right:2]] E o juiz das mentiras: quem mais mentiu foi o Qwen, com dezesseis selos. Logo atrás, o GLM, com quinze. Que também foi o Bobo que ganhou duas vezes. [[m:roll-safe:right:2]]'),
+    N('f02', 'fim', comp('LOBTitulo', titulo='E VOCÊ?', sub='qual IA você acha que mente melhor?'),
+      'Comenta aí qual IA mente melhor, e quais papéis do Wolvesville você quer ver na próxima. [[s:tada:0.5]]', pad=1.5),
 ]
 
-SCENES = ABERTURA + [s for k, p in enumerate(ORDEM, 1) for s in {1: partida1, 2: partida2, 3: partida3}[p](k)] + FIM
+SCENES = ABERTURA + [s for k, p in enumerate(ORDEM, 1) for s in {1: partida1, 2: partida2, 3: partida3, 4: partida4}[p](k)] + FIM
 CHAPTERS = {'abertura': 'Abertura', **{f'p{k}': f'Partida {k}' for k in range(1, len(ORDEM) + 1)}, 'fim': 'Placar final'}
 
 CUES = [  # uma música por bloco
+    ('a00', 'decisions', 20),
     ('a01', 'sneaky-snitch', 0),
     ('p100', 'thinking-music', 0),
     ('p105', 'sneaky-snitch', 30),
     ('p116', 'decisions', 0),
     ('p122', 'heroic-age', 0),
+    ('p200', 'quirky-dog', 0),
+    ('p205', 'fluffing-a-duck', 0),
+    ('p209', 'chipper-doodle-v2', 0),
+    ('p300', 'pixel-peeker-polka-faster', 0),
+    ('p305', 'thinking-music', 40),
+    ('p315', 'bit-shift', 0),
+    ('p322', 'relent', 0),
+    ('p327', 'despair-and-triumph', 0),
+    ('p329', 'chipper-doodle-v2', 0),
+    ('p400', 'itty-bitty-8-bit', 0),
+    ('p405', 'sneaky-snitch', 10),
+    ('p410', 'decisions', 30),
+    ('p415', 'mega-hyper-ultrastorm', 0),
+    ('p417', 'heroic-age', 0),
     ('f01', 'monkeys-spinning-monkeys', 30),
 ]
 SEM_TRILHA = ['LOBFase']
