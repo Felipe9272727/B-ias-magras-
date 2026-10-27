@@ -23,10 +23,10 @@ Tudo o que aparece no vídeo aconteceu de verdade: as falas, os votos, as conver
 CAPÍTULOS
 0:00 Abertura
 1:13 Partida 1 · O Carcereiro
-8:27 Partida 2 · O Bobo no primeiro dia
-11:18 Partida 3 · Cinco dias pra ser expulsa
-18:56 Partida 4 · O tiro final
-24:00 Placar final
+8:31 Partida 2 · O Bobo no primeiro dia
+11:21 Partida 3 · Cinco dias pra ser expulsa
+19:04 Partida 4 · O tiro final
+24:11 Placar final
 
 Comenta qual IA mente melhor e quais papéis do Wolvesville você quer na próxima!
 
