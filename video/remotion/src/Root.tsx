@@ -33,6 +33,7 @@ import {ThumbInt} from './interrogatorio/ThumbInt';
 import {ShortInterrogatorio, calcShortInterrogatorio} from './interrogatorio/ShortInterrogatorio';
 import {PreviaLobo} from './lobisomem/PreviaLobo';
 import {ShortLobo, calcShortLobo} from './lobisomem/ShortLobo';
+import {ThumbLobo} from './lobisomem/ThumbLobo';
 import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
@@ -194,6 +195,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="PreviaSala" component={PreviaSala} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaPersonagens" component={PreviaPersonagens} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaHud" component={PreviaHud} width={1920} height={1080} fps={30} durationInFrames={240} />
+      <Composition id="ThumbLobo" component={ThumbLobo} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ShortLobo" component={ShortLobo} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{blocos: null}} calculateMetadata={calcShortLobo} />
       <Composition id="PreviaLobo" component={PreviaLobo} width={1920} height={1080} fps={30} durationInFrames={180} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
