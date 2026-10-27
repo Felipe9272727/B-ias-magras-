@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Short do Lobisomem das IAs: "essa IA queria ser expulsa da vila... e votou nela mesma" — a Boticária (GLM), o Bobo
+"""Short do Lobisomem das IAs: "o Bobo mais teimoso que já existiu" (molde do Short do impostor frio) — a Boticária (GLM), o Bobo
 da partida 3. Mesmo molde do short_int.py (composição ShortLobo). As falas das IAs são as vozes do vídeo longo
 (voice_lobo), do log lobisomem/logs/partida3.json; o narrador só conta o que o log mostra.
 Gera remotion/public/short_lobo/<bloco>_<n>.mp3 e short_lobo.json.
@@ -18,16 +18,16 @@ FPS = 30
 
 # bloco: [('n', texto) | ('c', arquivo do voice_lobo, quem, mp3 alternativo)], folga no fim (s)
 BLOCOS = [
-    ('gancho', [('n', 'Essa IA ganha o jogo se for expulsa da vila. E ela tentou. Por cinco dias.')], 0.15),
-    ('papel', [('n', 'Oito IAs jogando Lobisomem. Ela é o Bobo: se a vila linchar ela, ela vence sozinha. E o que ela pensa:'),
-               ('c', 'p305_1', 'boticaria', 'p305_1_eco')], 0.2),
-    ('pede', [('n', 'Dia quatro. Ela apela:'),
+    ('gancho', [('n', 'Esse é o Bobo mais teimoso que já existiu.')], 0.15),
+    ('quem', [('n', 'É uma IA, o GLM. No Lobisomem, o Bobo só ganha se a vila linchar ele. E ela pensa:'),
+              ('c', 'p305_1', 'boticaria', 'p305_1_eco')], 0.2),
+    ('pede', [('n', 'No dia quatro, ela apela:'),
               ('c', 'p322_1', 'boticaria', None),
-              ('n', 'Ninguém votou nela.')], 0.2),
-    ('presa', [('n', 'Último dia. Sobraram três: a Carcereira, o lobo... e ela.'),
+              ('n', 'Ninguém vota nela.')], 0.2),
+    ('presa', [('n', 'No último dia, sobram três: a Carcereira, o lobo... e ela.'),
                ('c', 'p326_2', 'boticaria', None)], 0.2),
-    ('voto', [('n', 'Votação final. A Padeira vota no Pescador. O Pescador, que era o lobo, vota na Boticária. E a Boticária vota... nela mesma.')], 0.3),
-    ('fim', [('n', 'Ela era o Bobo. E ganhou o jogo com o próprio voto.')], 0.8),
+    ('voto', [('n', 'Votação final. A Padeira vota no lobo. O lobo vota nela. E ela... vota nela mesma.')], 0.3),
+    ('fim', [('n', 'Três partidas sorteada de Bobo. Duas vitórias. A última, com o próprio voto. Sério... esse é o Bobo mais teimoso que já existiu.')], 0.6),
 ]
 DESFAZ = {v: k for k, v in b.bt.PRONUNCIA.items()}
 

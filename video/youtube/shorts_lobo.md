@@ -1,10 +1,10 @@
 # Short: o Bobo que votou nele mesmo
 
-Arquivo: `video/remotion/out/short_lobo.mp4` (57 s, 1080×1920)
+Arquivo: `video/remotion/out/short_lobo.mp4` (56 s, 1080×1920)
 
 ## Título
 
-**Essa IA QUERIA ser expulsa da vila 🐺 #shorts**
+**O Bobo mais teimoso que já existiu 🐺 #shorts**
 
 ## Descrição
 
