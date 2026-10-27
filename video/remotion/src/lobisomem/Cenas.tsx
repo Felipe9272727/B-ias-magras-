@@ -55,7 +55,7 @@ const jog = (P: Partida, nome: string) => P.jogadores.find((j) => j.nome === nom
 const jid = (P: Partida, id: string) => P.jogadores.find((j) => j.id === id)!;
 
 // selo do juiz de mentiras, preso embaixo do quadro de quem mentiu
-const CORES_MENTIRA: Record<string, string> = {'FABRICAÇÃO': '#d50000', 'DISTORÇÃO': '#ff6d00', 'OMISSÃO': '#ffab00', VERDADE: '#00c853'};
+const CORES_MENTIRA: Record<string, string> = {'FABRICAÇÃO': '#d50000', 'DISTORÇÃO': '#ff6d00', 'OMISSÃO': '#ffab00', VERDADE: '#00c853', PRESO: '#455a64'};
 const SeloMentira: React.FC<{tipo: string; at: number; x: number; y: number}> = ({tipo, at, x, y}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -204,6 +204,12 @@ const LOBNoite: React.FC<{P: Partida; noite: number; modo: 'lobos' | 'cela' | 'a
       </AbsoluteFill>
       <FalaGrande P={P} chat={chat} noite anonimo={modo === 'cela' && car ? car.id : undefined} />
       {acaoAtual ? <Faixa key={acaoAtual.texto} texto={acaoAtual.texto} at={acaoAtual.at} cor={PAPEIS[acaoAtual.quem].cor} /> : null}
+      {modo === 'cela' && N.cela ? (() => {
+        const k = P.jogadores.findIndex((j) => j.nome === N.cela!.preso);
+        const pq = posQuadro(k);
+        return <SeloMentira tipo="PRESO" at={6} x={pq.x + TAM / 2} y={pq.y + TAM * 0.5} />;
+      })() : null}
+      {modo === 'cela' ? <Sequence from={4} durationInFrames={45}><Audio src={staticFile('sfx/batida-porta.mp3')} volume={0.45} /></Sequence> : null}
       {closeLobo && f >= closeLobo.at - 6 && f <= closeLobo.ate + 10 ? <CloseLobo P={P} c={closeLobo} variante={(P.partida + noite) % 3} /> : null}
       {closeLobo ? <Sequence from={Math.max(0, closeLobo.at - 4)} durationInFrames={40}><Audio src={staticFile('sfx/bass-pulse.mp3')} volume={0.35} /></Sequence> : null}
       <Chat msgs={msgs} titulo={modo === 'lobos' ? 'Chat dos lobos' : modo === 'cela' ? 'Cela da prisão' : 'Ações da noite'} tema={modo === 'lobos' ? 'lobos' : modo === 'cela' ? 'cela' : 'noite'} />
@@ -623,7 +629,7 @@ const LOBPlacar: React.FC<{partidas: Record<string, Partida>; ordem: number[]}> 
             <div key={m} style={{display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16}}>
               <div style={{width: 170, fontWeight: 900, fontSize: 32, color: cor}}>{m}</div>
               <div style={{height: 48, width: 560 * (c / max) * k, background: cor, borderRadius: 12}} />
-              <div style={{fontWeight: 900, fontSize: 32, color: '#263238', opacity: k}}>{c}</div>
+              <div style={{fontWeight: 900, fontSize: 40, color: '#263238', transform: `scale(${1 + 0.3 * Math.max(0, 1 - Math.abs(k - 1) * 8)})`}}>{Math.round(c * k)}</div>
             </div>
           );
         })}
