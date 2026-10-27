@@ -17,6 +17,10 @@ export const COR: Record<string, {body: string; shade: string}> = {
   Cinza: {body: '#7d8a99', shade: '#4b5468'},
   Coral: {body: '#ec7a7a', shade: '#c04b62'},
   Bordo: {body: '#7a2638', shade: '#4a1220'},
+  // AU5: as 3 cores novas do jogo (Banana, Caqui = Tan, Rose)
+  Banana: {body: '#f0e7a8', shade: '#d2bc89'},
+  Caqui: {body: '#928776', shade: '#51412f'},
+  Rose: {body: '#ecc0d3', shade: '#de92b3'},
 };
 
 export type AnimCrewmate = 'parado' | 'andando' | 'tarefa' | 'susto';

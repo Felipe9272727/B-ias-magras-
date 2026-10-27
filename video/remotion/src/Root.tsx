@@ -35,6 +35,7 @@ import {PreviaLobo} from './lobisomem/PreviaLobo';
 import {ShortLobo, calcShortLobo} from './lobisomem/ShortLobo';
 import {ThumbLobo} from './lobisomem/ThumbLobo';
 import {PreviaPolus, RecortePolus} from './amongus5/polus/ArtePolus';
+import {Teste5, calcTeste5} from './amongus5/Teste5';
 import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
@@ -73,6 +74,7 @@ const calculateMetadataOC = calcTimeline('timeline_oc.json');
 const calculateMetadataS60 = calcTimeline('timeline_s60.json');
 const calculateMetadataAU3 = calcTimeline('timeline_au3.json');
 const calculateMetadataPreviaAU4 = calcTimeline('timeline_previa_au4.json');
+const calculateMetadataPreviaAU5 = calcTimeline('timeline_previa_au5.json');
 const calculateMetadataAU4 = calcTimeline('timeline_au4.json');
 const calculateMetadataInt = calcTimeline('timeline_int.json');
 const calculateMetadataLobo = calcTimeline('timeline_lobo.json');
@@ -176,6 +178,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
       <Composition id="Lobisomem" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataLobo} />
       <Composition id="AmongUs4" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU4} />
+      <Composition id="PreviaAU5Narrada" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataPreviaAU5} />
       <Composition id="PreviaAU4Narrada" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataPreviaAU4} />
       <Composition id="Sessenta" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataS60} />
       <Composition id="Overcooked" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataOC} />
@@ -197,6 +200,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="PreviaPersonagens" component={PreviaPersonagens} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaHud" component={PreviaHud} width={1920} height={1080} fps={30} durationInFrames={240} />
       <Composition id="PreviaPolus" component={PreviaPolus} width={1920} height={1230} fps={30} durationInFrames={1} />
+      <Composition id="Teste5" component={Teste5} width={1920} height={1080} fps={30} durationInFrames={600} defaultProps={{p: null, skins: null, foco: 'Banana', de: 0}} calculateMetadata={calcTeste5} />
       <Composition id="RecortePolus" component={RecortePolus} width={1920} height={1080} fps={30} durationInFrames={1} defaultProps={{cx: 60, cy: 45, zoom: 0.75}} />
       <Composition id="ThumbLobo" component={ThumbLobo} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ShortLobo" component={ShortLobo} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{blocos: null}} calculateMetadata={calcShortLobo} />
