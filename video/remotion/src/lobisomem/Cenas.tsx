@@ -5,7 +5,7 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Easing, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import type {Scene, Timeline} from '../types';
-import {AvatarId, Expressao} from './Avatar';
+import {Avatar, AvatarId, Expressao} from './Avatar';
 import {IconePapel, Papel, PAPEIS} from './Papeis';
 import {AZUL, Barra, Chat, EstadoQuadro, Faixa, FONTE, Fundo, Grade, Jogador, MARCA, Msg, posQuadro, Quadro, ROSA, TAM} from './Tela';
 
@@ -182,6 +182,7 @@ const LOBNoite: React.FC<{P: Partida; noite: number; modo: 'lobos' | 'cela' | 'a
     ...(modo === 'acoes' ? acoes.map((a, i) => ({tipo: 'sistema', texto: a.texto, cor: PAPEIS[a.quem].cor, at: atAc[i]} as Msg)) : []),
   ];
   const foco = useFocoFala(P, chat);
+  const closeLobo = modo === 'lobos' ? chat.find((c) => c.pensa && LOBO(jid(P, c.cor).papel)) : undefined;
   return (
     <AbsoluteFill>
       <Fundo noite />
@@ -203,7 +204,71 @@ const LOBNoite: React.FC<{P: Partida; noite: number; modo: 'lobos' | 'cela' | 'a
       </AbsoluteFill>
       <FalaGrande P={P} chat={chat} noite anonimo={modo === 'cela' && car ? car.id : undefined} />
       {acaoAtual ? <Faixa key={acaoAtual.texto} texto={acaoAtual.texto} at={acaoAtual.at} cor={PAPEIS[acaoAtual.quem].cor} /> : null}
+      {closeLobo && f >= closeLobo.at - 6 && f <= closeLobo.ate + 10 ? <CloseLobo P={P} c={closeLobo} variante={(P.partida + noite) % 3} /> : null}
+      {closeLobo ? <Sequence from={Math.max(0, closeLobo.at - 4)} durationInFrames={40}><Audio src={staticFile('sfx/bass-pulse.mp3')} volume={0.35} /></Sequence> : null}
       <Chat msgs={msgs} titulo={modo === 'lobos' ? 'Chat dos lobos' : modo === 'cela' ? 'Cela da prisão' : 'Ações da noite'} tema={modo === 'lobos' ? 'lobos' : modo === 'cela' ? 'cela' : 'noite'} />
+    </AbsoluteFill>
+  );
+};
+
+
+// close-up do lobo pensando: a câmera mergulha no rosto, as orelhas de lobo sobem, os olhos acendem em vermelho e o
+// pensamento secreto (do log) aparece escrito embaixo. Entra antes de cada ação dos lobos.
+const CloseLobo: React.FC<{P: Partida; c: Item; variante: number}> = ({P, c, variante}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const j = jid(P, c.cor);
+  const t = f - c.at;
+  const entra = spring({frame: t + 6, fps, config: {damping: 14, stiffness: 120}});
+  const sai = interpolate(f, [c.ate + 2, c.ate + 10], [1, 0], cl);
+  const zoom = 0.55 + 0.45 * entra + 0.05 * interpolate(t, [0, 120], [0, 1], cl);
+  const orelha = interpolate(t, [4, 16], [70, 0], {...cl, easing: Easing.out(Easing.back(2))});
+  const brilho = 0.6 + 0.4 * Math.abs(Math.sin(f / 5));
+  const treme = t < 10 ? Math.sin(f * 2.7) * (10 - t) : 0;
+  const n = Math.ceil(c.texto.length * interpolate(f, [c.at, Math.max(c.at + 1, c.ate - 6)], [0.05, 1], cl));
+  const garra = interpolate(t, [-4, 6], [0, 1], cl);
+  return (
+    <AbsoluteFill style={{opacity: Math.min(1, (t + 6) / 6) * sai, zIndex: 40}}>
+      <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 38%, #5a0a14, #12030a 70%)'}} />
+      {Array.from({length: 6}).map((_, i) => <div key={i} style={{position: 'absolute', left: ((i * 410 + f * (1 + i * 0.3)) % 2400) - 300, top: 620 + (i % 3) * 120, width: 700, height: 160, borderRadius: 99, background: 'rgba(255,80,80,0.06)', filter: 'blur(20px)'}} />)}
+      {variante === 2 ? (
+        <>
+          <div style={{position: 'absolute', left: 960 - 300, top: 420 - interpolate(t, [0, 24], [0, 300], {...cl, easing: Easing.out(Easing.cubic)}), width: 600, height: 600, borderRadius: 999, background: '#fff3c4', boxShadow: '0 0 140px 40px rgba(255,243,196,0.35)'}} />
+          <svg width={1920} height={1080} style={{position: 'absolute'}}>
+            {[0, 1, 2].map((i) => { const k = ((t + i * 12) % 36) / 36; return <circle key={i} cx={960} cy={330} r={200 + k * 600} fill="none" stroke="#ff8a80" strokeWidth={10 * (1 - k)} opacity={1 - k} /> })}
+          </svg>
+        </>
+      ) : null}
+      <div style={{position: 'absolute', left: 960 - 380 + treme, top: 20, width: 760, height: 760, transform: `scale(${zoom})`, transformOrigin: '50% 45%', filter: variante === 1 ? `brightness(${interpolate(t, [0, 26], [0.08, 1], cl)})` : undefined}}>
+        <svg width={760} height={760} viewBox="0 0 200 200">
+          <g transform={`translate(0 ${orelha})`}>
+            <path d="M38 70 L52 6 L86 52Z" fill="#4e4a5c" /><path d="M48 58 L54 22 L74 50Z" fill="#c48b9f" />
+            <path d="M162 70 L148 6 L114 52Z" fill="#4e4a5c" /><path d="M152 58 L146 22 L126 50Z" fill="#c48b9f" />
+          </g>
+          <Avatar id={j.id} expressao="bravo" t={f} />
+          <g opacity={brilho}>
+            <circle cx={80} cy={98} r={13} fill="#ff1744" opacity={0.35} /><circle cx={120} cy={98} r={13} fill="#ff1744" opacity={0.35} />
+            <circle cx={80} cy={99} r={5} fill="#ff5252" /><circle cx={120} cy={99} r={5} fill="#ff5252" />
+          </g>
+          <path d="M90 131 L94 142 L98 131Z M102 131 L106 142 L110 131Z" fill="#fff" stroke="#c62828" strokeWidth={0.8} />
+        </svg>
+      </div>
+      {variante === 1 && t < 26 ? (
+        <svg width={1920} height={1080} style={{position: 'absolute'}}>
+          {[[960 - 380 + 760 * 0.4, 20 + 760 * 0.49], [960 - 380 + 760 * 0.6, 20 + 760 * 0.49]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r={22} fill="#ff1744" opacity={interpolate(t, [0, 6, 26], [0, 1, 0], cl)} style={{filter: 'blur(4px)'}} />)}
+        </svg>
+      ) : null}
+      <svg width={1920} height={1080} style={{position: 'absolute', opacity: variante === 0 ? 1 - garra : 0}}>
+        {[0, 1, 2].map((i) => <path key={i} d={`M${640 + i * 200} 60 L${560 + i * 200} 760`} stroke="#ff1744" strokeWidth={26} strokeLinecap="round" strokeDasharray="800" strokeDashoffset={800 * (1 - Math.min(1, garra * 2))} />)}
+      </svg>
+      <div style={{position: 'absolute', left: 160, right: 160, top: 770, transform: `translateY(${(1 - entra) * 80}px)`}}>
+        <div style={{background: 'rgba(20,4,8,0.88)', border: '6px solid #e53935', borderRadius: 28, padding: '18px 34px', boxShadow: '0 0 40px rgba(229,57,53,0.45)', fontFamily: FONTE}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 14, fontWeight: 900, fontSize: 26, letterSpacing: 2, color: '#ff8a80'}}>
+            <IconePapel papel={j.papel} tamanho={46} />PENSAMENTO SECRETO · {j.nome.toUpperCase()} ({MARCA[j.modelo]?.nome}) · {PAPEIS[j.papel].nome.toUpperCase()}
+          </div>
+          <div style={{fontWeight: 800, fontSize: c.texto.length > 140 ? 36 : 42, lineHeight: 1.2, color: '#fff', fontStyle: 'italic', marginTop: 6}}>{c.texto.slice(0, n)}</div>
+        </div>
+      </div>
     </AbsoluteFill>
   );
 };

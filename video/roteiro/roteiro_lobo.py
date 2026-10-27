@@ -108,7 +108,7 @@ def partida1(k):
         fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
         CH(f'{c}02', c, noite(p, 1, 'lobos'), [
             ('N', 'E os lobos acordam.'),
-            LC(p, 1, 0), LC(p, 1, 1),
+            LP(p, 1, 0, 0, 1), LC(p, 1, 0), LC(p, 1, 1),
             ('N', 'Coitado do Bardo. Ele nem falou nada ainda. O jogo nem começou. [[m:sad-pablo:right:2]]'),
         ]),
         N(f'{c}03', c, noite(p, 1, 'acoes'),
@@ -200,8 +200,8 @@ def partida2(k):
           f'Partida {k}. E agora eles lembram da anterior. [[s:riser:0.4]] A Costureira é Lobisomem de novo. O Bardo é o Lobo Vidente. O Pescador é o Vidente, o Ferreiro é o Médico, e o Moleiro... é o Carcereiro de novo. A Padeira é a Pistoleira, o Lenhador é Aldeão. E a Boticária é o Bobo. De novo. [[m:hide-the-pain-harold:right:2]]'),
         fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
         CH(f'{c}02', c, noite(p, 1, 'lobos'), [
-            LC(p, 1, 0),
             LP(p, 1, 0, 0, 1),
+            LC(p, 1, 0),
             ('N', 'Isso não foi nessa partida. Foi na outra. É vingança. [[m:sus-doakes:right:2]]'),
             LC(p, 1, 2),
         ]),
@@ -241,9 +241,9 @@ def partida3(k):
           f'Partida {k}. A Padeira é a Carcereira. O Ferreiro é o Lobo Vidente, e o Pescador, o Lobisomem. A Costureira é a Vidente, o Bardo é o Médico, o Lenhador é o Pistoleiro, o Moleiro é Aldeão... e a Boticária? [[s:drumroll:0.4]] Bobo. Pela terceira vez seguida. [[m:visible-confusion:right:2]]'),
         fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
         CH(f'{c}02', c, noite(p, 1, 'lobos'), [
+            LP(p, 1, 1, 0, 1),
             LC(p, 1, 0, 0, 2),
             LC(p, 1, 1, 0, 2),
-            LP(p, 1, 1, 0, 1),
             ('N', 'Eles aprenderam: não mata o Bobo. [[m:big-brain-patrick:right:2]]'),
         ]),
         N(f'{c}03', c, noite(p, 1, 'acoes'),
@@ -309,6 +309,7 @@ def partida3(k):
         N(f'{c}20', c, comp('LOBNoite', partida=p, noite=4, modo='cela', chat=[]),
           'Sobraram três: a Carcereira, o Bobo... e o lobo. A Padeira prende a Boticária.'),
         CH(f'{c}21', c, noite(p, 4, 'lobos'), [
+            LP(p, 4, 0, 1, 2),
             LC(p, 4, 0),
             ('N', 'Atacou a Boticária. Que tá presa. Ninguém morre. [[m:spongebob-waiting:right:2]]'),
         ]),
@@ -353,10 +354,10 @@ def partida4(k):
           f'Partida {k}, a última. A Padeira é o Bobo. E a Boticária, depois de três partidas de Bobo... é a Lobisomem. [[m:shocked-patrick:right:2]] O Lenhador é o Lobo Vidente. O Bardo é o Vidente, o Pescador é o Médico, a Costureira é a Pistoleira, o Ferreiro é Aldeão, e o Moleiro... Carcereiro. Pela terceira vez.'),
         fase(f'{c}01', c, 'noite', 1, 'A vila dorme. [[s:whoosh:0.4]]'),
         CH(f'{c}02', c, noite(p, 1, 'lobos'), [
-            LC(p, 1, 0, 0, 2),
             LP(p, 1, 0, 0, 1),
+            LC(p, 1, 0, 0, 2),
+            LP(p, 1, 1, 0, 2),
             LC(p, 1, 1, 0, 2),
-            LP(p, 1, 1, 1, 2),
             ('N', 'A Costureira... digo, a Boticária. Ele ainda acha que tá na partida um. [[m:visible-confusion:right:2]]'),
         ]),
         N(f'{c}03', c, noite(p, 1, 'acoes'),
@@ -395,8 +396,8 @@ def partida4(k):
           'O Lenhador foi linchado. E era o Lobo Vidente! [[s:boom:0.5]] Sobrou só a Boticária.'),
         CH(f'{c}13', c, noite(p, 3, 'lobos'), [
             ('N', 'Sozinha, ela pensa. E pensa. E escolhe...'),
-            LC(p, 3, 1, 2),
             LP(p, 3, 1, 2),
+            LC(p, 3, 1, 2),
             ('N', 'A Padeira é o Bobo. O parceiro avisou ontem. [[m:monkey-side-eye:right:2]]'),
         ]),
         N(f'{c}14', c, comp('LOBAmanhecer', partida=p, noite=3),
