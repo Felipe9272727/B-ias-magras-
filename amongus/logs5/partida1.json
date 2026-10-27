@@ -1,0 +1,3125 @@
+{
+ "versao": 5,
+ "mapa": "Polus",
+ "seed": 162813673,
+ "partida": 1,
+ "temporada": true,
+ "cfg": {
+  "recargaMorte": 3,
+  "recargaSabotagem": 6,
+  "recargaPortas": 5,
+  "portasDuracao": 4,
+  "tarefasPorTripulante": 5,
+  "reatorPrazo": 7,
+  "o2Prazo": 7,
+  "metamorfoDuracao": 8,
+  "metamorfoRecarga": 12,
+  "ventEngenheiroRecarga": 4,
+  "vitaisRecarga": 5,
+  "rastreioDuracao": 6,
+  "rastreioRecarga": 8,
+  "rodadasDiscussao": 2,
+  "xerifeRecarga": 6,
+  "detetiveRecarga": 5,
+  "fantasmaDuracao": 6,
+  "fantasmaRecarga": 6,
+  "venenoAtraso": 3,
+  "segurancaRecarga": 4,
+  "fotosInfluencer": 2,
+  "reunioesEmergencia": 1,
+  "semPoderAviso": 6,
+  "VISAO": 640,
+  "VISAO_ESCURO": 150,
+  "fantasmaTarefaCada": 1,
+  "canibalMeta": 3,
+  "glutaoRecarga": 8,
+  "bombaAtraso": 3,
+  "bombaRaio": 150,
+  "apostas": 2,
+  "coletes": 2,
+  "coleteDuracao": 3,
+  "peritoRecarga": 4,
+  "pegadasTiques": 4,
+  "mecanicoRecarga": 4,
+  "gasolinaRecarga": 3,
+  "anjoRecarga": 6,
+  "recadosFantasma": 2,
+  "possessoes": 0,
+  "possuidorMortes": 1,
+  "sismografoPrazo": 9,
+  "viboraDerrete": 3,
+  "chatoDuracao": 7,
+  "pacienteInicial": 16,
+  "pacienteReducao": 2,
+  "pacienteMinimo": 3,
+  "camufladorDuracao": 8,
+  "camufladorRecarga": 12,
+  "doutorRevives": 1,
+  "nImpostores": 4,
+  "nNeutros": 3,
+  "tarefasReais": true,
+  "tarefasLongas": 2,
+  "tarefasCurtas": 4,
+  "avisoPalhaco": true
+ },
+ "salas": {
+  "Dropship": {
+   "x": 40,
+   "y": 19,
+   "nome": "Nave de Pouso"
+  },
+  "Eletrica": {
+   "x": 21,
+   "y": 43,
+   "nome": "Elétrica"
+  },
+  "Seguranca": {
+   "x": 8,
+   "y": 46,
+   "nome": "Segurança"
+  },
+  "O2": {
+   "x": 6,
+   "y": 68,
+   "nome": "O2"
+  },
+  "Caldeira": {
+   "x": 6,
+   "y": 91,
+   "nome": "Sala da Caldeira"
+  },
+  "Comunicacoes": {
+   "x": 28,
+   "y": 67,
+   "nome": "Comunicações"
+  },
+  "Armas": {
+   "x": 29,
+   "y": 88,
+   "nome": "Armas"
+  },
+  "Deposito": {
+   "x": 48,
+   "y": 46,
+   "nome": "Depósito"
+  },
+  "Escritorio": {
+   "x": 53,
+   "y": 66,
+   "nome": "Escritório"
+  },
+  "Admin": {
+   "x": 54,
+   "y": 88,
+   "nome": "Admin"
+  },
+  "Descontaminacao": {
+   "x": 64,
+   "y": 32,
+   "nome": "Descontaminação"
+  },
+  "Laboratorio": {
+   "x": 84,
+   "y": 33,
+   "nome": "Laboratório"
+  },
+  "DescontaminacaoInf": {
+   "x": 95,
+   "y": 48,
+   "nome": "Descontaminação 2"
+  },
+  "Especime": {
+   "x": 87,
+   "y": 79,
+   "nome": "Sala de Espécimes"
+  }
+ },
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "papel": "Cientista",
+   "time": "tripulante",
+   "modelo": "MiniMax M3.1 Flash",
+   "provider": "or:minimax/minimax-m3.1-flash",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Caldeira",
+     "nome": "Trocar o galão de água",
+     "etapas": [
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Reiniciar o Wi-Fi",
+     "etapas": [
+      "Comunicacoes",
+      "Comunicacoes"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Desbloquear o manifesto",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Escritorio",
+     "nome": "Organizar os registros",
+     "etapas": [
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Iniciar o reator",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Azul",
+   "papel": "Juiz",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "casal": "Amarelo",
+   "tarefas": [
+    {
+     "sala": "Caldeira",
+     "nome": "Trocar o galão de água",
+     "etapas": [
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Caldeira",
+     "nome": "Abrir os canais de água",
+     "etapas": [
+      "Caldeira",
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Consertar a broca",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "O2",
+     "nome": "Encher os cilindros",
+     "etapas": [
+      "O2"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Verde",
+   "papel": "Prefeito",
+   "time": "tripulante",
+   "modelo": "GLM 5.3 Flash",
+   "provider": "or:z-ai/glm-5.3-flash",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Reiniciar o Wi-Fi",
+     "etapas": [
+      "Comunicacoes",
+      "Comunicacoes"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Registrar a temperatura",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Alinhar o telescópio",
+     "etapas": [
+      "Laboratorio"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Rosa",
+   "papel": "Paciente",
+   "time": "neutro",
+   "modelo": "GLM 5.3 Flash",
+   "provider": "or:z-ai/glm-5.3-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Laranja",
+   "papel": "Barulhento",
+   "time": "tripulante",
+   "modelo": "Qwen 3.8 27B",
+   "provider": "or:qwen/qwen3.8-27b",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Baixar e enviar dados",
+     "etapas": [
+      "Eletrica",
+      "Admin"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Alinhar o telescópio",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor",
+     "etapas": [
+      "Eletrica"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Dropship",
+     "nome": "Inserir as chaves",
+     "etapas": [
+      "Dropship"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Amarelo",
+   "papel": "Possuidor",
+   "time": "impostor",
+   "modelo": "GPT-6.1 Terra",
+   "provider": "or:openai/gpt-6.1-terra",
+   "casal": "Azul",
+   "tarefas": []
+  },
+  {
+   "cor": "Preto",
+   "papel": "Perito",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Comunicacoes",
+     "nome": "Reiniciar o Wi-Fi",
+     "etapas": [
+      "Comunicacoes",
+      "Comunicacoes"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Consertar a fiação",
+     "etapas": [
+      "Eletrica",
+      "Deposito",
+      "Admin"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Registrar a temperatura",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Desbloquear o manifesto",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Branco",
+   "papel": "Localizador",
+   "time": "tripulante",
+   "modelo": "GPT-6.1 Terra",
+   "provider": "or:openai/gpt-6.1-terra",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Caldeira",
+     "nome": "Trocar o galão de água",
+     "etapas": [
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Alinhar o telescópio",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor",
+     "etapas": [
+      "Eletrica"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    },
+    {
+     "sala": "Escritorio",
+     "nome": "Organizar os registros",
+     "etapas": [
+      "Escritorio"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Roxo",
+   "papel": "Influencer",
+   "time": "tripulante",
+   "modelo": "Qwen 3.8 27B",
+   "provider": "or:qwen/qwen3.8-27b",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Laboratorio",
+     "nome": "Inspecionar amostra",
+     "etapas": [
+      "Laboratorio",
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "O2"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Iniciar o reator",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "O2",
+     "nome": "Encher os cilindros",
+     "etapas": [
+      "O2"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor",
+     "etapas": [
+      "Eletrica"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Marrom",
+   "papel": "Chato",
+   "time": "impostor",
+   "modelo": "DeepSeek Flash",
+   "provider": "or:deepseek/deepseek-v4.1-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Ciano",
+   "papel": "Armadilheiro",
+   "time": "tripulante",
+   "modelo": "Claude Haiku",
+   "provider": "haiku",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Comunicacoes",
+     "nome": "Reiniciar o Wi-Fi",
+     "etapas": [
+      "Comunicacoes",
+      "Comunicacoes"
+     ]
+    },
+    {
+     "sala": "Caldeira",
+     "nome": "Abrir os canais de água",
+     "etapas": [
+      "Caldeira",
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Desbloquear o manifesto",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Registrar a temperatura",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Consertar a broca",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Dropship",
+     "nome": "Inserir as chaves",
+     "etapas": [
+      "Dropship"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Lima",
+   "papel": "Envenenador",
+   "time": "impostor",
+   "modelo": "GLM 5.3 Flash",
+   "provider": "or:z-ai/glm-5.3-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Cinza",
+   "papel": "Metamorfo",
+   "time": "impostor",
+   "modelo": "MiniMax M3.1 Flash",
+   "provider": "or:minimax/minimax-m3.1-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Coral",
+   "papel": "Medico",
+   "time": "tripulante",
+   "modelo": "GPT-6.1 Terra",
+   "provider": "or:openai/gpt-6.1-terra",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Baixar e enviar dados",
+     "etapas": [
+      "Comunicacoes",
+      "Admin"
+     ]
+    },
+    {
+     "sala": "Armas",
+     "nome": "Destruir asteroides",
+     "etapas": [
+      "Armas"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Alinhar o telescópio",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Desbloquear o manifesto",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Dropship",
+     "nome": "Inserir as chaves",
+     "etapas": [
+      "Dropship"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Bordo",
+   "papel": "Palhaco",
+   "time": "neutro",
+   "modelo": "DeepSeek Flash",
+   "provider": "or:deepseek/deepseek-v4.1-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Banana",
+   "papel": "Camuflador",
+   "time": "neutro",
+   "modelo": "MiMo V2.6 Flash",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "casal": null,
+   "tarefas": []
+  },
+  {
+   "cor": "Caqui",
+   "papel": "Mecanico",
+   "time": "tripulante",
+   "modelo": "MiMo V2.6 Flash",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Caldeira",
+     "nome": "Abrir os canais de água",
+     "etapas": [
+      "Caldeira",
+      "Caldeira",
+      "Escritorio"
+     ]
+    },
+    {
+     "sala": "Comunicacoes",
+     "nome": "Reiniciar o Wi-Fi",
+     "etapas": [
+      "Comunicacoes",
+      "Comunicacoes"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Iniciar o reator",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Admin",
+     "nome": "Passar o cartão",
+     "etapas": [
+      "Admin"
+     ]
+    },
+    {
+     "sala": "Dropship",
+     "nome": "Inserir as chaves",
+     "etapas": [
+      "Dropship"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    }
+   ]
+  },
+  {
+   "cor": "Rose",
+   "papel": "Doutor",
+   "time": "tripulante",
+   "modelo": "MiMo V2.6 Flash",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "casal": null,
+   "tarefas": [
+    {
+     "sala": "Eletrica",
+     "nome": "Desviar energia",
+     "etapas": [
+      "Eletrica",
+      "O2"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Inspecionar amostra",
+     "etapas": [
+      "Laboratorio",
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Especime",
+     "nome": "Iniciar o reator",
+     "etapas": [
+      "Especime"
+     ]
+    },
+    {
+     "sala": "Laboratorio",
+     "nome": "Escanear o corpo",
+     "etapas": [
+      "Laboratorio"
+     ]
+    },
+    {
+     "sala": "Admin",
+     "nome": "Passar o cartão",
+     "etapas": [
+      "Admin"
+     ]
+    },
+    {
+     "sala": "Eletrica",
+     "nome": "Calibrar o distribuidor",
+     "etapas": [
+      "Eletrica"
+     ]
+    }
+   ]
+  }
+ ],
+ "tiques": [
+  {
+   "tique": 0,
+   "decisoes": [],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2578,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2749,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2921,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3092,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Paciente",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3264,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3436,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Possuidor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3607,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Perito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3779,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3950,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2578,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Chato",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2749,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Armadilheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2921,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3092,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Cinza",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Coral",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3264,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Medico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3436,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Banana",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3607,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Banana",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Camuflador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Caqui",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3779,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Caqui",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Mecanico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rose",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3950,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rose",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Doutor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 0,
+    "totalTarefas": 92
+   }
+  },
+  {
+   "tique": 1,
+   "decisoes": [
+    {
+     "cor": "Vermelho",
+     "acao": "ver sinais vitais",
+     "pensamento": "Vou checar os sinais vitais agora para detectar alguma morte escondida no começo da partida.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 2578,
+      "y": 2606
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Ainda não vi corpo nem nada suspeito, então vou adiantar a tarefa do Wi-Fi em Comunicações.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Bordo",
+     "acao": "ficar parado observando",
+     "pensamento": "Vou ficar de olho em quem sai e entra, pra montar um álibi esquisito depois.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3436,
+      "y": 2673
+     }
+    },
+    {
+     "cor": "Caqui",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Tô no Escritório com muita gente, vou começar pelas tarefas mais próximas em Comunicações.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Admin",
+     "pensamento": "Vou me afastar da multidão e proteger meu par.",
+     "de": "Escritorio",
+     "chat": "Sou casal com Azul; evitem matar ou acusar Azul.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 3144
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Escritório lotado, sem chance de agir agora; vou fingir tarefa e criar álibi.",
+     "de": "Escritorio",
+     "chat": "calma no inicio, vamo criar alibis primeiro",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Cinza",
+     "acao": "ir para Admin",
+     "pensamento": "Vou mudar de posição e buscar um canto isolado para usar o metamorfo sem testemunhas.",
+     "de": "Escritorio",
+     "chat": "Preciso de ajuda para dispersar o pessoal e criar uma oportunidade sem testemunhas.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 3144
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Especime",
+     "pensamento": "Muita gente aqui no escritório, mas tá cedo pra postar foto. Vou começar a fazer tarefas indo pra Sala de Espécimes.",
+     "de": "Escritorio",
+     "para": "Especime",
+     "ponto": {
+      "x": 4968,
+      "y": 2952
+     }
+    },
+    {
+     "cor": "Banana",
+     "acao": "ir para Deposito",
+     "pensamento": "Muita gente aqui, preciso ir pra uma sala mais vazia pra me preparar pra matar camuflado depois",
+     "de": "Escritorio",
+     "para": "Deposito",
+     "ponto": {
+      "x": 3000,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Caldeira",
+     "pensamento": "Vou direto para a Caldeira começar as tarefas de água, que são as primeiras da minha lista.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "fazer tarefa: Organizar os registros",
+     "pensamento": "Vou aproveitar que já estou no Escritório para fazer minha tarefa.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "ir para Admin",
+     "pensamento": "Cheio de testemunhas aqui, melhor sair e guardar meu poder para quando identificar alguém útil.",
+     "de": "Escritorio",
+     "chat": "Escritorio lotado, ninguem morre aqui. Vou pro Admin. Cuidado com Vermelho e Ciano.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 3144
+     }
+    },
+    {
+     "cor": "Rose",
+     "acao": "ir para Admin",
+     "pensamento": "Vou começar pelo cartão no Admin, que fica logo aqui do lado.",
+     "de": "Escritorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 3144
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Eletrica",
+     "pensamento": "Começo pelas tarefas visuais e do Laboratório, mas primeiro vou para Elétrica fazer a etapa 1 de Desviar energia.",
+     "de": "Escritorio",
+     "para": "Dropship",
+     "ponto": {
+      "x": 2520,
+      "y": 1272
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Vou começar pela tarefa do Wi-Fi em Comunicações, que é uma sala vizinha.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Início de jogo, melhor ficar na multidão fingindo tarefa e observar sem chamar atenção.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Eletrica",
+     "pensamento": "Muita gente no Escritório, vou sair pra Elétrica que tenho 4 tarefas lá.",
+     "de": "Escritorio",
+     "para": "Dropship",
+     "ponto": {
+      "x": 2520,
+      "y": 1272
+     }
+    },
+    {
+     "cor": "Coral",
+     "acao": "proteger Azul",
+     "pensamento": "Vou proteger alguém antes de seguir para minhas tarefas.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3264,
+      "y": 2673
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2578,
+       "y": 2606
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Dropship",
+      "ponto": {
+       "x": 2520,
+       "y": 1272
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Paciente",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Dropship",
+      "ponto": {
+       "x": 2520,
+       "y": 1272
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 3144
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Possuidor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Perito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Especime",
+      "ponto": {
+       "x": 4968,
+       "y": 2952
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 3144
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Chato",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Armadilheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 3144
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Cinza",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Coral",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3264,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Medico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3436,
+       "y": 2673
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Banana",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 3000,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Banana",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Camuflador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Caqui",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Caqui",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Mecanico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rose",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 3144
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rose",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Doutor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 0,
+    "totalTarefas": 92
+   }
+  },
+  {
+   "tique": 2,
+   "decisoes": [
+    {
+     "cor": "Banana",
+     "acao": "camuflar como Vermelho",
+     "pensamento": "Vou me camuflar agora enquanto ninguém vê, depois me mato alguém e as testemunhas acusam a cor errada.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 3000,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Tô aqui na Sala de Espécimes com uma tarefa disponível, vou fazer o reator pra começar a contribuir.",
+     "de": "Especime",
+     "para": "Especime",
+     "ponto": {
+      "x": 5482,
+      "y": 2814
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Escritório lotado com testemunhas; vou fingir tarefa e esperar um alvo isolado mais tarde.",
+     "de": "Escritorio",
+     "chat": "Escritorio cheio, vou fingir tarefa e procurar alvo isolado depois. Cuidado com Azul, casal do Amarelo.",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Rose",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Vou passar o cartão no Admin enquanto estou aqui, antes de ir pra outra sala.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3466,
+      "y": 3150
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Estou em Comunicações com Azul, Preto e Caqui por perto; vou continuar o Wi-Fi, que é a etapa que tenho aqui.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "Dropship",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1608,
+      "y": 1608
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Rose está me vendo, então preciso de álibi e não posso fazer nada suspeito agora.",
+     "de": "Admin",
+     "chat": "Rose me vendo no Admin. Sem kill aqui. Cinza, cria bagunça longe pra abrir oportunidade.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3466,
+      "y": 3150
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Estou em Comunicações com outros jogadores por perto, então vou adiantar a tarefa do Wi-Fi aqui mesmo.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "fazer tarefa: Organizar os registros",
+     "pensamento": "Vou aproveitar que estou no Escritório para fazer minha tarefa.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "Dropship",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1608,
+      "y": 1608
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Organizar os registros",
+     "pensamento": "Vou fazer minha tarefa de organizar os registros aqui no Escritório enquanto estou presente.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Caqui",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Tenho tarefa do Wi-Fi aqui mesmo, vou fazer antes de sair.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Bordo",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Vou fingir uma tarefa no Escritório mesmo sem ter tarefa aqui, pra parecer estranho e chamar atenção.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 2899,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Muita gente junto aqui, melhor fingir tarefa e ficar de olho sem chamar atenção.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Cinza",
+     "acao": "entrar no duto e sair em Laboratorio",
+     "pensamento": "Rose me viu, então vou entrar no duto e buscar uma opportunities para usar minha transformação sem testemunha.",
+     "de": "Admin",
+     "chat": "Vou para o Laboratório pelo duto; fiquem longe por alguns tiques.",
+     "para": "Laboratorio",
+     "ponto": {
+      "x": 5741,
+      "y": 1526
+     }
+    },
+    {
+     "cor": "Coral",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Vou começar minha tarefa em Comunicações.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "continuar até Caldeira",
+     "pensamento": "",
+     "de": "Comunicacoes",
+     "para": "O2",
+     "ponto": {
+      "x": 600,
+      "y": 2664
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Armas",
+     "pensamento": "Vou criar um álibi e deixar Rose menos cercada.",
+     "de": "Admin",
+     "chat": "Vou para Armas criar álibi. Azul é meu par, evitem matá-lo.",
+     "para": "Armas",
+     "ponto": {
+      "x": 2088,
+      "y": 3480
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "O2",
+      "ponto": {
+       "x": 600,
+       "y": 2664
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1608,
+       "y": 1608
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Paciente",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1608,
+       "y": 1608
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Armas",
+      "ponto": {
+       "x": 2088,
+       "y": 3480
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Possuidor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Perito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Especime",
+      "ponto": {
+       "x": 5482,
+       "y": 2814
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3466,
+       "y": 3150
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Chato",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Armadilheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Laboratorio",
+      "ponto": {
+       "x": 5741,
+       "y": 1526
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Cinza",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Coral",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Medico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 2899,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Banana",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 3000,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Camuflador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Caqui",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Caqui",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Mecanico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rose",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3466,
+       "y": 3150
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rose",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Doutor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 1,
+    "totalTarefas": 92
+   }
+  },
+  {
+   "tique": 3,
+   "decisoes": [
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Comunicacoes",
+     "pensamento": "Vou para Comunicações normalmente para criar um álibi sem expor o duto.",
+     "de": "Armas",
+     "chat": "Estou indo a Comunicações criar álibi; protejam o Azul.",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1800,
+      "y": 2904
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Estou na Sala de Espécimes e tenho a tarefa de iniciar o reator aqui mesmo, vou fazer agora.",
+     "de": "Especime",
+     "para": "Especime",
+     "ponto": {
+      "x": 5482,
+      "y": 2814
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Armas",
+     "pensamento": "Vou fazer minha tarefa visual em Armas, onde alguém pode me confirmar.",
+     "de": "Escritorio",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1896,
+      "y": 2616
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "fazer tarefa: Desviar energia",
+     "pensamento": "Estou na Elétrica, vou fazer a tarefa de energia aqui mesmo antes de me mover.",
+     "de": "Eletrica",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1445,
+      "y": 1374
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Escritório cheio de testemunhas, vou fingir tarefa e esperar recarga para caçar alguém sozinho depois.",
+     "de": "Escritorio",
+     "chat": "Escritório monitorado, mantenho álibi aqui. Ninguém mata perto de mim ainda.",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Não há corpo por perto, então vou adiantar a tarefa do Wi-Fi aqui em Comunicações e guardar o poder de pegadas para quando houver corpo ou duto.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Caqui",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Já estou na Comunicações e tem tarefa aqui, vou fazer logo antes de sair.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Banana",
+     "acao": "ir para Escritorio",
+     "pensamento": "Vou até o Escritório para monitorar quem passa e achar uma vítima isolada enquanto ainda estou de Vermelho.",
+     "de": "Deposito",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3192,
+      "y": 2472
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Organizar os registros",
+     "pensamento": "Ninguém morreu ainda, então vou adiantar minha tarefa no Escritório enquanto fico de olho em quem se aproxima.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Bordo",
+     "acao": "ir para o outro lado da sala",
+     "pensamento": "Vou pro outro lado da sala pra ver quem tá por aqui e já ir plantando um álibi esquisito.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3483,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Rose",
+     "acao": "fazer tarefa: Passar o cartão",
+     "pensamento": "Vi Cinza entrar no duto, isso é suspeito, mas vou fazer minha tarefa de cartão aqui primeiro antes de ir denunciar na reunião.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3466,
+      "y": 3150
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Rose está me vendo; melhor fingir tarefa no Admin pra ter álibi com testemunha.",
+     "de": "Admin",
+     "chat": "To no Admin fingindo tarefa com a Rose olhando, alibi ok. Cinza, sai do Lab sem testemunha.",
+     "para": "Admin",
+     "ponto": {
+      "x": 3466,
+      "y": 3150
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Reiniciar o Wi-Fi",
+     "pensamento": "Estou em Comunicações com Preto, Coral e Caqui por perto, então vou aproveitar para fazer o Wi-Fi aqui mesmo.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1805,
+      "y": 2382
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Recarga ainda alta, vou ficar por aqui fingindo tarefa e observando quem circula no Escritório.",
+     "de": "Escritorio",
+     "para": "Escritorio",
+     "ponto": {
+      "x": 3629,
+      "y": 2478
+     }
+    },
+    {
+     "cor": "Cinza",
+     "acao": "transformar em Vermelho",
+     "pensamento": "Vou me disfarçar de Vermelho agora (ninguém vê) e ir atrás da Rose no Admin pra matar disfarçado, criando álibi contra ela.",
+     "de": "Laboratorio",
+     "chat": "Vou disfarçar de Vermelho e caçar a Rose no Admin. Fiquem de olho em onde estou.",
+     "para": "Laboratorio",
+     "ponto": {
+      "x": 5741,
+      "y": 1526
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "continuar até Caldeira",
+     "pensamento": "",
+     "de": "O2",
+     "para": "Caldeira",
+     "ponto": {
+      "x": 648,
+      "y": 3528
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Desviar energia",
+     "pensamento": "Estou na Elétrica com o Verde por perto, vou adiantar a tarefa de desviar energia.",
+     "de": "Eletrica",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1445,
+      "y": 1374
+     }
+    },
+    {
+     "cor": "Coral",
+     "acao": "fazer tarefa: Baixar e enviar dados",
+     "pensamento": "Vou baixar os dados enquanto estou em Comunicações.",
+     "de": "Comunicacoes",
+     "para": "Comunicacoes",
+     "ponto": {
+      "x": 1651,
+      "y": 2382
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Caldeira",
+      "ponto": {
+       "x": 648,
+       "y": 3528
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Juiz",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1445,
+       "y": 1374
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Prefeito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Paciente",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1445,
+       "y": 1374
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1800,
+       "y": 2904
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Possuidor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Perito",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1896,
+       "y": 2616
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Especime",
+      "ponto": {
+       "x": 5482,
+       "y": 2814
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Influencer",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3466,
+       "y": 3150
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Chato",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Armadilheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3629,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Envenenador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Cinza",
+      "sala": "Laboratorio",
+      "ponto": {
+       "x": 5741,
+       "y": 1526
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Coral",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1651,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Coral",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Medico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Bordo",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3483,
+       "y": 2478
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Bordo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Banana",
+      "sala": "Escritorio",
+      "ponto": {
+       "x": 3192,
+       "y": 2472
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Camuflador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Caqui",
+      "sala": "Comunicacoes",
+      "ponto": {
+       "x": 1805,
+       "y": 2382
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Caqui",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Mecanico",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rose",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3466,
+       "y": 3150
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rose",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Doutor",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 5,
+    "totalTarefas": 92
+   }
+  }
+ ],
+ "reunioes": [],
+ "eventos": [
+  {
+   "tique": 1,
+   "tipo": "poder",
+   "cor": "Vermelho",
+   "poder": "vitais",
+   "mortos": []
+  },
+  {
+   "tique": 1,
+   "tipo": "poder",
+   "cor": "Coral",
+   "poder": "escudo",
+   "alvo": "Azul"
+  },
+  {
+   "tique": 2,
+   "tipo": "camuflagem",
+   "cor": "Banana",
+   "em": "Vermelho",
+   "sala": "Deposito",
+   "ate": 10
+  },
+  {
+   "tique": 2,
+   "tipo": "tarefa",
+   "cor": "Branco",
+   "sala": "Escritorio",
+   "nome": "Organizar os registros",
+   "visual": false
+  },
+  {
+   "tique": 2,
+   "tipo": "duto",
+   "cor": "Cinza",
+   "aparente": "Cinza",
+   "de": "Admin",
+   "para": "Laboratorio"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa_etapa",
+   "cor": "Preto",
+   "sala": "Comunicacoes",
+   "nome": "Reiniciar o Wi-Fi",
+   "etapa": 1,
+   "de": 2,
+   "proxima": "Comunicacoes"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa_etapa",
+   "cor": "Caqui",
+   "sala": "Comunicacoes",
+   "nome": "Reiniciar o Wi-Fi",
+   "etapa": 1,
+   "de": 2,
+   "proxima": "Comunicacoes"
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa",
+   "cor": "Vermelho",
+   "sala": "Escritorio",
+   "nome": "Organizar os registros",
+   "visual": false
+  },
+  {
+   "tique": 3,
+   "tipo": "tarefa_etapa",
+   "cor": "Ciano",
+   "sala": "Comunicacoes",
+   "nome": "Reiniciar o Wi-Fi",
+   "etapa": 1,
+   "de": 2,
+   "proxima": "Comunicacoes"
+  },
+  {
+   "tique": 3,
+   "tipo": "transformacao",
+   "cor": "Cinza",
+   "em": "Vermelho",
+   "sala": "Laboratorio"
+  }
+ ],
+ "fotos": [],
+ "recados": [],
+ "chatImpostores": [
+  {
+   "tique": 1,
+   "cor": "Amarelo",
+   "texto": "Sou casal com Azul; evitem matar ou acusar Azul."
+  },
+  {
+   "tique": 1,
+   "cor": "Lima",
+   "texto": "calma no inicio, vamo criar alibis primeiro"
+  },
+  {
+   "tique": 1,
+   "cor": "Cinza",
+   "texto": "Preciso de ajuda para dispersar o pessoal e criar uma oportunidade sem testemunhas."
+  },
+  {
+   "tique": 1,
+   "cor": "Marrom",
+   "texto": "Escritorio lotado, ninguem morre aqui. Vou pro Admin. Cuidado com Vermelho e Ciano."
+  },
+  {
+   "tique": 2,
+   "cor": "Lima",
+   "texto": "Escritorio cheio, vou fingir tarefa e procurar alvo isolado depois. Cuidado com Azul, casal do Amarelo."
+  },
+  {
+   "tique": 2,
+   "cor": "Marrom",
+   "texto": "Rose me vendo no Admin. Sem kill aqui. Cinza, cria bagunça longe pra abrir oportunidade."
+  },
+  {
+   "tique": 2,
+   "cor": "Cinza",
+   "texto": "Vou para o Laboratório pelo duto; fiquem longe por alguns tiques."
+  },
+  {
+   "tique": 2,
+   "cor": "Amarelo",
+   "texto": "Vou para Armas criar álibi. Azul é meu par, evitem matá-lo."
+  },
+  {
+   "tique": 3,
+   "cor": "Amarelo",
+   "texto": "Estou indo a Comunicações criar álibi; protejam o Azul."
+  },
+  {
+   "tique": 3,
+   "cor": "Lima",
+   "texto": "Escritório monitorado, mantenho álibi aqui. Ninguém mata perto de mim ainda."
+  },
+  {
+   "tique": 3,
+   "cor": "Marrom",
+   "texto": "To no Admin fingindo tarefa com a Rose olhando, alibi ok. Cinza, sai do Lab sem testemunha."
+  },
+  {
+   "tique": 3,
+   "cor": "Cinza",
+   "texto": "Vou disfarçar de Vermelho e caçar a Rose no Admin. Fiquem de olho em onde estou."
+  }
+ ],
+ "resultado": null,
+ "casal": [
+  "Amarelo",
+  "Azul"
+ ],
+ "uso": {
+  "chamadas": 50,
+  "falhas": 0,
+  "porProvider": {
+   "or:minimax/minimax-m3.1-flash": 6,
+   "haiku": 7,
+   "or:z-ai/glm-5.3-flash": 8,
+   "or:qwen/qwen3.8-27b": 5,
+   "or:openai/gpt-6.1-terra": 9,
+   "or:deepseek/deepseek-v4.1-flash": 6,
+   "or:xiaomi/mimo-v2.6-flash": 9
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:xiaomi/mimo-v2.6-flash": 0.002799527,
+   "or:z-ai/glm-5.3-flash": 0.0018208785000000001,
+   "or:openai/gpt-6.1-terra": 0.0134177,
+   "or:deepseek/deepseek-v4.1-flash": 0.00251132,
+   "or:minimax/minimax-m3.1-flash": 0.0023251500000000002,
+   "or:qwen/qwen3.8-27b": 0.004109192
+  }
+ },
+ "palhaco": null,
+ "glutao": null,
+ "canibal": null,
+ "poderes": {
+  "Vermelho": {
+   "papel": "Cientista",
+   "usos": 1,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Azul": {
+   "papel": "Juiz",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Verde": {
+   "papel": "Prefeito",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Rosa": {
+   "papel": "Paciente",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Laranja": {
+   "papel": "Barulhento",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Amarelo": {
+   "papel": "Possuidor",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Preto": {
+   "papel": "Perito",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Branco": {
+   "papel": "Localizador",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Roxo": {
+   "papel": "Influencer",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Marrom": {
+   "papel": "Chato",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Ciano": {
+   "papel": "Armadilheiro",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Lima": {
+   "papel": "Envenenador",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Cinza": {
+   "papel": "Metamorfo",
+   "usos": 1,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Coral": {
+   "papel": "Medico",
+   "usos": 1,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Bordo": {
+   "papel": "Palhaco",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Banana": {
+   "papel": "Camuflador",
+   "usos": 1,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Caqui": {
+   "papel": "Mecanico",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  },
+  "Rose": {
+   "papel": "Doutor",
+   "usos": 0,
+   "fantasma": null,
+   "comeu": 0
+  }
+ }
+}
