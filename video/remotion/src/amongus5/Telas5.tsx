@@ -306,7 +306,7 @@ const FalaGrande: React.FC<{p: Partida2; m: Msg; larg: number; x0: number}> = ({
   );
 };
 
-export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true, viva = false}) => {
+export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number}> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true, viva = false, semJuiz = false, carimboEm = 20}) => {
   const f = useCurrentFrame();
   const r = p.reunioes[idx];
   // quem está vivo na reunião: estado do tique em que ela foi chamada
@@ -402,8 +402,8 @@ export const Votacao: React.FC<PropsVot> = ({p, idx, fase, falas = 0, votos = 1,
       {viva && falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} fixo />}
       {viva && falando && falando.texto && <FalaGrande p={p} m={falando} larg={larg} x0={x0} />}
       {/* Juiz anulou: carimbo por cima do resultado */}
-      {fase === 'resultado' && juiz && (
-        <div style={{position: 'absolute', left: x0 + 100, top: 360, width: larg - 200, padding: '24px 30px', textAlign: 'center', transform: `rotate(-6deg) scale(${interpolate(f, [20, 30], [2.2, 1], cl)})`, opacity: interpolate(f, [20, 26], [0, 1], cl), border: '10px solid #b00000', borderRadius: 20, background: 'rgba(255,240,240,.94)', fontFamily: FONT.display, fontWeight: 900, color: '#b00000', zIndex: 30}}>
+      {fase === 'resultado' && juiz && !semJuiz && f >= carimboEm && (
+        <div style={{position: 'absolute', left: x0 + 100, top: 360, width: larg - 200, padding: '24px 30px', textAlign: 'center', transform: `rotate(-6deg) scale(${interpolate(f, [carimboEm, carimboEm + 10], [2.2, 1], cl)})`, opacity: interpolate(f, [carimboEm, carimboEm + 6], [0, 1], cl), border: '10px solid #b00000', borderRadius: 20, background: 'rgba(255,240,240,.94)', fontFamily: FONT.display, fontWeight: 900, color: '#b00000', zIndex: 30}}>
           <div style={{fontSize: 74, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18}}><Balanca tam={80} />VOTAÇÃO ANULADA</div>
           <div style={{fontSize: 34, color: '#300'}}>o Juiz ({juiz.cor}) usou o martelo{juiz.teriaSido ? ` · ${juiz.teriaSido} ia ser expulso` : ''}</div>
         </div>

@@ -56,7 +56,7 @@ for (const s of Object.keys(POLUS.salas) as SalaPolus[]) {
   }
 }
 
-type Props = {p: Partida2; de: number; mapa?: Mapa; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean; skins?: Skins};
+type Props = {p: Partida2; de: number; mapa?: Mapa; foco: string; papeis?: boolean; hud?: boolean; morte?: boolean; monitor?: boolean; sons?: boolean; chat?: boolean; skins?: Skins; tiqueHud?: boolean; parado?: boolean; semSala?: boolean};
 
 // ícones dos botões, desenhados (sem emoji): branco com contorno preto grosso, como os do jogo
 const tr = {stroke: '#000', strokeWidth: 5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const};
@@ -294,12 +294,12 @@ export const SonsJogo5: React.FC<{s: Sim; de: number; dur: number; foco: string;
   return <>{lista.map((x, i) => <Som key={i} nome={x.nome} em={x.em} vol={x.vol} />)}</>;
 });
 
-export const Jogo5: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = true, sons = true, chat = false, skins}) => {
+export const Jogo5: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud = true, sons = true, chat = false, skins, tiqueHud = true, parado = false, semSala = false}) => {
   const frame = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const s = simular(p);
   // quadro da partida mostrado agora (com âncoras: estica, encolhe ou corta para bater com a narração)
-  const f = mapa ? Math.floor(mapa.quadros[Math.min(frame, mapa.quadros.length - 1)]) : de + frame;
+  const f = parado ? de : mapa ? Math.floor(mapa.quadros[Math.min(frame, mapa.quadros.length - 1)]) : de + frame;
   // câmera: segue o foco com um leve atraso (média dos últimos quadros), como a câmera do jogo
   let cx = 0, cy = 0, n = 0;
   for (let d = 0; d < 8; d++) {
@@ -333,7 +333,9 @@ export const Jogo5: React.FC<Props> = ({p, de, mapa, foco, papeis = false, hud =
       {bum && <AbsoluteFill style={{background: bum.tipo === 'bomba' ? '#fff3c4' : '#ff8a1f', opacity: interpolate(f - bum.quadro, [0, 2, 14], [0, 0.75, 0], {extrapolateRight: 'clamp'})}} />}
       {morteRecente && <AbsoluteFill style={{background: '#ff1e1e', opacity: interpolate(f - morteRecente.quadro, [0, 3, 12], [0, 0.45, 0])}} />}
       {/* nome da sala (o jogo mostra ao entrar) */}
-      {salaAtual && <div style={{position: 'absolute', left: 0, right: 0, bottom: 34, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 4, color: '#ffffffcc', WebkitTextStroke: '1.5px #000'}}>{POLUS.salas[salaAtual].nome.toUpperCase()}</div>}
+      {/* contador de tique (o espectador sempre sabe em que momento da partida está) */}
+      {tiqueHud && <div style={{position: 'absolute', left: 0, right: 0, top: 22, display: 'flex', justifyContent: 'center'}}><div style={{padding: '6px 26px', borderRadius: 12, background: '#000c', border: '4px solid #fff', fontFamily: FONT.display, fontWeight: 900, fontSize: 38, letterSpacing: 3, color: '#fff'}}>TIQUE {s.tique(f)}</div></div>}
+      {salaAtual && !semSala && <div style={{position: 'absolute', left: 0, right: 0, bottom: 34, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 30, letterSpacing: 4, color: '#ffffffcc', WebkitTextStroke: '1.5px #000'}}>{POLUS.salas[salaAtual].nome.toUpperCase()}</div>}
       {hud && infoFoco && <Hud p={p} s={s} f={f} foco={foco} frame={frame} />}
       {sab === 'Sismografo' && <div style={{position: 'absolute', left: 0, right: 0, top: 150, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: frame % 30 < 15 ? '#ff3b3b' : '#fff', WebkitTextStroke: '2px #000'}}>SISMÓGRAFO INSTÁVEL: O CHÃO VAI RACHAR</div>}
       <AlertaBarulhento s={s} f={f} />

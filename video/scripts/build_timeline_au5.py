@@ -321,7 +321,7 @@ def main():
                         tokens, _ = bt.parse(re.sub(r'\s*\.\.\.\s*(?=\[\[)', ' ', txt))
                         jobs.append((' '.join(bt.spoken(t) for t in tokens), NARRADOR, VOZ / f"{sc['id']}_{k}"))
                     elif txt.strip('. '):
-                        jobs.append((' '.join(bt.spoken(t) for t in txt.split()), VOZES[quem], VOZ / f"{sc['id']}_{k}"))
+                        jobs.append((' '.join(bt.spoken(t) for t in txt.split()), VOZES[quem.split(':')[-1]], VOZ / f"{sc['id']}_{k}"))
         print(f'Vozes: {len(jobs)} trechos, {sum(len(j[0]) for j in jobs)} caracteres (cache evita repetir)')
         feitos = 0
         try:
@@ -371,14 +371,20 @@ def main():
                         voices.append(dict(at=round(t * FPS), src=f'voice_au5/{sid}_{k}.mp3'))
                     t += n['dur'] + max(0.0, n['extra']) + 0.3
                 else:
-                    item = dict(cor=quem, texto=txt, at=round(t * FPS))
+                    pensa = quem.startswith('pensa:')  # pensamento (do log): mesma voz da IA, com eco (regra do canal)
+                    quem = quem.split(':')[-1]
+                    item = dict(cor=quem, texto=txt, at=round(t * FPS), **({'pensa': True} if pensa else {}))
                     # o pensamento secreto de quem fala (do log), mostrado num balão enquanto a voz toca
-                    if vis.get('props', {}).get('mostrarPensamentos', True):
+                    if not pensa and vis.get('props', {}).get('mostrarPensamentos', True):
                         item['pensamento'] = curto(pensamento_da_fala(ps, vis['props']['partida'], vis['props']['indice'], quem, txt))
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = tts(' '.join(bt.spoken(x) for x in txt.split()), VOZES[quem], base)
                         src = f'voice_au5/{sid}_{k}.mp3'
+                        if pensa:  # eco na voz normal, nunca sussurro
+                            e = base.parent / f'{base.name}_eco.mp3'
+                            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'aecho=0.8:0.85:60|140:0.45|0.25,volume=0.95', e], check=True)
+                            src = f'voice_au5/{sid}_{k}_eco.mp3'
                         if sc.get('rapido'):  # lobby (até 5 s): corta o silêncio das pontas e acelera a fala
                             r = base.parent / f'{base.name}_r.mp3'
                             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=' + str(sc['rapido']), r], check=True)

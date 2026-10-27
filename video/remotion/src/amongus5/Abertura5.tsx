@@ -37,7 +37,7 @@ export const AU5Comentarios: React.FC<{comentarios: Comentario5[]; gatilhos?: nu
               <div style={{flex: 'none', width: 86, height: 86, borderRadius: '50%', background: c.cor, border: '5px solid #000', display: 'grid', placeItems: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 44, color: '#fff', WebkitTextStroke: '2px #000'}}>{c.autor.replace('@', '').charAt(0).toUpperCase()}</div>
               <div style={{flex: 1, minWidth: 0}}>
                 <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#333'}}>{c.autor}</div>
-                <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 700, fontSize: 36, lineHeight: 1.2, color: '#000'}}>{c.texto}</div>
+                <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 700, fontSize: 36, lineHeight: 1.2, color: '#000', whiteSpace: 'pre-line'}}>{c.texto}</div>
                 <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#666'}}>{c.likes} curtida{c.likes === 1 ? '' : 's'}</div>
               </div>
             </div>
@@ -52,11 +52,12 @@ export const AU5Comentarios: React.FC<{comentarios: Comentario5[]; gatilhos?: nu
 };
 
 // voo de câmera pelo Polus (mapa inteiro com os nomes) com as novidades em etiquetas
-export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: string; cores?: string[]}[]}> = ({etiquetas = []}) => {
+type Cartao = {autor: string; texto: string; selo: string; at: number; dur: number; likes?: number};
+export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: string; cores?: string[]}[]; cartoes?: Cartao[]; inicioVoo?: number}> = ({etiquetas = [], cartoes = [], inicioVoo = 0}) => {
   const f = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const W = POLUS.cols * TILE, H = POLUS.rows * TILE;
-  const k = interpolate(f, [0, durationInFrames], [0, 1], {...cl, easing: Easing.inOut(Easing.cubic)});
+  const k = interpolate(f, [inicioVoo, durationInFrames], [0, 1], {...cl, easing: Easing.inOut(Easing.cubic)});
   // começa de perto na Nave de Pouso e abre até mostrar o mapa inteiro
   const ds = POLUS.salas.Dropship.rect;
   const cx0 = (ds.c + ds.w / 2) * TILE, cy0 = (ds.r + ds.h) * TILE;
@@ -67,7 +68,22 @@ export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: str
       <div style={{position: 'absolute', left: 0, top: 0, transformOrigin: '0 0', transform: `translate(${960 - cx * esc}px, ${540 - cy * esc}px) scale(${esc})`}}>
         <ArtePolus nomes={k > 0.55} />
       </div>
-      <div style={{position: 'absolute', left: 40, top: 34, fontFamily: FONT.display, fontWeight: 900, fontSize: 70, color: '#fff', WebkitTextStroke: '3px #000', textShadow: '0 6px 0 #000', opacity: interpolate(f, [0, 10], [0, 1], cl)}}>MAPA NOVO: POLUS</div>
+      <div style={{position: 'absolute', left: 30, top: 26, padding: '6px 24px', borderRadius: 16, background: '#000c', border: '5px solid #9b7bff', fontFamily: FONT.display, fontWeight: 900, fontSize: 62, color: '#fff', opacity: interpolate(f, [inicioVoo, inicioVoo + 10], [0, 1], cl)}}>MAPA NOVO: POLUS</div>
+      {cartoes.filter((c) => f >= c.at && f < c.at + c.dur).map((c, i) => {
+        const kk = f - c.at;
+        return (
+          <AbsoluteFill key={'c' + i} style={{background: c.at === 0 ? `rgba(13,10,28,${interpolate(kk, [c.dur - 8, c.dur], [1, 0], cl)})` : undefined}}>
+            <div style={{position: 'absolute', left: 260, right: 260, top: c.at === 0 ? 360 : 640, transform: `scale(${interpolate(kk, [0, 8], [0.6, 1], {...cl, easing: Easing.out(Easing.back(1.5))})})`, opacity: interpolate(kk, [c.dur - 6, c.dur], [1, 0], cl)}}>
+              <div style={{padding: '22px 30px', borderRadius: 22, background: '#fff', border: '6px solid #000', boxShadow: '0 10px 0 #000'}}>
+                <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#333'}}>{c.autor}</div>
+                <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 700, fontSize: 38, lineHeight: 1.2, color: '#000'}}>{c.texto}</div>
+                {c.likes ? <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#666'}}>{c.likes} curtida{c.likes === 1 ? '' : 's'}</div> : null}
+              </div>
+              {kk >= 14 && <div style={{position: 'absolute', right: -40, top: -96, padding: '6px 26px', borderRadius: 14, border: '8px solid #0d8a2a', color: '#0d8a2a', background: 'rgba(235,255,238,.95)', fontFamily: FONT.display, fontWeight: 900, fontSize: 58, transform: `rotate(-10deg) scale(${interpolate(kk, [14, 21], [2.6, 1], cl)})`}}>{c.selo}</div>}
+            </div>
+          </AbsoluteFill>
+        );
+      })}
       <div style={{position: 'absolute', right: 40, bottom: 40, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14}}>
         {etiquetas.filter((e) => f >= e.at).map((e, i) => (
           <div key={i} style={{display: 'flex', alignItems: 'center', gap: 12, padding: '10px 24px', borderRadius: 16, background: '#000d', border: `5px solid ${e.cor ?? '#fff'}`, fontFamily: FONT.display, fontWeight: 900, fontSize: 42, color: '#fff', transform: `scale(${interpolate(f - e.at, [0, 6, 10], [0.3, 1.15, 1], cl)})`}}>
@@ -82,13 +98,15 @@ export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: str
 
 // o Davi (@David_alves-p1f) e os 30 comentários dele pedindo o Polus: os cartões vão caindo cada vez mais rápido e se
 // empilhando na tela, com o contador subindo; no fim, carimbo de "ATENDIDO"
-export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number}> = ({autor, lista, fim}) => {
+export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number; total?: number; semCarimbo?: boolean}> = ({autor, lista, fim, total, semCarimbo}) => {
   const f = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const ate = fim ?? Math.round(durationInFrames * 0.78);
   // quadro em que entra o comentário i: começa devagar (1 por segundo) e acelera
   const entrada = (i: number) => Math.round(ate * Math.pow(i / lista.length, 1.9));
-  const n = lista.filter((_, i) => f >= entrada(i)).length;
+  const vistos = lista.filter((_, i) => f >= entrada(i)).length;
+  // o contador vai além dos cartões mostrados: chega ao total de pedidos de verdade
+  const n = total ? Math.round(interpolate(f, [0, ate], [1, total], cl)) : vistos;
   const h = (i: number, k: number) => { const x = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return x - Math.floor(x) };
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 35%, #2b2350, #0d0a1c 75%)', overflow: 'hidden'}}>
@@ -106,11 +124,12 @@ export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number}> =
       })}
       {/* contador */}
       <div style={{position: 'absolute', left: 0, right: 0, top: 30, display: 'flex', justifyContent: 'center', zIndex: 100}}>
-        <div style={{padding: '10px 34px', borderRadius: 20, background: '#000d', border: '6px solid #ff4d4d', fontFamily: FONT.display, fontWeight: 900, fontSize: 56, color: '#fff', transform: `scale(${1 + 0.08 * Math.max(0, 1 - (f - entrada(Math.max(0, n - 1))) / 6)})`}}>
-          {autor}: <span style={{color: '#ff4d4d'}}>{n}</span> comentário{n === 1 ? '' : 's'} pedindo o Polus
+        <div style={{padding: '10px 34px', borderRadius: 20, background: '#000d', border: '6px solid #ff4d4d', fontFamily: FONT.display, fontWeight: 900, fontSize: 50, color: '#fff', textAlign: 'center', transform: `scale(${1 + 0.08 * Math.max(0, 1 - (f - entrada(Math.max(0, vistos - 1))) / 6)})`}}>
+          PEDIDOS DE POLUS: <span style={{color: '#ff4d4d', fontSize: 70}}>{n}</span>
+          <div style={{fontSize: 30, color: '#ffc9c9'}}>todos do {autor}</div>
         </div>
       </div>
-      {f >= ate + 10 && (
+      {!semCarimbo && f >= ate + 10 && (
         <div style={{position: 'absolute', left: 0, right: 0, top: 420, display: 'flex', justifyContent: 'center', zIndex: 101}}>
           <div style={{padding: '14px 50px', borderRadius: 24, border: '14px solid #0d8a2a', color: '#0d8a2a', background: 'rgba(235,255,238,.96)', fontFamily: FONT.display, fontWeight: 900, fontSize: 130, transform: `rotate(-8deg) scale(${interpolate(f - ate - 10, [0, 8], [3, 1], cl)})`, opacity: interpolate(f - ate - 10, [0, 4], [0, 1], cl)}}>ATENDIDO</div>
         </div>
