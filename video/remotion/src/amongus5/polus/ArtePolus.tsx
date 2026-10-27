@@ -50,46 +50,56 @@ const Chao: React.FC = () => (
   </g>
 );
 
-// área andável de fora: chão roxo com borda de penhasco, manchas de neve, rachaduras e pedrinhas
+// área andável de fora (como no jogo): terra roxa com riscos, campos de neve grandes de borda recortada
+// (branco por cima, azul-claro na borda e sombra azul embaixo) e riscos de gelo dentro da neve
 const Terreno: React.FC = () => {
   const cs = useMemo(() => corridas(',D'), []);
   const neve = useMemo(() => {
     const ns: {x: number; y: number; w: number; h: number; k: number}[] = [];
     corridas(',').forEach((k, i) => {
-      if (k.w >= 6 && rnd(i * 7 + 1) < 0.22) ns.push({x: (k.c + rnd(i) * (k.w - 4) + 2) * TILE, y: (k.r + 0.5) * TILE, w: (3 + rnd(i + 4) * 7) * TILE, h: (1.2 + rnd(i + 9) * 1.6) * TILE, k: i});
+      if (k.w >= 5 && rnd(i * 7 + 1) < 0.34) ns.push({x: (k.c + rnd(i) * (k.w - 3) + 1.5) * TILE, y: (k.r + 0.5) * TILE, w: (4 + rnd(i + 4) * 9) * TILE, h: (1.6 + rnd(i + 9) * 2.4) * TILE, k: i});
     });
     return ns;
   }, []);
+  const contorno = (n: {x: number; y: number; w: number; h: number; k: number}, dy = 0, esc = 1) => {
+    const N = 26;
+    const pts = Array.from({length: N}).map((_, j) => {
+      const a = (j / N) * Math.PI * 2, k = (0.78 + rnd(n.k * 31 + j) * 0.22) * (j % 2 ? 0.9 : 1) * esc;
+      return `${(n.x + Math.cos(a) * n.w * 0.55 * k).toFixed(0)} ${(n.y + dy + Math.sin(a) * n.h * 0.5 * k).toFixed(0)}`;
+    });
+    return 'M' + pts.join(' L') + 'Z';
+  };
   return (
     <g>
       {/* borda do penhasco (sombra embaixo e contorno) */}
       {cs.map((k, i) => <rect key={`s${i}`} x={k.c * TILE - 14} y={k.r * TILE - 10} width={k.w * TILE + 28} height={TILE + 34} fill="#1d1a29" />)}
       {cs.map((k, i) => <rect key={`b${i}`} x={k.c * TILE - 8} y={k.r * TILE - 8} width={k.w * TILE + 16} height={TILE + 16} fill="#4a3c66" />)}
-      {cs.map((k, i) => <rect key={`c${i}`} x={k.c * TILE} y={k.r * TILE} width={k.w * TILE} height={TILE + 1} fill="#6a5590" />)}
-      {/* manchas de neve: placas chatas e irregulares, brancas com borda azul-clara (neve no chão, não nuvem) */}
-      {neve.map((n) => {
-        const pts = Array.from({length: 10}).map((_, j) => {
-          const a = (j / 10) * Math.PI * 2, k = 0.75 + rnd(n.k * 31 + j) * 0.35;
-          return [n.x + Math.cos(a) * n.w * 0.55 * k, n.y + Math.sin(a) * n.h * 0.5 * k];
-        });
-        const d = 'M' + pts.map(([px, py]) => `${px} ${py}`).join(' L') + 'Z';
-        return (
-          <g key={`n${n.k}`}>
-            <path d={d} fill="#a9c4e4" stroke="#a9c4e4" strokeWidth={26} strokeLinejoin="round" />
-            <path d={d} fill="#f2f6fb" stroke="#f2f6fb" strokeWidth={8} strokeLinejoin="round" />
-            <path d={`M${n.x - n.w * 0.3} ${n.y - n.h * 0.1} q${n.w * 0.2} -14 ${n.w * 0.4} 0`} stroke="#d5e3f3" strokeWidth={8} fill="none" strokeLinecap="round" />
-          </g>
-        );
-      })}
-      {/* rachaduras e pedrinhas no chão roxo */}
-      {corridas(',').filter((_, i) => i % 4 === 0).map((k, i) => {
-        const x = (k.c + rnd(i + 30) * k.w) * TILE, y = (k.r + 0.5) * TILE;
-        return i % 2 ? (
-          <path key={`r${i}`} d={`M${x} ${y} l40 -12 l30 18 l46 -8`} fill="none" stroke="#4a3c66" strokeWidth={6} strokeLinecap="round" />
-        ) : (
-          <ellipse key={`r${i}`} cx={x} cy={y} rx={16} ry={10} fill="#8e7cb3" stroke={LINHA} strokeWidth={4} />
-        );
-      })}
+      {cs.map((k, i) => <rect key={`c${i}`} x={k.c * TILE} y={k.r * TILE} width={k.w * TILE} height={TILE + 1} fill="#6d5893" />)}
+      {/* riscos e pontinhos na terra roxa */}
+      {corridas(',').filter((k) => k.w >= 3).map((k, i) => (
+        <g key={`t${i}`}>
+          {Array.from({length: Math.ceil(k.w / 4)}).map((_, j) => {
+            const x = (k.c + rnd(i * 13 + j) * k.w) * TILE, y = (k.r + 0.2 + rnd(i * 17 + j) * 0.6) * TILE;
+            return (j + i) % 3 === 0 ? (
+              <circle key={j} cx={x} cy={y} r={4} fill="#8a76ad" />
+            ) : (
+              <path key={j} d={`M${x} ${y} l${18 + rnd(j + i) * 22} ${-6 + rnd(j * 3 + i) * 12}`} stroke="#5a4680" strokeWidth={5} strokeLinecap="round" />
+            );
+          })}
+        </g>
+      ))}
+      {/* campos de neve */}
+      {neve.map((n) => (
+        <g key={`n${n.k}`}>
+          <path d={contorno(n, 14)} fill="#7f8fb8" />
+          <path d={contorno(n)} fill="#b9cbe4" stroke="#9fb3d6" strokeWidth={6} strokeLinejoin="round" />
+          <path d={contorno(n, -4, 0.9)} fill="#e6edf6" />
+          {Array.from({length: 4}).map((_, j) => {
+            const x = n.x + (rnd(n.k + j * 5) - 0.5) * n.w * 0.7, y = n.y + (rnd(n.k * 3 + j) - 0.5) * n.h * 0.6;
+            return <path key={j} d={`M${x} ${y} l${30 + rnd(j + n.k) * 40} ${-4 + rnd(j * 7) * 8}`} stroke={j % 2 ? '#ffffff' : '#c3d2e8'} strokeWidth={6} strokeLinecap="round" />;
+          })}
+        </g>
+      ))}
     </g>
   );
 };
@@ -131,11 +141,12 @@ const PadraoPiso: React.FC<{id: string; piso: Piso; a: string; b: string}> = ({i
     );
   if (piso === 'lab')
     return (
-      <pattern id={id} width={144} height={144} patternUnits="userSpaceOnUse">
-        <rect width={144} height={144} fill={a} />
-        <rect x={48} y={48} width={48} height={48} fill={b} />
-        <path d="M0 0H144V144" fill="none" stroke="#c4ced6" strokeWidth={3} />
-        <path d="M48 0V144M96 0V144M0 48H144M0 96H144" stroke="#d3dce3" strokeWidth={2} />
+      <pattern id={id} width={384} height={384} patternUnits="userSpaceOnUse">
+        <rect width={384} height={384} fill={a} />
+        {[[0, 0, 2, 1], [96, 96, 2, 2], [288, 48, 1, 1], [240, 240, 2, 1], [0, 288, 1, 2], [192, 0, 1, 1], [336, 336, 1, 1]].map(([tx, ty, tw, th], i) => (
+          <rect key={i} x={tx} y={ty} width={tw * 48} height={th * 48} fill={b} />
+        ))}
+        <path d={Array.from({length: 8}).map((_, i) => `M${i * 48} 0V384M0 ${i * 48}H384`).join('')} stroke="#c9d4dc" strokeWidth={3} />
       </pattern>
     );
   if (piso === 'listra')
@@ -161,43 +172,80 @@ const PadraoPiso: React.FC<{id: string; piso: Piso; a: string; b: string}> = ({i
   );
 };
 
+// manchas escuras no piso (como as do jogo), formato recortado
+const Mancha: React.FC<{x: number; y: number; r: number; k: number}> = ({x, y, r, k}) => {
+  const N = 14;
+  const d = 'M' + Array.from({length: N}).map((_, j) => {
+    const a = (j / N) * Math.PI * 2, q = (0.45 + rnd(k * 19 + j) * 0.75) * (j % 3 === 0 ? 1.5 : 1);
+    return `${(x + Math.cos(a) * r * 1.4 * q).toFixed(0)} ${(y + Math.sin(a) * r * 0.7 * q).toFixed(0)}`;
+  }).join(' L') + 'Z';
+  return <path d={d} fill="#2d3a47" opacity={0.16} />;
+};
+
 const Sala: React.FC<{s: SalaPolus}> = ({s}) => {
   const {c, r, w, h} = POLUS.salas[s].rect;
   const x = c * TILE, y = r * TILE, ww = w * TILE, hh = h * TILE;
   const e = ESTILO[s];
   const P = 'p' + s;
-  const face = Math.min(78, hh * 0.3); // parede de cima vista de frente
-  const nj = Math.max(0, Math.floor(w / 7));
+  const face = Math.min(116, hh * 0.32); // parede de cima vista de frente
+  const np = Math.max(1, Math.round(w / 3)); // painéis bege
+  const pw = ww / np;
+  const kk = SALAS_POLUS.indexOf(s);
+  // ondulação do contorno de fora (o jogo desenha as paredes externas com borda "mole")
+  const onda = (x0: number, y0: number, len: number) => 'M' + Array.from({length: Math.ceil(len / 24) + 1}).map((_, i) => `${x0 + i * 24} ${y0 + (i % 2 ? 5 : -2)}`).join(' L');
   return (
     <g>
       <defs>
         <PadraoPiso id={P} piso={e.piso} a={e.a} b={e.b} />
       </defs>
-      {/* sombra e parede grossa verde-escura com contorno preto */}
-      <rect x={x - TILE + 10} y={y - TILE + 22} width={ww + 2 * TILE} height={hh + 2 * TILE} fill="#16131f" opacity={0.6} rx={8} />
-      <rect x={x - TILE} y={y - TILE} width={ww + 2 * TILE} height={hh + 2 * TILE} fill="#33423f" stroke={LINHA} strokeWidth={10} rx={8} />
+      {/* sombra, face externa de chapa ondulada embaixo e parede grossa verde-escura com contorno preto */}
+      <rect x={x - TILE + 10} y={y - TILE + 22} width={ww + 2 * TILE} height={hh + 2 * TILE + 70} fill="#16131f" opacity={0.55} rx={14} />
+      <rect x={x - TILE} y={y + hh + TILE - 10} width={ww + 2 * TILE} height={74} fill="url(#gChapa)" stroke={LINHA} strokeWidth={8} rx={10} />
+      <path d={onda(x - TILE + 6, y + hh + TILE + 60, ww + 2 * TILE - 12)} stroke={LINHA} strokeWidth={6} fill="none" />
+      <rect x={x - TILE} y={y - TILE} width={ww + 2 * TILE} height={hh + 2 * TILE} fill="#33423f" stroke={LINHA} strokeWidth={10} rx={12} />
       <rect x={x - TILE + 12} y={y - TILE + 10} width={ww + 2 * TILE - 24} height={14} fill="#4c5f5b" rx={4} />
       {/* piso */}
       <rect x={x} y={y} width={ww} height={hh} fill={`url(#${P})`} stroke={LINHA} strokeWidth={6} />
+      {e.piso === 'carpete' ? <rect x={x + 18} y={y + face + 14} width={ww - 36} height={hh - face - 32} fill="none" stroke="#4e3570" strokeWidth={10} /> : null}
+      {e.piso === 'azulejo'
+        ? Array.from({length: 2 + Math.floor((w * h) / 120)}).map((_, i) => (
+            <Mancha key={`m${i}`} x={x + 100 + rnd(kk * 7 + i) * (ww - 200)} y={y + face + 60 + rnd(kk * 11 + i) * (hh - face - 120)} r={50 + rnd(kk + i * 3) * 70} k={kk * 10 + i} />
+          ))
+        : null}
       {e.piso === 'listra' ? (
         <>
           <rect x={x} y={y + hh - 40} width={ww} height={22} fill="#e0b93a" />
           {Array.from({length: Math.floor(ww / 60)}).map((_, i) => <rect key={i} x={x + i * 60} y={y + hh - 40} width={30} height={22} fill={LINHA} />)}
         </>
       ) : null}
-      {/* face da parede de cima: painéis bege, listra laranja, janelas azuis */}
-      <rect x={x} y={y} width={ww} height={face} fill="#ddd0ac" stroke={LINHA} strokeWidth={5} />
-      <rect x={x} y={y + face - 14} width={ww} height={10} fill="#e8893a" />
-      {Array.from({length: Math.floor(w / 3)}).map((_, i) => <rect key={`pl${i}`} x={x + i * 3 * TILE} y={y} width={5} height={face - 14} fill="#b9ab86" />)}
-      {Array.from({length: nj}).map((_, i) => {
-        const jx = x + ((i + 0.5) * ww) / nj - 90;
+      {/* face da parede de cima: painéis bege com sombra nas bordas, pilares, listras e janelas/placas */}
+      <rect x={x} y={y} width={ww} height={face} fill="#d9c49a" />
+      {Array.from({length: np}).map((_, i) => {
+        const px = x + i * pw;
+        const tipo = (i + kk) % 4; // 0 janela, 1 placa, 2-3 liso
         return (
-          <g key={`j${i}`}>
-            <rect x={jx} y={y + 10} width={180} height={face - 34} fill="#4e6fc8" stroke={LINHA} strokeWidth={5} />
-            <path d={`M${jx + 40} ${y + face - 26} l40 ${-(face - 38)} M${jx + 90} ${y + face - 26} l30 ${-(face - 38)}`} stroke="#b9cdf7" strokeWidth={8} />
+          <g key={`p${i}`}>
+            <rect x={px} y={y} width={pw} height={face - 18} fill="url(#gPainel)" />
+            {tipo === 0 && pw > 100 ? (
+              <g>
+                <rect x={px + 22} y={y + 14} width={pw - 44} height={face - 50} fill="url(#gVidro)" stroke="#1e2747" strokeWidth={6} rx={3} />
+                <path d={`M${px + pw * 0.35} ${y + face - 40} l${face * 0.3} ${-(face - 54)} M${px + pw * 0.48} ${y + face - 40} l${face * 0.2} ${-(face - 54)}`} stroke="#c9d8fb" strokeWidth={9} />
+              </g>
+            ) : tipo === 1 ? (
+              <g>
+                <rect x={px + pw / 2 - 30} y={y + face * 0.3} width={60} height={40} fill="#ece2c8" stroke="#3a3a3a" strokeWidth={4} rx={4} />
+                <path d={`M${px + pw / 2 + 4} ${y + face * 0.3 + 6} l-12 16 h10 l-8 14 l18 -20 h-10 z`} fill="#3a3a3a" />
+              </g>
+            ) : null}
+            <rect x={px - 7} y={y} width={14} height={face - 6} fill="#56645f" stroke={LINHA} strokeWidth={3} />
           </g>
         );
       })}
+      <rect x={x} y={y + face - 18} width={ww} height={8} fill="#e8893a" />
+      <rect x={x} y={y + face - 10} width={ww} height={4} fill="#f4f1e8" />
+      <rect x={x} y={y + face - 6} width={ww} height={4} fill="#6f8fd0" />
+      <rect x={x} y={y} width={ww} height={face} fill="none" stroke={LINHA} strokeWidth={5} />
+      <rect x={x} y={y + face - 2} width={ww} height={12} fill="#000" opacity={0.12} />
     </g>
   );
 };
@@ -211,6 +259,8 @@ const Portas: React.FC = () => {
         <g key={i}>
           <rect x={k.c * TILE - 2} y={k.r * TILE - 2} width={k.w * TILE + 4} height={TILE + 4} fill="#8e98a2" />
           <rect x={k.c * TILE} y={k.r * TILE + 6} width={k.w * TILE} height={TILE - 12} fill="#a9b2bb" />
+          {/* porta na parede de baixo: rampa por cima da chapa externa até a neve */}
+          {ch(k.c, k.r + 1) === ',' ? <rect x={k.c * TILE + 4} y={(k.r + 1) * TILE - 6} width={k.w * TILE - 8} height={84} fill="#8e98a2" stroke={LINHA} strokeWidth={5} /> : null}
         </g>
       ))}
       {cs.filter((k) => k.w >= 2).map((k, i) => (
@@ -425,6 +475,25 @@ const Nomes: React.FC = () => (
 // o mapa inteiro em coordenadas de mundo (para a câmera do jogo escalar/recortar)
 export const ArtePolus: React.FC<{nomes?: boolean}> = React.memo(({nomes = false}) => (
   <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+    <defs>
+      {/* painel bege da parede: claro no meio, escurece nas bordas (o "arco" dos painéis do jogo) */}
+      <linearGradient id="gPainel" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#c2a676" />
+        <stop offset="0.18" stopColor="#e2d0a8" />
+        <stop offset="0.82" stopColor="#e2d0a8" />
+        <stop offset="1" stopColor="#c2a676" />
+      </linearGradient>
+      <linearGradient id="gVidro" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#3e5bb5" />
+        <stop offset="1" stopColor="#5f80d8" />
+      </linearGradient>
+      {/* chapa ondulada das paredes externas: listras verticais */}
+      <pattern id="gChapa" width={28} height={80} patternUnits="userSpaceOnUse">
+        <rect width={28} height={80} fill="#4b5160" />
+        <rect width={10} height={80} fill="#626a7c" />
+        <rect x={10} width={3} height={80} fill="#353a46" />
+      </pattern>
+    </defs>
     <Chao />
     <Terreno />
     <Exterior />
