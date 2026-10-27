@@ -214,6 +214,7 @@ ${lista}
 - Corpos podem ser denunciados por quem estiver perto (mesmo durante sabotagem); isso chama uma reunião. Durante uma sabotagem os impostores NÃO conseguem trancar portas. No Escritório há um botão de emergência: cada jogador pode apertar 1 vez, e não durante sabotagem.
 - Tarefas VISUAIS (escanear o corpo no Laboratório e destruir asteroides em Armas) mostram o efeito para quem está vendo: quem faz uma na sua frente é tripulante com certeza.
 - Nas reuniões todos conversam e depois votam em quem expulsar (ou pulam). Quem tiver mais votos é expulso e o jogo revela se era impostor.
+- DISFARCES (Metamorfo e Camuflador) só valem ANDANDO pela base: quando a reunião começa, o disfarce acaba e TODO MUNDO aparece na tela da reunião com a própria cor e o próprio nome (a cor de cada mensagem do chat é a cor verdadeira de quem escreveu). Ninguém pode 'ser outra cor' na reunião: você fala sempre como você mesmo. Se alguém disser que viu uma cor fazendo algo suspeito, pode ter sido um disfarçado com aquela cor.
 - Quem morre vira FANTASMA: continua fazendo tarefas e atravessa paredes, mas não fala nem vota. O 1º tripulante que morrer vira o ANJO DA GUARDA (põe escudos nos vivos) e o 2º vira o INFLUENCER FANTASMA (manda RECADOS ANÔNIMOS DO ALÉM, sem nome de cor; ninguém sabe de quem é).
 - Jogue para vencer, de forma esperta e coerente. Fale português do Brasil, de forma natural e curta, como num jogo de verdade, SEM PALAVRÃO. Só fale do que está na sua memória: não invente o que você não viu nem o que não fez.`
 }
@@ -1247,7 +1248,9 @@ async function reuniaoDeEmergencia(info) {
   }
   const calados = presentes.filter((p) => p.calado).map((p) => p.cor)
   const recados = log.recados.length ? `\n📨 Recados anônimos do além nesta partida: ${log.recados.map((x) => `t${x.tique}: "${x.texto}"`).join(' | ')}.` : ''
-  const ctx = (j) => `REUNIÃO no tique ${tique}. ${intro}\nMortos até agora: ${mortos.join(', ') || 'ninguém'}.\nVivos: ${presentes.map((p) => p.cor).join(', ')}.${calados.length ? `\n🤐 CHANTAGEADOS (não podem falar nesta reunião): ${calados.join(', ')}.` : ''}${fotos}${recados}${rastro(j)}\n\n${situacao(j)}`
+  // quem estava disfarçado antes da reunião: o disfarce acabou (na tela da reunião ele aparece com a cor verdadeira)
+  const exDisfarce = Object.fromEntries(presentes.filter((j) => j.disfarce && tique < j.disfarceAte).map((j) => [j.cor, j.disfarce]))
+  const ctx = (j) => `REUNIÃO no tique ${tique}. ${exDisfarce[j.cor] ? `(Você estava disfarçado de ${exDisfarce[j.cor]}, mas na reunião o disfarce acabou: todos te veem como ${j.cor}, com o seu nome. NÃO diga que você é o ${exDisfarce[j.cor]}.) ` : ''}${intro}\nMortos até agora: ${mortos.join(', ') || 'ninguém'}.\nVivos: ${presentes.map((p) => p.cor).join(', ')}.${calados.length ? `\n🤐 CHANTAGEADOS (não podem falar nesta reunião): ${calados.join(', ')}.` : ''}${fotos}${recados}${rastro(j)}\n\n${situacao(j)}`
 
   for (let rodada = 1; rodada <= CFG.rodadasDiscussao; rodada++) {
     for (const j of embaralhar(presentes)) {
