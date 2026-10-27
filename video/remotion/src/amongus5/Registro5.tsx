@@ -46,7 +46,7 @@ const Visual5: React.FC<{name: string; props: Record<string, any>; scene: Scene;
       );
     }
     case 'AU5Reuniao':
-      return <Votacao p={ps[String(p.partida)]} idx={p.indice} fase="discussao" mensagens={(Array.isArray(p.chat) ? p.chat : []).filter((m: any) => !m.pensa)} timer={p.timer} viva chat={p.painelChat ?? false} />;
+      return <Votacao p={ps[String(p.partida)]} idx={p.indice} fase="discussao" mensagens={(Array.isArray(p.chat) ? p.chat : []).filter((m: any) => !m.pensa)} timer={p.timer} viva chat={p.painelChat ?? true} semFalaGrande={p.falaGrande !== true} />;
     case 'AU5Resultado':
       return <Votacao p={ps[String(p.partida)]} idx={p.indice} fase="resultado" mensagens={[]} chat={false} semJuiz={p.semJuiz} carimboEm={p.carimbo ? momento(scene, p.carimbo) : 20} />;
     case 'AU5Ejecao':

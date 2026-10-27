@@ -31,7 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'remotion' / 'public'
 VOZ = PUBLIC / 'voice_au5'
 LOGS = ROOT.parent / 'amongus' / 'logs5'
-SKINS = ROOT.parent / 'amongus' / 'logs4' / 'skins.json'  # as roupas escolhidas no AU4 (as cores novas vêm sem)
+SKINS = ROOT.parent / 'amongus' / 'logs5' / 'skins.json'  # as roupas do AU4 + as que a MiMo escolheu para as cores novas (skins4.mjs --so)
 ROTEIRO = 'roteiro_au5'
 FPS = 30
 

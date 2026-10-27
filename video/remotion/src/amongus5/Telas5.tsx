@@ -192,14 +192,14 @@ export const Cabeca: React.FC<{cor: string; size: number; morto?: boolean}> = ({
 const Bolha: React.FC<{p: Partida2; cor: string; texto: string; aparece: number}> = ({p, cor, texto, aparece}) => {
   const emp = empresa(p, cor);
   return (
-    <div style={{display: 'flex', gap: 14, alignItems: 'flex-start', padding: '10px 4px', opacity: aparece, transform: `translateY(${(1 - aparece) * 30}px)`}}>
-      <Cabeca cor={cor} size={64} />
-      <div style={{flex: 1, background: '#fff', borderRadius: 14, border: '3px solid #000', padding: '8px 14px'}}>
-        <div style={{display: 'flex', alignItems: 'center', gap: 8, fontFamily: FONT.display, fontWeight: 800, fontSize: 22, color: '#000'}}>
+    <div style={{display: 'flex', gap: 12, alignItems: 'flex-start', padding: '8px 2px', opacity: aparece, transform: `translateY(${(1 - aparece) * 30}px)`}}>
+      <div style={{flex: 'none', width: 66, height: 66, borderRadius: 10, background: '#fff', border: '3px solid #2a2f3a', display: 'grid', placeItems: 'center', overflow: 'hidden'}}><Cabeca cor={cor} size={56} /></div>
+      <div style={{flex: 1, background: '#fff', borderRadius: 8, border: '3px solid #2a2f3a', padding: '6px 12px', boxShadow: '0 3px 0 #0003'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 8, fontFamily: FONT.display, fontWeight: 900, fontSize: 24, color: '#000'}}>
           {cor}
           <span style={{fontSize: 13, padding: '1px 7px', borderRadius: 6, background: emp.cor, color: '#fff'}}>{emp.nome}</span>
         </div>
-        <div style={{fontFamily: FONT.display, fontWeight: 500, fontSize: 23, lineHeight: 1.28, color: '#111'}}>{texto}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 25, lineHeight: 1.25, color: '#111'}}>{texto}</div>
       </div>
     </div>
   );
@@ -306,7 +306,7 @@ const FalaGrande: React.FC<{p: Partida2; m: Msg; larg: number; x0: number}> = ({
   );
 };
 
-export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number}> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true, viva = false, semJuiz = false, carimboEm = 20}) => {
+export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number; semFalaGrande?: boolean}> = ({p, idx, fase, falas = 0, votos = 1, timer, chat = true, mensagens, papeis = true, viva = false, semJuiz = false, carimboEm = 20, semFalaGrande = false}) => {
   const f = useCurrentFrame();
   const r = p.reunioes[idx];
   // quem está vivo na reunião: estado do tique em que ela foi chamada
@@ -328,7 +328,7 @@ export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number
   // quem está falando agora (enquanto a voz toca) e o pensamento secreto dessa fala
   const falando = ultima && f < (ultima.ate ?? ultima.at + 150) + 40 ? ultima : undefined;
   // reunião viva: zoom no cartão de quem fala (entra em 14 quadros, sai no fim da fala); sem fala, um leve vaivém
-  let zoom = viva ? 1 + 0.025 * Math.sin(f / 70) : 1, ox = 0, oy = 0;
+  let zoom = viva ? 1 + (chat ? 0.008 : 0.025) * Math.sin(f / 70) : 1, ox = 0, oy = 0;
   if (viva && falando) {
     const i = CORES.indexOf(falando.cor);
     const cw = (larg - 80 - 36) / 3;
@@ -336,10 +336,11 @@ export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number
     const fim = (falando.ate ?? falando.at + 150) + 20;
     const k = Math.min(interpolate(f - falando.at, [0, 14], [0, 1], cl), interpolate(f, [fim - 12, fim], [1, 0], cl));
     const e = Easing.inOut(Easing.cubic)(k);
-    zoom = 1 + 0.28 * e;
+    // com o painel do chat aberto o zoom é pequeno (o tablet não pode entrar por baixo do chat)
+    zoom = 1 + (chat ? 0.06 : 0.28) * e;
     // centro do cartão vai para perto do centro da área do tablet
-    ox = (x0 + larg / 2 - cx) * 0.55 * e;
-    oy = (400 - cy) * 0.55 * e;
+    ox = (x0 + larg / 2 - cx) * (chat ? 0.12 : 0.55) * e;
+    oy = (400 - cy) * (chat ? 0.12 : 0.55) * e;
   }
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 40%, #1c2a44, #070b14 80%)', overflow: 'hidden'}}>
@@ -400,7 +401,7 @@ export const Votacao: React.FC<PropsVot & {semJuiz?: boolean; carimboEm?: number
       {!viva && falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} />}
       </div>
       {viva && falando?.pensamento && <BalaoPensa p={p} m={falando} x0={x0} fixo />}
-      {viva && falando && falando.texto && <FalaGrande p={p} m={falando} larg={larg} x0={x0} />}
+      {viva && !semFalaGrande && falando && falando.texto && <FalaGrande p={p} m={falando} larg={larg} x0={x0} />}
       {/* Juiz anulou: carimbo por cima do resultado */}
       {fase === 'resultado' && juiz && !semJuiz && f >= carimboEm && (
         <div style={{position: 'absolute', left: x0 + 100, top: 360, width: larg - 200, padding: '24px 30px', textAlign: 'center', transform: `rotate(-6deg) scale(${interpolate(f, [carimboEm, carimboEm + 10], [2.2, 1], cl)})`, opacity: interpolate(f, [carimboEm, carimboEm + 6], [0, 1], cl), border: '10px solid #b00000', borderRadius: 20, background: 'rgba(255,240,240,.94)', fontFamily: FONT.display, fontWeight: 900, color: '#b00000', zIndex: 30}}>
