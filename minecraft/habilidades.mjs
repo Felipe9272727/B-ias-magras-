@@ -158,7 +158,8 @@ H.explorar = async (bot, { direcao = 'norte', distancia = 40 }) => {
 
 function acharEntidade(bot, alvo) {
   alvo = String(alvo || '').toLowerCase().trim()
-  const cands = Object.values(bot.entities).filter(e => e !== bot.entity && e.position.distanceTo(bot.entity.position) < 48 &&
+  const vivo = e => ['player', 'hostile', 'mob', 'animal', 'passive', 'water_creature', 'ambient'].includes(e.type)
+  const cands = Object.values(bot.entities).filter(e => e !== bot.entity && vivo(e) && e.position.distanceTo(bot.entity.position) < 48 &&
     ((e.type === 'player' && e.username?.toLowerCase() === alvo) || e.name === alvo || (alvo === 'hostil' && HOSTIS.has(e.name))))
   return cands.sort((a, b) => a.position.distanceTo(bot.entity.position) - b.position.distanceTo(bot.entity.position))[0]
 }

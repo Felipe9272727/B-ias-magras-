@@ -84,6 +84,12 @@ bot.once('spawn', () => {
       .map(e => ({ id: e.id, m: e.name, x: +e.position.x.toFixed(2), y: +e.position.y.toFixed(2), z: +e.position.z.toFixed(2), yaw: +(e.yaw ?? 0).toFixed(2) }))
     if (l.length) gravar('mobs', { l })
   }, 500)
+  // reflexo de nadar: o bot não sobe sozinho na água e afundava enquanto a IA pensava (3 afogados no primeiro dia)
+  let nadando = false
+  setInterval(() => {
+    const precisa = bot.entity?.isInWater || (bot.oxygenLevel ?? 20) < 18
+    if (precisa) { bot.setControlState('jump', true); nadando = true } else if (nadando) { bot.setControlState('jump', false); nadando = false }
+  }, 150)
   pensar()
 })
 bot.on('chat', (quem, msg) => { if (quem !== bot.username) mem.chat.push(`[${quem}] ${msg}`) })
@@ -94,7 +100,8 @@ bot.on('entityHurt', e => {
   const nome = quem ? (quem.username ?? quem.name) : 'algo'
   mem.eventos.push(`levou dano (vida ${Math.round(bot.health)}) — perto: ${nome}`)
   gravar('eventos', { tipo: 'dano', quem: J.nome, vida: bot.health, de: nome })
-  if (quem && quem.type !== 'player' && !bot.pvp.target && quem.position.distanceTo(bot.entity.position) < 4.5) bot.pvp.attack(quem)
+  // só revida mob de verdade (atacar flecha/item/orbe derruba a conexão: "Attempting to attack an invalid entity")
+  if (quem && (quem.type === 'hostile' || quem.type === 'mob') && !bot.pvp.target && quem.position.distanceTo(bot.entity.position) < 4.5) bot.pvp.attack(quem)
 })
 bot.on('death', () => {
   mem.eventos.push(estado.fase === 'arena' ? 'VOCÊ MORREU NA ARENA.' : 'VOCÊ MORREU e renasceu no spawn (perdeu os itens).')
