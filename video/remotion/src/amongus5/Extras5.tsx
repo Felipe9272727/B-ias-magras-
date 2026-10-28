@@ -160,7 +160,9 @@ export const AU5Foto: React.FC<{p: Partida2; skins?: Skins; tique: number; cor: 
 
 // abertura de cada partida: "PARTIDA N" batendo no meio e os 18 tripulantes (com as skins que as IAs escolheram)
 // atravessando a tela em fila, andando e pulando; embaixo, o que essa partida tem de novo
-export const AU5Partida: React.FC<{n: number; sub?: string; cores: string[]; skins?: Skins; cor?: string}> = ({n, sub, cores, skins, cor = '#9b7bff'}) => {
+// `titulo` troca o "PARTIDA N" (ex.: "FIM DA PARTIDA 1", no fim de cada uma)
+export const AU5Partida: React.FC<{n: number; sub?: string; cores: string[]; skins?: Skins; cor?: string; titulo?: string}> = ({n, sub, cores, skins, cor = '#9b7bff', titulo}) => {
+  const txt = titulo ?? `PARTIDA ${n}`;
   const f = useCurrentFrame();
   const {durationInFrames, fps} = useVideoConfig();
   const bate = interpolate(f, [6, 14, 18], [3, 0.92, 1], {...cl, easing: Easing.out(Easing.cubic)});
@@ -185,7 +187,7 @@ export const AU5Partida: React.FC<{n: number; sub?: string; cores: string[]; ski
         );
       })}
       <div style={{position: 'absolute', left: 0, right: 0, top: 170, textAlign: 'center', transform: `scale(${bate}) rotate(${-3 + 2 * Math.sin(f / 12)}deg)`}}>
-        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 230, color: '#fff', WebkitTextStroke: '8px #000', textShadow: `0 14px 0 #000, 0 0 60px ${cor}`}}>PARTIDA {n}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: txt.length > 10 ? 150 : 230, color: '#fff', WebkitTextStroke: '8px #000', textShadow: `0 14px 0 #000, 0 0 60px ${cor}`}}>{txt}</div>
       </div>
       {sub && (
         <div style={{position: 'absolute', left: 0, right: 0, top: 500, display: 'flex', justifyContent: 'center', opacity: interpolate(f, [16, 26], [0, 1], cl)}}>

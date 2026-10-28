@@ -65,7 +65,7 @@ const Visual5: React.FC<{name: string; props: Record<string, any>; scene: Scene;
     case 'AU5Foto':
       return <AU5Foto p={ps[String(p.partida ?? 1)]} skins={skins} tique={p.tique} cor={p.cor} legenda={p.legenda} />;
     case 'AU5Partida':
-      return <AU5Partida n={p.n} sub={p.sub} cores={p.cores ?? CORES} skins={skins} cor={p.cor} />;
+      return <AU5Partida n={p.n} sub={p.sub} cores={p.cores ?? CORES} skins={skins} cor={p.cor} titulo={p.titulo} />;
     case 'AU5Fim':
       return <Fim2 p={ps[String(p.partida)]} foco={p.foco} skins={skins} />;
     default:

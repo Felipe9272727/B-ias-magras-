@@ -75,6 +75,7 @@ const calculateMetadataS60 = calcTimeline('timeline_s60.json');
 const calculateMetadataAU3 = calcTimeline('timeline_au3.json');
 const calculateMetadataPreviaAU4 = calcTimeline('timeline_previa_au4.json');
 const calculateMetadataPreviaAU5 = calcTimeline('timeline_previa_au5.json');
+const calculateMetadataAU5 = calcTimeline('timeline_au5.json');
 const calculateMetadataAU4 = calcTimeline('timeline_au4.json');
 const calculateMetadataInt = calcTimeline('timeline_int.json');
 const calculateMetadataLobo = calcTimeline('timeline_lobo.json');
@@ -178,6 +179,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
       <Composition id="Lobisomem" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataLobo} />
       <Composition id="AmongUs4" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU4} />
+      <Composition id="AU5Narrado" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU5} />
       <Composition id="PreviaAU5Narrada" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataPreviaAU5} />
       <Composition id="PreviaAU4Narrada" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataPreviaAU4} />
       <Composition id="Sessenta" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataS60} />

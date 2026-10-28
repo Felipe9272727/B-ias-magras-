@@ -375,7 +375,7 @@ def main():
                     quem = quem.split(':')[-1]
                     item = dict(cor=quem, texto=txt, at=round(t * FPS), **({'pensa': True} if pensa else {}))
                     # o pensamento secreto de quem fala (do log), mostrado num balão enquanto a voz toca
-                    if not pensa and vis.get('props', {}).get('mostrarPensamentos', True):
+                    if not pensa and 'indice' in vis.get('props', {}) and vis['props'].get('mostrarPensamentos', True):
                         item['pensamento'] = curto(pensamento_da_fala(ps, vis['props']['partida'], vis['props']['indice'], quem, txt))
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
