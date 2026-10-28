@@ -319,6 +319,18 @@ export function animDuto(s: Sim, cor: string, f: number): {transform?: string; c
   return {};
 }
 
+// a grade de todos os dutos, sempre no chão (como no jogo); antes só aparecia no instante em que alguém usava
+export const DutosFixos: React.FC<{pontos: {x: number; y: number}[]}> = React.memo(({pontos}) => (
+  <>
+    {pontos.map((p, i) => (
+      <div key={i} style={{position: 'absolute', left: p.x - 31, top: p.y - 23, width: 62, height: 46}}>
+        <div style={{position: 'absolute', left: 3, top: 6, width: 60, height: 42, borderRadius: 6, background: '#0006'}} />
+        <div style={{position: 'absolute', left: 0, top: 0, width: 62, height: 46, borderRadius: 6, background: 'repeating-linear-gradient(0deg, #6b7686 0 5px, #2a313c 5px 9px)', border: '4px solid #11151c', boxShadow: 'inset 0 0 0 2px #9aa6b8'}} />
+      </div>
+    ))}
+  </>
+));
+
 // tampas de duto abrindo (na entrada e na saída) no momento em que alguém passa
 export const TampasDuto: React.FC<{s: Sim; f: number; ponto: (sala: string) => {x: number; y: number} | null}> = ({s, f, ponto}) => (
   <>

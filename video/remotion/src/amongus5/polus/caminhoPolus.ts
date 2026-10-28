@@ -2,14 +2,25 @@
 // com custo maior colado na parede (o jogador anda pelo meio do corredor) e o caminho "esticado" depois
 // (linha reta enquanto não encosta em parede), para ninguém andar em escadinha. Coordenadas de mundo em px (48 por célula).
 import {POLUS, type SalaPolus} from './mapaPolus';
+import {obstaculosPolus} from './obstaculosPolus';
 
 export type Pt = {x: number; y: number};
 const T = 48;
 const C = POLUS.cols, R = POLUS.rows;
 const ch = (c: number, r: number) => (c < 0 || r < 0 || c >= C || r >= R ? ' ' : POLUS.grid[r].charAt(c));
+// os móveis desenhados (mesas, canos, canhão...) bloqueiam as células que o centro cai dentro (com uma folga);
+// porta nunca é bloqueada
+const FOLGA = 14;
+const MOVEL = new Uint8Array(C * R);
+for (const o of obstaculosPolus()) {
+  for (let r = Math.floor((o.y - FOLGA) / T); r <= Math.floor((o.y + o.h + FOLGA) / T); r++) for (let c = Math.floor((o.x - FOLGA) / T); c <= Math.floor((o.x + o.w + FOLGA) / T); c++) {
+    const x = (c + 0.5) * T, y = (r + 0.5) * T;
+    if (c >= 0 && r >= 0 && c < C && r < R && x > o.x - FOLGA && x < o.x + o.w + FOLGA && y > o.y - FOLGA && y < o.y + o.h + FOLGA && ch(c, r) !== 'D') MOVEL[r * C + c] = 1;
+  }
+}
 const andavel = (c: number, r: number) => {
   const k = ch(c, r);
-  return k === '.' || k === ',' || k === 'D';
+  return (k === '.' || k === ',' || k === 'D') && !MOVEL[r * C + c];
 };
 // custo extra perto de parede
 const CUSTO = new Float32Array(C * R);

@@ -1,16 +1,21 @@
-# Short do Among Us 5: "Qual é a Rose real?"
+# Short do Among Us 5: "Qual é a Rose real?" (refeito no molde dos Shorts do AU3/AU4)
 
-Arquivo: `video/remotion/out/short_au5_final.mp4` (feito por `video/scripts/short_au5.py`, cortado do vídeo longo).
-História (log 1 = partida 4 do vídeo): o Banana (MiMo V2.6 Flash) é o Camuflador. No tique 2 copia o Vermelho, e o
-Marrom "vê o Vermelho" colado num corpo; a nave expulsa o Vermelho de verdade. No tique 57 copia a Rose e, no 59, mata
-a Rose.
+Arquivo: `video/remotion/out/short_au5_rose.mp4` (composição `ShortRose5` no Remotion, narração em
+`video/scripts/short_au5_rose.py`; 540p com upscale Lanczos). Roteiro próprio (não é mais recorte do vídeo longo): a
+partida na vertical seguindo quem importa, selos sem emoji (tripulantes desenhados), falas e pensamentos das IAs em
+cartões, votação e ejeção encaixadas. Mapa do Polus consertado: ninguém atravessa móvel e os dutos aparecem no chão.
+Fatos (amongus/logs5/partida1.json): o Banana (MiMo V2.6 Flash) é o Camuflador; t2 vira Vermelho; reunião do t8: o
+Marrom "viu o Vermelho colado no corpo", o Banana pensa "o Marrom viu eu disfarçado"; 11 votos, o Vermelho (inocente)
+sai; t46 mata o Ciano vestido de Preto; t57 vira Rose e no t59 mata a Rose, que também era a MiMo; t63 os tripulantes
+vencem nas tarefas.
 
 ## Título
-A IA copiou a cara da outra... e matou a original 😳
+Essa IA copiou a cara da outra... e matou a ORIGINAL 😳
 
 ## Descrição
-18 IAs jogando Among Us no Polus. O Banana (MiMo, da Xiaomi) é o Camuflador: copia a cara de outro jogador. Vídeo completo no canal.
+O Banana (MiMo, da Xiaomi) era o Camuflador: copia a cara de qualquer jogador. Fez o Vermelho inocente ser expulso, matou disfarçado três vezes... e no fim virou a Rose pra matar a Rose. O detalhe: a Rose também era a MiMo. 18 IAs jogando Among Us no Polus; tudo aconteceu de verdade, e as falas e pensamentos são os das próprias IAs. Vídeo completo no canal.
 #amongus #ia #inteligenciaartificial #shorts
+Música: "Sneaky Snitch" Kevin MacLeod (incompetech.com), licença CC BY 4.0.
 
 ---
 

@@ -11,7 +11,7 @@ import {Som} from '../amongus3/Telas';
 import {Crewmate, COR} from '../amongus/Crewmate';
 import {Crewmate4} from '../amongus/Crewmate4';
 import {EfeitoBase5} from './EfeitosBase5';
-import {Corpo5, DUR_EFEITO5, DutosTapados, Efeito5, MarcasJogador, TampasDuto, animDuto} from './Efeitos5';
+import {Corpo5, DUR_EFEITO5, DutosFixos, DutosTapados, Efeito5, MarcasJogador, TampasDuto, animDuto} from './Efeitos5';
 import {ArtePolus} from './polus/ArtePolus';
 import {POLUS, type SalaPolus} from './polus/mapaPolus';
 import {salaEm} from './polus/caminhoPolus';
@@ -167,6 +167,8 @@ const Hud: React.FC<{p: Partida2; s: Sim; f: number; foco: string; frame: number
 };
 
 // o mundo (mapa, corpos, tripulantes, efeitos) visto de um ponto (cx, cy); usado pela câmera do jogador e pelas câmeras de segurança
+const PONTOS_DUTO = Object.values(POLUS.salas as Record<string, any>).map((d) => d.duto).filter(Boolean) as {x: number; y: number}[];
+
 export const Mundo5: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx: number; cy: number; escala: number; w: number; h: number; papeis?: boolean; sabReator?: boolean; nomes?: boolean; skins?: Skins}> = ({p, s, f, frame, cx, cy, escala, w, h, papeis = false, sabReator = false, nomes = true, skins}) => {
   // AU4 (com skins): mapa v5 (salas em polígono), tripulante novo com a skin de cada IA, e quem caiu num canto cortado vai para dentro da sala
   const v5 = true;
@@ -189,6 +191,7 @@ export const Mundo5: React.FC<{p: Partida2; s: Sim; f: number; frame: number; cx
         {s.portas(f).flatMap((sala) => PORTAS[sala] ?? []).map((d, i) => (
           <div key={'p' + i} style={{position: 'absolute', left: d.x, top: d.y - 10, width: 48, height: 58, background: 'repeating-linear-gradient(90deg, #8a94a3 0 10px, #5b6370 10px 14px)', border: '4px solid #10141b', boxShadow: '0 0 18px #ff3b3b'}} />
         ))}
+        <DutosFixos pontos={PONTOS_DUTO} />
         <TampasDuto s={s} f={f} ponto={pontoDuto} />
         <DutosTapados s={s} f={f} ponto={pontoDuto} />
         {s.corpos(f).map((c) => (
