@@ -9,7 +9,7 @@ import {Crewmate4} from '../amongus/Crewmate4';
 
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
-export type Comentario5 = {autor: string; texto: string; likes: number; selo: string; cor: string};
+export type Comentario5 = {autor: string; texto: string; likes?: number; selo: string; cor: string};
 
 // os comentários entram um por vez (cada um ~1/3 da cena), com o carimbo batendo no final de cada um
 export const AU5Comentarios: React.FC<{comentarios: Comentario5[]; gatilhos?: number[]}> = ({comentarios, gatilhos}) => {
@@ -38,7 +38,7 @@ export const AU5Comentarios: React.FC<{comentarios: Comentario5[]; gatilhos?: nu
               <div style={{flex: 1, minWidth: 0}}>
                 <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#333'}}>{c.autor}</div>
                 <div style={{marginTop: 4, fontFamily: FONT.display, fontWeight: 700, fontSize: 36, lineHeight: 1.2, color: '#000', whiteSpace: 'pre-line'}}>{c.texto}</div>
-                <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#666'}}>{c.likes} curtida{c.likes === 1 ? '' : 's'}</div>
+                {c.likes !== undefined && <div style={{marginTop: 6, fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#666'}}>{c.likes} curtida{c.likes === 1 ? '' : 's'}</div>}
               </div>
             </div>
             {k >= 22 && (

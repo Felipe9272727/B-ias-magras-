@@ -27,6 +27,8 @@ SFX = ROOT / 'remotion/public/sfx'
 FPS = 30
 FONTE = '/usr/share/fonts/opentype/inter/InterDisplay-Black.otf'
 
+IDEIA = ROOT / 'remotion/out/ideia_au5.mp4'  # cartão: o comentário do @SalvadorM_228 e a inspiração (Carmim)
+FALA_IDEIA = 'O Salvador pediu um vídeo no estilo do Carmim. Pedido aceito.'
 GANCHO = 'Você deve estar se perguntando como essa IA confessou que matou alguém... e ninguém expulsou ela. Pra entender, a gente tem que voltar.'
 ABERTURA = ('p2l', 7.6, 15.8)  # o Branco confessando, com a voz dele
 # (cena, de, até) em segundos dentro da cena do vídeo longo, depois da rebobinada
@@ -70,10 +72,12 @@ def legendas_do_trecho(sid, a, z, t):
 def main():
     TMP.mkdir(parents=True, exist_ok=True)
     _, dur_g = b.tts(' '.join(b.bt.spoken(x) for x in GANCHO.split()), b.NARRADOR, TMP / 'gancho')
+    _, dur_i = b.tts(' '.join(b.bt.spoken(x) for x in FALA_IDEIA.split()), b.NARRADOR, TMP / 'ideia')
+    d_ideia = max(4.8, dur_i + 0.6)
     s0, a0, z0 = ABERTURA
     ini0 = cena(s0)['start'] / FPS + a0
-    legendas = legendas_do_trecho(s0, a0, z0, 0.0)
-    t = z0 - a0
+    legendas = [('L', 0.1, d_ideia, FALA_IDEIA.upper())] + legendas_do_trecho(s0, a0, z0, d_ideia)
+    t = d_ideia + z0 - a0
     rebob = dur_g + 0.3  # a rebobinada dura o gancho inteiro
     legendas.append(('L', t + 0.1, t + rebob, GANCHO.upper()))
     t_rebob = t
@@ -95,22 +99,26 @@ def main():
     (TMP / 'leg.ass').write_text('\n'.join(ass))
 
     d0 = z0 - a0
-    ent = ['-ss', f'{ini0:.3f}', '-t', f'{d0:.3f}', '-i', str(LONGO),   # 0: abertura
-           '-ss', f'{ini0:.3f}', '-t', f'{d0:.3f}', '-i', str(LONGO),   # 1: a mesma, para rebobinar
-           '-i', str(TMP / 'gancho.mp3'),                                 # 2: narrador do gancho
-           '-i', str(SFX / 'swoosh-fly.mp3')]                             # 3: som da rebobinada
-    base = 4
+    ent = ['-t', f'{d_ideia:.3f}', '-i', str(IDEIA),                    # 0: cartão da ideia (comentário + Carmim)
+           '-i', str(TMP / 'ideia.mp3'),                                  # 1: narrador do cartão
+           '-ss', f'{ini0:.3f}', '-t', f'{d0:.3f}', '-i', str(LONGO),   # 2: abertura
+           '-ss', f'{ini0:.3f}', '-t', f'{d0:.3f}', '-i', str(LONGO),   # 3: a mesma, para rebobinar
+           '-i', str(TMP / 'gancho.mp3'),                                 # 4: narrador do gancho
+           '-i', str(SFX / 'swoosh-fly.mp3')]                             # 5: som da rebobinada
+    base = 6
     for ini, d in partes:
         ent += ['-ss', f'{ini:.3f}', '-t', f'{d:.3f}', '-i', str(LONGO)]
-    f = [f'[0:v]setpts=PTS-STARTPTS,fps=30[v0]', f'[0:a]asetpts=PTS-STARTPTS,afade=t=out:st={d0 - 0.1:.3f}:d=0.1[a0]',
-         # rebobinada: a abertura ao contrário, acelerada para caber no gancho, com cor lavada e listras
-         f'[1:v]reverse,setpts=PTS*{rebob / d0:.4f},fps=30,eq=saturation=0.4:contrast=1.15,noise=alls=18:allf=t[vr]',
-         f'[2:a]adelay=150|150,apad,atrim=0:{rebob:.3f}[g]', f'[3:a]volume=0.5,apad,atrim=0:{rebob:.3f}[sw]', '[g][sw]amix=inputs=2:normalize=0[ar]']
-    rot = ['[v0][a0]', '[vr][ar]']
+    f = [f'[0:v]setpts=PTS-STARTPTS,fps=30,scale=1920:1080,setsar=1,tpad=stop_mode=clone:stop_duration=2,trim=0:{d_ideia:.3f}[vi]',
+         f'[1:a]adelay=200|200,apad,atrim=0:{d_ideia:.3f},aformat=sample_rates=48000:channel_layouts=stereo[ai]',
+         f'[2:v]setpts=PTS-STARTPTS,fps=30[v0]', f'[2:a]asetpts=PTS-STARTPTS,afade=t=out:st={d0 - 0.1:.3f}:d=0.1,aformat=sample_rates=48000:channel_layouts=stereo[a0]',
+         # rebobinada: a abertura ao contrário, acelerada para caber no gancho, com cor lavada e chiado
+         f'[3:v]reverse,setpts=PTS*{rebob / d0:.4f},fps=30,eq=saturation=0.4:contrast=1.15,noise=alls=18:allf=t[vr]',
+         f'[4:a]adelay=150|150,apad,atrim=0:{rebob:.3f}[g]', f'[5:a]volume=0.5,apad,atrim=0:{rebob:.3f}[sw]', '[g][sw]amix=inputs=2:normalize=0,aformat=sample_rates=48000:channel_layouts=stereo[ar]']
+    rot = ['[vi][ai]', '[v0][a0]', '[vr][ar]']
     for k, (ini, d) in enumerate(partes):
         i = base + k
         f.append(f'[{i}:v]setpts=PTS-STARTPTS,fps=30[v{i}]')
-        f.append(f'[{i}:a]asetpts=PTS-STARTPTS,afade=t=in:d=0.08,afade=t=out:st={d - 0.08:.3f}:d=0.08[a{i}]')
+        f.append(f'[{i}:a]asetpts=PTS-STARTPTS,afade=t=in:d=0.08,afade=t=out:st={d - 0.08:.3f}:d=0.08,aformat=sample_rates=48000:channel_layouts=stereo[a{i}]')
         rot.append(f'[v{i}][a{i}]')
     titulo = "drawtext=fontfile={f}:text='{t}':fontsize={s}:fontcolor={c}:borderw=8:bordercolor=black:x=(w-text_w)/2:y={y}"
     f.append(''.join(rot) + f'concat=n={len(rot)}:v=1:a=1[cv][ca]')
@@ -118,8 +126,8 @@ def main():
     f.append('[c1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=28:2,eq=brightness=-0.25[fundo]')
     f.append('[c2]scale=1080:-2:flags=lanczos[meio]')
     f.append('[fundo][meio]overlay=0:(H-h)/2-60,'
-             + titulo.format(f=FONTE, t='ELE CONFESSOU', s=100, c='white', y=250) + ','
-             + titulo.format(f=FONTE, t='E NÃO SAIU', s=130, c='0xff3b3b', y=370) + ','
+             + titulo.format(f=FONTE, t='ELE CONFESSOU', s=100, c='white', y=250) + f":enable='gte(t,{d_ideia:.2f})',"
+             + titulo.format(f=FONTE, t='E NÃO SAIU', s=130, c='0xff3b3b', y=370) + f":enable='gte(t,{d_ideia:.2f})',"
              + f"drawtext=fontfile={FONTE}:text='VOLTANDO...':fontsize=90:fontcolor=white:borderw=8:bordercolor=black:x=(w-text_w)/2:y=1450:enable='between(t,{t_rebob:.2f},{t_rebob + rebob:.2f})',"
              + titulo.format(f=FONTE, t='18 IAs no Among Us', s=48, c='0x9fe7ff', y=1780) + ','
              + f"ass={TMP / 'leg.ass'}[vf]")
