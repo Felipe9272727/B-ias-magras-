@@ -30,11 +30,14 @@ for (const l of Object.values(posicoes)) l.sort((a, b) => a.t - b.t)
 const SEM_MODELO = new Set(['item', 'experience_orb', 'arrow', 'falling_block', 'tnt', 'egg', 'snowball', 'fishing_bobber'])  // o viewer não tem modelo bom pra estes
 const mobsPorBot = arquivos('mobs').map(lerJsonl)  // por bot: [{t, l:[...]}]
 const blocos = arquivos('blocos').flatMap(lerJsonl).sort((a, b) => a.t - b.t)
-const chunks = fs.readdirSync(path.join(DIR, 'chunks')).map(f => {
-  const [x, z] = f.replace('.json.gz', '').split('_').map(Number)
-  return { x, z, arq: path.join(DIR, 'chunks', f) }
-})
-const porChunk = new Map(chunks.map(c => [`${c.x}_${c.z}`, c]))
+// cada pedaço pode ter várias versões (uma por sessão: x_z.json.gz, x_z_s1.json.gz...)
+const porChunk = new Map()
+for (const f of fs.readdirSync(path.join(DIR, 'chunks'))) {
+  const [x, z, s] = f.replace('.json.gz', '').split('_')
+  const k = `${x}_${z}`
+  ;(porChunk.get(k) ?? porChunk.set(k, []).get(k)).push({ x: +x, z: +z, sessao: s ? +s.slice(1) : 0, arq: path.join(DIR, 'chunks', f) })
+}
+for (const l of porChunk.values()) l.sort((a, b) => a.sessao - b.sessao)
 
 function interp(lista, t) {  // posição interpolada no instante t
   if (!lista?.length) return null
@@ -93,9 +96,10 @@ function mandarChunksPerto(t, c) {
   const cx = Math.floor(c.pos.x / 16), cz = Math.floor(c.pos.z / 16), R = Number(process.env.RAIO ?? 3)
   for (let x = cx - R; x <= cx + R; x++) for (let z = cz - R; z <= cz + R; z++) {
     const k = `${x}_${z}`
-    const ch = porChunk.get(k)
-    if (!ch || enviados.has(k)) continue
-    const d = JSON.parse(zlib.gunzipSync(fs.readFileSync(ch.arq)))
+    const versoes = porChunk.get(k)
+    if (!versoes || enviados.has(k)) continue
+    let d = null
+    for (const v of versoes) { const dv = JSON.parse(zlib.gunzipSync(fs.readFileSync(v.arq))); if (!d || dv.t <= t) d = dv }
     sock.emit('loadChunk', { x: x * 16, z: z * 16, chunk: d.col })
     enviados.add(k)
     // blocos desse pedaço que mudaram depois que ele foi gravado e antes de agora

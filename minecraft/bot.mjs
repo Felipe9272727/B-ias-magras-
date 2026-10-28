@@ -51,7 +51,8 @@ const mem = { chat: [], eventos: [], nota: process.env.NOTA ?? '', ultima: '', d
 // ---- pedaços do mundo e blocos que mudam
 const chunks = path.join(DIR, 'chunks')
 bot.on('chunkColumnLoad', p => {
-  const arq = path.join(chunks, `${p.x >> 4}_${p.z >> 4}.json.gz`)
+  const sessao = Number(process.env.SESSAO ?? 0)
+  const arq = path.join(chunks, `${p.x >> 4}_${p.z >> 4}${sessao ? '_s' + sessao : ''}.json.gz`)
   if (fs.existsSync(arq)) return
   const col = bot.world.getColumnAt(p)
   try { if (col) fs.writeFileSync(arq, zlib.gzipSync(JSON.stringify({ t: agora(), x: p.x, z: p.z, col: col.toJson() })), { flag: 'wx' }) } catch { /* outro bot gravou primeiro */ }

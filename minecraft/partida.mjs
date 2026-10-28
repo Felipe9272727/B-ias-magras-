@@ -21,19 +21,24 @@ export const JOGADORES = [
 
 const DIR = path.join('gravacoes', process.env.NOME_GRAVACAO ?? new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19))
 fs.mkdirSync(path.join(DIR, 'chunks'), { recursive: true })
-const T0 = Number(process.env.T0 ?? Date.now())
+// RETOMAR=1: continua uma gravação que parou (o container reinicia quando a sessão fica parada): o relógio do jogo
+// volta de onde estava (o tempo parado não conta), com a fase, quem está vivo e a nota de cada IA
+const ARQ_ESTADO = path.join(DIR, 'estado.json')
+const antes = process.env.RETOMAR && fs.existsSync(ARQ_ESTADO) ? JSON.parse(fs.readFileSync(ARQ_ESTADO, 'utf8')) : null
+const T0 = antes ? Date.now() - antes.decorrido * 1000 : Number(process.env.T0 ?? Date.now())
+const SESSAO = (antes?.sessao ?? 0) + (antes ? 1 : 0)
 const agora = () => +((Date.now() - T0) / 1000).toFixed(2)
 const log = fs.createWriteStream(path.join(DIR, 'eventos.jsonl'), { flags: 'a' })
 const gravar = o => log.write(JSON.stringify({ t: agora(), ...o }) + '\n')
 const cmd = rcon()
-const estado = { fase: 'sobrevivencia', fimSobrevivencia: T0 + MINUTOS * 60000, vivos: JOGADORES.map(j => j.nome), acabou: false }
+const estado = { fase: antes?.fase ?? 'sobrevivencia', fimSobrevivencia: T0 + MINUTOS * 60000, vivos: antes?.vivos ?? JOGADORES.map(j => j.nome), acabou: false }
 const filhos = {}, info = {}, mortes = {}
 
 function mandarEstado() { for (const f of Object.values(filhos)) f.connected && f.send({ estado }) }
 
 function abrir(j) {
   const f = fork(new URL('./bot.mjs', import.meta.url), [], {
-    env: { ...process.env, JOGADOR: JSON.stringify(j), JOGADORES: JSON.stringify(JOGADORES), DIR, MINUTOS: String(MINUTOS), T0: String(T0), NOTA: info[j.nome]?.nota ?? '' },
+    env: { ...process.env, JOGADOR: JSON.stringify(j), JOGADORES: JSON.stringify(JOGADORES), DIR, MINUTOS: String(MINUTOS), T0: String(T0), SESSAO: String(SESSAO), NOTA: info[j.nome]?.nota ?? '' },
     execArgv: ['--max-old-space-size=2560'], stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
   })
   filhos[j.nome] = f
@@ -63,7 +68,7 @@ function abrir(j) {
 }
 
 // ---- avisos e arena
-const avisos = [60, 30, 10, 5, 1]
+const avisos = [60, 30, 10, 5, 1].filter(m => !antes || m < (estado.fimSobrevivencia - Date.now()) / 60000)
 setInterval(async () => {
   if (estado.fase !== 'sobrevivencia') return
   // dá pra adiantar a arena criando o arquivo ARENA_AGORA na pasta da gravação (o fim passa a ser daqui a 5 min)
@@ -109,11 +114,14 @@ function checarVencedor() {
 }
 
 setInterval(() => {
+  fs.writeFileSync(ARQ_ESTADO, JSON.stringify({ decorrido: agora(), fase: estado.fase, vivos: estado.vivos, sessao: SESSAO, info, mortes }))
   const custo = Object.fromEntries(Object.entries(info).map(([n, i]) => [n, Object.values(i.uso?.custo ?? {}).reduce((s, c) => s + c, 0)]))
   fs.writeFileSync(path.join(DIR, 'uso.json'), JSON.stringify({ t: agora(), fase: estado.fase, vivos: estado.vivos, mortes, custo, total: Object.values(custo).reduce((s, c) => s + c, 0), info }, null, 1))
 }, 30000)
 
 console.log('gravando em', DIR, '| sobrevivência:', MINUTOS, 'min | jogadores:', JOGADORES.map(j => j.nome).join(', '))
 fs.writeFileSync(path.join(DIR, 'config.json'), JSON.stringify({ T0, MINUTOS, JOGADORES, ARENA }, null, 1))
-await cmd('gamerule keepInventory false'); await cmd('gamerule doDaylightCycle true'); await cmd('gamerule doMobSpawning true'); await cmd('time set 0')
+if (antes) { Object.assign(info, antes.info ?? {}); Object.assign(mortes, antes.mortes ?? {}); for (const i of Object.values(info)) i.base = i.decisoes ?? 0; gravar({ tipo: 'retomada', sessao: SESSAO, decorrido: antes.decorrido }) }
+await cmd('gamerule keepInventory false'); await cmd('gamerule doDaylightCycle true'); await cmd('gamerule doMobSpawning true')
+if (!antes) await cmd('time set 0')
 JOGADORES.forEach((j, i) => setTimeout(() => abrir(j), i * 4000))
