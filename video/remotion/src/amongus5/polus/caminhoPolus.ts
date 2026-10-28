@@ -18,6 +18,9 @@ for (const o of obstaculosPolus()) {
     if (c >= 0 && r >= 0 && c < C && r < R && x > o.x - FOLGA && x < o.x + o.w + FOLGA && y > o.y - FOLGA && y < o.y + o.h + FOLGA && ch(c, r) !== 'D') MOVEL[r * C + c] = 1;
   }
 }
+// a chapa ondulada (face externa da parede de baixo, ArtePolus > Sala) é desenhada na neve logo abaixo de cada '#':
+// essa fileira também é parede
+for (let r = 1; r < R; r++) for (let c = 0; c < C; c++) if (ch(c, r) === ',' && ch(c, r - 1) === '#') MOVEL[r * C + c] = 1;
 const andavel = (c: number, r: number) => {
   const k = ch(c, r);
   return (k === '.' || k === ',' || k === 'D') && !MOVEL[r * C + c];
@@ -32,14 +35,21 @@ for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
 
 const celula = (p: Pt) => ({c: Math.floor(p.x / T), r: Math.floor(p.y / T)});
 export const livre = (p: Pt) => { const {c, r} = celula(p); return andavel(c, r) };
+// o corpo do tripulante (uns 50 px de largura, mais o batente das portas; pés no ponto): nenhum pedaço dele pode ficar em cima de parede
+const CORPO = [[0, 0], [-30, 0], [30, 0], [0, -14], [0, 10], [-30, -14], [30, -14], [-30, 10], [30, 10]];
+export const cabe = (p: Pt) => CORPO.every(([ox, oy]) => livre({x: p.x + ox, y: p.y + oy}));
 
 // ponto andável mais perto (quem cai fora do mapa volta para o chão)
 export function soltar(p: Pt): Pt {
+  if (cabe(p)) return p;
+  // primeiro empurra o corpo pra longe da parede (até 30 px), mantendo o ponto onde o motor mandou
+  for (let d = 4; d <= 30; d += 4) for (const [ox, oy] of [[d, 0], [-d, 0], [0, d], [0, -d], [d, d], [-d, d], [d, -d], [-d, -d]]) { const q = {x: p.x + ox, y: p.y + oy}; if (cabe(q)) return q }
   if (livre(p)) return p;
   const {c, r} = celula(p);
   for (let d = 1; d < 12; d++) for (let dr = -d; dr <= d; dr++) for (let dc = -d; dc <= d; dc++) {
     if (Math.max(Math.abs(dr), Math.abs(dc)) !== d) continue;
-    if (andavel(c + dc, r + dr)) return {x: (c + dc + 0.5) * T, y: (r + dr + 0.5) * T};
+    const q = {x: (c + dc + 0.5) * T, y: (r + dr + 0.5) * T};
+    if (andavel(c + dc, r + dr) && (cabe(q) || d > 6)) return q;
   }
   return p;
 }
@@ -59,7 +69,7 @@ function reta(a: Pt, b: Pt): boolean {
   const n = Math.max(1, Math.ceil(d / 12));
   for (let i = 0; i <= n; i++) {
     const x = a.x + ((b.x - a.x) * i) / n, y = a.y + ((b.y - a.y) * i) / n;
-    for (const [ox, oy] of [[0, 0], [14, 0], [-14, 0], [0, 14], [0, -14]]) if (!livre({x: x + ox, y: y + oy})) return false;
+    if (!cabe({x, y})) return false;
   }
   return true;
 }

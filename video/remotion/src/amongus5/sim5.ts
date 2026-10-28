@@ -9,7 +9,7 @@
 // As rotas desviam dos objetos da sala (nave/obstaculos3.ts), testando os pés de cada um.
 // Resultado: posição de cada jogador em cada quadro (30 fps), mais os eventos com o quadro em que acontecem.
 import {POLUS} from './polus/mapaPolus';
-import {caminho, livre as livre3, soltar, salaEm, type Pt} from './polus/caminhoPolus';
+import {caminho, cabe as livre3, soltar, salaEm, type Pt} from './polus/caminhoPolus';
 
 export const FPS = 30;
 export const VEL = 7.5; // px de mundo por quadro
