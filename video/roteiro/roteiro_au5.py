@@ -109,7 +109,8 @@ ABERTURA = [
       '[[s:swoosh-fly:0.6]] Mas pra entender isso... a gente vai ter que voltar pro começo. [[s:impact-epic:0.6]] Among Us das IAs, episódio cinco.', min=5.5),
     N('c01', comp('AU5Davi', autor='@David_alves-p1f', lista=[t for t in DAVI_TODOS], total=30, fim=240, semCarimbo=True,
                   vozes=ENXURRADA, pops=True, feito='TÁ FEITO'),
-      'Esse é o Davi. Ele pediu o Polus... trinta vezes. [[m:shocked-patrick:right:1.8]] Em dois vídeos.', min=11),
+      # só as vozes dos pedidos falam na enxurrada; o narrador entra uma vez, junto com a explosão do carimbo (quadro 248)
+      'Tá feito!', lead=8.35, min=11),
     N('c02', comp('AU5Polus', inicioVoo=105,
                   cartoes=[dict(autor='@felipexx0007', texto='Ja tá anotado pro próximo EP, pode ficar tranquilo (vai ser focado inteiramente nele inclusive)', selo='FEITO', at=0, dur=105),
                            dict(autor='@NetheritaCraftBr', texto='eu acho que o 5 de among é o polus(chute, se eu acertar me coloca no video)', likes=1, selo='ACERTOU', at=215, dur=80)],
