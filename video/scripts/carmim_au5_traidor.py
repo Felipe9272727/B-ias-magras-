@@ -33,12 +33,29 @@ TMP = ROOT / 'remotion/out/carmim_au5_tmp'
 # Ele troca de música conforme a história anda (no vídeo de referência: Delirious, New Beginnings e Treasure Hunt,
 # do Epidemic Sound, que é pago). Aqui: três faixas livres (Kevin MacLeod, CC BY), cada uma começando na batida
 # cujo texto começa assim.
-MUSICAS = [('', 'pixel-peeker-polka-faster.mp3'),
-           ('Só que tinha um problema', 'sneaky-snitch.mp3'),
-           ('Então eu aperto o botão', 'voxel-revolution.mp3')]
+# Faixas com mais ataques por segundo (librosa: as dele têm 5,3 a 6,0; estas, 6,4 a 7,0).
+MUSICAS = [('', 'itty-bitty-8-bit.mp3'),
+           ('Só que tinha um problema', 'bit-shift.mp3'),
+           ('Então eu aperto o botão', 'mega-hyper-ultrastorm.mp3')]
+# selos que pulam na tela no começo da batida (fatos do log): texto, cor da caixa (ASS, BGR), som
+SELOS = {'O Caqui vem': ('ELIMINADO', '&H002020D0&', 'boom.mp3'),
+         'Só que tinha um problema': ('TESTEMUNHA', '&H0000A5E6&', 'pop.mp3'),
+         'Repara no final': ('DUTO!', '&H000070F0&', 'pop.mp3'),
+         'Marrom|': ('CHAT SECRETO', '&H004030B0&', 'pop.mp3'),
+         'A votação racha': ('CIANO EXPULSO', '&H00C08020&', 'pop.mp3'),
+         'Então eu aperto o botão': ('BOTÃO!', '&H002020D0&', 'boom.mp3'),
+         'Lembra do duto?': ('EMPATE 6 x 6', '&H00309030&', 'pop.mp3'),
+         'No fim, o Marrom': ('XERIFE', '&H0000A5E6&', 'pop.mp3')}
+# tremida de tela + clarão no primeiro plano destas batidas
+TREMER = ('O Caqui vem', 'Então eu aperto o botão', 'voice_au5/p2l_1')
+FX_TREME = (",crop=iw-48:ih-48:'24+24*sin(n*2.9)*lt(n,10)':'24+24*cos(n*3.7)*lt(n,10)',scale=1080:1920,"
+            "fade=t=in:st=0:d=0.25:color=white")
+# a rebobinada: cada pedaço passa ao contrário, com cara de fita (cor separada e chiado)
+FX_REBOBINA = ',reverse,rgbashift=rh=-10:bh=10,noise=alls=28:allf=t,eq=saturation=1.35'
 PIXEL = str(PUB / 'fonts/Silkscreen-Bold.ttf')
 FPS = 30
-RAPIDO = 1.25
+RAPIDO = 1.45  # o Branco a ~4,2 palavras/s (o Carmim fala 3,84, sem pausa: nenhuma passa de 0,3 s)
+RAPIDO_IA = 1.2
 MAX_PLANO = 1.5  # nenhum plano dura mais que isso: corta (muda o enquadramento) com zoom batendo
 b.AJUSTES = {'stability': 0.25, 'similarity_boost': 0.75, 'style': 0.55}
 
@@ -74,7 +91,8 @@ BATIDAS = [
 ABRE = 'O Salvador pediu um vídeo no estilo do Carmim. Então, só dessa vez... e com todo o respeito ao mestre... pedido aceito.'
 FECHA = 'Essa foi a nossa homenagem ao estilo do Carmim... só dessa vez. Depois dessa, a gente volta pro jeito de sempre.'
 # a rajada da volta no tempo: (cena, segundo) de partes diferentes da partida; a última é o flash da vitória
-RAJADA = [('p2l', 12.0), ('p2o', 15.0), ('p2k', 7.0), ('p2j', 2.0), ('p2i', 20.0), ('p2h', 12.5), ('p2d', 5.0), ('p2c', 6.0), ('p2b', 8.0), ('p2a', 3.0), ('p2_vit', 2.5)]
+RAJADA = [('p2o', 15.0), ('p2o', 5.0), ('p2n2', 3.0), ('p2n', 4.0), ('p2l', 12.0), ('p2l', 3.0), ('p2k', 7.0), ('p2i2', 10.0), ('p2i', 20.0),
+          ('p2h', 12.5), ('p2f2', 4.0), ('p2f', 3.0), ('p2d2', 3.0), ('p2d', 5.0), ('p2c', 6.0), ('p2b', 8.0), ('p2a', 3.0), ('p2_vit', 2.5)]
 RECORTE = {'jogo': 'crop=608:1080:{x}:0,scale=1080:1920:flags=lanczos',
            'grade': 'crop=680:1080:240:0,scale=1080:1715:flags=lanczos,pad=1080:1920:0:102:color=0x10121c',
            'chat': 'crop=680:1080:1196:0,scale=1080:1715:flags=lanczos,pad=1080:1920:0:102:color=0x10121c'}
@@ -115,27 +133,49 @@ def palavras_leg(ws, t, d, cor='&H00FFFFFF&', est='L'):
     return out
 
 
-def clipe(saida, ini, d, rec, zoom_base=1.0, deslize=0):
+def clipe(saida, ini, d, rec, zoom_base=1.0, deslize=0, fx=''):
     """Um plano de d segundos: recorte 9:16, zoom que bate no começo (punch) e vai fechando; deslize em px."""
     # sem zoom (o Felipe achou maçante): só o recorte parado; o ritmo vem dos cortes
     nq = max(1, round(d * FPS))
     rc = RECORTE[rec].replace('{x}', str(min(max(656 + deslize, 0), 1312)))
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + rc + ',fps=30',
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + rc + ',fps=30' + fx,
                     '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
 
 
 COR_IA = {'Branco': '&H00FFFFFF&', 'Bordo': '&H005A5AE0&', 'Marrom': '&H003C8CD2&'}
 
 
-def fala_clipe(saida, ini, d, cx, cy, w=600):
-    """Fala de uma IA: zoom rápido em quem fala (8 quadros, depois parado) num quadrado no alto; a mensagem vai embaixo."""
+def aneis():
+    """Anéis vermelhos pulsando (15 quadros em loop), desenhados aqui mesmo: marcam quem está falando."""
+    from PIL import Image, ImageDraw
+    pasta = TMP / 'aneis'
+    pasta.mkdir(exist_ok=True)
+    for i in range(15):
+        im = Image.new('RGBA', (420, 420), (0, 0, 0, 0))
+        dr = ImageDraw.Draw(im)
+        for k in range(3):
+            f = ((i / 15) + k / 3) % 1
+            r = 70 + 140 * f
+            dr.ellipse([210 - r, 210 - r, 210 + r, 210 + r], outline=(255, 40, 60, int(230 * (1 - f))), width=9)
+        im.save(pasta / f'a{i:02d}.png')
+    return pasta
+
+
+def fala_clipe(saida, ini, d, cx, cy, w=600, fx=''):
+    """Fala de uma IA: zoom rápido em quem fala (8 quadros, depois parado) num quadrado no alto, com anéis pulsando
+    em volta; a mensagem vai embaixo."""
     nq = max(1, round(d * FPS))
     z = 1080 / w
     x0 = min(max(cx - 540, 0), 840)
-    vf = (PRE + f"crop=1080:1080:{x0}:0,zoompan=z='if(lte(on,8),1+{z - 1:.3f}*(1-pow(1-on/8,3)),{z:.3f})':d=1"
+    lado = 1080 / z  # onde quem fala cai na tela depois do zoom (o zoompan encosta nas bordas)
+    sx = (cx - x0 - min(max(cx - x0 - lado / 2, 0), 1080 - lado)) * z
+    sy = (cy - min(max(cy - lado / 2, 0), 1080 - lado)) * z + 140
+    fc = (f"[0:v]{PRE}crop=1080:1080:{x0}:0,zoompan=z='if(lte(on,8),1+{z - 1:.3f}*(1-pow(1-on/8,3)),{z:.3f})':d=1"
           f":x='{cx - x0}-iw/zoom/2':y='{cy}-ih/zoom/2':s=1080x1080:fps=30,pad=1080:1920:0:140:color=0x10121c,"
-          "drawbox=x=0:y=140:w=1080:h=1080:color=white@0.9:t=6")
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', vf,
+          f"drawbox=x=0:y=140:w=1080:h=1080:color=white@0.9:t=6[b];"
+          f"[b][1:v]overlay=x={sx - 210:.0f}:y={sy - 210:.0f}:enable='gte(n,8)':shortest=1{fx}[v]")
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO),
+                    '-stream_loop', '-1', '-framerate', '30', '-i', str(TMP / 'aneis/a%02d.png'), '-filter_complex', fc, '-map', '[v]',
                     '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
 
 
@@ -161,6 +201,8 @@ def cartao(saida, d, ss):
 
 def main():
     TMP.mkdir(parents=True, exist_ok=True)
+    aneis()
+    sons = []  # (segundo, arquivo de sfx, volume)
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo', '-t', '0.5', str(TMP / 'sil.mp3')], check=True)
     pecas, leg, t = [], [], 0.0  # pecas: (áudio, duração, [planos de vídeo])
     nplano = [0]
@@ -169,7 +211,7 @@ def main():
         nplano[0] += 1
         return TMP / f'v{nplano[0]:03d}.mp4'
 
-    def planos(ini, d, rec):
+    def planos(ini, d, rec, fx=''):
         """Quebra a peça em planos de até MAX_PLANO s; cada corte muda o enquadramento (sem zoom): no jogo o recorte
         anda pros lados, na reunião alterna o chat e a grade de votos."""
         fs, feito, k = [], 0.0, 0
@@ -177,7 +219,7 @@ def main():
             dd = min(MAX_PLANO, d - feito)
             arq = novo()
             r = ('chat', 'grade')[k % 2] if rec == 'chat' else rec
-            clipe(arq, ini + feito, dd, r, 1.0, (0, -240, 240)[k % 3])
+            clipe(arq, ini + feito, dd, r, 1.0, (0, -240, 240)[k % 3], fx if k == 0 else '')
             fs.append(arq)
             feito += dd
             k += 1
@@ -196,6 +238,11 @@ def main():
     for k, bt_ in enumerate(BATIDAS):
         inicio[str(bt_[1])] = t
         quem, conteudo, sid = bt_[0], bt_[1], bt_[2]
+        selo = next((v for pre, v in SELOS.items() if str(conteudo).startswith(pre)), None)
+        if selo:  # pula grande, gira um pouco e assenta
+            leg.append(('S', t + 0.05, t + 1.25, f"{{\\3c{selo[1]}\\fscx260\\fscy260\\frz-7\\t(0,140,\\fscx100\\fscy100)}}{selo[0]}"))
+            sons.append((t + 0.05, selo[2], 0.55))
+        treme = str(conteudo).startswith(TREMER)
         if quem == 'FUNCAO':  # cartão "A sua função é" com o nome em glitch (como a tela de função do jogo)
             d = 2.4
             arq = novo()
@@ -210,6 +257,7 @@ def main():
                             '-filter_complex', f'[1:v]{PRE}crop=420:420:750:330,scale=560:560[p];[0:v][p]overlay=(W-w)/2:1080,{txt}[v]', '-map', '[v]', '-frames:v', str(round(d * FPS)),
                             '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(arq)], check=True)
             pecas.append((TMP / 'sil.mp3', d, [arq]))
+            sons.append((t, 'glitch.mp3', 0.5))
             t += d
             continue
         if quem == 'PUNCH':  # frase de efeito final em caixa alta, por cima da vitória
@@ -228,16 +276,17 @@ def main():
             leg += palavras_leg(ws, t, d, est='L' + sobe)
         elif quem == 'TTS':  # fala do log sem gravação no vídeo longo: voz da cor, texto do log na caixa
             cor, txt = conteudo.split('|', 1)
-            a, d, ws = narra(k, txt, b.VOZES[cor], 1.0)
+            a, d, ws = narra(k, txt, b.VOZES[cor], RAPIDO_IA)
             if len(ws) == len(txt.split()):
                 for w, o in zip(ws, txt.split()):
                     w['w'] = o
             leg += mensagem(ws, t, d, bt_[5])
-        else:
-            a = PUB / f'{conteudo}.mp3'
+        else:  # a fala gravada do vídeo longo, um pouco acelerada
+            a = TMP / f'ia{k}.mp3'
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(PUB / f'{conteudo}.mp3'), '-af', f'atempo={RAPIDO_IA}', str(a)], check=True)
             d = dur(a)
             base = conteudo.replace('_eco', '')
-            ws = [dict(w=w['word'], s=w['start']) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
+            ws = [dict(w=w['word'], s=w['start'] / RAPIDO_IA) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
             # na caixa vai o texto do log (o words.json tem a grafia falada, tipo "Bórdô"): mesma contagem de palavras, só troca
             ats = [e['at'] for e in cena(sid)['events'] if e['type'] == 'voz' and e['src'] == f'{conteudo}.mp3']
             orig = next((x['texto'].split() for x in cena(sid)['visual']['props'].get('chat', []) if x['at'] in ats), [])
@@ -245,16 +294,19 @@ def main():
                 for w, o in zip(ws, orig):
                     w['w'] = o
             leg += mensagem(ws, t, d, bt_[5])
-        d += 0.1
+        d += 0.03  # quase sem respiro entre as falas, como ele
         if sid == 'RAJADA':  # a fala da ponte cobre a rajada: preto curto, ~10 cortes de 0,25 s, flash da vitória
             fs = []
             arq = novo()
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=black:s=1080x1920:d=0.2:r=30', '-frames:v', '6', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', str(arq)], check=True)
             fs.append(arq)
-            passo = max(0.2, (d - 0.2) / len(RAJADA))
+            passo = max(0.13, (d - 0.2) / len(RAJADA))
+            sons.append((t, 'record-scratch.mp3', 0.6))
             for j, (rs, rseg) in enumerate(RAJADA):
                 arq = novo()
-                clipe(arq, cena(rs)['start'] / FPS + rseg, passo, 'chat' if rs in ('p2l', 'p2i', 'p2d') else 'jogo', 1.15 if j % 2 else 1.0, 40 if j % 3 == 0 else -40)
+                chat = rs in ('p2l', 'p2i', 'p2i2', 'p2d', 'p2d2', 'p2f', 'p2f2', 'p2n', 'p2n2')
+                clipe(arq, cena(rs)['start'] / FPS + rseg, passo, ('chat', 'grade')[j % 2] if chat else 'jogo', 1.0,
+                      (0, -240, 240)[j % 3], FX_REBOBINA if rs != 'p2_vit' else '')
                 fs.append(arq)
             dd = 0.2 + round(passo * FPS) / FPS * len(RAJADA)
             pecas.append((a, dd, fs))
@@ -266,13 +318,13 @@ def main():
             while feito < d - 0.01:
                 dd = min(2.0, d - feito) if d - feito - 2.0 > 0.6 else d - feito
                 arq = novo()
-                fala_clipe(arq, ini + feito, dd, *bt_[6], w=(600, 430)[j % 2])
+                fala_clipe(arq, ini + feito, dd, *bt_[6], w=(600, 430)[j % 2], fx=FX_TREME if treme and j == 0 else '')
                 fs.append(arq)
                 feito += dd
                 j += 1
             pecas.append((a, d, fs))
         else:
-            pecas.append((a, d, planos(ini, d, bt_[4])))
+            pecas.append((a, d, planos(ini, d, bt_[4], FX_TREME if treme else '')))
         t += d
 
     a, d, ws = narra('fecha', FECHA)
@@ -292,6 +344,7 @@ def main():
            'Style: NC,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,50,50,250',
            'Style: NM,Silkscreen,58,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,80,80,1265',
            'Style: M,Poppins,62,&H00241A14,&H00FFFFFF,&H00000000,0,3,22,0,8,70,70,1340',
+           'Style: S,Silkscreen,104,&H00FFFFFF,&H002020D0,&H00000000,1,3,18,0,5,40,40,0',
            'Style: P,Silkscreen,96,&H00FFFFFF,&H00000000,&H90000000,1,1,8,4,5,60,60,0', '',
            '[Events]', 'Format: Layer, Start, End, Style, Text']
     for est, a0, z0, txt in leg:
@@ -314,13 +367,18 @@ def main():
         if acc > 0 and nq >= 18:
             cortes.append(acc)
         acc += nq / FPS
-    ent += ['-i', str(PUB / 'sfx/swoosh-air.mp3')]
-    fil.append(f'[{m}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:0.35,afade=t=out:st=0.2:d=0.15,volume=0.35,asplit={len(cortes)}'
-               + ''.join(f'[w{i}]' for i in range(len(cortes))))
-    for i, c in enumerate(cortes):
-        fil.append(f'[w{i}]adelay={int((c - 0.08) * 1000)}:all=1[wd{i}]')
-    fil.append(''.join(f'[wd{i}]' for i in range(len(cortes))) + f'amix=inputs={len(cortes)}:normalize=0[sw]')
-    m += 1
+    sons += [(c - 0.08, 'swoosh-air.mp3', 0.35) for c in cortes]
+    rotulos = []
+    for arqs in sorted({x[1] for x in sons}):
+        lista = [x for x in sons if x[1] == arqs]
+        ent += ['-i', str(PUB / 'sfx' / arqs)]
+        corte = ',atrim=0:0.35,afade=t=out:st=0.2:d=0.15' if arqs == 'swoosh-air.mp3' else ',atrim=0:1.6'
+        fil.append(f'[{m}:a]aformat=sample_rates=48000:channel_layouts=stereo{corte},asplit={len(lista)}' + ''.join(f'[x{m}_{i}]' for i in range(len(lista))))
+        for i, (ts, _, vol) in enumerate(lista):
+            fil.append(f'[x{m}_{i}]volume={vol},adelay={max(0, int(ts * 1000))}:all=1[y{m}_{i}]')
+            rotulos.append(f'[y{m}_{i}]')
+        m += 1
+    fil.append(''.join(rotulos) + f'amix=inputs={len(rotulos)}:normalize=0[sw]')
     fil.append(''.join(rot) + f'concat=n={len(rot)}:v=0:a=1,asplit=2[voz][chave]')
     marcas = [0.0] + [next(v for txt, v in inicio.items() if txt.startswith(ini)) for ini, _ in MUSICAS[1:]] + [total]
     for i, (_, arq) in enumerate(MUSICAS):
