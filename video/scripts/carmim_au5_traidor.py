@@ -13,6 +13,7 @@ fatos do log. A imagem vem do vídeo longo final (remotion/out/among_us_5.mp4); 
 Uso: python3 carmim_au5_traidor.py  → remotion/out/carmim_au5_traidor.mp4
 """
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -22,14 +23,16 @@ import build_timeline_au5 as b  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 PUB = ROOT / 'remotion/public'
-LONGO = ROOT / 'remotion/out/among_us_5.mp4'
+LONGO = Path(os.environ.get('LONGO', ROOT / 'remotion/out/among_us_5.mp4'))
+# o render 540p também serve: sobe pra 1080p (Lanczos) antes do recorte
+PRE = 'scale=1920:1080:flags=lanczos,'
 IDEIA = ROOT / 'remotion/out/ideia_au5.mp4'
 TL = json.loads((PUB / 'timeline_au5.json').read_text())
 OUT = ROOT / 'remotion/out/carmim_au5_traidor.mp4'
 TMP = ROOT / 'remotion/out/carmim_au5_tmp'
 # a batida de "Impostor" (M4rkim), que o Carmim usa nos Shorts: voz tirada com o Demucs; começa já na batida
 MUSICA = PUB / 'music/impostor-m4rkim-beat.mp3'
-MUSICA_INI = 0.0
+MUSICA_INI = 34.0  # entra direto no trecho mais cheio da batida
 PIXEL = str(PUB / 'fonts/Silkscreen-Bold.ttf')
 FPS = 30
 RAPIDO = 1.25
@@ -91,14 +94,14 @@ def ass_tempo(t):
     return f'{int(h)}:{int(m):02d}:{s:05.2f}'
 
 
-def palavras_leg(ws, t, d, cor='&H00FFFFFF&'):
+def palavras_leg(ws, t, d, cor='&H00FFFFFF&', est='L'):
     """Legenda de 1 ou 2 palavras por vez (como a dele)."""
     out, i = [], 0
     while i < len(ws):
         n = 2 if len(ws[i]['w']) <= 4 and i + 1 < len(ws) else 1
         g = ws[i:i + n]
         fim = ws[i + n]['s'] if i + n < len(ws) else d
-        out.append(('L', t + g[0]['s'], t + fim, f'{{\\c{cor}}}' + ' '.join(x['w'] for x in g).upper()))
+        out.append((est, t + g[0]['s'], t + fim, f'{{\\c{cor}}}' + ' '.join(x['w'] for x in g).upper()))
         i += n
     return out
 
@@ -108,7 +111,7 @@ def clipe(saida, ini, d, rec, zoom_base=1.0, deslize=0):
     nq = max(1, round(d * FPS))
     y = "ih*0.62-(ih/zoom/2)" if rec == 'chat' else "ih/2-(ih/zoom/2)"
     z = f"zoompan=z='{zoom_base}*(if(lte(on,5),1.22-0.044*on,1+0.002*(on-5)))':d=1:x='iw/2-(iw/zoom/2)+{deslize}':y='{y}':s=1080x1920:fps=30"
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', RECORTE[rec] + ',' + z,
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + RECORTE[rec] + ',' + z,
                     '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
 
 
@@ -166,7 +169,7 @@ def main():
                    f"drawtext=fontfile={PIXEL}:text='MATE SÓ IMPOSTORES':fontsize=48:fontcolor=0x9fe7ff:x=(w-text_w)/2:y=960")
             ini = cena('p2a')['start'] / FPS + 2.0  # o Branco (recorte do jogo) embaixo do nome
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i', f'color=c=black:s=1080x1920:d={d}:r=30', '-ss', f'{ini:.3f}', '-t', f'{d:.3f}', '-i', str(LONGO),
-                            '-filter_complex', f'[1:v]crop=420:420:750:330,scale=560:560[p];[0:v][p]overlay=(W-w)/2:1080,{txt}[v]', '-map', '[v]', '-frames:v', str(round(d * FPS)),
+                            '-filter_complex', f'[1:v]{PRE}crop=420:420:750:330,scale=560:560[p];[0:v][p]overlay=(W-w)/2:1080,{txt}[v]', '-map', '[v]', '-frames:v', str(round(d * FPS)),
                             '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(arq)], check=True)
             pecas.append((TMP / 'sil.mp3', d, [arq]))
             t += d
@@ -180,16 +183,18 @@ def main():
             leg.append(('P', t, t + d, f'{l1}\\N{{\\c&H003B3BFF&}}{l2}'))
             t += d
             continue
+        # no chat as mensagens ficam embaixo: a legenda vai pro alto, que fica vazio
+        sobe = 'C' if len(bt_) > 4 and bt_[4] == 'chat' else ''
         if quem == 'N':
             a, d, ws = narra(k, conteudo)
-            leg += palavras_leg(ws, t, d)
+            leg += palavras_leg(ws, t, d, est='L' + sobe)
         else:
             a = PUB / f'{conteudo}.mp3'
             d = dur(a)
             base = conteudo.replace('_eco', '')
             ws = [dict(w=w['word'], s=w['start']) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
-            leg.append(('N', t, t + d, bt_[5].upper()))
-            leg += palavras_leg(ws, t, d, '&H0021D2FF&')
+            leg.append(('N' + sobe, t, t + d, bt_[5].upper()))
+            leg += palavras_leg(ws, t, d, '&H0021D2FF&', 'L' + sobe)
         d += 0.1
         if sid == 'RAJADA':  # a fala da ponte cobre a rajada: preto curto, ~10 cortes de 0,25 s, flash da vitória
             fs = []
@@ -222,10 +227,12 @@ def main():
            'Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, BackColour, Bold, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV',
            'Style: L,Silkscreen,92,&H00FFFFFF,&H00000000,&H90000000,1,1,7,3,2,50,50,620',
            'Style: N,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,2,50,50,760',
+           'Style: LC,Silkscreen,92,&H00FFFFFF,&H00000000,&H90000000,1,1,7,3,8,50,50,330',
+           'Style: NC,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,50,50,250',
            'Style: P,Silkscreen,96,&H00FFFFFF,&H00000000,&H90000000,1,1,8,4,5,60,60,0', '',
            '[Events]', 'Format: Layer, Start, End, Style, Text']
     for est, a0, z0, txt in leg:
-        ani = '{\\fscx80\\fscy80\\t(0,60,\\fscx100\\fscy100)}' if est in ('L', 'P') else ''
+        ani = '{\\fscx80\\fscy80\\t(0,60,\\fscx100\\fscy100)}' if est in ('L', 'LC', 'P') else ''
         ass.append(f'Dialogue: 0,{ass_tempo(a0)},{ass_tempo(z0)},{est},{ani}{txt}')
     (TMP / 'leg.ass').write_text('\n'.join(ass))
 
