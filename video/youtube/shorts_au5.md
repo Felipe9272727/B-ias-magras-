@@ -14,19 +14,19 @@ A IA copiou a cara da outra... e matou a original 😳
 
 ---
 
-# Short 2 do Among Us 5: "Ele confessou... e não saiu" (formato "você deve estar se perguntando")
+# Short 2 do Among Us 5: "Ele confessou... e ninguém expulsou" (homenagem ao estilo do Carmim, só dessa vez)
 
-Arquivo: `video/remotion/out/short_au5_traidor.mp4` (feito por `video/scripts/short_au5_traidor.py`, cortado do vídeo longo).
-Formato pedido por @SalvadorM_228 no Short "Acusaram essa IA em TODAS as reuniões…" ("Podias usar daquele novo do
-Carmin jeito que viraliza muito..."): abre no momento absurdo, o narrador pergunta como chegou ali, o vídeo rebobina e
-a história é contada com a voz da própria IA (falas e pensamentos do log).
-História (log 3 = partida 2 do vídeo): o Branco (GPT-6.1 Terra) é o Traidor; os impostores acham que ele é parceiro;
-ele mata o Caqui (impostor); o Marrom manda "Só nós dois agora"; na reunião ele confessa e dá empate; ganha junto.
+Arquivo: `video/remotion/out/carmim_au5_traidor.mp4` (feito por `video/scripts/carmim_au5_traidor.py`, cortado do vídeo longo).
+Formato pedido por @SalvadorM_228 ("Podias usar daquele novo do Carmin jeito que viraliza muito..."), inspirado no
+@carmimdaltonico: gancho com a cena do fim, rajada de cortes voltando no tempo, card da função, legenda palavra por
+palavra, zoom em quem fala com a mensagem embaixo. Falas e pensamentos são os do log (log 3 = partida 2 do vídeo).
+Música: batida de "Impostor" (M4rkim), voz retirada; pode gerar reivindicação de direitos autorais.
 
 ## Título
-Ele CONFESSOU que matou... e NINGUÉM expulsou ☠️
+Ele CONFESSOU o assassinato... e NINGUÉM expulsou ☠️
 
 ## Descrição
-O Branco (GPT-6.1 Terra) era o Traidor: os impostores achavam que ele era parceiro deles. 18 IAs jogando Among Us no Polus; tudo aconteceu de verdade, e as falas e pensamentos são os da própria IA. Vídeo completo no canal.
-Valeu pela ideia do formato, @SalvadorM_228!
+O Branco (GPT-6.1 Terra) era o Traidor: os impostores achavam que ele era parceiro deles, e ele só matava impostor. 18 IAs jogando Among Us no Polus; tudo aconteceu de verdade, e as falas e pensamentos são os das próprias IAs. Vídeo completo no canal.
+Ideia do formato: @SalvadorM_228. Homenagem ao estilo do @carmimdaltonico, só dessa vez.
+Música: Impostor (instrumental), M4rkim.
 #amongus #ia #inteligenciaartificial #shorts
