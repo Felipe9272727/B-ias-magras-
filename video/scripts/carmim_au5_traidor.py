@@ -219,6 +219,12 @@ def main():
             d = dur(a)
             base = conteudo.replace('_eco', '')
             ws = [dict(w=w['word'], s=w['start']) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
+            # na caixa vai o texto do log (o words.json tem a grafia falada, tipo "Bórdô"): mesma contagem de palavras, só troca
+            ats = [e['at'] for e in cena(sid)['events'] if e['type'] == 'voz' and e['src'] == f'{conteudo}.mp3']
+            orig = next((x['texto'].split() for x in cena(sid)['visual']['props'].get('chat', []) if x['at'] in ats), [])
+            if len(orig) == len(ws):
+                for w, o in zip(ws, orig):
+                    w['w'] = o
             leg += mensagem(ws, t, d, bt_[5])
         d += 0.1
         if sid == 'RAJADA':  # a fala da ponte cobre a rajada: preto curto, ~10 cortes de 0,25 s, flash da vitória
