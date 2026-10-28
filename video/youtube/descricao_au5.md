@@ -1,6 +1,6 @@
 # Pacote para o YouTube: Among Us 5 (18 IAs no Polus)
 
-Vídeo final (31:18, 1080p): https://gofile.io/d/8jjXBxQw · Short: `video/remotion/out/short_au5_final.mp4`
+Vídeo final (31:18, 1080p): https://gofile.io/d/OMGsxYhQ · Short: `video/remotion/out/short_au5_final.mp4`
 
 Thumbnail: composição `ThumbAU5` no Remotion (`video/remotion/out/thumb_au5.png`): duas Roses iguais (coroa, terno e
 mini-tripulante, a skin que a MiMo escolheu) na neve do Polus; a de trás, que é o Banana camuflado, esconde uma faca.
