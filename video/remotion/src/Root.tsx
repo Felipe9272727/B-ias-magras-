@@ -216,7 +216,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="IdeiaAU5" component={AU5Comentarios} width={1920} height={1080} fps={30} durationInFrames={165}
         defaultProps={{comentarios: [
           {autor: '@SalvadorM_228', texto: 'Podias usar daquele novo do Carmin jeito que viraliza muito que podia ser tipo "Você deve estar se perguntando como é que esta IA foi acusada 2 vezes..."', likes: 3, selo: 'PEDIDO ACEITO', cor: '#1f6fd1'},
-          {autor: 'Inspiração: @carmimdaltonico', texto: 'Os vídeos do Carmim de Among Us: "Você deve estar se perguntando..."', selo: 'VALEU, CARMIM', cor: '#c0262d'},
+          {autor: 'Inspiração: @carmimdaltonico', texto: 'Os vídeos do Carmim de Among Us: "Você deve estar se perguntando..."\nEdição especial, no estilo dele: só dessa vez.', selo: 'SÓ DESSA VEZ', cor: '#c0262d'},
         ], gatilhos: [0, 60]}} />
       <Composition id="ThumbAU5" component={ThumbAU5} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbAU4" component={ThumbAU4} width={1280} height={720} fps={30} durationInFrames={1} />

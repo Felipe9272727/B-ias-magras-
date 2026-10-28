@@ -28,7 +28,7 @@ FPS = 30
 FONTE = '/usr/share/fonts/opentype/inter/InterDisplay-Black.otf'
 
 IDEIA = ROOT / 'remotion/out/ideia_au5.mp4'  # cartão: o comentário do @SalvadorM_228 e a inspiração (Carmim)
-FALA_IDEIA = 'O Salvador pediu um vídeo no estilo do Carmim. Pedido aceito.'
+FALA_IDEIA = 'O Salvador pediu um vídeo no estilo do Carmim. Então, só dessa vez... e com todo o respeito ao mestre... pedido aceito.'
 GANCHO = 'Você deve estar se perguntando como essa IA confessou que matou alguém... e ninguém expulsou ela. Pra entender, a gente tem que voltar.'
 ABERTURA = ('p2l', 7.6, 15.8)  # o Branco confessando, com a voz dele
 # (cena, de, até) em segundos dentro da cena do vídeo longo, depois da rebobinada
@@ -39,6 +39,18 @@ TRECHOS = [
     ('p2l', 29.9, 33.0),  # empate, ninguém sai
     ('p2_vit', 3.8, 10.1),  # e o Traidor ganhou junto
 ]
+
+
+# versão longa (uns 3 min, como os do Carmim): a partida do Traidor inteira, com as reuniões e os pensamentos dele
+TRECHOS_LONGO = [
+    ('p2a', 0.0, 11.4), ('p2h', 0.0, 18.9), ('p2i', 0.0, 28.4), ('p2i2', 0.0, 31.2), ('p2j', 0.0, 10.2),
+    ('p2k', 0.0, 16.5), ('p2l', 0.0, 35.3), ('p2_vit', 3.8, 10.1),
+]
+FALA_FIM = None
+if len(sys.argv) > 1 and sys.argv[1] == 'longo':
+    TRECHOS = TRECHOS_LONGO
+    FALA_FIM = 'E foi assim. Essa foi a nossa homenagem ao estilo do Carmim... só dessa vez. Depois dessa, a gente volta pro jeito de sempre.'
+    OUT = ROOT / 'remotion/out/short_au5_traidor_longo.mp4'
 
 
 def cena(sid):
@@ -87,6 +99,11 @@ def main():
         partes.append((cena(sid)['start'] / FPS + a, z - a))
         legendas += legendas_do_trecho(sid, a, z, t)
         t += z - a
+    if FALA_FIM:
+        _, dur_f = b.tts(' '.join(b.bt.spoken(x) for x in FALA_FIM.split()), b.NARRADOR, TMP / 'fim')
+        d_fim = dur_f + 1.2
+        legendas.append(('L', t + 0.1, t + d_fim, FALA_FIM.upper()))
+        t += d_fim
     total = t
     ass = ['[Script Info]', 'PlayResX: 1080', 'PlayResY: 1920', 'WrapStyle: 0', '', '[V4+ Styles]',
            'Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, BackColour, Bold, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV',
@@ -120,6 +137,12 @@ def main():
         f.append(f'[{i}:v]setpts=PTS-STARTPTS,fps=30[v{i}]')
         f.append(f'[{i}:a]asetpts=PTS-STARTPTS,afade=t=in:d=0.08,afade=t=out:st={d - 0.08:.3f}:d=0.08,aformat=sample_rates=48000:channel_layouts=stereo[a{i}]')
         rot.append(f'[v{i}][a{i}]')
+    if FALA_FIM:  # fecho: volta ao cartão do pedido (com o carimbo SÓ DESSA VEZ) e o narrador se despede do formato
+        k = base + len(partes)
+        ent += ['-ss', '5.0', '-i', str(IDEIA), '-i', str(TMP / 'fim.mp3')]
+        f.append(f'[{k}:v]setpts=PTS-STARTPTS,fps=30,scale=1920:1080,setsar=1,tpad=stop_mode=clone:stop_duration={d_fim + 1:.2f},trim=0:{d_fim:.3f}[vf_fim]')
+        f.append(f'[{k + 1}:a]adelay=200|200,apad,atrim=0:{d_fim:.3f},aformat=sample_rates=48000:channel_layouts=stereo[af_fim]')
+        rot.append('[vf_fim][af_fim]')
     titulo = "drawtext=fontfile={f}:text='{t}':fontsize={s}:fontcolor={c}:borderw=8:bordercolor=black:x=(w-text_w)/2:y={y}"
     f.append(''.join(rot) + f'concat=n={len(rot)}:v=1:a=1[cv][ca]')
     f.append('[cv]split[c1][c2]')
