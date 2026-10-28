@@ -20,13 +20,14 @@ Arquivo: `video/remotion/out/carmim_au5_traidor.mp4` (feito por `video/scripts/c
 Formato pedido por @SalvadorM_228 ("Podias usar daquele novo do Carmin jeito que viraliza muito..."), inspirado no
 @carmimdaltonico: gancho com a cena do fim, rajada de cortes voltando no tempo, card da função, legenda palavra por
 palavra, zoom em quem fala com a mensagem embaixo. Falas e pensamentos são os do log (log 3 = partida 2 do vídeo).
-Música: batida de "Impostor" (M4rkim), voz retirada; pode gerar reivindicação de direitos autorais.
+Narrado pelo próprio Branco (voz dele, primeira pessoa), como o Carmim faz: só fatos do log; opinião e plano só nas
+falas e pensamentos copiados. Música: três faixas livres trocando por ato, como ele faz (as dele são do Epidemic Sound).
 
 ## Título
-Ele CONFESSOU o assassinato... e NINGUÉM expulsou ☠️
+Eu CONFESSEI o assassinato... e NINGUÉM me expulsou ☠️
 
 ## Descrição
 O Branco (GPT-6.1 Terra) era o Traidor: os impostores achavam que ele era parceiro deles, e ele só matava impostor. 18 IAs jogando Among Us no Polus; tudo aconteceu de verdade, e as falas e pensamentos são os das próprias IAs. Vídeo completo no canal.
 Ideia do formato: @SalvadorM_228. Homenagem ao estilo do @carmimdaltonico, só dessa vez.
-Música: Impostor (instrumental), M4rkim.
+Músicas: "Pixel Peeker Polka - faster", "Sneaky Snitch" e "Voxel Revolution", Kevin MacLeod (incompetech.com), licença CC BY 4.0.
 #amongus #ia #inteligenciaartificial #shorts

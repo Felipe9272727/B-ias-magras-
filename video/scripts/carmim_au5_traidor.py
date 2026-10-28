@@ -30,9 +30,12 @@ IDEIA = ROOT / 'remotion/out/ideia_au5.mp4'
 TL = json.loads((PUB / 'timeline_au5.json').read_text())
 OUT = ROOT / 'remotion/out/carmim_au5_traidor.mp4'
 TMP = ROOT / 'remotion/out/carmim_au5_tmp'
-# a batida de "Impostor" (M4rkim), que o Carmim usa nos Shorts: voz tirada com o Demucs; começa já na batida
-MUSICA = PUB / 'music/impostor-m4rkim-beat.mp3'
-MUSICA_INI = 34.0  # entra direto no trecho mais cheio da batida
+# Ele troca de música conforme a história anda (no vídeo de referência: Delirious, New Beginnings e Treasure Hunt,
+# do Epidemic Sound, que é pago). Aqui: três faixas livres (Kevin MacLeod, CC BY), cada uma começando na batida
+# cujo texto começa assim.
+MUSICAS = [('', 'pixel-peeker-polka-faster.mp3'),
+           ('Só que tinha um problema', 'sneaky-snitch.mp3'),
+           ('Então eu aperto o botão', 'voxel-revolution.mp3')]
 PIXEL = str(PUB / 'fonts/Silkscreen-Bold.ttf')
 FPS = 30
 RAPIDO = 1.25
@@ -40,28 +43,33 @@ MAX_PLANO = 1.5  # nenhum plano dura mais que isso: corta (muda o enquadramento)
 b.AJUSTES = {'stability': 0.25, 'similarity_boost': 0.75, 'style': 0.55}
 
 # (quem, conteúdo, cena, segundo da cena, recorte[, nome, (x, y) de quem fala no quadro 1080p]) — 'N' narrador; 'IA' áudio de fala/pensamento do vídeo longo
+# Como nos vídeos dele, quem conta a história é o próprio jogador, em primeira pessoa: aqui o Branco, com a voz do
+# Branco ('B'). Tudo o que ele narra são fatos do log (partida3.json); opinião e plano só aparecem nas falas e
+# pensamentos dele copiados do log ('IA'). 'TTS': fala do log que o vídeo longo não tinha gravado, na voz da cor.
 BATIDAS = [
-    ('N', 'Você deve estar se perguntando: como o Branco confessou que matou o Caqui, na frente de todo mundo... e ninguém expulsou ele?', 'p2l', 7.9, 'chat'),
-    ('N', 'Pra entender isso, a gente precisa voltar pro começo da partida.', 'RAJADA', None, None),
+    ('B', 'Você deve estar se perguntando como eu confessei um assassinato na frente da nave inteira... e ninguém me expulsou.', 'p2l', 7.9, 'chat'),
+    ('B', 'Pra entender isso, a gente precisa voltar pro começo da partida.', 'RAJADA', None, None),
     ('FUNCAO', 'TRAIDOR', None, None, None),
-    ('N', 'Uma das funções mais doidas do jogo: os impostores acham que ele é parceiro deles, e ele lê o chat secreto. Só que o Traidor só mata uma coisa: impostor.', 'p2a', 1.0, 'jogo'),
-    ('N', 'Então ele chama um impostor pra um lugar isolado.', 'p2h', 4.0, 'jogo'),
+    ('B', 'Eu começo o jogo como Traidor. Os impostores acham que eu sou um deles, e eu leio o chat secreto. Só que eu só posso matar uma coisa: impostor.', 'p2a', 1.0, 'jogo'),
+    ('B', 'Então eu chamo um impostor pra um lugar vazio.', 'p2h', 4.0, 'jogo'),
     ('IA', 'voice_au5/p2h_1', 'p2h', 7.6, 'jogo', 'Branco', (914, 450)),
-    ('N', 'O Caqui vai. Pronto. E o Branco mata o Caqui.', 'p2h', 11.2, 'jogo'),
-    ('N', 'Só que o Bordo viu tudo.', 'p2i', 1.0, 'chat'),
+    ('B', 'O Caqui vem. E eu elimino o Caqui.', 'p2h', 11.2, 'jogo'),
+    ('B', 'Só que tinha um problema: o Bordo viu tudo.', 'p2i', 1.0, 'chat'),
     ('IA', 'voice_au5/p2i_1', 'p2i', 4.2, 'chat', 'Bordo', (924, 670)),
-    ('N', 'Mas ninguém acreditou no Bordo. E o Branco, por dentro:', 'p2i2', 1.0, 'chat'),
+    ('B', 'Repara no final: o Marrom saiu de um duto em Armas. Segura essa informação. E eu sabia que era verdade, porque o próprio Marrom tinha escrito no chat secreto:', 'p2i', 9.0, 'chat'),
+    ('TTS', 'Marrom|Estou saindo pelo duto pra Armas; Branco/Bordo vão me ver.', 'p2k', 3.5, 'jogo', 'Marrom', (300, 880)),  # zoom na própria mensagem, no chat dos impostores
     ('IA', 'voice_au5/p2i2_3_eco', 'p2i2', 21.3, 'jogo', 'Branco pensou', (600, 460)),
-    ('N', 'Aí a foto do Vermelho pega o Ciano mentindo. Ciano expulso. Impostor.', 'p2i', 15.7, 'chat'),
-    ('N', 'Agora só sobrou o Marrom. E ele manda pro único parceiro que acha que tem:', 'p2k', 1.0, 'jogo'),
+    ('TTS', 'Branco|Bordo está errado sobre mim. Vi o Marrom sair do duto em Armas; ele precisa explicar isso.', 'p2i2', 16.5, 'chat', 'Branco', (565, 430)),
+    ('B', 'A votação racha, e quem sai é o Ciano. Também impostor.', 'p2i', 15.7, 'chat'),
+    ('B', 'Agora o Marrom acha que só sobrou nós dois.', 'p2k', 1.0, 'jogo'),
     ('IA', 'voice_au5/p2k_1', 'p2k', 6.4, 'jogo', 'Marrom', (960, 440)),
     ('IA', 'voice_au5/p2k_3_eco', 'p2k', 13.6, 'jogo', 'Branco pensou', (1000, 450)),
-    ('N', 'Aí o Branco aperta o botão... e faz a jogada mais arriscada da partida. Confessa.', 'p2l', 0.5, 'chat'),
+    ('B', 'Então eu aperto o botão. E faço a jogada mais arriscada da partida: eu confesso.', 'p2l', 0.5, 'chat'),
     ('IA', 'voice_au5/p2l_1', 'p2l', 7.9, 'chat', 'Branco', (596, 456)),
-    ('N', 'E o Marrom? Votou no próprio parceiro. Resultado: empate. Ninguém sai.', 'p2l', 21.0, 'chat'),
-    ('N', 'No fim, o Marrom envenena o Preto... só que o Preto é o Xerife. E atira no mesmo tique.', 'p2o', 8.6, 'jogo'),
-    ('N', 'Vitória dos tripulantes. E do Traidor, que ganhou junto.', 'p2_vit', 1.0, 'jogo'),
-    ('PUNCH', 'CONFESSOU UM ASSASSINATO|E GANHOU', 'p2o', 12.0, 'jogo'),
+    ('B', 'Lembra do duto? O Bordo também tinha visto o Marrom sair dele. A nave racha no meio: seis votos em mim, seis no Marrom. Empate. Ninguém sai.', 'p2l', 21.0, 'chat'),
+    ('B', 'No fim, o Marrom envenena o Preto. Só que o Preto é o Xerife, e atira no Marrom no mesmo tique.', 'p2o', 8.6, 'jogo'),
+    ('B', 'Vitória dos tripulantes. E minha também.', 'p2_vit', 1.0, 'jogo'),
+    ('PUNCH', 'CONFESSEI UM ASSASSINATO|E GANHEI', 'p2o', 12.0, 'jogo'),
 ]
 ABRE = 'O Salvador pediu um vídeo no estilo do Carmim. Então, só dessa vez... e com todo o respeito ao mestre... pedido aceito.'
 FECHA = 'Essa foi a nossa homenagem ao estilo do Carmim... só dessa vez. Depois dessa, a gente volta pro jeito de sempre.'
@@ -80,13 +88,13 @@ def dur(arq):
     return float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(arq)], capture_output=True, text=True).stdout)
 
 
-def narra(k, txt):
-    """TTS do narrador, acelerado; devolve (arquivo, duração, palavras com o tempo já acelerado)."""
-    words, _ = b.tts(' '.join(b.bt.spoken(x) for x in txt.split()), b.NARRADOR, TMP / f'n{k}')
+def narra(k, txt, voz=None, rapido=RAPIDO):
+    """TTS (narrador do canal, ou a voz de uma cor), acelerado; devolve (arquivo, duração, palavras no tempo acelerado)."""
+    words, _ = b.tts(' '.join(b.bt.spoken(x) for x in txt.split()), voz or b.NARRADOR, TMP / f'n{k}')
     out = TMP / f'n{k}_r.mp3'
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', TMP / f'n{k}.mp3', '-af', f'silenceremove=start_periods=1:start_threshold=-45dB,atempo={RAPIDO}', out], check=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', TMP / f'n{k}.mp3', '-af', f'silenceremove=start_periods=1:start_threshold=-45dB,atempo={rapido}', out], check=True)
     ini = words[0]['start'] if words else 0
-    return out, dur(out), [dict(w=w['word'], s=(w['start'] - ini) / RAPIDO) for w in words]
+    return out, dur(out), [dict(w=w['word'], s=(w['start'] - ini) / rapido) for w in words]
 
 
 def ass_tempo(t):
@@ -184,7 +192,9 @@ def main():
     leg += palavras_leg(ws, t, d)
     t += d
 
+    inicio = {}  # texto da batida -> segundo em que ela começa (pra trocar a música)
     for k, bt_ in enumerate(BATIDAS):
+        inicio[str(bt_[1])] = t
         quem, conteudo, sid = bt_[0], bt_[1], bt_[2]
         if quem == 'FUNCAO':  # cartão "A sua função é" com o nome em glitch (como a tela de função do jogo)
             d = 2.4
@@ -213,9 +223,16 @@ def main():
             continue
         # no chat as mensagens ficam embaixo: a legenda vai pro alto, que fica vazio
         sobe = 'C' if len(bt_) > 4 and bt_[4] == 'chat' else ''
-        if quem == 'N':
-            a, d, ws = narra(k, conteudo)
+        if quem in ('N', 'B'):  # 'B': o Branco narrando, com a voz dele
+            a, d, ws = narra(k, conteudo, b.VOZES['Branco'] if quem == 'B' else None)
             leg += palavras_leg(ws, t, d, est='L' + sobe)
+        elif quem == 'TTS':  # fala do log sem gravação no vídeo longo: voz da cor, texto do log na caixa
+            cor, txt = conteudo.split('|', 1)
+            a, d, ws = narra(k, txt, b.VOZES[cor], 1.0)
+            if len(ws) == len(txt.split()):
+                for w, o in zip(ws, txt.split()):
+                    w['w'] = o
+            leg += mensagem(ws, t, d, bt_[5])
         else:
             a = PUB / f'{conteudo}.mp3'
             d = dur(a)
@@ -244,7 +261,7 @@ def main():
             t += dd
             continue
         ini = cena(sid)['start'] / FPS + bt_[3]
-        if quem == 'IA':
+        if quem in ('IA', 'TTS'):
             fs, feito, j = [], 0.0, 0
             while feito < d - 0.01:
                 dd = min(2.0, d - feito) if d - feito - 2.0 > 0.6 else d - feito
@@ -304,9 +321,14 @@ def main():
         fil.append(f'[w{i}]adelay={int((c - 0.08) * 1000)}:all=1[wd{i}]')
     fil.append(''.join(f'[wd{i}]' for i in range(len(cortes))) + f'amix=inputs={len(cortes)}:normalize=0[sw]')
     m += 1
-    ent += ['-stream_loop', '-1', '-ss', f'{MUSICA_INI:.2f}', '-i', str(MUSICA)]
     fil.append(''.join(rot) + f'concat=n={len(rot)}:v=0:a=1,asplit=2[voz][chave]')
-    fil.append(f'[{m}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{total:.3f},volume=0.32[mus]')
+    marcas = [0.0] + [next(v for txt, v in inicio.items() if txt.startswith(ini)) for ini, _ in MUSICAS[1:]] + [total]
+    for i, (_, arq) in enumerate(MUSICAS):
+        dm = marcas[i + 1] - marcas[i]
+        ent += ['-stream_loop', '-1', '-i', str(PUB / 'music' / arq)]
+        fil.append(f'[{m + i}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{dm:.3f},asetpts=PTS-STARTPTS,'
+                   f'afade=t=in:d=0.15,afade=t=out:st={max(0, dm - 0.25):.3f}:d=0.25[mu{i}]')
+    fil.append(''.join(f'[mu{i}]' for i in range(len(MUSICAS))) + f'concat=n={len(MUSICAS)}:v=0:a=1,volume=0.32[mus]')
     fil.append('[mus][chave]sidechaincompress=threshold=0.02:ratio=5:attack=15:release=250[md]')
     fil.append('[voz][md][sw]amix=inputs=3:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]')
     som = TMP / 'som.m4a'
