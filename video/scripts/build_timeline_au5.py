@@ -317,6 +317,8 @@ def main():
                     jobs.append((falado, NARRADOR, VOZ / sc['id']))
             else:
                 for k, (quem, txt) in enumerate(sc['falas']):
+                    if quem == 'P':  # pausa dramática: só tempo, sem voz
+                        continue
                     if quem == 'N':
                         tokens, _ = bt.parse(re.sub(r'\s*\.\.\.\s*(?=\[\[)', ' ', txt))
                         jobs.append((' '.join(bt.spoken(t) for t in tokens), NARRADOR, VOZ / f"{sc['id']}_{k}"))
@@ -360,6 +362,9 @@ def main():
             t = lead
             chat = []
             for k, (quem, txt) in enumerate(sc['falas']):
+                if quem == 'P':  # pausa dramática (segundos): a cena segura a imagem sem ninguém falar
+                    t += float(txt)
+                    continue
                 base = VOZ / f'{sid}_{k}'
                 if quem == 'N':
                     n = narrar(sid, txt, base, t, vis, memes, sfx_files, warnings, args.sem_voz)

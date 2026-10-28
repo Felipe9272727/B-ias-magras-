@@ -22,10 +22,10 @@ FONTE = '/usr/share/fonts/opentype/inter/InterDisplay-Black.otf'
 # (cena, de, até) em segundos dentro da cena do vídeo longo
 TRECHOS = [
     ('k01', 0.0, 7.6),    # "Essa é a Rose. E essa... também é a Rose."
-    ('p4b', 2.8, 16.6),   # era o Banana, o Camuflador; copiou o Vermelho (e o pensamento dele, com eco)
+    ('p4b', 1.8, 15.6),   # era o Banana, o Camuflador; copiou o Vermelho (e o pensamento dele, com eco)
     ('p4h', 0.0, 12.6),   # o Marrom "viu o Vermelho" no corpo: era o Banana
     ('p4i', 0.0, 5.9),    # expulsaram o único Vermelho que era Vermelho
-    ('p4v', 2.6, 13.6),   # camufla de Rose... e mata a Rose
+    ('p4v', 1.2, 14.0),   # camufla de Rose... e mata a Rose
 ]
 
 
