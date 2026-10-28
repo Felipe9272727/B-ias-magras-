@@ -54,8 +54,10 @@ FX_TREME = (",crop=iw-48:ih-48:'24+24*sin(n*2.9)*lt(n,10)':'24+24*cos(n*3.7)*lt(
 FX_REBOBINA = ',reverse,rgbashift=rh=-10:bh=10,noise=alls=28:allf=t,eq=saturation=1.35'
 PIXEL = str(PUB / 'fonts/Silkscreen-Bold.ttf')
 FPS = 30
-RAPIDO = 1.45  # o Branco a ~4,2 palavras/s (o Carmim fala 3,84, sem pausa: nenhuma passa de 0,3 s)
-RAPIDO_IA = 1.2
+RAPIDO = 1.25
+RAPIDO_IA = 1.0  # as falas das IAs na velocidade em que foram gravadas
+# o silêncio do fim de cada trecho sai (o Carmim quase não pausa: nenhuma pausa dele passa de 0,3 s)
+CORTA_FIM = 'areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse'
 MAX_PLANO = 1.5  # nenhum plano dura mais que isso: corta (muda o enquadramento) com zoom batendo
 b.AJUSTES = {'stability': 0.25, 'similarity_boost': 0.75, 'style': 0.55}
 
@@ -110,7 +112,7 @@ def narra(k, txt, voz=None, rapido=RAPIDO):
     """TTS (narrador do canal, ou a voz de uma cor), acelerado; devolve (arquivo, duração, palavras no tempo acelerado)."""
     words, _ = b.tts(' '.join(b.bt.spoken(x) for x in txt.split()), voz or b.NARRADOR, TMP / f'n{k}')
     out = TMP / f'n{k}_r.mp3'
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', TMP / f'n{k}.mp3', '-af', f'silenceremove=start_periods=1:start_threshold=-45dB,atempo={rapido}', out], check=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', TMP / f'n{k}.mp3', '-af', f'silenceremove=start_periods=1:start_threshold=-45dB,{CORTA_FIM},atempo={rapido}', out], check=True)
     ini = words[0]['start'] if words else 0
     return out, dur(out), [dict(w=w['word'], s=(w['start'] - ini) / rapido) for w in words]
 
@@ -283,7 +285,7 @@ def main():
             leg += mensagem(ws, t, d, bt_[5])
         else:  # a fala gravada do vídeo longo, um pouco acelerada
             a = TMP / f'ia{k}.mp3'
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(PUB / f'{conteudo}.mp3'), '-af', f'atempo={RAPIDO_IA}', str(a)], check=True)
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(PUB / f'{conteudo}.mp3'), '-af', f'{CORTA_FIM},atempo={RAPIDO_IA}', str(a)], check=True)
             d = dur(a)
             base = conteudo.replace('_eco', '')
             ws = [dict(w=w['word'], s=w['start'] / RAPIDO_IA) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
