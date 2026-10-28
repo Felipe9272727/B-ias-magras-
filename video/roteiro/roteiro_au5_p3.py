@@ -94,7 +94,7 @@ def cenas(h):
             ('N', 'A Rose. Que morreu de tristeza lá no começo. [[m:dicaprio-toast:right:1.6]]'),
         ]),
         N('p3q', comp('AU5Ejecao', partida=3, indice=4),
-          'Na reunião seguinte, o Banana e a Rosa contam os ataques, e o Amarelo é expulso. [[s:revela_impostor:0.5]] Agora só sobrou o Roxo, o Gangster. Sozinho contra sete. [[m:sweating:right:1.4]]', min=5),
+          'Amarelo expulso. [[s:revela_impostor:0.5]] Agora só sobrou o Roxo, o Gangster. Sozinho contra sete. [[m:sweating:right:1.4]]', min=5),
         CH('p3r', jogo(3, 'Roxo', evento={'tipo': 'morte', 'vitima': 'Laranja'}, antes=7,
                        ancoras=[({'tipo': 'sabotagem', 'cor': 'Roxo', 'subtipo': 'Luzes'}, 'apaga'), ({'tipo': 'morte', 'vitima': 'Laranja'}, 'mata')],
                        selos=[selo('LUZES APAGADAS', 'apaga', cor='#333', dur=80), selo('TAREFAS: 100%', 'mesmo', 'carimbo', cor='#0d8a2a', dur=90)]), [

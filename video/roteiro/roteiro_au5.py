@@ -466,4 +466,21 @@ FIM = [
       'Esse foi o Polus, Davi. [[s:tada:0.5]] Comenta aí a função que você quer no próximo... e qual mapa. Se for bom, entra. Até o próximo!', min=5),
 ]
 
-SCENES = ABERTURA + P1 + P2 + partida3() + P4 + FIM
+
+
+def com_reunioes(cenas):
+    """Encaixa as cenas extras de reunião (reunioes_au5.py) depois das cenas indicadas e as falas a mais nas existentes."""
+    spec = importlib.util.spec_from_file_location('reunioes_au5', Path(__file__).with_name('reunioes_au5.py'))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    out = []
+    for sc in cenas:
+        if sc['id'] in mod.ACRESCIMOS:
+            sc = dict(sc, falas=sc['falas'][:-1] + mod.ACRESCIMOS[sc['id']] + sc['falas'][-1:])
+        out.append(sc)
+        for nid, p, i, falas in mod.EXTRAS.get(sc['id'], []):
+            out.append(dict(id=nid, chapter=sc['chapter'], visual=reuniao(p, i), falas=falas))
+    return out
+
+
+SCENES = com_reunioes(ABERTURA + P1 + P2 + partida3() + P4 + FIM)
