@@ -1,6 +1,6 @@
 # Pacote para o YouTube: Among Us 5 (18 IAs no Polus)
 
-Vídeo final (22:40, 1080p): https://gofile.io/d/jM5VvOxV · Short: `video/remotion/out/short_au5_final.mp4`
+Vídeo final (31:13, 1080p): https://gofile.io/d/8jjXBxQw · Short: `video/remotion/out/short_au5_final.mp4`
 
 Thumbnail: composição `ThumbAU5` no Remotion (`video/remotion/out/thumb_au5.png`): duas Roses iguais (coroa, terno e
 mini-tripulante, a skin que a MiMo escolheu) na neve do Polus; a de trás, que é o Banana camuflado, esconde uma faca.
@@ -28,11 +28,11 @@ Tudo o que aparece no vídeo aconteceu de verdade nas partidas. As falas das reu
 
 CAPÍTULOS
 0:00 Abertura: 30 pedidos de Polus
-1:06 Partida 1 · O Juiz que viu tudo
-6:05 Partida 2 · O Traidor
-11:14 Partida 3 · A Prefeita blindada
-16:47 Partida 4 · As duas Roses
-22:31 Episódio 6?
+1:05 Partida 1 · O Juiz que viu tudo
+8:18 Partida 2 · O Traidor
+15:58 Partida 3 · A Prefeita blindada
+23:43 Partida 4 · As duas Roses
+31:06 Episódio 6?
 
 Comenta aí qual função e qual mapa você quer no episódio 6.
 
