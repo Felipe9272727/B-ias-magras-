@@ -94,6 +94,11 @@ DAVI = [
     'Mapa POLUS na próxima?',
 ]
 
+# todos os 30 pedidos do Davi (cena c01, a enxurrada) e as vozes lendo eles por cima umas das outras (gera_enxurrada_au5.py)
+_PUB = Path(__file__).resolve().parents[1] / 'remotion' / 'public' / 'amongus5'
+DAVI_TODOS = json.loads((_PUB / 'davi_polus.json').read_text())
+ENXURRADA = json.loads((_PUB / 'enxurrada.json').read_text()) if (_PUB / 'enxurrada.json').exists() else []
+
 N, CH = fac('abertura')
 ABERTURA = [
     N('k01', jogo(4, 'Banana', evento={'tipo': 'morte', 'vitima': 'Rose'}, antes=3.2, semSala=True,
@@ -102,8 +107,9 @@ ABERTURA = [
       'Essa é a Rose. E essa... também é a Rose. Só que uma delas acabou de matar a outra. [[m:spiderman-pointing:right:1.8]]'),
     N('k02', comp('AU5Rebobina', de=59, para=1, kicker='AMONG US DAS IAs · EPISÓDIO 5', titulo='COLOQUEI 18 IAs NO POLUS'),
       '[[s:swoosh-fly:0.6]] Mas pra entender isso... a gente vai ter que voltar pro começo. [[s:impact-epic:0.6]] Among Us das IAs, episódio cinco.', min=5.5),
-    N('c01', comp('AU5Davi', autor='@David_alves-p1f', lista=DAVI, total=30, fim=185, semCarimbo=True),
-      'Esse é o Davi. [[s:pop:0.4]] Ele pediu o Polus... [[s:pop:0.4]] trinta vezes. [[m:shocked-patrick:right:1.8]] Em dois vídeos.', min=7.5),
+    N('c01', comp('AU5Davi', autor='@David_alves-p1f', lista=[t for t in DAVI_TODOS], total=30, fim=240, semCarimbo=True,
+                  vozes=ENXURRADA, pops=True, feito='TÁ FEITO'),
+      'Esse é o Davi. Ele pediu o Polus... trinta vezes. [[m:shocked-patrick:right:1.8]] Em dois vídeos.', min=11),
     N('c02', comp('AU5Polus', inicioVoo=105,
                   cartoes=[dict(autor='@felipexx0007', texto='Ja tá anotado pro próximo EP, pode ficar tranquilo (vai ser focado inteiramente nele inclusive)', selo='FEITO', at=0, dur=105),
                            dict(autor='@NetheritaCraftBr', texto='eu acho que o 5 de among é o polus(chute, se eu acertar me coloca no video)', likes=1, selo='ACERTOU', at=215, dur=80)],

@@ -1,7 +1,7 @@
 // Abertura do Among Us 5 (seguindo a crítica do AU4: no máximo 3 comentários em ~12 s, carimbo grande em cada um,
 // e o mapa novo mostrado de verdade, num voo de câmera pelo Polus). Desenho próprio, sem emoji.
 import React from 'react';
-import {AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FONT} from '../theme';
 import {ArtePolus, TILE} from './polus/ArtePolus';
 import {POLUS} from './polus/mapaPolus';
@@ -98,7 +98,9 @@ export const AU5Polus: React.FC<{etiquetas?: {txt: string; at: number; cor?: str
 
 // o Davi (@David_alves-p1f) e os 30 comentários dele pedindo o Polus: os cartões vão caindo cada vez mais rápido e se
 // empilhando na tela, com o contador subindo; no fim, carimbo de "ATENDIDO"
-export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number; total?: number; semCarimbo?: boolean}> = ({autor, lista, fim, total, semCarimbo}) => {
+// `vozes` (enxurrada.json): os comentários lidos por várias vozes ao mesmo tempo (sobrecarga); `pops`: um "pop" a cada
+// comentário que cai; `feito`: no fim, o carimbo com esse texto bate com explosão (flash, estilhaços e tremor)
+export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number; total?: number; semCarimbo?: boolean; vozes?: {src: string; at: number; vol: number}[]; pops?: boolean; feito?: string}> = ({autor, lista, fim, total, semCarimbo, vozes, pops, feito}) => {
   const f = useCurrentFrame();
   const {durationInFrames} = useVideoConfig();
   const ate = fim ?? Math.round(durationInFrames * 0.78);
@@ -108,17 +110,21 @@ export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number; to
   // o contador vai além dos cartões mostrados: chega ao total de pedidos de verdade
   const n = total ? Math.round(interpolate(f, [0, ate], [1, total], cl)) : vistos;
   const h = (i: number, k: number) => { const x = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return x - Math.floor(x) };
+  const kf = f - ate - 8; // quadros desde a explosão
+  const tremor = feito && kf >= 0 && kf < 18 ? (18 - kf) * 1.6 : 0;
   return (
-    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 35%, #2b2350, #0d0a1c 75%)', overflow: 'hidden'}}>
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 35%, #2b2350, #0d0a1c 75%)', overflow: 'hidden', transform: `translate(${Math.sin(f * 2.3) * tremor}px, ${Math.cos(f * 3.1) * tremor}px)`}}>
+      {vozes?.map((v, i) => <Sequence key={'v' + i} from={v.at} layout="none"><Audio src={staticFile(v.src)} volume={v.vol} /></Sequence>)}
+      {pops && lista.map((_, i) => <Sequence key={'p' + i} from={entrada(i)} durationInFrames={20} layout="none"><Audio src={staticFile('sfx/pop.mp3')} volume={0.5} /></Sequence>)}
       {lista.map((t, i) => {
         const k = f - entrada(i);
         if (k < 0) return null;
-        const x = 80 + h(i, 1) * 1380, y = 170 + h(i, 2) * 760, rot = -8 + h(i, 3) * 16;
+        const x = (feito ? -60 : 80) + h(i, 1) * (feito ? 1500 : 1380), y = (feito ? 120 : 170) + h(i, 2) * (feito ? 860 : 760), rot = -8 + h(i, 3) * 16;
         const cai = interpolate(k, [0, 8], [0, 1], {...cl, easing: Easing.out(Easing.back(1.4))});
         return (
-          <div key={i} style={{position: 'absolute', left: x, top: y - (1 - cai) * 300, width: 520, opacity: cai, transform: `rotate(${rot}deg) scale(${0.6 + 0.4 * cai})`, padding: '14px 20px', borderRadius: 16, background: '#fff', border: '5px solid #000', boxShadow: '0 8px 0 #000', zIndex: i}}>
+          <div key={i} style={{position: 'absolute', left: x, top: y - (1 - cai) * 300, width: feito ? 600 : 520, opacity: cai, transform: `rotate(${rot}deg) scale(${0.6 + 0.4 * cai})`, padding: '14px 20px', borderRadius: 16, background: '#fff', border: '5px solid #000', boxShadow: '0 8px 0 #000', zIndex: i}}>
             <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 22, color: '#555'}}>{autor}</div>
-            <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: t.length > 60 ? 24 : 32, lineHeight: 1.15, color: '#000', whiteSpace: 'pre-line'}}>{t}</div>
+            <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: t.length > 60 ? (feito ? 28 : 24) : (feito ? 40 : 32), lineHeight: 1.15, color: '#000', whiteSpace: 'pre-line'}}>{t}</div>
           </div>
         );
       })}
@@ -129,7 +135,25 @@ export const AU5Davi: React.FC<{autor: string; lista: string[]; fim?: number; to
           <div style={{fontSize: 30, color: '#ffc9c9'}}>todos do {autor}</div>
         </div>
       </div>
-      {!semCarimbo && f >= ate + 10 && (
+      {feito && kf >= 0 && (
+        <>
+          <Sequence from={ate + 8} layout="none"><Audio src={staticFile('sfx/explosion.mp3')} volume={0.9} /></Sequence>
+          <Sequence from={ate + 8} layout="none"><Audio src={staticFile('sfx/impact-epic.mp3')} volume={0.7} /></Sequence>
+          {/* estrela da explosão */}
+          <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, zIndex: 102}}>
+            {Array.from({length: 22}).map((_, i) => {
+              const a = (i / 22) * Math.PI * 2, r = interpolate(kf, [0, 12], [60, 1300], {...cl, easing: Easing.out(Easing.cubic)});
+              return <path key={i} d={`M960 500 L${960 + Math.cos(a - 0.07) * r} ${500 + Math.sin(a - 0.07) * r} L${960 + Math.cos(a + 0.07) * r} ${500 + Math.sin(a + 0.07) * r} Z`} fill={i % 2 ? '#ffd21f' : '#ff6a00'} opacity={interpolate(kf, [0, 20], [0.95, 0.25], cl)} />;
+            })}
+            <circle cx={960} cy={500} r={interpolate(kf, [0, 10], [40, 520], {...cl, easing: Easing.out(Easing.cubic)})} fill="#fff6c8" opacity={interpolate(kf, [0, 14], [0.95, 0], cl)} />
+          </svg>
+          <AbsoluteFill style={{background: '#fff', opacity: interpolate(kf, [0, 6], [0.85, 0], cl), zIndex: 103}} />
+          <div style={{position: 'absolute', left: 0, right: 0, top: 360, display: 'flex', justifyContent: 'center', zIndex: 104}}>
+            <div style={{padding: '18px 64px', borderRadius: 30, border: '18px solid #0d8a2a', color: '#0d8a2a', background: 'rgba(235,255,238,.97)', fontFamily: FONT.display, fontWeight: 900, fontSize: 190, transform: `rotate(-8deg) scale(${interpolate(kf, [0, 7], [3.2, 1], {...cl, easing: Easing.out(Easing.back(2))})})`, boxShadow: '0 14px 0 #0006'}}>{feito}</div>
+          </div>
+        </>
+      )}
+      {!semCarimbo && !feito && f >= ate + 10 && (
         <div style={{position: 'absolute', left: 0, right: 0, top: 420, display: 'flex', justifyContent: 'center', zIndex: 101}}>
           <div style={{padding: '14px 50px', borderRadius: 24, border: '14px solid #0d8a2a', color: '#0d8a2a', background: 'rgba(235,255,238,.96)', fontFamily: FONT.display, fontWeight: 900, fontSize: 130, transform: `rotate(-8deg) scale(${interpolate(f - ate - 10, [0, 8], [3, 1], cl)})`, opacity: interpolate(f - ate - 10, [0, 4], [0, 1], cl)}}>ATENDIDO</div>
         </div>

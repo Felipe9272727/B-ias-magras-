@@ -55,7 +55,7 @@ const Visual5: React.FC<{name: string; props: Record<string, any>; scene: Scene;
     case 'AU5Comentarios':
       return <AU5Comentarios comentarios={p.comentarios} />;
     case 'AU5Davi':
-      return <AU5Davi autor={p.autor} lista={p.lista} fim={p.fim} total={p.total} semCarimbo={p.semCarimbo} />;
+      return <AU5Davi autor={p.autor} lista={p.lista} fim={p.fim} total={p.total} semCarimbo={p.semCarimbo} vozes={p.vozes} pops={p.pops} feito={p.feito} />;
     case 'AU5Polus':
       return <AU5Polus etiquetas={p.etiquetas} cartoes={p.cartoes} inicioVoo={p.inicioVoo} />;
     case 'AU5Rebobina':
