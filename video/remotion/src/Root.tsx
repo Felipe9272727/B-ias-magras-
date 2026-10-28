@@ -40,6 +40,7 @@ import {PreviaPolus, RecortePolus} from './amongus5/polus/ArtePolus';
 import {Teste5, calcTeste5} from './amongus5/Teste5';
 import {ShortPossuidor, calcShortPossuidor} from './amongus4/ShortPossuidor';
 import {ShortRose5, calcShortRose5} from './amongus5/ShortRose5';
+import {PreviaMC, DURACAO_PREVIA} from './minecraft/PreviaMC';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
 import {Coleta3D, calcColeta3D} from './sessenta/Coleta3D';
@@ -210,7 +211,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ThumbLobo" component={ThumbLobo} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ShortLobo" component={ShortLobo} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{blocos: null}} calculateMetadata={calcShortLobo} />
       <Composition id="PreviaLobo" component={PreviaLobo} width={1920} height={1080} fps={30} durationInFrames={180} />
-      <Composition id="ShortRose5" component={ShortRose5} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortRose5} />
+      <Composition id="PreviaMC" component={PreviaMC} width={1920} height={1080} fps={30} durationInFrames={DURACAO_PREVIA} />
+      <Composition id="ShortRose5"component={ShortRose5} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortRose5} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />

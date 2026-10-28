@@ -118,6 +118,10 @@ function pacoteComSkins() {
   return (js.slice(0, i + 1) + ',' + extras + js.slice(i + 1))
     // o viewer só monta as seções de y 0 a 255 (mundo de antes da 1.18); na 1.21 o mundo vai de -64 a 319
     .replace('const u=new r(l);', 'const u=new r(l);window.__v=u;')
+    // desenha só quando a gente pede (o laço normal desenhava a cena várias vezes por quadro) e sem a animação de 50 ms
+    // nas posições: cada quadro mostra exatamente a posição gravada
+    .replace('!function t(){window.requestAnimationFrame(t),h&&h.update(),u.update(),l.render(u.scene,u.camera)}()', 'window.__r=function(){h&&h.update(),u.update(),l.render(u.scene,u.camera)};!function t(){window.requestAnimationFrame(t),window.__manual||window.__r()}()')
+    .replaceAll('},50).start()', '},0).start()')
     .replaceAll('for(let i=0;i<256;i+=16)', 'for(let i=-64;i<320;i+=16)')
     .replace('this.scene.background=new n.Color("lightblue")', `this.scene.background=new n.Color("#a5c8ff"),this.scene.fog=new n.Fog("#a5c8ff",${NEB[0]},${NEB[1]})`)
 }
@@ -221,9 +225,10 @@ for (let i = 0; i < n; i++) {
   const a = Date.now()
   quadro(t)
   const b = Date.now()
-  await pag.waitForTimeout(Number(process.env.ESPERA ?? 60))
+  await pag.waitForTimeout(Number(process.env.ESPERA ?? 12))
   const c = Date.now()
-  const b64 = await pag.evaluate(() => new Promise(ok => requestAnimationFrame(() => requestAnimationFrame(() => ok(document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1])))))
+  // duas passadas: a primeira termina as animações de 0 ms, a segunda desenha tudo no lugar
+  const b64 = await pag.evaluate(() => { window.__manual = true; window.__r(); window.__r(); return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1] })
   ff.stdin.write(Buffer.from(b64, 'base64'))
   if (process.env.DEBUG_REPLAY) console.log('emitir', b - a, 'esperar', c - b, 'foto', Date.now() - c)
   if (i % 10 === 0) console.log(i + '/' + n, ((Date.now() - inicio) / (i + 1) / 1000).toFixed(2) + ' s/quadro')
