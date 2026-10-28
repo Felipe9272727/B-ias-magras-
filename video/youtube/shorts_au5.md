@@ -29,5 +29,5 @@ Eu CONFESSEI o assassinato... e NINGUÉM me expulsou ☠️
 ## Descrição
 O Branco (GPT-6.1 Terra) era o Traidor: os impostores achavam que ele era parceiro deles, e ele só matava impostor. 18 IAs jogando Among Us no Polus; tudo aconteceu de verdade, e as falas e pensamentos são os das próprias IAs. Vídeo completo no canal.
 Ideia do formato: @SalvadorM_228. Homenagem ao estilo do @carmimdaltonico, só dessa vez.
-Músicas: "Pixel Peeker Polka - faster", "Sneaky Snitch" e "Voxel Revolution", Kevin MacLeod (incompetech.com), licença CC BY 4.0.
+Músicas: "Itty Bitty 8 Bit", "Bit Shift" e "Mega Hyper Ultrastorm", Kevin MacLeod (incompetech.com), licença CC BY 4.0.
 #amongus #ia #inteligenciaartificial #shorts
