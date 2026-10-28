@@ -47,7 +47,7 @@ BATIDAS = [
     ('N', 'Uma das funções mais doidas do jogo: os impostores acham que ele é parceiro deles, e ele lê o chat secreto. Só que o Traidor só mata uma coisa: impostor.', 'p2a', 1.0, 'jogo'),
     ('N', 'Então ele chama um impostor pra um lugar isolado.', 'p2h', 4.0, 'jogo'),
     ('IA', 'voice_au5/p2h_1', 'p2h', 7.6, 'jogo', 'Branco', (914, 450)),
-    ('N', 'O Caqui vai. Perfeito. E o Branco mata o Caqui.', 'p2h', 11.2, 'jogo'),
+    ('N', 'O Caqui vai. Pronto. E o Branco mata o Caqui.', 'p2h', 11.2, 'jogo'),
     ('N', 'Só que o Bordo viu tudo.', 'p2i', 1.0, 'chat'),
     ('IA', 'voice_au5/p2i_1', 'p2i', 4.2, 'chat', 'Bordo', (924, 670)),
     ('N', 'Mas ninguém acreditou no Bordo. E o Branco, por dentro:', 'p2i2', 1.0, 'chat'),
@@ -61,13 +61,14 @@ BATIDAS = [
     ('N', 'E o Marrom? Votou no próprio parceiro. Resultado: empate. Ninguém sai.', 'p2l', 21.0, 'chat'),
     ('N', 'No fim, o Marrom envenena o Preto... só que o Preto é o Xerife. E atira no mesmo tique.', 'p2o', 8.6, 'jogo'),
     ('N', 'Vitória dos tripulantes. E do Traidor, que ganhou junto.', 'p2_vit', 1.0, 'jogo'),
-    ('PUNCH', 'CONFESSOU UM ASSASSINATO|E GANHOU', 'p2_vit', 3.0, 'jogo'),
+    ('PUNCH', 'CONFESSOU UM ASSASSINATO|E GANHOU', 'p2o', 12.0, 'jogo'),
 ]
 ABRE = 'O Salvador pediu um vídeo no estilo do Carmim. Então, só dessa vez... e com todo o respeito ao mestre... pedido aceito.'
 FECHA = 'Essa foi a nossa homenagem ao estilo do Carmim... só dessa vez. Depois dessa, a gente volta pro jeito de sempre.'
 # a rajada da volta no tempo: (cena, segundo) de partes diferentes da partida; a última é o flash da vitória
 RAJADA = [('p2l', 12.0), ('p2o', 15.0), ('p2k', 7.0), ('p2j', 2.0), ('p2i', 20.0), ('p2h', 12.5), ('p2d', 5.0), ('p2c', 6.0), ('p2b', 8.0), ('p2a', 3.0), ('p2_vit', 2.5)]
-RECORTE = {'jogo': 'crop=608:1080:656:0,scale=1080:1920:flags=lanczos',
+RECORTE = {'jogo': 'crop=608:1080:{x}:0,scale=1080:1920:flags=lanczos',
+           'grade': 'crop=680:1080:240:0,scale=1080:1715:flags=lanczos,pad=1080:1920:0:102:color=0x10121c',
            'chat': 'crop=680:1080:1196:0,scale=1080:1715:flags=lanczos,pad=1080:1920:0:102:color=0x10121c'}
 
 
@@ -110,7 +111,8 @@ def clipe(saida, ini, d, rec, zoom_base=1.0, deslize=0):
     """Um plano de d segundos: recorte 9:16, zoom que bate no começo (punch) e vai fechando; deslize em px."""
     # sem zoom (o Felipe achou maçante): só o recorte parado; o ritmo vem dos cortes
     nq = max(1, round(d * FPS))
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + RECORTE[rec] + ',fps=30',
+    rc = RECORTE[rec].replace('{x}', str(min(max(656 + deslize, 0), 1312)))
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + rc + ',fps=30',
                     '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
 
 
@@ -160,14 +162,14 @@ def main():
         return TMP / f'v{nplano[0]:03d}.mp4'
 
     def planos(ini, d, rec):
-        """Quebra a peça em planos de até MAX_PLANO s, cada um com outro zoom/deslize (a imagem segue andando)."""
+        """Quebra a peça em planos de até MAX_PLANO s; cada corte muda o enquadramento (sem zoom): no jogo o recorte
+        anda pros lados, na reunião alterna o chat e a grade de votos."""
         fs, feito, k = [], 0.0, 0
-        variacoes = [(1.0, 0), (1.18, 60), (1.08, -50), (1.28, 0)]
         while feito < d - 0.01:
             dd = min(MAX_PLANO, d - feito)
-            zb, dz = variacoes[k % len(variacoes)]
             arq = novo()
-            clipe(arq, ini + feito, dd, rec, zb if rec == 'jogo' else 1.0 + (zb - 1) * 0.5, dz)
+            r = ('chat', 'grade')[k % 2] if rec == 'chat' else rec
+            clipe(arq, ini + feito, dd, r, 1.0, (0, -240, 240)[k % 3])
             fs.append(arq)
             feito += dd
             k += 1
@@ -243,15 +245,21 @@ def main():
             continue
         ini = cena(sid)['start'] / FPS + bt_[3]
         if quem == 'IA':
-            arq = novo()
-            fala_clipe(arq, ini, d, *bt_[6])
-            pecas.append((a, d, [arq]))
+            fs, feito, j = [], 0.0, 0
+            while feito < d - 0.01:
+                dd = min(2.0, d - feito) if d - feito - 2.0 > 0.6 else d - feito
+                arq = novo()
+                fala_clipe(arq, ini + feito, dd, *bt_[6], w=(600, 430)[j % 2])
+                fs.append(arq)
+                feito += dd
+                j += 1
+            pecas.append((a, d, fs))
         else:
             pecas.append((a, d, planos(ini, d, bt_[4])))
         t += d
 
     a, d, ws = narra('fecha', FECHA)
-    d += 0.8
+    d += 0.3
     arq = novo()
     cartao(arq, d, '5.0')
     pecas.append((a, d, [arq]))
@@ -265,8 +273,8 @@ def main():
            'Style: N,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,2,50,50,760',
            'Style: LC,Silkscreen,92,&H00FFFFFF,&H00000000,&H90000000,1,1,7,3,8,50,50,330',
            'Style: NC,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,50,50,250',
-           'Style: NM,Silkscreen,50,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,80,80,1265',
-           'Style: M,Poppins,50,&H00241A14,&H00FFFFFF,&H00000000,0,3,22,0,8,90,90,1350',
+           'Style: NM,Silkscreen,58,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,80,80,1265',
+           'Style: M,Poppins,62,&H00241A14,&H00FFFFFF,&H00000000,0,3,22,0,8,70,70,1340',
            'Style: P,Silkscreen,96,&H00FFFFFF,&H00000000,&H90000000,1,1,8,4,5,60,60,0', '',
            '[Events]', 'Format: Layer, Start, End, Style, Text']
     for est, a0, z0, txt in leg:
@@ -282,11 +290,25 @@ def main():
         fil.append(f'[{k}:a]aformat=sample_rates=48000:channel_layouts=stereo,apad,atrim=0:{d:.3f}[s{k}]')
         rot.append(f'[s{k}]')
     m = len(pecas)
+    cortes, acc = [], 0.0
+    for arq in todos:
+        nq = int(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v', '-show_entries', 'stream=nb_frames', '-of', 'csv=p=0', str(arq)],
+                                capture_output=True, text=True).stdout.strip() or 0)
+        if acc > 0 and nq >= 18:
+            cortes.append(acc)
+        acc += nq / FPS
+    ent += ['-i', str(PUB / 'sfx/swoosh-air.mp3')]
+    fil.append(f'[{m}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:0.35,afade=t=out:st=0.2:d=0.15,volume=0.35,asplit={len(cortes)}'
+               + ''.join(f'[w{i}]' for i in range(len(cortes))))
+    for i, c in enumerate(cortes):
+        fil.append(f'[w{i}]adelay={int((c - 0.08) * 1000)}:all=1[wd{i}]')
+    fil.append(''.join(f'[wd{i}]' for i in range(len(cortes))) + f'amix=inputs={len(cortes)}:normalize=0[sw]')
+    m += 1
     ent += ['-stream_loop', '-1', '-ss', f'{MUSICA_INI:.2f}', '-i', str(MUSICA)]
     fil.append(''.join(rot) + f'concat=n={len(rot)}:v=0:a=1,asplit=2[voz][chave]')
     fil.append(f'[{m}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{total:.3f},volume=0.32[mus]')
     fil.append('[mus][chave]sidechaincompress=threshold=0.02:ratio=5:attack=15:release=250[md]')
-    fil.append('[voz][md]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]')
+    fil.append('[voz][md][sw]amix=inputs=3:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[a]')
     som = TMP / 'som.m4a'
     subprocess.run(['ffmpeg', '-v', 'error', '-y', *ent, '-filter_complex', ';'.join(fil), '-map', '[a]', '-c:a', 'aac', '-b:a', '192k', str(som)], check=True)
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(TMP / 'lista.txt'), '-i', str(som),
