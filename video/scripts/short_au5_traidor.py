@@ -151,7 +151,7 @@ def main():
     f.append('[fundo][meio]overlay=0:(H-h)/2-60,'
              + titulo.format(f=FONTE, t='ELE CONFESSOU', s=100, c='white', y=250) + f":enable='gte(t,{d_ideia:.2f})',"
              + titulo.format(f=FONTE, t='E NÃO SAIU', s=130, c='0xff3b3b', y=370) + f":enable='gte(t,{d_ideia:.2f})',"
-             + f"drawtext=fontfile={FONTE}:text='VOLTANDO...':fontsize=90:fontcolor=white:borderw=8:bordercolor=black:x=(w-text_w)/2:y=1450:enable='between(t,{t_rebob:.2f},{t_rebob + rebob:.2f})',"
+             + f"drawtext=fontfile={FONTE}:text='VOLTANDO...':fontsize=90:fontcolor=white:borderw=8:bordercolor=black:x=(w-text_w)/2:y=660:enable='between(t,{t_rebob:.2f},{t_rebob + rebob:.2f})',"
              + titulo.format(f=FONTE, t='18 IAs no Among Us', s=48, c='0x9fe7ff', y=1780) + ','
              + f"ass={TMP / 'leg.ass'}[vf]")
     f.append('[ca]loudnorm=I=-14:TP=-1.5:LRA=11[af]')
