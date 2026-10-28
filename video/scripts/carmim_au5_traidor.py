@@ -39,25 +39,25 @@ RAPIDO = 1.25
 MAX_PLANO = 1.5  # nenhum plano dura mais que isso: corta (muda o enquadramento) com zoom batendo
 b.AJUSTES = {'stability': 0.25, 'similarity_boost': 0.75, 'style': 0.55}
 
-# (quem, conteúdo, cena, segundo da cena, recorte[, nome]) — 'N' narrador; 'IA' áudio de fala/pensamento do vídeo longo
+# (quem, conteúdo, cena, segundo da cena, recorte[, nome, (x, y) de quem fala no quadro 1080p]) — 'N' narrador; 'IA' áudio de fala/pensamento do vídeo longo
 BATIDAS = [
     ('N', 'Você deve estar se perguntando: como o Branco confessou que matou o Caqui, na frente de todo mundo... e ninguém expulsou ele?', 'p2l', 7.9, 'chat'),
     ('N', 'Pra entender isso, a gente precisa voltar pro começo da partida.', 'RAJADA', None, None),
     ('FUNCAO', 'TRAIDOR', None, None, None),
     ('N', 'Uma das funções mais doidas do jogo: os impostores acham que ele é parceiro deles, e ele lê o chat secreto. Só que o Traidor só mata uma coisa: impostor.', 'p2a', 1.0, 'jogo'),
     ('N', 'Então ele chama um impostor pra um lugar isolado.', 'p2h', 4.0, 'jogo'),
-    ('IA', 'voice_au5/p2h_1', 'p2h', 7.6, 'jogo', 'Branco'),
+    ('IA', 'voice_au5/p2h_1', 'p2h', 7.6, 'jogo', 'Branco', (914, 450)),
     ('N', 'O Caqui vai. Perfeito. E o Branco mata o Caqui.', 'p2h', 11.2, 'jogo'),
     ('N', 'Só que o Bordo viu tudo.', 'p2i', 1.0, 'chat'),
-    ('IA', 'voice_au5/p2i_1', 'p2i', 4.2, 'chat', 'Bordo'),
+    ('IA', 'voice_au5/p2i_1', 'p2i', 4.2, 'chat', 'Bordo', (924, 670)),
     ('N', 'Mas ninguém acreditou no Bordo. E o Branco, por dentro:', 'p2i2', 1.0, 'chat'),
-    ('IA', 'voice_au5/p2i2_3_eco', 'p2i2', 21.3, 'jogo', 'Branco pensou'),
+    ('IA', 'voice_au5/p2i2_3_eco', 'p2i2', 21.3, 'jogo', 'Branco pensou', (600, 460)),
     ('N', 'Aí a foto do Vermelho pega o Ciano mentindo. Ciano expulso. Impostor.', 'p2i', 15.7, 'chat'),
     ('N', 'Agora só sobrou o Marrom. E ele manda pro único parceiro que acha que tem:', 'p2k', 1.0, 'jogo'),
-    ('IA', 'voice_au5/p2k_1', 'p2k', 6.4, 'jogo', 'Marrom'),
-    ('IA', 'voice_au5/p2k_3_eco', 'p2k', 13.6, 'jogo', 'Branco pensou'),
+    ('IA', 'voice_au5/p2k_1', 'p2k', 6.4, 'jogo', 'Marrom', (960, 440)),
+    ('IA', 'voice_au5/p2k_3_eco', 'p2k', 13.6, 'jogo', 'Branco pensou', (1000, 450)),
     ('N', 'Aí o Branco aperta o botão... e faz a jogada mais arriscada da partida. Confessa.', 'p2l', 0.5, 'chat'),
-    ('IA', 'voice_au5/p2l_1', 'p2l', 7.9, 'chat', 'Branco'),
+    ('IA', 'voice_au5/p2l_1', 'p2l', 7.9, 'chat', 'Branco', (596, 456)),
     ('N', 'E o Marrom? Votou no próprio parceiro. Resultado: empate. Ninguém sai.', 'p2l', 21.0, 'chat'),
     ('N', 'No fim, o Marrom envenena o Preto... só que o Preto é o Xerife. E atira no mesmo tique.', 'p2o', 8.6, 'jogo'),
     ('N', 'Vitória dos tripulantes. E do Traidor, que ganhou junto.', 'p2_vit', 1.0, 'jogo'),
@@ -108,11 +108,37 @@ def palavras_leg(ws, t, d, cor='&H00FFFFFF&', est='L'):
 
 def clipe(saida, ini, d, rec, zoom_base=1.0, deslize=0):
     """Um plano de d segundos: recorte 9:16, zoom que bate no começo (punch) e vai fechando; deslize em px."""
+    # sem zoom (o Felipe achou maçante): só o recorte parado; o ritmo vem dos cortes
     nq = max(1, round(d * FPS))
-    y = "ih*0.62-(ih/zoom/2)" if rec == 'chat' else "ih/2-(ih/zoom/2)"
-    z = f"zoompan=z='{zoom_base}*(if(lte(on,5),1.22-0.044*on,1+0.002*(on-5)))':d=1:x='iw/2-(iw/zoom/2)+{deslize}':y='{y}':s=1080x1920:fps=30"
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + RECORTE[rec] + ',' + z,
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', PRE + RECORTE[rec] + ',fps=30',
                     '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
+
+
+COR_IA = {'Branco': '&H00FFFFFF&', 'Bordo': '&H005A5AE0&', 'Marrom': '&H003C8CD2&'}
+
+
+def fala_clipe(saida, ini, d, cx, cy, w=600):
+    """Fala de uma IA: zoom rápido em quem fala (8 quadros, depois parado) num quadrado no alto; a mensagem vai embaixo."""
+    nq = max(1, round(d * FPS))
+    z = 1080 / w
+    x0 = min(max(cx - 540, 0), 840)
+    vf = (PRE + f"crop=1080:1080:{x0}:0,zoompan=z='if(lte(on,8),1+{z - 1:.3f}*(1-pow(1-on/8,3)),{z:.3f})':d=1"
+          f":x='{cx - x0}-iw/zoom/2':y='{cy}-ih/zoom/2':s=1080x1080:fps=30,pad=1080:1920:0:140:color=0x10121c,"
+          "drawbox=x=0:y=140:w=1080:h=1080:color=white@0.9:t=6")
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-t', f'{d + 0.4:.3f}', '-i', str(LONGO), '-vf', vf,
+                    '-frames:v', str(nq), '-an', '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-crf', '17', '-preset', 'veryfast', str(saida)], check=True)
+
+
+def mensagem(ws, t, d, nome):
+    """A mensagem inteira numa caixa embaixo, pintando palavra por palavra no tempo da voz (karaokê)."""
+    pensou = nome.endswith('pensou')
+    quem = nome.split()[0]
+    partes = []
+    for i, w in enumerate(ws):
+        fim = ws[i + 1]['s'] if i + 1 < len(ws) else d
+        partes.append(f"{{\\kf{max(1, round((fim - w['s']) * 100))}}}{w['w']} ")
+    txt = ('{\\2c&H00A8A0A0&' + ('\\i1' if pensou else '') + '}') + ''.join(partes).strip()
+    return [('NM', t, t + d, f"{{\\c{COR_IA.get(quem, '&H00FFFFFF&')}}}{nome.upper()}"), ('M', t, t + d, txt)]
 
 
 def cartao(saida, d, ss):
@@ -193,8 +219,7 @@ def main():
             d = dur(a)
             base = conteudo.replace('_eco', '')
             ws = [dict(w=w['word'], s=w['start']) for w in json.loads((PUB / f'{base}.words.json').read_text())['words']]
-            leg.append(('N' + sobe, t, t + d, bt_[5].upper()))
-            leg += palavras_leg(ws, t, d, '&H0021D2FF&', 'L' + sobe)
+            leg += mensagem(ws, t, d, bt_[5])
         d += 0.1
         if sid == 'RAJADA':  # a fala da ponte cobre a rajada: preto curto, ~10 cortes de 0,25 s, flash da vitória
             fs = []
@@ -211,7 +236,12 @@ def main():
             t += dd
             continue
         ini = cena(sid)['start'] / FPS + bt_[3]
-        pecas.append((a, d, planos(ini, d, bt_[4])))
+        if quem == 'IA':
+            arq = novo()
+            fala_clipe(arq, ini, d, *bt_[6])
+            pecas.append((a, d, [arq]))
+        else:
+            pecas.append((a, d, planos(ini, d, bt_[4])))
         t += d
 
     a, d, ws = narra('fecha', FECHA)
@@ -229,6 +259,8 @@ def main():
            'Style: N,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,2,50,50,760',
            'Style: LC,Silkscreen,92,&H00FFFFFF,&H00000000,&H90000000,1,1,7,3,8,50,50,330',
            'Style: NC,Silkscreen,46,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,50,50,250',
+           'Style: NM,Silkscreen,50,&H00FFFFFF,&H00000000,&H90000000,1,1,5,2,8,80,80,1265',
+           'Style: M,Poppins,50,&H00241A14,&H00FFFFFF,&H00000000,0,3,22,0,8,90,90,1350',
            'Style: P,Silkscreen,96,&H00FFFFFF,&H00000000,&H90000000,1,1,8,4,5,60,60,0', '',
            '[Events]', 'Format: Layer, Start, End, Style, Text']
     for est, a0, z0, txt in leg:
