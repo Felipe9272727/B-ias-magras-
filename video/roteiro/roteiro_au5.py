@@ -374,6 +374,9 @@ P4 = [
                   ancoras=[({'tipo': 'escudo', 'vitima': 'Branco', 'assassino': 'Cinza'}, 'tenta')],
                   selos=[selo('BLOQUEADO DE NOVO', 'bloqueado', 'carimbo', cor='#0d8a2a', dur=50)]),
       'Tique trinta e nove: o Cinza tenta. [[s:escudo:0.6]] Bloqueado de novo. Dessa vez o anjo acertou. [[m:stonks:right:1.6]]', min=7),
+    N('p4l2', jogo(4, 'Coral', evento={'tipo': 'recado', 'cor': 'Coral'}, antes=2,
+                   selos=[selo('RECADO DO ALÉM: "Tique 34: na Sala de Espécimes, vi alguém disfarçado de outro jogador."', 'recado', cor='#6b4fd1', dur=210)]),
+      'E tem mais um fantasma: a Coral, o segundo tripulante a morrer, virou o Influencer Fantasma. Ela manda recado anônimo do além pra nave inteira. [[s:notification-pop:0.6]] E o recado dela era verdade: tinha gente disfarçada.', min=9),
     CH('p4m', reuniao(4, 1), [
         ('N', 'O Branco aperta o botão de emergência: [[s:emergencia:0.6]]'),
         ('Branco', 'Apertei porque Cinza tentou me matar no Escritório agora; Amarelo também tentou no Laboratório, no t34. O escudo me salvou nas duas vezes.'),
