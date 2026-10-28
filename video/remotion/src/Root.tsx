@@ -13,6 +13,7 @@ import {AU2Manual} from './amongus2/Manual';
 import {ThumbAU2} from './amongus2/ThumbAU2';
 import {ThumbAU3} from './amongus3/ThumbAU3';
 import {ThumbAU4} from './amongus4/ThumbAU4';
+import {ThumbAU5} from './amongus5/ThumbAU5';
 import {ShortAU2, calcShortAU2} from './amongus2/ShortAU2';
 import {ShortFrio, calcShortFrio} from './amongus2/ShortFrio';
 import {ShortLaranja, calcShortLaranja} from './amongus2/ShortLaranja';
@@ -211,6 +212,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />
       <Composition id="ThumbAU2" component={ThumbAU2} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbAU3" component={ThumbAU3} width={1280} height={720} fps={30} durationInFrames={1} />
+      <Composition id="ThumbAU5" component={ThumbAU5} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbAU4" component={ThumbAU4} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="ThumbS60" component={ThumbS60} width={1280} height={720} fps={30} durationInFrames={1} />
       <Composition id="AU4Comentarios" component={AU4Comentarios} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{lista: 'entrou', passo: 40}} />
