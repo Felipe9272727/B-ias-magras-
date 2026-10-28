@@ -197,11 +197,11 @@ const Bolha: React.FC<{p: Partida2; cor: string; texto: string; aparece: number}
     <div style={{display: 'flex', gap: 12, alignItems: 'flex-start', padding: '8px 2px', opacity: aparece, transform: `translateY(${(1 - aparece) * 30}px)`}}>
       <div style={{flex: 'none', width: 66, height: 66, borderRadius: 10, background: '#fff', border: '3px solid #2a2f3a', display: 'grid', placeItems: 'center', overflow: 'hidden'}}><Cabeca cor={cor} size={56} /></div>
       <div style={{flex: 1, background: '#fff', borderRadius: 8, border: '3px solid #2a2f3a', padding: '6px 12px', boxShadow: '0 3px 0 #0003'}}>
-        <div style={{display: 'flex', alignItems: 'center', gap: 8, fontFamily: FONT.display, fontWeight: 900, fontSize: 24, color: '#000'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 8, fontFamily: FONT.display, fontWeight: 900, fontSize: 30, color: '#000'}}>
           {cor}
-          <span style={{fontSize: 13, padding: '1px 7px', borderRadius: 6, background: emp.cor, color: '#fff'}}>{emp.nome}</span>
+          <span style={{fontSize: 16, padding: '1px 7px', borderRadius: 6, background: emp.cor, color: '#fff'}}>{emp.nome}</span>
         </div>
-        <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 25, lineHeight: 1.25, color: '#111'}}>{texto}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 33, lineHeight: 1.22, color: '#111'}}>{texto}</div>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export const Sobreposicoes: React.FC<{selos: Selo[]}> = ({selos}) => {
           );
         if (s.estilo === 'credito')
           return (
-            <div key={i} style={{position: 'absolute', left: 30, bottom: 200, opacity: op, transform: `translateX(${interpolate(k, [0, 8], [-80, 0], cl)}px)`, padding: '10px 22px', borderRadius: 14, background: '#fff', border: '5px solid #000', boxShadow: '0 6px 0 #000', fontFamily: FONT.display, fontWeight: 800, fontSize: 30, color: '#000', maxWidth: 900}}>{s.txt}</div>
+            <div key={i} style={{position: 'absolute', right: 30, top: 190, opacity: op, transform: `translateX(${interpolate(k, [0, 8], [80, 0], cl)}px)`, padding: '10px 22px', borderRadius: 14, background: '#fff', border: '5px solid #000', boxShadow: '0 6px 0 #000', fontFamily: FONT.display, fontWeight: 800, fontSize: 30, color: '#000', maxWidth: 900}}>{s.txt}</div>
           );
         if (s.estilo === 'contador')
           return (

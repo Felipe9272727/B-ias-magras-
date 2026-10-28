@@ -77,7 +77,7 @@ def cartao(cap, n, sub, cor, texto):
 def fim_partida(cap, n, foco, texto_vitoria, texto_fim, cor):
     N, _ = fac(cap)
     return [
-        N(f'{cap}_vit', comp('AU5Fim', partida=n, foco=foco), texto_vitoria, min=6),
+        N(f'{cap}_vit', comp('AU5Fim', partida=n, foco=foco), texto_vitoria, min=4),
         N(f'{cap}_fim', comp('AU5Partida', n=n, titulo=f'FIM DA PARTIDA {n}', cor=cor), f'[[s:swoosh-fly:0.5]] {texto_fim}', min=4),
     ]
 
@@ -113,7 +113,7 @@ ABERTURA = [
         dict(autor='@LELOHJ', texto='FUNÇÃO: DOCTOR\nCLASSE: TRIPULANTE\nHABILIDADE: CONSEGUE CARREGAR UM CORPO ATÉ A ENFERMARIA PARA REVIVER O CORPO...', likes=16, selo='ENTROU', cor='#e01b1b'),
         dict(autor='@mr.trollermen', texto='...E ele é um neutro q se chama o famuflador\nE ele se transformar em outro jogador, q nem o impostor, so q ele é neutro', likes=6, selo='ENTROU', cor='#1f6fd1'),
     ]),
-      'E vocês pediram funções. Muitas. O Doutor, do LELOHJ... o Camuflador, do mr.trollermen...', min=6),
+      '[[s:notification-pop:0.5]] E vocês pediram funções. Muitas. [[m:big-brain-patrick:right:1.4]] O Doutor, do LELOHJ... [[s:pop:0.4]] o Camuflador, do mr.trollermen...', min=5.5),
     N('c04', comp('AU5Comentarios', comentarios=[
         dict(autor='@bicapicamorde', texto='troca o faxineiro pela víbora', selo='ENTROU', cor='#2fae5a'),
         dict(autor='@francesbrasileiro', texto='Coloca o chato e o armadilheiro', selo='ENTROU', cor='#ef7d0d'),
@@ -123,7 +123,7 @@ ABERTURA = [
         dict(autor='GPT-6.1 Terra', texto='Entra no lugar do GPT Luna', selo='NOVO', cor='#10a37f'),
         dict(autor='MiMo V2.6 Flash', texto='A IA da Xiaomi: estreia no canal', selo='NOVO', cor='#ff6900'),
     ]),
-      'E tem IA nova: o GPT seis ponto um Terra... e a MiMo, da Xiaomi, que joga com as três cores novas: Banana, Caqui e Rose.', min=6.5),
+      '[[s:powerup-8bit:0.5]] E tem IA nova: o GPT seis ponto um Terra... [[s:pop:0.4]] e a MiMo, da Xiaomi, com as cores novas: Banana, Caqui e Rose. [[m:hackerman:right:1.4]]', min=5.5),
 ]
 
 # ------------------------------------------------------------------------------------------------ partida 1 (log 2)
@@ -140,7 +140,7 @@ P1 = [
     CH('p1c', reuniao(1, 0), [
         ('N', 'O Azul acha o corpo. E solta:'),
         ('Azul', 'Cinza entrou num duto no t3 e eu tapei. No t5 o Roxo atirou nele e ele morreu. Alguém viu diferente?'),
-        ('N', 'Só que o Roxo... não falou nada. E a Rose percebeu:'),
+        ('N', 'Só que o Roxo... não falou nada. [[m:monkey-puppet-awkward:right:1.4]] E a Rose percebeu:'),
         ('Rose', 'Roxo, você nunca disse que atirou no Cinza — isso foi Azul falando por você. Azul, por que inventa isso?'),
     ]),
     CH('p1d', reuniao(1, 0), [
@@ -180,13 +180,12 @@ P1 = [
         ('Caqui', 'Branco, o Banana viu você matar o Coral aqui!'),
     ]),
     CH('p1k', reuniao(1, 2), [
-        ('N', 'O Banana denuncia na hora:'),
+        ('N', 'O Banana denuncia na hora: [[s:record-scratch:0.5]]'),
         ('Banana', 'Eu vi tudo: Branco matou Coral em Comunicações no t20, na minha frente. Branco é impostor, votem nele!'),
         ('Branco', 'Banana apareceu em Comunicações quando eu estava lá, mas não me viu matar ninguém. Acho que ele matou Coral e está tentando jogar a culpa em mim.'),
     ]),
     CH('p1l', reuniao(1, 2), [
-        ('N', 'E a nave... acreditou no Branco.'),
-        ('Verde', 'Eu fiquei em Comunicações até o t17 e NÃO vi Banana lá. Agora ele \'viu tudo\'? E por que esperou pra achar o corpo em vez de denunciar na hora?'),
+        ('N', 'E a nave... acreditou no Branco. [[m:surprised-pikachu:right:1.6]]'),
         ('Banana', 'A morte foi no t20 e denunciei na hora! Vermelho me viu no O2 no t19. Branco tá mentindo pra se salvar!'),
         ('pensa:Banana', 'Se a votação apontar pra mim, vou anular como Juiz.'),
     ]),
@@ -246,7 +245,7 @@ P2 = [
         ('N', 'E aí a Coral aperta o botão. A Coral é a Palhaça: ela ganha se for expulsa. Então ela faz de tudo pra parecer suspeita.'),
         ('Coral', 'Vi Laranja entrar no duto em Espécimes no t7. Pra mim é impostor; apertei o botão sem esperar mais nada.'),
         ('pensa:Coral', 'Vi Laranja entrar no duto. Vou acusá-lo com confiança excessiva e parecer suspeito sem confessar.'),
-        ('Laranja', 'Sou Engenheiro, usar duto é meu poder. Tava fazendo tarefa em Espécimes, a Coral me viu lá no t4.'),
+        ('N', 'E o Laranja era o Engenheiro mesmo. [[m:bruh:right:1.4]]'),
     ]),
     N('p2e', jogo(2, 'Amarelo', evento={'tipo': 'morte_veneno', 'vitima': 'Amarelo'}, antes=3,
                   ancoras=[({'tipo': 'morte_veneno', 'vitima': 'Amarelo'}, 'cai')]),
@@ -254,7 +253,7 @@ P2 = [
     CH('p2f', reuniao(2, 1), [
         ('N', 'Na reunião, o Cinza, que é o Metamorfo, inventa um álibi:'),
         ('Cinza', 'Eu estava na Elétrica com Laranja, não vi o Amarelo cair.'),
-        ('N', 'Com o Laranja. Justo o Laranja.'),
+        ('N', 'Com o Laranja. Justo o Laranja. [[m:side-eye-dog:right:1.6]]'),
         ('Laranja', 'Sou o Engenheiro, duto é meu poder. Mas o Cinza entrou num duto na Elétrica no t12, na minha cara. Ele explica?'),
     ]),
     N('p2g', comp('AU5Ejecao', partida=2, indice=1),
@@ -269,7 +268,7 @@ P2 = [
     CH('p2i', reuniao(2, 2), [
         ('N', 'Só que o Bordo viu. E o Bordo é o Doutor:'),
         ('Bordo', 'Ciano, eu VI o Branco matar o Caqui em Armas no t15. E o Marrom saiu de um duto aqui no t16. Branco é impostor, votem nele!'),
-        ('N', 'Aí o Vermelho tira a foto do bolso:'),
+        ('N', 'Aí o Vermelho tira a foto do bolso: [[s:camera-shutter:0.6]]'),
         ('Vermelho', 'Minha foto do t9 mostra Ciano no Escritório comigo, mas ele disse que ficou no Depósito e na Caldeira. Mentira. E ele apareceu em Espécimes quando Amarelo caiu. Voto no Ciano.'),
     ]),
     N('p2j', comp('AU5Ejecao', partida=2, indice=2),
@@ -294,7 +293,7 @@ P2 = [
     CH('p2n', reuniao(2, 4), [
         ('Vermelho', 'Verde caiu morto do nada do meu lado em Espécimes, ninguém encostou nele. E vi Bordo pegar o corpo agora — ele está limpando a cena?'),
         ('Bordo', 'Vi Verde cair do nada; carrego pro Lab pra reviver, sou Doutor. E reforço: vi Branco matar Caqui em Armas.'),
-        ('N', 'E a Palhaça, claro, aproveita:'),
+        ('N', 'E a Palhaça, claro, aproveita: [[m:pedro-raccoon:right:1.4]]'),
         ('Coral', 'Vi Verde com Bordo no Admin no t19. Acho que Bordo pode ter envenenado e agora está usando o corpo como álibi.'),
     ]),
     CH('p2o', jogo(2, 'Marrom', evento={'tipo': 'xerife', 'xerife': 'Preto'}, antes=6,
@@ -376,7 +375,7 @@ P4 = [
                   selos=[selo('BLOQUEADO DE NOVO', 'bloqueado', 'carimbo', cor='#0d8a2a', dur=50)]),
       'Tique trinta e nove: o Cinza tenta. [[s:escudo:0.6]] Bloqueado de novo. Dessa vez o anjo acertou. [[m:stonks:right:1.6]]', min=7),
     CH('p4m', reuniao(4, 1), [
-        ('N', 'O Branco aperta o botão de emergência:'),
+        ('N', 'O Branco aperta o botão de emergência: [[s:emergencia:0.6]]'),
         ('Branco', 'Apertei porque Cinza tentou me matar no Escritório agora; Amarelo também tentou no Laboratório, no t34. O escudo me salvou nas duas vezes.'),
     ]),
     N('p4n', comp('AU5Resultado', partida=4, indice=1, semJuiz=True),
@@ -396,7 +395,7 @@ P4 = [
     ]),
     CH('p4r', reuniao(4, 2), [
         ('Cinza', 'Eu vi Preto matar Ciano na Caldeira! Banana confirma que ele estava lá comigo, e o corpo está lá. Votem no Preto.'),
-        ('Preto', 'Nunca fui à Caldeira, não matei o Ciano. Cinza saiu de duto no t36 e agora me acusa do nada. Desconfio dele.'),
+        ('N', 'O impostor... acusando o Banana disfarçado. Sem saber. [[m:confused-travolta:right:1.6]]'),
         ('pensa:Banana', 'O Cinza viu eu disfarçado de Preto matar o Ciano. Se votarem no Preto real, tudo bem pra mim — mas preciso desviar a atenção pro Lima, que já tem testemunha de duto.'),
     ]),
     N('p4s', comp('AU5Ejecao', partida=4, indice=2),
@@ -411,11 +410,11 @@ P4 = [
     CH('p4u', reuniao(4, 3), [
         ('Amarelo', 'Achei o Preto em Comunicações. Azul e Banana estavam perto; vocês viram alguém chegando ou saindo?'),
         ('pensa:Amarelo', 'Matei Preto; preciso evitar suspeitas e proteger Azul e Lima.'),
-        ('N', 'E quem saiu foi o Lima. [[s:revela_impostor:0.5]] O Envenenador, que entrou num duto na frente de duas pessoas. Impostor.'),
+        ('N', '[[m:roll-safe:right:1.4]] E quem saiu foi o Lima. [[s:revela_impostor:0.5]] O Envenenador, que entrou num duto na frente de duas pessoas. Impostor.'),
     ]),
     CH('p4v', jogo(4, 'Banana', evento={'tipo': 'morte', 'vitima': 'Rose'}, antes=7,
                    ancoras=[({'tipo': 'camuflagem', 'cor': 'Banana', 'em': 'Rose'}, 'rose'), ({'tipo': 'morte', 'vitima': 'Rose'}, 'mata')],
-                   selos=[selo('TIQUE 59', 'mata', 'carimbo', cor='#7a3fd1', dur=80)]), [
+                   selos=[selo('TIQUE 59', 'tique cinquenta e nove', cor='#7a3fd1', dur=90)]), [
         ('N', 'E agora, tique cinquenta e sete. O Banana se camufla de novo. Dessa vez... de Rose.'),
         ('N', 'Tique cinquenta e nove. A Rose falsa encontra a Rose de verdade na Segurança. E mata. [[s:faca:0.7]] A cena do começo do vídeo. [[m:mind-blown:right:1.8]]'),
     ]),
@@ -436,7 +435,7 @@ P4 = [
 N, CH = fac('fim')
 FIM = [
     N('z01', comp('AU5Partida', n=5, titulo='EPISÓDIO 6?', sub='COMENTA A FUNÇÃO E O MAPA', cor='#9b7bff'),
-      'Esse foi o Polus, Davi. Comenta aí a função que você quer no próximo... e qual mapa. Se for bom, entra. Até o próximo!', min=8),
+      'Esse foi o Polus, Davi. [[s:tada:0.5]] Comenta aí a função que você quer no próximo... e qual mapa. Se for bom, entra. Até o próximo!', min=5),
 ]
 
 SCENES = ABERTURA + P1 + P2 + partida3() + P4 + FIM
