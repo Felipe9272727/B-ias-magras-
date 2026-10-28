@@ -46,7 +46,31 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio
   })
 }
 
+// AU5 (pedido do Felipe): o DeepSeek Flash vai pela API do próprio DeepSeek (chave do mod), não pelo OpenRouter
+let chaveDS
+function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
+  if (chaveDS === undefined) { try { chaveDS = JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null } catch { chaveDS = null } }
+  if (!chaveDS) return Promise.resolve({ ok: false, text: 'deepseek: sem chave' })
+  const seg = Math.max(10, Math.round(timeoutMs / 1000))
+  const corpo = JSON.stringify({ model: 'deepseek-flash', messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, ...(semRaciocinio ? { thinking: { type: 'disabled' } } : { reasoning_effort: 'low' }) })
+  return new Promise((ok) => {
+    const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://api.deepseek.com/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $DS_KEY" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, DS_KEY: chaveDS }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
+      const linhas = String(stdout ?? '').trimEnd().split('\n')
+      const status = Number(linhas.pop()) || 0
+      let d; try { d = JSON.parse(linhas.join('\n')) } catch {}
+      if (!status) return ok({ ok: false, text: 'timeout' })
+      if (status === 402) return ok({ ok: false, text: `deepseek: sem cota (HTTP 402) ${d?.error?.message ?? ''}` })
+      if (status < 200 || status >= 300) return ok({ ok: false, text: `deepseek: HTTP ${status} ${d?.error?.message ?? ''}` })
+      const ch = d?.choices?.[0]
+      const texto = ch?.message?.content ?? ''
+      ok({ ok: true, text: texto, usage: d?.usage, ...(texto.trim() ? {} : { porque: `vazia: finish=${ch?.finish_reason} raciocinio=${(ch?.message?.reasoning_content ?? '').length}` }) })
+    })
+    p.stdin.end(corpo)
+  })
+}
+
 async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
+  if (process.env.IA_DIRETO && provider.includes('deepseek/')) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
   if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
