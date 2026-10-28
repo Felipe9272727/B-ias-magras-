@@ -67,7 +67,7 @@ function solido(x, y, z) {
   const b = registro.blocksByStateId[id]
   return !!b && b.boundingBox === 'block'
 }
-let distAnt = null, emPrimeira = false
+let distAnt = null, emPrimeira = false, ultimaCam = null
 // como o F5 do Minecraft: da cabeça até onde a câmera queria ficar; para antes do primeiro bloco sólido
 function colidir(c, p) {
   if (!p || modo === 'olhos' || modo === 'fixa') return c
@@ -118,6 +118,10 @@ function pacoteComSkins() {
   return (js.slice(0, i + 1) + ',' + extras + js.slice(i + 1))
     // o viewer só monta as seções de y 0 a 255 (mundo de antes da 1.18); na 1.21 o mundo vai de -64 a 319
     .replace('const u=new r(l);', 'const u=new r(l);window.__v=u;')
+    // alguns blocos das cavernas novas (1.18+) saem com vértice NaN: a esfera de recorte da seção vira NaN e o three.js
+    // deixa de desenhar a seção inteira (o "mundo vazado" debaixo da terra). Cada seção ganha uma esfera fixa e certa.
+    .replace('r.setIndex(t.geometry.indices),e=new n.Mesh(r,this.material)', 'r.setIndex(t.geometry.indices),r.boundingSphere=new n.Sphere(new n.Vector3(0,0,0),16),e=new n.Mesh(r,this.material)')
+    .replace('WorldRenderer:class{constructor(t,e=4){', `WorldRenderer:class{constructor(t,e=${Number(process.env.TRABALHADORES ?? 4)}){`)
     // desenha só quando a gente pede (o laço normal desenhava a cena várias vezes por quadro) e sem a animação de 50 ms
     // nas posições: cada quadro mostra exatamente a posição gravada
     .replace('!function t(){window.requestAnimationFrame(t),h&&h.update(),u.update(),l.render(u.scene,u.camera)}()', 'window.__r=function(){h&&h.update(),u.update(),l.render(u.scene,u.camera)};!function t(){window.requestAnimationFrame(t),window.__manual||window.__r()}()')
@@ -131,6 +135,11 @@ app.get('/index.js', (req, res) => res.type('application/javascript').send(PACOT
 // no worker, as seções do pedaço começam em y=-64 (o índice é (y+64)/16, não y/16)
 const WORKER = fs.readFileSync(require.resolve('prismarine-viewer/public/worker.js'), 'utf8')
   .replace('i.sections[Math.floor(a/16)]', 'i.sections[Math.floor((a+64)/16)]').replace('l.sections[Math.floor(n/16)]', 'l.sections[Math.floor((n+64)/16)]')
+  .replace('else"reset"===e.type&&(world=null,blocksStates=null)}', 'else if("contar"===e.type)postMessage({type:"contagem",n:world?Object.keys(world.columns).length:-1,bs:!!blocksStates,dirty:Object.keys(dirtySections).length});else"reset"===e.type&&(world=null,blocksStates=null)}')
+  // o fundo do mundo era y=0 antes da 1.18: o viewer pulava toda face com vizinho abaixo de 0 (some a ardósia inteira)
+  .replace('if(g.position.y<0)continue;', 'if(g.position.y<-64)continue;').replace('if(n.position.y<0)continue}', 'if(n.position.y<-64)continue}')
+  // erro ao montar uma seção (bloco sem modelo etc.): antes matava o resto da fila; agora avisa e segue
+  .replace('const l=getSectionGeometry(e,n,a,world,blocksStates),i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)', 'let l;try{l=getSectionGeometry(e,n,a,world,blocksStates)}catch(x){postMessage({type:"erroSecao",key:t,msg:String(x&&x.stack||x).slice(0,300)})}if(l){const i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)}')
 app.get('/worker.js', (req, res) => res.type('application/javascript').send(WORKER))
 for (const n of NOMES_IA) app.get(`/textures/1.16.4/entity/ia_${n}.png`, (req, res) => res.sendFile(path.resolve('skins', n + '.png')))
 setupRoutes(app, '')
@@ -166,6 +175,7 @@ function quadro(t) {
   const c0 = camera(t)
   mandarChunksPerto(t, c0)
   const c = colidir(c0, modo === 'fixa' ? null : interp(posicoes[arg], t))
+  ultimaCam = { ...c, pos: { x: +c.pos.x.toFixed(2), y: +c.pos.y.toFixed(2), z: +c.pos.z.toFixed(2) }, dist: distAnt && +distAnt.toFixed(2) }
   while (iBloco < blocos.length && blocos[iBloco].t <= t) {
     const b = blocos[iBloco++]
     if (enviados.has(`${Math.floor(b.x / 16)}_${Math.floor(b.z / 16)}`)) { sock.emit('blockUpdate', { pos: b, stateId: b.s }); muda(b) }
@@ -193,17 +203,40 @@ function quadro(t) {
   sock.emit('position', { pos: c.pos, yaw: c.yaw, pitch: c.pitch })
 }
 
-const pronto = new Promise(ok => io.on('connection', s => { sock = s; s.emit('version', '1.21.4'); ok() }))
+let conexoes = 0
+const pronto = new Promise(ok => io.on('connection', s => { conexoes++; if (process.env.DEBUG_REPLAY) console.log('[conexão]', conexoes); sock = s; s.emit('version', '1.21.4'); ok() }))
 await new Promise(ok => srv.listen(0, '127.0.0.1', ok))
 const porta = srv.address().port
 
 // GL=llvmpipe usa o Mesa do sistema (desenha em vários núcleos); o padrão é o SwiftShader do Chromium
-const GL = process.env.GLARGS ? process.env.GLARGS.split(' ') : process.env.GL === 'llvmpipe' ? ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--enable-gpu-rasterization'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
+const GL = process.env.GLARGS ? process.env.GLARGS.split(' ') : process.env.GL === 'llvmpipe' ? ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--disable-gpu-watchdog'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
 const nav = await chromium.launch({ args: GL, ...(process.env.GL === 'llvmpipe' ? { env: { ...process.env, LIBGL_ALWAYS_SOFTWARE: '1', GALLIUM_DRIVER: 'llvmpipe', LP_NUM_THREADS: process.env.LP_NUM_THREADS ?? '4' } } : {}) })
 const pag = await nav.newPage({ viewport: { width: Number(W), height: Number(H) } })
 pag.on('console', m => { if (process.env.DEBUG_REPLAY) console.log('[pagina]', m.type(), m.text().slice(0, 200)) })
 pag.on('pageerror', e => console.log('[pagina erro]', e.message.slice(0, 300)))
 // o canvas guarda o último quadro desenhado: dá pra ler a imagem direto dele (a foto do navegador leva 2 s com WebGL no processador)
+// guarda os "trabalhadores" do viewer (montam a malha 3D em paralelo) e cria a barreira: cada um responde quando já
+// processou tudo o que recebeu e não tem seção suja na fila. A fila de seções do viewer (sectionsOutstanding) não
+// serve pra isso: uma seção marcada duas vezes sai da fila na primeira resposta, com a segunda ainda pendente.
+await pag.addInitScript(() => {
+  const W = window.Worker
+  window.__wk = []; window.__wo = []
+  window.Worker = function (url) {
+    const w = new W(url), st = { geo: 0, fin: 0, err: null }
+    window.__wk.push(st); window.__wo.push(w)
+    w.addEventListener('message', e => { if (e.data.type === 'geometry') st.geo++; else if (e.data.type === 'sectionFinished') st.fin++; else if (e.data.type === 'erroSecao') { st.erros = (st.erros || 0) + 1; st.ultimo = e.data.msg } })
+    w.addEventListener('error', e => { st.err = String(e.message || e) })
+    return w
+  }
+  window.__barreira = () => new Promise(ok => {
+    let n = 0, sujas = 0
+    for (const w of window.__wo) {
+      const f = e => { if (e.data.type !== 'contagem') return; w.removeEventListener('message', f); n++; sujas += e.data.dirty + (e.data.bs ? 0 : 1000); if (n === window.__wo.length) ok(sujas) }
+      w.addEventListener('message', f)
+      w.postMessage({ type: 'contar' })
+    }
+  })
+})
 await pag.addInitScript(() => {
   const orig = HTMLCanvasElement.prototype.getContext
   HTMLCanvasElement.prototype.getContext = function (tipo, op) { return orig.call(this, tipo, tipo.startsWith('webgl') ? { ...(op || {}), preserveDrawingBuffer: true } : op) }
@@ -214,8 +247,23 @@ await pronto
 // aquece: carrega os pedaços e deixa o viewer montar a malha antes de filmar
 iBloco = blocos.findIndex(b => b.t > t0); if (iBloco < 0) iBloco = blocos.length
 quadro(t0)
-await pag.waitForTimeout(Number(process.env.AQUECE ?? 12000))
+await pag.waitForTimeout(Number(process.env.AQUECE ?? 3000))
+// espera o viewer montar a malha de todos os pedaços (com 3 renders juntos isso passa de 20 s)
+// (primeiro os pedaços têm que chegar no navegador: antes disso a fila de seções está vazia e parece pronta)
+const pendentes = () => pag.evaluate(() => [Object.keys(window.__v.world.loadedChunks).length, window.__v.world.sectionsOutstanding.size])
+async function esperarMalha(max) {
+  const ini = Date.now()
+  while (Date.now() - ini < max) {
+    const [n] = await pendentes()
+    if (n >= enviados.size && await pag.evaluate(() => window.__barreira()) === 0) return true
+    await pag.waitForTimeout(60)
+  }
+  console.log('malha não terminou em', max / 1000, 's')
+  return false
+}
+await esperarMalha(180000)
 
+if (process.env.DEBUG_REPLAY) console.log('[workers]', await pag.evaluate(() => JSON.stringify(window.__wk || null)))
 if (process.env.DEBUG_REPLAY) console.log('[malhas]', await pag.evaluate(() => { const w = window.__v.world; const ys = {}; for (const k of Object.keys(w.sectionMeshs)) { const y = k.split(',')[1]; ys[y] = (ys[y] ?? 0) + 1 } return JSON.stringify({chunks: Object.keys(w.loadedChunks).length, pend: w.sectionsOutstanding.size, ys}) }))
 const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', SAIDA], { stdio: ['pipe', 'inherit', 'inherit'] })
 const n = Math.round((t1 - t0) * fps)
@@ -223,14 +271,26 @@ const inicio = Date.now()
 for (let i = 0; i < n; i++) {
   const t = t0 + i / fps
   const a = Date.now()
+  const antes = enviados.size
   quadro(t)
+  // pedaço novo neste quadro: espera a malha dele antes da foto (senão o chão aparece faltando)
+  await esperarMalha(enviados.size > antes ? 60000 : 3000)
   const b = Date.now()
   await pag.waitForTimeout(Number(process.env.ESPERA ?? 12))
   const c = Date.now()
   // duas passadas: a primeira termina as animações de 0 ms, a segunda desenha tudo no lugar
-  const b64 = await pag.evaluate(() => { window.__manual = true; window.__r(); window.__r(); return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1] })
+  // se o navegador travar (já aconteceu com 3 renders juntos), fecha o vídeo até aqui e sai com código 3:
+  // o render_seguro.sh continua do quadro seguinte num pedaço novo
+  const foto = pag.evaluate(() => { window.__manual = true; window.__r(); window.__r(); return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1] })
+  const b64 = await Promise.race([foto, new Promise(ok => setTimeout(() => ok(null), 45000))])
+  if (!b64) {
+    ff.stdin.end()
+    await new Promise(ok => ff.on('close', ok))
+    console.log(`PAROU ${i}`)
+    process.exit(3)
+  }
   ff.stdin.write(Buffer.from(b64, 'base64'))
-  if (process.env.DEBUG_REPLAY) console.log('emitir', b - a, 'esperar', c - b, 'foto', Date.now() - c)
+  if (process.env.DEBUG_REPLAY) console.log('emitir', b - a, 'esperar', c - b, 'foto', Date.now() - c, 'câmera', JSON.stringify(ultimaCam), JSON.stringify(await pendentes()), enviados.size)
   if (i % 10 === 0) console.log(i + '/' + n, ((Date.now() - inicio) / (i + 1) / 1000).toFixed(2) + ' s/quadro')
 }
 ff.stdin.end()
