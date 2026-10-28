@@ -6,7 +6,8 @@ eco, regra do canal). Fatos, falas e pensamentos copiados de minecraft/gravacoes
   um lago de lava); 3604.03 "Qwen tried to swim in lava".
 - 2097 e 2099 pensamentos da MiMo sobre o creeper; 2114.69 "MiMo was blown up by Creeper".
 - 3809 pensamento do Claude (espada de ferro e armadura completa, vida 9); 3814.21 "Claude was shot by Skeleton".
-- GLM: chat 9153 e 9159, 9159.64 "GLM drowned"; chat 9166 e 9170, 9177.63 "slain by Zombie"; chat 9185 e 9191,
+- GLM: chat 9153 e 9159, 9159.64 "GLM drowned"; renasce com vida 20 às 9160.33 e às 9166.15 ainda diz "estou com 1 de
+  vida" (o abrigo falha: "precisa de pelo menos 17 blocos... Tem 0."); chat 9170, 9177.63 "slain by Zombie"; chat 9185 e 9191,
   9198.47 "slain by Zombie" (três mortes em 38,8 s).
 - Placar de mortes nas 3 horas de sobrevivência (mensagens de morte do servidor até 10800 s): Qwen 5, GPT 5, GLM 4,
   DeepSeek 1, MiMo 1, Claude 1.
@@ -64,9 +65,11 @@ CENAS = [
         ('chat', 'Noite com creepers, vou me abrigar. Arena em ~28min, quem quiser aliança fala agora.'),
         ('chat', 'Abrigo falhou, vou refazer na terra firme. MiMo, cuidado com os creepers.')],
         morte=(9159.64, 'MORTE 1', 'GLM se afogou'),
-        depois=[('n', 'Um.')], meme='this-is-fine'),
+        depois=[('n', 'Um.')], meme='this-is-fine', bolhas=True),
     dict(id='c6', quem='GLM', camera='segue:GLM', antes=[
+        ('n', 'Ele renasceu com a vida cheia. Mas não percebeu:'),
         ('chat', 'Creeper me atacou, estou com 1 de vida, me trancando!'),
+        ('n', 'E pra se trancar... ele tinha zero blocos.'),
         ('chat', 'Mori afogado, perdi tudo. Recomeçando do zero.')],
         morte=(9177.63, 'MORTE 2', 'GLM foi morto por um Zumbi'),
         depois=[('n', 'Dois.')], meme='hide-the-pain-harold'),
@@ -78,6 +81,19 @@ CENAS = [
     dict(id='fim', quem=None, antes=[('n', 'E isso foi só a sobrevivência. Agora... vem a arena.')]),
 ]
 FOLGA = 0.18  # entre uma fala e outra
+
+
+GRAV = ROOT.parent / 'minecraft' / 'gravacoes' / 'partida1'
+
+
+def hud(quem, t0, tm):
+    """vida e fome gravadas (posicoes_<quem>.jsonl, a cada 0,25 s) entre o começo do trecho e a morte: [quadro, vida, fome]"""
+    out = []
+    for linha in (GRAV / f'posicoes_{quem}.jsonl').open():
+        p = json.loads(linha)
+        if t0 - 0.3 <= p['t'] < tm and p.get('v') is not None:
+            out.append([max(0, round((p['t'] - t0) * FPS)), p['v'], p.get('f', 20)])
+    return out
 
 
 def voz(k, quem, tipo, texto):
@@ -116,7 +132,8 @@ def main():
                 a = voz(f"{c['id']}_d{i}", c['quem'], tipo, texto)
                 a['at'] = round(t * FPS); auds.append(a); t += a['dur'] + FOLGA
             dur = t + 0.9
-            cena.update(t0=round(t0, 2), video=round(video * FPS), morte=dict(at=round(morte_em * FPS), selo=selo, texto=msg))
+            cena.update(t0=round(t0, 2), video=round(video * FPS), morte=dict(at=round(morte_em * FPS), selo=selo, texto=msg),
+                        hud=hud(c['quem'], t0, tm), bolhas=c.get('bolhas', False))
             janelas.append(f"{c['id']} {t0:.2f} {tm + 0.75:.2f} {c['camera']}")
         elif c['id'] == 'fim':
             dur = max(t + 1.2, 6.5)

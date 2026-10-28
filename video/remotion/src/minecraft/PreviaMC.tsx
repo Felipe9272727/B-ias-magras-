@@ -24,7 +24,7 @@ const IAS: Record<string, {modelo: string; cor: string}> = {
 
 type Palavra = {w: string; s: number; e: number};
 type Aud = {src: string; at: number; dur: number; tipo: 'n' | 'chat' | 'pensa'; texto: string; palavras: Palavra[]};
-type Cena = {id: string; quem: string | null; titulo?: string | null; meme?: string | null; t0?: number; video?: number; dur: number; audios: Aud[]; morte?: {at: number; selo: string; texto: string}};
+type Cena = {id: string; quem: string | null; titulo?: string | null; meme?: string | null; t0?: number; video?: number; dur: number; audios: Aud[]; morte?: {at: number; selo: string; texto: string}; hud?: [number, number, number][]; bolhas?: boolean};
 type Dados = {cenas: Cena[]};
 
 // placar de mortes nas 3 horas de sobrevivência (mensagens de morte do servidor até 10800 s)
@@ -152,6 +152,77 @@ const Meme: React.FC<{id: string}> = ({id}) => {
   );
 };
 
+// HUD do jogo: corações (vida) e coxinhas (fome) da IA da cena, com os valores gravados a cada 0,25 s
+// (posicoes_<nome>.jsonl); quando a vida cai, os corações tremem e piscam
+const CORACAO = ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...'];
+const COXA = ['...XXX', '..XXXX', '.XXXXX', '.XXXX.', 'B.XX..', '.B....'];
+function contorno(mapa: string[]) {
+  const h = mapa.length, w = mapa[0].length, on = (x: number, y: number) => y >= 0 && y < h && x >= 0 && x < w && mapa[y][x] !== '.';
+  const out: [number, number][] = [];
+  for (let y = -1; y <= h; y++) for (let x = -1; x <= w; x++) if (!on(x, y) && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([a, b]) => on(x + a, y + b))) out.push([x, y]);
+  return out;
+}
+const CONT_C = contorno(CORACAO), CONT_X = contorno(COXA);
+const Icone: React.FC<{mapa: string[]; cont: [number, number][]; tam: number; cor: (x: number, y: number, k: string) => string}> = ({mapa, cont, tam, cor}) => {
+  const w = mapa[0].length + 2, h = mapa.length + 2;
+  return (
+    <svg width={tam} height={(tam * h) / w} viewBox={`-1 -1 ${w} ${h}`} shapeRendering="crispEdges" style={{display: 'block'}}>
+      {cont.map(([x, y], i) => <rect key={`c${i}`} x={x} y={y} width={1} height={1} fill="#000" />)}
+      {mapa.flatMap((linha, y) => [...linha].map((k, x) => (k === '.' ? null : <rect key={`${x},${y}`} x={x} y={y} width={1} height={1} fill={cor(x, y, k)} />)))}
+    </svg>
+  );
+};
+const Hud: React.FC<{c: Cena}> = ({c}) => {
+  const f = useCurrentFrame();
+  const amostras = c.hud ?? [];
+  if (!amostras.length) return null;
+  const morto = c.morte && f >= c.morte.at;
+  let i = 0;
+  while (i + 1 < amostras.length && amostras[i + 1][0] <= f) i++;
+  const vida = morto ? 0 : amostras[i][1], fome = amostras[i][2];
+  // a última queda de vida antes deste quadro (pra tremer e piscar)
+  let ultimaQueda = -999;
+  for (let k = 1; k <= i; k++) if (amostras[k][1] < amostras[k - 1][1]) ultimaQueda = amostras[k][0];
+  if (morto) ultimaQueda = c.morte!.at;
+  const k = f - ultimaQueda;
+  const treme = k >= 0 && k < 10 ? Math.sin(k * 3) * (10 - k) * 0.8 : 0;
+  const pisca = k >= 0 && k < 8 && k % 4 < 2;
+  return (
+    <div style={{position: 'absolute', left: 40, top: 150, transform: `translate(${treme}px, ${treme * 0.4}px)`}}>
+      <div style={{display: 'flex', gap: 4}}>
+        {Array.from({length: 10}).map((_, n) => {
+          const cheio = vida >= (n + 1) * 2, meio = !cheio && vida >= n * 2 + 1;
+          return <Icone key={n} mapa={CORACAO} cont={CONT_C} tam={34} cor={(x) => (cheio || (meio && x < 4) ? (pisca ? '#ffffff' : (x + 0) % 7 === 1 ? '#ff6b6b' : '#e01b24') : '#3a1010')} />;
+        })}
+      </div>
+      <div style={{display: 'flex', gap: 4, marginTop: 6}}>
+        {Array.from({length: 10}).map((_, n) => {
+          const cheio = fome >= (n + 1) * 2, meio = !cheio && fome >= n * 2 + 1;
+          return <Icone key={n} mapa={COXA} cont={CONT_X} tam={30} cor={(x, y, ch) => (ch === 'B' ? '#efe6d2' : cheio || (meio && x >= 3) ? '#b8682e' : '#3b2a1c')} />;
+        })}
+      </div>
+    </div>
+  );
+};
+
+// bolhas subindo (afogamento), até a morte
+const Bolhas: React.FC<{ate: number}> = ({ate}) => {
+  const f = useCurrentFrame();
+  if (f > ate) return null;
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none'}}>
+      <svg width={1920} height={1080}>
+        {Array.from({length: 26}).map((_, n) => {
+          const x0 = ((n * 397) % 1700) + 110, vel = 3 + ((n * 7) % 5), r = 8 + ((n * 13) % 14);
+          const y = 1100 - ((f * vel + n * 83) % 1250);
+          const x = x0 + Math.sin((f + n * 20) / 12) * 14;
+          return <circle key={n} cx={x} cy={y} r={r} fill="rgba(200,230,255,0.18)" stroke="rgba(230,245,255,0.75)" strokeWidth={3} />;
+        })}
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
 const Titulo: React.FC<{texto: string}> = ({texto}) => {
   const f = useCurrentFrame();
   const e = spring({frame: f, fps: FPS, config: {damping: 12}});
@@ -242,7 +313,8 @@ const CenaMC: React.FC<{c: Cena}> = ({c}) => {
           ? <OffthreadVideo src={staticFile(`mc_previa/${c.id}.mp4`)} style={{width: '100%', height: '100%'}} muted />
           : <Freeze frame={congela - 1}><OffthreadVideo src={staticFile(`mc_previa/${c.id}.mp4`)} style={{width: '100%', height: '100%'}} muted /></Freeze>}
       </AbsoluteFill>
-      {c.id === 'c1' ? <Abertura /> : c.quem ? <Etiqueta quem={c.quem} /> : null}
+      {c.bolhas && m ? <Bolhas ate={m.at} /> : null}
+      {c.id === 'c1' ? <Abertura /> : c.quem ? <><Etiqueta quem={c.quem} /><Hud c={c} /></> : null}
       {c.titulo ? <Sequence layout="none" from={2} durationInFrames={80}><Titulo texto={c.titulo} /></Sequence> : null}
       {c.audios.map((a, i) => <Sequence key={`a${i}`} from={a.at} layout="none"><Audio src={staticFile(a.src)} volume={a.tipo === 'n' ? 1 : 0.95} /></Sequence>)}
       {falas.map((a, i) => {

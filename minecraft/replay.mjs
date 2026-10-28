@@ -219,6 +219,8 @@ pag.on('pageerror', e => console.log('[pagina erro]', e.message.slice(0, 300)))
 // processou tudo o que recebeu e não tem seção suja na fila. A fila de seções do viewer (sectionsOutstanding) não
 // serve pra isso: uma seção marcada duas vezes sai da fila na primeira resposta, com a segunda ainda pendente.
 await pag.addInitScript(() => {
+  // desenha só quando a gente pede, desde o começo: no aquecimento o laço de desenho roubava o processador da malha
+  window.__manual = true
   const W = window.Worker
   window.__wk = []; window.__wo = []
   window.Worker = function (url) {
