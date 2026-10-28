@@ -98,8 +98,8 @@ N, CH = fac('abertura')
 ABERTURA = [
     N('k01', jogo(4, 'Banana', evento={'tipo': 'morte', 'vitima': 'Rose'}, antes=3.2, semSala=True,
                   ancoras=[({'tipo': 'morte', 'vitima': 'Rose'}, 'matar')],
-                  selos=[selo('ÚLTIMA PARTIDA · TIQUE 59', 0, cor='#7a3fd1', dur=230)]),
-      'Essa é a Rose. E essa... também é a Rose. [[m:spiderman-pointing:right:2]] Só que uma delas acabou de matar a outra.'),
+                  selos=[credito('ÚLTIMA PARTIDA', 0, 200)]),
+      'Essa é a Rose. E essa... também é a Rose. Só que uma delas acabou de matar a outra. [[m:spiderman-pointing:right:1.8]]'),
     N('k02', comp('AU5Rebobina', de=59, para=1, kicker='AMONG US DAS IAs · EPISÓDIO 5', titulo='COLOQUEI 18 IAs NO POLUS'),
       '[[s:swoosh-fly:0.6]] Mas pra entender isso... a gente vai ter que voltar pro começo. [[s:impact-epic:0.6]] Among Us das IAs, episódio cinco.', min=5.5),
     N('c01', comp('AU5Davi', autor='@David_alves-p1f', lista=DAVI, total=30, fim=185, semCarimbo=True),
@@ -165,7 +165,7 @@ P1 = [
     ]),
     CH('p1i', jogo(1, 'Caqui', evento={'tipo': 'morte', 'vitima': 'Rose'}, antes=3,
                    ancoras=[({'tipo': 'morte', 'vitima': 'Rose'}, 'mata')],
-                   selos=[credito('SOBREVIVENTE · ideia de @Leopold-cft', 0, 120)]), [
+                   selos=[credito('SOBREVIVENTE · ideia de @Leopold-cft', 0, 120), selo('NÃO SOBREVIVEU', 'sobreviveu', 'carimbo', cor='#c0262d', dur=60)]), [
         ('N', 'Tique dezessete. A Rose era a Sobrevivente: ela só queria chegar viva no final. O Caqui mata ela no Escritório.'),
         ('Caqui', 'Caqui aqui, tô vivo e no Escritório com Rose e Laranja. Acabei de matar a Rose com o Laranja junto.'),
         ('N', '[[m:sad-violin:right:1.6]] Não sobreviveu.'),
@@ -196,7 +196,7 @@ P1 = [
         ('Banana', 'Anulei porque sou o Juiz e vi Branco matar a Coral em Comunicações. Ele é o impostor, não eu!'),
         ('Verde', 'Banana, se você viu Branco matar, por que só falou depois de quase ser expulso? Isso parece desespero.'),
     ]),
-    N('p1o', comp('AU5Resultado', partida=1, indice=3, semJuiz=True),
+    N('p1o', comp('AU5Resultado', partida=1, indice=3, semJuiz=True, selos=[selo('APOSTA CERTA', 'acertou', 'carimbo', cor='#c0262d', dur=70)]),
       'E no meio da reunião, o Caqui usa a aposta: chuta que o Verde é o Fotógrafo. [[s:tiro:0.5]] Acertou. O Verde morre ali mesmo.', min=7),
     N('p1p', comp('AU5Ejecao', partida=1, indice=3),
       'E o Banana... foi expulso. O Juiz. Que viu o assassino com os próprios olhos. [[m:crying-jordan:right:1.8]]', min=6),
@@ -291,19 +291,19 @@ P2 = [
         ('N', 'Mas o Vermelho viu o corpo e aperta o botão. [[s:emergencia:0.5]] O Doutor teve que largar o Verde no chão. [[m:sad-pablo:right:1.6]]'),
     ]),
     CH('p2n', reuniao(2, 4), [
-        ('Vermelho', 'Verde caiu morto do nada do meu lado em Espécimes, ninguém encostou nele. E vi Bordo pegar o corpo agora — ele está limpando a cena?'),
+        ('N', 'Na reunião, o Vermelho acusa o Doutor de limpar a cena. E ele explica:'),
         ('Bordo', 'Vi Verde cair do nada; carrego pro Lab pra reviver, sou Doutor. E reforço: vi Branco matar Caqui em Armas.'),
         ('N', 'E a Palhaça, claro, aproveita: [[m:pedro-raccoon:right:1.4]]'),
         ('Coral', 'Vi Verde com Bordo no Admin no t19. Acho que Bordo pode ter envenenado e agora está usando o corpo como álibi.'),
     ]),
     CH('p2o', jogo(2, 'Marrom', evento={'tipo': 'xerife', 'xerife': 'Preto'}, antes=6,
                    ancoras=[({'tipo': 'veneno', 'vitima': 'Preto'}, 'envenena'), ({'tipo': 'xerife', 'xerife': 'Preto'}, 'atira')],
-                   selos=[selo('MESMO TIQUE', 'atira', 'carimbo', cor='#c0262d', dur=70)]), [
+                   selos=[selo('O XERIFE ATIROU NO MESMO TIQUE', 'atira', 'carimbo', cor='#c0262d', dur=90)]), [
         ('N', 'Ninguém foi expulso. Tique trinta. O Marrom, sozinho:'),
         ('Marrom', 'Chegando na Caldeira pelo duto. Preto tá aí, vou envenenar ele no próximo tique.'),
         ('N', 'Tique trinta e um. Ele envenena o Preto... e o Preto é o Xerife. [[s:tiro:0.7]] No mesmo tique, o Preto atira. [[m:mind-blown:right:1.8]]'),
     ]),
-    *fim_partida('p2', 2, 'Branco',
+    *fim_partida('p2', 2, 'Preto',
                  'O último impostor morreu. Vitória dos tripulantes! [[s:vitoria:0.5]] E do Traidor, que ganhou junto. O cara mais suspeito da nave era o que mais ajudou.',
                  'Fim da partida dois.', '#1f6fd1'),
 ]
@@ -408,7 +408,6 @@ P4 = [
         ('N', 'Tique cinquenta e três. O Amarelo pega o Preto sozinho em Comunicações:'),
         ('Amarelo', 'Preto está sozinho comigo em Comunicações; vou matá-lo. Protejam Azul.'),
         ('N', 'E aí ele mesmo denuncia o corpo. [[m:roll-safe:right:1.6]]'),
-        ('Amarelo', 'Vou denunciar Preto em Comunicações; Azul e Banana estão comigo.'),
     ]),
     CH('p4u', reuniao(4, 3), [
         ('Amarelo', 'Achei o Preto em Comunicações. Azul e Banana estavam perto; vocês viram alguém chegando ou saindo?'),
@@ -417,11 +416,11 @@ P4 = [
     ]),
     CH('p4v', jogo(4, 'Banana', evento={'tipo': 'morte', 'vitima': 'Rose'}, antes=7,
                    ancoras=[({'tipo': 'camuflagem', 'cor': 'Banana', 'em': 'Rose'}, 'rose'), ({'tipo': 'morte', 'vitima': 'Rose'}, 'mata')],
-                   selos=[selo('TIQUE 59', 'tique cinquenta e nove', cor='#7a3fd1', dur=90)]), [
+                   selos=[selo('A CENA DO INÍCIO', 'cena', 'carimbo', cor='#7a3fd1', dur=80)]), [
         ('N', 'E agora, tique cinquenta e sete. O Banana se camufla de novo. Dessa vez... de Rose.'),
-        ('N', 'Tique cinquenta e nove. A Rose falsa encontra a Rose de verdade na Segurança. E mata. [[s:faca:0.7]] A cena do começo do vídeo. [[m:mind-blown:right:1.8]]'),
+        ('N', 'Tique cinquenta e nove. A Rose falsa encontra a Rose de verdade na Segurança. E mata. [[s:faca:0.7]] [[m:spiderman-pointing:right:1.6]] A cena do começo do vídeo. [[m:mind-blown:right:1.6]]'),
     ]),
-    CH('p4w', jogo(4, 'Marrom', evento={'tipo': 'sabotagem', 'cor': 'Amarelo', 'subtipo': 'Sismografo'}, antes=2), [
+    CH('p4w', jogo(4, 'Marrom', evento={'tipo': 'sabotagem', 'cor': 'Amarelo', 'subtipo': 'Sismografo', 'tique': 61}, antes=2), [
         ('N', 'Sobraram sete. E os impostores sabotam o sismógrafo pra explodir a nave:'),
         ('Marrom', 'Amarelo, NAO venha consertar. Deixa o sismografo estourar. Se alguem vier sozinho no Lab, eu mato.'),
         ('N', 'Só que a nave tinha outro jeito de ganhar. As tarefas. [[s:tic-tac:0.5]]'),

@@ -218,7 +218,7 @@ def marcas(rest_kind, rest, f, vis, memes, sfx_files, warnings, sid, events):
         pos = parts[1] if len(parts) > 1 and parts[1] else 'right'
         if vis['type'] == 'component' and vis['name'] in ('AUTitulo', 'AUFrase', 'AUPapel', 'AUEjecao', 'AUFim') and pos == 'right':
             pos = 'center'
-        if vis['type'] == 'component' and vis['name'] in ('AU4Ejecao', 'AU4Fim', 'AU4Revela') and pos == 'right':
+        if vis['type'] == 'component' and vis['name'] in ('AU4Ejecao', 'AU4Fim', 'AU4Revela', 'AU5Ejecao', 'AU5Fim') and pos == 'right':
             pos = 'top'  # AU4: o texto dessas telas fica embaixo; meme no alto não cobre
         mdur = float(parts[2]) if len(parts) > 2 and parts[2] else 2.2
         if mid not in memes:

@@ -37,7 +37,7 @@ def cenas(h):
         N('p3g', jogo(3, 'Caqui', evento={'tipo': 'morte', 'vitima': 'Ciano'}, antes=3,
                       ancoras=[({'tipo': 'morte', 'vitima': 'Ciano'}, 'come')],
                       selos=[credito('GLUTÃO · ideia de @Tinanossauro', 'glutao', 150),
-                             selo('ERA IMPOSTOR', 'come', 'carimbo', cor='#0d8a2a', dur=60)]),
+                             selo('ENGOLIU UM IMPOSTOR', 'come', 'carimbo', cor='#0d8a2a', dur=70)]),
           'Tique quatorze. O Caqui é o Glutão, um neutro que engole gente. Ele pega o Ciano sozinho no Admin e come. [[s:nhac:0.7]] Sem corpo. E o Ciano era o Apostador, impostor. [[m:im-hungry-cat:right:1.6]]', min=9),
         CH('p3h', jogo(3, 'Roxo', evento={'tipo': 'recrutamento', 'cor': 'Roxo'}, antes=3,
                        selos=[selo('RECRUTADO', 'recruta', 'carimbo', cor='#c0262d', dur=60)]), [
@@ -63,8 +63,8 @@ def cenas(h):
         ]),
         N('p3l', comp('AU5Ejecao', partida=3, indice=2),
           'Sai o Branco. [[s:revela_impostor:0.5]] O Chato, impostor! A Prefeita blindada tá limpando a nave. [[m:success-kid:right:1.4]]', min=5.5),
-        CH('p3m', reuniao(3, 3, selos=[selo('RECADO DO ALÉM (t23): "...estava disfarçado com a cor dele. Tem disfarçado na base."', 0, cor='#6b4fd1', dur=200)]), [
-            ('N', 'No tique seguinte, a Rosa chama outra reunião, contra o Caqui. Só que antes, o Bordo, que morreu, virou o Influencer Fantasma: manda recados anônimos do além. E mandou um... errado. Disse que tinha alguém disfarçado.'),
+        CH('p3m', reuniao(3, 3, selos=[selo('RECADO DO ALÉM (t23): "...estava disfarçado com a cor dele. Tem disfarçado na base."', 2, cor='#6b4fd1', dur=200)]), [
+            ('N', 'No tique seguinte, a Rosa chama outra reunião, contra o Caqui. Só que antes, o Bordo, que morreu, virou o Influencer Fantasma: manda recados anônimos do além. E mandou um... errado. Disse que tinha alguém disfarçado. Nessa partida não tinha nenhum disfarce.'),
             ('N', 'E o Caqui usou isso:'),
             ('Caqui', 'Não fui eu! O recado do além avisou que tem disfarçado — usaram minha cor pra me incriminar. Confiem nisso.'),
             ('N', 'Não colou. [[m:drake-no:right:1.4]]'),
@@ -78,17 +78,11 @@ def cenas(h):
             ('Amarelo', 'Estou preso na descontaminação com Rosa; tentei matá-la antes, mas tinha escudo. Não conserte o sismógrafo.'),
             ('N', 'Aí ele desiste da Rosa e tenta matar o Médico. E quem salva o Médico... é o Anjo da Guarda. A Rose. Que morreu de tristeza no tique três. [[m:dicaprio-toast:right:1.6]]'),
         ]),
-        CH('p3p', reuniao(3, 4), [
-            ('N', 'Tique cinquenta. O Banana chama reunião.'),
-            ('Rosa', 'Gente, AMARELO tentou me matar DUAS vezes (t41 em Elétrica e t44 em Descontaminação) e o escudo me salvou. É impostor, voto nele!'),
-            ('Banana', 'Amarelo também TENTOU ME MATAR no t47 em Descontaminação, o escudo me salvou. Ele atacou Rosa duas vezes e agora eu. É impostor, voto nele!'),
-            ('Amarelo', 'Nego os ataques. Vi Rosa na Descontaminação no t43 e Banana no t46, mas proximidade não prova que ataquei. Por que não denunciaram antes?'),
-        ]),
         N('p3q', comp('AU5Ejecao', partida=3, indice=4),
-          'Expulso. [[s:revela_impostor:0.5]] Agora só sobrou o Roxo, o Gangster. Sozinho contra sete. [[m:sweating:right:1.4]]', min=5),
+          'Tique cinquenta: o Banana chama reunião, ele e a Rosa contam os ataques, e o Amarelo é expulso. [[s:revela_impostor:0.5]] Agora só sobrou o Roxo, o Gangster. Sozinho contra sete. [[m:sweating:right:1.4]]', min=5),
         CH('p3r', jogo(3, 'Roxo', evento={'tipo': 'morte', 'vitima': 'Laranja'}, antes=7,
                        ancoras=[({'tipo': 'sabotagem', 'cor': 'Roxo', 'subtipo': 'Luzes'}, 'apaga'), ({'tipo': 'morte', 'vitima': 'Laranja'}, 'mata')],
-                       selos=[selo('TAREFAS: 100%', 'mesmo', 'carimbo', cor='#0d8a2a', dur=90)]), [
+                       selos=[selo('LUZES APAGADAS', 'apaga', cor='#333', dur=80), selo('TAREFAS: 100%', 'mesmo', 'carimbo', cor='#0d8a2a', dur=90)]), [
             ('Roxo', 'Preso na Desc2 com Verde me vendo, não consigo matar. Sismógrafo já foi consertado no t47. Preciso de plano B.'),
             ('N', 'Quinze tiques depois, o plano B: tique sessenta e cinco, ele apaga as luzes. Tique sessenta e seis, pega o Laranja sozinho no Admin e mata. [[s:faca:0.6]]'),
             ('N', 'Só que, nesse mesmo tique, a nave termina a última tarefa. [[s:tarefa:0.6]] [[m:mr-bean-waiting:right:1.6]]'),
