@@ -197,7 +197,7 @@ P1 = [
         ('Verde', 'Banana, se você viu Branco matar, por que só falou depois de quase ser expulso? Isso parece desespero.'),
     ]),
     N('p1o', comp('AU5Resultado', partida=1, indice=3, semJuiz=True),
-      'E no meio da reunião, o Caqui usa a aposta: chuta que o Verde é o Influencer. [[s:tiro:0.5]] Acertou. O Verde morre ali mesmo.', min=7),
+      'E no meio da reunião, o Caqui usa a aposta: chuta que o Verde é o Fotógrafo. [[s:tiro:0.5]] Acertou. O Verde morre ali mesmo.', min=7),
     N('p1p', comp('AU5Ejecao', partida=1, indice=3),
       'E o Banana... foi expulso. O Juiz. Que viu o assassino com os próprios olhos. [[m:crying-jordan:right:1.8]]', min=6),
     N('p1q', jogo(1, 'Branco', evento={'tipo': 'derreteu', 'cor': 'Lima'}, antes=9,
@@ -257,7 +257,7 @@ P2 = [
         ('Laranja', 'Sou o Engenheiro, duto é meu poder. Mas o Cinza entrou num duto na Elétrica no t12, na minha cara. Ele explica?'),
     ]),
     N('p2g', comp('AU5Ejecao', partida=2, indice=1),
-      'E a foto do Vermelho, o Influencer, mostrou o Cinza no Escritório. [[s:camera-shutter:0.5]] Expulso. Era o Metamorfo. Impostor! [[m:cr7-siuuu:right:1.6]]', min=6.5),
+      'E a foto do Vermelho, o Fotógrafo, mostrou o Cinza no Escritório. [[s:camera-shutter:0.5]] Expulso. Era o Metamorfo. Impostor! [[m:cr7-siuuu:right:1.6]]', min=6.5),
     CH('p2h', jogo(2, 'Branco', evento={'tipo': 'morte', 'vitima': 'Caqui'}, antes=3.5,
                    ancoras=[({'tipo': 'morte', 'vitima': 'Caqui'}, 'mata')],
                    selos=[selo('O TRAIDOR MATOU UM IMPOSTOR', 'mata', 'carimbo', cor='#9b7bff', dur=80)]), [
@@ -349,7 +349,7 @@ P4 = [
                          selo('MATOU MESMO', 'verdade', 'carimbo', cor='#0d8a2a', dur=55)]),
       'Tique sete: o Marrom mata o Bordo, no Admin. E avisa os parceiros: matei. Dessa vez, é verdade.', min=7.5),
     N('p4f', comp('AU5Foto', partida=4, tique=5, cor='Roxo', legenda='FOTO DO ROXO · TIQUE 5 · SALA DE ESPÉCIMES'),
-      'Tique oito, reunião. O Roxo é o Influencer. E a foto dele mostra... [[s:camera-shutter:0.6]] dois Vermelhos. [[m:spiderman-pointing:right:1.8]]', min=7),
+      'Tique oito, reunião. O Roxo é o Fotógrafo. E a foto dele mostra... [[s:camera-shutter:0.6]] dois Vermelhos. [[m:spiderman-pointing:right:1.8]]', min=7),
     CH('p4g', reuniao(4, 0), [
         ('N', 'Aí o Cinza, o Metamorfo, solta essa:'),
         ('Cinza', 'Eu sou o Vermelho de verdade. O outro Vermelho da foto é o impostor usando meu nome.'),

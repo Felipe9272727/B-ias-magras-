@@ -41,7 +41,7 @@ def cenas(h):
           'Tique quatorze. O Caqui é o Glutão, um neutro que engole gente. Ele pega o Ciano sozinho no Admin e come. [[s:nhac:0.7]] Sem corpo. E o Ciano era o Apostador, impostor. [[m:im-hungry-cat:right:1.6]]', min=9),
         CH('p3h', jogo(3, 'Roxo', evento={'tipo': 'recrutamento', 'cor': 'Roxo'}, antes=3,
                        selos=[selo('RECRUTADO', 'recruta', 'carimbo', cor='#c0262d', dur=60)]), [
-            ('N', 'Tique quinze. O Roxo, o Gangster, recruta o Amarelo, o Influencer:'),
+            ('N', 'Tique quinze. O Roxo, o Gangster, recruta o Amarelo, o Fotógrafo:'),
             ('Roxo', 'Amarelo: você foi recrutado, agora é impostor.'),
         ]),
         CH('p3i', jogo(3, 'Rosa', evento={'tipo': 'escudo', 'vitima': 'Rosa', 'assassino': 'Branco'}, antes=3,

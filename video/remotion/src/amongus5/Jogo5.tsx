@@ -39,7 +39,7 @@ export const EMPRESA: Record<string, {nome: string; cor: string}> = {
   'GPT-6.1 Terra': {nome: 'GPT', cor: '#10a37f'},
   'MiMo V2.6 Flash': {nome: 'MiMo', cor: '#ff6900'},
 };
-export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança', Glutao: 'Glutão', Mecanico: 'Mecânico', Vibora: 'Víbora'};
+export const PAPEL_NOME: Record<string, string> = {Medico: 'Médico', Palhaco: 'Palhaço', Seguranca: 'Segurança', Glutao: 'Glutão', Mecanico: 'Mecânico', Vibora: 'Víbora', Influencer: 'Fotógrafo'}; // AU5: o Influencer vivo aparece como Fotógrafo (o Influencer é só o fantasma)
 
 // AU4: skin que cada IA escolheu (logs4/skins.json)
 export type Skins = Record<string, {cabeca?: string | null; roupa?: string | null; pet?: string | null}>;
