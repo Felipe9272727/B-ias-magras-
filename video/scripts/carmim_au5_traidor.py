@@ -293,7 +293,7 @@ def main():
     cortes, acc = [], 0.0
     for arq in todos:
         nq = int(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v', '-show_entries', 'stream=nb_frames', '-of', 'csv=p=0', str(arq)],
-                                capture_output=True, text=True).stdout.strip() or 0)
+                                capture_output=True, text=True).stdout.strip().split(',')[0] or 0)
         if acc > 0 and nq >= 18:
             cortes.append(acc)
         acc += nq / FPS
