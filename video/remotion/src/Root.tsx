@@ -44,6 +44,7 @@ import {PreviaMC, calcPreviaMC} from './minecraft/PreviaMC';
 import {TesteMapaMC} from './minecraft/MapaMC';
 import {TesteHudMC} from './minecraft/HudMC';
 import {AberturaMC, calcAberturaMC} from './minecraft/AberturaMC';
+import {ThumbMC} from './minecraft/ThumbMC';
 import {Dia, calcDia} from './sessenta/Dia';
 import {Previa as S60Previa, calcPrevia} from './sessenta/Previa';
 import {Coleta3D, calcColeta3D} from './sessenta/Coleta3D';
@@ -218,6 +219,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="TesteMapaMC" component={TesteMapaMC} width={1920} height={1080} fps={30} durationInFrames={300} />
       <Composition id="TesteHudMC" component={TesteHudMC} width={1920} height={1080} fps={30} durationInFrames={150} />
       <Composition id="AberturaMC" component={AberturaMC} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcAberturaMC} />
+      <Composition id="ThumbMC" component={ThumbMC} width={1280} height={720} fps={30} durationInFrames={1} />
+      <Composition id="ShortMC" component={AberturaMC} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null, pasta: 'mc/short'}} calculateMetadata={calcAberturaMC} />
       <Composition id="VideoMC" component={AberturaMC} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null, pasta: 'mc/video'}} calculateMetadata={calcAberturaMC} />
       <Composition id="ShortRose5"component={ShortRose5} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortRose5} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />

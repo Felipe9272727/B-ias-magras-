@@ -41,7 +41,7 @@ export const Pensa: React.FC<{quem: string; a: Fala; ate: number; rotulo?: strin
   const e = spring({frame: f, fps: FPS, config: {damping: 13}});
   const sai = interpolate(f, [ate - 7, ate], [1, 0], cl);
   return (
-    <div style={{position: 'absolute', left: 250, right: 250, bottom: 150, opacity: sai, transform: `scale(${0.85 + e * 0.15}) translateY(${(1 - e) * 60}px)`}}>
+    <div style={{position: 'absolute', left: '13%', right: '13%', bottom: 150, opacity: sai, transform: `scale(${0.85 + e * 0.15}) translateY(${(1 - e) * 60}px)`}}>
       <div style={{background: 'rgba(255,255,255,0.96)', border: '6px dashed #5b5b8f', borderRadius: 40, padding: '22px 34px', display: 'flex', gap: 22, alignItems: 'flex-start', boxShadow: '0 10px 0 rgba(0,0,0,0.35)'}}>
         <Cabeca nome={quem} tam={64} />
         <div>
@@ -61,7 +61,7 @@ export const Chat: React.FC<{quem: string; a: Fala; ate: number}> = ({quem, a, a
   const sai = interpolate(f, [ate - 7, ate], [1, 0], cl);
   const e = spring({frame: f, fps: FPS, config: {damping: 15}});
   return (
-    <div style={{position: 'absolute', left: 40, bottom: 190, maxWidth: 1300, opacity: sai, transform: `translateY(${(1 - e) * 40}px)`}}>
+    <div style={{position: 'absolute', left: 40, bottom: 190, maxWidth: 'min(1300px, calc(100% - 80px))', opacity: sai, transform: `translateY(${(1 - e) * 40}px)`}}>
       <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 24, color: '#fff', background: IAS[quem].cor, display: 'inline-block', padding: '2px 12px', marginBottom: 6}}>CHAT DO SERVIDOR</div>
       <div style={{background: 'rgba(0,0,0,0.66)', padding: '12px 20px', fontFamily: FONT.pixel, fontSize: 25, color: '#fff', lineHeight: 1.6, textShadow: '3px 3px 0 #3f3f3f'}}>
         <span style={{color: IAS[quem].cor}}>{'<'}{quem}{'>'}</span> {falado(a, f)}

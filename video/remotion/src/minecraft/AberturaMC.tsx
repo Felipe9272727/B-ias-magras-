@@ -20,7 +20,7 @@ type Item =
   | {tipo: 'card'; estilo: string; texto: string; at: number; dur: number}
   | {tipo: 'meme'; gif: string; at: number; dur: number; pos: string; sfx: string | null};
 type Popup = {t: number; n: number; item: string; icone: string | null; tipo: string};
-type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; sub?: string; ranking?: boolean; linhas?: [string, string][]};
+type Visual = {tipo: string; camera?: string; festa?: boolean; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; sub?: string; ranking?: boolean; linhas?: [string, string][]};
 type Cena = {id: string; visual: Visual; itens: Item[]; dur: number; agua?: number[]};
 type Dados = {cenas: Cena[]; obsClaude: string; pasta?: string};
 
@@ -194,7 +194,7 @@ const PopItem: React.FC<{p: Popup}> = ({p}) => {
   const e = spring({frame: f, fps: FPS, config: {damping: 10, stiffness: 160}});
   const sai = interpolate(f, [38, 50], [1, 0], cl);
   return (
-    <div style={{position: 'absolute', left: 1010, top: 470 - f * 1.6, opacity: sai, transform: `scale(${0.4 + e * 0.6})`, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(0,0,0,0.6)', border: '4px solid #fff', padding: '8px 18px 8px 10px'}}>
+    <div style={{position: 'absolute', left: '53%', top: `calc(44% - ${f * 1.6}px)`, opacity: sai, transform: `scale(${0.4 + e * 0.6})`, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(0,0,0,0.6)', border: '4px solid #fff', padding: '8px 18px 8px 10px'}}>
       {p.icone ? <Img src={staticFile(p.icone)} style={{width: 64, height: 64, imageRendering: 'pixelated'}} /> : null}
       <div style={{fontFamily: FONT.pixel, fontSize: 34, color: p.tipo === 'craft' ? '#7dff7d' : '#ffe14d', textShadow: '3px 3px 0 #000'}}>+{p.n} {p.tipo === 'coleta' ? p.item : ''}</div>
       {f === 0 ? <Audio src={staticFile('sfx/pegar-item.mp3')} volume={0.4} /> : null}
@@ -220,16 +220,95 @@ const Agua: React.FC<{q: number[]; primeira: boolean}> = ({q, primeira}) => {
   );
 };
 
+// a zona da arena (evento "zona" do organizador em 11190,9 s: de raio 160 a 15 em 480 s): radar no canto com o círculo
+// encolhendo e o tempo que falta
+const ZONA_INI = 11190.9;
+const Zona: React.FC<{t: number}> = ({t}) => {
+  const k = Math.min(1, (t - ZONA_INI) / 480);
+  const raio = 160 - (160 - 15) * k;
+  const falta = Math.max(0, 480 - (t - ZONA_INI));
+  const R = 110;
+  return (
+    <div style={{position: 'absolute', right: 30, top: 30, width: 2 * R + 20, padding: 10, background: 'rgba(0,0,0,0.6)', border: '4px solid #ff5555'}}>
+      <svg width={2 * R} height={2 * R} viewBox={`${-R} ${-R} ${2 * R} ${2 * R}`}>
+        <rect x={-R} y={-R} width={2 * R} height={2 * R} fill="#3a2a2a" />
+        <circle r={(R * raio) / 160} fill="#2f6b3a" stroke="#ff5555" strokeWidth={4} />
+        <circle r={(R * 15) / 160} fill="none" stroke="#ffe14d" strokeWidth={2} strokeDasharray="4 4" />
+        <circle r={4} fill="#fff" />
+      </svg>
+      <div style={{fontFamily: FONT.pixel, fontSize: 20, color: '#ff5555', textAlign: 'center', marginTop: 6}}>ZONA {Math.floor(falta / 60)}:{String(Math.floor(falta % 60)).padStart(2, '0')}</div>
+    </div>
+  );
+};
+
+// vitória: confete de quadradinhos (SVG, nada de emoji) e troféu de pixel
+const Festa: React.FC = () => {
+  const f = useCurrentFrame();
+  const {width: W, height: H} = useVideoConfig();
+  const cores = ['#ffe14d', '#ff6900', '#4d6bfe', '#10a37f', '#d97757', '#8b6cff', '#fff'];
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none'}}>
+      {Array.from({length: 90}, (_, i) => {
+        const x = ((i * 7919) % 1000) / 1000 * W, v = 4 + (i % 5) * 1.6, y = ((f * v + i * 97) % (H + 60)) - 60;
+        return <div key={i} style={{position: 'absolute', left: x + Math.sin((f + i * 13) / 9) * 30, top: y, width: 18, height: 12, background: cores[i % cores.length], transform: `rotate(${(f * 7 + i * 40) % 360}deg)`}} />;
+      })}
+      {f === 0 ? <Audio src={staticFile('sfx/crowd-cheer.mp3')} volume={0.4} /> : null}
+    </AbsoluteFill>
+  );
+};
+
 // a mira do Minecraft (1ª pessoa): cruz de 15 px do jogo na escala 3 da HUD, invertendo as cores do fundo
 const Mira: React.FC = () => (
-  <div style={{position: 'absolute', left: 960 - 22, top: 540 - 22, width: 45, height: 45, mixBlendMode: 'difference'}}>
+  <div style={{position: 'absolute', left: '50%', top: '50%', marginLeft: -22, marginTop: -22, width: 45, height: 45, mixBlendMode: 'difference'}}>
     <div style={{position: 'absolute', left: 0, top: 19, width: 45, height: 6, background: '#fff'}} />
     <div style={{position: 'absolute', left: 19, top: 0, width: 6, height: 45, background: '#fff'}} />
   </div>
 );
 
+// tranco de zoom quando entra um cartão de morte (servidor/morte): 1 -> 1,12 e volta em ~0,7 s
+const MORTE_RE = /drowned|slain|shot|blown|suffocated|lava|ground too hard|confines/;
+function zoomMorte(c: Cena, f: number) {
+  let z = 1;
+  for (const it of c.itens) {
+    if (it.tipo !== 'card' || !(it.estilo === 'servidor' || it.estilo === 'morte') || !MORTE_RE.test(it.texto)) continue;
+    const d = f - it.at;
+    if (d >= 0 && d < 22) z = Math.max(z, 1 + 0.12 * Math.sin((d / 22) * Math.PI));
+  }
+  return z;
+}
+
+// relógio da partida (tempo de jogo da cena), como nos vídeos de série de Minecraft
+const Relogio: React.FC<{t: number}> = ({t}) => {
+  const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sg = Math.floor(t % 60);
+  return (
+    <div style={{position: 'absolute', left: 30, top: 30, background: 'rgba(0,0,0,0.55)', padding: '6px 14px', fontFamily: FONT.pixel, fontSize: 22, color: '#fff', textShadow: '2px 2px 0 #3f3f3f'}}>
+      PARTIDA {h}:{String(m).padStart(2, '0')}:{String(sg).padStart(2, '0')}
+    </div>
+  );
+};
+
+// arena: quem ainda está vivo (mortes do log: Claude 10855,1; GLM 10869,2; GPT 11332,1; Qwen 11403,8; DeepSeek 11527,4)
+const MORTE_ARENA: Record<string, number> = {Claude: 10855.1, GLM: 10869.2, GPT: 11332.1, Qwen: 11403.8, DeepSeek: 11527.4, MiMo: 1e9};
+const Vivos: React.FC<{t: number}> = ({t}) => {
+  const vivos = Object.values(MORTE_ARENA).filter((m) => m > t).length;
+  return (
+    <div style={{position: 'absolute', left: 30, top: 80, background: 'rgba(0,0,0,0.55)', padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6}}>
+      <div style={{fontFamily: FONT.pixel, fontSize: 18, color: '#ffe14d'}}>RESTAM {vivos}</div>
+      <div style={{display: 'flex', gap: 8}}>
+        {Object.entries(MORTE_ARENA).map(([n, m]) => (
+          <div key={n} style={{position: 'relative', opacity: m > t ? 1 : 0.35, filter: m > t ? undefined : 'grayscale(1)'}}>
+            <Cabeca nome={n} tam={34} />
+            {m <= t ? <svg width={42} height={42} style={{position: 'absolute', left: -1, top: -1}}><path d="M4 4 L38 38 M38 4 L4 38" stroke="#ff3030" strokeWidth={6} /></svg> : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pasta}) => {
   const f = useCurrentFrame();
+  const {width: W, height: H} = useVideoConfig();  // 1920x1080 no vídeo; 1080x1920 no Short
   const v = c.visual;
   const quem = seguido(v.camera);
   const narr = c.itens.filter((i) => i.tipo === 'n');
@@ -237,11 +316,15 @@ const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pa
   const dividido = v.painel === 'relatorio';
   return (
     <AbsoluteFill style={{background: '#000'}}>
-      <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : 1920, height: 1080, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined}}>
-        <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: 1920, height: 1080, marginLeft: dividido ? -460 : 0}} />
+      <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : W, height: H, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined, transform: `scale(${zoomMorte(c, f)})`}}>
+        <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: W, height: H, marginLeft: dividido ? -460 : 0, filter: v.camera?.startsWith('olhos') ? 'brightness(1.3) contrast(1.05)' : undefined}} />
       </div>
       {c.agua ? <Agua q={c.agua} primeira={!!v.camera?.startsWith('olhos')} /> : null}
       {v.camera?.startsWith('olhos') ? <Mira /> : null}
+      {(v.t0 ?? 0) + f / FPS >= ZONA_INI && (v.t0 ?? 0) < 11600 ? <Zona t={(v.t0 ?? 0) + f / FPS} /> : null}
+      {v.festa ? <Festa /> : null}
+      {v.camera && !v.camera.startsWith('fixa') && v.painel !== 'nascimento' ? <Relogio t={(v.t0 ?? 0) + f / FPS} /> : null}
+      {(v.t0 ?? 0) >= 10806 ? <Vivos t={(v.t0 ?? 0) + f / FPS} /> : null}
       {quem && v.painel !== 'relatorio' ? <HudMC nome={quem} t={(v.t0 ?? 0) + f / FPS} escala={3} /> : null}
       {v.painel === 'relatorio' ? <Relatorio texto={obs} dur={c.dur} /> : null}
       {v.painel === 'decisao' ? <Sequence durationInFrames={primeiraFalaIA ? primeiraFalaIA.at : c.dur} layout="none"><Decisao /></Sequence> : null}
@@ -283,7 +366,9 @@ const Falas: React.FC<{c: Cena}> = ({c}) => (
         const ate = Math.round(it.dur * FPS) + 10;
         return <Sequence key={i} from={it.at} durationInFrames={ate} layout="none">{it.estilo === 'morte' ? <Morte texto={it.texto} ate={ate} /> : it.estilo === 'servidor' ? <MsgServidor texto={it.texto} ate={ate} /> : it.estilo === 'titulo' ? <Titulo texto={it.texto} ate={ate} /> : it.estilo === 'comentario' ? <ComentarioYT texto={it.texto} ate={ate} /> : <ErroJogo texto={it.texto} ate={ate} />}</Sequence>;
       }
-      const ate = Math.min(c.dur - it.at, Math.round(it.dur * FPS) + 14);
+      // o cartão de fala sai antes do próximo cartão de fala entrar (não sobrepõe)
+      const prox = c.itens.slice(i + 1).find((o) => o.tipo === 'chat' || o.tipo === 'pensa' || o.tipo === 'nota');
+      const ate = Math.min(c.dur - it.at, Math.round(it.dur * FPS) + 14, prox ? prox.at - it.at - 2 : Infinity);
       return (
         <Sequence key={i} from={it.at} layout="none">
           <Audio src={staticFile(it.src)} />

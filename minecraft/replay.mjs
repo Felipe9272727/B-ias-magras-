@@ -74,7 +74,11 @@ function interp(lista, t) {  // posição interpolada no instante t
   let dy = b.yaw - a.yaw
   while (dy > Math.PI) dy -= 2 * Math.PI
   while (dy < -Math.PI) dy += 2 * Math.PI
-  return { ...a, x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k, z: a.z + (b.z - a.z) * k, yaw: a.yaw + dy * k, pitch: a.pitch + (b.pitch - a.pitch) * k }
+  // altura com física do jogo em vez de linha reta (que parecia flutuar): subida de pulo/degrau é rápida e freia no
+  // topo (o pulo do Minecraft sobe 0,42 bloco/tick e a gravidade tira 0,08), e a queda acelera com a gravidade
+  const sy = b.y - a.y
+  const ky = sy > 0.2 && sy <= 1.6 ? 1 - (1 - k) * (1 - k) : sy < -0.2 ? k * k : k
+  return { ...a, x: a.x + (b.x - a.x) * k, y: a.y + sy * ky, z: a.z + (b.z - a.z) * k, yaw: a.yaw + dy * k, pitch: a.pitch + (b.pitch - a.pitch) * k }
 }
 
 for (const e of EXTRAS) await e.m.preparar?.({ DIR, posicoes, blocos, mobsPorBot, eventos: eventosTodos, interp, registro, NOMES_IA, t0, t1 })

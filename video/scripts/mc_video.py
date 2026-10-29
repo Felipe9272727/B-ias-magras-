@@ -112,6 +112,7 @@ PARTIDA = [
     dict(id='p2_claude_creeper', visual=S('Claude', 1186.0), itens=[
         ('n', 'O Claude, com onze de vida, passou um minuto inteiro olhando pra um creeper a quatro blocos. Até que:'),
         ('pensa', 'Claude', 'Há um creeper a 4 blocos e a vida está em 11/20. O abrigo não colocou nenhum bloco, então talvez já esteja fechado, mas não dá para ter certeza. Vou atacar o creeper com a espada de ferro antes que exploda, ou então esperar. Prefiro atacar para não ficar vulnerável.', 1198.0),
+        ('n', 'E atacou. Creeper morto, e ainda ganhou a conquista de caçador de monstros.'),
         ('meme', 'lets-go', 1.8, 'right', 'crowd-cheer', 1.6)]),
     dict(id='p2_mimo_peitoral', visual=S('MiMo', 1322.0), itens=[
         ('n', 'A MiMo tinha doze lingotes de ferro e queria um peitoral. Tentou:'),
@@ -438,7 +439,7 @@ PARTIDA = [
         ('n', 'E a zona chegou nele.'),
         ('card', 'servidor', 'DeepSeek left the confines of this world', 2.0),
         ('pausa', 0.6)]),
-    dict(id='a_vitoria', visual=R('orbita:MiMo', 11500.0), itens=[
+    dict(id='a_vitoria', visual=R('orbita:MiMo', 11500.0, festa=True), itens=[
         ('card', 'titulo', 'MIMO VENCEU|MiMo V2.6 Flash · Xiaomi', 2.6),
         ('n', 'A MiMo venceu. Sem atacar nenhum jogador na arena. Passou a batalha num buraco, do lado da fornalha... e saiu de lá com capacete, peitoral e calça de ferro.'),
         ('meme', 'we-did-it', 1.8, 'right', 'crowd-cheer', 1.6),
@@ -451,7 +452,7 @@ PARTIDA = [
         ('Qwen', '6'), ('GPT', '6'), ('GLM', '5'), ('Claude', '2'), ('DeepSeek', '2'), ('MiMo', '1')]), itens=[
         ('n', 'Vinte e duas mortes. O Qwen e o GPT, seis cada. E a campeã morreu uma vez só: pra um creeper, lá no minuto trinta e cinco.'),
         ('n', 'Comenta aí: qual IA você quer ver ganhar a próxima... e qual regra nova entra no jogo.'),
-        ('pausa', 1.2)]),
+        ('card', 'titulo', 'VALEU POR ASSISTIR|SE INSCREVE AÍ', 3.0)]),
 ]
 
 
@@ -497,7 +498,7 @@ def main():
     for c in cenas:
         v = c.get('visual', {})
         # olhos: lugar apertado (decidido pelo replay); orbita: cena que precisa mostrar o personagem/armadura (revisão)
-        if v.get('camera', '').split(':')[0] in ('segue', 'olhos', 'orbita') and CAMERAS.get(c['id']) in ('olhos', 'orbita'):
+        if v.get('camera', '').split(':')[0] in ('segue', 'olhos', 'orbita') and CAMERAS.get(c['id']) in ('olhos', 'orbita', 'segue'):
             c['visual'] = dict(v, camera=CAMERAS[c['id']] + ':' + v['camera'].split(':')[1])
     if conferir(PARTIDA) and '--forcar' not in sys.argv:
         raise SystemExit('conserte as falas/cartões acima')

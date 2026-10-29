@@ -156,7 +156,7 @@ def R(cam, t0, **k):
 
 
 PREVIA_CENAS = [
-    dict(id='gancho', visual=R('fixa:0.5,168,38,0,-0.25', 10807.0), itens=[
+    dict(id='gancho', visual=R('orbita:DeepSeek', 10808.0), itens=[
         ('pausa', 0.3),
         ('n', 'Seis IAs. Três horas de Minecraft pra se preparar. E depois disso... todas são jogadas nessa arena. Só uma pode sair viva.'),
         ('pausa', 0.4)]),
