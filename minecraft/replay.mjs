@@ -214,7 +214,7 @@ function pacoteComSkins() {
     .replace('WorldRenderer:class{constructor(t,e=4){', `WorldRenderer:class{constructor(t,e=${Number(process.env.TRABALHADORES ?? 4)}){`)
     // desenha só quando a gente pede (o laço normal desenhava a cena várias vezes por quadro) e sem a animação de 50 ms
     // nas posições: cada quadro mostra exatamente a posição gravada
-    .replace('!function t(){window.requestAnimationFrame(t),h&&h.update(),u.update(),l.render(u.scene,u.camera)}()', 'window.__r=function(){h&&h.update(),u.update(),l.render(u.scene,u.camera),window.__depois&&window.__depois(l)};!function t(){window.requestAnimationFrame(t),window.__manual||window.__r()}()')
+    .replace('!function t(){window.requestAnimationFrame(t),h&&h.update(),u.update(),l.render(u.scene,u.camera)}()', 'window.__u=function(){h&&h.update(),u.update()};window.__r=function(){h&&h.update(),u.update(),l.render(u.scene,u.camera),window.__depois&&window.__depois(l)};!function t(){window.requestAnimationFrame(t),window.__manual||window.__r()}()')
     .replaceAll('},50).start()', '},0).start()')
     .replaceAll('for(let i=0;i<256;i+=16)', 'for(let i=-64;i<320;i+=16)')
     .replace('this.scene.background=new n.Color("lightblue")', `this.scene.background=new n.Color("#a5c8ff"),this.scene.fog=new n.Fog("#a5c8ff",${NEB[0]},${NEB[1]})`)
@@ -471,9 +471,11 @@ for (let i = 0; i < n; i++) {
   const extra = {}
   for (const e of EXTRAS) if (e.m.noQuadro) Object.assign(extra, e.m.noQuadro(t, { fps, camera: ultimaCam, modo, seguido: arg, primeira: !!ultimaCam?.primeira, posJogador }))
   for (const [id, modelo] of armAtual) if (modelo && extra.anim?.['p_' + id.slice(3)]) extra.anim[id] = { ...extra.anim['p_' + id.slice(3)], modelo }
+  // uma passada de desenho só: a primeira só atualiza as animações (o desenho dela era jogado fora); DUAS_PASSADAS=1 volta ao antigo
+  extra.__duas = !!process.env.DUAS_PASSADAS
   const foto = pag.evaluate(extra => {
     window.__manual = true
-    window.__r()
+    if (extra.__duas) window.__r(); else window.__u()
     for (const f of window.__extras) { try { f(extra) } catch (e) { console.error('[extra]', e && e.stack || e) } }
     window.__r()
     return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1]
