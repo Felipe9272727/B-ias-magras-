@@ -42,6 +42,14 @@ for (const f of fs.readdirSync(path.join(DIR, 'chunks'))) {
 }
 for (const l of porChunk.values()) l.sort((a, b) => a.sessao - b.sessao)
 
+// ---- extras (animações, itens, blocos quebrando...): cada recurso tem um módulo no Node (extras/*.mjs: prepara os
+// dados da gravação e diz o que muda em cada quadro) e um script na página (pagina/*.js: aplica no 3D). Ver extras/README.md
+const PASTA = path.dirname(new URL(import.meta.url).pathname)
+const NOMES_IA = ['DeepSeek', 'Qwen', 'Claude', 'GPT', 'GLM', 'MiMo']
+const eventosTodos = arquivos('eventos').flatMap(lerJsonl).sort((a, b) => a.t - b.t)
+const EXTRAS = []
+for (const f of fs.readdirSync(path.join(PASTA, 'extras')).filter(f => f.endsWith('.mjs')).sort()) EXTRAS.push({ nome: f, m: await import(path.join(PASTA, 'extras', f)) })
+
 function interp(lista, t) {  // posição interpolada no instante t
   if (!lista?.length) return null
   let lo = 0, hi = lista.length - 1
@@ -54,6 +62,8 @@ function interp(lista, t) {  // posição interpolada no instante t
   while (dy < -Math.PI) dy += 2 * Math.PI
   return { ...a, x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k, z: a.z + (b.z - a.z) * k, yaw: a.yaw + dy * k, pitch: a.pitch + (b.pitch - a.pitch) * k }
 }
+
+for (const e of EXTRAS) await e.m.preparar?.({ DIR, posicoes, blocos, mobsPorBot, eventos: eventosTodos, interp, registro, NOMES_IA, t0, t1 })
 
 // ---- câmera
 const [modo, arg] = CAM.split(':')
@@ -89,9 +99,15 @@ function colidir(c, p) {
   const k = dd / L
   return { ...c, pos: { x: hx + (ex - hx) * k, y: hy + (ey - hy) * k - 1.62, z: hz + (ez - hz) * k } }
 }
+// posição de um jogador no instante t, com os ajustes dos extras (ajustarJogador pode trocar a posição ou esconder: null)
+function posJogador(n, t) {
+  let p = interp(posicoes[n], t)
+  for (const e of EXTRAS) if (p && e.m.ajustarJogador) p = e.m.ajustarJogador(n, t, p)
+  return p
+}
 function camera(t) {
   if (modo === 'fixa') { const [x, y, z, yaw, pitch] = arg.split(',').map(Number); return { pos: { x, y, z }, yaw, pitch } }
-  const p = interp(posicoes[arg], t)
+  const p = posJogador(arg, t)
   if (!p) return { pos: { x: 0, y: 100, z: 0 }, yaw: 0, pitch: -0.5 }
   if (modo === 'olhos') return { pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw, pitch: p.pitch }
   // yaw do Minecraft: olhar pra -z quando yaw=0; a câmera fica atrás (oposto do olhar), um pouco acima
@@ -104,7 +120,6 @@ function camera(t) {
 
 // ---- servidor no mesmo protocolo do prismarine-viewer
 // cada IA com a própria skin: copia o modelo do "player" no pacote do viewer pra 6 entidades novas (ia_<nome>)
-const NOMES_IA = ['DeepSeek', 'Qwen', 'Claude', 'GPT', 'GLM', 'MiMo']
 function pacoteComSkins() {
   const js = fs.readFileSync(require.resolve('prismarine-viewer/public/index.js'), 'utf8')
   const ini = js.indexOf('"player":{"identifier":"minecraft:player"')
@@ -142,6 +157,7 @@ const WORKER = fs.readFileSync(require.resolve('prismarine-viewer/public/worker.
   .replace('const l=getSectionGeometry(e,n,a,world,blocksStates),i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)', 'let l;try{l=getSectionGeometry(e,n,a,world,blocksStates)}catch(x){postMessage({type:"erroSecao",key:t,msg:String(x&&x.stack||x).slice(0,300)})}if(l){const i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)}')
 app.get('/worker.js', (req, res) => res.type('application/javascript').send(WORKER))
 for (const n of NOMES_IA) app.get(`/textures/1.16.4/entity/ia_${n}.png`, (req, res) => res.sendFile(path.resolve('skins', n + '.png')))
+app.use('/tex', express.static(path.join(PASTA, 'texturas_oficiais', 'assets', 'minecraft', 'textures')))
 setupRoutes(app, '')
 const srv = http.createServer(app)
 const io = new Server(srv)
@@ -174,7 +190,7 @@ function muda(b) {
 function quadro(t) {
   const c0 = camera(t)
   mandarChunksPerto(t, c0)
-  const c = colidir(c0, modo === 'fixa' ? null : interp(posicoes[arg], t))
+  const c = colidir(c0, modo === 'fixa' ? null : posJogador(arg, t))
   ultimaCam = { ...c, pos: { x: +c.pos.x.toFixed(2), y: +c.pos.y.toFixed(2), z: +c.pos.z.toFixed(2) }, dist: distAnt && +distAnt.toFixed(2) }
   while (iBloco < blocos.length && blocos[iBloco].t <= t) {
     const b = blocos[iBloco++]
@@ -182,8 +198,9 @@ function quadro(t) {
   }
   for (const [n, lista] of Object.entries(posicoes)) {
     if ((modo === 'olhos' || c.primeira) && n === arg) { if (c.primeira) sock.emit('entity', { id: 'p_' + n, delete: true }); continue }
-    const p = interp(lista, t)
+    const p = posJogador(n, t)
     if (p) sock.emit('entity', { id: 'p_' + n, name: NOMES_IA.includes(n) ? 'ia_' + n : 'player', username: n, pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw })
+    else if (lista.length) sock.emit('entity', { id: 'p_' + n, delete: true })
   }
   // mobs: o registro mais recente antes de t
   // mobs: em cada bot, o registro mais recente antes de t (até 1 s atrás); junta tudo sem repetir
@@ -218,6 +235,15 @@ pag.on('pageerror', e => console.log('[pagina erro]', e.message.slice(0, 300)))
 // guarda os "trabalhadores" do viewer (montam a malha 3D em paralelo) e cria a barreira: cada um responde quando já
 // processou tudo o que recebeu e não tem seção suja na fila. A fila de seções do viewer (sectionsOutstanding) não
 // serve pra isso: uma seção marcada duas vezes sai da fila na primeira resposta, com a segunda ainda pendente.
+// os ossos de cada modelo (na ordem do skeleton.bones), pros scripts de animação; e os scripts dos extras
+const OSSOS = {}
+for (const [tipo, ent] of Object.entries(require('prismarine-viewer/viewer/lib/entity/entities.json'))) {
+  const g = ent.geometry?.default ?? Object.values(ent.geometry ?? {})[0]
+  if (g?.bones) OSSOS[tipo] = Object.fromEntries(g.bones.map((b, i) => [b.name, i]))
+}
+for (const n of NOMES_IA) OSSOS['ia_' + n] = OSSOS.player
+await pag.addInitScript(o => { window.__ossos = o; window.__extras = [] }, OSSOS)
+for (const f of fs.readdirSync(path.join(PASTA, 'pagina')).filter(f => f.endsWith('.js')).sort()) await pag.addInitScript({ path: path.join(PASTA, 'pagina', f) })
 await pag.addInitScript(() => {
   // desenha só quando a gente pede, desde o começo: no aquecimento o laço de desenho roubava o processador da malha
   window.__manual = true
@@ -283,7 +309,15 @@ for (let i = 0; i < n; i++) {
   // duas passadas: a primeira termina as animações de 0 ms, a segunda desenha tudo no lugar
   // se o navegador travar (já aconteceu com 3 renders juntos), fecha o vídeo até aqui e sai com código 3:
   // o render_seguro.sh continua do quadro seguinte num pedaço novo
-  const foto = pag.evaluate(() => { window.__manual = true; window.__r(); window.__r(); return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1] })
+  const extra = {}
+  for (const e of EXTRAS) if (e.m.noQuadro) Object.assign(extra, e.m.noQuadro(t, { fps, camera: ultimaCam, modo, seguido: arg, primeira: !!ultimaCam?.primeira, posJogador }))
+  const foto = pag.evaluate(extra => {
+    window.__manual = true
+    window.__r()
+    for (const f of window.__extras) { try { f(extra) } catch (e) { console.error('[extra]', e && e.stack || e) } }
+    window.__r()
+    return document.querySelector('canvas').toDataURL('image/jpeg', 0.92).split(',')[1]
+  }, extra)
   const b64 = await Promise.race([foto, new Promise(ok => setTimeout(() => ok(null), 45000))])
   if (!b64) {
     ff.stdin.end()

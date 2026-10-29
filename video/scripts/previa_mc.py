@@ -96,6 +96,16 @@ def hud(quem, t0, tm):
     return out
 
 
+def congelar(quem, tm):
+    """instante do último registro de posição antes de a IA renascer longe (o pulo de mais de 6 blocos depois da morte)"""
+    ps = [json.loads(linha) for linha in (GRAV / f'posicoes_{quem}.jsonl').open()]
+    ps = [p for p in ps if tm - 3 <= p['t'] <= tm + 3]
+    for a, b in zip(ps, ps[1:]):
+        if b['t'] >= tm - 0.5 and ((a['x'] - b['x']) ** 2 + (a['y'] - b['y']) ** 2 + (a['z'] - b['z']) ** 2) ** 0.5 > 6:
+            return a['t']
+    return tm
+
+
 def voz(k, quem, tipo, texto):
     falado = ' '.join(b.bt.spoken(x) for x in texto.split())
     base = VOZ / k
@@ -126,7 +136,8 @@ def main():
             # a morte acontece logo depois da última fala de antes; o replay começa o tanto que falta antes dela
             morte_em = t + 0.15
             t0 = tm - morte_em
-            video = morte_em + 0.7  # um pouco depois do golpe e congela (depois disso ele renasce longe)
+            # congela no último registro antes do pulo pro ponto de renascimento (depois dele a câmera voaria pro spawn)
+            video = congelar(c['quem'], tm) - t0
             t = morte_em + 0.9
             for i, (tipo, texto) in enumerate(c.get('depois', [])):
                 a = voz(f"{c['id']}_d{i}", c['quem'], tipo, texto)
