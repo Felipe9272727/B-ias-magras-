@@ -47,6 +47,19 @@ for (const l of porChunk.values()) l.sort((a, b) => a.sessao - b.sessao)
 const PASTA = path.dirname(new URL(import.meta.url).pathname)
 const NOMES_IA = ['DeepSeek', 'Qwen', 'Claude', 'GPT', 'GLM', 'MiMo']
 const eventosTodos = arquivos('eventos').flatMap(lerJsonl).sort((a, b) => a.t - b.t)
+// a caixa da arena foi montada por comando do servidor (partida.mjs > arena(): piso de smooth_stone em y-1, paredes
+// e teto de vidro de y a y+9, raio r) e não aparece nos blocos gravados: recria aqui no instante do evento 'arena'
+for (const ev of eventosTodos.filter(e => e.tipo === 'arena' && e.arena)) {
+  const { x, y, z, r } = ev.arena, tt = ev.t + 0.1
+  const pedra = registro.blocksByName.smooth_stone.defaultState, vidro = registro.blocksByName.glass.defaultState
+  const novos = []
+  for (let a = x - r; a <= x + r; a++) for (let b = z - r; b <= z + r; b++) {
+    novos.push({ t: tt, x: a, y: y - 1, z: b, s: pedra, b: 'smooth_stone' }, { t: tt, x: a, y: y + 9, z: b, s: vidro, b: 'glass' })
+    if (a === x - r || a === x + r || b === z - r || b === z + r) for (let h = y; h <= y + 8; h++) novos.push({ t: tt, x: a, y: h, z: b, s: vidro, b: 'glass' })
+  }
+  blocos.push(...novos)
+  blocos.sort((p, q) => p.t - q.t)
+}
 const EXTRAS = []
 for (const f of fs.readdirSync(path.join(PASTA, 'extras')).filter(f => f.endsWith('.mjs')).sort()) EXTRAS.push({ nome: f, m: await import(path.join(PASTA, 'extras', f)) })
 
