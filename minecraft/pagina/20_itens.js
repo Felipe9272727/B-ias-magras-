@@ -58,7 +58,8 @@ window.__extras.push(extra => {
     if (!S.materiais.has(chave)) {
       const face = sufixo => {
         const m = new T.MeshLambertMaterial({ alphaTest: 0.5, color: 0x888888 })
-        const urls = sufixo ? ['/tex/block/' + nome + sufixo + '.png', '/tex/block/' + nome + '.png'] : ['/tex/block/' + nome + '.png']
+        // blocos sem textura <nome>.png (mesa, fornalha...): o lado é <nome>_side ou <nome>_front
+        const urls = sufixo ? ['/tex/block/' + nome + sufixo + '.png', '/tex/block/' + nome + '.png', '/tex/block/' + nome + '_side.png'] : ['/tex/block/' + nome + '.png', '/tex/block/' + nome + '_side.png', '/tex/block/' + nome + '_front.png']
         texPara(urls, tex => { m.map = tex; m.color.set(0xffffff); m.needsUpdate = true })
         return m
       }
