@@ -45,7 +45,7 @@ if [ ! -d $CLI/mods ]; then
 fi
 (Xvfb :99 -screen 0 960x540x24 > /tmp/xvfb.log 2>&1 &)
 sleep 1
-cd $CLI && (DISPLAY=:99 LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe nohup portablemc --main-dir $CLI start fabric:1.21.4 -u Camera --join-server localhost --resolution 960x540 > /tmp/cliente.log 2>&1 &)
+cd $CLI && (DISPLAY=:99 LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe nohup portablemc --main-dir $CLI start fabric:1.21.4 --fetch-exclude-all -u Camera --join-server localhost --resolution 960x540 > /tmp/cliente.log 2>&1 &)
 until grep -q "Camera joined" $SRV/console.log; do sleep 3; done
 cd $MC && node -e "import('./rcon.mjs').then(async m => { const c = m.rcon(); await c('gamemode spectator Camera'); await c('tp Camera 0 100 0'); process.exit(0) })"
 sleep 8

@@ -61,6 +61,7 @@ async function bonecos () {
     b[n].on('kicked', r => log('boneco expulso', n, JSON.stringify(r).slice(0, 200)))
     await new Promise(ok => b[n].once('spawn', ok))
     b[n].physicsEnabled = false
+    if (b[n].health <= 0) try { b[n].respawn() } catch {}
     b[n].on('forcedMove', () => { const q = querPos[n]; if (q && b[n].entity.position.distanceTo(q) > 2) um(`tp ${n} ${q.x.toFixed(2)} ${q.y.toFixed(2)} ${q.z.toFixed(2)}`) })
     b[n].on('death', () => setTimeout(() => { try { b[n].respawn() } catch {} }, 200))
     await espera(400)
@@ -140,8 +141,9 @@ async function filmar (bots, id, t0, t1, cam) {
   for (const n of NOMES) {
     prep.push(`gamemode adventure ${n}`, `effect give ${n} regeneration infinite 255 true`, `effect give ${n} saturation infinite 255 true`)
     const p = tr[n]?.[0]
-    if (p) prep.push(`effect clear ${n} invisibility`, `tp ${n} ${p.x} ${p.y} ${p.z} ${yawMC(p.yaw)} ${pitchMC(p.pitch)}`)
-    else prep.push(`effect give ${n} invisibility infinite 0 true`, `tp ${n} ${pAlvo.x} ${pAlvo.y + 60} ${pAlvo.z}`)
+    // quem morrer ou renascer volta pro lugar da cena (o ponto de nascimento do mundo é dentro do chão)
+    if (p) prep.push(`spawnpoint ${n} ${Math.floor(p.x)} ${Math.floor(p.y)} ${Math.floor(p.z)}`, `effect clear ${n} invisibility`, `tp ${n} ${p.x} ${p.y} ${p.z} ${yawMC(p.yaw)} ${pitchMC(p.pitch)}`)
+    else prep.push(`spawnpoint ${n} ${Math.floor(pAlvo.x)} ${Math.floor(pAlvo.y) + 60} ${Math.floor(pAlvo.z)}`, `effect give ${n} invisibility infinite 0 true`, `tp ${n} ${pAlvo.x} ${pAlvo.y + 60} ${pAlvo.z}`)
     vestido[n] = {}
   }
   const vestir = (n, t, l) => {
@@ -187,14 +189,6 @@ async function filmar (bots, id, t0, t1, cam) {
   escreverFuncoes(prep, ticks)
   await um('reload'); await um('tick rate 20'); await um('function reenc:prep')
   log(id, 'funções prontas:', prep.length, 'de preparo,', ticks.reduce((s, l) => s + l.length, 0), 'na cena')
-  // câmera
-  await um('gamemode spectator Camera')
-  await um(`tp Camera ${pAlvo.x} ${pAlvo.y + 1.6} ${pAlvo.z}`)
-  await espera(1500)
-  await um(`spectate ${alvo} Camera`)
-  const quer = modo === 'olhos' ? 0 : 1
-  for (let i = 0; i < ((quer - perspectiva) % 3 + 3) % 3; i++) { tecla('F5'); await espera(150) }
-  perspectiva = quer
   for (const n of NOMES) {
     const p = tr[n]?.[0]; if (!p) continue
     querPos[n] = new Vec3(p.x, p.y, p.z)
@@ -203,10 +197,21 @@ async function filmar (bots, id, t0, t1, cam) {
       const r = await um(`data get entity ${n} Pos`); const m = /\[([-\d.]+)d, ([-\d.]+)d, ([-\d.]+)d\]/.exec(r)
       if (m && Math.hypot(+m[1] - p.x, +m[2] - p.y, +m[3] - p.z) < 2) break
       log(id, 'boneco fora do lugar:', n, r.slice(0, 80))
+      try { bots[n].respawn() } catch {}
+      await espera(800)
     }
     if (bots[n].entity) { bots[n].entity.position = new Vec3(p.x, p.y, p.z); bots[n].entity.yaw = p.yaw; bots[n].entity.pitch = p.pitch }
   }
+  // câmera
+  await um('gamemode spectator Camera')
+  await um(`tp Camera ${pAlvo.x} ${pAlvo.y + 1.6} ${pAlvo.z}`)
+  await espera(1500)
+  await um(`spectate ${alvo} Camera`)
+  const quer = modo === 'olhos' ? 0 : 1
+  for (let i = 0; i < ((quer - perspectiva) % 3 + 3) % 3; i++) { tecla('F5'); await espera(150) }
+  perspectiva = quer
   await espera(7000)  // pedaços carregando
+  log(id, 'spectate:', await um(`spectate ${alvo} Camera`), '| câmera:', (await um('data get entity Camera Pos')).slice(-40), '| alvo:', (await um(`data get entity ${alvo} Pos`)).slice(-40))
   // grava
   log(id, 'gravando')
   await um(`tick rate ${20 / LENTO}`)
@@ -249,5 +254,7 @@ for (const c of cenas) {
   if (fs.existsSync(path.join(SAIDA, c.id + '.mp4'))) continue
   try { await filmar(bots, c.id, c.t0, c.t1, c.cam) } catch (e) { log(c.id, 'ERRO', e.stack) }
 }
+// deixa o cliente em primeira pessoa pra próxima execução
+for (let i = 0; i < (3 - perspectiva) % 3; i++) { tecla('F5'); await espera(150) }
 log('FIM')
 process.exit(0)
