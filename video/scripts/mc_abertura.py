@@ -298,8 +298,10 @@ def montar(cenas, pub=PUB):
                 t += it[5]
                 continue
             if it[0] == 'card':
-                itens.append(dict(tipo='card', estilo=it[1], texto=it[2], at=round(t * FPS), dur=it[3]))
-                t += it[3] + FOLGA
+                # tempo mínimo pra ler o cartão (~13 letras por segundo; o comentário, mais rápido de bater o olho)
+                d = it[3] if it[1] == 'titulo' else max(it[3], 0.6 + len(it[2]) / (17 if it[1] == 'comentario' else 13))
+                itens.append(dict(tipo='card', estilo=it[1], texto=it[2], at=round(t * FPS), dur=round(d, 2)))
+                t += d + FOLGA
                 continue
             if it[0] == 'n':
                 a = voz(f"{c['id']}{c.get('voz', '_')}{i}", None, 'n', it[1])

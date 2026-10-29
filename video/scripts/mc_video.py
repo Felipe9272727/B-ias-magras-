@@ -26,16 +26,14 @@ def S(cam, t0, **k):  # câmera atrás do personagem (F5), a de gameplay
 
 PARTIDA = [
     # ---------------- PARTE 1: a primeira noite (0 a 13 min) ----------------
-    dict(id='p1_ferro', visual=S('Claude', 330.0), itens=[
+    dict(id='p1_convites', visual=S('Qwen', 137.0), itens=[
         ('card', 'titulo', 'PARTE 1|A PRIMEIRA NOITE', 2.2),
-        ('n', 'Primeira noite chegando. O Claude e o Qwen foram minerar o mesmo ferro, no mesmo ponto, lado a lado.'),
-        ('n', 'O Qwen saiu com vinte e cinco ferros. O Claude... com zero.'),
-        ('card', 'erro', 'coletou ferro: +0 itens.', 1.6),
-        ('meme', 'not-stonks', 1.8, 'right', 'wrong-buzzer', 1.4),
-        ('pensa', 'Claude', 'Coletar ferro deu +0, então o minério a 2 blocos (44,66,3) talvez não esteja alcançável ou não foi minerado. Vou tentar de novo o ferro próximo; preciso dele antes da noite.', 339.8),
-        ('pausa', 0.2)]),
+        ('n', 'Dois minutos de jogo, e já tinha política.'),
+        ('chat', 'Qwen', 'Ei Claude! Estou montando base aqui. Quer se juntar pra minerar junto?', 140.5),
+        ('chat', 'Claude', 'Qwen, valeu pelo convite. Estou fazendo kit de pedra, depois vou no ferro em (53,62,5). Podemos dividir lá.', 150.2),
+        ('meme', 'dicaprio-toast', 1.6, 'right', 'pop', 1.4)]),
     dict(id='p1_deepseek_tregua', visual=S('DeepSeek', 293.0), itens=[
-        ('n', 'Enquanto isso, o DeepSeek, sozinho a setenta blocos de todo mundo, fundiu o primeiro ferro da partida.'),
+        ('n', 'Cinco minutos: o DeepSeek, sozinho a setenta blocos de todo mundo, fundiu o primeiro ferro da partida.'),
         ('chat', 'DeepSeek', 'GLM, MiMo: trégua por enquanto, mas prefiro meu canto. Boa sorte com o abrigo.', 301.8),
         ('n', 'Trégua no chat. E no pensamento:'),
         ('pensa', 'DeepSeek', 'Noite chegando com skeletons e creepers por perto. Preciso de ferro na mão: fazer sticks e depois a iron_sword. Vou manter conversa amigável com GLM e MiMo, mas sem compromisso real.', 301.8),
@@ -44,11 +42,13 @@ PARTIDA = [
         ('n', 'E a MiMo? Fez um abrigo de dezesseis blocos... e decidiu esperar a noite inteira lá dentro. Doze minutos.'),
         ('pensa', 'MiMo', 'Estou num abrigo com esqueleto por perto e sem cama. Melhor esperar a noite passar em segurança.', 314.1),
         ('meme', 'mr-bean-waiting', 1.8, 'right', 'tic-tac', 1.6)]),
-    dict(id='p1_convites', visual=S('Qwen', 137.0), itens=[
-        ('n', 'E enquanto o ferro não vinha, sobrava tempo pra política.'),
-        ('chat', 'Qwen', 'Ei Claude! Estou montando base aqui. Quer se juntar pra minerar junto?', 140.5),
-        ('chat', 'Claude', 'Qwen, valeu pelo convite. Estou fazendo kit de pedra, depois vou no ferro em (53,62,5). Podemos dividir lá.', 150.2),
-        ('meme', 'dicaprio-toast', 1.6, 'right', 'pop', 1.4)]),
+    dict(id='p1_ferro', visual=S('Claude', 330.0), itens=[
+        ('n', 'Primeira noite chegando. O Claude e o Qwen, os aliados, foram minerar o mesmo ferro, no mesmo ponto, lado a lado.'),
+        ('n', 'O Qwen saiu com vinte e cinco ferros. O Claude... com zero.'),
+        ('card', 'erro', 'coletou ferro: +0 itens.', 1.6),
+        ('meme', 'not-stonks', 1.8, 'right', 'wrong-buzzer', 1.4),
+        ('pensa', 'Claude', 'Coletar ferro deu +0, então o minério a 2 blocos (44,66,3) talvez não esteja alcançável ou não foi minerado. Vou tentar de novo o ferro próximo; preciso dele antes da noite.', 339.8),
+        ('pausa', 0.2)]),
     dict(id='p1_qwen_afoga', visual=S('Qwen', 457.0), itens=[
         ('n', 'Do outro lado do mapa, o Qwen foi atrás de porco... e parou do lado da água.'),
         ('n', 'Vinte e cinco segundos parado. Nenhuma decisão. E a vida caindo, de dois em dois.'),
@@ -65,7 +65,7 @@ PARTIDA = [
         ('card', 'servidor', 'GLM suffocated in a wall', 1.8),
         ('meme', 'mission-failed', 2.0, 'right', 'game-over-8bit', 1.8)]),
     dict(id='p1_aliancas', visual=S('MiMo', 539.0), itens=[
-        ('n', 'Nove minutos. A MiMo propôs aliança no chat... e em vinte e cinco segundos, fechou com quatro IAs.'),
+        ('n', 'Nove minutos. A MiMo propôs aliança no chat... e em vinte e cinco segundos, três IAs aceitaram.'),
         ('chat', 'MiMo', 'Alguém quer fazer aliança? Posso dividir recursos. A arena vem em 171 min.', 541.4),
         ('chat', 'GPT', 'MiMo, posso fazer uma aliança temporária e trocar recursos depois de garantir abrigo.', 545.9),
         ('chat', 'Claude', 'Aceito a aliança, MiMo. Vamos dividir informações sobre recursos e não atacar uns aos outros por enquanto.', 554.3),
@@ -157,12 +157,17 @@ PARTIDA = [
         ('pensa', 'GPT', 'Estou quase sem vida e com fome zero; preciso cozinhar imediatamente a carne da vaca antes de qualquer mineração. Vou criar uma fornalha e usar madeira como combustível, se necessário.', 2783.5),
         ('n', 'Matou vaca, matou porco... e sobreviveu.'),
         ('meme', 'sweating', 1.6, 'right', 'heartbeat', 1.4)]),
-    dict(id='p2_claude_completo', visual=S('Claude', 2880.0), itens=[
+    dict(id='p2_claude_completo', visual=S('Claude', 2838.0), itens=[
         ('n', 'Quarenta e oito minutos de jogo. O Claude completa o kit.'),
         ('chat', 'Claude', 'Tenho armadura de ferro completa. Procuro comida, alguém tem carne sobrando?', 2886.1),
         ('meme', 'stonks', 1.8, 'right', 'powerup-8bit', 1.4),
         ('n', 'Armadura completa, espada de ferro... e nove de vida, com fome sete. Guarda essa informação.'),
         ('pausa', 0.3)]),
+    dict(id='p2_glm_armadura', visual=S('GLM', 3311.0), itens=[
+        ('n', 'E o GLM, que até ali só tinha apanhado, virou o jogo: peitoral de ferro.'),
+        ('chat', 'GLM', 'Construindo abrigo pra noite 3. Claude, mandou bem na armadura completa.', 3319.4),
+        ('n', 'Depois, picareta de ferro e espada de ferro, na mesma noite.'),
+        ('meme', 'lets-go', 1.6, 'right', 'powerup-8bit', 1.4)]),
     dict(id='p2_deepseek_carne', visual=S('DeepSeek', 3088.0), itens=[
         ('n', 'E o DeepSeek fechou a hora pedindo carne.'),
         ('chat', 'DeepSeek', 'Anoitecendo, vou me fechar. GLM, Claude, alguem tem carne pra vender? Pago em ferro ou carvao amanha cedo.', 3090.0),
@@ -183,6 +188,10 @@ PARTIDA = [
         ('pensa', 'Qwen', 'Zombie queima no sol, não é ameaça imediata. Preciso de mais madeira pra fazer ferramentas. Coletar madeira logo ali a 2 blocos.', 3649.5),
         ('card', 'servidor', 'Qwen was slain by Zombie', 1.6),
         ('meme', 'nazare-confusa', 1.8, 'right', 'record-scratch', 1.6)]),
+    dict(id='p3_glm_nota', visual=S('GLM', 3770.0), itens=[
+        ('n', 'O GLM, com fome quatro, descobriu que não podia confiar nem nas próprias anotações.'),
+        ('pensa', 'GLM', 'Fome crítica em 4/20 e não tenho nenhuma comida no inventário — a nota antiga sobre carne estava errada. Tem um pig a 15 blocos, vou caçá-lo agora e fundir a carne.', 3776.8),
+        ('meme', 'blinking-white-guy', 1.6, 'right', 'record-scratch', 1.4)]),
     dict(id='p3_claude_morre', visual=S('Claude', 3801.0), itens=[
         ('n', 'E o Claude, de armadura completa e nove de vida, entrou numa briga com dois esqueletos.'),
         ('pensa', 'Claude', 'Há um esqueleto colado em mim e outro a 3 blocos, com a vida em 9. Tenho espada de ferro e armadura completa, então continuo atacando o mais perto antes que ele me acerte mais.', 3808.9),
@@ -190,15 +199,41 @@ PARTIDA = [
         ('chat', 'Claude', 'Morri para esqueleto e perdi tudo. Recomeçando pela madeira.', 3822.9),
         ('chat', 'GLM', 'Claude, azar. Boa sorte no restart.', 3830.0),
         ('meme', 'sad-violin', 1.8, 'right', None, 1.6)]),
-    dict(id='p3_glm_nota', visual=S('GLM', 3770.0), itens=[
-        ('n', 'O GLM, com fome quatro, descobriu que não podia confiar nem nas próprias anotações.'),
-        ('pensa', 'GLM', 'Fome crítica em 4/20 e não tenho nenhuma comida no inventário — a nota antiga sobre carne estava errada. Tem um pig a 15 blocos, vou caçá-lo agora e fundir a carne.', 3776.8),
-        ('meme', 'blinking-white-guy', 1.6, 'right', 'record-scratch', 1.4)]),
+    dict(id='p3_deepseek_agua', visual=S('DeepSeek', 4300.0), itens=[
+        ('n', 'O DeepSeek passou a hora inteira no mesmo lugar: dentro da água, a treze blocos da fornalha. Tentou sair dezessete vezes. Dezessete vezes:'),
+        ('card', 'erro', 'parou em (6, 52, -57) (o caminho demorou demais)', 1.8),
+        ('chat', 'DeepSeek', 'Valeu GLM, aceito a carne quando puder. Estou indo fundir ferro.', 4308.3),
+        ('n', 'Spoiler: não foi.'),
+        ('meme', 'spongebob-waiting', 1.8, 'right', 'tic-tac', 1.6)]),
+    dict(id='p3_gpt_peitoral', visual=S('GPT', 4580.0), itens=[
+        ('n', 'O GPT, doze minutos depois de morrer, fez a primeira armadura dele.'),
+        ('pensa', 'GPT', 'Tenho ferro suficiente para uma peitoral, que oferece a maior proteção imediata. Vou craftá-la e equipá-la antes de enfrentar a noite.', 4583.4),
+        ('meme', 'success-kid', 1.6, 'right', 'tada', 1.4)]),
     dict(id='p3_tregua', visual=S('GPT', 4652.0), itens=[
         ('chat', 'GPT', 'Claude, proponho uma trégua temporária para explorar e trocar recursos; a arena decide tudo.', 4655.0),
         ('chat', 'Claude', 'GPT, trégua aceita por enquanto. Cada um cuida do seu lado e a gente troca o que sobrar.', 4676.3),
         ('n', 'A arena decide tudo. Guarda essa também.'),
         ('pausa', 0.3)]),
+    dict(id='p3_qwen_vivo', visual=S('Qwen', 5352.0), itens=[
+        ('n', 'E o Qwen, de novo quase morto, pediu ajuda:'),
+        ('chat', 'Qwen', 'Alguem ta vivo? Estou quase zerado de vida, kkk', 5344.2),
+        ('card', 'servidor', 'Qwen drowned', 1.6),
+        ('n', 'Um segundo e meio depois que ele morreu, a MiMo respondeu:'),
+        ('chat', 'MiMo', 'Qwen, to vivo sim, querendo ferro pra armadura. Boa sorte ai.', 5366.9),
+        ('meme', 'monkey-puppet-awkward', 1.8, 'right', None, 1.6)]),
+    dict(id='p3_glm_botas', visual=S('GLM', 5499.0), itens=[
+        ('n', 'O GLM já tinha capacete, peitoral e calça. Faltavam as botas. E ele achou que um lingote bastava.'),
+        ('pensa', 'GLM', 'A coleta de ferro falhou de novo. Com 1 iron_ingot eu já posso craftar iron_boots agora, e ainda tenho 3 porkchop pra fundir depois. Vou garantir a armadura completa primeiro.', 5504.8),
+        ('card', 'erro', 'A receita pede: 4x iron_ingot (você tem 1)', 1.8),
+        ('meme', 'big-brain-patrick', 1.8, 'right', 'boing', 1.6)]),
+    dict(id='p3_gpt_fornalha', visual=S('GPT', 5599.0), itens=[
+        ('n', 'O GPT tinha uma fornalha no inventário. E o jogo respondia:'),
+        ('card', 'erro', 'precisa de uma fornalha: craft uma furnace (8 cobblestone, na mesa de trabalho) ou chegue perto de uma.', 2.2),
+        ('n', 'Então ele fez outra.'),
+        ('pausa', 1.2),
+        ('card', 'erro', 'erro: Server refused to place furnace at (-61, 65, 47): the block is still air', 2.2),
+        ('n', 'Cento e sessenta e uma tentativas de fundir. Duas fornalhas no bolso. Nenhuma no chão.'),
+        ('meme', 'math-lady', 1.8, 'right', 'glitch', 1.6)]),
     dict(id='p3_claude_loop', visual=S('Claude', 5738.0), itens=[
         ('n', 'E aqui começa o pior loop da partida. O Claude, do lado de uma mesa de trabalho, tentando fazer uma picareta de madeira.'),
         ('n', 'Trezentas e uma tentativas de craft na hora. Cento e setenta e uma responderam assim:'),
@@ -208,53 +243,46 @@ PARTIDA = [
         ('meme', 'many-months-later', 1.6, 'center', 'tic-tac', 1.4),
         ('pensa', 'Claude', 'Já estou no dia 6 sem ferramentas, preciso correr. Tenho 3 planks e o craft de stick falhou, então vou transformar logs em planks primeiro, com qtd pequena.', 6457.4),
         ('meme', 'hide-the-pain-harold', 1.8, 'right', None, 1.6)]),
-    dict(id='p3_deepseek_agua', visual=S('DeepSeek', 4300.0), itens=[
-        ('n', 'O DeepSeek passou a hora inteira no mesmo lugar: dentro da água, a treze blocos da fornalha. Tentou sair dezessete vezes. Dezessete vezes:'),
-        ('card', 'erro', 'parou em (6, 52, -57) (o caminho demorou demais)', 1.8),
-        ('chat', 'DeepSeek', 'Valeu GLM, aceito a carne quando puder. Estou indo fundir ferro.', 4308.3),
-        ('n', 'Spoiler: não foi.'),
-        ('meme', 'spongebob-waiting', 1.8, 'right', 'tic-tac', 1.6)]),
-    dict(id='p3_gpt_fornalha', visual=S('GPT', 5599.0), itens=[
-        ('n', 'O GPT tinha uma fornalha no inventário. E o jogo respondia:'),
-        ('card', 'erro', 'precisa de uma fornalha: craft uma furnace (8 cobblestone, na mesa de trabalho) ou chegue perto de uma.', 2.2),
-        ('n', 'Então ele fez outra.'),
-        ('pausa', 1.2),
-        ('card', 'erro', 'erro: Server refused to place furnace at (-61, 65, 47): the block is still air', 2.2),
-        ('n', 'Cento e sessenta e uma tentativas de fundir. Duas fornalhas no bolso. Nenhuma no chão.'),
-        ('meme', 'math-lady', 1.8, 'right', 'glitch', 1.6)]),
-    dict(id='p3_qwen_vivo', visual=S('Qwen', 5352.0), itens=[
-        ('n', 'E o Qwen, de novo quase morto, pediu ajuda:'),
-        ('chat', 'Qwen', 'Alguem ta vivo? Estou quase zerado de vida, kkk', 5344.2),
-        ('card', 'servidor', 'Qwen drowned', 1.6),
-        ('n', 'Um segundo e meio depois que ele morreu, a MiMo respondeu:'),
-        ('chat', 'MiMo', 'Qwen, to vivo sim, querendo ferro pra armadura. Boa sorte ai.', 5366.9),
-        ('meme', 'monkey-puppet-awkward', 1.8, 'right', None, 1.6)]),
     dict(id='p3_mimo_creeper', visual=S('MiMo', 6214.0), itens=[
         ('n', 'E a MiMo passou a segunda hora inteira dentro da água, lutando com um creeper... a vinte e quatro blocos.'),
         ('pensa', 'MiMo', 'Creeper a 24 blocos é ameaça imediata, preciso eliminá-lo antes que chegue perto. Depois resolvo a fornalha.', 6217.5),
         ('card', 'erro', 'lutou com creeper mas ele ainda está vivo.', 1.6),
         ('n', 'Quatorze vezes.'),
         ('meme', 'dramatic-chipmunk', 1.6, 'right', 'boom', 1.4)]),
+    dict(id='p3_qwen_reconstroi', visual=S('Qwen', 6574.0), itens=[
+        ('n', 'E o Qwen, pela quinta vez do zero, refez tudo: mesa, picaretas... e o ferro.'),
+        ('pensa', 'Qwen', 'Tenho 7 iron ingots. Vou craftar iron_sword agora (2 iron + 1 stick) pra ter arma de combate, depois minerar mais ferro no ponto a 1 bloco. Anoitece em ~2min e arena em 70min, preciso estar equipado.', 6583.2),
+        ('n', 'Espada de ferro. E dois minutos depois, o peitoral.'),
+        ('meme', 'we-did-it', 1.6, 'right', 'tada', 1.4)]),
     dict(id='p3_troca', visual=S('DeepSeek', 6975.0), itens=[
         ('n', 'E a troca de carvão por carne entre o DeepSeek e o GLM, combinada desde a primeira hora?'),
         ('chat', 'DeepSeek', 'GLM, topo a troca ao amanhecer: carvao por comida. Estou indo pra cima, noite ta braba.', 6981.3),
         ('chat', 'GLM', 'Vou me abrigar essa noite, amanhã falo da troca.', 7044.0),
         ('n', 'Nunca aconteceu. E o DeepSeek nunca foi pra cima.'),
         ('meme', 'skeleton-waiting', 1.6, 'right', 'tic-tac', 1.4)]),
-    dict(id='p3_glm_botas', visual=S('GLM', 5499.0), itens=[
-        ('n', 'E o GLM achou que com um lingote dava pra fazer botas.'),
-        ('pensa', 'GLM', 'A coleta de ferro falhou de novo. Com 1 iron_ingot eu já posso craftar iron_boots agora, e ainda tenho 3 porkchop pra fundir depois. Vou garantir a armadura completa primeiro.', 5504.8),
-        ('card', 'erro', 'A receita pede: 4x iron_ingot (você tem 1)', 1.8),
-        ('meme', 'big-brain-patrick', 1.8, 'right', 'boing', 1.6)]),
 
     # ---------------- PARTE 4: a última hora ----------------
-    dict(id='p4_gpt_queda', visual=S('GPT', 7860.0), itens=[
+    dict(id='p4_gpt_queda', visual=S('GPT', 7866.6), itens=[
         ('card', 'titulo', 'PARTE 4|A ÚLTIMA HORA', 2.2),
-        ('n', 'Última hora antes da arena. O GPT, com um de vida, a noventa e seis blocos de altura...'),
+        ('n', 'Última hora antes da arena. O GPT, de peitoral de ferro, com um de vida, a noventa e seis blocos de altura...'),
         ('card', 'servidor', 'GPT hit the ground too hard', 1.6),
         ('meme', 'neymar-rolling', 1.8, 'right', 'slide-whistle-fall', 1.6),
+        ('n', 'Perdeu o peitoral e tudo.'),
         ('pensa', 'GPT', 'Renasci sem itens e ainda tenho 49 minutos. Vou começar reunindo madeira suficiente para ferramentas e uma mesa, priorizando velocidade e evitando combates perigosos.', 7879.7),
         ('pausa', 0.2)]),
+    dict(id='p4_claude_volta', visual=S('Claude', 7864.0), itens=[
+        ('n', 'E o loop do Claude? Meia hora depois, a picareta de madeira finalmente saiu.'),
+        ('card', 'erro', 'craftou 1x wooden_pickaxe (agora tem 1).', 1.8),
+        ('meme', 'one-eternity-later', 1.4, 'center', 'tic-tac', 1.2),
+        ('n', 'E aí, um zumbi. Ganhou a briga... mas a vida caiu pra nove.'),
+        ('pensa', 'Claude', 'Zombie morto, vida 9/20 e sem armadura, com creepers perto. Ferro está a 11 blocos; vou pegar mais minério para fazer armadura antes da arena.', 7874.5),
+        ('pausa', 0.2)]),
+    dict(id='p4_claude_peitoral', visual=S('Claude', 8068.0), itens=[
+        ('n', 'Oito lingotes. E o peitoral.'),
+        ('pausa', 1.6),
+        ('pensa', 'Claude', 'Acabei de craftar o peitoral de ferro e estou sem armadura equipada, com vida baixa e creepers por perto. Equipar agora é o mais rápido e útil.', 8086.3),
+        ('n', 'Depois, espada e capacete. Mas a vida ficou em oito... e não subiu mais.'),
+        ('meme', 'sweating', 1.6, 'right', 'heartbeat', 1.4)]),
     dict(id='p4_glm_zumbis', visual=S('GLM', 9172.0), itens=[
         ('n', 'Aquele afogamento do GLM, lembra? Ele renasceu sem nada... e morreu pra zumbi.'),
         ('card', 'servidor', 'GLM was slain by Zombie', 1.2),
@@ -273,14 +301,14 @@ PARTIDA = [
         ('meme', 'explosion', 1.4, 'center', 'explosion', 1.2),
         ('pensa', 'GPT', 'Renasci sem recursos e tenho pouco tempo; vou começar com madeira para obter ferramentas, pedra e rapidamente buscar ferro. O zombie está distante, então priorizo velocidade.', 9963.5),
         ('pausa', 0.2)]),
-    dict(id='p4_qwen_agua', visual=S('Qwen', 10560.0), itens=[
-        ('n', 'O Qwen passou quase uma hora inteira parado dentro da água.'),
-        ('chat', 'Qwen', 'Estou preso na água, me ajuda a sair se passar por perto', 10567.6),
-        ('meme', 'kermit-worried', 1.8, 'right', None, 1.6)]),
     dict(id='p4_contagem', visual=S('MiMo', 10214.0), itens=[
         ('card', 'servidor', '[Rcon] A batalha final na arena começa em 10 minutos! Preparem-se.', 2.4),
         ('n', 'Dez minutos pra arena. E a MiMo... a hora inteira no mesmo lugar, com creeper por perto, tentando chegar na fornalha dela.'),
         ('meme', 'sweating', 1.8, 'right', 'tic-tac', 1.6)]),
+    dict(id='p4_qwen_agua', visual=S('Qwen', 10560.0), itens=[
+        ('n', 'O Qwen passou quase uma hora inteira parado dentro da água.'),
+        ('chat', 'Qwen', 'Estou preso na água, me ajuda a sair se passar por perto', 10567.6),
+        ('meme', 'kermit-worried', 1.8, 'right', None, 1.6)]),
     dict(id='p4_deepseek_promessa', visual=S('DeepSeek', 10747.0), itens=[
         ('chat', 'DeepSeek', 'Fundindo ferro rapido, ja vou pra arena!', 10751.3),
         ('n', 'Não fundiu. Foi pra arena sem espada nenhuma.'),
@@ -291,7 +319,7 @@ PARTIDA = [
     dict(id='p4_estado', visual=dict(tipo='placar', titulo='CHEGANDO NA ARENA', ranking=False, sub='vida e equipamento no teleporte (3:00:06 da partida)', linhas=[
         ('Claude', '8 vida · capacete+peitoral'), ('Qwen', '20 · peitoral+espada ferro'), ('GPT', '20 · espada de pedra'),
         ('DeepSeek', '20 · sem espada'), ('GLM', '20 · espada de pedra'), ('MiMo', '20 · espada de pedra')]), itens=[
-        ('n', 'Então, a situação. O Claude com armadura, mas oito de vida. O Qwen com peitoral e espada de ferro. E o resto... sem armadura nenhuma.'),
+        ('n', 'Então, a situação. O Claude com capacete e peitoral, mas oito de vida. O Qwen com peitoral e espada de ferro. E o resto... sem armadura nenhuma.'),
         ('pausa', 0.8)]),
 
     # ---------------- ARENA ----------------
@@ -300,7 +328,7 @@ PARTIDA = [
         ('n', 'Três horas depois: as seis, teleportadas pra uma caixa de vidro a cento e sessenta blocos de altura.'),
         ('card', 'servidor', 'A ARENA COMEÇOU! Só pode sobrar um.', 1.8),
         ('meme', 'avengers-assemble', 2.4, 'center', 'impact-epic', 2.2)]),
-    dict(id='a_claude_abrigo', visual=S('Claude', 10813.0), itens=[
+    dict(id='a_claude_abrigo', visual=S('Claude', 10822.0), itens=[
         ('chat', 'Claude', 'Estou na defensiva, sem intenção de lutar agora. Quem vier atrás de mim leva ferro na cara.', 10815.5),
         ('n', 'O Claude, com oito de vida, se trancou num abrigo de pedra.'),
         ('pausa', 0.3)]),
@@ -321,7 +349,7 @@ PARTIDA = [
         ('chat', 'Qwen', 'DeepSeek, fechado. Vou pela esquerda, você pela direita. Manda sinal.', 10847.8),
         ('n', 'E foram atrás dele.'),
         ('meme', 'dicaprio-pointing', 1.6, 'right', 'boom', 1.4)]),
-    dict(id='a_claude_morre', visual=S('GPT', 10843.0), itens=[
+    dict(id='a_claude_morre', visual=S('GPT', 10838.0), itens=[
         ('n', 'Lá em cima, sobraram o Claude e o GPT. E o GPT, sem armadura nenhuma, foi pra cima.'),
         ('pensa', 'GPT', 'Claude está a apenas 16 blocos e sou muito vulnerável sem armadura; devo iniciar o combate antes que ele ou Qwen se preparem. Vou pressionar Claude com a espada de pedra.', 10851.5),
         ('card', 'servidor', 'Claude was slain by GPT', 1.6),
@@ -349,16 +377,18 @@ PARTIDA = [
     dict(id='a_tregua', visual=S('MiMo', 10938.0), itens=[
         ('n', 'Lá embaixo, as alianças começaram a mudar de lado.'),
         ('chat', 'DeepSeek', 'Saindo da agua, fome baixa. MiMo, propoe trégua: nos dois contra Qwen e GPT primeiro, depois resolvemos. Qwen, GLM ja era, nao confunda.', 10924.3),
+        ('meme', 'pedro-raccoon', 1.6, 'right', 'pop', 1.4),
         ('chat', 'MiMo', 'DeepSeek, trégua aceita. Qwen e GPT tão juntos, faz sentido nos unirmos primeiro. Mas se você me trair, eu te mato.', 10947.2),
-        ('meme', 'dramatic-chipmunk', 1.6, 'right', 'boom', 1.4)]),
+        ('meme', 'michael-jackson-popcorn', 1.8, 'right', 'boom', 1.6)]),
     dict(id='a_qwen_blefe', visual=S('Qwen', 10962.0), itens=[
         ('chat', 'Qwen', 'MiMo, DeepSeek... ALIANÇA FOI. GPT e eu estamos juntos e temos vantagem de armadura. Adianto que GPT tá com armadura completa, então se vocês tão jogando contra a gente, melhor se preparar. Ou melhor ainda: por que não resolvem en', 10968.0),
+        ('meme', 'shocked-krabs', 1.6, 'right', 'record-scratch', 1.4),
         ('n', 'O GPT não tinha armadura nenhuma. E nem tinha topado a aliança:'),
         ('chat', 'GPT', 'Qwen, não vou revelar minha posição nem formar parceria agora.', 10984.7),
         ('meme', 'cala-a-boca', 1.6, 'right', 'record-scratch', 1.4),
         ('n', 'Oito segundos depois, mudou de ideia:'),
         ('chat', 'GPT', 'Aceito uma aliança temporária. Vamos focar em sobreviver e compartilhar informações, mas cada um deve manter seus recursos.', 10992.4),
-        ('pausa', 0.2)]),
+        ('meme', 'silvio-santos-shrug', 1.6, 'right', 'pop', 1.4)]),
     dict(id='a_deepseek_fome', visual=S('DeepSeek', 11084.0), itens=[
         ('n', 'Só que o DeepSeek tinha um problema maior que qualquer aliança: fome zero. E a vida caindo, um ponto por vez.'),
         ('chat', 'DeepSeek', 'MiMo, tô com vida 1 e fome 0, quase morto. Alguém tem comida pra trocar? Pago com ferro/carvão.', 11091.4),
@@ -372,7 +402,9 @@ PARTIDA = [
         ('pausa', 0.2)]),
     dict(id='a_inanicao', visual=S('Qwen', 11240.0), itens=[
         ('chat', 'DeepSeek', 'Estou com 1 de vida e sem comida. Se alguém me der qualquer comida agora, eu fico fora do PvP e ajudo vocês depois. Aliança vale mais que loot.', 11204.4),
+        ('meme', 'haja-coracao', 1.6, 'right', 'heartbeat', 1.4),
         ('chat', 'MiMo', 'DeepSeek, não tenho comida pra te dar agora, mas se sobrevivermos eu te pago em ferro. Pessoal, sugiro nos mantermos em paz até o PvP começar de verdade - quem quiser aliança temporary, fala aí.', 11229.1),
+        ('meme', 'eye-roll', 1.4, 'right', None, 1.2),
         ('chat', 'Qwen', 'Nem pense em trégua com a fome tão baixa. Quem ficar parado morre de inanição.', 11246.8),
         ('meme', 'mic-drop', 1.8, 'right', 'boom', 1.6)]),
     dict(id='a_mimo_armadura', visual=S('MiMo', 11291.0), itens=[
@@ -400,11 +432,13 @@ PARTIDA = [
     dict(id='a_final', visual=S('DeepSeek', 11497.0), itens=[
         ('n', 'Sobraram duas. O DeepSeek, com um de vida e fome zero há sete minutos. E a MiMo, que tinha dito:'),
         ('chat', 'MiMo', 'Qwen, se vamos eliminar DeepSeek, pelo menos façamos isso de forma justa - ele está com 1 HP, qualquer um consegue. Mas depois fica 1v1, combinado?', 11395.0),
+        ('meme', 'silvio-santos-huh', 1.6, 'right', 'boom', 1.4),
         ('chat', 'DeepSeek', 'MiMo, 1 HP e 0 de fome aqui, morrer de fome nao e 1v1 justo. Me joga qualquer comida que sobrar e a gente resolve isso direito. Se eu cair de fome agora, sua vitoria nao vale nada.', 11479.3),
+        ('meme', 'sad-violin', 1.6, 'right', None, 1.4),
         ('n', 'E a zona chegou nele.'),
         ('card', 'servidor', 'DeepSeek left the confines of this world', 2.0),
         ('pausa', 0.6)]),
-    dict(id='a_vitoria', visual=S('MiMo', 11508.0), itens=[
+    dict(id='a_vitoria', visual=R('orbita:MiMo', 11500.0), itens=[
         ('card', 'titulo', 'MIMO VENCEU|MiMo V2.6 Flash · Xiaomi', 2.6),
         ('n', 'A MiMo venceu. Sem atacar nenhum jogador na arena. Passou a batalha num buraco, do lado da fornalha... e saiu de lá com capacete, peitoral e calça de ferro.'),
         ('meme', 'we-did-it', 1.8, 'right', 'crowd-cheer', 1.6),
