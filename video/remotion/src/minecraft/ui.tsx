@@ -87,6 +87,19 @@ export const ErroJogo: React.FC<{texto: string; ate: number}> = ({texto, ate}) =
   );
 };
 
+// mensagem de morte do servidor: tela avermelhada como a "Você morreu!" do jogo, com a frase do log
+export const Morte: React.FC<{texto: string; ate: number}> = ({texto, ate}) => {
+  const f = useCurrentFrame();
+  const o = interpolate(f, [0, 4, ate - 6, ate], [0, 1, 1, 0], cl);
+  return (
+    <div style={{position: 'absolute', inset: 0, background: 'rgba(120,0,0,0.45)', opacity: o, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{fontFamily: FONT.pixel, fontSize: 64, color: '#fff', textShadow: '6px 6px 0 #3f3f3f'}}>Você morreu!</div>
+      <div style={{fontFamily: FONT.pixel, fontSize: 30, color: '#fff', marginTop: 30, textShadow: '3px 3px 0 #3f3f3f'}}>{texto}</div>
+      <Audio src={staticFile('sfx/death.mp3')} volume={0.4} />
+    </div>
+  );
+};
+
 // notificação de conquista (o sprite oficial do toast), entrando pela direita como no jogo
 export const Conquista: React.FC<{quem: string; nome: string; icone: string}> = ({quem, nome, icone}) => {
   const f = useCurrentFrame();

@@ -91,7 +91,7 @@ function solido(x, y, z, folha = false) {
   const b = registro.blocksByStateId[id]
   return !!b && b.boundingBox === 'block' && (folha || !b.name.endsWith('leaves'))
 }
-let distAnt = null, emPrimeira = false, ultimaCam = null
+let distAnt = null, ultimaCam = null
 // como o F5 do Minecraft: da cabeça até onde a câmera queria ficar; para antes do primeiro bloco sólido
 function colidir(c, p) {
   if (!p || modo === 'olhos' || modo === 'fixa') return c
@@ -101,15 +101,13 @@ function colidir(c, p) {
   let livre = L
   for (let d = 0.3; d <= L; d += 0.1) {
     const k = d / L, x = hx + (ex - hx) * k, y = hy + (ey - hy) * k, z = hz + (ez - hz) * k
-    if ([[0, 0, 0], [0.25, 0, 0], [-0.25, 0, 0], [0, 0.25, 0], [0, -0.25, 0], [0, 0, 0.25], [0, 0, -0.25]].some(([a, b, e]) => solido(x + a, y + b, z + e))) { livre = Math.max(0.6, d - 0.35); break }
+    if ([[0, 0, 0], [0.25, 0, 0], [-0.25, 0, 0], [0, 0.25, 0], [0, -0.25, 0], [0, 0, 0.25], [0, 0, -0.25]].some(([a, b, e]) => solido(x + a, y + b, z + e))) { livre = Math.max(1.0, d - 0.35); break }
   }
   // aproxima na hora (não entra no bloco nem 1 quadro), afasta devagar
   const alvo = livre
   const dd = distAnt === null || alvo < distAnt ? alvo : distAnt + (alvo - distAnt) * 0.12
   distAnt = dd
-  // sem espaço atrás (túnel, mina): primeira pessoa, como nos vídeos de Minecraft
-  emPrimeira = emPrimeira ? dd < 3.2 : dd < 2.2  // com folga, pra não ficar trocando
-  if (emPrimeira) return { pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw, pitch: p.pitch, primeira: true }
+  // sem espaço atrás (túnel, mina): a câmera só chega mais perto, como o F5 do jogo (nunca pula pra primeira pessoa)
   const k = dd / L
   return { ...c, pos: { x: hx + (ex - hx) * k, y: hy + (ey - hy) * k - 1.62, z: hz + (ez - hz) * k } }
 }

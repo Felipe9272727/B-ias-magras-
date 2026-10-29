@@ -145,41 +145,153 @@ def voz(k, quem, tipo, texto):
     return dict(src=src, dur=dur, tipo=tipo, quem=quem, texto=texto, palavras=ws)
 
 
-# prévia de ~2 min (PREVIA=1): só o essencial da abertura, na mesma ordem
-PREVIA = ['gancho', 'relatorio', 'decisao', 'nasc_deepseek', 'nasc_qwen', 'nasc_claude_gpt', 'nasc_glm_mimo', 'mapa', 'corrida',
-          'deepseek_craft', 'claude_mesa', 'deepseek_pedra', 'qwen_inventa', 'placar_pedra']
-PREVIA.remove('nasc_qwen')
-# na prévia algumas cenas ficam mais curtas (mesmos fatos, menos falas)
-PREVIA_ITENS = {
-    'relatorio': [('n', 'Só que IA não tem mão nem olho. Então funciona assim: a cada poucos segundos, cada uma recebe um relatório do jogo.'),
-                  ('pausa', 0.5)],
-    'decisao': [('n', 'Aí ela pensa, escolhe uma ação... explorar, coletar, craftar, atacar, construir, comer... e o personagem faz.'),
-                ('n', 'Aqui no vídeo cada uma tem a sua voz. E quando ela pensa, você ouve assim:'),
-                ('pensa', 'Claude', 'Há madeira a 1 bloco, então vou coletar logo para fazer mesa e picareta antes da noite.', 33.0),
-                ('pausa', 1.0)],
-    'nasc_deepseek': [('n', 'Zero minutos e um segundo: entra o primeiro. O DeepSeek.'),
-                      ('chat', 'DeepSeek', 'Oi, pessoal. Alguém sabe onde tem floresta por aqui? Tô no zero, zero e não vejo nada num raio de 40.', 4.6),
-                      ('nota', 'DeepSeek', 'Não confiar em ninguém ainda.', 4.6),
-                      ('pausa', 0.3)],
-    'nasc_claude_gpt': [('n', 'O Qwen e o Claude foram pro leste. E o GPT decidiu ir pro sul... cem blocos.'),
-                        ('pensa', 'GPT', 'Preciso encontrar madeira rapidamente para iniciar a progressão. Vou explorar em direção ao sul até localizar árvores ou recursos básicos.', 16.6),
-                        ('pausa', 0.2)],
-    'mapa': [('n', 'Dois minutos depois, o mapa estava assim: o Qwen e o Claude no leste, o GPT sozinho no sul... e o resto perto de onde nasceu.'),
-             ('pausa', 0.8)],
-}
+# prévia (PREVIA=1): foco na dinâmica (3 h pra se equipar -> arena, só uma sobra), sem explicar como a IA enxerga
+REGRAS_PREVIA = [('n', 'As regras: três horas de sobrevivência, pra juntar tudo que der. Madeira, pedra, ferro... espada e armadura.'),
+                 ('n', 'Morreu? Renasce no começo, sem nada no inventário.'),
+                 ('n', 'E quando o tempo acaba, todo mundo é teleportado pra arena com o que conseguiu juntar. E só pode sobrar uma.'),
+                 ('pausa', 0.4)]
+# ('meme', gif, segundos, posição, som, quanto empurra a próxima fala): meme por cima, nos momentos engraçados
+def R(cam, t0, **k):
+    return dict(tipo='replay', camera=cam, t0=t0, **k)
+
+
+PREVIA_CENAS = [
+    dict(id='gancho', visual=R('fixa:0.5,168,38,0,-0.25', 10807.0), itens=[
+        ('pausa', 0.3),
+        ('n', 'Seis IAs. Três horas de Minecraft pra se preparar. E depois disso... todas são jogadas nessa arena. Só uma pode sair viva.'),
+        ('pausa', 0.4)]),
+    dict(id='regras', visual=R('segue:GLM', 36.0, painel='regras'), itens=REGRAS_PREVIA),
+    dict(id='teaser_glm', visual=R('olhos:GLM', 9146.0), itens=[
+        ('n', 'E três horas é tempo de sobra pra dar tudo errado. Olha o GLM, duas horas e meia depois: armadura de ferro, espada de ferro... e uma noite cheia de creepers.'),
+        ('chat', 'GLM', 'Noite com creepers, vou me abrigar. Arena em ~28min, quem quiser aliança fala agora.', 9153.4),
+        ('card', 'erro', 'construiu um abrigo em volta de si (0 blocos colocados).', 2.0),
+        ('meme', 'surprised-pikachu', 1.6, 'right', 'record-scratch', 0.6),
+        ('card', 'morte', 'GLM drowned', 1.0),
+        ('meme', 'coffin-dance', 3.2, 'center', None, 2.8),
+        ('chat', 'GLM', 'Mori afogado, perdi tudo. Recomeçando do zero.', 9170.3),
+        ('n', 'Vinte e sete minutos antes da arena.'),
+        ('meme', 'crying-jordan', 1.8, 'right', 'sad-trombone', 1.6)]),
+    dict(id='nasc_deepseek', visual=R('segue:DeepSeek', 2.0, painel='nascimento', quem='DeepSeek'), itens=[
+        ('n', 'Zero minutos e um segundo: entra o primeiro. O DeepSeek.'),
+        ('chat', 'DeepSeek', 'Oi, pessoal. Alguém sabe onde tem floresta por aqui? Tô no zero, zero e não vejo nada num raio de 40.', 4.6),
+        ('nota', 'DeepSeek', 'Não confiar em ninguém ainda.', 4.6),
+        ('meme', 'sus-doakes', 1.8, 'right', 'boom', 1.4)]),
+    dict(id='nasc_claude_gpt', visual=R('segue:GPT', 14.5, painel='nascimento', quem='GPT'), itens=[
+        ('n', 'O Qwen e o Claude foram pro leste. E o GPT decidiu ir pro sul... cem blocos.'),
+        ('meme', 'running-from-problems', 1.8, 'right', 'swoosh-fly', 1.2),
+        ('pensa', 'GPT', 'Preciso encontrar madeira rapidamente para iniciar a progressão. Vou explorar em direção ao sul até localizar árvores ou recursos básicos.', 16.6),
+        ('pausa', 0.2)]),
+    dict(id='nasc_glm_mimo', visual=R('segue:MiMo', 23.0, painel='nascimento', quem='MiMo'), itens=[
+        ('n', 'E por último, o GLM e a MiMo, que chegaram educados:'),
+        ('chat', 'GLM', 'Bom jogo a todos. Coletando madeira.', 23.0),
+        ('chat', 'MiMo', 'Bom dia, glr. Vamos começar colhendo madeira.', 23.9),
+        ('pausa', 0.4)]),
+    dict(id='mapa', visual=dict(tipo='mapa', tIni=0, tFim=110), itens=[
+        ('n', 'Dois minutos depois, o mapa estava assim: o Qwen e o Claude no leste, o GPT sozinho no sul... e o resto perto de onde nasceu.'),
+        ('pausa', 0.6)]),
+    dict(id='corrida', visual=R('segue:GLM', 41.0), itens=[
+        ('n', 'E começa a primeira corrida: quem chega primeiro na Idade da Pedra. Sem pedra não tem fornalha... e sem fornalha não tem ferro pra arena.'),
+        ('n', 'O GLM começou mal: a coleta de madeira parou no meio... e ele já achou um culpado.'),
+        ('pensa', 'GLM', 'A coleta parou, talvez por causa do MiMo perto.', 45.0),
+        ('meme', 'spiderman-pointing', 1.8, 'right', 'boing', 1.4)]),
+    dict(id='deepseek_craft', visual=R('segue:DeepSeek', 60.5), itens=[
+        ('n', 'O DeepSeek não perdeu tempo: trinta e duas tábuas, mesa, gravetos, picareta.'),
+        ('n', 'E, pra quem não confiava em ninguém, mandou no chat:'),
+        ('chat', 'DeepSeek', 'Dia 1, bora farmar. Alguém quer aliança pra sobreviver?', 66.0),
+        ('meme', 'blinking-white-guy', 1.8, 'right', 'record-scratch', 1.4)]),
+    dict(id='claude_mesa', visual=R('segue:Claude', 69.5), itens=[
+        ('n', 'O Claude tentou fazer a picareta... sem mesa de trabalho.'),
+        ('card', 'erro', 'precisa de uma mesa de trabalho', 1.6),
+        ('meme', 'picard-facepalm', 1.6, 'right', 'wrong-buzzer', 1.2),
+        ('n', 'Mas topou a aliança:'),
+        ('chat', 'Claude', 'Aliança aceita por enquanto, DeepSeek. Vamos farmar e nos ajudar até a arena.', 76.0),
+        ('meme', 'dicaprio-toast', 1.8, 'right', 'pop', 1.4)]),
+    dict(id='deepseek_pedra', visual=R('olhos:DeepSeek', 79.0, conquista=('DeepSeek', 'Stone Age', 85.0)), itens=[
+        ('n', 'E com um minuto e vinte e cinco... o DeepSeek chega primeiro na Idade da Pedra.'),
+        ('meme', 'cr7-siuuu', 2.2, 'right', 'crowd-cheer', 1.8)]),
+    dict(id='qwen_inventa', visual=R('segue:Qwen', 100.0), itens=[
+        ('n', 'E o Qwen... inventou um item.'),
+        ('pensa', 'Qwen', 'Tenho 16 planks, preciso de uma picareta de madeira pra minerar pedra. Vou craftar a spruce_pickaxe direto.', 102.0),
+        ('card', 'erro', 'não conheço o item "spruce_pickaxe"', 1.8),
+        ('meme', 'confused-travolta', 2.0, 'right', 'record-scratch', 1.6)]),
+    dict(id='placar_pedra', usa='placar_pedra', itens=[
+        ('n', 'No fim: DeepSeek primeiro, GPT e Claude logo atrás... e o GLM só chegou mais de três minutos depois.'),
+        ('meme', 'skeleton-waiting', 1.8, 'right', 'sad-trombone', 1.6)]),
+    dict(id='gancho_noite', visual=R('segue:DeepSeek', 600.0), itens=[
+        ('n', 'E aí a primeira noite foi chegando... e em menos de treze minutos, quatro delas já tinham morrido.'),
+        ('meme', 'hello-darkness', 2.0, 'center', None, 1.8)]),
+]
+
+
+def cenas_previa():
+    por_id = {c['id']: c for c in CENAS}
+    out = []
+    for c in PREVIA_CENAS:
+        base = dict(por_id[c['usa']]) if 'usa' in c else {}
+        base.update({k: v for k, v in c.items() if k != 'usa'})
+        if 'itens' in c and 'usa' in c and c['itens'] is not por_id[c['usa']]['itens']:
+            base['voz'] = '_p'
+        elif 'usa' not in c:
+            base['voz'] = '_p'
+        out.append(base)
+    return out
+
+
+# pop-ups do que a IA seguida conseguiu (craft e coleta, do log) e conquistas de qualquer IA, dentro da janela da cena
+GRAV = ROOT.parent / 'minecraft' / 'gravacoes' / 'partida1'
+TEX = ROOT.parent / 'minecraft' / 'texturas_oficiais' / 'assets' / 'minecraft' / 'textures'
+ITENS = ROOT / 'remotion' / 'public' / 'mc' / 'itens'
+NOME_COLETA = {'madeira': 'MADEIRA', 'pedra': 'PEDRA', 'ferro': 'FERRO', 'carvao': 'CARVÃO'}
+
+
+def icone(item):
+    """caminho (em public) do ícone do item; copia a textura oficial se ainda não estiver lá"""
+    import shutil
+    for nome, src in ((item, TEX / 'item' / f'{item}.png'), (f'b_{item}', TEX / 'block' / f'{item}.png'), (f'b_{item}_front', TEX / 'block' / f'{item}_front.png')):
+        if (ITENS / f'{nome}.png').exists():
+            return f'mc/itens/{nome}.png'
+        if src.exists():
+            shutil.copyfile(src, ITENS / f'{nome}.png')
+            return f'mc/itens/{nome}.png'
+    return None
+
+
+def eventos_janela(quem, t0, t1):
+    import re
+    pops, conq, vistos = [], [], set()
+    if quem:
+        for l in open(GRAV / f'eventos_{quem}.jsonl'):
+            e = json.loads(l)
+            if not (t0 <= e['t'] <= t1) or e.get('tipo') != 'resultado':
+                continue
+            m = re.match(r'craftou (\d+)x (\w+)', e.get('res', ''))
+            if m:
+                pops.append(dict(t=e['t'], n=int(m[1]), item=m[2], icone=icone(m[2]), tipo='craft'))
+            m = re.match(r'coletou (\w+): \+(\d+)', e.get('res', '')) or re.match(r'coleta de (\w+) parou.*Itens ganhos: (\d+)', e.get('res', ''))
+            if m and int(m[2]) > 0:
+                pops.append(dict(t=e['t'], n=int(m[2]), item=NOME_COLETA.get(m[1], m[1].upper()), icone=None, tipo='coleta'))
+    for l in (x for f in sorted(GRAV.glob('eventos_*.jsonl')) for x in open(f)):
+        e = json.loads(l)
+        m = re.match(r'(\w+) has made the advancement \[(.+)\]', e.get('msg', '') or '')
+        if m and t0 <= e['t'] <= t1 and (m[1], m[2]) not in vistos:
+            vistos.add((m[1], m[2]))
+            conq.append([m[1], m[2], e['t']])
+    return pops, conq
 
 
 def main():
     VOZ.mkdir(parents=True, exist_ok=True)
     saida, janelas = [], []
-    cenas = [c for c in CENAS if c['id'] in PREVIA] if __import__('os').environ.get('PREVIA') else CENAS
-    if cenas is not CENAS:
-        cenas = [dict(c, itens=PREVIA_ITENS[c['id']], voz='_p') if c['id'] in PREVIA_ITENS else c for c in cenas]
+    cenas = cenas_previa() if __import__('os').environ.get('PREVIA') else CENAS
     for c in cenas:
         t, itens = 0.0, []
         for i, it in enumerate(c['itens']):
             if it[0] == 'pausa':
                 t += it[1]
+                continue
+            if it[0] == 'meme':
+                itens.append(dict(tipo='meme', gif=it[1], at=round(t * FPS), dur=it[2], pos=it[3], sfx=it[4]))
+                t += it[5]
                 continue
             if it[0] == 'card':
                 itens.append(dict(tipo='card', estilo=it[1], texto=it[2], at=round(t * FPS), dur=it[3]))
@@ -197,6 +309,10 @@ def main():
         v = dict(c['visual'])
         if v['tipo'] == 'replay':
             v['t1'] = round(v['t0'] + dur + 0.2, 2)
+            pops, conq = eventos_janela(v['camera'].split(':')[1] if not v['camera'].startswith('fixa') else None, v['t0'], v['t1'])
+            v['popups'] = pops
+            if conq and 'conquista' not in v:
+                v['conquistas'] = conq
             janelas.append(f"{c['id']} {v['t0']:.2f} {v['t1']:.2f} {v['camera']}")
         saida.append(dict(id=c['id'], visual=v, itens=itens, dur=round(dur * FPS)))
         print(f"{c['id']:16s} {dur:5.1f}s")

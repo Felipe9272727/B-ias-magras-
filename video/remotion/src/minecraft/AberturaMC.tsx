@@ -5,18 +5,22 @@
 // conquistas. Fatos, falas e pensamentos vêm dos logs. Sem emoji (regra do canal).
 import React, {useEffect, useState} from 'react';
 import type {CalculateMetadataFunction} from 'remotion';
-import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, continueRender, delayRender, Img, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
 import {HudMC} from './HudMC';
 import {MapaMC} from './MapaMC';
-import {Cabeca, Chat, cl, Conquista, ErroJogo, FPS, FundoTerra, IAS, Pensa} from './ui';
+import {Cabeca, Chat, cl, Conquista, ErroJogo, FPS, FundoTerra, IAS, Morte, Pensa} from './ui';
+import {MemeCard} from '../components/overlays';
+import catalogo from '../../public/gifs/catalog.json';
 
 type Palavra = {w: string; s: number; e: number};
 type Item =
   | {tipo: 'n' | 'chat' | 'pensa' | 'nota'; src: string; at: number; dur: number; quem: string | null; texto: string; palavras: Palavra[]; t_log?: number}
-  | {tipo: 'card'; estilo: string; texto: string; at: number; dur: number};
-type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; tIni?: number; tFim?: number; titulo?: string; linhas?: [string, string][]};
+  | {tipo: 'card'; estilo: string; texto: string; at: number; dur: number}
+  | {tipo: 'meme'; gif: string; at: number; dur: number; pos: string; sfx: string | null};
+type Popup = {t: number; n: number; item: string; icone: string | null; tipo: string};
+type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; linhas?: [string, string][]};
 type Cena = {id: string; visual: Visual; itens: Item[]; dur: number};
 type Dados = {cenas: Cena[]; obsClaude: string};
 
@@ -79,7 +83,7 @@ const Decisao: React.FC = () => {
 };
 
 // as regras, uma por fala do narrador
-const REGRAS = ['3 HORAS PRA SOBREVIVER', 'MORREU? RENASCE SEM NADA', 'DEPOIS: TODOS PRA ARENA', 'SÓ PODE SOBRAR UMA'];
+const REGRAS = ['3 HORAS PRA SE EQUIPAR', 'MORREU? RENASCE SEM NADA', 'DEPOIS: TODOS PRA ARENA', 'SÓ PODE SOBRAR UMA'];
 const Regras: React.FC<{marcos: number[]}> = ({marcos}) => {
   const f = useCurrentFrame();
   return (
@@ -175,6 +179,22 @@ const Placar: React.FC<{titulo: string; linhas: [string, string][]}> = ({titulo,
   );
 };
 
+// o que a IA acabou de conseguir (craft/coleta do log): ícone + quantidade subindo do meio da tela, como o "+1" dos vídeos
+const PopItem: React.FC<{p: Popup}> = ({p}) => {
+  const f = useCurrentFrame();
+  const e = spring({frame: f, fps: FPS, config: {damping: 10, stiffness: 160}});
+  const sai = interpolate(f, [38, 50], [1, 0], cl);
+  return (
+    <div style={{position: 'absolute', left: 1010, top: 470 - f * 1.6, opacity: sai, transform: `scale(${0.4 + e * 0.6})`, display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(0,0,0,0.6)', border: '4px solid #fff', padding: '8px 18px 8px 10px'}}>
+      {p.icone ? <Img src={staticFile(p.icone)} style={{width: 64, height: 64, imageRendering: 'pixelated'}} /> : null}
+      <div style={{fontFamily: FONT.pixel, fontSize: 34, color: p.tipo === 'craft' ? '#7dff7d' : '#ffe14d', textShadow: '3px 3px 0 #000'}}>+{p.n} {p.tipo === 'coleta' ? p.item : ''}</div>
+      {f === 0 ? <Audio src={staticFile('sfx/pegar-item.mp3')} volume={0.4} /> : null}
+    </div>
+  );
+};
+
+const MEMES = Object.fromEntries((catalogo as {id: string; width: number; height: number; duration_sec: number}[]).map((m) => [m.id, {file: `${m.id}.gif`, width: m.width, height: m.height, duration: m.duration_sec}]));
+
 const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
   const f = useCurrentFrame();
   const v = c.visual;
@@ -192,6 +212,16 @@ const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
       {v.painel === 'decisao' ? <Sequence durationInFrames={primeiraFalaIA ? primeiraFalaIA.at : c.dur} layout="none"><Decisao /></Sequence> : null}
       {v.painel === 'regras' ? <Regras marcos={[narr[0]?.at ?? 0, (narr[1]?.at ?? 0) + 4, (narr[2]?.at ?? 0) + 4, (narr[2]?.at ?? 0) + Math.round((narr[2] as {dur: number})?.dur * FPS * 0.62)]} /> : null}
       {v.painel === 'nascimento' && v.quem ? <Nascimento quem={v.quem} /> : null}
+      {(v.popups ?? []).map((p, i) => (
+        <Sequence key={'p' + i} from={Math.max(0, Math.round((p.t - (v.t0 ?? 0)) * FPS))} durationInFrames={50} layout="none">
+          <PopItem p={p} />
+        </Sequence>
+      ))}
+      {(v.conquistas ?? []).map((q, i) => (
+        <Sequence key={'q' + i} from={Math.max(0, Math.round((q[2] - (v.t0 ?? 0)) * FPS))} durationInFrames={112} layout="none">
+          <Conquista quem={q[0]} nome={NOME_CONQUISTA[q[1]] ?? q[1]} icone={ICONE_CONQUISTA[q[1]] ?? 'wooden_pickaxe'} />
+        </Sequence>
+      ))}
       {v.conquista ? (
         <Sequence from={Math.max(0, Math.round((v.conquista[2] - (v.t0 ?? 0)) * FPS))} layout="none">
           <Conquista quem={v.conquista[0]} nome={NOME_CONQUISTA[v.conquista[1]] ?? v.conquista[1]} icone={ICONE_CONQUISTA[v.conquista[1]] ?? 'wooden_pickaxe'} />
@@ -205,9 +235,18 @@ const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
 const Falas: React.FC<{c: Cena}> = ({c}) => (
   <>
     {c.itens.map((it, i) => {
+      if (it.tipo === 'meme') {
+        const d = Math.round(it.dur * FPS);
+        return (
+          <Sequence key={i} from={it.at} durationInFrames={d} layout="none">
+            <MemeCard info={MEMES[it.gif]} dur={d} pos={it.pos} />
+            {it.sfx ? <Audio src={staticFile(`sfx/${it.sfx}.mp3`)} volume={0.45} /> : null}
+          </Sequence>
+        );
+      }
       if (it.tipo === 'card') {
         const ate = Math.round(it.dur * FPS) + 10;
-        return <Sequence key={i} from={it.at} durationInFrames={ate} layout="none"><ErroJogo texto={it.texto} ate={ate} /></Sequence>;
+        return <Sequence key={i} from={it.at} durationInFrames={ate} layout="none">{it.estilo === 'morte' ? <Morte texto={it.texto} ate={ate} /> : <ErroJogo texto={it.texto} ate={ate} />}</Sequence>;
       }
       const ate = Math.min(c.dur - it.at, Math.round(it.dur * FPS) + 14);
       return (
