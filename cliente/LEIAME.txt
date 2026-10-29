@@ -1,0 +1,31 @@
+CLIENTE REAL MINECRAFT 1.21.4 (Fabric) PARA GRAVAR SEM GPU
+
+Arquivos
+  cliente_setup.sh   setup idempotente (servidor vanilla em /tmp/srv + cliente Fabric em /tmp/mc-cliente)
+  rcon.js            comandos RCON (senha ias_local, porta 25575)
+  bot_teste.js       bot mineflayer de teste que anda/pula (SLOW=4 p/ combinar com /tick rate 5)
+
+Uso
+  source cliente/cliente_setup.sh     # instala (servidor NÃO inicia) e define as funções:
+  iniciar_servidor                    # sobe /tmp/srv (log /tmp/srv/servidor.log), espera o "Done"
+  iniciar_cliente                     # Xvfb :99 960x540 + cliente "Camera" -> localhost (log /tmp/cliente.log)
+  rcon "gamemode spectator Camera" "spectate <Bot> Camera"
+  tecla_cliente F5                    # F5 = 3ª pessoa, F1 = esconder HUD, F3 = debug/FPS
+  NODE_PATH=/tmp/mc-node/node_modules node cliente/bot_teste.js Andarilho
+  Gravar: DISPLAY=:99 ffmpeg -f x11grab -video_size 960x540 -framerate 30 -i :99 saida.mp4
+
+Skins locais: /tmp/mc-cliente/CustomSkinLoader/LocalSkin/skins/<Nome>.png (64x64)
+  O setup grava um CustomSkinLoader.json só com LocalSkin. O padrão do mod consulta a Mojang
+  primeiro: se o nome do bot existir como conta real, ele pega a skin dessa conta (aconteceu no
+  teste com "Andarilho"), e ainda tenta 9 sites, o que levava ~10 s por jogador. Com só LocalSkin
+  a skin carrega em ~15 ms. Nome sem PNG fica com a skin padrão (Steve/Alex).
+
+Versões testadas (2026-10-29): Fabric Loader 0.20.1, Fabric API 0.119.4+1.21.4,
+  CustomSkinLoader 15.1 (Universal), portablemc 5.0.6, Mesa llvmpipe 25.2.8.
+  Os mods são baixados da API do Modrinth (versão Fabric mais nova para 1.21.4, sha1 conferido).
+
+Tempos (4 vCPU, sem GPU)
+  Setup numa máquina limpa: ~40 s (37 s e 44 s nas duas medições; +~20 s se precisar de apt-get update
+  pro xdotool). Rodar de novo com tudo instalado: 2-3 s.
+  Servidor "Done": ~8-10 s. Cliente Fabric abrir até entrar no servidor: ~30 s (1ª vez) / ~25 s.
+  FPS com Fabric + CSL, render 8, fast: 15-18 fps (igual ao vanilla).
