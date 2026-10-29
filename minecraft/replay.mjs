@@ -276,7 +276,7 @@ const porta = srv.address().port
 const GL = process.env.GLARGS ? process.env.GLARGS.split(' ') : process.env.GL === 'llvmpipe' ? ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--disable-gpu-watchdog'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
 // "auto:<Nome>": escolhe a câmera do trecho inteiro antes de filmar (nunca troca no meio): se na maior parte do tempo a
 // câmera não cabe atrás do personagem (túnel, mina, buraco), filma em primeira pessoa; senão, atrás (F5)
-if (modo === 'auto') {
+if (modo === 'auto' || process.env.SO_AGUA) {
   const cols = new Map()
   const solidoEm = (x, y, z, t) => {
     const k = `${Math.floor(x / 16)}_${Math.floor(z / 16)}`
@@ -291,7 +291,29 @@ if (modo === 'auto') {
     const col = cols.get(k)
     if (!col) return false
     const b = registro.blocksByStateId[col.getBlockStateId(new Vec3(((Math.floor(x) % 16) + 16) % 16, Math.floor(y), ((Math.floor(z) % 16) + 16) % 16))]
+    if (t < 0) return b?.name  // pergunta o nome do bloco (usado pela água)
     return !!b && b.boundingBox === 'block' && !b.name.endsWith('leaves')
+  }
+  // SO_AGUA: grava <saida>.agua.json com, a cada quadro, se a cabeça (olhos a 1,62) da IA seguida está dentro d'água;
+  // a película azul do Minecraft entra depois, no Remotion (não precisa refazer o 3D)
+  if (process.env.SO_AGUA) {
+    let iA = 0
+    const q = []
+    for (let i = 0; t0 + i / fps <= t1; i++) {
+      const t = t0 + i / fps
+      while (iA < blocos.length && blocos[iA].t <= t) {
+        const b = blocos[iA++], col = cols.get(`${Math.floor(b.x / 16)}_${Math.floor(b.z / 16)}`)
+        if (col) col.setBlockStateId(new Vec3(((b.x % 16) + 16) % 16, b.y, ((b.z % 16) + 16) % 16), b.s)
+      }
+      const p = arg ? posJogador(arg, t) : null
+      if (!p) { q.push(0); continue }
+      solidoEm(p.x, p.y + 1.62, p.z, t)  // carrega o pedaço
+      const nome = solidoEm(p.x, p.y + 1.62, p.z, -1)
+      q.push(nome === 'water' || nome === 'bubble_column' ? 1 : 0)
+    }
+    fs.writeFileSync(SAIDA.replace(/\.mp4$/, '') + '.agua.json', JSON.stringify({ fps, q }))
+    console.log('AGUA', q.filter(Boolean).length, q.length)
+    process.exit(0)
   }
   let apertado = 0, total = 0
   let iB = 0

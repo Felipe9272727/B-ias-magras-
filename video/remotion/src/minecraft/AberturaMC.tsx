@@ -21,11 +21,20 @@ type Item =
   | {tipo: 'meme'; gif: string; at: number; dur: number; pos: string; sfx: string | null};
 type Popup = {t: number; n: number; item: string; icone: string | null; tipo: string};
 type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; sub?: string; ranking?: boolean; linhas?: [string, string][]};
-type Cena = {id: string; visual: Visual; itens: Item[]; dur: number};
+type Cena = {id: string; visual: Visual; itens: Item[]; dur: number; agua?: number[]};
 type Dados = {cenas: Cena[]; obsClaude: string; pasta?: string};
 
 export const calcAberturaMC: CalculateMetadataFunction<{dados: Dados | null; pasta?: string}> = async ({props}) => {
   const d: Dados = await (await fetch(staticFile(`${props.pasta ?? 'mc/abertura'}/abertura.json`))).json();
+  // cabeça dentro d'água, quadro a quadro (minecraft/replay.mjs com SO_AGUA): vira a película azul do jogo
+  await Promise.all(d.cenas.filter((c) => c.visual.tipo === 'replay').map(async (c) => {
+    try {
+      const r = await fetch(staticFile(`${props.pasta ?? 'mc/abertura'}/${c.id}.agua.json`));
+      if (r.ok) c.agua = (await r.json()).q;
+    } catch {
+      // sem o arquivo: sem película
+    }
+  }));
   return {durationInFrames: d.cenas.reduce((a, c) => a + c.dur, 0), props: {dados: d}};
 };
 
@@ -195,6 +204,22 @@ const PopItem: React.FC<{p: Popup}> = ({p}) => {
 
 const MEMES = Object.fromEntries((catalogo as {id: string; width: number; height: number; duration_sec: number}[]).map((m) => [m.id, {file: `${m.id}.gif`, width: m.width, height: m.height, duration: m.duration_sec}]));
 
+// embaixo d'água: a película azul do Minecraft (forte em 1ª pessoa; mais leve com a câmera atrás), entrando e saindo suave
+const Agua: React.FC<{q: number[]; primeira: boolean}> = ({q, primeira}) => {
+  const f = useCurrentFrame();
+  let soma = 0, n = 0;
+  for (let i = f - 6; i <= f + 6; i++) if (i >= 0 && i < q.length) { soma += q[i]; n++; }
+  const k = n ? soma / n : 0;
+  if (k <= 0) return null;
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none', opacity: k}}>
+      <AbsoluteFill style={{background: primeira ? 'rgba(18,52,150,0.42)' : 'rgba(30,80,170,0.22)', mixBlendMode: 'multiply'}} />
+      <AbsoluteFill style={{background: primeira ? 'rgba(40,90,200,0.22)' : 'rgba(60,110,210,0.12)'}} />
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(4,16,60,0.55) 100%)'}} />
+    </AbsoluteFill>
+  );
+};
+
 // a mira do Minecraft (1ª pessoa): cruz de 15 px do jogo na escala 3 da HUD, invertendo as cores do fundo
 const Mira: React.FC = () => (
   <div style={{position: 'absolute', left: 960 - 22, top: 540 - 22, width: 45, height: 45, mixBlendMode: 'difference'}}>
@@ -215,6 +240,7 @@ const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pa
       <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : 1920, height: 1080, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined}}>
         <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: 1920, height: 1080, marginLeft: dividido ? -460 : 0}} />
       </div>
+      {c.agua ? <Agua q={c.agua} primeira={!!v.camera?.startsWith('olhos')} /> : null}
       {v.camera?.startsWith('olhos') ? <Mira /> : null}
       {quem && v.painel !== 'relatorio' ? <HudMC nome={quem} t={(v.t0 ?? 0) + f / FPS} escala={3} /> : null}
       {v.painel === 'relatorio' ? <Relatorio texto={obs} dur={c.dur} /> : null}
