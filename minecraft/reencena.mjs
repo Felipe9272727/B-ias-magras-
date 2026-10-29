@@ -23,6 +23,7 @@ const [DIR, LISTA, SAIDA] = process.argv.slice(2)
 const LENTO = Number(process.env.LENTO ?? 3)
 const DISPLAY = process.env.DISPLAY ?? ':99'
 const LARG = Number(process.env.LARG ?? 960), ALT = Number(process.env.ALT ?? 540)
+const querPos = {}  // onde cada boneco deveria estar agora
 const NOMES = ['DeepSeek', 'Qwen', 'Claude', 'GPT', 'GLM', 'MiMo']
 const SEM_MOB = new Set(['item', 'experience_orb', 'arrow', 'falling_block', 'potion', 'lightning_bolt', 'tnt', 'egg', 'snowball', 'fishing_bobber'])
 const RAIO_MOBS = 48, RAIO_BLOCOS = 96
@@ -60,6 +61,8 @@ async function bonecos () {
     b[n].on('kicked', r => log('boneco expulso', n, JSON.stringify(r).slice(0, 200)))
     await new Promise(ok => b[n].once('spawn', ok))
     b[n].physicsEnabled = false
+    b[n].on('forcedMove', () => { const q = querPos[n]; if (q && b[n].entity.position.distanceTo(q) > 2) um(`tp ${n} ${q.x.toFixed(2)} ${q.y.toFixed(2)} ${q.z.toFixed(2)}`) })
+    b[n].on('death', () => setTimeout(() => { try { b[n].respawn() } catch {} }, 200))
     await espera(400)
   }
   return b
@@ -85,7 +88,7 @@ function prepararMundo (t0, centro, prep) {
   if (ARENA) {
     const { x, y, z, r } = ARENA.arena
     if (t0 < ARENA.t) prep.push(`fill ${x - r} ${y - 1} ${z - r} ${x + r} ${y + 9} ${z + r} minecraft:air`)
-    else prep.push(`fill ${x - r} ${y} ${z - r} ${x + r} ${y + 9} ${z + r} minecraft:glass hollow`, `fill ${x - r} ${y - 1} ${z - r} ${x + r} ${y - 1} ${z + r} minecraft:smooth_stone`)
+    else prep.push(`fill ${x - r} ${y} ${z - r} ${x + r} ${y + 9} ${z + r} minecraft:glass hollow`, `fill ${x - r + 1} ${y} ${z - r + 1} ${x + r - 1} ${y} ${z + r - 1} minecraft:air`, `fill ${x - r} ${y - 1} ${z - r} ${x + r} ${y - 1} ${z + r} minecraft:smooth_stone`)
   }
   // blocos: tudo o que mudou depois de t0 (no log) ou que nós mudamos antes volta pro estado de t0
   const perto = (x, z) => Math.abs(x - centro.x) < RAIO_BLOCOS && Math.abs(z - centro.z) < RAIO_BLOCOS
@@ -192,7 +195,17 @@ async function filmar (bots, id, t0, t1, cam) {
   const quer = modo === 'olhos' ? 0 : 1
   for (let i = 0; i < ((quer - perspectiva) % 3 + 3) % 3; i++) { tecla('F5'); await espera(150) }
   perspectiva = quer
-  for (const n of NOMES) { const p = tr[n]?.[0]; if (p && bots[n].entity) { bots[n].entity.position = new Vec3(p.x, p.y, p.z); bots[n].entity.yaw = p.yaw; bots[n].entity.pitch = p.pitch } }
+  for (const n of NOMES) {
+    const p = tr[n]?.[0]; if (!p) continue
+    querPos[n] = new Vec3(p.x, p.y, p.z)
+    for (let i = 0; i < 4; i++) {
+      await um(`tp ${n} ${p.x} ${p.y} ${p.z} ${yawMC(p.yaw)} ${pitchMC(p.pitch)}`); await espera(400)
+      const r = await um(`data get entity ${n} Pos`); const m = /\[([-\d.]+)d, ([-\d.]+)d, ([-\d.]+)d\]/.exec(r)
+      if (m && Math.hypot(+m[1] - p.x, +m[2] - p.y, +m[3] - p.z) < 2) break
+      log(id, 'boneco fora do lugar:', n, r.slice(0, 80))
+    }
+    if (bots[n].entity) { bots[n].entity.position = new Vec3(p.x, p.y, p.z); bots[n].entity.yaw = p.yaw; bots[n].entity.pitch = p.pitch }
+  }
   await espera(7000)  // pedaços carregando
   // grava
   log(id, 'gravando')
@@ -208,6 +221,7 @@ async function filmar (bots, id, t0, t1, cam) {
     const t = ini + k * 0.05
     for (const n of NOMES) {
       const bot = bots[n], p = tr[n]?.[k]
+      if (p) querPos[n] = new Vec3(p.x, p.y, p.z)
       if (p && bot.entity) { bot.entity.position = new Vec3(p.x, p.y, p.z); bot.entity.yaw = p.yaw; bot.entity.pitch = p.pitch; bot.entity.onGround = p.chao }
     }
     while (ig < golpes.length && golpes[ig][0] <= k) bots[golpes[ig++][1]].swingArm?.('right')
