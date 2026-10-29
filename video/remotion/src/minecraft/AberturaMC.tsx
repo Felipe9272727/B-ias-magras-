@@ -195,6 +195,14 @@ const PopItem: React.FC<{p: Popup}> = ({p}) => {
 
 const MEMES = Object.fromEntries((catalogo as {id: string; width: number; height: number; duration_sec: number}[]).map((m) => [m.id, {file: `${m.id}.gif`, width: m.width, height: m.height, duration: m.duration_sec}]));
 
+// a mira do Minecraft (1ª pessoa): cruz de 15 px do jogo na escala 3 da HUD, invertendo as cores do fundo
+const Mira: React.FC = () => (
+  <div style={{position: 'absolute', left: 960 - 22, top: 540 - 22, width: 45, height: 45, mixBlendMode: 'difference'}}>
+    <div style={{position: 'absolute', left: 0, top: 19, width: 45, height: 6, background: '#fff'}} />
+    <div style={{position: 'absolute', left: 19, top: 0, width: 6, height: 45, background: '#fff'}} />
+  </div>
+);
+
 const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
   const f = useCurrentFrame();
   const v = c.visual;
@@ -207,6 +215,7 @@ const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
       <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : 1920, height: 1080, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined}}>
         <OffthreadVideo src={staticFile(`mc/abertura/${c.id}.mp4`)} muted style={{width: 1920, height: 1080, marginLeft: dividido ? -460 : 0}} />
       </div>
+      {v.camera?.startsWith('olhos') ? <Mira /> : null}
       {quem && v.painel !== 'relatorio' ? <HudMC nome={quem} t={(v.t0 ?? 0) + f / FPS} escala={3} /> : null}
       {v.painel === 'relatorio' ? <Relatorio texto={obs} dur={c.dur} /> : null}
       {v.painel === 'decisao' ? <Sequence durationInFrames={primeiraFalaIA ? primeiraFalaIA.at : c.dur} layout="none"><Decisao /></Sequence> : null}

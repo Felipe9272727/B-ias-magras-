@@ -36,3 +36,9 @@ GL=llvmpipe RAIO=2 node replay.mjs gravacoes/partida1 /caminho/teste.mp4 <t_ini>
 ffmpeg -v error -y -i /caminho/teste.mp4 -vf "fps=2,scale=480:270,tile=4x2" -frames:v 1 /caminho/folha.png
 ```
 (`DEBUG_REPLAY=1` mostra o console da página, inclusive erros `[extra]`.)
+
+## Primeira pessoa (`40_primeira`)
+Com a câmera `olhos:<Nome>`, a página desenha por cima do mundo o braço direito (skin da IA) ou o item na mão
+(itens extrudados pixel a pixel, blocos como cubo), com as contas do ItemInHandRenderer do jogo, e aplica FOV 70,
+olhos a 1,62, balanço ao andar (bobView) e a inclinação de dano/morte. A mira fica no Remotion (`AberturaMC`).
+O `replay.mjs` chama `window.__depois(renderer)` logo depois de desenhar o mundo.
