@@ -1,0 +1,63 @@
+TESTE DE VIABILIDADE — CLIENTE REAL MINECRAFT JAVA 1.21.4 (sem GPU)
+Data: 2026-10-29
+Máquina: 4 vCPU Intel Xeon 2.1 GHz, 15 GB RAM, sem GPU
+Render: Mesa 25.2.8, llvmpipe (LLVM 20.1.2, 256 bits), OpenGL 4.5 Core — Xvfb :99 960x540x24
+Java: OpenJDK 21.0.12 | Servidor: vanilla 1.21.4 offline-mode | Cliente: portablemc 5.0.6 (offline, -u Camera)
+options.txt: renderDistance 6, simulationDistance 6, graphicsMode 0 (fast), maxFps 60, vsync off,
+             nuvens off, sombras off, partículas mínimas, som 0, pauseOnLostFocus false (copiado em scripts/)
+
+RESULTADO GERAL: FUNCIONA. O cliente real abre, entra no servidor e grava no x11grab sem travar.
+
+FPS MEDIDO (linha do F3; com F3 ligado custa um pouco)
+  - Teste 1, tick normal (20 tps), 1ª pessoa via /spectate:  12 fps logo após entrar (chunks carregando),
+    depois 15-17 fps. Na gravação: 362 quadros únicos em 20 s = ~18 quadros novos/s (mpdecimate).
+  - Teste 2, /tick rate 5:  19-23 fps no F3. Gravando a 7.5 fps: 600 de 600 quadros únicos (nenhum
+    repetido). Acelerado 4x -> equivale a ~30 fps "reais" de mundo, liso.
+  - Teste 3, 3ª pessoa (F5): 14-20 fps no F3. Gravação: 384 quadros únicos em 20 s (~19/s).
+
+/spectate:  FUNCIONOU. "spectate Andarilho Camera" pelo RCON põe a câmera no olho do bot.
+            Em spectate a mão e a hotbar somem sozinhas (bom pra vídeo).
+F5:         FUNCIONOU em cima do /spectate (xdotool key --window <id> F5; xdotool windowfocus antes).
+            F3 e F1 (esconder HUD) também funcionam pelo xdotool.
+
+ARQUIVOS
+  teste1.mp4                 1ª pessoa, 20 s, 30 fps (tick normal)
+  teste2.mp4                 /tick rate 5, gravado a 7.5 fps 80 s, acelerado 4x -> 20 s a 30 fps
+                             (bot também desacelerado 4x — ver problema 1)
+  teste2_bot_sem_ajuste.mp4  mesma coisa mas bot sem ajuste: anda 4x rápido demais no vídeo final
+  teste3.mp4                 3ª pessoa (F5) + F1 sem HUD, 20 s, 30 fps
+  f3_debug.png / f5_terceira_pessoa.png   prints
+  scripts/                   bot.js (mineflayer), bot_lento.js (SLOW=4), rcon.js, options.txt
+
+PROBLEMAS ENCONTRADOS
+  1. /tick rate 5 NÃO desacelera bots mineflayer: a física deles roda num setInterval fixo de 50 ms
+     (lib/plugins/physics.js, PHYSICS_INTERVAL_MS) e ignora o tick rate do servidor. Resultado: no
+     vídeo acelerado o bot corre 4x rápido (teste2_bot_sem_ajuste.mp4). Solução testada: carregar o
+     bot com setInterval multiplicado por 4 (bot_lento.js) -> teste2.mp4 ficou em velocidade normal.
+     Num replay de partida gravada, o tempo do próprio replay também tem que ser dividido por 4.
+  2. Mensagens de chat ("Andarilho left/joined the game", "Your game mode has been updated") e o aviso
+     "Chat messages can't be verified" aparecem na tela -> usar F1 (feito no teste 3) ou chatVisibility
+     oculto no options.txt / gamerule announceAdvancements etc.
+  3. A câmera em 3ª pessoa às vezes atravessa folhas/água (câmera do F5 vanilla encosta em bloco).
+  4. Bot de teste é burro (anda em linha e cai na água) — irrelevante pro teste, mas o vídeo mostra
+     muita água.
+  5. apt: xdotool não estava instalado e precisou de apt-get update antes. ALSA reclama de não ter
+     placa de som (só aviso, não atrapalha).
+  6. Sem GPU, 1080p direto seria bem mais lento; manter 960x540 e fazer upscale Lanczos no ffmpeg.
+  7. Skin do bot é padrão (Alex/Steve aleatória) em offline-mode.
+
+TEMPO GASTO POR ETAPA (relógio de parede)
+  Baixar manifest + server.jar (57 MB):                 ~5 s
+  Servidor subir (mundo novo, "Done"):                 10 s
+  pip portablemc + npm mineflayer/rcon + apt xdotool:   ~1.5 min
+  Instalar cliente 1.21.4 (portablemc, 519 MB, 4111 arquivos): 20 s
+  Cliente abrir até entrar no servidor:                 23 s
+  Teste 1 (bot, spectate, medir FPS, gravar 20 s):     ~2 min
+  Teste 2 (80 s gravando + encode; repetido com bot lento): ~5 min
+  Teste 3 (F5, medir, gravar 20 s):                    ~1 min
+  Total do zero até os 3 vídeos:                        ~9-10 min
+
+CONCLUSÃO
+  Dá pra usar o cliente real. Em tempo real fica ~15-18 fps (dá pra gravar mas fica meio picotado);
+  com /tick rate 5 + gravação a 7.5 fps + aceleração 4x sai liso a 30 fps, desde que o que move os
+  bots/replay também seja desacelerado 4x.
