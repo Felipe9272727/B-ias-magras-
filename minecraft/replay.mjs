@@ -46,6 +46,7 @@ for (const l of porChunk.values()) l.sort((a, b) => a.sessao - b.sessao)
 // dados da gravação e diz o que muda em cada quadro) e um script na página (pagina/*.js: aplica no 3D). Ver extras/README.md
 const PASTA = path.dirname(new URL(import.meta.url).pathname)
 const NOMES_IA = ['DeepSeek', 'Qwen', 'Claude', 'GPT', 'GLM', 'MiMo']
+const ZUMBIS = { zombie: 'zombie', drowned: 'drowned', husk: 'husk' }  // mob -> textura (entity/zombie/<x>.png)
 const eventosTodos = arquivos('eventos').flatMap(lerJsonl).sort((a, b) => a.t - b.t)
 // a caixa da arena foi montada por comando do servidor (partida.mjs > arena(): piso de smooth_stone em y-1, paredes
 // e teto de vidro de y a y+9, raio r) e não aparece nos blocos gravados: recria aqui no instante do evento 'arena'
@@ -118,10 +119,12 @@ function posJogador(n, t) {
   for (const e of EXTRAS) if (p && e.m.ajustarJogador) p = e.m.ajustarJogador(n, t, p)
   return p
 }
+let camAnterior = null
 function camera(t) {
   if (modo === 'fixa') { const [x, y, z, yaw, pitch] = arg.split(',').map(Number); return { pos: { x, y, z }, yaw, pitch } }
   const p = posJogador(arg, t)
-  if (!p) return { pos: { x: 0, y: 100, z: 0 }, yaw: 0, pitch: -0.5 }
+  // a IA seguida está escondida (morreu e ainda não renasceu): a câmera fica onde estava
+  if (!p) return camAnterior ?? { pos: { x: 0, y: 100, z: 0 }, yaw: 0, pitch: -0.5 }
   if (modo === 'olhos') return { pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw, pitch: p.pitch }
   // yaw do Minecraft: olhar pra -z quando yaw=0; a câmera fica atrás (oposto do olhar), um pouco acima
   const ang = modo === 'orbita' ? (t - t0) * 0.35 : p.yaw
@@ -140,7 +143,10 @@ function pacoteComSkins() {
   let i = js.indexOf('{', ini), prof = 0
   for (; i < js.length; i++) { if (js[i] === '{') prof++; else if (js[i] === '}' && --prof === 0) break }
   const corpo = js.slice(js.indexOf('{', ini), i + 1)
-  const extras = NOMES_IA.map(n => `"ia_${n}":` + corpo.replace('"textures":{"default":"textures/entity/steve"}', `"textures":{"default":"textures/entity/ia_${n}"}`)).join(',')
+  const extras = NOMES_IA.map(n => `"ia_${n}":` + corpo.replace('"textures":{"default":"textures/entity/steve"}', `"textures":{"default":"textures/entity/ia_${n}"}`))
+    // zumbis: o modelo do viewer sai torto; no jogo eles usam o mesmo corpo do jogador, então: corpo de jogador + textura deles
+    .concat(Object.entries(ZUMBIS).map(([m, tex]) => `"mc_${m}":` + corpo.replace('"textures":{"default":"textures/entity/steve"}', `"textures":{"default":"textures/entity/zombie/${tex}"}`)))
+    .join(',')
   // céu e neblina do Minecraft: esconde a borda do mundo gravado (os pedaços que nenhuma IA carregou)
   const NEB = (process.env.NEBLINA ?? '40,88').split(',')
   return (js.slice(0, i + 1) + ',' + extras + js.slice(i + 1))
@@ -203,7 +209,9 @@ function muda(b) {
 function quadro(t) {
   const c0 = camera(t)
   mandarChunksPerto(t, c0)
-  const c = colidir(c0, modo === 'fixa' ? null : posJogador(arg, t))
+  const pj = modo === 'fixa' ? null : posJogador(arg, t)
+  const c = pj || modo === 'fixa' ? colidir(c0, pj) : c0
+  camAnterior = { ...c, primeira: false }
   ultimaCam = { ...c, pos: { x: +c.pos.x.toFixed(2), y: +c.pos.y.toFixed(2), z: +c.pos.z.toFixed(2) }, dist: distAnt && +distAnt.toFixed(2) }
   while (iBloco < blocos.length && blocos[iBloco].t <= t) {
     const b = blocos[iBloco++]
@@ -226,7 +234,7 @@ function quadro(t) {
   const agoraIds = new Set()
   for (const m of mobsAgora.values()) {
     agoraIds.add(m.id)
-    sock.emit('entity', { id: 'm_' + m.id, name: m.m, pos: { x: m.x, y: m.y, z: m.z }, yaw: m.yaw })
+    sock.emit('entity', { id: 'm_' + m.id, name: ZUMBIS[m.m] ? 'mc_' + m.m : m.m, pos: { x: m.x, y: m.y, z: m.z }, yaw: m.yaw })
     vistosMob.set(m.id, t)
   }
   for (const [id] of vistosMob) if (!agoraIds.has(id)) { sock.emit('entity', { id: 'm_' + id, delete: true }); vistosMob.delete(id) }
@@ -255,6 +263,7 @@ for (const [tipo, ent] of Object.entries(require('prismarine-viewer/viewer/lib/e
   if (g?.bones) OSSOS[tipo] = Object.fromEntries(g.bones.map((b, i) => [b.name, i]))
 }
 for (const n of NOMES_IA) OSSOS['ia_' + n] = OSSOS.player
+for (const m of Object.keys(ZUMBIS)) OSSOS['mc_' + m] = OSSOS.player
 await pag.addInitScript(o => { window.__ossos = o; window.__extras = [] }, OSSOS)
 for (const f of fs.readdirSync(path.join(PASTA, 'pagina')).filter(f => f.endsWith('.js')).sort()) await pag.addInitScript({ path: path.join(PASTA, 'pagina', f) })
 await pag.addInitScript(() => {

@@ -112,7 +112,8 @@
       try {
         let sm = null
         ent.traverse(o => { if (!sm && o.isSkinnedMesh) sm = o })
-        const o = window.__ossos[a.modelo]
+        // zumbis usam o corpo de jogador (replay.mjs > ZUMBIS): ossos do 'mc_<tipo>'
+        const o = window.__ossos['mc_' + a.modelo] || window.__ossos[a.modelo]
         if (!sm || !o) continue
         const st = estadoDe(sm)
         const set = (nome, x, y, z) => { if (o[nome] !== undefined) girar(st, o[nome], rotacao(x, y, z)) }
