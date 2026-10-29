@@ -161,7 +161,7 @@ PREVIA_CENAS = [
         ('n', 'Seis IAs. Três horas de Minecraft pra se preparar. E depois disso... todas são jogadas nessa arena. Só uma pode sair viva.'),
         ('pausa', 0.4)]),
     dict(id='regras', visual=R('segue:GLM', 36.0, painel='regras'), itens=REGRAS_PREVIA),
-    dict(id='teaser_glm', visual=R('olhos:GLM', 9146.0), itens=[
+    dict(id='teaser_glm', visual=R('olhos:GLM', 9137.0), itens=[
         ('n', 'E três horas é tempo de sobra pra dar tudo errado. Olha o GLM, duas horas e meia depois: armadura de ferro, espada de ferro... e uma noite cheia de creepers.'),
         ('chat', 'GLM', 'Noite com creepers, vou me abrigar. Arena em ~28min, quem quiser aliança fala agora.', 9153.4),
         ('card', 'erro', 'construiu um abrigo em volta de si (0 blocos colocados).', 2.0),
