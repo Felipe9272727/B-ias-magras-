@@ -267,6 +267,9 @@ def eventos_janela(quem, t0, t1):
             m = re.match(r'craftou (\d+)x (\w+)', e.get('res', ''))
             if m:
                 pops.append(dict(t=e['t'], n=int(m[1]), item=m[2], icone=icone(m[2]), tipo='craft'))
+            m = re.match(r'fundiu: \+(\d+)x (\w+)', e.get('res', ''))
+            if m:
+                pops.append(dict(t=e['t'], n=int(m[1]), item=m[2], icone=icone(m[2]), tipo='craft'))
             m = re.match(r'coletou (\w+): \+(\d+)', e.get('res', '')) or re.match(r'coleta de (\w+) parou.*Itens ganhos: (\d+)', e.get('res', ''))
             if m and int(m[2]) > 0:
                 pops.append(dict(t=e['t'], n=int(m[2]), item=NOME_COLETA.get(m[1], m[1].upper()), icone=None, tipo='coleta'))
@@ -279,10 +282,11 @@ def eventos_janela(quem, t0, t1):
     return pops, conq
 
 
-def main():
+def montar(cenas, pub=PUB):
+    """gera as vozes (sempre em mc/abertura/voz, com cache) e grava <pub>/abertura.json e <pub>/janelas.txt"""
     VOZ.mkdir(parents=True, exist_ok=True)
+    pub.mkdir(parents=True, exist_ok=True)
     saida, janelas = [], []
-    cenas = cenas_previa() if __import__('os').environ.get('PREVIA') else CENAS
     for c in cenas:
         t, itens = 0.0, []
         for i, it in enumerate(c['itens']):
@@ -316,9 +320,14 @@ def main():
             janelas.append(f"{c['id']} {v['t0']:.2f} {v['t1']:.2f} {v['camera']}")
         saida.append(dict(id=c['id'], visual=v, itens=itens, dur=round(dur * FPS)))
         print(f"{c['id']:16s} {dur:5.1f}s")
-    (PUB / 'abertura.json').write_text(json.dumps({'cenas': saida, 'obsClaude': OBS_CLAUDE}, ensure_ascii=False))
-    (PUB / 'janelas.txt').write_text('\n'.join(janelas) + '\n')
+    pasta = str(pub.relative_to(ROOT / 'remotion' / 'public'))
+    (pub / 'abertura.json').write_text(json.dumps({'cenas': saida, 'obsClaude': OBS_CLAUDE, 'pasta': pasta}, ensure_ascii=False))
+    (pub / 'janelas.txt').write_text('\n'.join(janelas) + '\n')
     print('total', round(sum(x['dur'] for x in saida) / FPS, 1), 's')
+
+
+def main():
+    montar(cenas_previa() if __import__('os').environ.get('PREVIA') else CENAS)
 
 
 if __name__ == '__main__':

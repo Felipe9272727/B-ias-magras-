@@ -10,7 +10,7 @@ import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
 import {HudMC} from './HudMC';
 import {MapaMC} from './MapaMC';
-import {Cabeca, Chat, cl, Conquista, ErroJogo, FPS, FundoTerra, IAS, Morte, Pensa} from './ui';
+import {Cabeca, Chat, cl, ComentarioYT, Conquista, ErroJogo, FPS, FundoTerra, IAS, Morte, MsgServidor, Pensa, Titulo} from './ui';
 import {MemeCard} from '../components/overlays';
 import catalogo from '../../public/gifs/catalog.json';
 
@@ -20,12 +20,12 @@ type Item =
   | {tipo: 'card'; estilo: string; texto: string; at: number; dur: number}
   | {tipo: 'meme'; gif: string; at: number; dur: number; pos: string; sfx: string | null};
 type Popup = {t: number; n: number; item: string; icone: string | null; tipo: string};
-type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; linhas?: [string, string][]};
+type Visual = {tipo: string; camera?: string; t0?: number; t1?: number; painel?: string; quem?: string; conquista?: [string, string, number]; conquistas?: [string, string, number][]; popups?: Popup[]; tIni?: number; tFim?: number; titulo?: string; sub?: string; ranking?: boolean; linhas?: [string, string][]};
 type Cena = {id: string; visual: Visual; itens: Item[]; dur: number};
-type Dados = {cenas: Cena[]; obsClaude: string};
+type Dados = {cenas: Cena[]; obsClaude: string; pasta?: string};
 
-export const calcAberturaMC: CalculateMetadataFunction<{dados: Dados | null}> = async () => {
-  const d: Dados = await (await fetch(staticFile('mc/abertura/abertura.json'))).json();
+export const calcAberturaMC: CalculateMetadataFunction<{dados: Dados | null; pasta?: string}> = async ({props}) => {
+  const d: Dados = await (await fetch(staticFile(`${props.pasta ?? 'mc/abertura'}/abertura.json`))).json();
   return {durationInFrames: d.cenas.reduce((a, c) => a + c.dur, 0), props: {dados: d}};
 };
 
@@ -154,22 +154,22 @@ const Comentarios: React.FC<{marco: number}> = ({marco}) => {
   );
 };
 
-const Placar: React.FC<{titulo: string; linhas: [string, string][]}> = ({titulo, linhas}) => {
+const Placar: React.FC<{titulo: string; sub?: string; ranking?: boolean; linhas: [string, string][]}> = ({titulo, sub, ranking = true, linhas}) => {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill>
       <FundoTerra escuro={0.62} />
       <div style={{position: 'absolute', top: 60, left: 0, right: 0, textAlign: 'center', fontFamily: FONT.comic, fontSize: 110, color: '#ffe14d', letterSpacing: 4, textShadow: '6px 6px 0 #000'}}>{titulo}</div>
-      <div style={{position: 'absolute', top: 210, left: 0, right: 0, textAlign: 'center', fontFamily: FONT.pixel, fontSize: 22, color: '#ddd'}}>quem minerou a primeira pedra com picareta (tempo da partida)</div>
-      <div style={{position: 'absolute', top: 290, left: 560, right: 560}}>
+      <div style={{position: 'absolute', top: 210, left: 0, right: 0, textAlign: 'center', fontFamily: FONT.pixel, fontSize: 22, color: '#ddd'}}>{sub ?? 'quem minerou a primeira pedra com picareta (tempo da partida)'}</div>
+      <div style={{position: 'absolute', top: 290, left: linhas.some((l) => l[1].length > 6) ? 360 : 560, right: linhas.some((l) => l[1].length > 6) ? 360 : 560}}>
         {linhas.map(([n, tempo], i) => {
           const e = spring({frame: f - 10 - i * 9, fps: FPS, config: {damping: 13}});
           return (
-            <div key={n} style={{display: 'flex', alignItems: 'center', gap: 22, marginBottom: 18, opacity: e, transform: `translateX(${(1 - e) * -120}px)`, background: i === 0 ? 'rgba(255,215,0,0.25)' : 'rgba(0,0,0,0.45)', border: i === 0 ? '4px solid #ffd700' : '4px solid rgba(255,255,255,0.15)', padding: '8px 18px'}}>
-              <div style={{width: 60, fontFamily: FONT.comic, fontSize: 56, color: i === 0 ? '#ffd700' : '#fff'}}>{i + 1}</div>
+            <div key={n} style={{display: 'flex', alignItems: 'center', gap: 22, marginBottom: 18, opacity: e, transform: `translateX(${(1 - e) * -120}px)`, background: ranking && i === 0 ? 'rgba(255,215,0,0.25)' : 'rgba(0,0,0,0.45)', border: ranking && i === 0 ? '4px solid #ffd700' : '4px solid rgba(255,255,255,0.15)', padding: '8px 18px'}}>
+              {ranking ? <div style={{width: 60, fontFamily: FONT.comic, fontSize: 56, color: i === 0 ? '#ffd700' : '#fff'}}>{i + 1}</div> : null}
               <Cabeca nome={n} tam={64} />
               <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 800, fontSize: 44, color: '#fff'}}>{n}</div>
-              <div style={{fontFamily: FONT.pixel, fontSize: 34, color: IAS[n].cor, textShadow: '3px 3px 0 #000'}}>{tempo}</div>
+              <div style={{fontFamily: FONT.pixel, fontSize: tempo.length > 12 ? 24 : 34, color: IAS[n].cor, textShadow: '3px 3px 0 #000'}}>{tempo}</div>
               {f - 10 - i * 9 === 0 ? <Audio src={staticFile('sfx/pop.mp3')} volume={0.3} /> : null}
             </div>
           );
@@ -203,7 +203,7 @@ const Mira: React.FC = () => (
   </div>
 );
 
-const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
+const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pasta}) => {
   const f = useCurrentFrame();
   const v = c.visual;
   const quem = seguido(v.camera);
@@ -213,7 +213,7 @@ const CenaReplay: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : 1920, height: 1080, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined}}>
-        <OffthreadVideo src={staticFile(`mc/abertura/${c.id}.mp4`)} muted style={{width: 1920, height: 1080, marginLeft: dividido ? -460 : 0}} />
+        <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: 1920, height: 1080, marginLeft: dividido ? -460 : 0}} />
       </div>
       {v.camera?.startsWith('olhos') ? <Mira /> : null}
       {quem && v.painel !== 'relatorio' ? <HudMC nome={quem} t={(v.t0 ?? 0) + f / FPS} escala={3} /> : null}
@@ -255,7 +255,7 @@ const Falas: React.FC<{c: Cena}> = ({c}) => (
       }
       if (it.tipo === 'card') {
         const ate = Math.round(it.dur * FPS) + 10;
-        return <Sequence key={i} from={it.at} durationInFrames={ate} layout="none">{it.estilo === 'morte' ? <Morte texto={it.texto} ate={ate} /> : <ErroJogo texto={it.texto} ate={ate} />}</Sequence>;
+        return <Sequence key={i} from={it.at} durationInFrames={ate} layout="none">{it.estilo === 'morte' ? <Morte texto={it.texto} ate={ate} /> : it.estilo === 'servidor' ? <MsgServidor texto={it.texto} ate={ate} /> : it.estilo === 'titulo' ? <Titulo texto={it.texto} ate={ate} /> : it.estilo === 'comentario' ? <ComentarioYT texto={it.texto} ate={ate} /> : <ErroJogo texto={it.texto} ate={ate} />}</Sequence>;
       }
       const ate = Math.min(c.dur - it.at, Math.round(it.dur * FPS) + 14);
       return (
@@ -273,16 +273,16 @@ const Falas: React.FC<{c: Cena}> = ({c}) => (
   </>
 );
 
-const CenaMC: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
+const CenaMC: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pasta}) => {
   const f = useCurrentFrame();
   const v = c.visual;
   const segunda = c.itens.filter((i) => i.tipo === 'n')[1];
   return (
     <AbsoluteFill style={{background: '#000'}}>
-      {v.tipo === 'replay' ? <CenaReplay c={c} obs={obs} /> : null}
+      {v.tipo === 'replay' ? <CenaReplay c={c} obs={obs} pasta={pasta} /> : null}
       {v.tipo === 'comentarios' ? <Comentarios marco={segunda ? segunda.at : 60} /> : null}
       {v.tipo === 'mapa' ? <MapaMC tIni={v.tIni ?? 0} tFim={v.tFim ?? 110} duracao={c.dur} foco={{x: 30, z: 45, zoom: 5.2}} /> : null}
-      {v.tipo === 'placar' ? <Placar titulo={v.titulo ?? ''} linhas={v.linhas ?? []} /> : null}
+      {v.tipo === 'placar' ? <Placar titulo={v.titulo ?? ''} sub={v.sub} ranking={v.ranking !== false} linhas={v.linhas ?? []} /> : null}
       <Falas c={c} />
       {/* corte: flash branco rápido e whoosh (sem transição de lobby) */}
       <AbsoluteFill style={{background: '#fff', opacity: interpolate(f, [0, 5], [0.6, 0], cl), pointerEvents: 'none'}} />
@@ -291,7 +291,7 @@ const CenaMC: React.FC<{c: Cena; obs: string}> = ({c, obs}) => {
   );
 };
 
-export const AberturaMC: React.FC<{dados: Dados | null}> = ({dados}) => {
+export const AberturaMC: React.FC<{dados: Dados | null; pasta?: string}> = ({dados}) => {
   const {durationInFrames} = useVideoConfig();
   const [h] = useState(() => delayRender('fontes'));
   useEffect(() => {
@@ -304,7 +304,7 @@ export const AberturaMC: React.FC<{dados: Dados | null}> = ({dados}) => {
       {dados.cenas.map((c) => {
         const de = at;
         at += c.dur;
-        return <Sequence key={c.id} from={de} durationInFrames={c.dur}><CenaMC c={c} obs={dados.obsClaude} /></Sequence>;
+        return <Sequence key={c.id} from={de} durationInFrames={c.dur}><CenaMC c={c} obs={dados.obsClaude} pasta={dados.pasta ?? 'mc/abertura'} /></Sequence>;
       })}
       <Audio src={staticFile('music/voxel-revolution.mp3')} loop volume={(f) => interpolate(f, [0, 20, durationInFrames - 40, durationInFrames], [0, 0.1, 0.1, 0], cl)} />
     </AbsoluteFill>

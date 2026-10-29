@@ -218,6 +218,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="TesteMapaMC" component={TesteMapaMC} width={1920} height={1080} fps={30} durationInFrames={300} />
       <Composition id="TesteHudMC" component={TesteHudMC} width={1920} height={1080} fps={30} durationInFrames={150} />
       <Composition id="AberturaMC" component={AberturaMC} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcAberturaMC} />
+      <Composition id="VideoMC" component={AberturaMC} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{dados: null, pasta: 'mc/video'}} calculateMetadata={calcAberturaMC} />
       <Composition id="ShortRose5"component={ShortRose5} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortRose5} />
       <Composition id="ShortPossuidor" component={ShortPossuidor} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{dados: null}} calculateMetadata={calcShortPossuidor} />
       <Composition id="ThumbOC" component={ThumbOC} width={1280} height={720} fps={30} durationInFrames={1} defaultProps={{log: null}} calculateMetadata={calcThumbOC} />

@@ -100,6 +100,55 @@ export const Morte: React.FC<{texto: string; ate: number}> = ({texto, ate}) => {
   );
 };
 
+// mensagem do servidor no chat (mortes, entradas, avisos do Rcon), em amarelo como as do jogo
+export const MsgServidor: React.FC<{texto: string; ate: number}> = ({texto, ate}) => {
+  const f = useCurrentFrame();
+  const e = spring({frame: f, fps: FPS, config: {damping: 14}});
+  const sai = interpolate(f, [ate - 6, ate], [1, 0], cl);
+  const morte = /drowned|slain|shot|blown|suffocated|lava|ground|confines|FORA/.test(texto);
+  return (
+    <div style={{position: 'absolute', left: 40, top: 300, maxWidth: 1500, opacity: sai, transform: `translateX(${(1 - e) * -80}px)`}}>
+      <div style={{background: 'rgba(0,0,0,0.66)', padding: '14px 22px', fontFamily: FONT.pixel, fontSize: 30, lineHeight: 1.5, color: morte ? '#ff5555' : '#ffff55', textShadow: `3px 3px 0 ${morte ? '#3f1515' : '#3f3f15'}`}}>{texto}</div>
+      {f === 0 ? <Audio src={staticFile(morte ? 'sfx/death.mp3' : 'sfx/notification-pop.mp3')} volume={0.35} /> : null}
+    </div>
+  );
+};
+
+// título de capítulo ("PARTE 1|A PRIMEIRA NOITE"): faixa grande que entra e sai, com a letra de quadrinho
+export const Titulo: React.FC<{texto: string; ate: number}> = ({texto, ate}) => {
+  const f = useCurrentFrame();
+  const [a, b] = texto.split('|');
+  const e = spring({frame: f, fps: FPS, config: {damping: 12}});
+  const sai = interpolate(f, [ate - 8, ate], [1, 0], cl);
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 360, display: 'flex', justifyContent: 'center', opacity: sai}}>
+      <div style={{transform: `scale(${0.6 + e * 0.4}) rotate(${(1 - e) * -6}deg)`, background: 'rgba(0,0,0,0.82)', border: '6px solid #ffe14d', padding: '18px 60px', textAlign: 'center'}}>
+        <div style={{fontFamily: FONT.pixel, fontSize: 34, color: '#ffe14d', letterSpacing: 4}}>{a}</div>
+        <div style={{fontFamily: FONT.comic, fontSize: 120, color: '#fff', letterSpacing: 4, lineHeight: 1.05, textShadow: '6px 6px 0 #000'}}>{b}</div>
+      </div>
+      {f === 0 ? <Audio src={staticFile('sfx/impact-epic.mp3')} volume={0.3} /> : null}
+    </div>
+  );
+};
+
+// comentário do YouTube que inspirou uma regra ("@autor|texto")
+export const ComentarioYT: React.FC<{texto: string; ate: number}> = ({texto, ate}) => {
+  const f = useCurrentFrame();
+  const [autor, t] = texto.split('|');
+  const e = spring({frame: f, fps: FPS, config: {damping: 12}});
+  const sai = interpolate(f, [ate - 7, ate], [1, 0], cl);
+  return (
+    <div style={{position: 'absolute', left: 360, right: 360, top: 330, opacity: sai, transform: `scale(${0.6 + e * 0.4}) rotate(-1.5deg)`, background: '#fff', borderRadius: 18, padding: '22px 28px', boxShadow: '0 0 0 8px #ffe14d, 0 14px 0 rgba(0,0,0,0.4)'}}>
+      <div style={{display: 'flex', gap: 14, alignItems: 'center', marginBottom: 10}}>
+        <div style={{width: 52, height: 52, borderRadius: 26, background: '#e53935', color: '#fff', fontFamily: FONT.display, fontWeight: 800, fontSize: 28, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{autor[1].toUpperCase()}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 28, color: '#0f0f0f'}}>{autor}</div>
+      </div>
+      <div style={{fontFamily: 'Roboto, ' + FONT.display, fontSize: 36, color: '#0f0f0f', lineHeight: 1.35}}>{t}</div>
+      {f === 0 ? <Audio src={staticFile('sfx/notification-pop.mp3')} volume={0.35} /> : null}
+    </div>
+  );
+};
+
 // notificação de conquista (o sprite oficial do toast), entrando pela direita como no jogo
 export const Conquista: React.FC<{quem: string; nome: string; icone: string}> = ({quem, nome, icone}) => {
   const f = useCurrentFrame();
