@@ -174,7 +174,7 @@ def main():
     saida, janelas = [], []
     cenas = [c for c in CENAS if c['id'] in PREVIA] if __import__('os').environ.get('PREVIA') else CENAS
     if cenas is not CENAS:
-        cenas = [dict(c, itens=PREVIA_ITENS.get(c['id'], c['itens'])) for c in cenas]
+        cenas = [dict(c, itens=PREVIA_ITENS[c['id']], voz='_p') if c['id'] in PREVIA_ITENS else c for c in cenas]
     for c in cenas:
         t, itens = 0.0, []
         for i, it in enumerate(c['itens']):
@@ -186,9 +186,9 @@ def main():
                 t += it[3] + FOLGA
                 continue
             if it[0] == 'n':
-                a = voz(f"{c['id']}_{i}", None, 'n', it[1])
+                a = voz(f"{c['id']}{c.get('voz', '_')}{i}", None, 'n', it[1])
             else:
-                a = voz(f"{c['id']}_{i}", it[1], it[0], it[2])
+                a = voz(f"{c['id']}{c.get('voz', '_')}{i}", it[1], it[0], it[2])
                 a['t_log'] = it[3]
             a['at'] = round(t * FPS)
             itens.append(a)
