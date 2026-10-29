@@ -133,7 +133,7 @@ PARTIDA = [
         ('n', 'Tentativa cento e um:'),
         ('pausa', 1.6),
         ('meme', 'happy-dance', 1.8, 'right', 'crowd-cheer', 1.6)]),
-    dict(id='p2_mimo_creeper', visual=S('MiMo', 2106.0), itens=[
+    dict(id='p2_mimo_creeper', visual=S('MiMo', 2110.5), itens=[
         ('n', 'E aí vieram os creepers. A MiMo, de peitoral de ferro e tudo:'),
         ('card', 'servidor', 'MiMo was blown up by Creeper', 1.6),
         ('meme', 'explosion', 1.4, 'center', 'explosion', 1.2),
@@ -192,7 +192,7 @@ PARTIDA = [
         ('n', 'O GLM, com fome quatro, descobriu que não podia confiar nem nas próprias anotações.'),
         ('pensa', 'GLM', 'Fome crítica em 4/20 e não tenho nenhuma comida no inventário — a nota antiga sobre carne estava errada. Tem um pig a 15 blocos, vou caçá-lo agora e fundir a carne.', 3776.8),
         ('meme', 'blinking-white-guy', 1.6, 'right', 'record-scratch', 1.4)]),
-    dict(id='p3_claude_morre', visual=S('Claude', 3801.0), itens=[
+    dict(id='p3_claude_morre', visual=S('Claude', 3797.0), itens=[
         ('n', 'E o Claude, de armadura completa e nove de vida, entrou numa briga com dois esqueletos.'),
         ('pensa', 'Claude', 'Há um esqueleto colado em mim e outro a 3 blocos, com a vida em 9. Tenho espada de ferro e armadura completa, então continuo atacando o mais perto antes que ele me acerte mais.', 3808.9),
         ('card', 'servidor', 'Claude was shot by Skeleton', 1.6),
@@ -294,7 +294,7 @@ PARTIDA = [
         ('n', 'O Claude, com oito de vida desde a briga com um zumbi, ainda sonhava com o kit completo.'),
         ('pensa', 'Claude', 'Amanheceu, mas estou com vida e fome em 8 e sem comida. Com 20 min até a arena, o ferro a 16 blocos é o melhor ganho: dá para fazer leggings e botas, então vou até lá minerar.', 9601.9),
         ('pausa', 0.3)]),
-    dict(id='p4_gpt_creeper', visual=S('GPT', 9950.0), itens=[
+    dict(id='p4_gpt_creeper', visual=S('GPT', 9942.0), itens=[
         ('n', 'E o GPT deu um lingote de ferro pra MiMo, em troca de uma promessa de gravetos... e aí:'),
         ('pensa', 'GPT', 'Estou com apenas 3 de vida e dois creepers a poucos blocos; preciso me fechar imediatamente para evitar uma explosão. Depois tentarei sobreviver e preparar o equipamento restante dentro do abrigo.', 9960.9),
         ('card', 'servidor', 'GPT was blown up by Creeper', 1.6),
@@ -323,7 +323,7 @@ PARTIDA = [
         ('pausa', 0.8)]),
 
     # ---------------- ARENA ----------------
-    dict(id='a_teleporte', visual=R('fixa:0.5,168,38,0,-0.25', 10806.5), itens=[
+    dict(id='a_teleporte', visual=R('fixa:0.5,166,26,0,-0.3', 10806.5), itens=[
         ('card', 'titulo', 'A ARENA|SÓ PODE SOBRAR UMA', 2.2),
         ('n', 'Três horas depois: as seis, teleportadas pra uma caixa de vidro a cento e sessenta blocos de altura.'),
         ('card', 'servidor', 'A ARENA COMEÇOU! Só pode sobrar um.', 1.8),
@@ -349,7 +349,7 @@ PARTIDA = [
         ('chat', 'Qwen', 'DeepSeek, fechado. Vou pela esquerda, você pela direita. Manda sinal.', 10847.8),
         ('n', 'E foram atrás dele.'),
         ('meme', 'dicaprio-pointing', 1.6, 'right', 'boom', 1.4)]),
-    dict(id='a_claude_morre', visual=S('GPT', 10838.0), itens=[
+    dict(id='a_claude_morre', visual=S('Claude', 10838.0), itens=[
         ('n', 'Lá em cima, sobraram o Claude e o GPT. E o GPT, sem armadura nenhuma, foi pra cima.'),
         ('pensa', 'GPT', 'Claude está a apenas 16 blocos e sou muito vulnerável sem armadura; devo iniciar o combate antes que ele ou Qwen se preparem. Vou pressionar Claude com a espada de pedra.', 10851.5),
         ('card', 'servidor', 'Claude was slain by GPT', 1.6),
@@ -429,7 +429,7 @@ PARTIDA = [
         ('card', 'servidor', 'Qwen left the confines of this world', 1.6),
         ('meme', 'galvao-clima-terrivel', 1.8, 'right', 'sad-trombone', 1.6),
         ('card', 'servidor', 'Qwen está FORA! Restam 2.', 1.4)]),
-    dict(id='a_final', visual=S('DeepSeek', 11497.0), itens=[
+    dict(id='a_final', visual=S('DeepSeek', 11501.0), itens=[
         ('n', 'Sobraram duas. O DeepSeek, com um de vida e fome zero há sete minutos. E a MiMo, que tinha dito:'),
         ('chat', 'MiMo', 'Qwen, se vamos eliminar DeepSeek, pelo menos façamos isso de forma justa - ele está com 1 HP, qualquer um consegue. Mas depois fica 1v1, combinado?', 11395.0),
         ('meme', 'silvio-santos-huh', 1.6, 'right', 'boom', 1.4),
@@ -496,8 +496,9 @@ def main():
     cenas = abertura + PARTIDA
     for c in cenas:
         v = c.get('visual', {})
-        if v.get('camera', '').startswith('segue:') and CAMERAS.get(c['id']) == 'olhos':
-            c['visual'] = dict(v, camera='olhos:' + v['camera'].split(':')[1])
+        # olhos: lugar apertado (decidido pelo replay); orbita: cena que precisa mostrar o personagem/armadura (revisão)
+        if v.get('camera', '').split(':')[0] in ('segue', 'olhos', 'orbita') and CAMERAS.get(c['id']) in ('olhos', 'orbita'):
+            c['visual'] = dict(v, camera=CAMERAS[c['id']] + ':' + v['camera'].split(':')[1])
     if conferir(PARTIDA) and '--forcar' not in sys.argv:
         raise SystemExit('conserte as falas/cartões acima')
     if '--conferir' in sys.argv:

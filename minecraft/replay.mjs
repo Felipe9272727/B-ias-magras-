@@ -118,6 +118,7 @@ function posJogador(n, t) {
   return p
 }
 let camAnterior = null, angCam = null
+const armAtual = new Map()  // id da entidade de armadura -> modelo mostrado
 // distância livre da cabeça até a câmera no ângulo ang (mesmo teste do colidir; com folha=true as folhas também tampam)
 const VIZ = [[0, 0, 0], [0.25, 0, 0], [-0.25, 0, 0], [0, 0.25, 0], [0, -0.25, 0], [0, 0, 0.25], [0, 0, -0.25]]
 function livreEm(p, ang, dist, alt, folha) {
@@ -160,6 +161,34 @@ function camera(t) {
   return { pos: { x: cx, y: p.y + alt - 1.62, z: cz }, yaw: Math.atan2(-dx, -dz), pitch: Math.atan2(dyv, Math.hypot(dx, dz)) }
 }
 
+// armadura de ferro como no jogo: o mesmo esqueleto do jogador, com caixas "infladas" por cima e a textura oficial de
+// 64x32 (camada 1: capacete, peitoral+braços, botas; camada 2: calça). arm1_<c><p><b> (1 = tem a peça) e arm2
+const PECAS1 = { head: [[-4, 24, -4], [8, 8, 8], [0, 0]], body: [[-4, 12, -2], [8, 12, 4], [16, 16]], rightArm: [[-8, 12, -2], [4, 12, 4], [40, 16]],
+  leftArm: [[4, 12, -2], [4, 12, 4], [40, 16]], rightLeg: [[-3.9, 0, -2], [4, 12, 4], [0, 16]], leftLeg: [[-0.1, 0, -2], [4, 12, 4], [0, 16]] }
+const MODELOS_ARMADURA = ['arm2', ...['001', '010', '011', '100', '101', '110', '111'].map(c => 'arm1_' + c)]
+function modelosArmadura(corpo) {
+  return MODELOS_ARMADURA.map(nome => {
+    const m = new Function('return ' + corpo)()  // é um literal JS do pacote (tem escapes que o JSON não aceita)
+    const g = m.geometry.default
+    g.texturewidth = 64; g.textureheight = 32
+    const [cap, pei, bot] = nome === 'arm2' ? [0, 0, 0] : nome.slice(5).split('').map(Number)
+    const usa = nome === 'arm2' ? { body: 0.5, rightLeg: 0.5, leftLeg: 0.5 }
+      : Object.assign({}, cap ? { head: 1 } : {}, pei ? { body: 1, rightArm: 1, leftArm: 1 } : {}, bot ? { rightLeg: 1, leftLeg: 1 } : {})
+    for (const b of g.bones) {
+      if (usa[b.name] !== undefined) { const [origin, size, uv] = PECAS1[b.name]; b.cubes = [{ origin, size, uv, inflate: usa[b.name] }] } else delete b.cubes
+    }
+    m.textures = { default: 'textures/entity/' + (nome === 'arm2' ? 'arm_ferro2' : 'arm_ferro1') }
+    // os modelos ficam dentro de um JSON.parse('...') no pacote: escapa barra e aspa simples como o resto
+    return `"${nome}":` + JSON.stringify(m).replace(/\\/g, '\\\\').replace(/'/g, "\\'")
+  })
+}
+// peças vestidas agora (campo arm das posições: [capacete, peitoral, calça, botas]) -> modelos a mostrar
+function armaduraDe(p) {
+  const a = p?.arm ?? []
+  const c1 = `${a[0] ? 1 : 0}${a[1] ? 1 : 0}${a[3] ? 1 : 0}`
+  return { a1: c1 === '000' ? null : 'arm1_' + c1, a2: a[2] ? 'arm2' : null }
+}
+
 // ---- servidor no mesmo protocolo do prismarine-viewer
 // cada IA com a própria skin: copia o modelo do "player" no pacote do viewer pra 6 entidades novas (ia_<nome>)
 function pacoteComSkins() {
@@ -172,6 +201,7 @@ function pacoteComSkins() {
   const extras = NOMES_IA.map(n => `"ia_${n}":` + corpo.replace('"textures":{"default":"textures/entity/steve"}', `"textures":{"default":"textures/entity/ia_${n}"}`))
     // zumbis: o modelo do viewer sai torto; no jogo eles usam o mesmo corpo do jogador, então: corpo de jogador + textura deles
     .concat(Object.entries(ZUMBIS).map(([m, tex]) => `"mc_${m}":` + corpo.replace('"textures":{"default":"textures/entity/steve"}', `"textures":{"default":"textures/entity/zombie/${tex}"}`)))
+    .concat(modelosArmadura(corpo))
     .join(',')
   // céu e neblina do Minecraft: esconde a borda do mundo gravado (os pedaços que nenhuma IA carregou)
   const NEB = (process.env.NEBLINA ?? '40,88').split(',')
@@ -202,6 +232,8 @@ const WORKER = fs.readFileSync(require.resolve('prismarine-viewer/public/worker.
   .replace('const l=getSectionGeometry(e,n,a,world,blocksStates),i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)', 'let l;try{l=getSectionGeometry(e,n,a,world,blocksStates)}catch(x){postMessage({type:"erroSecao",key:t,msg:String(x&&x.stack||x).slice(0,300)})}if(l){const i=[l.positions.buffer,l.normals.buffer,l.colors.buffer,l.uvs.buffer];postMessage({type:"geometry",key:t,geometry:l},i)}')
 app.get('/worker.js', (req, res) => res.type('application/javascript').send(WORKER))
 for (const n of NOMES_IA) app.get(`/textures/1.16.4/entity/ia_${n}.png`, (req, res) => res.sendFile(path.resolve('skins', n + '.png')))
+app.get('/textures/1.16.4/entity/arm_ferro1.png', (req, res) => res.sendFile(path.join(PASTA, 'texturas_oficiais/assets/minecraft/textures/entity/equipment/humanoid/iron.png')))
+app.get('/textures/1.16.4/entity/arm_ferro2.png', (req, res) => res.sendFile(path.join(PASTA, 'texturas_oficiais/assets/minecraft/textures/entity/equipment/humanoid_leggings/iron.png')))
 app.use('/tex', express.static(path.join(PASTA, 'texturas_oficiais', 'assets', 'minecraft', 'textures')))
 setupRoutes(app, '')
 const srv = http.createServer(app)
@@ -248,6 +280,15 @@ function quadro(t) {
     const p = posJogador(n, t)
     if (p) sock.emit('entity', { id: 'p_' + n, name: NOMES_IA.includes(n) ? 'ia_' + n : 'player', username: n, pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw })
     else if (lista.length) sock.emit('entity', { id: 'p_' + n, delete: true })
+    // a armadura: entidade(s) no mesmo lugar, trocando de modelo quando muda o que está vestido
+    const arm = p ? armaduraDe(p) : { a1: null, a2: null }
+    for (const k of ['a1', 'a2']) {
+      const id = k + '_' + n, antes = armAtual.get(id)
+      if (arm[k] && antes && antes !== arm[k]) sock.emit('entity', { id, delete: true })
+      if (arm[k]) sock.emit('entity', { id, name: arm[k], username: '', pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw })
+      else if (antes) sock.emit('entity', { id, delete: true })
+      armAtual.set(id, arm[k])
+    }
   }
   // mobs: o registro mais recente antes de t
   // mobs: em cada bot, o registro mais recente antes de t (até 1 s atrás); junta tudo sem repetir
@@ -359,6 +400,7 @@ for (const [tipo, ent] of Object.entries(require('prismarine-viewer/viewer/lib/e
 }
 for (const n of NOMES_IA) OSSOS['ia_' + n] = OSSOS.player
 for (const m of Object.keys(ZUMBIS)) OSSOS['mc_' + m] = OSSOS.player
+for (const m of MODELOS_ARMADURA) OSSOS[m] = OSSOS.player
 await pag.addInitScript(o => { window.__ossos = o; window.__extras = [] }, OSSOS)
 for (const f of fs.readdirSync(path.join(PASTA, 'pagina')).filter(f => f.endsWith('.js')).sort()) await pag.addInitScript({ path: path.join(PASTA, 'pagina', f) })
 await pag.addInitScript(() => {
@@ -428,6 +470,7 @@ for (let i = 0; i < n; i++) {
   // o render_seguro.sh continua do quadro seguinte num pedaço novo
   const extra = {}
   for (const e of EXTRAS) if (e.m.noQuadro) Object.assign(extra, e.m.noQuadro(t, { fps, camera: ultimaCam, modo, seguido: arg, primeira: !!ultimaCam?.primeira, posJogador }))
+  for (const [id, modelo] of armAtual) if (modelo && extra.anim?.['p_' + id.slice(3)]) extra.anim[id] = { ...extra.anim['p_' + id.slice(3)], modelo }
   const foto = pag.evaluate(extra => {
     window.__manual = true
     window.__r()
