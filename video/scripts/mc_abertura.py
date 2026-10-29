@@ -145,10 +145,37 @@ def voz(k, quem, tipo, texto):
     return dict(src=src, dur=dur, tipo=tipo, quem=quem, texto=texto, palavras=ws)
 
 
+# prévia de ~2 min (PREVIA=1): só o essencial da abertura, na mesma ordem
+PREVIA = ['gancho', 'relatorio', 'decisao', 'nasc_deepseek', 'nasc_qwen', 'nasc_claude_gpt', 'nasc_glm_mimo', 'mapa', 'corrida',
+          'deepseek_craft', 'claude_mesa', 'deepseek_pedra', 'qwen_inventa', 'placar_pedra']
+PREVIA.remove('nasc_qwen')
+# na prévia algumas cenas ficam mais curtas (mesmos fatos, menos falas)
+PREVIA_ITENS = {
+    'relatorio': [('n', 'Só que IA não tem mão nem olho. Então funciona assim: a cada poucos segundos, cada uma recebe um relatório do jogo.'),
+                  ('pausa', 0.5)],
+    'decisao': [('n', 'Aí ela pensa, escolhe uma ação... explorar, coletar, craftar, atacar, construir, comer... e o personagem faz.'),
+                ('n', 'Aqui no vídeo cada uma tem a sua voz. E quando ela pensa, você ouve assim:'),
+                ('pensa', 'Claude', 'Há madeira a 1 bloco, então vou coletar logo para fazer mesa e picareta antes da noite.', 33.0),
+                ('pausa', 1.0)],
+    'nasc_deepseek': [('n', 'Zero minutos e um segundo: entra o primeiro. O DeepSeek.'),
+                      ('chat', 'DeepSeek', 'Oi, pessoal. Alguém sabe onde tem floresta por aqui? Tô no zero, zero e não vejo nada num raio de 40.', 4.6),
+                      ('nota', 'DeepSeek', 'Não confiar em ninguém ainda.', 4.6),
+                      ('pausa', 0.3)],
+    'nasc_claude_gpt': [('n', 'O Qwen e o Claude foram pro leste. E o GPT decidiu ir pro sul... cem blocos.'),
+                        ('pensa', 'GPT', 'Preciso encontrar madeira rapidamente para iniciar a progressão. Vou explorar em direção ao sul até localizar árvores ou recursos básicos.', 16.6),
+                        ('pausa', 0.2)],
+    'mapa': [('n', 'Dois minutos depois, o mapa estava assim: o Qwen e o Claude no leste, o GPT sozinho no sul... e o resto perto de onde nasceu.'),
+             ('pausa', 0.8)],
+}
+
+
 def main():
     VOZ.mkdir(parents=True, exist_ok=True)
     saida, janelas = [], []
-    for c in CENAS:
+    cenas = [c for c in CENAS if c['id'] in PREVIA] if __import__('os').environ.get('PREVIA') else CENAS
+    if cenas is not CENAS:
+        cenas = [dict(c, itens=PREVIA_ITENS.get(c['id'], c['itens'])) for c in cenas]
+    for c in cenas:
         t, itens = 0.0, []
         for i, it in enumerate(c['itens']):
             if it[0] == 'pausa':

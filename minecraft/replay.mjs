@@ -84,12 +84,12 @@ const [modo, arg] = CAM.split(':')
 // cópia do mundo aqui no Node (os mesmos pedaços que vão pro viewer), pra câmera não entrar no chão:
 // de dentro do bloco o viewer mostra o mundo vazado (as faces escondidas não são desenhadas)
 const mundo = new Map()  // "x_z" -> coluna
-function solido(x, y, z) {
+function solido(x, y, z, folha = false) {
   const col = mundo.get(`${Math.floor(x / 16)}_${Math.floor(z / 16)}`)
   if (!col) return false
   const id = col.getBlockStateId(new Vec3(((Math.floor(x) % 16) + 16) % 16, Math.floor(y), ((Math.floor(z) % 16) + 16) % 16))
   const b = registro.blocksByStateId[id]
-  return !!b && b.boundingBox === 'block'
+  return !!b && b.boundingBox === 'block' && (folha || !b.name.endsWith('leaves'))
 }
 let distAnt = null, emPrimeira = false, ultimaCam = null
 // como o F5 do Minecraft: da cabeça até onde a câmera queria ficar; para antes do primeiro bloco sólido
@@ -119,7 +119,19 @@ function posJogador(n, t) {
   for (const e of EXTRAS) if (p && e.m.ajustarJogador) p = e.m.ajustarJogador(n, t, p)
   return p
 }
-let camAnterior = null
+let camAnterior = null, angCam = null
+// distância livre da cabeça até a câmera no ângulo ang (mesmo teste do colidir; com folha=true as folhas também tampam)
+const VIZ = [[0, 0, 0], [0.25, 0, 0], [-0.25, 0, 0], [0, 0.25, 0], [0, -0.25, 0], [0, 0, 0.25], [0, 0, -0.25]]
+function livreEm(p, ang, dist, alt, folha) {
+  const hx = p.x, hy = p.y + 1.5, hz = p.z
+  const ex = p.x + Math.sin(ang) * dist, ey = p.y + alt, ez = p.z + Math.cos(ang) * dist
+  const L = Math.hypot(ex - hx, ey - hy, ez - hz)
+  for (let d = 0.3; d <= L; d += 0.2) {
+    const k = d / L, x = hx + (ex - hx) * k, y = hy + (ey - hy) * k, z = hz + (ez - hz) * k
+    if (VIZ.some(([a, b, e]) => solido(x + a, y + b, z + e, folha))) return d
+  }
+  return L
+}
 function camera(t) {
   if (modo === 'fixa') { const [x, y, z, yaw, pitch] = arg.split(',').map(Number); return { pos: { x, y, z }, yaw, pitch } }
   const p = posJogador(arg, t)
@@ -127,8 +139,24 @@ function camera(t) {
   if (!p) return camAnterior ?? { pos: { x: 0, y: 100, z: 0 }, yaw: 0, pitch: -0.5 }
   if (modo === 'olhos') return { pos: { x: p.x, y: p.y, z: p.z }, yaw: p.yaw, pitch: p.pitch }
   // yaw do Minecraft: olhar pra -z quando yaw=0; a câmera fica atrás (oposto do olhar), um pouco acima
-  const ang = modo === 'orbita' ? (t - t0) * 0.35 : p.yaw
-  const dist = 5.5, alt = 2.6
+  // na altura dos olhos (no meio da floresta a vista limpa é entre os troncos, debaixo das copas)
+  const dist = 4.8, alt = 2.0
+  // ângulo que a câmera queria (órbita girando ou atrás do olhar); se ele está tampado, a câmera vai pro ângulo livre
+  // mais perto de onde já está (primeiro sem folha na frente, depois só sem bloco) e gira suave, em vez de colar no tronco
+  const quer = modo === 'orbita' ? (t - t0) * 0.35 : p.yaw
+  if (angCam === null) angCam = quer
+  const dif = a => Math.atan2(Math.sin(a), Math.cos(a))
+  const ok = (a, folha) => livreEm(p, a, dist, alt, folha) >= dist - 0.4
+  let alvo = null
+  for (const folha of [true, false]) {
+    if (ok(quer, folha)) { alvo = quer; break }
+    if (ok(angCam, folha)) { alvo = angCam; break }
+    for (let k = 1; k <= 16 && alvo === null; k++) alvo = [angCam + k * 0.2, angCam - k * 0.2].find(x => ok(x, folha)) ?? null
+    if (alvo !== null) break
+  }
+  if (alvo === null) alvo = quer
+  angCam += Math.max(-0.1, Math.min(0.1, dif(alvo - angCam)))
+  const ang = angCam
   const cx = p.x + Math.sin(ang) * dist, cz = p.z + Math.cos(ang) * dist
   const dx = p.x - cx, dz = p.z - cz, dyv = (p.y + 1.2) - (p.y + alt)
   return { pos: { x: cx, y: p.y + alt - 1.62, z: cz }, yaw: Math.atan2(-dx, -dz), pitch: Math.atan2(dyv, Math.hypot(dx, dz)) }

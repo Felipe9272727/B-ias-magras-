@@ -6,7 +6,7 @@ G=$1; SAIDA=$2; T=$3; FIM=$4; CAM=$5; FPS=${FPS:-30}
 PEDACOS=(); k=0
 while :; do
   P="${SAIDA%.mp4}_p$k.mp4"
-  node replay.mjs "$G" "$P" "$T" "$FIM" "$CAM" "$FPS" > "${P%.mp4}.log" 2>&1; cod=$?
+  node replay.mjs "$G" "$P" "$T" "$FIM" "$CAM" "$FPS" ${LARG:-960} ${ALT:-540} > "${P%.mp4}.log" 2>&1; cod=$?
   PEDACOS+=("$P")
   if [ $cod -eq 3 ]; then
     i=$(grep -o 'PAROU [0-9]*' "${P%.mp4}.log" | awk '{print $2}')
