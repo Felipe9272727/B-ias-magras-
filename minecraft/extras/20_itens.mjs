@@ -25,7 +25,7 @@ const ALVO = {
   iron_ore: 'raw_iron', iron: 'raw_iron', areia: 'sand', terra: 'dirt', cobbled_deepslate: 'cobbled_deepslate'
 }
 
-let itens, quebras, posicoes, decisoes, registro, interp, porChunk, Chunk, Vec3, NOMES
+let itens, quebras, posicoes, decisoes, registro, interp, porChunk, Chunk, Vec3
 const tipoItem = new Map()   // id do item -> {nome, bloco} (ou null)
 const existe = new Map()     // nome -> tem textura de item?
 const pedacos = new Map()    // arquivo do pedaço -> JSON lido (cache pequeno)
@@ -44,7 +44,7 @@ function ultimoAte (lista, t) {
 }
 
 export function preparar (dados) {
-  ({ posicoes, registro, interp, NOMES_IA: NOMES } = dados)
+  ({ posicoes, registro, interp } = dados)
   // itens do chão, juntando as IAs pelo id
   itens = new Map()
   for (const lista of dados.mobsPorBot) for (const r of lista) for (const m of r.l) {

@@ -46,6 +46,7 @@ window.__extras.push(extra => {
     if (!S.materiais.has(chave)) {
       const m = new T.MeshLambertMaterial({ alphaTest: 0.5, side: T.DoubleSide })
       m.visible = false
+      texPara(['/tex/item/' + nome + '.png'], tex => { m.map = tex; m.visible = true; m.needsUpdate = true })
       S.materiais.set(chave, m)
     }
     return S.materiais.get(chave)
@@ -109,8 +110,6 @@ window.__extras.push(extra => {
     }
   }
 
-  if (!S.dbgN) S.dbgN = 0
-  if (S.mao.size && ++S.dbgN === 12) { for (const [n2, st2] of S.mao) if (st2.peca) { const p2 = new T.Vector3(); st2.peca.getWorldPosition(p2); console.log('[itemDBG]', n2, st2.chave, 'mundo', p2.x.toFixed(2), p2.y.toFixed(2), p2.z.toFixed(2), 'vis', st2.peca.visible, 'matvis', st2.peca.material.visible, 'map', !!st2.peca.material.map, 'escala', st2.peca.matrixWorld.elements[0].toFixed(3), 'ent', v.entities.entities['p_'+n2] && v.entities.entities['p_'+n2].position.x.toFixed(2)) } }
   // ---- itens do chão: girando devagar e subindo/descendo de leve, tudo calculado pelo id e pela idade
   const vivos = new Set()
   for (const it of extra.chao ?? []) {
