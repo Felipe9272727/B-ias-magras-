@@ -453,9 +453,17 @@ def conferir(cenas):
     return erros
 
 
+# câmera de cada cena, decidida antes pelo replay (auto: túnel/mina/buraco = 1ª pessoa a cena toda; o resto, atrás)
+CAMERAS = json.loads((Path(__file__).parent / 'mc_cameras.json').read_text())
+
+
 def main():
     abertura = [c for c in base.cenas_previa()]
     cenas = abertura + PARTIDA
+    for c in cenas:
+        v = c.get('visual', {})
+        if v.get('camera', '').startswith('segue:') and CAMERAS.get(c['id']) == 'olhos':
+            c['visual'] = dict(v, camera='olhos:' + v['camera'].split(':')[1])
     if conferir(PARTIDA) and '--forcar' not in sys.argv:
         raise SystemExit('conserte as falas/cartões acima')
     if '--conferir' in sys.argv:

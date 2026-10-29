@@ -80,7 +80,7 @@ function interp(lista, t) {  // posição interpolada no instante t
 for (const e of EXTRAS) await e.m.preparar?.({ DIR, posicoes, blocos, mobsPorBot, eventos: eventosTodos, interp, registro, NOMES_IA, t0, t1 })
 
 // ---- câmera
-const [modo, arg] = CAM.split(':')
+let [modo, arg] = CAM.split(':')
 // cópia do mundo aqui no Node (os mesmos pedaços que vão pro viewer), pra câmera não entrar no chão:
 // de dentro do bloco o viewer mostra o mundo vazado (as faces escondidas não são desenhadas)
 const mundo = new Map()  // "x_z" -> coluna
@@ -274,6 +274,53 @@ const porta = srv.address().port
 
 // GL=llvmpipe usa o Mesa do sistema (desenha em vários núcleos); o padrão é o SwiftShader do Chromium
 const GL = process.env.GLARGS ? process.env.GLARGS.split(' ') : process.env.GL === 'llvmpipe' ? ['--use-gl=angle', '--use-angle=gl-egl', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--disable-gpu-watchdog'] : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
+// "auto:<Nome>": escolhe a câmera do trecho inteiro antes de filmar (nunca troca no meio): se na maior parte do tempo a
+// câmera não cabe atrás do personagem (túnel, mina, buraco), filma em primeira pessoa; senão, atrás (F5)
+if (modo === 'auto') {
+  const cols = new Map()
+  const solidoEm = (x, y, z, t) => {
+    const k = `${Math.floor(x / 16)}_${Math.floor(z / 16)}`
+    if (!cols.has(k)) {
+      let d = null
+      for (const v of porChunk.get(k) ?? []) { const dv = JSON.parse(zlib.gunzipSync(fs.readFileSync(v.arq))); if (!d || dv.t <= t) d = dv }
+      const col = d ? Chunk.fromJson(d.col) : null
+      // as mudanças de bloco gravadas depois do pedaço (árvore cortada, túnel cavado) até agora
+      if (col) for (const b of blocos) if (b.t >= d.t && b.t <= t && `${Math.floor(b.x / 16)}_${Math.floor(b.z / 16)}` === k) col.setBlockStateId(new Vec3(((b.x % 16) + 16) % 16, b.y, ((b.z % 16) + 16) % 16), b.s)
+      cols.set(k, col)
+    }
+    const col = cols.get(k)
+    if (!col) return false
+    const b = registro.blocksByStateId[col.getBlockStateId(new Vec3(((Math.floor(x) % 16) + 16) % 16, Math.floor(y), ((Math.floor(z) % 16) + 16) % 16))]
+    return !!b && b.boundingBox === 'block' && !b.name.endsWith('leaves')
+  }
+  let apertado = 0, total = 0
+  let iB = 0
+  for (let t = t0; t <= t1; t += 1) {
+    while (iB < blocos.length && blocos[iB].t <= t) {
+      const b = blocos[iB++], col = cols.get(`${Math.floor(b.x / 16)}_${Math.floor(b.z / 16)}`)
+      if (col) col.setBlockStateId(new Vec3(((b.x % 16) + 16) % 16, b.y, ((b.z % 16) + 16) % 16), b.s)
+    }
+    const p = posJogador(arg, t)
+    if (!p) continue
+    total++
+    let melhor = 0
+    for (let a = 0; a < 16; a++) {
+      const ang = a * Math.PI / 8, hx = p.x, hy = p.y + 1.5, hz = p.z
+      const ex = p.x + Math.sin(ang) * 4.8, ey = p.y + 2.0, ez = p.z + Math.cos(ang) * 4.8
+      const L = Math.hypot(ex - hx, ey - hy, ez - hz)
+      let livre = L
+      for (let d = 0.3; d <= L; d += 0.25) {
+        const q = d / L
+        if (solidoEm(hx + (ex - hx) * q, hy + (ey - hy) * q, hz + (ez - hz) * q, t)) { livre = d; break }
+      }
+      melhor = Math.max(melhor, livre)
+    }
+    if (melhor < 3.2) apertado++
+  }
+  modo = total && apertado / total > 0.4 ? 'olhos' : 'segue'
+  console.log('CAMERA', modo, apertado, total)
+  if (process.env.SO_DECIDIR) process.exit(0)
+}
 const nav = await chromium.launch({ args: GL, ...(process.env.GL === 'llvmpipe' ? { env: { ...process.env, LIBGL_ALWAYS_SOFTWARE: '1', GALLIUM_DRIVER: 'llvmpipe', LP_NUM_THREADS: process.env.LP_NUM_THREADS ?? '4' } } : {}) })
 const pag = await nav.newPage({ viewport: { width: Number(W), height: Number(H) } })
 pag.on('console', m => { if (process.env.DEBUG_REPLAY) console.log('[pagina]', m.type(), m.text().slice(0, 200)) })
