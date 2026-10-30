@@ -37,6 +37,8 @@ CUES = [
 MUSIC_GAIN = 0.85
 SEM_SOBREPOR = False
 SEM_TRILHA = []  # sobre o volume sugerido de cada faixa (music.json)
+FADE_IN = None
+FADE_OUT = None
 
 
 def main():
@@ -51,13 +53,16 @@ def main():
     global CUES
     if args.roteiro:
         import importlib.util
-        spec = importlib.util.spec_from_file_location(args.roteiro, ROOT / 'roteiro' / f'{args.roteiro}.py')
+        roteiro_path = Path(args.roteiro) if args.roteiro.endswith('.py') else ROOT / 'roteiro' / f'{args.roteiro}.py'
+        spec = importlib.util.spec_from_file_location('mix_roteiro', roteiro_path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         CUES = mod.CUES
-        global SEM_SOBREPOR, SEM_TRILHA
+        global SEM_SOBREPOR, SEM_TRILHA, FADE_IN, FADE_OUT
         SEM_SOBREPOR = True  # roteiros novos: troca de faixa sem misturar
         SEM_TRILHA = getattr(mod, 'SEM_TRILHA', [])
+        FADE_IN = getattr(mod, 'FADE_IN', None)
+        FADE_OUT = getattr(mod, 'FADE_OUT', None)
 
     tl = json.loads(Path(args.timeline).read_text())
     fps = tl['fps']
@@ -106,6 +111,10 @@ def main():
         dur = e - s
         vol = m.get('suggested_bg_volume', 0.25) * MUSIC_GAIN * c['gain']
         fade_in = 0.8 if s > t0 + 0.01 else 0.3
+        if FADE_IN is not None:
+            fade_in = float(FADE_IN)
+        if FADE_OUT is not None:
+            c['fade_out'] = float(FADE_OUT)
         delay = int(round((s - t0) * 1000))
         filters.append(
             f'[{n}:a]atrim=0:{dur:.3f},asetpts=PTS-STARTPTS,aformat=sample_rates=48000:channel_layouts=stereo,'

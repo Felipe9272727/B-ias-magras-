@@ -1,0 +1,58 @@
+name: Minecraft original audio ducking
+on:
+  push:
+    branches: ['codex/mc-audio-*']
+    paths: ['.github/workflows/minecraft-audio.yml', 'video/**']
+  workflow_dispatch:
+    inputs:
+      preview_seconds:
+        description: Zero exports the complete original montage; otherwise test its first N seconds
+        type: number
+        default: 0
+
+permissions:
+  contents: read
+concurrency:
+  group: minecraft-audio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audio:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audio renderer dependencies
+        run: |
+          command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+          npm ci --prefix video/remotion --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: work/assets/audio-assets.tar.gz
+          key: minecraft-audio-assets-v1-${{ hashFiles('video/scripts/distributed_asset_parts.json') }}
+      - name: Restore original missing music, effects and GIF assets
+        run: python video/scripts/minecraft_audio.py prepare --work work/assets
+      - name: Export the original voices and effects through the unchanged scene graph
+        env:
+          PREVIEW_SECONDS: ${{ inputs.preview_seconds || '0' }}
+        run: python video/scripts/minecraft_audio.py render --work work/audio --preview-seconds "$PREVIEW_SECONDS"
+      - name: Reuse the established sidechain mixer with the same Minecraft track and timing
+        run: python video/scripts/minecraft_audio.py mix --work work/audio --output work/final
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-original-audio-ducked
+          path: work/final
+          compression-level: 0
+          retention-days: 2

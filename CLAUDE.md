@@ -11,6 +11,7 @@
 - Render: Remotion em 540p (`ESCALA=0.5`) e upscale para 1080p com Lanczos no ffmpeg.
 - Tudo o que aparece como fato das partidas vem dos logs; falas e pensamentos das IAs são copiados, nunca inventados.
 - **REGRA DE OURO DA EDIÇÃO (Felipe, 30/10/2026): manter a edição o mais próxima possível das edições anteriores.** Os cortes, memes, efeitos, enquadramentos editoriais e o timing foram escolhidos a dedo. Na revisão do Minecraft, preservar essa montagem ao substituir a gameplay e corrigir bugs. Esclarecimentos sobre modelos, controle do jogo e reencenação devem ser pontuais; refazer somente as falas necessárias, mantendo as vozes e o estilo. Não condensar cenas nem trocar memes por iniciativa própria.
+- Música deve abaixar durante as falas, seguindo a mixagem já usada nas edições anteriores: `video/scripts/mix_audio.py`. Exportar vozes e efeitos sem a trilha embutida e aplicar o script existente; não duplicar a música nem criar outro comportamento de ducking por iniciativa própria.
 
 ## Lições (o 60 Segundos ficou mediano)
 - Efeito visual o tempo todo, no padrão do Among Us: meme, selo, pop-up, zoom, animação. Nenhum trecho longo de tela parada.
