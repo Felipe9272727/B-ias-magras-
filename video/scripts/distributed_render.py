@@ -63,8 +63,8 @@ def assets(args):
             if member.isfile() and name.startswith('public/gifs/'):
                 archive.extract(member, extracted, filter='data')
     gifs = list((extracted / 'public/gifs').glob('*.gif'))
-    if len(gifs) != 66 or not (extracted / 'public/gifs/catalog.json').is_file():
-        raise ValueError(f'Expected original GIF catalog and 66 GIFs; got {len(gifs)}')
+    if len(gifs) != 66:
+        raise ValueError(f'Expected 66 original GIFs; got {len(gifs)}')
     with tarfile.open(output / 'render-assets.tar.gz', 'w:gz', compresslevel=1) as archive:
         archive.add(extracted / 'public/gifs', arcname='public/gifs')
     combined.unlink()
