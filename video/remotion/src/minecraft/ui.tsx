@@ -2,7 +2,8 @@
 // pensamento e de chat no estilo do jogo, mensagem de erro do jogo e a notificação de conquista com o sprite oficial.
 // Sem emoji (regra do canal): ícones em SVG/CSS ou texturas do jogo.
 import React from 'react';
-import {Audio, Img, interpolate, spring, staticFile, useCurrentFrame} from 'remotion';
+import {Img, interpolate, spring, staticFile, useCurrentFrame} from 'remotion';
+import {AudioMC as Audio} from './AudioMC';
 import {FONT} from '../theme';
 
 export const FPS = 30;

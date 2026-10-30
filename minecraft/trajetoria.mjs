@@ -63,6 +63,27 @@ function amostra (lista, t) {
   return { x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k, z: a.z + (b.z - a.z) * k, yaw: a.yaw + dy * k, pitch: a.pitch + (b.pitch - a.pitch) * k }
 }
 
+// Para a regravação no servidor, a posição registrada é a referência: a física
+// não deve deslocar um jogador para dentro da parede de um túnel estreito.
+export function trajetoriasGravadas (DIR, nomes, t0, t1) {
+  const saida = {}
+  for (const n of nomes) {
+    const lista = lerJsonl(path.join(DIR, `posicoes_${n}.jsonl`)).sort((a, b) => a.t - b.t)
+    if (!lista.length || lista[0].t > t1 || lista.at(-1).t < t0 - 30) continue
+    const tr = []; let i = 0
+    for (let k = 0, total = Math.round((t1 - t0) / TICK); k <= total; k++) {
+      const t = t0 + k * TICK
+      while (i + 1 < lista.length && lista[i + 1].t <= t) i++
+      const a = lista[i], b = lista[i + 1]
+      const teleporte = b && Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z) > 6
+      const p = teleporte || t < lista[0].t ? a : amostra(lista, t)
+      tr.push({t: +t.toFixed(3), x: p.x, y: p.y, z: p.z, yaw: p.yaw, pitch: p.pitch, chao: true})
+    }
+    saida[n] = tr
+  }
+  return saida
+}
+
 export function trajetorias (DIR, nomes, t0, t1) {
   const arquivos = pre => fs.readdirSync(DIR).filter(f => f.startsWith(pre + '_') && f.endsWith('.jsonl')).map(f => path.join(DIR, f))
   const blocos = arquivos('blocos').flatMap(lerJsonl).sort((a, b) => a.t - b.t)

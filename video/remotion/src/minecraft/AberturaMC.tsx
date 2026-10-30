@@ -3,9 +3,10 @@
 // (scripts/mc_abertura.py; roteiro em roteiro/mc_abertura.md). Cenas de jogo = replay 3D da gravação
 // (minecraft/replay.mjs) em public/mc/abertura/<cena>.mp4, com o HUD do jogo (HudMC), cartões de pensamento/chat e
 // conquistas. Fatos, falas e pensamentos vêm dos logs. Sem emoji (regra do canal).
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import type {CalculateMetadataFunction} from 'remotion';
-import {AbsoluteFill, Audio, continueRender, delayRender, Img, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender, Img, interpolate, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AudioMC as Audio, ReutilizarAudioOriginal} from './AudioMC';
 import {fontsReady} from '../fonts';
 import {FONT} from '../theme';
 import {HudMC} from './HudMC';
@@ -308,6 +309,7 @@ const Vivos: React.FC<{t: number}> = ({t}) => {
 
 const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pasta}) => {
   const f = useCurrentFrame();
+  const capturaReal = useContext(ReutilizarAudioOriginal);
   const {width: W, height: H} = useVideoConfig();  // 1920x1080 no vídeo; 1080x1920 no Short
   const v = c.visual;
   const quem = seguido(v.camera);
@@ -317,7 +319,7 @@ const CenaReplay: React.FC<{c: Cena; obs: string; pasta: string}> = ({c, obs, pa
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: dividido ? 1000 : W, height: H, overflow: 'hidden', borderRight: dividido ? '4px solid #3c3' : undefined, transform: `scale(${zoomMorte(c, f)})`}}>
-        <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: W, height: H, marginLeft: dividido ? -460 : 0, filter: v.camera?.startsWith('olhos') ? 'brightness(1.3) contrast(1.05)' : undefined}} />
+        <OffthreadVideo src={staticFile(`${pasta}/${c.id}.mp4`)} muted style={{width: W, height: H, marginLeft: dividido ? -460 : 0, filter: !capturaReal && v.camera?.startsWith('olhos') ? 'brightness(1.3) contrast(1.05)' : undefined}} />
       </div>
       {c.agua ? <Agua q={c.agua} primeira={!!v.camera?.startsWith('olhos')} /> : null}
       {v.camera?.startsWith('olhos') ? <Mira /> : null}

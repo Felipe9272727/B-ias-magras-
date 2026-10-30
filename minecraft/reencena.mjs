@@ -7,11 +7,12 @@
 // Precisa: servidor em localhost:25565 (RCON 25575, senha ias_local) e o cliente "Camera" já conectado no DISPLAY.
 import fs from 'node:fs'
 import path from 'node:path'
-import { spawn, execSync } from 'node:child_process'
+import { spawn, execSync, execFileSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { rcon } from './rcon.mjs'
-import { trajetorias, mundoEm } from './trajetoria.mjs'
+import { trajetoriasGravadas, mundoEm } from './trajetoria.mjs'
 import * as anim from './extras/10_anim.mjs'
+import { arquivosDoLog, cameraDaCena, diametroDaZona, mortesDaCena, jogadorVisivelEm } from './reencena_dados.mjs'
 
 const require = createRequire(import.meta.url)
 const mineflayer = require('mineflayer')
@@ -30,7 +31,7 @@ const RAIO_MOBS = 48, RAIO_BLOCOS = 96
 const espera = ms => new Promise(ok => setTimeout(ok, ms))
 const log = (...a) => console.log(`[${new Date().toTimeString().slice(0, 8)}]`, ...a)
 const lerJsonl = f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8').split('\n').filter(Boolean).map(l => { try { return JSON.parse(l) } catch { return null } }).filter(Boolean) : []
-const arquivos = pre => fs.readdirSync(DIR).filter(f => f.startsWith(pre + '_') && f.endsWith('.jsonl')).map(f => path.join(DIR, f))
+const arquivos = pre => arquivosDoLog(DIR, pre)
 
 // ---- dados
 const posicoes = {}
@@ -62,7 +63,14 @@ async function bonecos () {
     await new Promise(ok => b[n].once('spawn', ok))
     b[n].physicsEnabled = false
     if (b[n].health <= 0) try { b[n].respawn() } catch {}
-    b[n].on('forcedMove', () => { const q = querPos[n]; if (q && b[n].entity.position.distanceTo(q) > 2) um(`tp ${n} ${q.x.toFixed(2)} ${q.y.toFixed(2)} ${q.z.toFixed(2)}`) })
+    let ultimaCorrecao = 0
+    b[n].on('forcedMove', () => {
+      const q = querPos[n]
+      if (q && Date.now() - ultimaCorrecao > 1500 && b[n].entity.position.distanceTo(q) > 2) {
+        ultimaCorrecao = Date.now()
+        um(`tp ${n} ${q.x.toFixed(2)} ${q.y.toFixed(2)} ${q.z.toFixed(2)}`).catch(e => log('correção', n, e.message))
+      }
+    })
     b[n].on('death', () => setTimeout(() => { try { b[n].respawn() } catch {} }, 200))
     await espera(400)
   }
@@ -84,7 +92,9 @@ function escreverFuncoes (prep, ticks) {
 const mudadosPorNos = new Map()  // "x,y,z" -> estado que pusemos no servidor
 function prepararMundo (t0, centro, prep) {
   for (const g of ['doDaylightCycle true', 'doMobSpawning false', 'doTileDrops false', 'doFireTick false', 'mobGriefing false', 'randomTickSpeed 0', 'keepInventory true', 'fallDamage false', 'drowningDamage false', 'fireDamage false', 'doImmediateRespawn true', 'showDeathMessages false', 'doWeatherCycle false', 'announceAdvancements false', 'sendCommandFeedback false', 'doEntityDrops false', 'doMobLoot false', 'commandModificationBlockLimit 99999999', 'maxCommandChainLength 99999999']) prep.push('gamerule ' + g)
-  prep.push('weather clear', `time set ${horaDoDia(t0)}`, 'kill @e[type=!player]')
+  prep.push('weather clear', `time set ${horaDoDia(t0)}`, 'kill @e[type=!player]', 'effect give Camera night_vision infinite 0 true')
+  // O backup contém a borda do fim da partida. Cada cena restaura a sua própria borda.
+  prep.push('worldborder center 0 0', `worldborder set ${diametroDaZona(eventos, t0)}`, 'worldborder damage amount 0')
   // arena: caixa de vidro feita por comando (não está no log de blocos)
   if (ARENA) {
     const { x, y, z, r } = ARENA.arena
@@ -126,20 +136,57 @@ function mobPos (id, t) {  // posição interpolada entre registros (2 por segun
 }
 
 const SLOT = ['armor.head', 'armor.chest', 'armor.legs', 'armor.feet']
+// Em túneis a câmera de terceira pessoa encosta na cabeça e ocupa toda a imagem.
+// Escolhe a visão dos olhos quando isso ocorre em parte relevante da janela.
+function obstrucaoDaCamera (trajeto, mundo) {
+  let total = 0, presos = 0
+  for (let k = 0; k < trajeto.length; k += 10) {
+    const p = trajeto[k]; total++
+    for (let d = 0.25; d <= 1.5; d += 0.25) {
+      const b = mundo.getBlock(new Vec3(p.x + Math.sin(p.yaw) * Math.cos(p.pitch) * d,
+        p.y + 1.62 - Math.sin(p.pitch) * d, p.z + Math.cos(p.yaw) * Math.cos(p.pitch) * d))
+      if (b.boundingBox === 'block' && b.shapes?.length) { presos++; break }
+    }
+  }
+  return presos / Math.max(1, total)
+}
+
 async function filmar (bots, id, t0, t1, cam) {
-  const [modo, alvo] = cam.split(':')
+  let { modo, alvo, posicao: fixa } = cameraDaCena(cam)
   const ini = t0 - 1
   log(id, 'trajetórias...')
-  const tr = trajetorias(DIR, NOMES, ini, t1)
+  const tr = trajetoriasGravadas(DIR, NOMES, ini, t1)
+  let obstrucao = 0
+  if (!fixa && modo !== 'olhos') {
+    obstrucao = obstrucaoDaCamera(tr[alvo] ?? [], mundoEm(DIR, blocos, t0))
+    if (obstrucao >= 0.25) { modo = 'olhos'; log(id, 'câmera nos olhos; obstrução:', Math.round(obstrucao * 100) + '%') }
+  }
+  if (fixa && ARENA && t1 >= ARENA.t) {
+    const { x, y, z, r } = ARENA.arena
+    fixa = { ...fixa, x: Math.max(x - r + 1, Math.min(x + r - 1, fixa.x)),
+      y: Math.max(y + 2, Math.min(y + 8, fixa.y)), z: Math.max(z - r + 1, Math.min(z + r - 1, fixa.z)) }
+  }
+  const nativeState = process.env.NATIVE_SCENE
+  const publishNative = startMillis => {
+    if (!nativeState) return
+    fs.mkdirSync(path.dirname(nativeState), {recursive:true})
+    const temp = nativeState + '.tmp'
+    fs.writeFileSync(temp, JSON.stringify({id, mode:modo, slow:LENTO, startMillis, tracks:tr}))
+    fs.renameSync(temp,nativeState)
+  }
+  publishNative(0)
   log(id, 'mundo...')
-  const pAlvo = tr[alvo]?.[0] ?? posicoes[alvo][Math.max(0, ultimoAte(posicoes[alvo], t0))]
+  const psAlvo = posicoes[alvo] ?? []
+  const pAlvo = fixa ?? tr[alvo]?.[0] ?? psAlvo[Math.max(0, ultimoAte(psAlvo, t0))]
+  if (!pAlvo) throw new Error(`Sem posição gravada para a câmera ${cam} na cena ${id}`)
   const prep = [], nT = Math.round((t1 - ini) / 0.05) + 1, ticks = Array.from({ length: nT }, () => [])
-  const nb = prepararMundo(t0, pAlvo, prep)
+  const nb = prepararMundo(ini, pAlvo, prep)
   log(id, 'blocos voltados:', nb)
   // bonecos: lugar, mão, armadura; quem não aparece na cena fica invisível
-  const vestido = {}
+  const vestido = {}, visivel = {}
   for (const n of NOMES) {
-    prep.push(`gamemode adventure ${n}`, `effect give ${n} regeneration infinite 255 true`, `effect give ${n} saturation infinite 255 true`)
+    visivel[n] = jogadorVisivelEm(posicoes, eventos, n, ini)
+    prep.push(`gamemode ${visivel[n] ? 'adventure' : 'spectator'} ${n}`, `effect give ${n} regeneration infinite 255 true`, `effect give ${n} saturation infinite 255 true`, `effect give ${n} night_vision infinite 0 true`)
     const p = tr[n]?.[0]
     // quem morrer ou renascer volta pro lugar da cena (o ponto de nascimento do mundo é dentro do chão)
     if (p) prep.push(`spawnpoint ${n} ${Math.floor(p.x)} ${Math.floor(p.y)} ${Math.floor(p.z)}`, `effect clear ${n} invisibility`, `tp ${n} ${p.x} ${p.y} ${p.z} ${yawMC(p.yaw)} ${pitchMC(p.pitch)}`)
@@ -167,9 +214,11 @@ async function filmar (bots, id, t0, t1, cam) {
   atualizarMobs(ini, prep)
   // linha do tempo, tick a tick (vira uma função por tick, encadeadas com schedule)
   let iB = blocos.findIndex(b => b.t > ini); if (iB < 0) iB = blocos.length
-  const antes = {}, golpes = [], mortes = eventos.filter(e => e.tipo === 'morte' && e.t >= ini && e.t <= t1 && NOMES.includes(e.quem))
+  const antes = {}, golpes = [], mortes = mortesDaCena(eventos, NOMES, ini, t1)
   for (let k = 0; k < nT; k++) {
     const t = ini + k * 0.05, l = ticks[k]
+    // A borda usa relógio de parede no vanilla; aplicar por tick mantém a sincronia com LENTO.
+    if (k % 4 === 0) l.push(`worldborder set ${diametroDaZona(eventos, t)}`)
     while (iB < blocos.length && blocos[iB].t <= t) {
       const b = blocos[iB++]
       if (Math.abs(b.x - pAlvo.x) < RAIO_BLOCOS && Math.abs(b.z - pAlvo.z) < RAIO_BLOCOS) { l.push(`setblock ${b.x} ${b.y} ${b.z} ${estadoTexto(b.s)}`); mudadosPorNos.set(`${b.x},${b.y},${b.z}`, b.s) }
@@ -177,6 +226,8 @@ async function filmar (bots, id, t0, t1, cam) {
     for (const m of mortes) if (m.t <= t && !m.feito) { m.feito = true; l.push(`kill ${m.quem}`) }
     const q = anim.noQuadro(t).anim
     for (const n of NOMES) {
+      const agoraVisivel = jogadorVisivelEm(posicoes, eventos, n, t)
+      if (agoraVisivel !== visivel[n]) { visivel[n] = agoraVisivel; l.push(`gamemode ${agoraVisivel ? 'adventure' : 'spectator'} ${n}`) }
       const a = q['p_' + n]; if (!a) continue
       const ant = antes[n] ?? {}
       if (a.braco >= 0 && (ant.braco ?? -1) < 0) golpes.push([k, n])
@@ -206,20 +257,29 @@ async function filmar (bots, id, t0, t1, cam) {
   await um('gamemode spectator Camera')
   await um(`tp Camera ${pAlvo.x} ${pAlvo.y + 1.6} ${pAlvo.z}`)
   await espera(1500)
-  await um(`spectate ${alvo} Camera`)
-  const quer = modo === 'olhos' ? 0 : 1
+  if (fixa) {
+    await um('execute as Camera run spectate')
+    await um(`tp Camera ${fixa.x} ${fixa.y} ${fixa.z} ${yawMC(fixa.yaw)} ${pitchMC(fixa.pitch)}`)
+  } else await um(`spectate ${alvo} Camera`)
+  const quer = modo === 'olhos' || fixa ? 0 : 1
   for (let i = 0; i < ((quer - perspectiva) % 3 + 3) % 3; i++) { tecla('F5'); await espera(150) }
   perspectiva = quer
   await espera(7000)  // pedaços carregando
-  log(id, 'spectate:', await um(`spectate ${alvo} Camera`), '| câmera:', (await um('data get entity Camera Pos')).slice(-40), '| alvo:', (await um(`data get entity ${alvo} Pos`)).slice(-40))
+  if (fixa) log(id, 'câmera fixa:', (await um('data get entity Camera Pos')).slice(-80))
+  else log(id, 'spectate:', await um(`spectate ${alvo} Camera`), '| câmera:', (await um('data get entity Camera Pos')).slice(-40), '| alvo:', (await um(`data get entity ${alvo} Pos`)).slice(-40))
   // grava
   log(id, 'gravando')
   await um(`tick rate ${20 / LENTO}`)
   const bruto = path.join(SAIDA, id + '.bruto.mp4')
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'x11grab', '-video_size', `${LARG}x${ALT}`, '-framerate', String(30 / LENTO), '-i', DISPLAY, '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '14', '-pix_fmt', 'yuv420p', bruto], { stdio: ['pipe', 'inherit', 'inherit'] })
+  const ff = process.env.FRAMEBUFFER
+    ? spawn('python', [new URL('./captura_xvfb.py', import.meta.url).pathname, process.env.FRAMEBUFFER, String(30 / LENTO), String((t1 - ini) * LENTO + 4), bruto], { stdio: ['pipe', 'inherit', 'inherit'] })
+    : spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'x11grab', '-draw_mouse', '0', '-video_size', `${LARG}x${ALT}`, '-framerate', String(30 / LENTO), '-i', DISPLAY, '-t', String((t1 - ini) * LENTO + 4), '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '14', '-pix_fmt', 'yuv420p', bruto], { stdio: ['pipe', 'inherit', 'inherit'] })
+  const fimFF = new Promise((ok, erro) => { ff.once('error', erro); ff.once('close', code => ok(code)) })
+  ff.stdin.on('error', e => log('entrada ffmpeg:', e.message))
   const w0 = Date.now()
   await espera(1200)
   const passo = 50 * LENTO, w1 = Date.now()
+  publishNative(w1)
   um('function reenc:t0')
   let ig = 0
   for (let k = 0; k < nT; k++) {
@@ -230,17 +290,29 @@ async function filmar (bots, id, t0, t1, cam) {
       if (p && bot.entity) { bot.entity.position = new Vec3(p.x, p.y, p.z); bot.entity.yaw = p.yaw; bot.entity.pitch = p.pitch; bot.entity.onGround = p.chao }
     }
     while (ig < golpes.length && golpes[ig][0] <= k) bots[golpes[ig++][1]].swingArm?.('right')
-    for (const m of mortes) if (m.quem === alvo && m.t <= t && !m.camera) { m.camera = true; setTimeout(() => um(`spectate ${alvo} Camera`), 1500 * LENTO) }
+    for (const m of mortes) if (m.quem === alvo && m.t <= t && !m.camera) {
+      m.camera = true
+      if (m.fase !== 'arena') setTimeout(() => um(`spectate ${alvo} Camera`).catch(e => log('câmera após morte:', e.message)), 1500 * LENTO)
+    }
     const espere = w1 + (k + 1) * passo - Date.now()
     if (espere > 0) await espera(espere)
   }
-  ff.stdin.write('q'); await new Promise(ok => ff.on('close', ok))
+  if (ff.exitCode === null) ff.stdin.write('q')
+  const limiteFF = setTimeout(() => ff.kill('SIGTERM'), 8000)
+  const limiteFinalFF = setTimeout(() => ff.kill('SIGKILL'), 12000)
+  const codeFF = await fimFF
+  clearTimeout(limiteFF); clearTimeout(limiteFinalFF)
+  if (codeFF !== 0) throw new Error(`Captura ffmpeg encerrou com ${codeFF}`)
   await um('tick rate 20')
   // corta o começo (antes do t0) e acelera
   const corte = (w1 - w0) / 1000 + 1 * LENTO
   const saida = path.join(SAIDA, id + '.mp4')
-  execSync(`ffmpeg -y -loglevel error -ss ${corte.toFixed(3)} -i "${bruto}" -t ${((t1 - t0) * LENTO).toFixed(3)} -vf "setpts=(PTS-STARTPTS)/${LENTO},fps=30" -an -c:v libx264 -preset faster -crf 16 -pix_fmt yuv420p "${saida}"`)
-  fs.rmSync(bruto, { force: true })
+  execSync(`ffmpeg -y -loglevel error -ss ${corte.toFixed(3)} -i "${bruto}" -t ${(t1 - t0).toFixed(3)} -vf "setpts=(PTS-STARTPTS)/${LENTO},fps=30" -an -c:v libx264 -preset faster -crf 16 -pix_fmt yuv420p -movflags +faststart "${saida}"`)
+  const fd = fs.openSync(saida, 'r+'); fs.fsyncSync(fd); fs.closeSync(fd)
+  const verificado = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-count_frames', '-show_entries', 'format=duration:stream=nb_read_frames', '-of', 'json', saida], {encoding: 'utf8'}))
+  if (Math.abs(+verificado.format.duration - (t1 - t0)) > 0.08 || +verificado.streams[0].nb_read_frames !== Math.round(+verificado.format.duration * 30)) throw new Error(`Arquivo incompleto: ${saida}`)
+  if (!process.env.GUARDAR_BRUTO) fs.rmSync(bruto, { force: true })
+  fs.writeFileSync(path.join(SAIDA, id + '.captura.json'), JSON.stringify({ id, t0, t1, cameraPedida: cam, modo, fixa, obstrucao, lento: LENTO, corte, bytes: fs.statSync(saida).size, resolucao: [LARG, ALT] }, null, 2))
   log(id, 'ok', saida)
 }
 
@@ -250,11 +322,13 @@ const cenas = fs.readFileSync(LISTA, 'utf8').split('\n').filter(Boolean).map(l =
 await um('gamerule sendCommandFeedback false'); await um('gamemode spectator Camera')
 const bots = await bonecos()
 tecla('F1')
+let falhas = 0
 for (const c of cenas) {
   if (fs.existsSync(path.join(SAIDA, c.id + '.mp4'))) continue
-  try { await filmar(bots, c.id, c.t0, c.t1, c.cam) } catch (e) { log(c.id, 'ERRO', e.stack) }
+  try { await filmar(bots, c.id, c.t0, c.t1, c.cam) } catch (e) { falhas++; log(c.id, 'ERRO', e.stack) }
 }
 // deixa o cliente em primeira pessoa pra próxima execução
 for (let i = 0; i < (3 - perspectiva) % 3; i++) { tecla('F5'); await espera(150) }
+tecla('F1')
 log('FIM')
-process.exit(0)
+process.exit(falhas ? 1 : 0)
