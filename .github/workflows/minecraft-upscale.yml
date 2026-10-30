@@ -1,0 +1,89 @@
+name: Minecraft parallel upscale
+on:
+  push:
+    branches: ['codex/mc-upscale-*']
+    paths: ['.github/workflows/minecraft-upscale.yml', 'video/scripts/parallel_upscale.py']
+  workflow_dispatch:
+    inputs:
+      source_run:
+        description: Source native replay workflow run ID
+        type: string
+        default: '41086710011'
+      expected_head:
+        description: Reviewed source run commit
+        type: string
+        default: '4decb4dc9f222f0b384ba1da5e4cd20969b4314e'
+      expected_native_hash:
+        description: Reviewed native capture hash
+        type: string
+        default: '2b24f096aa53e89213a1359ac8ab23fd80d50a09b37657e1d81dc3b616faadb6'
+
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: minecraft-upscale-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  SOURCE_RUN: ${{ inputs.source_run || '41086710011' }}
+  EXPECTED_HEAD: ${{ inputs.expected_head || '4decb4dc9f222f0b384ba1da5e4cd20969b4314e' }}
+  EXPECTED_NATIVE: ${{ inputs.expected_native_hash || '2b24f096aa53e89213a1359ac8ab23fd80d50a09b37657e1d81dc3b616faadb6' }}
+
+jobs:
+  upscale:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix:
+        part: [0, 1, 2, 3, 4, 5, 6]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure video tools are installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - name: Wait for verified source part, then upscale independently
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python video/scripts/parallel_upscale.py upscale --source-run "$SOURCE_RUN" --expected-head "$EXPECTED_HEAD" --expected-native-hash "$EXPECTED_NATIVE" --part ${{ matrix.part }} --work work/source --output work/upscaled
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-upscaled-${{ matrix.part }}
+          path: work/upscaled
+          compression-level: 0
+          retention-days: 2
+
+  merge:
+    needs: upscale
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure video tools are installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: minecraft-upscaled-*
+          path: work/parts
+      - name: Concatenate without re-encoding and validate all55425frames
+        run: python video/scripts/parallel_upscale.py merge --source-run "$SOURCE_RUN" --expected-head "$EXPECTED_HEAD" --expected-native-hash "$EXPECTED_NATIVE" --parts work/parts --output work/final
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-video-upscaled-full
+          path: work/final
+          compression-level: 0
+          retention-days: 2

@@ -2,12 +2,14 @@
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
+import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
 import subprocess
 import tarfile
 import urllib.request
+import wave
 
 from distributed_pipeline import ROOT, digest, write_json
 from distributed_render import browser, download_part
@@ -67,6 +69,9 @@ def prepare(args):
             if member.isfile() and not (REMOTION / member.name).exists():
                 archive.extract(member, REMOTION, filter='data')
     music = REMOTION / 'public/music/voxel-revolution.mp3'
+    shared_music = work / 'voxel-revolution.mp3'
+    if not music.exists() and shared_music.exists():
+        shutil.copy2(shared_music, music)
     if not music.exists():
         catalog = json.loads((REMOTION / 'public/music/music.json').read_text())
         track = next(item for item in catalog if item['id'] == 'voxel-revolution')
@@ -78,9 +83,21 @@ def prepare(args):
         if abs(float(probe(temp)['format']['duration']) - track['duration_sec']) > .2:
             raise ValueError('Original music catalog duration mismatch')
         temp.replace(music)
+    if not shared_music.exists():
+        shutil.copy2(music, shared_music)
     data, sources = inspect_sources()
     write_json(work / 'sources.json', {'scene_count': len(data['cenas']),
         'content_frames': sum(scene['dur'] for scene in data['cenas']), 'source_sha256': sources})
+    total = sum(scene['dur'] for scene in data['cenas'])
+    selected = min(total, round(args.preview_seconds * 30)) if args.preview_seconds else total
+    if selected < 1:
+        raise ValueError('Audio export needs at least one frame')
+    plan = {'content_frames': selected, 'full_content_frames': total,
+            'parts': list(range((selected + 8999) // 9000)), 'fps': 30}
+    write_json(work / 'audio-plan.json', plan)
+    if os.environ.get('GITHUB_OUTPUT'):
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as target:
+            target.write('matrix=' + json.dumps({'part': plan['parts']}) + '\n')
     print(f'Original audio assets checked: {len(sources)} files', flush=True)
 
 
@@ -97,25 +114,101 @@ def render(args):
     last = min(total, round(args.preview_seconds * 30)) if args.preview_seconds else total
     if last < 1:
         raise ValueError('Audio export needs at least one frame')
+    start, end = args.start_frame or 0, args.end_frame if args.end_frame is not None else last
+    if args.part is not None:
+        if args.start_frame is not None or args.end_frame is not None or args.part < 0:
+            raise ValueError('Use a nonnegative part or explicit frame range, not both')
+        start, end = args.part * 9000, min(last, (args.part + 1) * 9000)
+    if not 0 <= start < end <= last:
+        raise ValueError('Audio frame range is outside the selected montage')
+    partial = args.part is not None or args.start_frame is not None or args.end_frame is not None
     bundle = work / 'bundle'
     cli = REMOTION / 'node_modules/@remotion/cli/remotion-cli.js'
     subprocess.run(['node', str(cli), 'bundle', 'src/minecraft/AudioEntry.tsx', '--out-dir=' + str(bundle)], cwd=REMOTION, check=True)
-    stem = work / 'minecraft-voices-effects.wav'
+    label = f'part_{args.part}' if args.part is not None else f'part_{start}_{end}'
+    stem = work / (label + '.wav' if partial else 'minecraft-voices-effects.wav')
     subprocess.run(['node', '--require', str(ROOT / 'video/scripts/remotion_local.cjs'), str(cli),
         'render', str(bundle), 'MinecraftAudio', str(stem), '--codec=wav', '--audio-codec=pcm-16',
-        '--sample-rate=48000', '--frames=0-' + str(last - 1), '--concurrency=2',
+        '--sample-rate=48000', f'--frames={start}-{end - 1}', '--concurrency=2',
         '--offthreadvideo-cache-size-in-bytes=268435456', '--offthreadvideo-video-threads=1',
         '--browser-executable=' + browser(work), '--log=error'], cwd=REMOTION, check=True, timeout=7200)
     info = probe(stem)
-    if abs(float(info['format']['duration']) - last / 30) > .002:
+    if abs(float(info['format']['duration']) - (end - start) / 30) > .002:
         raise ValueError('Voice/SFX stem duration mismatch')
     if len(info['streams']) != 1 or info['streams'][0]['codec_type'] != 'audio':
         raise ValueError('Expected a single original-audio stem')
-    write_json(work / 'export.json', {'content_frames': last, 'full_content_frames': total,
+    check_pcm(stem, (end - start) * 1600)
+    metadata = {'content_frames': end - start, 'full_content_frames': total,
         'fps': 30, 'scene_count': len(data['cenas']), 'source_sha256': sources,
-        'stem_sha256': digest(stem), 'gameplay_video_required': False})
+        'stem_sha256': digest(stem), 'gameplay_video_required': False,
+        'start_frame': start, 'end_frame_exclusive': end, 'samples': (end - start) * 1600,
+        'wav': stem.name}
+    write_json(work / (label + '.json' if partial else 'export.json'), metadata)
     shutil.rmtree(bundle)
     print('Original voice/SFX stem exported:', stem, flush=True)
+
+
+def check_pcm(path, expected_samples):
+    with wave.open(str(path), 'rb') as source:
+        if (source.getframerate(), source.getsampwidth(), source.getnchannels(), source.getcomptype()) != (48000, 2, 2, 'NONE'):
+            raise ValueError('Expected 48kHz 16-bit stereo PCM: ' + str(path))
+        if source.getnframes() != expected_samples:
+            raise ValueError(f'PCM sample count mismatch: {path}: {source.getnframes()}/{expected_samples}')
+
+
+def assemble(args):
+    plan = json.loads(Path(args.plan).read_text())
+    data, sources = inspect_sources()
+    total = sum(scene['dur'] for scene in data['cenas'])
+    if plan['full_content_frames'] != total or plan['fps'] != 30:
+        raise ValueError('Audio plan differs from the original montage')
+    parts = []
+    for path in Path(args.parts).rglob('part_*.json'):
+        meta = json.loads(path.read_text())
+        if meta['source_sha256'] != sources or meta['full_content_frames'] != total or meta['fps'] != 30:
+            raise ValueError('Audio part source/timeline mismatch: ' + str(path))
+        if Path(meta['wav']).name != meta['wav']:
+            raise ValueError('Invalid audio part filename')
+        audio = path.parent / meta['wav']
+        if digest(audio) != meta['stem_sha256']:
+            raise ValueError('Audio part changed: ' + str(audio))
+        frames = meta['end_frame_exclusive'] - meta['start_frame']
+        if frames < 1 or meta['content_frames'] != frames or meta['samples'] != frames * 1600:
+            raise ValueError('Invalid audio part sample grid')
+        check_pcm(audio, meta['samples'])
+        parts.append((meta, audio))
+    parts.sort(key=lambda part: part[0]['start_frame'])
+    if len(parts) != len(plan['parts']):
+        raise ValueError('Missing or duplicate audio parts')
+    cursor = 0
+    for index, (meta, _) in enumerate(parts):
+        if meta['start_frame'] != cursor or meta['start_frame'] != index * 9000:
+            raise ValueError('Audio parts must cover the timeline once, with no gap or overlap')
+        if meta['end_frame_exclusive'] != min(plan['content_frames'], (index + 1) * 9000):
+            raise ValueError('Audio part does not match its planned frame window')
+        cursor = meta['end_frame_exclusive']
+    if cursor != plan['content_frames']:
+        raise ValueError('Audio parts do not reach the selected timeline end')
+    work = Path(args.work).resolve()
+    work.mkdir(parents=True, exist_ok=True)
+    stem = work / 'minecraft-voices-effects.wav'
+    temp = work / 'minecraft-voices-effects.partial.wav'
+    with wave.open(str(temp), 'wb') as target:
+        target.setnchannels(2)
+        target.setsampwidth(2)
+        target.setframerate(48000)
+        for _, path in parts:
+            with wave.open(str(path), 'rb') as source:
+                while block := source.readframes(262144):
+                    target.writeframesraw(block)
+    check_pcm(temp, cursor * 1600)
+    temp.replace(stem)
+    write_json(work / 'export.json', {'content_frames': cursor, 'full_content_frames': total,
+        'fps': 30, 'scene_count': len(data['cenas']), 'source_sha256': sources,
+        'stem_sha256': digest(stem), 'gameplay_video_required': False, 'samples': cursor * 1600,
+        'assembled_parts': [{'start_frame': meta['start_frame'], 'end_frame_exclusive': meta['end_frame_exclusive'],
+                             'sha256': meta['stem_sha256']} for meta, _ in parts]})
+    print(f'Losslessly assembled {len(parts)} parts: {cursor * 1600} PCM samples', flush=True)
 
 
 def mix(args):
@@ -173,14 +266,21 @@ def main():
     commands = parser.add_subparsers(dest='command', required=True)
     p = commands.add_parser('prepare')
     p.add_argument('--work', required=True)
+    p.add_argument('--preview-seconds', type=float, default=0)
     p = commands.add_parser('render')
     p.add_argument('--work', required=True)
     p.add_argument('--preview-seconds', type=float, default=0)
+    p.add_argument('--part', type=int)
+    p.add_argument('--start-frame', type=int)
+    p.add_argument('--end-frame', type=int, help='Exclusive end of the frame range')
+    p = commands.add_parser('assemble')
+    for key in ('plan', 'parts', 'work'):
+        p.add_argument('--' + key, required=True)
     p = commands.add_parser('mix')
     p.add_argument('--work', required=True)
     p.add_argument('--output', required=True)
     args = parser.parse_args()
-    {'prepare': prepare, 'render': render, 'mix': mix}[args.command](args)
+    {'prepare': prepare, 'render': render, 'assemble': assemble, 'mix': mix}[args.command](args)
 
 
 if __name__ == '__main__':

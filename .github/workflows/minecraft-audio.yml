@@ -1,4 +1,4 @@
-name: Minecraft original audio ducking
+name: Minecraft parallel original audio ducking
 on:
   push:
     branches: ['codex/mc-audio-*']
@@ -17,9 +17,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  audio:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure audio tools are installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/cache@v4
+        with:
+          path: work/assets/audio-assets.tar.gz
+          key: minecraft-audio-assets-v1-${{ hashFiles('video/scripts/distributed_asset_parts.json') }}
+      - id: prepare
+        name: Prepare original assets once and plan contiguous frame windows
+        env:
+          PREVIEW_SECONDS: ${{ inputs.preview_seconds || '0' }}
+        run: python video/scripts/minecraft_audio.py prepare --work work/assets --preview-seconds "$PREVIEW_SECONDS"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-audio-assets
+          path: |
+            work/assets/audio-assets.tar.gz
+            work/assets/voxel-revolution.mp3
+            work/assets/sources.json
+            work/assets/audio-plan.json
+          compression-level: 0
+          retention-days: 2
+
+  export:
+    needs: prepare
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,16 +79,56 @@ jobs:
         run: |
           command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
           npm ci --prefix video/remotion --no-audit --no-fund
-      - uses: actions/cache@v4
+      - uses: actions/download-artifact@v4
         with:
-          path: work/assets/audio-assets.tar.gz
-          key: minecraft-audio-assets-v1-${{ hashFiles('video/scripts/distributed_asset_parts.json') }}
-      - name: Restore original missing music, effects and GIF assets
-        run: python video/scripts/minecraft_audio.py prepare --work work/assets
-      - name: Export the original voices and effects through the unchanged scene graph
+          name: minecraft-audio-assets
+          path: work/assets
+      - name: Restore shared original assets
         env:
           PREVIEW_SECONDS: ${{ inputs.preview_seconds || '0' }}
-        run: python video/scripts/minecraft_audio.py render --work work/audio --preview-seconds "$PREVIEW_SECONDS"
+        run: python video/scripts/minecraft_audio.py prepare --work work/assets --preview-seconds "$PREVIEW_SECONDS"
+      - name: Export one contiguous PCM part through the original scene graph
+        env:
+          PREVIEW_SECONDS: ${{ inputs.preview_seconds || '0' }}
+        run: python video/scripts/minecraft_audio.py render --work work/audio --part ${{ matrix.part }} --preview-seconds "$PREVIEW_SECONDS"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-audio-pcm-${{ matrix.part }}
+          path: |
+            work/audio/part_${{ matrix.part }}.wav
+            work/audio/part_${{ matrix.part }}.json
+          compression-level: 0
+          retention-days: 2
+
+  assemble-mix:
+    needs: [prepare, export]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure audio tools are installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/download-artifact@v4
+        with:
+          name: minecraft-audio-assets
+          path: work/assets
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: minecraft-audio-pcm-*
+          path: work/parts
+      - name: Restore shared original audio sources
+        env:
+          PREVIEW_SECONDS: ${{ inputs.preview_seconds || '0' }}
+        run: python video/scripts/minecraft_audio.py prepare --work work/assets --preview-seconds "$PREVIEW_SECONDS"
+      - name: Verify frame windows, source hashes and exact PCM sample counts; concatenate losslessly
+        run: python video/scripts/minecraft_audio.py assemble --plan work/assets/audio-plan.json --parts work/parts --work work/audio
       - name: Reuse the established sidechain mixer with the same Minecraft track and timing
         run: python video/scripts/minecraft_audio.py mix --work work/audio --output work/final
       - uses: actions/upload-artifact@v4
