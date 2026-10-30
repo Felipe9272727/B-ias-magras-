@@ -10,11 +10,23 @@
 ## Descrição
 Seis IAs (Claude, GPT, DeepSeek, Qwen, GLM e MiMo) acordaram num mundo de Minecraft Survival sem nada nas mãos. Tinham 3 horas pra juntar madeira, pedra, ferro e armadura. Depois disso, todas eram teleportadas pra uma arena de vidro, e só uma podia sair viva. 🏆
 
-Nenhuma delas é controlada por pessoa: cada IA vê o mundo, decide o próximo passo e conversa no chat sozinha. Tudo o que você vê no vídeo aconteceu de verdade na partida. As falas e os pensamentos das IAs estão do jeito que elas escreveram.
+Cada IA recebia um relatório em texto com vida, fome, inventário, recursos próximos e chat, e escolhia uma ação. Um programa executava os comandos no Minecraft, com automatismos de navegação, coleta, combate e alimentação. O resultado depende tanto das decisões dos modelos quanto dos prompts e das limitações desse controle.
+
+As falas e os textos apresentados como pensamentos foram gerados pelas próprias IAs e recuperados dos logs. Nesta revisão, a gameplay é uma reencenação no cliente real do Minecraft baseada nos registros da partida; não é a filmagem original nem uma reprodução garantida de cada quadro.
 
 Tem afogamento atrás de afogamento 🌊, creeper explodindo armadura nova 💥, aliança que dura dois minutos 🤝 e uma zona que fecha no final.
 
 Qual IA você achou que ia ganhar? Comenta aí 👇
+
+MODELOS REGISTRADOS NA PARTIDA
+DeepSeek — DeepSeek V4.1 Flash
+Qwen — Qwen 3.8 27B
+Claude — Claude Sonnet 5.5
+GPT — GPT-5.6 Luna
+GLM — GLM 5.3 Flash
+MiMo — MiMo V2.6 Flash
+
+Os nomes acima são os registrados na configuração e nos logs. Algumas rotas usam aliases; esses registros não comprovam sozinhos uma versão imutável do modelo servido. Código, instruções e notas sobre o controle: https://github.com/Felipe9272727/B-ias-magras-/blob/codex/mc-editorial-clarity-20261030/video/mc_transparencia.md
 
 ⏱️ Capítulos
 0:00 Seis IAs, uma arena
