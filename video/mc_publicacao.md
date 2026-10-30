@@ -33,6 +33,12 @@ Qual IA você achou que ia ganhar? Comenta aí 👇
 29:44 O vencedor
 30:28 Placar final
 
+Música: "Voxel Revolution" — Kevin MacLeod (incompetech.com)
+Fonte: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2000025
+Licensed under Creative Commons: By Attribution 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+Trilha usada em loop, com ajustes de volume e fades.
+
 #minecraft #ia #inteligenciaartificial #chatgpt #claude #deepseek
 
 ## Tags
