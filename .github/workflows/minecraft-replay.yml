@@ -1,0 +1,351 @@
+name: Minecraft native replay farm
+
+on:
+  push:
+    branches: ['codex/minecraft-*']
+    paths: ['.github/workflows/minecraft-replay.yml', 'minecraft/**', 'video/**']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Preview or full original montage
+        type: choice
+        options: [preview, full]
+        default: preview
+      workers:
+        description: Capture workers, from 1 to 16 (preview uses one)
+        type: number
+        default: 8
+      scenes:
+        description: Optional comma-separated scene IDs
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: minecraft-replay-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      capture_matrix: ${{ steps.plan.outputs.capture_matrix }}
+      render_matrix: ${{ steps.plan.outputs.render_matrix }}
+      native_hash: ${{ steps.plan.outputs.native_hash }}
+      plan_hash: ${{ steps.plan.outputs.plan_hash }}
+      mode: ${{ steps.plan.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /minecraft/
+            /video/scripts/
+            /video/remotion/public/mc/video/abertura.json
+            /video/remotion/public/mc/video/janelas.txt
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: plan
+        name: Verify reviewed source and balance scene batches
+        env:
+          MC_MODE: ${{ inputs.mode }}
+          MC_WORKERS: ${{ inputs.workers }}
+          MC_SCENES: ${{ inputs.scenes }}
+        run: python video/scripts/distributed_pipeline.py plan --mode "$MC_MODE" --workers "$MC_WORKERS" --scenes "$MC_SCENES" --output work/plan
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+          retention-days: 1
+
+  smoke:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /minecraft/
+            /video/scripts/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: minecraft/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install capture dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb xdotool ffmpeg libgl1-mesa-dri libgl1 libxrender1 libxtst6 libxi6 libxrandr2 libasound2t64
+          python -m pip install portablemc
+          npm ci --prefix minecraft --ignore-scripts --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+      - uses: actions/cache@v4
+        id: runtime
+        with:
+          path: work/runtime/runtime.tar.gz
+          key: mc-runtime-v2-${{ runner.os }}-${{ needs.plan.outputs.native_hash }}
+      - if: steps.runtime.outputs.cache-hit != 'true'
+        name: Build the shared native Minecraft runtime once
+        run: python video/scripts/distributed_worker.py build --work work/build --output work/runtime/runtime.tar.gz
+      - name: Gate fan-out on three complete native smoke captures
+        run: python video/scripts/distributed_worker.py capture --runtime work/runtime/runtime.tar.gz --work work/smoke --scenes work/plan/smoke.txt --output work/smoke-clips
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-runtime
+          path: work/runtime/runtime.tar.gz
+          compression-level: 0
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mc-smoke
+          path: |
+            work/smoke-clips
+            work/smoke/logs
+          compression-level: 0
+          retention-days: 1
+
+  render-assets:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        id: assets
+        with:
+          path: work/assets/render-assets.tar.gz
+          key: mc-render-assets-v2-${{ hashFiles('video/scripts/distributed_asset_parts.json') }}
+      - if: steps.assets.outputs.cache-hit != 'true'
+        name: Verify original GIF package once for all render workers
+        run: python video/scripts/distributed_render.py assets --output work/assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-render-assets
+          path: work/assets/render-assets.tar.gz
+          compression-level: 0
+          retention-days: 1
+
+  capture:
+    needs: [plan, smoke]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix: ${{ fromJSON(needs.plan.outputs.capture_matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /minecraft/
+            /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+      - name: Ensure clip decoder is installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/cache@v4
+        id: clips
+        with:
+          path: work/clips
+          key: mc-clips-v2-${{ needs.plan.outputs.native_hash }}-${{ needs.plan.outputs.plan_hash }}-${{ matrix.group }}
+      - uses: actions/setup-node@v4
+        if: steps.clips.outputs.cache-hit != 'true'
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: minecraft/package-lock.json
+      - uses: actions/setup-java@v4
+        if: steps.clips.outputs.cache-hit != 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install capture dependencies
+        if: steps.clips.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb xdotool ffmpeg libgl1-mesa-dri libgl1 libxrender1 libxtst6 libxi6 libxrandr2 libasound2t64
+          python -m pip install portablemc
+          npm ci --prefix minecraft --ignore-scripts --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        if: steps.clips.outputs.cache-hit != 'true'
+        with:
+          name: mc-runtime
+          path: work/runtime
+      - if: steps.clips.outputs.cache-hit != 'true'
+        name: Capture assigned scenes using the same approved source and runtime
+        run: python video/scripts/distributed_worker.py capture --runtime work/runtime/runtime.tar.gz --work work/capture --scenes work/plan/group_${{ matrix.group }}.txt --output work/clips
+      - name: Validate every decoded frame, including cache hits
+        run: python video/scripts/distributed_pipeline.py validate --scenes work/plan/group_${{ matrix.group }}.txt --clips work/clips
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-capture-${{ matrix.group }}
+          path: work/clips
+          compression-level: 0
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: mc-capture-logs-${{ matrix.group }}
+          path: work/capture/logs
+          retention-days: 1
+
+  collect:
+    needs: [plan, capture]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure clip decoder is installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: mc-capture-*
+          path: work/groups
+      - run: python video/scripts/distributed_pipeline.py collect --plan work/plan/plan.json --input work/groups --output work/clips
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-complete-clips-${{ needs.plan.outputs.mode }}
+          path: work/clips
+          compression-level: 0
+          retention-days: 1
+
+  render:
+    needs: [plan, capture, render-assets]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix: ${{ fromJSON(needs.plan.outputs.render_matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/
+            /video/remotion/src/
+            /video/remotion/package.json
+            /video/remotion/package-lock.json
+            /video/remotion/remotion.config.ts
+            /video/remotion/tsconfig.json
+            /video/remotion/public/fonts/
+            /video/remotion/public/gifs/catalog.json
+            /video/remotion/public/mc/
+            !/video/remotion/public/mc/**/*.mp3
+            !/video/remotion/public/mc/**/*.mp4
+            /minecraft/skins/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure video encoder is installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - run: npm ci --prefix video/remotion --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-render-assets
+          path: work/assets
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: mc-capture-*
+          merge-multiple: true
+          path: work/clips
+      - name: Render one bounded part with a 256 MiB video cache
+        run: python video/scripts/distributed_render.py render --plan work/plan --assets work/assets/render-assets.tar.gz --clips work/clips --part ${{ matrix.part }} --output work/render
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-render-part-${{ matrix.part }}
+          path: |
+            work/render/parte_${{ matrix.part }}.mp4
+            work/render/parte_${{ matrix.part }}.json
+          compression-level: 0
+          retention-days: 1
+
+  merge:
+    needs: [plan, render, collect]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure video encoder is installed
+        run: command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+      - uses: actions/download-artifact@v4
+        with:
+          name: mc-plan
+          path: work/plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: mc-render-part-*
+          path: work/parts
+      - name: Concatenate, upscale and verify the silent movie
+        run: python video/scripts/distributed_render.py merge --plan work/plan/plan.json --parts work/parts --output work/final
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mc-video-silent-${{ needs.plan.outputs.mode }}
+          path: work/final
+          compression-level: 0
+          retention-days: 1

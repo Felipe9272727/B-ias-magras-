@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "approved": true,
+  "launch_mode": "full",
+  "workers": 16,
+  "minecraft_version": "1.21.4",
+  "fabric_loader": "0.20.1",
+  "capture_env": {
+    "LENTO": "2",
+    "LP_NUM_THREADS": "2"
+  },
+  "capture_command": [
+    "node",
+    "--max-old-space-size=2048",
+    "reencena.mjs",
+    "{recording}",
+    "{scenes}",
+    "{output}"
+  ],
+  "visual_review": {
+    "empty_hand_visible": true,
+    "held_item_visible": true,
+    "frame_pacing_verified": true
+  },
+  "source_sha256": {
+    "minecraft/captura_xvfb.py": "c8865df6fa8d41ad01420f214ed5a26fa7cd14e48d0ecc1ccd45a2324f7e6653",
+    "minecraft/cliente-replay/build.py": "a27e5feca82fd15940fae66b26cf3301b7058626becd32344df47c2b5b6c3f55",
+    "minecraft/cliente-replay/resources/bias-native.mixins.json": "682e5765a8c7a7cc99a213d3113cb62eeb48c5fbf1636642ccde02793885ecdb",
+    "minecraft/cliente-replay/resources/fabric.mod.json": "b0b77f2e724f4992f1614dc241c394a7a5747ea9a28144aba5f89817bf35a2af",
+    "minecraft/cliente-replay/src/br/bias/replay/NativeHandsMixin.java": "4ecbaf95daff40ddc8374c5cd2e4277e0b017a82b8472c3531f4025da89bdc35",
+    "minecraft/cliente-replay/src/br/bias/replay/NativePoses.java": "9e67357c95f466d5d865a7c36474d0c561b0abf9adaa760e00c344dc90ee0215",
+    "minecraft/cliente-replay/src/br/bias/replay/NativeReplay.java": "dba53301543c8a4bb949ddd6839a7378c0a3f003767ef5aba1ce0f3143a7b95f",
+    "minecraft/cliente-replay/src/br/bias/replay/NativeSkinMixin.java": "750010614eb32b11250461372f14e97539c2fa54e98c8f4ac87fd08c03720dff",
+    "minecraft/cliente-replay/src/br/bias/replay/NativeVisibilityMixin.java": "2c7b505a4263cc9b65baccb1ce3cfa1a2b38863f90ef09fd7b06d12dee5d3ec5",
+    "minecraft/cliente-replay/src/br/bias/replay/mixin/LimbAccess.java": "86a248c2fc728b9f8c23ccee40fcb03588681a61bff933cadd01e1eb97bc0a3f",
+    "minecraft/cliente-replay/src/br/bias/replay/mixin/NativeFrameMixin.java": "7d79335e0ebb9571525dd2672ee5b852e3fde3c7fd7b622349fac3b24b91c4c2",
+    "minecraft/cliente-replay/src/br/bias/replay/mixin/NativeHandsMixin.java": "5a5cf8f91da7df4ea47eae09487678cff0edc16dabff996941c3e75cee8e09f0",
+    "minecraft/cliente-replay/src/br/bias/replay/mixin/NativeSkinMixin.java": "ac7c6e7dc6ebc6b865c93457c2ef3c1e5c0b4446e337ec4e2f4d62e7e797d5f8",
+    "minecraft/cliente-replay/src/br/bias/replay/mixin/NativeVisibilityMixin.java": "07476a825a1a0a6727629b722e71ccd166c719030fc8ff142e998bec164ed1eb",
+    "minecraft/extras/10_anim.mjs": "40f2361478092599ce81bb054bc533812b386b29205532e8921ce9ac59080db1",
+    "minecraft/package-lock.json": "be0e12db91dd7d0380c8ed186febba2d7d4433dec70fea4197197c707fae44e5",
+    "minecraft/rcon.mjs": "80a6f1f5b969f9c48ecc4a03e2eab4d49f215550fa1de2e81910cb6e5adea532",
+    "minecraft/reencena.mjs": "0f11ce3dfc8223aa884cd4386780e41b5de14e16646a26c2eabd9d016e1e6e1c",
+    "minecraft/reencena_dados.mjs": "5acec238702f55569c30ccc7f822c8674bb3a6522745edff71fe880d0cacd150",
+    "minecraft/trajetoria.mjs": "9fc150ecd27b8c06d47d12c3887ec744e73e67ba0ea91cfb383bd51135b96446",
+    "video/scripts/distributed_client_setup.sh": "786f56646db0f0fc6bd62bef7f545b060d05a449dfca7c5e96a50d73cb23dfce",
+    "video/scripts/distributed_worker.py": "825870f26effc19440178f680b422abe84845e578394ff7b19681c60c2f5b754"
+  },
+  "approved_settings": {
+    "minecraft_version": "1.21.4",
+    "fabric_loader": "0.20.1",
+    "capture_env": {
+      "LENTO": "2",
+      "LP_NUM_THREADS": "2"
+    },
+    "capture_command": [
+      "node",
+      "--max-old-space-size=2048",
+      "reencena.mjs",
+      "{recording}",
+      "{scenes}",
+      "{output}"
+    ]
+  }
+}
