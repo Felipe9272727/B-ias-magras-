@@ -3,6 +3,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -137,8 +138,13 @@ def validate(scene_file, clips):
             raise ValueError('Decode errors in ' + name + ': ' + probe.stderr)
         data = json.loads(probe.stdout)
         frames = int(data['streams'][0]['nb_read_frames'])
-        expected = round((float(row[2]) - float(row[1])) * 30)
-        if frames != expected or abs(float(data['format']['duration']) - expected / 30) > .08:
+        duration = float(row[2]) - float(row[1])
+        expected = round(duration * 30)
+        # FFmpeg includes the final frame whose timestamp is below -t. A
+        # fractional 30-fps boundary can therefore yield ceil(duration*30).
+        # Never accept fewer than the rounded target or more than that ceil.
+        upper = max(expected, math.ceil(duration * 30 - 1e-7))
+        if not expected <= frames <= upper or abs(float(data['format']['duration']) - duration) > 1 / 30 + .002:
             raise ValueError(f'Incomplete clip {name}: {frames}/{expected} frames')
         metadata = json.loads(meta.read_text())
         if metadata.get('modo') not in ('olhos', 'segue', 'orbita', 'fixa'):

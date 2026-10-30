@@ -214,6 +214,7 @@ jobs:
       - name: Validate every decoded frame, including cache hits
         run: python video/scripts/distributed_pipeline.py validate --scenes work/plan/group_${{ matrix.group }}.txt --clips work/clips
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: mc-capture-${{ matrix.group }}
           path: work/clips
