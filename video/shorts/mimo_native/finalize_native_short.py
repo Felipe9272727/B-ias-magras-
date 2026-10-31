@@ -24,13 +24,17 @@ def main():
         '-show_streams', '-of', 'json', str(args.upscaled)]))
     source = next(s for s in meta['streams'] if s['codec_type'] == 'video')
     assert source['width'] >= 1080 and source['height'] > source['width']
-    subprocess.run(['ffmpeg', '-y', '-v', 'warning', '-i', str(args.upscaled),
-        '-i', str(args.overlay), '-i', str(args.audio), '-filter_complex',
+    silent = work / 'silent.mp4'
+    subprocess.run(['ffmpeg', '-y', '-v', 'warning', '-filter_complex_threads', '2',
+        '-threads', '2', '-i', str(args.upscaled), '-threads', '2',
+        '-i', str(args.overlay), '-filter_complex',
         '[0:v]scale=1080:1920:flags=lanczos,setsar=1[game];'
         '[game][1:v]overlay=0:0:shortest=1,format=yuv420p[video]',
-        '-map', '[video]', '-map', '2:a:0', '-frames:v', '2201', '-r', '30',
+        '-map', '[video]', '-an', '-frames:v', '2201', '-r', '30',
         '-c:v', 'libx264', '-preset', 'medium', '-crf', '17', '-threads', '2',
-        '-c:a', 'copy', '-movflags', '+faststart', str(out)], check=True)
+        '-movflags', '+faststart', str(silent)], check=True)
+    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(silent), '-i', str(args.audio),
+        '-map', '0:v:0', '-map', '1:a:0', '-c', 'copy', '-movflags', '+faststart', str(out)], check=True)
     decoded = json.loads(subprocess.check_output(['ffprobe', '-v', 'error',
         '-count_frames', '-show_streams', '-of', 'json', str(out)]))
     video = next(s for s in decoded['streams'] if s['codec_type'] == 'video')
