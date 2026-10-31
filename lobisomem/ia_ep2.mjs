@@ -16,26 +16,30 @@ export function decisorDeTeste(fn) {
 const dormir = ms => new Promise(resolve => setTimeout(resolve, ms))
 const atomic = (file, value) => {fs.writeFileSync(file+'.tmp', JSON.stringify(value));fs.renameSync(file+'.tmp', file)}
 
-export async function perguntar(provider, system, prompt, {maxTokens=600, timeoutMs=180000, attempt=0}={}) {
-  timeoutMs = Math.max(timeoutMs,900000)
+export async function perguntar(provider, system, prompt, {maxTokens=600, timeoutMs=180000, attempt=0,playerId=null}={}) {
+  timeoutMs = Math.max(timeoutMs,7200000)
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0)+1
   if (teste) return {ok:true, text:JSON.stringify(await teste({provider,system,prompt})), synthetic:true}
-  const model = provider.replace(/^or:/, '')
+  const model = provider.replace(/^(or|work):/, '')
   const player = CONFIG.players.find(p => p.modelId === model)
   if (!player && model !== CONFIG.judgeModel) throw new Error('Modelo fora do elenco: '+model)
   const max_tokens = Math.max(maxTokens, player?.maxTokens ?? CONFIG.maxTokens)
-  const value = {model, system, message:prompt, max_tokens, ...(player?.effort?{reasoning_effort:player.effort}:{}), attempt}
+  const source=provider.startsWith('work:')?'chatgpt-work-subagent':'openrouter'
+  if(model.startsWith('openai/') && source!=='chatgpt-work-subagent') throw new Error('OpenAI deve usar a assinatura Work, não OpenRouter.')
+  const value = {model,source,playerId,system, message:prompt, max_tokens, ...(player?.effort?{reasoning_effort:player.effort}:{}), attempt}
   const id = crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
   const cache = path.join(SPOOL,'cache',id+'.json')
   if (fs.existsSync(cache)) {uso.cache++;return JSON.parse(fs.readFileSync(cache,'utf8'))}
-  const request = path.join(SPOOL,'req',id+'.json'), response = path.join(SPOOL,'res',id+'.json')
+  const requestDir=source==='chatgpt-work-subagent'?path.join(SPOOL,'req_work',playerId):path.join(SPOOL,'req')
+  fs.mkdirSync(requestDir,{recursive:true})
+  const request = path.join(requestDir,id+'.json'), response = path.join(SPOOL,'res',id+'.json')
   atomic(request, {id,...value,createdAt:new Date().toISOString()})
   const began = Date.now()
   while (Date.now()-began < timeoutMs) {
     if (!fs.existsSync(response)) {await dormir(200);continue}
     const answer = JSON.parse(fs.readFileSync(response,'utf8'))
-    if (!answer.ok || !answer.text?.trim() || !answer.generationId) {
+    if (!answer.ok || !answer.text?.trim() || !(answer.generationId || (answer.source==='chatgpt-work-subagent' && answer.agentId && answer.requestId===id))) {
       uso.falhas++
       throw new Error('Decisão não concluída pelo modelo; partida pausada sem ação inventada: '+(answer.error??id))
     }

@@ -5,6 +5,8 @@ Restauração sem sobrescrever arquivos existentes: ... --restore
 Nunca inclui credenciais, variáveis de ambiente ou arquivos fora das raízes declaradas.
 """
 import argparse
+import base64
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -13,6 +15,15 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / 'lobisomem/recovery/checkpoints/current.json'
 PREFIXES = ['lobisomem/logs_ep2', 'lobisomem/.spool_ep2']
+
+
+def unpack(value):
+    if value.get('encoding') == 'gzip+base64':
+        data = gzip.decompress(base64.b64decode(value['data']))
+        if hashlib.sha256(data).hexdigest() != value['sha256']:
+            raise RuntimeError('Hash inválido do snapshot comprimido')
+        return json.loads(data)
+    return value
 
 
 def git(*args):
@@ -26,7 +37,7 @@ def main():
     ap.add_argument('--verify-remote', action='store_true')
     args = ap.parse_args()
     if args.restore:
-        saved = json.loads(DEST.read_text())
+        saved = unpack(json.loads(DEST.read_text()))
         for name, item in saved['files'].items():
             rel = Path(name)
             if rel.is_absolute() or '..' in rel.parts or not any(name.startswith(p + '/') for p in PREFIXES):
@@ -48,7 +59,10 @@ def main():
     files = {}
     for prefix in PREFIXES:
         for p in sorted((ROOT / prefix).rglob('*.json')):
-            data = p.read_bytes()
+            try:
+                data = p.read_bytes()
+            except FileNotFoundError:
+                continue  # O transporte consome arquivos temporários entre glob e read.
             value = json.loads(data)
             if value.get('synthetic') or value.get('identidade', {}).get('synthetic'):
                 raise RuntimeError('Registro sintético não pode entrar no checkpoint real')
@@ -56,14 +70,17 @@ def main():
     if not files:
         print(json.dumps({'checkpointFiles': 0, 'pushed': False}))
         return
-    payload = json.dumps({'version': 1, 'files': files}, ensure_ascii=False, indent=1) + '\n'
+    raw = json.dumps({'version': 1, 'files': files}, ensure_ascii=False).encode()
+    packed = {'version':2, 'encoding':'gzip+base64', 'sha256':hashlib.sha256(raw).hexdigest(),
+              'fileCount':len(files), 'data':base64.b64encode(gzip.compress(raw,mtime=0)).decode()}
+    payload = json.dumps(packed, ensure_ascii=False) + '\n'
     if not DEST.exists() or DEST.read_text() != payload:
         DEST.parent.mkdir(parents=True, exist_ok=True)
         DEST.write_text(payload)
     if args.verify_remote:
         git('fetch', 'origin', 'codex/wolvesville-ep2-16p-20261031')
         try:
-            remote = json.loads(git('show', 'FETCH_HEAD:' + str(DEST.relative_to(ROOT))))
+            remote = unpack(json.loads(git('show', 'FETCH_HEAD:' + str(DEST.relative_to(ROOT)))))
             key = 'lobisomem/.spool_ep2/ledger.json'
             current_ledger = json.loads(files[key]['text'])
             saved_ledger = json.loads(remote['files'][key]['text'])

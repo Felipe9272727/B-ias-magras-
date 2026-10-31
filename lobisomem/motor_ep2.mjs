@@ -11,7 +11,7 @@ import {atomicJson, diarioDecisoes, hash} from './durabilidade_ep2.mjs'
 const DIR = path.resolve(process.env.LOBO_EP2_LOG_DIR ?? path.join(path.dirname(new URL(import.meta.url).pathname), 'logs_ep2'))
 fs.mkdirSync(DIR, { recursive: true })
 
-export const JOGADORES = CONFIG.players.map(j => ({...j, provider:'or:'+j.modelId}))
+export const JOGADORES = CONFIG.players.map(j => ({...j, provider:(j.transport==='chatgpt-work-subagent'?'work:':'or:')+j.modelId}))
 const PAPEIS = CONFIG.roles
 export const NOME_PAPEL = { lobisomem: 'Lobisomem', lobo_vidente: 'Lobo Vidente', vidente: 'Vidente', medico: 'Médico', carcereiro: 'Carcereiro', pistoleiro: 'Pistoleiro', bobo: 'Bobo', aldeao: 'Aldeão', padre:'Padre', xerife:'Xerife', vidente_espiritual:'Vidente Espiritual', detetive:'Detetive', prefeito:'Prefeito', lobo_alfa:'Lobo Alfa' }
 const EXPR = ['neutro', 'desconfiado', 'assustado', 'bravo', 'rindo', 'culpado', 'chocado', 'pensando', 'chorando']
@@ -67,7 +67,7 @@ export async function partida(n, semente) {
   const fontes=['motor_ep2.mjs','regras_ep2.mjs','ia_ep2.mjs','durabilidade_ep2.mjs']
   const diario=diarioDecisoes(runDir,{partida:n,semente,synthetic,config:CONFIG,memoria,
     codigo:Object.fromEntries(fontes.map(f=>[f,hash(fs.readFileSync(new URL(f,import.meta.url),'utf8'))]))})
-  const chamar=(j,system,prompt,options)=>diario.chamar(j.id,system,prompt,options,()=>perguntar(j.provider,system,prompt,options))
+  const chamar=(j,system,prompt,options)=>diario.chamar(j.id,system,prompt,options,()=>perguntar(j.provider,system,prompt,{...options,playerId:j.id}))
   const log = { episodio:2, synthetic:process.env.LOBO_EP2_TEST === '1', partida: n, semente, jogadores: js.map(({ id, nome, modelo, modelId, provider, papel, numero }) => ({ id, nome, modelo, modelId, provider, papel, numero })), noites: [], dias: [], resultado: null }
   const historico = [] // resumo público, para todos
   const segredos = Object.fromEntries(js.map((j) => [j.nome, []])) // o que cada um descobriu sozinho

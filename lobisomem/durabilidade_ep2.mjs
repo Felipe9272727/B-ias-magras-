@@ -39,7 +39,7 @@ export function diarioDecisoes(dir, identidade) {
       }
       // O transporte e seu ledger preservam a reserva de uma chamada incerta.
       const resposta=await transport()
-      if(!resposta.synthetic && (!resposta.ok || !resposta.generationId || !resposta.text?.trim())) throw new Error('Resposta sem evidência de geração; diário permanece pendente.')
+      if(!resposta.synthetic && (!resposta.ok || !(resposta.generationId || (resposta.source==='chatgpt-work-subagent' && resposta.agentId && resposta.requestId)) || !resposta.text?.trim())) throw new Error('Resposta sem evidência de geração; diário permanece pendente.')
       item.resposta=resposta
       item.status='received'
       atomicJson(file,dados)

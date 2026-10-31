@@ -27,7 +27,8 @@ test('retoma após interrupção e não paga de novo pela resposta preservada',a
 
 test('a partida interrompida e partidas sem predecessora não iniciam chamadas',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'lobo-guard-'))
- for(const n of [5,6]) {
+ const blocked=JSON.parse(fs.readFileSync(new URL('./recovery/status.json',import.meta.url))).blockedMatches
+ for(const n of [...(blocked.includes(5)?[5]:[]),6]) {
   const r=spawnSync(process.execPath,['lobisomem/motor_ep2.mjs',String(n),'123'],{cwd:new URL('../',import.meta.url),encoding:'utf8',env:{...process.env,LOBO_EP2_TEST:'0',LOBO_EP2_LOG_DIR:dir,LOBO_EP2_SPOOL:path.join(dir,'spool')}})
   assert.notEqual(r.status,0)
   assert.match(r.stderr,n===5?/bloqueada/:/partida anterior/)

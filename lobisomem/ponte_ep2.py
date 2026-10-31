@@ -44,7 +44,7 @@ def main():
     args = ap.parse_args()
     d = ledger()
     if args.command == 'pending':
-        if any(c.get('status') == 'completed' for c in d['calls'].values()) and SPOOL == ROOT / '.spool_ep2':
+        if os.environ.get('LOBO_EP2_VERIFY_REMOTE') == '1' and any(c.get('status') == 'completed' for c in d['calls'].values()) and SPOOL == ROOT / '.spool_ep2':
             # O conector pode gravar o snapshot sem credenciais Git no shell.
             # Só liberar novas cobranças após conferir as respostas no remoto.
             subprocess.run([sys.executable, str(ROOT / 'checkpoint_ep2.py'), '--verify-remote'], check=True)

@@ -29,7 +29,7 @@ class CheckpointTest(unittest.TestCase):
                     with self.assertRaisesRegex(RuntimeError, 'já existe'):
                         checkpoint.main()
                 self.assertEqual(source.read_text(), '{"local":"preserve me"}')
-                self.assertEqual(json.loads(target.read_text())['files'][str(source.relative_to(root))]['text'], original)
+                self.assertEqual(checkpoint.unpack(json.loads(target.read_text()))['files'][str(source.relative_to(root))]['text'], original)
 
 
 if __name__ == '__main__':
