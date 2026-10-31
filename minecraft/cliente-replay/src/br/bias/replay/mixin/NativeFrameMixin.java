@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value=class_757.class,remap=false)
 public class NativeFrameMixin {
     @Inject(method="method_3188",at=@At("HEAD"),remap=false)
-    private void recordedPoses(class_9779 counter,CallbackInfo ci){NativePoses.apply(counter.method_60637(false));}
+    private void recordedPoses(class_9779 counter,CallbackInfo ci){br.bias.replay.NativeReplay.diagnose();NativePoses.apply(counter.method_60637(false));}
 }

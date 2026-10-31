@@ -42,7 +42,11 @@ jobs:
           import json,hashlib,os
           p=json.load(open('video/scripts/distributed_capture_profile.json'))
           original={'sources':p['source_sha256'],'settings':p['approved_settings']}
-          key=hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          from pathlib import Path
+          native=hashlib.sha256()
+          for source in sorted(Path('minecraft/cliente-replay').rglob('*')):
+              if source.is_file():native.update(str(source).encode()+source.read_bytes())
+          key=hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest()+'-'+native.hexdigest()[:16]
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('key='+key+'\n')
           PY
       - uses: actions/cache@v4
@@ -53,6 +57,13 @@ jobs:
       - if: steps.runtime.outputs.cache-hit != 'true'
         name: Build native runtime
         run: python video/scripts/distributed_worker.py build --work work/build --output work/runtime/runtime.tar.gz
+      - name: Inspect actual vanilla rendering gates
+        run: |
+          mkdir -p work/diagnostics
+          if [ -f work/build/buildcache/minecraft-intermediary.jar ]; then
+            javap -p -c -classpath work/build/buildcache/minecraft-intermediary.jar net.minecraft.class_757 > work/diagnostics/GameRenderer.txt
+            javap -p -c -classpath work/build/buildcache/minecraft-intermediary.jar net.minecraft.class_759 > work/diagnostics/HeldItemRenderer.txt
+          fi
       - name: Capture new portrait viewport, never crop a landscape capture
         run: |
           mkdir -p work
@@ -79,4 +90,5 @@ jobs:
           path: |
             work/portrait
             work/capture/logs
+            work/diagnostics
           retention-days: 7

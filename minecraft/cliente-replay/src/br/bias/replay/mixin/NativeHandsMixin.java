@@ -12,10 +12,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** GameRenderer.renderHand: retains the vanilla renderer, arm and item models. */
 @Mixin(value=class_757.class, remap=false)
 public class NativeHandsMixin {
+    private long bias$nextDiagnostic;
     @Inject(method="method_3172", at=@At("HEAD"), remap=false)
     private void syncHands(class_4184 camera, float delta, Matrix4f matrix, CallbackInfo ci) {
         class_742 target = NativeReplay.target();
         NativeReplay.drawingHands = target != null;
+        if (System.currentTimeMillis() > bias$nextDiagnostic) {
+            bias$nextDiagnostic = System.currentTimeMillis() + 10000;
+            System.out.println("[bias-native] renderHand target=" + (target == null ? "null" : target.method_7334().getName()));
+        }
         if (target == null) return;
         class_746 local = class_310.method_1551().field_1724;
         local.method_31548().field_7545 = 0;
