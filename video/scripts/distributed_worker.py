@@ -103,7 +103,7 @@ def capture(args):
         raise ValueError('Invalid capture viewport')
     options = client / 'options.txt'
     text = options.read_text()
-    for key, value in [('overrideWidth', width), ('overrideHeight', height)]:
+    for key, value in [('overrideWidth', width), ('overrideHeight', height), ('hideGui', 'false')]:
         text = re.sub(rf'^{key}:.*$', f'{key}:{value}', text, flags=re.MULTILINE)
     options.write_text(text)
     env = dict(os.environ, **profile['capture_env'])

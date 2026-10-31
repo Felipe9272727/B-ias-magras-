@@ -321,7 +321,7 @@ fs.mkdirSync(SAIDA, { recursive: true })
 const cenas = fs.readFileSync(LISTA, 'utf8').split('\n').filter(Boolean).map(l => { const [id, a, b, c] = l.trim().split(/\s+/); return { id, t0: +a, t1: +b, cam: c } })
 await um('gamerule sendCommandFeedback false'); await um('gamemode spectator Camera')
 const bots = await bonecos()
-tecla('F1')
+if (process.env.MC_CAPTURE_HIDE_GUI !== '0') tecla('F1')
 let falhas = 0
 for (const c of cenas) {
   if (fs.existsSync(path.join(SAIDA, c.id + '.mp4'))) continue
@@ -329,6 +329,6 @@ for (const c of cenas) {
 }
 // deixa o cliente em primeira pessoa pra próxima execução
 for (let i = 0; i < (3 - perspectiva) % 3; i++) { tecla('F5'); await espera(150) }
-tecla('F1')
+if (process.env.MC_CAPTURE_HIDE_GUI !== '0') tecla('F1')
 log('FIM')
 process.exit(falhas ? 1 : 0)
