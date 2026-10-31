@@ -11,6 +11,13 @@ export const FONTE = "'Poppins', system-ui, sans-serif";
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 export const MARCA: Record<string, {nome: string; cor: string}> = {
+  'Claude Haiku 5.5': {nome:'Claude',cor:'#d97757'},
+  'GPT-6.1 Terra': {nome:'GPT Terra',cor:'#10a37f'},
+  'GPT-6 Luna': {nome:'Luna',cor:'#815ad4'},
+  'DeepSeek V4.1 Flash 1017': {nome:'DeepSeek',cor:'#4d6bfe'},
+  'MiMo V2.6 Flash': {nome:'MiMo',cor:'#e87925'},
+  'Gemini 2.5 Flash Lite': {nome:'Gemini',cor:'#4285f4'},
+  'Mistral Small 2603': {nome:'Mistral',cor:'#e7603b'},
   'Claude Haiku': {nome: 'Claude', cor: '#d97757'},
   'GLM 5.3 Flash': {nome: 'GLM', cor: '#3b82f6'},
   'Qwen 3.8 27B': {nome: 'Qwen', cor: '#7c3aed'},
@@ -75,19 +82,28 @@ export const TAM = 296;
 export const GAP = 14;
 export const GRADE_X = 46;
 export const GRADE_Y = 150;
-export const posQuadro = (i: number) => ({x: GRADE_X + (i % 4) * (TAM + GAP), y: GRADE_Y + Math.floor(i / 4) * (TAM + GAP)});
+export const tamQuadro = (total = 8) => total > 8 ? 200 : TAM;
+export const posQuadro = (i: number, total = 8) => ({x: GRADE_X + (i % 4) * (tamQuadro(total) + GAP), y: GRADE_Y + Math.floor(i / 4) * (tamQuadro(total) + GAP)});
 
 export const Grade: React.FC<{js: Jogador[]; estado: (j: Jogador) => EstadoQuadro; noite: boolean}> = ({js, estado, noite}) => {
   const f = useCurrentFrame();
   return (
     <>
+      {js.length > 8 && (() => {
+        const j=js.find(j=>estado(j).falando) ?? js.find(j=>estado(j).destaque);
+        return j ? <div style={{position:'absolute',left:944,top:260,width:300,textAlign:'center'}}>
+          <div style={{fontFamily:FONTE,fontWeight:900,color:'#fff',fontSize:25,marginBottom:16,textShadow:'0 2px 4px #111'}}>EM DESTAQUE</div>
+          <Quadro j={j} s={estado(j)} noite={noite} t={f} tam={300} />
+          <div style={{fontFamily:FONTE,fontWeight:800,color:'#fff',fontSize:22,marginTop:16}}>{j.modelo}</div>
+        </div> : null;
+      })()}
       {js.map((j, i) => {
         const s = estado(j);
-        const p = posQuadro(i);
+        const p = posQuadro(i,js.length);
         const esc = s.destaque ? 1.07 : 1;
         return (
           <div key={j.id} style={{position: 'absolute', left: p.x, top: p.y, transform: `scale(${esc})`, zIndex: s.destaque ? 5 : 1}}>
-            <Quadro j={j} s={s} noite={noite} t={f + i * 11} tam={TAM} />
+            <Quadro j={j} s={s} noite={noite} t={f + i * 11} tam={tamQuadro(js.length)} />
           </div>
         );
       })}
@@ -103,14 +119,14 @@ export const Barra: React.FC<{texto: string; noite: boolean; icone?: 'lua' | 'so
   </div>
 );
 
-export const Faixa: React.FC<{texto: string; at?: number; cor?: string}> = ({texto, at = 0, cor = ROSA}) => {
+export const Faixa: React.FC<{texto: string; at?: number; cor?: string; total?:number}> = ({texto, at = 0, cor = ROSA, total=8}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f - at, fps, config: {damping: 13}});
   if (f < at) return null;
   return (
-    <div style={{position: 'absolute', left: GRADE_X, width: 4 * TAM + 3 * GAP, top: GRADE_Y + 2 * TAM + GAP + 34, display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * 60}px)`, opacity: e}}>
-      <div style={{background: cor, color: '#fff', fontFamily: FONTE, fontWeight: 800, fontSize: 38, padding: '14px 34px', borderRadius: 18, border: '5px solid #fff', boxShadow: '0 8px 20px rgba(0,0,0,0.4)', textAlign: 'center', maxWidth: 1180}}>{texto}</div>
+    <div style={{position: 'absolute', left: total > 8 ? 944 : GRADE_X, width: total > 8 ? 300 : 4 * TAM + 3 * GAP, top: total > 8 ? 710 : GRADE_Y + 2 * TAM + GAP + 34, display: 'flex', justifyContent: 'center', transform: `translateY(${(1 - e) * 60}px)`, opacity: e}}>
+      <div style={{background: cor, color: '#fff', fontFamily: FONTE, fontWeight: 800, fontSize: total > 8 ? 28 : 38, padding: total > 8 ? '12px 16px' : '14px 34px', borderRadius: 18, border: '5px solid #fff', boxShadow: '0 8px 20px rgba(0,0,0,0.4)', textAlign: 'center', maxWidth: 1180}}>{texto}</div>
     </div>
   );
 };
@@ -233,3 +249,4 @@ export const Fundo: React.FC<{noite: boolean}> = ({noite}) => {
   );
 };
 const IconeUiPata = () => <g fill="#fff"><ellipse cx={20} cy={27} rx={9} ry={8} /><circle cx={9} cy={16} r={4} /><circle cx={16} cy={9} r={4} /><circle cx={24} cy={9} r={4} /><circle cx={31} cy={16} r={4} /></g>;
+

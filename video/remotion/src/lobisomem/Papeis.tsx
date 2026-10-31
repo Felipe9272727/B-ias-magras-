@@ -1,7 +1,7 @@
 // Ícones dos papéis (os do Wolvesville, desenhados do zero): círculo colorido com borda grossa e o símbolo no meio.
 import React from 'react';
 
-export type Papel = 'lobisomem' | 'lobo_vidente' | 'vidente' | 'medico' | 'carcereiro' | 'pistoleiro' | 'bobo' | 'aldeao';
+export type Papel = 'lobisomem' | 'lobo_vidente' | 'vidente' | 'medico' | 'carcereiro' | 'pistoleiro' | 'bobo' | 'aldeao' | 'padre' | 'xerife' | 'vidente_espiritual';
 
 export const PAPEIS: Record<Papel, {nome: string; cor: string; time: 'lobos' | 'vila' | 'solo'; desc: string}> = {
   lobisomem: {nome: 'Lobisomem', cor: '#e53935', time: 'lobos', desc: 'Toda noite escolhe alguém para devorar'},
@@ -12,6 +12,9 @@ export const PAPEIS: Record<Papel, {nome: string; cor: string; time: 'lobos' | '
   pistoleiro: {nome: 'Pistoleiro', cor: '#a0522d', time: 'vila', desc: 'Duas balas para atirar de dia'},
   bobo: {nome: 'Bobo', cor: '#ff3d7f', time: 'solo', desc: 'Vence sozinho se a vila linchar ele'},
   aldeao: {nome: 'Aldeão', cor: '#43a047', time: 'vila', desc: 'Sem poder: só o voto e a lábia'},
+  padre: {nome:'Padre',cor:'#e0a52d',time:'vila',desc:'Água benta: mata um lobo; se errar, morre'},
+  xerife: {nome:'Xerife',cor:'#b57a34',time:'vila',desc:'Vigia à noite e recebe dois suspeitos se o alvo morrer'},
+  vidente_espiritual: {nome:'Vidente Espiritual',cor:'#5c6bc0',time:'vila',desc:'Verifica se alguém entre até dois alvos matou à noite'},
 };
 
 const Lobo: React.FC<{olho?: string}> = ({olho = '#ffd54f'}) => (
@@ -83,6 +86,12 @@ const Simbolo: React.FC<{p: Papel}> = ({p}) => {
           <line x1={50} y1={22} x2={50} y2={44} stroke="#eceff1" strokeWidth={6} strokeLinecap="round" />
         </g>
       );
+    case 'padre':
+      return <g><path d="M39 24H61V41L70 56V78H30V56L39 41Z" fill="#e3f2fd" stroke="#fff" strokeWidth={3}/><path d="M34 60H66V76H34Z" fill="#64b5f6"/><path d="M50 30V54M42 39H58" stroke="#e0a52d" strokeWidth={5}/><rect x={37} y={19} width={26} height={9} rx={3} fill="#795548"/></g>;
+    case 'xerife':
+      return <g><path d="M50 18L59 37L80 37L68 54L74 76L50 65L26 76L32 54L20 37L41 37Z" fill="#ffd54f" stroke="#fff" strokeWidth={3}/><circle cx={50} cy={48} r={12} fill="#795548"/><circle cx={50} cy={48} r={6} fill="#fff3e0"/></g>;
+    case 'vidente_espiritual':
+      return <g><path d="M26 73V48Q26 24 50 24Q74 24 74 48V73L63 66L50 77L37 66Z" fill="#e8eaf6"/><path d="M33 49Q50 32 67 49Q50 65 33 49Z" fill="#7986cb"/><circle cx={50} cy={49} r={7} fill="#283593"/><circle cx={53} cy={46} r={2} fill="#fff"/></g>;
   }
 };
 
@@ -108,3 +117,4 @@ export const IconeUi: React.FC<{nome: 'lua' | 'sol' | 'caveira' | 'balao' | 'urn
     {nome === 'pata' ? <g fill={cor}><ellipse cx={20} cy={27} rx={9} ry={8} /><circle cx={9} cy={16} r={4} /><circle cx={16} cy={9} r={4} /><circle cx={24} cy={9} r={4} /><circle cx={31} cy={16} r={4} /></g> : null}
   </svg>
 );
+

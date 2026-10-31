@@ -3,7 +3,7 @@
 // Desenhado num viewBox 200x200 (o quadrado do jogador); a boca mexe quando fala e o avatar pisca sozinho.
 import React from 'react';
 
-export type AvatarId = 'padeira' | 'ferreiro' | 'boticaria' | 'lenhador' | 'costureira' | 'pescador' | 'moleiro' | 'bardo';
+export type AvatarId = 'padeira' | 'ferreiro' | 'boticaria' | 'lenhador' | 'costureira' | 'pescador' | 'moleiro' | 'bardo' | 'viajante' | 'astronoma' | 'mineiro' | 'ceramista' | 'carteiro' | 'florista' | 'cozinheira' | 'relojoeiro';
 export type Expressao = 'neutro' | 'desconfiado' | 'assustado' | 'bravo' | 'rindo' | 'culpado' | 'chocado' | 'pensando' | 'chorando' | 'dormindo';
 
 type Visual = {
@@ -22,6 +22,14 @@ export const AVATARES: Record<AvatarId, Visual & {nome: string; cor: string}> = 
   pescador: {nome: 'Pescador', cor: '#f1c40f', pele: '#e8b48c', sombra: '#cf9a70', cabelo: '#9e9e9e', estilo: 'curto', chapeu: 'chuva', corChapeu: '#f1c40f', roupa: '#f1c40f', roupa2: '#2980b9', gola: 'colete', barba: 'bigode'},
   moleiro: {nome: 'Moleiro', cor: '#3498db', pele: '#f6d2b5', sombra: '#e0b693', cabelo: '#6d4c41', estilo: 'franja', chapeu: 'boina', corChapeu: '#34495e', roupa: '#3498db', roupa2: '#ecf0f1', gola: 'colete', barba: 'bigode'},
   bardo: {nome: 'Bardo', cor: '#9b59b6', pele: '#ffdcc2', sombra: '#ecbe9e', cabelo: '#d35400', estilo: 'franja', chapeu: 'pena', corChapeu: '#8e44ad', roupa: '#8e44ad', roupa2: '#f39c12', gola: 'gibao', barba: 'cavanhaque'},
+  viajante: {nome:'Viajante',cor:'#10a37f',pele:'#e1ad86',sombra:'#bf8d68',cabelo:'#32271f',estilo:'curto',chapeu:'capuz',corChapeu:'#155e4b',roupa:'#10a37f',roupa2:'#e5f7ed',gola:'capa'},
+  astronoma: {nome:'Astrônoma',cor:'#9d7be8',pele:'#a86c4c',sombra:'#875136',cabelo:'#201b35',estilo:'longo',chapeu:'boina',corChapeu:'#4c347c',roupa:'#5f429a',roupa2:'#d8c6ff',gola:'capa',oculos:true},
+  mineiro: {nome:'Mineiro',cor:'#ff8a28',pele:'#e1b48a',sombra:'#be8d63',cabelo:'#3e3024',estilo:'curto',chapeu:'gorro',corChapeu:'#ffad36',roupa:'#76533c',roupa2:'#ffb54c',gola:'colete',barba:'cheia'},
+  ceramista: {nome:'Ceramista',cor:'#cf754e',pele:'#bd805b',sombra:'#985e3e',cabelo:'#281c18',estilo:'cacheado',roupa:'#cf754e',roupa2:'#e9c3a0',gola:'avental',bochecha:true},
+  carteiro: {nome:'Carteiro',cor:'#4285f4',pele:'#f1c6a1',sombra:'#d9a77c',cabelo:'#6a381f',estilo:'franja',chapeu:'boina',corChapeu:'#2455aa',roupa:'#4285f4',roupa2:'#d6e5ff',gola:'colete'},
+  florista: {nome:'Florista',cor:'#49b379',pele:'#f5d2b5',sombra:'#dcb18b',cabelo:'#692c37',estilo:'coque',chapeu:'chuva',corChapeu:'#e9ad5a',roupa:'#49b379',roupa2:'#ffe7ac',gola:'avental',batom:true},
+  cozinheira: {nome:'Cozinheira',cor:'#ed604b',pele:'#9b6347',sombra:'#7a4931',cabelo:'#242024',estilo:'coque',chapeu:'chef',corChapeu:'#fff4df',roupa:'#ed604b',roupa2:'#fff1c7',gola:'avental',batom:true},
+  relojoeiro: {nome:'Relojoeiro',cor:'#c89a37',pele:'#e6ba92',sombra:'#c99b73',cabelo:'#c6c4bc',estilo:'curto',roupa:'#6c5279',roupa2:'#dbc77e',gola:'colete',oculos:true,barba:'bigode'},
 };
 
 const OLHO_Y = 98;
@@ -227,3 +235,4 @@ export const Avatar: React.FC<{
     </g>
   );
 };
+
