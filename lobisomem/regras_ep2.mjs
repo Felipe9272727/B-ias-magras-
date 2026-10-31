@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 export const CONFIG = JSON.parse(fs.readFileSync(new URL('./elenco_ep2.json', import.meta.url), 'utf8'))
-export const LOBO = p => p === 'lobisomem' || p === 'lobo_vidente'
-export const PAPEIS_VALIDOS = new Set(['lobisomem','lobo_vidente','vidente','medico','carcereiro','pistoleiro','bobo','aldeao','padre','xerife','vidente_espiritual'])
+export const LOBO = p => ['lobisomem','lobo_vidente','lobo_alfa'].includes(p)
+export const PAPEIS_VALIDOS = new Set(['lobisomem','lobo_vidente','vidente','medico','carcereiro','pistoleiro','bobo','aldeao','padre','xerife','vidente_espiritual','detetive','prefeito','lobo_alfa'])
 export function validarElenco(config = CONFIG) {
   if (config.players.length !== 16 || config.roles.length !== 16) throw new Error('EP2 requer 16 jogadores e 16 papéis')
   if (new Set(config.players.map(p => p.id)).size !== 16 || new Set(config.players.map(p => p.nome)).size !== 16) throw new Error('IDs e nomes devem ser únicos')
@@ -47,3 +47,10 @@ export function vencedor(js) {
   return null
 }
 validarElenco()
+
+export const timePapel = p => LOBO(p) ? 'lobos' : p === 'bobo' ? 'bobo' : 'aldeia'
+export const mesmoTime = (a,b) => timePapel(a) === timePapel(b)
+export const pesoVoto = j => j.papel === 'prefeito' && j.prefeitoRevelado ? 2 : 1
+export function votosAtaque(lobos,chat) {
+ return lobos.flatMap(l=>{const alvo=[...chat].reverse().find(m=>m.nome===l.nome)?.alvo;return alvo?Array(l.papel==='lobo_alfa'?2:1).fill(alvo):[]})
+}

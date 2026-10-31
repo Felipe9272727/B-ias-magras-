@@ -1,7 +1,7 @@
 // Ícones dos papéis (os do Wolvesville, desenhados do zero): círculo colorido com borda grossa e o símbolo no meio.
 import React from 'react';
 
-export type Papel = 'lobisomem' | 'lobo_vidente' | 'vidente' | 'medico' | 'carcereiro' | 'pistoleiro' | 'bobo' | 'aldeao' | 'padre' | 'xerife' | 'vidente_espiritual';
+export type Papel = 'lobisomem' | 'lobo_vidente' | 'vidente' | 'medico' | 'carcereiro' | 'pistoleiro' | 'bobo' | 'aldeao' | 'padre' | 'xerife' | 'vidente_espiritual' | 'detetive' | 'prefeito' | 'lobo_alfa';
 
 export const PAPEIS: Record<Papel, {nome: string; cor: string; time: 'lobos' | 'vila' | 'solo'; desc: string}> = {
   lobisomem: {nome: 'Lobisomem', cor: '#e53935', time: 'lobos', desc: 'Toda noite escolhe alguém para devorar'},
@@ -11,6 +11,9 @@ export const PAPEIS: Record<Papel, {nome: string; cor: string; time: 'lobos' | '
   carcereiro: {nome: 'Carcereiro', cor: '#546e7a', time: 'vila', desc: 'Prende alguém à noite e pode executar uma vez'},
   pistoleiro: {nome: 'Pistoleiro', cor: '#a0522d', time: 'vila', desc: 'Duas balas para atirar de dia'},
   bobo: {nome: 'Bobo', cor: '#ff3d7f', time: 'solo', desc: 'Vence sozinho se a vila linchar ele'},
+  lobo_alfa:{nome:'Lobo Alfa',cor:'#8e1717',time:'lobos',desc:'Voto noturno duplo e recado secreto de dia'},
+  detetive:{nome:'Detetive',cor:'#00897b',time:'vila',desc:'Compara dois jogadores: são do mesmo time?'},
+  prefeito:{nome:'Prefeito',cor:'#f57c00',time:'vila',desc:'Ao se revelar, seu voto passa a valer dois'},
   aldeao: {nome: 'Aldeão', cor: '#43a047', time: 'vila', desc: 'Sem poder: só o voto e a lábia'},
   padre: {nome:'Padre',cor:'#e0a52d',time:'vila',desc:'Água benta: mata um lobo; se errar, morre'},
   xerife: {nome:'Xerife',cor:'#b57a34',time:'vila',desc:'Vigia à noite e recebe dois suspeitos se o alvo morrer'},
@@ -33,6 +36,12 @@ const Simbolo: React.FC<{p: Papel}> = ({p}) => {
       return <Lobo />;
     case 'lobo_vidente':
       return <g><Lobo olho="#ce93d8" /><circle cx={50} cy={26} r={9} fill="#fff" /><circle cx={50} cy={26} r={4.5} fill="#6a1b9a" /></g>;
+    case 'lobo_alfa':
+      return <g><Lobo/><path d="M32 27L30 15L43 21L50 10L57 21L70 15L68 27Z" fill="#ffd54f" stroke="#fff" strokeWidth={2}/></g>;
+    case 'detetive':
+      return <g><circle cx={43} cy={42} r={19} fill="#b2dfdb" stroke="#fff" strokeWidth={7}/><path d="M57 56L77 77" stroke="#fff" strokeWidth={10} strokeLinecap="round"/><path d="M34 42H52M43 33V51" stroke="#00897b" strokeWidth={3}/></g>;
+    case 'prefeito':
+      return <g><path d="M24 72L33 34L50 51L67 34L76 72Z" fill="#eceff1"/><path d="M43 45L50 51L57 45L53 62L50 69L47 62Z" fill="#ffb300"/><path d="M29 29H71L66 18H34Z" fill="#263238"/><rect x={22} y={27} width={56} height={8} rx={3} fill="#263238"/></g>;
     case 'vidente':
       return (
         <g>

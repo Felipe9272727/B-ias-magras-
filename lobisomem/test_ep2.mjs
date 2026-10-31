@@ -3,15 +3,15 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import {CONFIG, validarElenco, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife} from './regras_ep2.mjs'
+import {CONFIG, validarElenco, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife, LOBO, mesmoTime, pesoVoto, votosAtaque} from './regras_ep2.mjs'
 
 test('16 jogadores de 10 modelos, com uma Luna e um DeepSeek', () => {
   validarElenco()
   assert.equal(new Set(CONFIG.players.map(j => j.modelId)).size, 10)
   assert.equal(CONFIG.players.filter(j => j.modelId === 'openai/gpt-6-luna').length, 1)
   assert.equal(CONFIG.players.filter(j => j.modelId.startsWith('deepseek/')).length, 1)
-  assert.equal(CONFIG.roles.filter(p => p === 'aldeao').length, 4)
-  for (const p of ['padre','xerife','vidente_espiritual']) assert.equal(CONFIG.roles.filter(x=>x===p).length,1)
+  assert.equal(CONFIG.roles.filter(p => p === 'aldeao').length, 2)
+  for (const p of ['padre','xerife','vidente_espiritual','detetive','prefeito','lobo_alfa']) assert.equal(CONFIG.roles.filter(x=>x===p).length,1)
 })
 test('Padre mata o lobo ou morre se errar, sem converter ninguém', () => {
   const padre={nome:'P',papel:'padre',vivo:true}, lobo={nome:'L',papel:'lobo_vidente',vivo:true}, vila={nome:'V',papel:'medico',vivo:true}
@@ -68,7 +68,7 @@ test('partida técnica completa mantém 16 papéis e não cria dados reais', asy
     const ultima=listas.at(-1)?.[1]??''
     const nomes=CONFIG.players.filter(j=>ultima.includes(j.nome)).map(j=>j.nome)
     const alvo=nomes[0]??'ninguém'
-    return {fala:'Vamos conferir os votos anteriores.',mensagem:'Vamos avaliar as informações.',alvo,alvos:[alvo],voto:alvo,pensamento:'Decisão técnica sintética.',expressao:'pensando',executar:false,atirar:null,aguaBenta:null}
+    return {fala:'Vamos conferir os votos anteriores.',mensagem:'Vamos avaliar as informações.',alvo,alvos:prompt.includes("Escolha DOIS")?nomes.slice(0,2):[alvo],voto:alvo,pensamento:'Decisão técnica sintética.',expressao:'pensando',executar:false,atirar:null,aguaBenta:null,revelarPrefeito:false,recadoLobos:null}
   })
   const {partida}=await import('./motor_ep2.mjs')
   await partida(5,41595)
@@ -77,7 +77,7 @@ test('partida técnica completa mantém 16 papéis e não cria dados reais', asy
   assert.equal(log.jogadores.length,16)
   assert.ok(log.resultado)
   assert.ok(log.noites.length<=10)
-  assert.equal(log.jogadores.filter(j=>['lobisomem','lobo_vidente'].includes(j.papel)).length,4)
+  assert.equal(log.jogadores.filter(j=>LOBO(j.papel)).length,4)
   const consulta=log.noites[0].loboVidente
   assert.equal(consulta.momento,'antes_chat')
   assert.equal(consulta.compartilhadoCom.length,4)
@@ -98,4 +98,15 @@ test('partida técnica completa mantém 16 papéis e não cria dados reais', asy
   decisorDeTeste(()=>({}))
   await assert.rejects(partida(6,49514),/partida pausada/)
   assert.equal(fs.existsSync(path.join(dir,'partida6.json')),false)
+})
+
+test('Detetive reconhece equipes e Prefeito só dobra voto ao revelar',()=> {
+ assert.equal(mesmoTime('padre','prefeito'),true)
+ assert.equal(mesmoTime('lobo_alfa','lobo_vidente'),true)
+ assert.equal(mesmoTime('bobo','aldeao'),false)
+ assert.equal(pesoVoto({papel:'prefeito'}),1)
+ assert.equal(pesoVoto({papel:'prefeito',prefeitoRevelado:true}),2)
+})
+test('Alfa duplica apenas o voto noturno',()=>{
+ assert.deepEqual(votosAtaque([{nome:'A',papel:'lobo_alfa'},{nome:'B',papel:'lobisomem'}],[{nome:'A',alvo:'X'},{nome:'B',alvo:'Y'}]),['X','X','Y'])
 })

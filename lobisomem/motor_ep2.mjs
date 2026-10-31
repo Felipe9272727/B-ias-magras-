@@ -4,7 +4,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { perguntar } from './ia_ep2.mjs'
-import {CONFIG, LOBO, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife} from './regras_ep2.mjs'
+import {CONFIG, LOBO, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife, mesmoTime, pesoVoto, votosAtaque} from './regras_ep2.mjs'
 import {pathToFileURL} from 'node:url'
 
 const DIR = path.resolve(process.env.LOBO_EP2_LOG_DIR ?? path.join(path.dirname(new URL(import.meta.url).pathname), 'logs_ep2'))
@@ -12,11 +12,11 @@ fs.mkdirSync(DIR, { recursive: true })
 
 export const JOGADORES = CONFIG.players.map(j => ({...j, provider:'or:'+j.modelId}))
 const PAPEIS = CONFIG.roles
-export const NOME_PAPEL = { lobisomem: 'Lobisomem', lobo_vidente: 'Lobo Vidente', vidente: 'Vidente', medico: 'Médico', carcereiro: 'Carcereiro', pistoleiro: 'Pistoleiro', bobo: 'Bobo', aldeao: 'Aldeão', padre:'Padre', xerife:'Xerife', vidente_espiritual:'Vidente Espiritual' }
+export const NOME_PAPEL = { lobisomem: 'Lobisomem', lobo_vidente: 'Lobo Vidente', vidente: 'Vidente', medico: 'Médico', carcereiro: 'Carcereiro', pistoleiro: 'Pistoleiro', bobo: 'Bobo', aldeao: 'Aldeão', padre:'Padre', xerife:'Xerife', vidente_espiritual:'Vidente Espiritual', detetive:'Detetive', prefeito:'Prefeito', lobo_alfa:'Lobo Alfa' }
 const EXPR = ['neutro', 'desconfiado', 'assustado', 'bravo', 'rindo', 'culpado', 'chocado', 'pensando', 'chorando']
 const MAX_DIAS = CONFIG.maxDays
 
-const REGRAS = `REGRAS (Lobisomem no estilo Wolvesville): 16 jogadores. TIME DOS LOBOS: 3 Lobisomens e 1 Lobo Vidente (se conhecem e matam juntos uma pessoa por noite; o Lobo Vidente descobre o papel antes do chat secreto, e os lobos livres recebem o resultado ainda nessa noite). TIME DA VILA: Vidente (descobre o papel exato de alguém por noite), Médico (protege um jogador por noite dos lobos; não pode se proteger), Carcereiro (de dia escolhe alguém para prender à noite; o preso não pode agir nem ser atacado, os dois conversam em segredo sem o preso saber quem é o carcereiro, e UMA vez no jogo o Carcereiro pode executar o preso), Pistoleiro (tem 2 balas e atira de DIA em quem quiser; no primeiro tiro todos descobrem que ele é o Pistoleiro) Padre (UMA água benta usada de DIA: mata o alvo se for lobo, mas se errar o próprio Padre morre; não converte ninguém), Xerife (vigia até dois jogadores por noite; se um morrer recebe dois suspeitos, só um executou aquela morte), Vidente Espiritual (verifica até dois jogadores à noite; ao amanhecer sabe apenas se pelo menos um deles matou, sem saber qual; um ataque dos lobos que matou conta para todos os lobos livres participantes) e Aldeão (sem poder). SOLO: Bobo (vence sozinho se for LINCHADO pela vila; aí o jogo acaba). Ninguém sabe o papel dos outros. Quando alguém morre, o papel aparece para todos. De DIA todos discutem e votam; o mais votado é linchado (empate: ninguém). A VILA vence quando todos os 4 lobos morrerem; os LOBOS vencem quando forem tantos quanto os outros vivos.`
+const REGRAS = `REGRAS (Lobisomem no estilo Wolvesville): 16 jogadores. TIME DOS LOBOS: 2 Lobisomens, 1 Lobo Alfa (voto noturno vale dois; pode enviar um recado privado aos lobos por dia) e 1 Lobo Vidente (se conhecem e matam juntos uma pessoa por noite; o Lobo Vidente descobre o papel antes do chat secreto, e os lobos livres recebem o resultado ainda nessa noite). TIME DA VILA: Vidente (descobre o papel exato de alguém por noite), Médico (protege um jogador por noite dos lobos; não pode se proteger), Carcereiro (de dia escolhe alguém para prender à noite; o preso não pode agir nem ser atacado, os dois conversam em segredo sem o preso saber quem é o carcereiro, e UMA vez no jogo o Carcereiro pode executar o preso), Pistoleiro (tem 2 balas e atira de DIA em quem quiser; no primeiro tiro todos descobrem que ele é o Pistoleiro) Padre (UMA água benta usada de DIA: mata o alvo se for lobo, mas se errar o próprio Padre morre; não converte ninguém), Xerife (vigia até dois jogadores por noite; se um morrer recebe dois suspeitos, só um executou aquela morte), Vidente Espiritual (verifica até dois jogadores à noite; ao amanhecer sabe apenas se pelo menos um deles matou, sem saber qual; um ataque dos lobos que matou conta para todos os lobos livres participantes) Detetive (compara dois jogadores à noite e descobre APENAS se são do mesmo time, sem descobrir os papéis), Prefeito (pode se revelar de dia; depois disso seu voto vale dois pelo resto da partida) e Aldeão (sem poder). SOLO: Bobo (vence sozinho se for LINCHADO pela vila; aí o jogo acaba). Ninguém sabe o papel dos outros. Quando alguém morre, o papel aparece para todos. De DIA todos discutem e votam; o mais votado é linchado (empate: ninguém). A VILA vence quando todos os 4 lobos morrerem; os LOBOS vencem quando forem tantos quanto os outros vivos.`
 
 let rnd = Math.random
 function semear(s) { let x = s >>> 0; rnd = () => { x = (x + 0x6d2b79f5) >>> 0; let t = x; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296 } }
@@ -76,7 +76,7 @@ export async function partida(n, semente) {
   let fim = null
   for (let dia = 1; dia <= MAX_DIAS && !fim; dia++) {
     // ---------------- NOITE
-    const noite = { n: dia, cela: null, chat: [], vidente: null, loboVidente: null, medico: null, xerife: null, videnteEspiritual: null, mortes: [] }
+    const noite = { n: dia, cela: null, chat: [], vidente: null, loboVidente: null, medico: null, xerife: null, videnteEspiritual: null, detetive:null, mortes: [] }
     const car = papel('carcereiro')
     if (preso?.vivo && car?.vivo) {
       // conversa na cela: 2 rodadas, o preso não sabe quem é o carcereiro
@@ -119,7 +119,7 @@ export async function partida(n, semente) {
         if (d) noite.chat.push({ nome: l.nome, texto: d.mensagem, alvo: porNome(d.alvo).nome, pensamento: d.pensamento, rodada })
       }
     }
-    const finais = lv.map((l) => [...noite.chat].reverse().find((m) => m.nome === l.nome)?.alvo).filter(Boolean)
+    const finais = votosAtaque(lv,noite.chat)
     const alvoLobo = porNome(escolherAlvoLobos(finais, rnd))
     noite.alvoLobos = alvoLobo?.nome ?? null
     await investigar(papel('vidente'), 'vidente')
@@ -140,6 +140,18 @@ export async function partida(n, semente) {
     }
     await observar('xerife','xerife')
     await observar('vidente_espiritual','videnteEspiritual')
+
+    const det = papel('detetive')
+    if (det?.vivo && det !== intocavel) {
+      const candidatos = vivos().filter(x=>x!==det && x!==intocavel)
+      if (candidatos.length>=2) {
+        const r = await pedir(det,sistema(det),`${contexto(det)}\nNOITE ${dia}. Escolha DOIS jogadores para comparar o time. Vivos: ${candidatos.map(x=>x.nome).join(', ')}.\nResponda SÓ com JSON: {"alvos":["nome","outro nome"],"pensamento":"por quê"}`,
+          x=>Array.isArray(x.alvos) && x.alvos.length===2 && porNome(x.alvos[0])!==porNome(x.alvos[1]) && x.alvos.every(a=>candidatos.includes(porNome(a))),null)
+        const alvos=r.alvos.map(a=>porNome(a))
+        noite.detetive={alvos:alvos.map(a=>a.nome),mesmoTime:mesmoTime(alvos[0].papel,alvos[1].papel),pensamento:r.pensamento}
+        segredos[det.nome].push(`Na noite ${dia}: ${alvos.map(a=>a.nome).join(' e ')} ${noite.detetive.mesmoTime?'são':'NÃO são'} do mesmo time.`)
+      }
+    }
     noite.salvo = alvoLobo && (noite.medico?.alvo === alvoLobo.nome || alvoLobo === intocavel)
     if (alvoLobo && alvoLobo.vivo && !noite.salvo) noite.mortes.push(matar(alvoLobo, 'lobos', `noite ${dia}`, (lv.find(l=>l.papel==='lobisomem') ?? lv[0]).nome))
     if (noite.salvo && noite.medico?.alvo === alvoLobo.nome) segredos[med.nome].push(`Na noite ${dia} você salvou ${alvoLobo.nome} dos lobos.`)
@@ -172,21 +184,35 @@ export async function partida(n, semente) {
     if ((fim = vitoria())) break
 
     // ---------------- DIA
-    const d = { n: dia, falas: [], tiros: [], acoes: [], votos: {}, pensamentosVoto: {}, linchado: null, preso: null }
+    const d = { n: dia, falas: [], tiros: [], acoes: [], revelacoes:[], recados:[], votos: {}, pesosVoto:{}, pensamentosVoto: {}, linchado: null, preso: null }
     for (let rodada = 1; rodada <= 2; rodada++) {
       for (const j of embaralhar(vivos())) {
         if (!j.vivo) continue
         const arma = j.papel === 'pistoleiro' && balas > 0
+        const prefeito = j.papel === 'prefeito' && !j.prefeitoRevelado
+        const alfa = j.papel === 'lobo_alfa' && !d.recados.some(m=>m.nome===j.nome)
+        const pedePrefeito = prefeito ? '\nVocê pode revelar seu papel para todos e dobrar seu voto até o fim do jogo: campo "revelarPrefeito": true ou false.' : ''
+        const pedeRecado = alfa ? '\nVocê pode mandar UM recado privado aos lobos hoje. Campo "recadoLobos": mensagem curta ou null. Só os lobos vivos recebem.' : ''
         const santo = j.papel === 'padre' && aguaBenta
         const pedeAgua = santo ? '\nVocê tem UMA água benta. Pode usar AGORA: se o alvo for lobo ele morre, caso contrário VOCÊ morre. Ponha o nome em \"aguaBenta\" ou null para guardar.' : ''
         const eventos = () => d.acoes.map(a=>`[ÁGUA BENTA] ${a.ator} usou em ${a.alvo}; ${a.morte.nome} morreu e era ${NOME_PAPEL[a.morte.papel]}.`).join('\n')
         const pedeTiro = arma ? `\nVocê tem ${balas} bala(s). Se quiser atirar AGORA em alguém, ponha o nome em "atirar" (senão null)${revelado ? '' : '; ao atirar, todos descobrem que você é o Pistoleiro'}.` : ''
         const loboChat = LOBO(j.papel) ? `\nChat dos lobos desta noite: ${noite.chat.map((m) => `${m.nome}: ${m.texto}`).join(' | ') || '-'}` : ''
-        const r = await pedir(j, sistema(j), `${contexto(j)}${loboChat}\n\nDIA ${dia}, discussão (rodada ${rodada} de 2). Vivos: ${nomesVivos()}.\nChat de hoje:\n${d.falas.map((f) => `${f.nome}: ${f.fala}`).join('\n') || '(ninguém falou ainda)'}${d.tiros.map((t) => `\n[TIRO] O Pistoleiro ${t.atirador} atirou em ${t.nome}, que era ${NOME_PAPEL[t.papel]}.`).join('')}${pedeTiro}${pedeAgua}\n${eventos()}\nResponda SÓ com JSON: {"fala": "o que você escreve no chat", "pensamento": "o que você pensa de verdade (secreto)", "expressao": "${EXPR.join('|')}"${arma ? ', "atirar": "nome ou null"' : ''}${santo ? ', "aguaBenta": "nome ou null"' : ''}}`,
-          (x) => x.fala && (!santo || x.aguaBenta===null || (porNome(x.aguaBenta)?.vivo && porNome(x.aguaBenta)!==j)), null)
+        const r = await pedir(j, sistema(j), `${contexto(j)}${loboChat}\n\nDIA ${dia}, discussão (rodada ${rodada} de 2). Vivos: ${nomesVivos()}.\nChat de hoje:\n${d.falas.map((f) => `${f.nome}: ${f.fala}`).join('\n') || '(ninguém falou ainda)'}${d.tiros.map((t) => `\n[TIRO] O Pistoleiro ${t.atirador} atirou em ${t.nome}, que era ${NOME_PAPEL[t.papel]}.`).join('')}${pedeTiro}${pedeAgua}${pedePrefeito}${pedeRecado}\n${eventos()}\nResponda SÓ com JSON: {"fala": "o que você escreve no chat", "pensamento": "o que você pensa de verdade (secreto)", "expressao": "${EXPR.join('|')}"${arma ? ', "atirar": "nome ou null"' : ''}${santo ? ', "aguaBenta": "nome ou null"' : ''}${prefeito ? ', "revelarPrefeito": true ou false' : ''}${alfa ? ', "recadoLobos": "mensagem ou null"' : ''}}`,
+          (x) => x.fala && (!prefeito || typeof x.revelarPrefeito==='boolean') && (!alfa || x.recadoLobos===null || typeof x.recadoLobos==='string') && (!santo || x.aguaBenta===null || (porNome(x.aguaBenta)?.vivo && porNome(x.aguaBenta)!==j)), null)
         if (!r) continue
         d.falas.push({ nome: j.nome, id: j.id, rodada, fala: r.fala, pensamento: r.pensamento, expressao: r.expressao })
         console.log(`[p${n}] dia ${dia} ${j.nome}: ${r.fala}`)
+        if (prefeito && r.revelarPrefeito) {
+          j.prefeitoRevelado=true
+          d.revelacoes.push({nome:j.nome,papel:j.papel,depoisDaFala:d.falas.length-1})
+          historico.push(`Dia ${dia}: ${j.nome} revelou oficialmente que é o Prefeito; seu voto passa a valer dois.`)
+        }
+        if (alfa && r.recadoLobos?.trim()) {
+          const recado={nome:j.nome,texto:r.recadoLobos,depoisDaFala:d.falas.length-1,recebidoPor:lobos.filter(l=>l.vivo&&l!==j).map(l=>l.nome)}
+          d.recados.push(recado)
+          for(const l of lobos.filter(l=>l.vivo&&l!==j)) segredos[l.nome].push(`Recado privado do Lobo Alfa no dia ${dia}, ${j.nome}: ${recado.texto}`)
+        }
         if (santo && r.aguaBenta) {
           const alvo = porNome(r.aguaBenta)
           const resultado = resolverAguaBenta(j,alvo)
@@ -213,10 +239,12 @@ export async function partida(n, semente) {
         const r = await pedir(j, sistema(j), `${contexto(j)}\n\nDIA ${dia}, VOTAÇÃO. Chat de hoje:\n${d.falas.map((f) => `${f.nome}: ${f.fala}`).join('\n')}${d.tiros.map((t) => `\n[TIRO] ${t.atirador} (Pistoleiro) matou ${t.nome}, que era ${NOME_PAPEL[t.papel]}.`).join('')}\nVote em quem linchar (vivos: ${nomesVivos(j)}) ou "ninguém".\nResponda SÓ com JSON: {"voto": "nome ou ninguém", "pensamento": "por quê"}`,
           (x) => x.voto && (porNome(x.voto)?.vivo || /ningu/i.test(x.voto)), { voto: 'ninguém' })
         d.votos[j.nome] = porNome(r.voto)?.nome ?? 'ninguém'
+        d.pesosVoto[j.nome] = pesoVoto(j)
         d.pensamentosVoto[j.nome] = r.pensamento
       }))
+      for (const campo of ['votos','pensamentosVoto','pesosVoto']) d[campo] = Object.fromEntries(js.filter(j=>Object.hasOwn(d[campo],j.nome)).map(j=>[j.nome,d[campo][j.nome]]))
       const cont = {}
-      for (const v of Object.values(d.votos)) if (v !== 'ninguém') cont[v] = (cont[v] ?? 0) + 1
+      for (const [de,v] of Object.entries(d.votos)) if (v !== 'ninguém') cont[v] = (cont[v] ?? 0) + d.pesosVoto[de]
       const ord = Object.entries(cont).sort((a, b) => b[1] - a[1])
       if (ord.length && (ord.length === 1 || ord[0][1] > ord[1][1])) {
         d.linchado = matar(porNome(ord[0][0]), 'linchado', `dia ${dia}`)
@@ -235,7 +263,7 @@ export async function partida(n, semente) {
     console.log(`[p${n}] dia ${dia}: linchado ${d.linchado?.nome ?? '-'} (${d.linchado?.papel ?? ''}) tiros ${d.tiros.map((t) => t.nome).join(',') || '-'} preso→${d.preso?.nome ?? '-'}`)
     fim = fim ?? vitoria()
   }
-  log.resultado = { vencedor: fim ?? 'empate', dias: log.dias.length, vivos: vivos().map((j) => j.nome) }
+  log.resultado = { vencedor: fim ?? 'empate', dias: Math.max(log.noites.at(-1)?.n??0,log.dias.at(-1)?.n??0), vivos: vivos().map((j) => j.nome) }
   const resumo = `Lobos: ${lobos.map((l) => `${l.nome} (${l.modelo}, ${NOME_PAPEL[l.papel]})`).join(' e ')}. ${js.filter((j) => !LOBO(j.papel)).map((j) => `${j.nome}=${NOME_PAPEL[j.papel]}`).join(', ')}. ${historico.join(' ')} Vencedor: ${fim === 'lobos' ? 'os lobos' : fim === 'aldeia' ? 'a vila' : fim === 'bobo' ? 'o Bobo' : 'ninguém'}.`
   const reflexoes = {}
   await Promise.all(js.map(async (j) => {

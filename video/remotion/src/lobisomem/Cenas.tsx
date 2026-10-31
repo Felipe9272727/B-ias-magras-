@@ -14,8 +14,8 @@ type Fala = {nome: string; id: AvatarId; rodada: number; fala: string; pensament
 type Morte = {nome: string; papel: Papel; causa: string; quando: string; atirador?: string; depoisDaFala?: number};
 type Cela = {carcereiro: string; preso: string; conversa: {quem: string; texto: string; pensamento?: string; executar?: boolean; rodada: number}[]; executou: boolean};
 type AcaoDia = {tipo:'agua_benta'; ator:string; alvo:string; acertou:boolean; morte:Morte; depoisDaFala:number};
-type Noite = {n: number; cela: Cela | null; chat: {nome: string; texto: string; alvo: string; pensamento?: string}[]; vidente: {alvo: string; papel: Papel} | null; loboVidente: {alvo: string; papel: Papel} | null; medico: {alvo: string} | null; xerife?: {alvos:string[]; recebeu:boolean; pistas?:{alvo:string;suspeitos:string[]}[]} | null; videnteEspiritual?: {alvos:string[];recebeu:boolean;matou?:boolean} | null; mortes: Morte[]; alvoLobos?: string | null; salvo?: boolean};
-type Dia = {n: number; falas: Fala[]; tiros: Morte[]; acoes?:AcaoDia[]; votos: Record<string, string>; linchado: Morte | null; preso: {nome: string} | null};
+type Noite = {n: number; cela: Cela | null; chat: {nome: string; texto: string; alvo: string; pensamento?: string}[]; vidente: {alvo: string; papel: Papel} | null; loboVidente: {alvo: string; papel: Papel} | null; medico: {alvo: string} | null; detetive?:{alvos:string[];mesmoTime:boolean} | null; xerife?: {alvos:string[]; recebeu:boolean; pistas?:{alvo:string;suspeitos:string[]}[]} | null; videnteEspiritual?: {alvos:string[];recebeu:boolean;matou?:boolean} | null; mortes: Morte[]; alvoLobos?: string | null; salvo?: boolean};
+type Dia = {n: number; falas: Fala[]; tiros: Morte[]; acoes?:AcaoDia[]; votos: Record<string, string>; linchado: Morte | null; preso: {nome: string} | null; pesosVoto?:Record<string,number>; revelacoes?:{nome:string;papel:Papel;depoisDaFala:number}[]; recados?:{nome:string;texto:string;depoisDaFala:number}[]};
 export type Partida = {partida: number; jogadores: Jogador[]; noites: Noite[]; dias: Dia[]; resultado: {vencedor: string; dias: number; vivos: string[]}};
 type Item = {cor: AvatarId; texto: string; at: number; ate: number; pensa?: boolean};
 type Aviso = {texto: string; cor?: string; em?: string};
@@ -24,7 +24,7 @@ const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as cons
 const EXPR: Expressao[] = ['neutro', 'desconfiado', 'assustado', 'bravo', 'rindo', 'culpado', 'chocado', 'pensando', 'chorando', 'dormindo'];
 const ex = (e?: string): Expressao => (EXPR.includes(e as Expressao) ? (e as Expressao) : 'neutro');
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9à-ú]/g, '');
-const LOBO = (p: Papel) => p === 'lobisomem' || p === 'lobo_vidente';
+const LOBO = (p: Papel) => ['lobisomem','lobo_vidente','lobo_alfa'].includes(p);
 
 // mortos até um ponto da partida: começo da noite n, amanhecer do dia n, durante o dia n (com k tiros) ou depois da votação
 type Ponto = {fase: 'noite' | 'amanhecer' | 'dia' | 'votado'; n: number; tiros?: number; acoes?:number};
@@ -167,11 +167,12 @@ const LOBNoite: React.FC<{P: Partida; noite: number; modo: 'lobos' | 'cela' | 'a
   const acoes = [
     N.vidente && {quem: 'vidente' as Papel, alvo: N.vidente.alvo, texto: `A Vidente viu: ${N.vidente.alvo} é ${PAPEIS[N.vidente.papel].nome}`},
     N.loboVidente && {quem: 'lobo_vidente' as Papel, alvo: N.loboVidente.alvo, texto: `O Lobo Vidente viu: ${N.loboVidente.alvo} é ${PAPEIS[N.loboVidente.papel].nome}`},
+    N.detetive && {quem:'detetive' as Papel,alvo:N.detetive.alvos[0],texto:`O Detetive comparou ${N.detetive.alvos.join(' e ')}: ${N.detetive.mesmoTime?'mesmo time':'times diferentes'}`},
     N.medico && {quem: 'medico' as Papel, alvo: N.medico.alvo, texto: `O Médico protegeu ${N.medico.alvo}`},
     ...(N.xerife?.recebeu ? (N.xerife.pistas??[]).map(p=>({quem:'xerife' as Papel,alvo:p.alvo,texto:`O Xerife recebeu dois suspeitos pela morte de ${p.alvo}: ${p.suspeitos.join(' ou ')}`})) : []),
     N.videnteEspiritual?.recebeu && {quem:'vidente_espiritual' as Papel,alvo:N.videnteEspiritual.alvos[0],texto:`Vidente Espiritual verificou ${N.videnteEspiritual.alvos.join(' e ')}: ${N.videnteEspiritual.matou?'pelo menos um matou':'ninguém matou'}`},
   ].filter(Boolean) as {quem: Papel; alvo: string; texto: string}[];
-  const gAc = gatilhos(scene, acoes.map((a) => (a.quem === 'lobo_vidente' ? 'lobo' : a.quem === 'medico' ? 'médico' : a.quem==='xerife'?'xerife':'vidente')));
+  const gAc = gatilhos(scene, acoes.map((a) => (a.quem === 'lobo_vidente' ? 'lobo' : a.quem === 'medico' ? 'médico' : a.quem==='xerife'?'xerife':a.quem==='detetive'?'detetive':'vidente')));
   const atAc = acoes.map((_, i) => (gAc[i] >= 0 ? gAc[i] : 20 + i * 90));
   const acaoAtual = modo === 'acoes' ? acoes.map((a, i) => ({...a, at: atAc[i]})).filter((a) => f >= a.at).pop() : undefined;
   const msgs: Msg[] = [
@@ -366,11 +367,11 @@ const LOBVotos: React.FC<{P: Partida; dia: number; scene: Scene}> = ({P, dia, sc
   const passo = Math.max(10, Math.min(36, (scene.duration - 60) / Math.max(1, votos.length)));
   const quando = votos.map((_, i) => 15 + i * passo);
   const cont: Record<string, number> = {};
-  votos.forEach(([, alvo], i) => { if (f >= quando[i] && alvo !== 'ninguém') cont[alvo] = (cont[alvo] ?? 0) + 1 });
+  votos.forEach(([, alvo], i) => { if (f >= quando[i] && alvo !== 'ninguém') cont[alvo] = (cont[alvo] ?? 0) + (D.pesosVoto?.[votos[i][0]]??1) });
   const ultimo = votos.map((v, i) => ({v, at: quando[i]})).filter((x) => f >= x.at).pop();
   const msgs: Msg[] = [
     {tipo: 'sistema', texto: 'Hora de votar!', at: 0},
-    ...votos.map(([quem, alvo], i) => ({tipo: 'sistema', cor: '#37474f', at: quando[i], texto: alvo === 'ninguém' ? `${quem} não votou` : `${quem} votou em ${alvo}`} as Msg)),
+    ...votos.map(([quem, alvo], i) => ({tipo: 'sistema', cor: '#37474f', at: quando[i], texto: alvo === 'ninguém' ? `${quem} não votou` : `${quem} votou em ${alvo}${D.pesosVoto?.[quem]===2?' (peso 2)':''}`} as Msg)),
   ];
   return (
     <AbsoluteFill>
@@ -479,26 +480,29 @@ const LOBElenco: React.FC<{P: Partida; scene: Scene}> = ({P, scene}) => {
 
 // ---------------------------------------------------------------- PAPÉIS (explicação, cada carta entra quando o narrador fala o nome)
 const ORDEM: Papel[] = ['lobisomem', 'lobo_vidente', 'vidente', 'medico', 'carcereiro', 'pistoleiro', 'bobo', 'aldeao'];
-const LOBPapeis: React.FC<{P:Partida; scene: Scene}> = ({P,scene}) => {
+const LOBPapeis: React.FC<{P:Partida; scene: Scene; pagina?:number}> = ({P,scene,pagina}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const ordem = [...ORDEM,...(['padre','xerife','vidente_espiritual'] as Papel[])].filter(p=>P.jogadores.some(j=>j.papel===p));
-  const compacto=ordem.length>8;
+  const ordem = [...ORDEM,...(['lobo_alfa','padre','xerife','vidente_espiritual','detetive','prefeito'] as Papel[])].filter(p=>P.jogadores.some(j=>j.papel===p));
+  const paginas=Math.ceil(ordem.length/8);
+  const page=pagina??Math.min(paginas-1,Math.floor(f/(scene.duration/paginas)));
+  const visiveis=ordem.slice(page*8,page*8+8);
+  const compacto=false;
   const g = gatilhos(scene, ordem.map(p=>p==='lobo_vidente'?'lobo':p==='vidente_espiritual'?'espiritual':PAPEIS[p].nome.split(' ')[0]));
   return (
     <AbsoluteFill>
       <Fundo noite={false} />
-      <Barra texto="Os papéis" noite={false} icone="cadeado" />
+      <Barra texto={`Os papéis${paginas>1?` · ${page+1}/${paginas}`:''}`} noite={false} icone="cadeado" />
       <div style={{position: 'absolute', left: 70, top: 140, width: 1780, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: compacto?18:30}}>
-        {ordem.map((p, i) => {
-          const at = g[i] >= 0 ? g[i] : i * 25;
+        {visiveis.map((p, i) => {
+          const at = g[page*8+i] >= 0 ? g[page*8+i] : (pagina===undefined?page*scene.duration/paginas:0)+i*25;
           const e = spring({frame: f - at, fps, config: {damping: 12}});
           const time = PAPEIS[p].time;
           return (
-            <div key={p} style={{height: compacto?270:410, boxSizing:compacto?'border-box':undefined, borderRadius: 26, background: '#fff', border: `7px solid ${PAPEIS[p].cor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: compacto?12:20, gap: compacto?6:10, transform: `scale(${f >= at ? e : 0}) rotate(${(1 - e) * 8}deg)`, boxShadow: '0 10px 24px rgba(0,0,0,0.4)'}}>
+            <div key={p} style={{height: compacto?270:410, boxSizing:'border-box', borderRadius: 26, background: '#fff', border: `7px solid ${PAPEIS[p].cor}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: compacto?12:20, gap: compacto?6:10, transform: `scale(${f >= at ? e : 0}) rotate(${(1 - e) * 8}deg)`, boxShadow: '0 10px 24px rgba(0,0,0,0.4)'}}>
               <div style={{alignSelf: 'stretch', textAlign: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 22, color: '#fff', background: time === 'lobos' ? '#c62828' : time === 'solo' ? ROSA : '#2e7d32', borderRadius: 10}}>{time === 'lobos' ? 'TIME DOS LOBOS' : time === 'solo' ? 'SOLO' : 'TIME DA VILA'}</div>
               <IconePapel papel={p} tamanho={compacto?100:170} />
-              <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: compacto?28:40, color: PAPEIS[p].cor}}>{PAPEIS[p].nome}</div>
+              <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: compacto?28:p==='vidente_espiritual'?30:40, color: PAPEIS[p].cor}}>{PAPEIS[p].nome}</div>
               <div style={{fontFamily: FONTE, fontWeight: 700, fontSize: compacto?20:25, color: '#455a64', textAlign: 'center'}}>{PAPEIS[p].desc}</div>
             </div>
           );
@@ -674,7 +678,7 @@ export const LOBVisual: React.FC<{name: string; props: Record<string, any>; scen
     case 'LOBLinchado': return <LOBLinchado P={P} dia={p.dia} scene={scene} />;
     case 'LOBSorteio': return <LOBSorteio P={P} scene={scene} />;
     case 'LOBElenco': return <LOBElenco P={P} scene={scene} />;
-    case 'LOBPapeis': return <LOBPapeis P={P} scene={scene} />;
+    case 'LOBPapeis': return <LOBPapeis P={P} scene={scene} pagina={p.pagina} />;
     case 'LOBFase': return <LOBFase tipo={p.tipo} n={p.n} sub={p.sub} />;
     case 'LOBFim': return <LOBFim P={P} />;
     case 'LOBTitulo': return <LOBTitulo titulo={p.titulo} sub={p.sub} selos={p.selos} scene={scene} />;

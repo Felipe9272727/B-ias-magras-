@@ -17,13 +17,14 @@ const dormir = ms => new Promise(resolve => setTimeout(resolve, ms))
 const atomic = (file, value) => {fs.writeFileSync(file+'.tmp', JSON.stringify(value));fs.renameSync(file+'.tmp', file)}
 
 export async function perguntar(provider, system, prompt, {maxTokens=600, timeoutMs=180000, attempt=0}={}) {
+  timeoutMs = Math.max(timeoutMs,900000)
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0)+1
   if (teste) return {ok:true, text:JSON.stringify(await teste({provider,system,prompt})), synthetic:true}
   const model = provider.replace(/^or:/, '')
   const player = CONFIG.players.find(p => p.modelId === model)
   if (!player && model !== CONFIG.judgeModel) throw new Error('Modelo fora do elenco: '+model)
-  const max_tokens = Math.max(maxTokens, CONFIG.maxTokens)
+  const max_tokens = Math.max(maxTokens, player?.maxTokens ?? CONFIG.maxTokens)
   const value = {model, system, message:prompt, max_tokens, ...(player?.effort?{reasoning_effort:player.effort}:{}), attempt}
   const id = crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
   const cache = path.join(SPOOL,'cache',id+'.json')

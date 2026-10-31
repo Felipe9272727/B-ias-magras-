@@ -3,37 +3,182 @@
   "matches": 4,
   "maxDays": 10,
   "maxTokens": 1800,
-  "budgetUsd": 2.0,
+  "budgetUsd": 2,
   "judgeModel": "deepseek/deepseek-v4.1-flash-1017",
-  "roles": ["lobisomem", "lobisomem", "lobisomem", "lobo_vidente", "vidente", "medico", "carcereiro", "pistoleiro", "bobo", "padre", "xerife", "vidente_espiritual", "aldeao", "aldeao", "aldeao", "aldeao"],
+  "roles": [
+    "lobisomem",
+    "lobisomem",
+    "lobo_alfa",
+    "lobo_vidente",
+    "vidente",
+    "medico",
+    "carcereiro",
+    "pistoleiro",
+    "bobo",
+    "padre",
+    "xerife",
+    "vidente_espiritual",
+    "detetive",
+    "prefeito",
+    "aldeao",
+    "aldeao"
+  ],
   "players": [
-    {"id":"padeira","nome":"Padeira","modelo":"Claude Haiku 5.5","modelId":"anthropic/claude-haiku-5.5","effort":"low"},
-    {"id":"ferreiro","nome":"Ferreiro","modelo":"Claude Haiku 5.5","modelId":"anthropic/claude-haiku-5.5","effort":"low"},
-    {"id":"boticaria","nome":"Boticária","modelo":"GLM 5.3 Flash","modelId":"z-ai/glm-5.3-flash","effort":"low"},
-    {"id":"lenhador","nome":"Lenhador","modelo":"GLM 5.3 Flash","modelId":"z-ai/glm-5.3-flash","effort":"low"},
-    {"id":"costureira","nome":"Costureira","modelo":"Qwen 3.8 27B","modelId":"qwen/qwen3.8-27b","effort":"low"},
-    {"id":"pescador","nome":"Pescador","modelo":"Qwen 3.8 27B","modelId":"qwen/qwen3.8-27b","effort":"low"},
-    {"id":"moleiro","nome":"Moleiro","modelo":"DeepSeek V4.1 Flash 1017","modelId":"deepseek/deepseek-v4.1-flash-1017","effort":"low"},
-    {"id":"bardo","nome":"Bardo","modelo":"MiniMax M3.1 Flash","modelId":"minimax/minimax-m3.1-flash","effort":"low"},
-    {"id":"viajante","nome":"Viajante","modelo":"GPT-6.1 Terra","modelId":"openai/gpt-6.1-terra","effort":"low"},
-    {"id":"astronoma","nome":"Astrônoma","modelo":"GPT-6 Luna","modelId":"openai/gpt-6-luna","effort":"low"},
-    {"id":"mineiro","nome":"Mineiro","modelo":"MiMo V2.6 Flash","modelId":"xiaomi/mimo-v2.6-flash"},
-    {"id":"ceramista","nome":"Ceramista","modelo":"MiMo V2.6 Flash","modelId":"xiaomi/mimo-v2.6-flash"},
-    {"id":"carteiro","nome":"Carteiro","modelo":"Gemini 2.5 Flash Lite","modelId":"google/gemini-2.5-flash-lite"},
-    {"id":"florista","nome":"Florista","modelo":"Gemini 2.5 Flash Lite","modelId":"google/gemini-2.5-flash-lite"},
-    {"id":"cozinheira","nome":"Cozinheira","modelo":"Mistral Small 2603","modelId":"mistralai/mistral-small-2603","effort":"none"},
-    {"id":"relojoeiro","nome":"Relojoeiro","modelo":"Mistral Small 2603","modelId":"mistralai/mistral-small-2603","effort":"none"}
+    {
+      "id": "padeira",
+      "nome": "Padeira",
+      "modelo": "Claude Haiku 5.5",
+      "modelId": "anthropic/claude-haiku-5.5",
+      "effort": "low"
+    },
+    {
+      "id": "ferreiro",
+      "nome": "Ferreiro",
+      "modelo": "Claude Haiku 5.5",
+      "modelId": "anthropic/claude-haiku-5.5",
+      "effort": "low"
+    },
+    {
+      "id": "boticaria",
+      "nome": "Boticária",
+      "modelo": "GLM 5.3 Flash",
+      "modelId": "z-ai/glm-5.3-flash",
+      "effort": "low"
+    },
+    {
+      "id": "lenhador",
+      "nome": "Lenhador",
+      "modelo": "GLM 5.3 Flash",
+      "modelId": "z-ai/glm-5.3-flash",
+      "effort": "low"
+    },
+    {
+      "id": "costureira",
+      "nome": "Costureira",
+      "modelo": "Qwen 3.8 27B",
+      "modelId": "qwen/qwen3.8-27b",
+      "effort": "low"
+    },
+    {
+      "id": "pescador",
+      "nome": "Pescador",
+      "modelo": "Qwen 3.8 27B",
+      "modelId": "qwen/qwen3.8-27b",
+      "effort": "low"
+    },
+    {
+      "id": "moleiro",
+      "nome": "Moleiro",
+      "modelo": "DeepSeek V4.1 Flash 1017",
+      "modelId": "deepseek/deepseek-v4.1-flash-1017",
+      "effort": "low"
+    },
+    {
+      "id": "bardo",
+      "nome": "Bardo",
+      "modelo": "MiniMax M3.1 Flash",
+      "modelId": "minimax/minimax-m3.1-flash",
+      "effort": "low"
+    },
+    {
+      "id": "viajante",
+      "nome": "Viajante",
+      "modelo": "GPT-6.1 Terra",
+      "modelId": "openai/gpt-6.1-terra",
+      "effort": "low"
+    },
+    {
+      "id": "astronoma",
+      "nome": "Astrônoma",
+      "modelo": "GPT-6 Luna",
+      "modelId": "openai/gpt-6-luna",
+      "effort": "low"
+    },
+    {
+      "id": "mineiro",
+      "nome": "Mineiro",
+      "modelo": "MiMo V2.6 Flash",
+      "modelId": "xiaomi/mimo-v2.6-flash"
+    },
+    {
+      "id": "ceramista",
+      "nome": "Ceramista",
+      "modelo": "MiMo V2.6 Flash",
+      "modelId": "xiaomi/mimo-v2.6-flash"
+    },
+    {
+      "id": "carteiro",
+      "nome": "Carteiro",
+      "modelo": "Ling 3.1 Flash",
+      "modelId": "inclusionai/ling-3.1-flash",
+      "effort": "none",
+      "maxTokens": 4096
+    },
+    {
+      "id": "florista",
+      "nome": "Florista",
+      "modelo": "Ling 3.1 Flash",
+      "modelId": "inclusionai/ling-3.1-flash",
+      "effort": "none",
+      "maxTokens": 4096
+    },
+    {
+      "id": "cozinheira",
+      "nome": "Cozinheira",
+      "modelo": "Solar Mini 4",
+      "modelId": "upstage/solar-mini4",
+      "effort": "none",
+      "maxTokens": 3600
+    },
+    {
+      "id": "relojoeiro",
+      "nome": "Relojoeiro",
+      "modelo": "Solar Mini 4",
+      "modelId": "upstage/solar-mini4",
+      "effort": "none",
+      "maxTokens": 3600
+    }
   ],
   "pricesPerMillion": {
-    "anthropic/claude-haiku-5.5":{"input":0.1,"output":0.5},
-    "z-ai/glm-5.3-flash":{"input":0.0163,"output":0.1479},
-    "qwen/qwen3.8-27b":{"input":0.04,"output":2.3},
-    "deepseek/deepseek-v4.1-flash-1017":{"input":0.0141,"output":0.144},
-    "minimax/minimax-m3.1-flash":{"input":0.15,"output":0.6},
-    "openai/gpt-6.1-terra":{"input":1.0,"output":5.0},
-    "openai/gpt-6-luna":{"input":0.1,"output":0.5},
-    "xiaomi/mimo-v2.6-flash":{"input":0.14,"output":0.28},
-    "google/gemini-2.5-flash-lite":{"input":0.1,"output":0.4},
-    "mistralai/mistral-small-2603":{"input":0.15,"output":0.6}
+    "anthropic/claude-haiku-5.5": {
+      "input": 0.1,
+      "output": 0.5
+    },
+    "z-ai/glm-5.3-flash": {
+      "input": 0.0163,
+      "output": 0.1479
+    },
+    "qwen/qwen3.8-27b": {
+      "input": 0.04,
+      "output": 2.3
+    },
+    "deepseek/deepseek-v4.1-flash-1017": {
+      "input": 0.3,
+      "output": 1.2
+    },
+    "minimax/minimax-m3.1-flash": {
+      "input": 0.15,
+      "output": 0.6
+    },
+    "openai/gpt-6.1-terra": {
+      "input": 1,
+      "output": 5
+    },
+    "openai/gpt-6-luna": {
+      "input": 0.1,
+      "output": 0.5
+    },
+    "xiaomi/mimo-v2.6-flash": {
+      "input": 0.14,
+      "output": 0.28
+    },
+    "inclusionai/ling-3.1-flash": {
+      "input": 0.075,
+      "output": 0.225
+    },
+    "upstage/solar-mini4": {
+      "input": 0.05,
+      "output": 0.2
+    }
   }
 }

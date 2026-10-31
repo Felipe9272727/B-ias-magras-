@@ -11,6 +11,8 @@ export const FONTE = "'Poppins', system-ui, sans-serif";
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 export const MARCA: Record<string, {nome: string; cor: string}> = {
+  'Ling 3.1 Flash': {nome:'Ling',cor:'#176d77'},
+  'Solar Mini 4': {nome:'Solar',cor:'#e89923'},
   'Claude Haiku 5.5': {nome:'Claude',cor:'#d97757'},
   'GPT-6.1 Terra': {nome:'GPT Terra',cor:'#10a37f'},
   'GPT-6 Luna': {nome:'Luna',cor:'#815ad4'},

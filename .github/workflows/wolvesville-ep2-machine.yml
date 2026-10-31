@@ -7,19 +7,50 @@ on:
       - "video/ep2-machine-request.json"
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
         with:
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
-            lobisomem
+            /lobisomem/
+            /video/remotion/src/
+            /video/remotion/package.json
+            /video/remotion/package-lock.json
+            /video/remotion/tsconfig.json
+            /video/remotion/remotion.config.ts
+            /video/remotion/public/fonts/
+            /video/remotion/public/voice_lobo_ep2/*.json
           fetch-depth: 1
-      - name: Verify engine without calling model APIs
+      - name: Verify recovered engine without calling model APIs
         run: |
           node --version
           node --check lobisomem/motor_ep2.mjs
           node --test lobisomem/test_ep2.mjs
+      - name: Install renderer dependencies
+        working-directory: video/remotion
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck changed video components
+        working-directory: video/remotion
+        run: npx tsc --noEmit --jsx react-jsx --esModuleInterop --lib ES2022,DOM --skipLibCheck --moduleResolution bundler --module ESNext --target ES2022 --resolveJsonModule src/ep2-preview.tsx
+      - name: Render technical previews
+        working-directory: video/remotion
+        run: |
+          mkdir -p ../../ci_artifacts/wolves-ep2
+          WOLVES_BROWSER="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$WOLVES_BROWSER"
+          npx remotion still src/ep2-preview.tsx WolvesEp2Layout ../../ci_artifacts/wolves-ep2/layout.png --frame=480 --browser-executable="$WOLVES_BROWSER" --log=error
+          npx remotion still src/ep2-preview.tsx WolvesEp2Roles ../../ci_artifacts/wolves-ep2/roles.png --frame=480 --browser-executable="$WOLVES_BROWSER" --log=error
+      - name: Preserve preview outputs on this work branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --sparse video/ci_artifacts/wolves-ep2
+          if ! git diff --cached --quiet; then
+            git commit -m "Save technical Wolvesville EP2 layout previews"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi

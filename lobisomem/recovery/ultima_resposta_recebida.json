@@ -1,0 +1,29 @@
+{
+  "incomplete": true,
+  "notACompletedMatch": true,
+  "reason": "Execution environment unavailable during night 2",
+  "responses": [
+    {
+      "j": {
+        "id": "683149bee3227eccab04d6f2009335c8f66de82d885a91ebcc8f7d939d27f5d2",
+        "model": "openai/gpt-6-luna",
+        "system": "Você é GPT-6 Luna e está jogando Lobisomem (Wolvesville) como \"Astrônoma\". Seu papel secreto: Lobo Alfa. Seus parceiros lobos são Pescador (Lobisomem), Moleiro (Lobo Vidente), Relojoeiro (Lobisomem). Enganem a vila sem se entregar.\nREGRAS (Lobisomem no estilo Wolvesville): 16 jogadores. TIME DOS LOBOS: 2 Lobisomens, 1 Lobo Alfa (voto noturno vale dois; pode enviar um recado privado aos lobos por dia) e 1 Lobo Vidente (se conhecem e matam juntos uma pessoa por noite; o Lobo Vidente descobre o papel antes do chat secreto, e os lobos livres recebem o resultado ainda nessa noite). TIME DA VILA: Vidente (descobre o papel exato de alguém por noite), Médico (protege um jogador por noite dos lobos; não pode se proteger), Carcereiro (de dia escolhe alguém para prender à noite; o preso não pode agir nem ser atacado, os dois conversam em segredo sem o preso saber quem é o carcereiro, e UMA vez no jogo o Carcereiro pode executar o preso), Pistoleiro (tem 2 balas e atira de DIA em quem quiser; no primeiro tiro todos descobrem que ele é o Pistoleiro) Padre (UMA água benta usada de DIA: mata o alvo se for lobo, mas se errar o próprio Padre morre; não converte ninguém), Xerife (vigia até dois jogadores por noite; se um morrer recebe dois suspeitos, só um executou aquela morte), Vidente Espiritual (verifica até dois jogadores à noite; ao amanhecer sabe apenas se pelo menos um deles matou, sem saber qual; um ataque dos lobos que matou conta para todos os lobos livres participantes) Detetive (compara dois jogadores à noite e descobre APENAS se são do mesmo time, sem descobrir os papéis), Prefeito (pode se revelar de dia; depois disso seu voto vale dois pelo resto da partida) e Aldeão (sem poder). SOLO: Bobo (vence sozinho se for LINCHADO pela vila; aí o jogo acaba). Ninguém sabe o papel dos outros. Quando alguém morre, o papel aparece para todos. De DIA todos discutem e votam; o mais votado é linchado (empate: ninguém). A VILA vence quando todos os 4 lobos morrerem; os LOBOS vencem quando forem tantos quanto os outros vivos.\nJogadores: Padeira, Ferreiro, Boticária, Lenhador, Costureira, Pescador, Moleiro, Bardo, Viajante, Astrônoma, Mineiro, Ceramista, Carteiro, Florista, Cozinheira, Relojoeiro. Fale em português do Brasil, como num chat de jogo: curto, com personalidade (no máximo 30 palavras por fala).",
+        "message": "O QUE JÁ ACONTECEU (público):\nAmanhecer do dia 1: Ferreiro foi morto pelos lobos (era Bobo).\nDia 1: O Padre Cozinheira usou água benta em Padeira; Cozinheira morreu e era Padre.\nDia 1: o Pistoleiro Bardo atirou em Lenhador (era Vidente Espiritual). votos Padeira→Bardo, Boticária→Bardo, Costureira→Moleiro, Pescador→Viajante, Moleiro→ninguém, Bardo→Pescador, Viajante→ninguém, Astrônoma→Bardo, Mineiro→ninguém, Ceramista→ninguém, Carteiro→ninguém, Florista→ninguém, Relojoeiro→Bardo. Bardo foi linchado(a) e era Pistoleiro.\nSÓ VOCÊ SABE: Na noite 1, o Lobo Vidente revelou: Ferreiro é Bobo. Na noite 2, o Lobo Vidente revelou: Pescador é Lobisomem.\n\nNOITE 2. Chat secreto dos lobos (rodada 1 de 2):\nPescador: A Alfa mandou proteger a Padeira no dia, mas à noite é outra história. Ela é vilã confirmada, se for Carcereiro ou Vidente já perdemos. Boto nela. (vota em: Padeira)\nMoleiro: Concordo, Pescador. Padeira é a mais 'confirmada' da vila — matar ela cala a voz de confiança e pode ser Carcereiro. Boto nela também. (vota em: Padeira)\nQuem pode ser atacado: Padeira, Boticária, Costureira, Viajante, Mineiro, Ceramista, Carteiro, Florista.\nResponda SÓ com JSON: {\"mensagem\": \"o que você diz no chat dos lobos\", \"alvo\": \"nome de quem atacar\", \"pensamento\": \"o que você pensa de verdade\"}",
+        "max_tokens": 1800,
+        "reasoning_effort": "low",
+        "attempt": 0,
+        "createdAt": "2026-10-31T14:44:31.744Z"
+      },
+      "r": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"mensagem\":\"Fechado: Padeira é inocente confirmada, mas ganhou confiança da vila. Melhor tirá-la antes que organize acusações. Todos nela.\",\"alvo\":\"Padeira\",\"pensamento\":\"Padeira não é lobo: Cozinheira morreu ao errar a água benta, então ela é um alvo seguro e provavelmente influente. Acompanhar os votos evita atrito com os parceiros.\"}\n\n(model: openai/gpt-6-luna, generation id: gen-1793457877-0NPFIU6TvfBvJlToZYV8, input tokens: 1291, output tokens: 226, reasoning tokens: 134)"
+          }
+        ],
+        "structuredContent": null,
+        "isError": false
+      }
+    }
+  ]
+}
