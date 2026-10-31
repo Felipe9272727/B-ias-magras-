@@ -5,7 +5,7 @@ async function shell(cmd,max=2000){let r=await tools.exec_command({cmd,workdir:r
 async function request(job){
  if(job.model.startsWith("openai/"))throw Error("OpenAI routing blocked");
  const parameters={model:job.model,system:job.system,message:job.message,max_tokens:job.max_tokens,...(job.reasoning_effort?{reasoning_effort:job.reasoning_effort}:{})};
- if(job.model.startsWith("qwen/")&&(job.attempt>0||job.message.includes("A partida acabou.")))parameters.reasoning_effort="none";
+ if((job.model.startsWith("qwen/")||job.model.startsWith("deepseek/"))&&(job.attempt>0||job.message.includes("A partida acabou.")))parameters.reasoning_effort="none";
  const response=await tools.mcp__codex_apps__openrouter_send_message(parameters);
  const raw=(response.content??[]).filter(c=>c.type==="text").map(c=>c.text).join("\n");
  const generationId=raw.match(/generation id:\s*([^,\s)]+)/)?.[1];
@@ -17,10 +17,10 @@ async function request(job){
  return {player:job.playerId,id:job.id,ok:value.ok,generationId,installed};
 }
 const started=Date.now();let paid=[];
-while(Date.now()-started<25000){
+while(Date.now()-started<50000){
  const raw=await shell("python3 lobisomem/ponte_ep2.py pending --limit 4",26000);const p=JSON.parse(raw);
  if(p.jobs.length){
- const settled=await Promise.allSettled(p.jobs.map(request));for(const r of settled){if(r.status==="rejected")throw r.reason;paid.push(r.value);}
+ const settled=await Promise.allSettled(p.jobs.map(request));for(const r of settled){if(r.status==="rejected")throw r.reason;paid.push(r.value);notify({player:r.value.player,id:r.value.id,ok:r.value.ok});}
  }else{
  const pending=JSON.parse(await shell("python3 -c "+q("import json\nfrom pathlib import Path\ns=Path('lobisomem/.spool_ep2');print(json.dumps([json.loads(p.read_text()) for p in (s/'req_work').glob('*/*.json') if not (s/'cache'/p.name).exists() and not (s/'audit_work'/p.name).exists()],ensure_ascii=False))"),22000));
  text({paid,committedUsd:p.committedUsd,work:pending.map(j=>({id:j.id,playerId:j.playerId,model:j.model}))});store("workPending",pending);exit();

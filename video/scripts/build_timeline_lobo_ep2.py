@@ -19,9 +19,11 @@ b.VOICE_DIR_NAME='voice_lobo_ep2/scenes'
 b.NARRADOR=VOICES['N']['voiceId']
 b.VOZES={key:value['voiceId'] for key,value in VOICES.items() if key!='N'}
 b.LOGS_INT=ROOT.parent/'lobisomem/logs_ep2'
+_actual_matches=[]
 
 
 def matches(order=None):
+    global _actual_matches
     result={}
     for n in order or [5,6,7,8]:
         file=b.LOGS_INT/f'partida{n}.json'
@@ -40,6 +42,7 @@ def matches(order=None):
         else:
             raise RuntimeError('Juiz real ainda pendente: '+str(n))
         result[str(n)]=value
+    _actual_matches=list(result)
     return result
 
 
@@ -59,6 +62,8 @@ b.tts=cache_only
 b.ROTEIRO='roteiro_lobo_ep2'
 
 if __name__=='__main__':
+    if '--roteiro' in sys.argv:
+        b.ROTEIRO=sys.argv[sys.argv.index('--roteiro')+1]
     if '--export-jobs' in sys.argv:
         mod=b.carregar_roteiro();matches(getattr(mod,'ORDEM',None));jobs=[]
         for scene in mod.SCENES:
@@ -74,7 +79,10 @@ if __name__=='__main__':
         (PUBLIC/'voice_lobo_ep2/jobs.json').write_text(json.dumps(jobs,ensure_ascii=False,indent=2))
         print(json.dumps({'jobs':len(jobs),'characters':sum(len(j['text']) for j in jobs)}))
     else:
-        sys.argv+=['--roteiro','roteiro_lobo_ep2','--saida','timeline_lobo_ep2.json']
+        if '--roteiro' not in sys.argv:sys.argv+=['--roteiro','roteiro_lobo_ep2']
+        if '--saida' not in sys.argv:sys.argv+=['--saida','timeline_lobo_ep2.json']
         b.main()
-        file=PUBLIC/'timeline_lobo_ep2.json';d=json.loads(file.read_text());d['data']['completedActualMatches']=4
+        file=PUBLIC/sys.argv[sys.argv.index('--saida')+1];d=json.loads(file.read_text())
+        d['data']['completedActualMatches']=len(_actual_matches)
+        d['data']['actualMatchIds']=_actual_matches
         file.write_text(json.dumps(d,ensure_ascii=False))
