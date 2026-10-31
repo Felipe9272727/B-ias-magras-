@@ -2,6 +2,7 @@ name: Minecraft native portrait Short capture
 on:
   push:
     branches: ['codex/mc-short-*']
+    paths: ['minecraft/**', 'video/scripts/**', 'video/shorts/mimo_native/scenes.txt']
   workflow_dispatch:
 permissions:
   contents: read
