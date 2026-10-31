@@ -1,0 +1,25 @@
+name: Wolvesville EP2 machine check
+on:
+  push:
+    branches: ["codex/wolvesville-ep2-16p-20261031"]
+    paths:
+      - ".github/workflows/wolvesville-ep2-machine.yml"
+      - "video/ep2-machine-request.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            lobisomem
+          fetch-depth: 1
+      - name: Verify engine without calling model APIs
+        run: |
+          node --version
+          node --check lobisomem/motor_ep2.mjs
+          node --test lobisomem/test_ep2.mjs
