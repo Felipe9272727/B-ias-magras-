@@ -57,6 +57,12 @@ public class NativeHandsMixin {
         projection.m00(projection.m00() * factor);
         projection.m11(projection.m11() * factor);
         projection.m21(projection.m21() + 0.5f);
+        class_742 target = NativeReplay.target();
+        if (target != null && target.method_6079().method_7960()) {
+            float inset = target.method_6047().method_7960() ? 0.15f : 0.55f;
+            if (target.method_6068() != class_1306.field_6183) inset = -inset;
+            projection.m20(projection.m20() + inset);
+        }
     }
 
     @Inject(method="method_3172", at=@At("RETURN"), remap=false)
