@@ -52,13 +52,30 @@ def main():
             p = ROOT / name
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(item['text'])
+        # O cache é derivável dos recibos reais: não precisa duplicar todos os prompts.
+        spool=ROOT/'lobisomem/.spool_ep2'
+        for directory in ['audit','audit_work']:
+            for file in (spool/directory).glob('*.json'):
+                data=json.loads(file.read_text())
+                answer=data.get('answer',data)
+                cache=spool/'cache'/file.name
+                if cache.exists() and json.loads(cache.read_text())!=answer:
+                    raise RuntimeError('Cache diferente já existe: '+str(cache))
+                cache.parent.mkdir(parents=True,exist_ok=True)
+                cache.write_text(json.dumps(answer,ensure_ascii=False))
         print(json.dumps({'restoredFiles': len(saved['files'])}))
         return
     if git('branch', '--show-current') != 'codex/wolvesville-ep2-16p-20261031':
         raise RuntimeError('Checkpoint permitido somente na branch de recuperação')
     files = {}
+    ledger_file=ROOT/'lobisomem/.spool_ep2/ledger.json'
+    calls=json.loads(ledger_file.read_text()).get('calls',{}) if ledger_file.exists() else {}
     for prefix in PREFIXES:
         for p in sorted((ROOT / prefix).rglob('*.json')):
+            if 'cache' in p.parts:
+                continue
+            if 'raw_tools' in p.parts and calls.get(p.stem,{}).get('status')=='completed':
+                continue
             try:
                 data = p.read_bytes()
             except FileNotFoundError:
