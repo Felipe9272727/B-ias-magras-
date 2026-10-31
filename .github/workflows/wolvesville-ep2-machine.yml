@@ -25,12 +25,14 @@ jobs:
             /video/remotion/remotion.config.ts
             /video/remotion/public/fonts/
             /video/remotion/public/voice_lobo_ep2/*.json
+            /video/remotion/public/voice_lobo_ep2/abertura.mp3
           fetch-depth: 1
       - name: Verify recovered engine without calling model APIs
         run: |
           node --version
           node --check lobisomem/motor_ep2.mjs
-          node --test lobisomem/test_ep2.mjs
+          node --test lobisomem/test_ep2.mjs lobisomem/test_durabilidade_ep2.mjs
+          python3 -m unittest discover -s lobisomem -p test_checkpoint_ep2.py
       - name: Install renderer dependencies
         working-directory: video/remotion
         run: npm ci --no-audit --no-fund

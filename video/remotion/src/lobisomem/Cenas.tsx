@@ -463,9 +463,10 @@ const LOBElenco: React.FC<{P: Partida; scene: Scene}> = ({P, scene}) => {
   const f = useCurrentFrame();
   const marcas = [...new Set(P.jogadores.map((j) => MARCA[j.modelo]?.nome ?? j.modelo))];
   const g = gatilhos(scene, marcas);
+  const passo=P.jogadores.length>8 ? Math.min(25,Math.max(4,(scene.duration-45)/(P.jogadores.length-1))) : 25;
   const at = (j: Jogador) => {
     const i = marcas.indexOf(MARCA[j.modelo]?.nome ?? j.modelo);
-    return g[i] >= 0 ? g[i] : 10 + P.jogadores.indexOf(j) * 25;
+    return g[i] >= 0 ? g[i] : 10 + P.jogadores.indexOf(j) * passo;
   };
   const msgs: Msg[] = P.jogadores.map((j) => ({tipo: 'sistema', cor: '#37474f', at: at(j), texto: `${j.numero} ${j.nome} entrou (${j.modelo})`}));
   return (

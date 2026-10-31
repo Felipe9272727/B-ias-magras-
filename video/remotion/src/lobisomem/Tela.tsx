@@ -42,7 +42,7 @@ export const Quadro: React.FC<{j: Jogador; s: EstadoQuadro; noite: boolean; t: n
   const m = MARCA[j.modelo];
   return (
     <div style={{position: 'relative', width: tam, height: tam, borderRadius: 14, overflow: 'hidden', boxShadow: s.destaque ? `0 0 0 6px #ffd54f, 0 12px 30px rgba(0,0,0,0.5)` : '0 4px 10px rgba(0,0,0,0.35)', opacity: s.apagado ? 0.55 : 1}}>
-      <svg width={tam} height={tam} viewBox="0 0 200 200" style={{position: 'absolute', filter: s.morto ? 'grayscale(1) brightness(0.55)' : undefined}}>
+      <svg width={tam} height={tam} viewBox="0 0 200 200" style={{position: 'absolute', left:0, top:0, filter: s.morto ? 'grayscale(1) brightness(0.55)' : undefined}}>
         <defs>
           <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={ceu[0]} /><stop offset="1" stopColor={ceu[1]} /></linearGradient>
         </defs>

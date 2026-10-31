@@ -51,6 +51,7 @@ validarElenco()
 export const timePapel = p => LOBO(p) ? 'lobos' : p === 'bobo' ? 'bobo' : 'aldeia'
 export const mesmoTime = (a,b) => timePapel(a) === timePapel(b)
 export const pesoVoto = j => j.papel === 'prefeito' && j.prefeitoRevelado ? 2 : 1
+export const podeAtirar = (j,dia,fase,balas,tiros) => Boolean(j?.vivo && j.papel==='pistoleiro' && balas>0 && tiros.length===0 && (dia>1 || fase==='votacao'))
 export function votosAtaque(lobos,chat) {
  return lobos.flatMap(l=>{const alvo=[...chat].reverse().find(m=>m.nome===l.nome)?.alvo;return alvo?Array(l.papel==='lobo_alfa'?2:1).fill(alvo):[]})
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import {CONFIG, validarElenco, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife, LOBO, mesmoTime, pesoVoto, votosAtaque} from './regras_ep2.mjs'
+import {CONFIG, validarElenco, parceirosLobos, escolherAlvoLobos, vencedor, resolverAguaBenta, espiritoMatou, suspeitosXerife, LOBO, mesmoTime, pesoVoto, votosAtaque,podeAtirar} from './regras_ep2.mjs'
 
 test('16 jogadores de 10 modelos, com uma Luna e um DeepSeek', () => {
   validarElenco()
@@ -109,4 +109,12 @@ test('Detetive reconhece equipes e Prefeito só dobra voto ao revelar',()=> {
 })
 test('Alfa duplica apenas o voto noturno',()=>{
  assert.deepEqual(votosAtaque([{nome:'A',papel:'lobo_alfa'},{nome:'B',papel:'lobisomem'}],[{nome:'A',alvo:'X'},{nome:'B',alvo:'Y'}]),['X','X','Y'])
+})
+test('Pistoleiro: uma bala por dia e apenas votação no primeiro dia',()=>{
+ const p={papel:'pistoleiro',vivo:true}
+ assert.equal(podeAtirar(p,1,'discussao',2,[]),false)
+ assert.equal(podeAtirar(p,1,'votacao',2,[]),true)
+ assert.equal(podeAtirar(p,2,'discussao',2,[]),true)
+ assert.equal(podeAtirar(p,2,'votacao',1,[{}]),false)
+ assert.equal(podeAtirar({...p,vivo:false},2,'votacao',2,[]),false)
 })
