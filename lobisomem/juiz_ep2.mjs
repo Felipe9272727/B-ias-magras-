@@ -7,7 +7,7 @@ import {CONFIG,LOBO} from './regras_ep2.mjs'
 const dir=new URL('./logs_ep2/',import.meta.url).pathname
 const sleep=ms=>new Promise(r=>setTimeout(r,ms))
 const tipos=new Set(['VERDADE','OMISSÃO','DISTORÇÃO','FABRICAÇÃO'])
-for(const n of [5,6,7,8]) {
+for(const n of (process.argv.length>2?process.argv.slice(2).map(Number):[5,6,7])) {
  const file=path.join(dir,`partida${n}.json`),out=path.join(dir,`partida${n}.juiz.json`)
  while(!fs.existsSync(file)) await sleep(1000)
  if(fs.existsSync(out)) continue

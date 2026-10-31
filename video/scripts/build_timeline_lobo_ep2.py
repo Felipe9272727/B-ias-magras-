@@ -25,7 +25,7 @@ _actual_matches=[]
 def matches(order=None):
     global _actual_matches
     result={}
-    for n in order or [5,6,7,8]:
+    for n in order or [5,6,7]:
         file=b.LOGS_INT/f'partida{n}.json'
         raw=file.read_text();value=json.loads(raw)
         if value.get('synthetic') or not value.get('resultado'):

@@ -42,7 +42,7 @@ const Video:React.FC<Props>=({timeline})=>{
 const metadata:CalculateMetadataFunction<Props>=async()=>{
  const r=await fetch(staticFile('timeline_lobo_ep2.json'));if(!r.ok)throw new Error('Timeline real do EP2 ainda não construída');
  const timeline=await r.json() as Timeline;
- if((timeline.data as {completedActualMatches?:number}).completedActualMatches!==4)throw new Error('O episódio final exige quatro partidas reais concluídas');
+ if((timeline.data as {completedActualMatches?:number}).completedActualMatches!==3)throw new Error('O episódio final exige três partidas reais concluídas');
  return {durationInFrames:timeline.durationInFrames,props:{timeline}};
 };
 registerRoot(()=> <Composition id="LobisomemEp2" component={Video} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{timeline:null}} calculateMetadata={metadata}/>);
