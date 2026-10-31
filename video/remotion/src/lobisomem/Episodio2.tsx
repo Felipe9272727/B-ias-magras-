@@ -27,7 +27,7 @@ const Cena:React.FC<{scene:Scene;timeline:Timeline;anterior?:string}>=({scene,ti
    if(e.type==='sfx')return <Sequence key={i} from={e.at}><Audio src={staticFile(e.file?.includes('/')?e.file:`sfx/${e.file??e.id+'.wav'}`)} volume={e.vol??.3}/></Sequence>;
    return null;
   })}
-  {!!scene.capGroups?.length&&<Captions groups={scene.capGroups}/>}
+  {!!scene.capGroups?.length&&<Captions groups={scene.capGroups} bottom={10}/>}
   {scene.audio&&<Sequence from={scene.audioOffset}><Audio src={staticFile(scene.audio)}/></Sequence>}
   <TransicaoLobo tipo={escolherTransicaoLobo(anterior,name)}/>
  </AbsoluteFill>;

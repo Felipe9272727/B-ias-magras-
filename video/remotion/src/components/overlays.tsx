@@ -263,7 +263,7 @@ export const TextPop: React.FC<{text: string; dur: number; color?: string}> = ({
 
 // Legendas seletivas: só os blocos escolhidos em build_timeline.py (termos técnicos,
 // números difíceis e frases marcadas com [[cc]]). A palavra falada fica dourada.
-export const Captions: React.FC<{groups: CapGroup[]; topo?: boolean}> = ({groups, topo}) => {
+export const Captions: React.FC<{groups: CapGroup[]; topo?: boolean; bottom?:number}> = ({groups, topo,bottom=92}) => {
   const frame = useCurrentFrame();
   const gi = groups.findIndex((g, i) => frame >= g.s - 2 && frame < (groups[i + 1] ? Math.min(groups[i + 1].s - 2, g.e + 18) : g.e + 18));
   if (gi < 0) return null;
@@ -271,7 +271,7 @@ export const Captions: React.FC<{groups: CapGroup[]; topo?: boolean}> = ({groups
   const local = frame - (g.s - 2);
   const pop = Math.min(1, local / 4);
   return (
-    <AbsoluteFill style={{justifyContent: topo ? 'flex-start' : 'flex-end', alignItems: 'center', paddingBottom: 92, paddingTop: topo ? 150 : 0, pointerEvents: 'none'}}>
+    <AbsoluteFill style={{justifyContent: topo ? 'flex-start' : 'flex-end', alignItems: 'center', paddingBottom: bottom, paddingTop: topo ? 150 : 0, pointerEvents: 'none'}}>
       <div
         style={{
           maxWidth: 1500,
