@@ -11,6 +11,7 @@ import sys
 import time
 import os
 import subprocess
+import fcntl
 
 ROOT = Path(__file__).resolve().parent
 CONFIG = json.loads((ROOT / 'elenco_ep2.json').read_text())
@@ -83,9 +84,9 @@ def main():
         if item.get('costUsd') is not None:
             c['costUsd'] = float(item['costUsd'])
         c.update(status='completed' if item.get('ok') else 'failed', generationId=item.get('generationId'))
-        write(SPOOL / 'res' / (key + '.json'), item)
         write(SPOOL / 'audit' / (key + '.json'), item)
         write(LEDGER, d)
+        write(SPOOL / 'res' / (key + '.json'), item)
         print(json.dumps({'completed': key, 'calls': len(d['calls']), 'committedUsd': total(d)}))
     else:
         print(json.dumps({'calls': len(d['calls']), 'committedUsd': total(d),
@@ -94,4 +95,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    SPOOL.mkdir(parents=True, exist_ok=True)
+    with (SPOOL / 'ledger.lock').open('a') as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        main()
