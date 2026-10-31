@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import signal
@@ -96,6 +97,15 @@ def capture(args):
     framebuffer.mkdir(exist_ok=True)
     native_scene = work / 'scene.native.json'
     profile = json.loads(PROFILE.read_text())
+    width = int(profile['capture_env'].get('LARG', '960'))
+    height = int(profile['capture_env'].get('ALT', '540'))
+    if not (64 <= width <= 3840 and 64 <= height <= 3840):
+        raise ValueError('Invalid capture viewport')
+    options = client / 'options.txt'
+    text = options.read_text()
+    for key, value in [('overrideWidth', width), ('overrideHeight', height)]:
+        text = re.sub(rf'^{key}:.*$', f'{key}:{value}', text, flags=re.MULTILINE)
+    options.write_text(text)
     env = dict(os.environ, **profile['capture_env'])
     env.update(DISPLAY=f'localhost:{display}', FRAMEBUFFER=str(framebuffer / 'Xvfb_screen0'),
                MUNDO=str(server / 'mundo'), NATIVE_SCENE=str(native_scene),
@@ -110,7 +120,7 @@ def capture(args):
         return process
 
     try:
-        xvfb = launch(['Xvfb', f':{display}', '-screen', '0', '960x540x24', '-listen', 'tcp',
+        xvfb = launch(['Xvfb', f':{display}', '-screen', '0', f'{width}x{height}x24', '-listen', 'tcp',
                        '-nolisten', 'unix', '-ac', '-extension', 'MIT-SHM', '-fbdir', str(framebuffer)], 'xvfb')
         time.sleep(2)
         if xvfb.poll() is not None:
@@ -119,7 +129,7 @@ def capture(args):
         wait_log(logs / 'server.log', 'RCON running', srv)
         version = f"fabric:{profile['minecraft_version']}:{profile['fabric_loader']}"
         cli = launch(['portablemc', '--main-dir', str(client), 'start', version,
-                      '--fetch-exclude-all', '-u', 'Camera', '--join-server', '127.0.0.1', '--resolution', '960x540',
+                      '--fetch-exclude-all', '-u', 'Camera', '--join-server', '127.0.0.1', '--resolution', f'{width}x{height}',
                       '--jvm-arg=-Xmx2500M', '--jvm-arg=-XX:ActiveProcessorCount=2',
                       '--jvm-arg=-Dbias.replay.native=true', '--jvm-arg=-Dbias.replay.scene=' + str(native_scene)], 'client', client)
         wait_log(logs / 'server.log', 'Camera joined', srv)

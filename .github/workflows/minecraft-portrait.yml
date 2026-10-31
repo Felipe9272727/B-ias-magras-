@@ -1,0 +1,82 @@
+name: Minecraft portrait native preview
+on:
+  push:
+    branches: ['codex/mc-portrait-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: portrait-native-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  portrait:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /minecraft/
+            /video/scripts/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native capture dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb xdotool ffmpeg libgl1-mesa-dri libgl1 libxrender1 libxtst6 libxi6 libxrandr2 libasound2t64
+          python -m pip install portablemc
+          npm ci --prefix minecraft --ignore-scripts --no-audit --no-fund
+      - id: runtime-key
+        name: Resolve the exact previously approved runtime cache
+        run: |
+          python - <<'PY'
+          import json,hashlib,os
+          p=json.load(open('video/scripts/distributed_capture_profile.json'))
+          original={'sources':p['source_sha256'],'settings':p['approved_settings']}
+          key=hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('key='+key+'\n')
+          PY
+      - uses: actions/cache@v4
+        id: runtime
+        with:
+          path: work/runtime/runtime.tar.gz
+          key: mc-runtime-v2-${{ runner.os }}-${{ steps.runtime-key.outputs.key }}
+      - if: steps.runtime.outputs.cache-hit != 'true'
+        name: Build native runtime
+        run: python video/scripts/distributed_worker.py build --work work/build --output work/runtime/runtime.tar.gz
+      - name: Capture new portrait viewport, never crop a landscape capture
+        run: |
+          mkdir -p work
+          cat > work/portrait-scenes.txt <<'EOF'
+          portrait_empty_hand 2 5 olhos:DeepSeek
+          portrait_held_item 11299 11302 olhos:MiMo
+          portrait_motion 11084 11087 segue:DeepSeek
+          EOF
+          python video/scripts/distributed_worker.py capture --runtime work/runtime/runtime.tar.gz --work work/capture --scenes work/portrait-scenes.txt --output work/portrait
+      - name: Verify native resolution and complete decoding
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          for p in Path('work/portrait').glob('*.mp4'):
+              d=json.loads(subprocess.check_output(['ffprobe','-v','error','-count_frames','-show_entries','stream=width,height,nb_read_frames','-of','json',str(p)]))['streams'][0]
+              assert (d['width'],d['height'])==(720,1280),d
+              assert int(d['nb_read_frames'])==90,d
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: minecraft-native-portrait-preview
+          path: |
+            work/portrait
+            work/capture/logs
+          retention-days: 7

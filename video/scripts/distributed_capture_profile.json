@@ -1,13 +1,15 @@
 {
   "schema": 1,
-  "approved": true,
-  "launch_mode": "full",
+  "approved": false,
+  "launch_mode": "preview",
   "workers": 16,
   "minecraft_version": "1.21.4",
   "fabric_loader": "0.20.1",
   "capture_env": {
-    "LENTO": "2",
-    "LP_NUM_THREADS": "2"
+    "LENTO": "4",
+    "LP_NUM_THREADS": "2",
+    "LARG": "720",
+    "ALT": "1280"
   },
   "capture_command": [
     "node",
@@ -18,9 +20,9 @@
     "{output}"
   ],
   "visual_review": {
-    "empty_hand_visible": true,
-    "held_item_visible": true,
-    "frame_pacing_verified": true
+    "empty_hand_visible": false,
+    "held_item_visible": false,
+    "frame_pacing_verified": false
   },
   "source_sha256": {
     "minecraft/captura_xvfb.py": "c8865df6fa8d41ad01420f214ed5a26fa7cd14e48d0ecc1ccd45a2324f7e6653",
