@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** GameRenderer.renderHand: retains the vanilla renderer, arm and item models. */
 @Mixin(value=class_757.class, remap=false)
@@ -42,6 +43,20 @@ public class NativeHandsMixin {
     @Redirect(method="method_3172", at=@At(value="INVOKE", target="Lnet/minecraft/class_636;method_2920()Lnet/minecraft/class_1934;"), remap=false)
     private class_1934 retainHandsWhileSpectating(class_636 interaction) {
         return NativeReplay.target() == null ? interaction.method_2920() : class_1934.field_9215;
+    }
+
+    /** Vanilla's hand framing assumes a wide display. Keep its full models in a
+        portrait viewport using a separate, proportionally scaled hand projection. */
+    @Inject(method="method_22973", at=@At("RETURN"), remap=false)
+    private void portraitHands(float fov, CallbackInfoReturnable<Matrix4f> ci) {
+        if (!NativeReplay.drawingHands) return;
+        Matrix4f projection = ci.getReturnValue();
+        float aspect = projection.m11() / projection.m00();
+        if (aspect >= 1.0f) return;
+        float factor = aspect / (4.0f / 3.0f);
+        projection.m00(projection.m00() * factor);
+        projection.m11(projection.m11() * factor);
+        projection.m21(projection.m21() + 0.5f);
     }
 
     @Inject(method="method_3172", at=@At("RETURN"), remap=false)
