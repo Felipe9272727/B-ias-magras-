@@ -18,7 +18,7 @@ const Visual:React.FC<{name:string;props:Record<string,unknown>;duration:number}
  <LOBVisual name={name} props={props} scene={{...scene,duration}} timeline={timeline}/>
  <TransicaoLobo tipo="rosa"/>
 </>;
-export const AberturaEp2:React.FC=()=>{
+export const AberturaEp2:React.FC<{preview?:boolean}>=({preview=true})=>{
  const [h]=useState(()=>delayRender('fontes da abertura recuperada'));
  useEffect(()=>{fontsReady.then(()=>continueRender(h)).catch(()=>continueRender(h))},[h]);
  const f=useCurrentFrame();
@@ -33,6 +33,6 @@ export const AberturaEp2:React.FC=()=>{
   <Sequence from={420} durationInFrames={180}><Visual name="LOBPapeis" props={{partida:5,pagina:1}} duration={180}/></Sequence>
   <Sequence from={600} durationInFrames={120}><Visual name="LOBTitulo" props={{titulo:'A VILA LEMBRA',sub:'Mesmos personagens. Novos papéis.'}} duration={120}/></Sequence>
   <Sequence from={720} durationInFrames={90}><Visual name="LOBTitulo" props={{titulo:'QUEM ENGANA A VILA?',sub:'16 IAs · 4 lobos · 1 Bobo'}} duration={90}/></Sequence>
-  <div style={{position:'absolute',bottom:8,right:16,fontFamily:'Arial',fontSize:16,color:'#fff',background:'#18243acc',padding:'4px 8px'}}>ABERTURA REMONTADA · PRÉVIA{f<600?'':' · partidas pendentes'}</div>
+  {preview&&<div style={{position:'absolute',bottom:8,right:16,fontFamily:'Arial',fontSize:16,color:'#fff',background:'#18243acc',padding:'4px 8px'}}>ABERTURA REMONTADA · PRÉVIA{f<600?'':' · partidas pendentes'}</div>}
  </AbsoluteFill>;
 };

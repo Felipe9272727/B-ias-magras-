@@ -22,7 +22,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'remotion' / 'public'
-VOZ = PUBLIC / 'voice_lobo'
+VOICE_DIR_NAME = 'voice_lobo'
+VOZ = PUBLIC / VOICE_DIR_NAME
 LOGS = ROOT.parent / 'amongus' / 'logs4'  # (só para data.skins, sem uso aqui)
 LOGS_INT = ROOT.parent / 'lobisomem' / 'logs'
 ROTEIRO = 'roteiro_lobo'
@@ -333,7 +334,7 @@ def main():
             forced |= n['forced']
             end = lead + n['dur'] + max(0.0, n['extra'])
             if n['audio']:
-                voices.append(dict(at=round(lead * FPS), src=f'voice_lobo/{sid}.mp3'))
+                voices.append(dict(at=round(lead * FPS), src=f'{VOICE_DIR_NAME}/{sid}.mp3'))
         else:
             t = lead
             chat = []
@@ -346,7 +347,7 @@ def main():
                     words += n['words']
                     forced |= {off + i for i in n['forced']}
                     if n['audio']:
-                        voices.append(dict(at=round(t * FPS), src=f'voice_lobo/{sid}_{k}.mp3'))
+                        voices.append(dict(at=round(t * FPS), src=f'{VOICE_DIR_NAME}/{sid}_{k}.mp3'))
                     t += n['dur'] + max(0.0, n['extra']) + 0.3
                 else:
                     item = dict(cor=quem.split(':')[-1], texto=txt, at=round(t * FPS), pensa=quem.startswith('pensa:'))
@@ -356,16 +357,16 @@ def main():
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = tts(' '.join(bt.spoken(x) for x in txt.split()), voz_de(quem), base)
-                        src = f'voice_lobo/{sid}_{k}.mp3'
+                        src = f'{VOICE_DIR_NAME}/{sid}_{k}.mp3'
                         if quem.startswith('pensa:'):  # pensamento: eco na voz normal
                             e = base.parent / f'{base.name}_eco.mp3'
                             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'aecho=0.8:0.85:60|140:0.45|0.25,volume=0.95', e], check=True)
-                            src = f'voice_lobo/{sid}_{k}_eco.mp3'
+                            src = f'{VOICE_DIR_NAME}/{sid}_{k}_eco.mp3'
                         if sc.get('rapido'):  # lobby (até 5 s): corta o silêncio das pontas e acelera a fala
                             r = base.parent / f'{base.name}_r.mp3'
                             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=' + str(sc['rapido']), r], check=True)
                             dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', r], capture_output=True, text=True).stdout)
-                            src = f'voice_lobo/{sid}_{k}_r.mp3'
+                            src = f'{VOICE_DIR_NAME}/{sid}_{k}_r.mp3'
                         voices.append(dict(at=round(t * FPS), src=src, cor=quem))
                     else:
                         dur = 1.3 if not txt.strip('. ') else len(txt) / 15
