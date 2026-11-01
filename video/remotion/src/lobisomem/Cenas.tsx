@@ -111,12 +111,13 @@ const FalaGrande: React.FC<{P: Partida; chat: Item[]; noite?: boolean; anonimo?:
   const e = spring({frame: f - c.at, fps, config: {damping: 13, stiffness: 200}});
   const n = Math.ceil(c.texto.length * interpolate(f, [c.at, Math.max(c.at + 1, c.ate - 4)], [0.08, 1], cl));
   const tam = c.texto.length > 190 ? 31 : c.texto.length > 130 ? 35 : 40;
+  const tam16 = c.texto.length > 240 ? 18 : c.texto.length > 170 ? 20 : 24;
   const nome = anonimo && j.id === anonimo ? 'CARCEREIRO' : `${j.numero} ${j.nome.toUpperCase()} · ${MARCA[j.modelo]?.nome ?? ''}`;
   return (
     <div style={{position: 'absolute', left: P.jogadores.length>8 ? 924 : 46, width: P.jogadores.length>8 ? 356 : 1236, top: P.jogadores.length>8 ? 705 : 782, zIndex: 15, transform: `translateY(${(1 - e) * 60}px) scale(${0.92 + 0.08 * e})`, opacity: Math.min(1, e * 1.4)}}>
       <div style={{background: c.pensa ? '#ede7f6' : noite ? '#1c2b47' : '#fff', border: c.pensa ? '6px dashed #7e57c2' : `6px solid ${noite ? '#e53935' : ROSA}`, borderRadius: 26, padding: '14px 26px', boxShadow: '0 12px 30px rgba(0,0,0,0.5)', fontFamily: FONTE}}>
         <div style={{fontWeight: 900, fontSize: P.jogadores.length>8?18:24, letterSpacing: 2, color: c.pensa ? '#5e35b1' : noite ? '#ff8a80' : ROSA}}>{c.pensa ? `${j.nome.toUpperCase()} PENSA (SÓ VOCÊ OUVE)` : nome}</div>
-        <div style={{fontWeight: 800, fontSize: P.jogadores.length>8?24:tam, lineHeight: 1.18, color: c.pensa ? '#311b92' : noite ? '#fff' : '#1d2a33', fontStyle: c.pensa ? 'italic' : undefined}}>{c.texto.slice(0, n)}</div>
+        <div style={{fontWeight: 800, fontSize: P.jogadores.length>8?tam16:tam, lineHeight: 1.18, color: c.pensa ? '#311b92' : noite ? '#fff' : '#1d2a33', fontStyle: c.pensa ? 'italic' : undefined}}>{c.texto.slice(0, n)}</div>
       </div>
     </div>
   );
