@@ -1,3 +1,5 @@
+LATEST: Match 6 COMPLETE, wolves won Night 8; all 16 real reflections, memory verified, 398 received replies. Match 5 unchanged. Match 7 will use pinned seed 20316464. Current committed budget after verified cost reconciliation: USD 0.7993080154, including all historical uncertain reserves. Final video still NOT rendered. See fechamento_partida6_20261101.json.
+
 # Active production notes
 
 User goal: resume the exact Wolvesville EP2 branch/commit, finish actual Matches 6

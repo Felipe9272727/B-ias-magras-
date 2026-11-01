@@ -1,0 +1,2016 @@
+{
+ "episodio": 2,
+ "synthetic": false,
+ "partida": 5,
+ "semente": 20300626,
+ "jogadores": [
+  {
+   "id": "padeira",
+   "nome": "Padeira",
+   "modelo": "Claude Haiku 5.5",
+   "modelId": "anthropic/claude-haiku-5.5",
+   "provider": "or:anthropic/claude-haiku-5.5",
+   "papel": "pistoleiro",
+   "numero": 1
+  },
+  {
+   "id": "ferreiro",
+   "nome": "Ferreiro",
+   "modelo": "Claude Haiku 5.5",
+   "modelId": "anthropic/claude-haiku-5.5",
+   "provider": "or:anthropic/claude-haiku-5.5",
+   "papel": "lobisomem",
+   "numero": 2
+  },
+  {
+   "id": "boticaria",
+   "nome": "Boticária",
+   "modelo": "GLM 5.3 Flash",
+   "modelId": "z-ai/glm-5.3-flash",
+   "provider": "or:z-ai/glm-5.3-flash",
+   "papel": "padre",
+   "numero": 3
+  },
+  {
+   "id": "lenhador",
+   "nome": "Lenhador",
+   "modelo": "GLM 5.3 Flash",
+   "modelId": "z-ai/glm-5.3-flash",
+   "provider": "or:z-ai/glm-5.3-flash",
+   "papel": "lobo_vidente",
+   "numero": 4
+  },
+  {
+   "id": "costureira",
+   "nome": "Costureira",
+   "modelo": "Qwen 3.8 27B",
+   "modelId": "qwen/qwen3.8-27b",
+   "provider": "or:qwen/qwen3.8-27b",
+   "papel": "xerife",
+   "numero": 5
+  },
+  {
+   "id": "pescador",
+   "nome": "Pescador",
+   "modelo": "Qwen 3.8 27B",
+   "modelId": "qwen/qwen3.8-27b",
+   "provider": "or:qwen/qwen3.8-27b",
+   "papel": "vidente_espiritual",
+   "numero": 6
+  },
+  {
+   "id": "moleiro",
+   "nome": "Moleiro",
+   "modelo": "DeepSeek V4.1 Flash 1017",
+   "modelId": "deepseek/deepseek-v4.1-flash-1017",
+   "provider": "or:deepseek/deepseek-v4.1-flash-1017",
+   "papel": "vidente",
+   "numero": 7
+  },
+  {
+   "id": "bardo",
+   "nome": "Bardo",
+   "modelo": "MiniMax M3.1 Flash",
+   "modelId": "minimax/minimax-m3.1-flash",
+   "provider": "or:minimax/minimax-m3.1-flash",
+   "papel": "aldeao",
+   "numero": 8
+  },
+  {
+   "id": "viajante",
+   "nome": "Viajante",
+   "modelo": "GPT-6.1 Terra",
+   "modelId": "openai/gpt-6.1-terra",
+   "provider": "work:openai/gpt-6.1-terra",
+   "papel": "aldeao",
+   "numero": 9
+  },
+  {
+   "id": "astronoma",
+   "nome": "Astrônoma",
+   "modelo": "GPT-6 Luna",
+   "modelId": "openai/gpt-6-luna",
+   "provider": "work:openai/gpt-6-luna",
+   "papel": "detetive",
+   "numero": 10
+  },
+  {
+   "id": "mineiro",
+   "nome": "Mineiro",
+   "modelo": "MiMo V2.6 Flash",
+   "modelId": "xiaomi/mimo-v2.6-flash",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "papel": "lobo_alfa",
+   "numero": 11
+  },
+  {
+   "id": "ceramista",
+   "nome": "Ceramista",
+   "modelo": "MiMo V2.6 Flash",
+   "modelId": "xiaomi/mimo-v2.6-flash",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "papel": "carcereiro",
+   "numero": 12
+  },
+  {
+   "id": "carteiro",
+   "nome": "Carteiro",
+   "modelo": "Ling 3.1 Flash",
+   "modelId": "inclusionai/ling-3.1-flash",
+   "provider": "or:inclusionai/ling-3.1-flash",
+   "papel": "bobo",
+   "numero": 13
+  },
+  {
+   "id": "florista",
+   "nome": "Florista",
+   "modelo": "Ling 3.1 Flash",
+   "modelId": "inclusionai/ling-3.1-flash",
+   "provider": "or:inclusionai/ling-3.1-flash",
+   "papel": "lobisomem",
+   "numero": 14
+  },
+  {
+   "id": "cozinheira",
+   "nome": "Cozinheira",
+   "modelo": "Solar Mini 4",
+   "modelId": "upstage/solar-mini4",
+   "provider": "or:upstage/solar-mini4",
+   "papel": "medico",
+   "numero": 15
+  },
+  {
+   "id": "relojoeiro",
+   "nome": "Relojoeiro",
+   "modelo": "Solar Mini 4",
+   "modelId": "upstage/solar-mini4",
+   "provider": "or:upstage/solar-mini4",
+   "papel": "prefeito",
+   "numero": 16
+  }
+ ],
+ "noites": [
+  {
+   "n": 1,
+   "cela": null,
+   "chat": [
+    {
+     "nome": "Ferreiro",
+     "texto": "Padeira é Pistoleiro, perigo total pra nós. Ela sai esta noite, sem discussão. Fechado?",
+     "alvo": "Padeira",
+     "pensamento": "Se a Padeira atirar de dia, ela pode derrubar um lobo logo cedo. Eliminá-la agora protege nosso time.",
+     "rodada": 1
+    },
+    {
+     "nome": "Lenhador",
+     "texto": "Confirmo: vi Padeira como Pistoleiro na minha visão. Matar ela tira as duas balas da vila. Fechado com vocês!",
+     "alvo": "Padeira",
+     "pensamento": "Padeira é Pistoleiro, informação que eu mesma vi. Eliminá-la remove 2 balas perigosas e ninguém suspeita de mim.",
+     "rodada": 1
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Concordo com os dois, Padeira é pistoleiro e precisa cair agora antes de mirar em alguém daqui. Alvo travado: Padeira. Voto vale dupla aqui, então já tá garantido!",
+     "alvo": "Padeira",
+     "pensamento": "Matar a pistoleiro de noite resolve o maior perigo dela — dois balas fora do jogo sem ela poder atirar em nós. Sem risco, decisão óbvia. Depois, no dia, planto desconfiança na vila pra ninguém notar que ela morreu tão cedo.",
+     "rodada": 1
+    },
+    {
+     "nome": "Florista",
+     "texto": "Fechado! Padeira atirando no escuro nos mata em dois turnos. Tirar as balas N1 é prioridade absoluta. Alvo travado: Padeira. Amanhã culpo Pistoleiro ou Vidente se ela sobreviver protegida.",
+     "alvo": "Padeira",
+     "pensamento": "Padeira é Pistoleiro confirmado, a maior ameaça imediata. Matá-la N1 elimina as duas balas. Risco: Médico pode protegê-la; se isso acontecer, a vila suspeita que soubemos do papel e eu, Florista, posso ser alvo de suspeita por ser 'novato'. Por isso, de dia uso o discurso de que apenas o time dela sabia — e ataco quem sobrar mais fácil.",
+     "rodada": 1
+    },
+    {
+     "nome": "Ferreiro",
+     "texto": "Fechado! Padeira cai agora, sem discussão. Concordo com todos, tirar as balas na noite 1 é o certo.",
+     "alvo": "Padeira",
+     "pensamento": "Os outros três já travaram a Padeira e ninguém contestou. Se ela for Pistoleiro e atirar amanhã, nos complica muito. Vou seguir o grupo e não levantar suspeita.",
+     "rodada": 2
+    },
+    {
+     "nome": "Lenhador",
+     "texto": "Todos confirmaram, alvo travado! Padeira caindo tira o maior perigo noturno da vila. Amanhã eu fincho surpresa e aponto suspeita pro Pistoleiro estar entre os quietos.",
+     "alvo": "Padeira",
+     "pensamento": "Visão bateu com o consenso. Eliminar as balas na noite 1 é lucro puro. Só espero que o Médico não esteja nela.",
+     "rodada": 2
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Tudo fechado então, turma! Padeira cai na noite 1 sem chance de reação. Amanhã a vila vai brigar entre si achando quem é o Lobo Vidente. Bora dormir tranquilo!",
+     "alvo": "Padeira",
+     "pensamento": "Decisão ótima: tirar o Pistoleiro na noite 1 anula as duas balas da vila. Depois é só culpar alguém quieto tipo Relojoeiro ou Ceramista quando o Xerife chegar perto.",
+     "rodada": 2
+    },
+    {
+     "nome": "Florista",
+     "texto": "Fechadíssimo! Padeira cai hoje e a vila perde o tiro mais forte. Amanhã eu troço de quem ficar acusando quietinho. Alvo: Padeira, sem hesitar!",
+     "alvo": "Padeira",
+     "pensamento": "Todos alinhados em Padeira; o voto duplo do Mineiro garante. Se Médico ou Carcereiro protegerem, no dia 2 eu faço a vila suspeitar de Pistoleiro ou Vidente.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Padeira",
+    "papel": "pistoleiro",
+    "pensamento": "Jogadora de raciocínio forte que pode puxar votos; saber o papel dela cedo me dá uma âncora de confiança ou um alvo certo."
+   },
+   "loboVidente": {
+    "alvo": "Padeira",
+    "papel": "pistoleiro",
+    "pensamento": "Padeira tem histórico forte nas partidas passadas: Médico, Pistoleiro, Carcereiro. Se descobrir papel de poder, planejo o massacre nela cedo.",
+    "momento": "antes_chat",
+    "compartilhadoCom": [
+     "Ferreiro",
+     "Lenhador",
+     "Mineiro",
+     "Florista"
+    ]
+   },
+   "medico": {
+    "alvo": "Moleiro",
+    "pensamento": "Parece cautelosa e está longe dos núcleos. Proteger alguém que poderá precisar de alguém que esteja de olho, garantindo qualidade de vida para a vila."
+   },
+   "xerife": {
+    "alvos": [
+     "Padeira",
+     "Ferreiro"
+    ],
+    "pensamento": "Padeira e Ferreiro têm histórico de papéis fortes nas minhas memórias. Se um morrer, meu Xerife revela suspeitos e eu já sei quem mirar de dia.",
+    "recebeu": true,
+    "pistas": [
+     {
+      "alvo": "Padeira",
+      "suspeitos": [
+       "Ferreiro",
+       "Lenhador"
+      ]
+     }
+    ]
+   },
+   "videnteEspiritual": {
+    "alvos": [
+     "Viajante",
+     "Relojoeiro"
+    ],
+    "pensamento": "Sem info ainda. Testando dois novos, se um for lobo já começo o dia com suspeita.",
+    "recebeu": true,
+    "matou": false
+   },
+   "detetive": {
+    "alvos": [
+     "Padeira",
+     "Ferreiro"
+    ],
+    "mesmoTime": false,
+    "pensamento": "Sem pistas ainda, comparo dois jogadores para começar a mapear possíveis alianças."
+   },
+   "mortes": [
+    {
+     "nome": "Padeira",
+     "papel": "pistoleiro",
+     "causa": "lobos",
+     "quando": "noite 1",
+     "autor": "Ferreiro"
+    }
+   ],
+   "alvoLobos": "Padeira",
+   "salvo": false,
+   "autores": [
+    "Ferreiro",
+    "Lenhador",
+    "Mineiro",
+    "Florista"
+   ]
+  },
+  {
+   "n": 2,
+   "cela": {
+    "carcereiro": "Ceramista",
+    "preso": "Astrônoma",
+    "conversa": [
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Silêncio aí... você tá preso comigo esta noite. Quem é você, de verdade? Compartilha que eu também abro meu jogo.",
+      "pensamento": "Astrônoma é peça chave — alegou ser Detetive com checagem sobre o Ferreiro. Preciso descobrir se mente ou é real, e se é ameaça pra minha vila.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Astrônoma",
+      "papelNaCela": "o PRESO",
+      "texto": "Sou a Detetive. Comparei Padeira e Ferreiro: times diferentes; Padeira era Pistoleiro da vila, e Ferreiro acabou confirmado lobo. Não me execute; posso seguir buscando lobos.",
+      "pensamento": "Ferreiro já foi linchado como lobo, confirmando minha informação. Preciso convencer o Carcereiro a me poupar; revelar meu papel é seguro agora e pode ser útil à vila.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Detetive, hein? Interessante... mas se você for Detetive mesmo, me ajuda: quem mais te parece suspeito aí fora? Preciso ter certeza antes de decidir o que fazer com você.",
+      "pensamento": "Astrônoma se revelou Detetive e é plausível — a checagem dela sobre Ferreiro bateu. Executar uma Detetive viva seria burrice, perco um aliado que caça lobos. Guardo minha execução pra alguém suspeito. Além disso, ela não sabe que sou o Carcereiro, então posso fingir ser qualquer outro papel preso com ela.",
+      "executar": false,
+      "rodada": 2
+     },
+     {
+      "quem": "Astrônoma",
+      "papelNaCela": "o PRESO",
+      "texto": "Florista e Carteiro defenderam Ferreiro dizendo que minha checagem estava invertida, mesmo após eu explicar. Não é prova, mas eu investigaria um deles na próxima noite.",
+      "pensamento": "Só tenho evidência sólida contra Ferreiro, já linchado. Florista e Carteiro reagiram defendendo-o sem entender a comparação; podem ser lobos protegendo aliado ou apenas confusos. Vou ser transparente e não inventar certeza.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": false
+   },
+   "chat": [
+    {
+     "nome": "Lenhador",
+     "texto": "Pescador é prioridade: ele virou fonte de 'informações' e está limpando suspeitos como Viajante e Relojoeiro. Se for checador, morreu no tempo certo. Mato ele agora.",
+     "alvo": "Pescador",
+     "pensamento": "Vi na noite que Pescador é Vidente Espiritual e ele já jogou info pública defendendo Viajante e Relojoeiro. Eliminar o checador agora protege nossa rede e ainda vai confundir a vila sobre quem era a fonte.",
+     "rodada": 1
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Concordo com o Pescador, é o mais perigoso. Mas pensa: Relojoeiro é Prefeito, se matarmos ele a vila fica sem voto duplo — deixa pra depois. Pescador agora, com força total.",
+     "alvo": "Pescador",
+     "pensamento": "Pescador é Vidente Espiritual, precisa morrer antes de expor mais gente. Relojoeiro Prefeito é alvo bom pra outro dia.",
+     "rodada": 1
+    },
+    {
+     "nome": "Florista",
+     "texto": "Pescador é o mais perigoso: está limpando gente e virou fonte. Bora nele agora, com força total. Depoisois a gente vê Prefeito.",
+     "alvo": "Pescador",
+     "pensamento": "Matar Pescador remove o único que limpa suspeitos e me tira o radar. Relojoeiro só atrapalha se atacarmos agora; Prefeito vale mais morto no final.",
+     "rodada": 1
+    },
+    {
+     "nome": "Lenhador",
+     "texto": "Pescador confirmado, então. Ele tava limpando o Relojoeiro e o Viajante — checador ouprotetor, morre hoje. Depois vemos o Prefeito com calma.",
+     "alvo": "Pescador",
+     "pensamento": "Pescador é o Vidente Espiritual, cheguei perto dele ontem. Mata-lo antes que acumule info. Relojoeiro vale dois votos, mas pode esperar uma noite.",
+     "rodada": 2
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Pescador é o alvo, fechado. Depois disso a vila vai brigar entre Bardo e Costureira que já se apontaram. Cuidado com Astrônoma, ela pode ser Vidente real checando a gente.",
+     "alvo": "Pescador",
+     "pensamento": "Pescador é Vidente Espiritual, precisa morrer. Relojoeiro Prefeito fica pra depois como distração. Astrônoma se ela for Detetive pode nos ferrar, tomar cuidado com discurso amanhã.",
+     "rodada": 2
+    },
+    {
+     "nome": "Florista",
+     "texto": "Fechado, Pescador com força total. Ele tava limpando gente e virou fonte confiável — checador ou protetor, morre hoje. Depois a gente vê o Prefeito com calma.",
+     "alvo": "Pescador",
+     "pensamento": "Pescador é Vidente Espiritual confirmado pelo Lobo Vidente. Ele já estava direcionando suspeitos e limpando Relojoeiro e Viajante, perigo real. Ataque conjunto com o Lobo Vidente resolve. Astrônoma é ameaça futura, mas o Pescador é urgente.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Pescador",
+    "papel": "vidente_espiritual",
+    "pensamento": "Diz que Viajante e Relojoeiro são 'limpos' sem explicar como — jeito clássico de lobo ganhar confiança. Quero cravar o papel dele."
+   },
+   "loboVidente": {
+    "alvo": "Pescador",
+    "papel": "vidente_espiritual",
+    "pensamento": "Ele alegou certeza sobre Viajante e Relojoeiro sem explicar — cheiro de Vidente ou Detetive. Se confirmar poder de investigação, viramos alvo dele amanhã.",
+    "momento": "antes_chat",
+    "compartilhadoCom": [
+     "Lenhador",
+     "Mineiro",
+     "Florista"
+    ]
+   },
+   "medico": {
+    "alvo": "Astrônoma",
+    "pensamento": "Lobisomem safou e matou Padeira. Não a língua dela, mas o peso. Com 2 lobos vivos e outro noturno, o próximo alvo deve ser o de menor risco. Ferreiro era suspeito, mas não é o alvo hoje. O astrônoma tem poder de saber, e sabedoria das estrelas é rara demais para custar a colher. Protetor gravido."
+   },
+   "xerife": {
+    "alvos": [
+     "Lenhador",
+     "Boticária"
+    ],
+    "pensamento": "Lenhador é meu parceiro lobo e suspeito direto. Boticária votou em mim hoje e precisa estar livre pro próximo turno. Vou garantir minha sobrevivência.",
+    "recebeu": true,
+    "pistas": []
+   },
+   "videnteEspiritual": {
+    "alvos": [
+     "Lenhador",
+     "Boticária"
+    ],
+    "pensamento": "Lenhador absteve e se defendeu dizendo que quem acusa tá 'desesperado' — clássico lobo se protegendo. Boticária criou confusão dizendo que tudo soou ensaiado e tentou desviar foco do Ferreiro (lobo). Se pelo menos um deles matou, já tenho info forte pro dia 2.",
+    "recebeu": false
+   },
+   "detetive": null,
+   "mortes": [
+    {
+     "nome": "Pescador",
+     "papel": "vidente_espiritual",
+     "causa": "lobos",
+     "quando": "noite 2",
+     "autor": "Florista"
+    }
+   ],
+   "alvoLobos": "Pescador",
+   "salvo": false,
+   "autores": [
+    "Florista",
+    "Lenhador",
+    "Mineiro"
+   ]
+  },
+  {
+   "n": 3,
+   "cela": {
+    "carcereiro": "Ceramista",
+    "preso": "Bardo",
+    "conversa": [
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Ei, quem tá aí? Não sei quem você é, mas me diz uma coisa: você acha que o Bardo tá jogando limpo ou tá protegendo lobo? Fica aí, a conversa é só nossa.",
+      "pensamento": "Preciso testar se o Bardo é lobo antes de decidir se executo. Se ele jurar de pés juntos que é vila e só seguiu a pista certa, talvez eu poupe; se enrolar, é meu alvo.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Bardo",
+      "papelNaCela": "o PRESO",
+      "texto": "Estou jogando limpo. Apontei Lenhador sem saber seu papel; Costureira confirmou pela Xerife. Se eu protegesse lobo, teria votadaFerreiro. Não me execute.",
+      "pensamento": "Preciso parecer coerente e convincing, sem revelar que sou Aldeão.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Boa, Bardo. Sua defesa faz sentido: você votou no Ferreiro e mirou o Lenhador certo. Mas me responde: quem você acha que são os outros dois lobos agora? Seu chute sincero.",
+      "pensamento": "Bardo votou no Ferreiro (lobos confirmado) e ajudou a linchar o Lenhador (Lobo Vidente). Padre pode ter morrido ontem com o Pescador? Não, Pescador era Vidente Espiritual. Bardo não tem indicativo de lobo. Guardo minha execução pra alguém mais suspeito depois.",
+      "executar": false,
+      "rodada": 2
+     },
+     {
+      "quem": "Bardo",
+      "papelNaCela": "o PRESO",
+      "texto": "Não me execute: votei no Ferreiro e no Lenhador porque a Xerifeاة confirmou que Ferreiro matou a Padeira. Executions irreversible; Boticária repetiu uma informação falsa e merece mais investigação antes de qualquer decisão.",
+      "pensamento": "Ferreiro e Lenhador eram lobos confirmados; os outros dois são desconhecidos. Boticária está sob suspeita, mas não tenho prova suficiente para accusations definite.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": false
+   },
+   "chat": [
+    {
+     "nome": "Mineiro",
+     "texto": "Galera, planifiquem: precisamos de um alvo que não seja médico. Quem vocês querem eliminar?",
+     "alvo": "Bardo",
+     "pensamento": "Bardo e Costureira (Xerife) são as ameaças reais. Vou atacar o Bardo hoje, que tá acusando os errados. Amanhã tentamos a Xerife se o médico não proteger.",
+     "rodada": 1
+    },
+    {
+     "nome": "Florista",
+     "texto": "Bardo tá pressionando o Lenhador desde o dia 1 e quase me pegou ontem. Se o carcereiro prender alguém, o ataque cai em outro. Voto no Bardo, elimina quem mais nos investiga.",
+     "alvo": "Bardo",
+     "pensamento": "Bardo é perigoso: empurrou Lenhador sem prova e está conectando peças. Relojoeiro é Prefeito revelado com voto duplo, difícil eliminar depois. Astrônoma pode ser Vidente real, mas já perdeu o Pescador e está enfraquecida. Prefiro tirar o Bardo hoje e deixar a vila sem direção amanhã.",
+     "rodada": 1
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Bardo é boa escolha, tá agindo como detetive sem ser. Se o carcereiro prender alguém, meu alvo é diferente — pensem nisso.",
+     "alvo": "Bardo",
+     "pensamento": "Bardo é o mais perigoso, sempre acertando. Mas preciso considerar se o carcereiro vai prender alguém e anular o ataque. Costureira se disse Xerife, pode ser alvo também se não for médico.",
+     "rodada": 2
+    },
+    {
+     "nome": "Florista",
+     "texto": "Bardo me custou o Ferreiro e quase me enterrou ontem. Bora nele hoje. Se o carcereiro prender alguém, a gente ataca outro e ele fica sem saber. Fechado?",
+     "alvo": "Bardo",
+     "pensamento": "Bardo é o maior perigo pra mim: empurrou Lenhador e mira em quem desvia. Tirá-lo elimina a pressão. Astrônoma é a ameaça real a longo prazo, mas hoje o prioridade é sobrevivência e desviar a suspeita do Relojoeiro.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Costureira",
+    "papel": "xerife",
+    "pensamento": "Ela se declarou Xerife e entregou o Lenhador — se for verdade, ótimo; se for lobo fingindo, a vila perde o dia 3. Verificar o papel dela é a maior informação possível agora."
+   },
+   "loboVidente": null,
+   "medico": {
+    "alvo": "Moleiro",
+    "pensamento": "Ninguém confia em mim, mas devo proteger quem age com cautela. Costureira é Xerife, só ataca com base."
+   },
+   "xerife": {
+    "alvos": [
+     "Boticária",
+     "Moleiro"
+    ],
+    "pensamento": "Boticária fez manobras suspeitas e foi apontado por erros de lógica. Moleiro não votou no lobo no dia 1. Ambos são alvos de suspeita. Quero saber se um dos dois é o lobo restante.",
+    "recebeu": true,
+    "pistas": []
+   },
+   "videnteEspiritual": null,
+   "detetive": {
+    "alvos": [
+     "Florista",
+     "Carteiro"
+    ],
+    "mesmoTime": false,
+    "pensamento": "Ambos defenderam Ferreiro quando minha leitura apontava para ele e depois votaram em Lenhador. Compará-los pode revelar se compartilharam a proteção dos lobos."
+   },
+   "mortes": [],
+   "alvoLobos": "Bardo",
+   "salvo": true,
+   "autores": []
+  },
+  {
+   "n": 4,
+   "cela": {
+    "carcereiro": "Ceramista",
+    "preso": "Boticária",
+    "conversa": [
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Silêncio aí. Só quero ouvir você. Quem você acha que são os lobos que sobraram?",
+      "pensamento": "Boticária é minha presa. Preciso escutar sem me expor como Carcereiro.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Boticária",
+      "papelNaCela": "o PRESO",
+      "texto": "Calma aí, sou vila, confia. Ferreiro, Lenhador e Florista caíram — sobra um lobo. Meu instinto: Costureira endossou o Bardo todo dia, e o Bardo acertou o Lenhador 'por sorte' demais. E cuidado com quem te pressiona pra executar hoje.",
+      "pensamento": "Sou Padre, preciso sobreviver pra guardar a água benta. Não posso revelar papel. O lobo que restou pode ser Costureira, Bardo ou Carteiro. Se ele me executar, a vila perde poder. Vou parecer útil, não ameaçador.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Interessante. Você aponta Bardo e Costureira... mas ontem você também inventou aquela checagem do Pescador. Por que eu deveria confiar em você? Se você for lobo, me convence.",
+      "pensamento": "Boticária não é lobo - sobrou 1 lobo e ela foi presa, se fosse lobo os outros matariam. Além disso, Florista (lobo) votou no Bardo, e Boticária votou em mim no dia 2. Melhor poupar e usar como isca/informação. Preciso ver se Bardo ou Costureira é o lobo restante.",
+      "executar": false,
+      "rodada": 2
+     },
+     {
+      "quem": "Boticária",
+      "papelNaCela": "o PRESO",
+      "texto": "Tá bom, vou ser direto: errei mesmo ao repetir o Pescador sem pensar, sou humana, não loba. Se eu fosse loba, por que votei e puxei o Relojoeiro ontem, um prefeito? Lobo protege prefeito. E ontem ajudei a linchar a Florista. Sobrou um lobo: mira no Bardo ou Costureira.",
+      "pensamento": "Sou Padre, mas não revelo isso preso. Preciso soar vila: admitir o erro do Pescador, mostrar que meus votos foram contra lobo confirmado e apontar sospeitosos plausíveis. Relojoeiro/prefeito é alvo ruim pra lobo, uso isso.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": false
+   },
+   "chat": [
+    {
+     "nome": "Mineiro",
+     "texto": "Bando, obrigado por me apoiarem. Hoje temos que decidir bem: Relojoeiro é alvo fácil com o voto duplo, mas Precisamos matar quem tem poder real. Costureira se diz Xerife - ela é perigosa. Médico pode salvar um, então pensem: quem vocês acham que é o Médico ou a verdadeira ameaça? Voto na Costureira ou no Bardo?",
+     "alvo": "Costureira",
+     "pensamento": "Costureira se declara Xerife, pode estar mentindo pra proteger si mesma ou pra nos pegar. Matar ela antes que 'vigie' alguém e nos denuncie. Relojoeiro é prefeito, voto duplo - a vila pode linchar ele sozinha, não preciso gastar alvo. Bardo também é alvo fácil. Preciso manter a vila dividida: Florista saiu, sobram 2 lobos (eu e Ferreiro... não, Ferreiro morreu, sou só eu + mais um? Não, somos 4: Ferreiro, Lenhador, Florista mortos, sobrou eu. Espera - só eu restei do time? Então preciso ser muito cuidadoso, não posso me expor.",
+     "rodada": 1
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Amigos, cuidado: Costureira se diz Xerife mas pode ser blefe. Se for lobo de verdade mata a vila. Bardo também é ameaça, acertou o Lenhador. Voto na Costureira, se ela for falsa a vila perde um voto forte.",
+     "alvo": "Costureira",
+     "pensamento": "Costureira se declara Xerife e tem sido consistente - se for verdade, ela nos pega. Melhor tirar ela agora. Relojoeiro é alvo fácil mas voto duplo dividido, não resolve. Bardo é vila comum, depois a gente resolve.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Relojoeiro",
+    "papel": "prefeito",
+    "pensamento": "Duas abstenções com voto duplo e silêncio suspeito; Carteiro já está limpo pela comparação da Astrônoma (Florista era lobo), e Astrônoma parece Detetive de verdade. Quero cravar o Relojoeiro antes de votar nele."
+   },
+   "loboVidente": null,
+   "medico": {
+    "alvo": "Boticária",
+    "pensamento": "Médico protegendo Costureira. Boticária é suspeita por votar por Lenhador sem provas e ter checagem duvidosa de Pescador, parecia lobo empurrando vila."
+   },
+   "xerife": {
+    "alvos": [
+     "Bardo",
+     "Relojoeiro"
+    ],
+    "pensamento": "Preciso confirmar se Relojoeiro é lobo. Bardo se declara preso; se for falso, ele é a ameaça. Vigiar os dois maximiza a chance de identificar os lobos restantes.",
+    "recebeu": false
+   },
+   "videnteEspiritual": null,
+   "detetive": {
+    "alvos": [
+     "Bardo",
+     "Relojoeiro"
+    ],
+    "mesmoTime": true,
+    "pensamento": "São meus dois focos mais controversos: Bardo ganhou confiança ao acertar lobos, mas pode ter se distanciado; Relojoeiro acumulou abstenções. Compará-los deve orientar o próximo voto."
+   },
+   "mortes": [
+    {
+     "nome": "Costureira",
+     "papel": "xerife",
+     "causa": "lobos",
+     "quando": "noite 4",
+     "autor": "Mineiro"
+    }
+   ],
+   "alvoLobos": "Costureira",
+   "salvo": false,
+   "autores": [
+    "Mineiro"
+   ]
+  },
+  {
+   "n": 5,
+   "cela": {
+    "carcereiro": "Ceramista",
+    "preso": "Astrônoma",
+    "conversa": [
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Oi, preso. Não sei quem você é nem por que está aqui. Quem você acha que é lobo? Fala logo, antes que eu perca a paciência.",
+      "pensamento": "Preso Astrônoma. Devo testar se é vila mesmo antes de confiar. Se reclamar demais ou defender alguém estranho, pode ser lobo. Preciso de info, não de drama.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Astrônoma",
+      "papelNaCela": "o PRESO",
+      "texto": "Sou Detetive. Florista e Carteiro eram de times diferentes; Florista era lobo, então Carteiro não é. Bardo e Prefeito Relojoeiro são do mesmo time. Poupe-me: suspeito de Moleiro, que só citou papéis públicos e votou no Médico.",
+      "pensamento": "Quero salvar minha vida e oferecer as checagens verificáveis. Minha suspeita de Moleiro não é certa: ele pode ser o Vidente real, mas seus resultados foram sobretudo papéis já revelados; votou em Cozinheira, que era Médica.",
+      "executar": false,
+      "rodada": 1
+     },
+     {
+      "quem": "Ceramista",
+      "papelNaCela": "o CARCEREIRO",
+      "texto": "Detetive, hein? Se for verdade, seu valor tá alto demais pra eu te matar agora. Moleiro te mirou rápido... Coordena comigo: amanhã de dia, aponta Moleiro ou Mineiro, quem tiver mais cheiro. Te deixo viva por ora.",
+      "pensamento": "Detetive é peça chave contra o último lobo. Moleiro se revelou Vidente só citando papel público - suspeito. Não executo: arriscar matar Detetive é tiro no pé. Preciso que ela compare times amanhã.",
+      "executar": false,
+      "rodada": 2
+     },
+     {
+      "quem": "Astrônoma",
+      "papelNaCela": "o PRESO",
+      "texto": "Combinado: amanhã foco Mineiro. Absteve contra Ferreiro, votou no Padre e no Médico; o voto em Florista pode ser cobertura. Moleiro segue suspeito, mas acertou três lobos. Poupe-me.",
+      "pensamento": "Mineiro tem padrão mais suspeito: não votou em Ferreiro, depois votou no Padre Boticária e no Médico Cozinheira, ambos aldeões, embora também tenha votado em Florista. Moleiro acertou três lobos e pode ser Vidente genuíno, apesar do voto ruim no Médico.",
+      "executar": false,
+      "rodada": 2
+     }
+    ],
+    "executou": false
+   },
+   "chat": [
+    {
+     "nome": "Mineiro",
+     "texto": "Moleiro se disse Vidente, mas só repetiu info pública — suspeito. Preciso mandar recado: quem de vocês matou a Costureira? Vamos de Moleiro se ninguém tiver melhor.",
+     "alvo": "Moleiro",
+     "pensamento": "Moleiro é a ameaça real se for Vidente de verdade; Relojoeiro é prefeito intocável. Mataresto é Lobo Vidente, preciso confirmar com ele antes de decidir.",
+     "rodada": 1
+    },
+    {
+     "nome": "Mineiro",
+     "texto": "Moleiro tá fingindo vindo e só repete info pública, mira nele. Cuidado com Astrônoma e Bardo que têm checagens. Eliminem Moleiro hoje.",
+     "alvo": "Moleiro",
+     "pensamento": "Moleiro se diz vidente mas não trouxe nada novo, pode ser falso. Preciso descobrir quem matou a Costureira pra não nos expormos. Se o Moleiro for vidente de verdade, é ameaça real — melhor tirá-lo agora.",
+     "rodada": 2
+    }
+   ],
+   "vidente": {
+    "alvo": "Viajante",
+    "papel": "aldeao",
+    "pensamento": "Astrônoma riscou Carteiro (time oposto ao Florista, lobo) e Bardo (time do Prefeito). Sobram Viajante, Mineiro e Ceramista. Ceramista votou nos dois lobos e no Ferreiro; Mineiro errou no Cozinheira mas caçou Lenhador e Florista. Viajante se abstém e só pede minhas checagens — checo ele hoje."
+   },
+   "loboVidente": null,
+   "medico": null,
+   "xerife": null,
+   "videnteEspiritual": null,
+   "detetive": null,
+   "mortes": [
+    {
+     "nome": "Moleiro",
+     "papel": "vidente",
+     "causa": "lobos",
+     "quando": "noite 5",
+     "autor": "Mineiro"
+    }
+   ],
+   "alvoLobos": "Moleiro",
+   "salvo": false,
+   "autores": [
+    "Mineiro"
+   ]
+  }
+ ],
+ "dias": [
+  {
+   "n": 1,
+   "falas": [
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 1,
+     "fala": "Padeira era Pistoleiro? Nossa... perder as balas no dia 1 é duro. Vamos com calma pra não acusar inocente. Quem saiu de casa ontem à noite, hein?",
+     "pensamento": "Vila perdeu o Pistoleiro na primeira noite, vantagem enorme pra nós. Preciso puxar a suspeita pra longe dos lobos e jogar a vila uns contra os outros.",
+     "expressao": "chocado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 1,
+     "fala": "Padeira era da vila. Ferreiro, quero ouvir você: tem alguma informação concreta ou suspeita pra dividir?",
+     "pensamento": "Minha comparação da noite diz que Ferreiro não era do time de Padeira; como Padeira era Pistoleiro, Ferreiro provavelmente é lobo ou solo. Vou sondá-lo sem revelar meu poder.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 1,
+     "fala": "Que tristeza pela Padeira, gente. Não tenho nenhuma informação concreta ainda, Astrônoma. Vou ouvir todo mundo antes de apontar alguém. Quem tá calado demais hoje?",
+     "pensamento": "Padeira caiu pelo nosso plano e a vila não tem como saber. Preciso parecer perdido, não acusar ninguém cedo e não defender o Lenhador de forma óbvia.",
+     "expressao": "chocado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Que choque perder a Padeira assim, com balas inclusas! Minha sorte é não ter info ainda. Vou ficar de olho em quem acusa sem fundamento — geralmente quem puxa o primeiro suspeito tá desesperado pra mudar o foco.",
+     "pensamento": "Missão cumprida: Pistoleiro morto na noite 1. Seguo o recado do Alfa: não acuso ninguém, só finjo neutralidade e deixo a vila brigando sozinha.",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 1,
+     "fala": "Que começo trágico, né? A Padeira nem pôde usar as balas. Vou observar bem as reações de vocês antes de apontar alguém, confiem em mim.",
+     "pensamento": "Preciso parecer útil e ativo sem chamar atenção. Se eu ficar quieto, desconfiam; se acusar muito, pareço wolf. Vou agir como investigador cauteloso e deixar a vila se dividir sozinha. Quero ser linchado, mas sem que ninguém perceba que estou pedindo isso.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 1,
+     "fala": "Poxa, dia difícil! Ainda não vi nada de concreto, mas quem ficar caladinho demais me parece suspeito. Bora trocar impressões antes de votar em qualquer pessoa, senão a vila se atropela sozinha.",
+     "pensamento": "Preciso parecer atento mas inútil, igual aos outros. Mineiro, Ferreiro e Lenhador já combinaram de não acusar ninguém; eu sigo o mesmo jogo e deixo a vila se dividir sozinha. Melhor atacar quem falar muito forte sem prova.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 1,
+     "fala": "Ferreiro, concordo. Vamos ouvir todos antes de apontar. Minha dúvida: quem decidiu que Padeira usou as balas no dia 1?",
+     "pensamento": "Pensei em revelar, mas preciso aguardar pelo que as outras viles disseram. Se eu for o Alfalfa, revelar cedo pode dar liga. Vou aguardar o final do debate.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Perder o Pistoleiro no dia 1 é brutal. Ferreiro e Lenhador, vocês dois tão muito calmos pra quem acabou de perder um aliado. Fica o registro, hein.",
+     "pensamento": "Sei que um dos dois é lobo. Não vou revelar qual. Vou deixar a vila desconfiar dos dois ao mesmo tempo e ver quem reage mal. Se um deles se defender demais, é ele.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 1,
+     "fala": "Relojoeiro perguntou certo: Padeira nem atirou, o tiro do dia 1 só no início da votação. Concordo com Florista, vamos desacelerar e ouvir todos antes de votar.",
+     "pensamento": "Relojoeiro demonstrou conhecimento das regras, pode ser útil. Ninguém ainda se queimou. Preciso me manter neutro e observar quem vacila nas contas. Carcereiro precisa de alvo certo à noite.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 1,
+     "fala": "Olha, gente. Pode calar que a bola já saiu. Se virmos alguém pra apontar antes, já chuta que altou. Brazo pra mim, só falaram!",
+     "pensamento": "Pistoleiro tá morto antes de uso. Ninguém pode ter usado as balas. Vou observar quem insiste num suspeito específico.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Padeira morreu antes de atirar; suas balas se perderam. Lenhador veio atacando quem aponta primeiro, parece desviar atenção. Votaria nele, mas quero mais contexto.",
+     "pensamento": "Sem informação, sigo intuição e comportamento suspeito. Lenhador desenhou o perfil clássico de culpado ao antecipar|Method a acusação.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Padeira era nossa bala e se foi. Não vou votar sem prova hoje. Bardo, você já tem alvo; Lenhador, por que tanto medo de apontar? Me deem algo concreto.",
+     "pensamento": "Confirmei de noite: Padeira era mesmo Pistoleiro. Nenhuma info nova. Bardo acusando Lenhador cedo, Lenhador desviando — um dos dois me cheira mal. Hoje não entro em bloco; amanhã, se sobreviver, tenho alvo novo pra verificar.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 1,
+     "fala": "Perda brutal. Relojoeiro fez pergunta válida — Padeira não atirou, morreu antes. Lenhador, defasar quem acusa já no dia 1... vou anotar. Vamos ouvir mais.",
+     "pensamento": "Chequei Viajante e Relojoeiro: nenhum matou. Padeira caiu por outros lobos. Lenhador está defasando quem aponta, tática clássica. Costureira atacando Ferreiro e Lenhador ao mesmo tempo também é suspeita. Vou esperar a rodada 2 pra ver quem se expõe.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Padeira levou as balas pro túmulo... Soou tudo muito ensaiado aqui. Bardo já mirando o Lenhador sem prova, tô de olho. Nada de apressado hoje, meus amigos.",
+     "pensamento": "Sou o Padre, vou guardar a água benta — usar hoje é loteria com 15 vivos. Bardo atacou o Lenhador cedo sem fundamento; Lenhador fez o mesmo comportamento em partidas passadas. Amanhã de manhã vejo se alguém morre e reavalo.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 1,
+     "fala": "Lenhador, sua cautela faz sentido, mas por que tratar quem pergunta primeiro como desesperado? Uma pergunta não é acusação.",
+     "pensamento": "A fala do Lenhador desestimula pressão útil, mas ainda não prova nada. Quero ouvir sua resposta antes de escolher.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 2,
+     "fala": "Tenho uma checagem noturna: Ferreiro não é do time da Padeira. Como ela era da vila, Ferreiro é meu principal suspeito.",
+     "pensamento": "Preciso compartilhar a informação para orientar o voto; Ferreiro pode ser lobo ou o Bobo, mas é de outro time que uma aldeã confirmada.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 2,
+     "fala": "Calma, Astrônoma. Se Ferreiro NÃO é do time da Padeira e ela era vila, ele é lobo? Sua checagem parece apontar pro contrário. Repete a lógica aí...",
+     "pensamento": "Astrônoma pode ser Vidente/Detetive confirmando Ferreiro como lobo — perigo enorme. Ou errou a leitura. Defender muito ele me queima; melhor expor a contradição dela e jogar a dúvida pra longe.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Já tinha meu olho no Ferreiro desde ontem à noite. Com o que a Astrônoma confirmou, tá mais que cravo pra mim. Voto nele, bora.",
+     "pensamento": "Meu Xerife apontou Ferreiro OU Lenhador. A Astrônoma acabou de confirmar que Ferreiro é lobo. Jogo quase resolvido — preciso que votem nele e não revelem que eu já sabia.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 2,
+     "fala": "Gente, calma! A Astrônoma se atrapalhou aí, mas isso não condena ninguém. Eu ainda não tenho nada concreto, prefiro ouvir mais antes de votar errado. Confiem em mim, vamos com cautela.",
+     "pensamento": "Sou o Bobo e quero ser linchado sem parecer que quero. Hoje é cedo demais — me matar no dia 1 seria estranho e ninguém votaria. Preciso parecer útil e inofensivo, ganhar confiança, e criar uma situação lá na frente onde pareça que errei feio e a vila se vire contra mim. Astrônoma deu uma informação confusa; observar como reagem a isso me ajuda a entender quem é lobo, mas não vou expor nada agora.",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Astrônoma, essa é uma acusação forte pra se fazer no dia 1. Costureira, você pulou em cima na hora, sem pedir nada. Voto só com prova. Anotado.",
+     "pensamento": "Eu sou o Vidente e sei que a Padeira era Pistoleiro. Astrônoma não pode ser Vidente, então ou é Detetive/Vidente Espiritual que resolveu se expor, ou é lobo blefando com uma falsa checagem pra linchar o Ferreiro. O pulo rápido da Costureira me lembra as partidas em que ela era loba. Não voto no Ferreiro hoje sem mais prova.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 2,
+     "fala": "Astrônoma, sua lógica está invertida: se Ferreiro NÃO é do time da Padeira e ela era vila, ele é vila também! Cuidado, gente, não votem por embalo. Caladinhos demais: Cozinheira e Boticária.",
+     "pensamento": "Astrônoma errou feio a leitura do Detetive e o time dela (Vidente Espiritual) acusou meu parceiro Ferreiro. Preciso virar o jogo: destruir a credibilidade dela e empurrar o voto pra Cozinheira ou Boticária, que ficaram quietas. Nada de tocar em Ferreiro, Lenhador ou Mineiro.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 2,
+     "fala": "Seguinte: Padeira foi Pistoleiro. Se não disse nada, não estou pedindo paciência. Ferreiro, Passe qualquer dúvida com minha mão, não com palavras vazias. Antes de votar, confira: quem tem alinhamento atual? Quem está definindo o alvo? Quem não reage? Eu não vou apostar sem base.",
+     "pensamento": "Estou ciente de que minha mão é importante e não posso assumir o papel de Padeira. Vou verificar se há algum plano concreto para usar minha mão antes de fechar minha mão.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Pescador",
+     "id": "pescador",
+     "rodada": 2,
+     "fala": "Tenho uma informação: Viajante e Relojoeiro são limpos, vão tranquilos. Astrônoma, forte pro dia 1, mas a lógica tá certa — Ferreiro pode ser lobo. Vamos com calma.",
+     "pensamento": "Minha checagem confirmou Viajante e Relojoeiro como não-lobos. Astrônoma parece Detetive, se for verdade Ferreiro é lobo. Mas Costureira tá empurrando forte — pode ser lobo puxando alvo errado. Preciso dos lobos vivos: 2 lobos + alfa + vidente. Só 4. Vou observar quem mais puxa o Ferreiro.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ferreiro",
+     "id": "ferreiro",
+     "rodada": 2,
+     "fala": "Astrônoma, sua checagem tá invertida, a Florista já mostrou isso. Costureira, você pulou em cima de mim sem prova nenhuma. Quem ganha com essa pressa toda?",
+     "pensamento": "A Astrônoma errou a lógica e a Costureira correu pra me linchar. Vou jogar a suspeita nela e proteger o Lenhador sem parecer que estou defendendo ninguém.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 2,
+     "fala": "Ferreiro, calma, bora ouvir todos antes do voto. Coisa de vila",
+     "pensamento": "Coisinha de bobo da vila. Acredito que Ferreiro pode ser bobo. Calma",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "A lógica da Astrônoma está certa: Padeira era da vila, então Ferreiro não é do mesmo time. Bardo, Lenhador não tem prova contra ele. Voto no Ferreiro.",
+     "pensamento": "Ferreiro é o alvo mais sustentado. Bardo mira Lenhador sem motivo, enquanto a Astrônoma trouxe comparação de times. A Costureira confirmou cedo demais.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 2,
+     "fala": "Pessoal, a lógica da Astrônoma tá correta: se Ferreiro NÃO é do time da Padeira e ela era vila, ele é lobo. Florista e Ferreiro inverteram. Cuidado pra não confundir o pessoal!",
+     "pensamento": "Astrônoma é Detetive provavelmente. Lógica dela está certa — Ferreiro pode ser lobo. Florista e Ferreiro distorceram pra confundir. Costureira já tinha desconfiança do Ferreiro. Preciso confirmar minha leitura sem me expor como Carcereiro.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 2,
+     "fala": "A lógica da Astrônoma está certa, mas não exclui Bobo. Astrônoma, confirma que comparou Padeira e Ferreiro? Pescador, como chegou à sua informação?",
+     "pensamento": "Sou aldeão e Relojoeiro é prefeito; Pescador pode ter comparado nós dois, mas chamar ambos de limpos excede a comparação. Ferreiro pode ser Bobo ou lobo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Calma, gente! Detetive só compara times: se Padeira era vila, Ferreiro podia ser lobo... ou Bobo! Astrônoma, confirma ser Detetive? E Pescador, de onde veio essa certeza sobre Viajante e Relojoeiro?",
+     "pensamento": "A checagem da Astrônoma é real e ameaça o Ferreiro. Preciso plantar dúvida sem acusar: o Bobo é a saída lógica. Se ela se revelar Detetive, virou alvo nosso pra hoje à noite. Pescador limpando dois jogadores é estranho, vou explorar isso.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Padeira levou as balas pro túmulo... Soou tudo muito ensaiado aqui. Bardo já mirando o Lenhador sem prova, tô de olho. Nada de apressado hoje, meus amigos.",
+     "pensamento": "Sou Padre, não posso revelar. Dia 1 é cedo demais pra água benta: se errar, morro. A discussão Ferreiro lobo vs Bobo tá confusa. Bardo já mirando o Lenhador de novo como nas partidas passadas... Guardo a água benta e observo quem puxa a onda. Costureira pulou em cima rápido demais.",
+     "expressao": "pensando"
+    }
+   ],
+   "tiros": [],
+   "acoes": [],
+   "revelacoes": [
+    {
+     "nome": "Relojoeiro",
+     "papel": "prefeito",
+     "depoisDaFala": 21
+    }
+   ],
+   "recados": [
+    {
+     "nome": "Mineiro",
+     "texto": "Pistoleiro caiu, bora manter disfarce. Ferreiro e Lenhador, não acusem ninguém ainda — deixem a vila brigar sozinha.",
+     "depoisDaFala": 0,
+     "recebidoPor": [
+      "Ferreiro",
+      "Lenhador",
+      "Florista"
+     ]
+    }
+   ],
+   "votos": {
+    "Ferreiro": "Astrônoma",
+    "Boticária": "Costureira",
+    "Lenhador": "ninguém",
+    "Costureira": "Lenhador",
+    "Pescador": "Ferreiro",
+    "Moleiro": "Ferreiro",
+    "Bardo": "Ferreiro",
+    "Viajante": "Ferreiro",
+    "Astrônoma": "Ferreiro",
+    "Mineiro": "ninguém",
+    "Ceramista": "Ferreiro",
+    "Carteiro": "Lenhador",
+    "Florista": "Bardo",
+    "Cozinheira": "ninguém",
+    "Relojoeiro": "ninguém"
+   },
+   "pesosVoto": {
+    "Ferreiro": 1,
+    "Boticária": 1,
+    "Lenhador": 1,
+    "Costureira": 1,
+    "Pescador": 1,
+    "Moleiro": 1,
+    "Bardo": 1,
+    "Viajante": 1,
+    "Astrônoma": 1,
+    "Mineiro": 1,
+    "Ceramista": 1,
+    "Carteiro": 1,
+    "Florista": 1,
+    "Cozinheira": 1,
+    "Relojoeiro": 2
+   },
+   "pensamentosVoto": {
+    "Ferreiro": "Ela acusou o Ferreiro cedo, com uma lógica invertida que a Florista já desmontou. Quem puxa a primeira acusação no dia 1 merece cuidado.",
+    "Boticária": "Saltou no Ferreiro na hora sem entender a lógica — que podia ser só Bobo. Pressa assim dia 1 cheira a lobo desviando foco. E já me queimou antes.",
+    "Lenhador": "Sem provas concretas e com a vila brigando entre si, o melhor é não puxar voto pro meu lado. Deixo o caos da Astrônoma e do Ferreiro ferver e observo quem se mostra Power da vila amanhã.",
+    "Costureira": "Sei que foi Ferreiro OU Lenhador. Detetive diz Ferreiro fora do time da vila — pode ser Bobo! Minha experiência: nunca linchar quem pode ser Bobo. Lenhador tá desviando foco e agindo suspeito. Risco de matar inocente existe, mas matar Bobo encerra o jogo pra ele.",
+    "Pescador": "Astrônoma é Detetive e acusou Ferreiro. Se for lobo, ganho agora. Se for vila, perco, mas a maioria parece convencida. Melhor arriscar do que votar em ninguém.",
+    "Moleiro": "Astrônoma acusou com base em checagem e Ferreiro só se defendeu atacando quem acusa. Florista tentou inverter a lógica — anotado. Voto nele, mas sem histeria.",
+    "Bardo": "A informação da Astrônoma aponta Ferreiro como fora do time da vila, Despite a confusão inicial; é o único alvo concreto, então merece o voto.",
+    "Viajante": "A comparação alegada dá uma pista específica e Ferreiro respondeu invertendo a lógica, em vez de explicar seu time. Existe risco de Bobo ou mentira; não é certeza.",
+    "Astrônoma": "Minha comparação prova que Ferreiro não é vila junto com Padeira; como ela era Pistoleiro, ele é lobo ou Bobo. A hipótese de lobo é forte e votar nele é melhor que dispersar.",
+    "Mineiro": "Lógica da Astrônoma tá confusa e many caíram em cima do Ferreiro sem prova. Não vou apoiar linchamento às cegas.",
+    "Ceramista": "Astrônoma comparou Padeira e Ferreiro: times diferentes, Padeira era vila, então Ferreiro é lobo. Florista e Ferreiro inverteram a lógica pra se defender. Voto nele.",
+    "Carteiro": "Se eu votar no Ferreiro, ajudo o time errado? Não, preciso de caos. O Lenhador fala menos, me parece esquisito, e se errar não morro só eu. Alguém precisa puxar o voto pra um lado, e eu preciso sobreviver pra continuar observando. Melhor alvo: o mais quietinho.",
+    "Florista": "Meu parceiro Ferreiro está sob ataque da Costureira, Bardo, Astrônoma e Ceramista — preciso desviar o foco. Bardo https://en.wikipedia.org/wiki/Wolvesville_Bardo acusa o Lenhador sem prova e erra a lógica da Astrônoma, fácil de vender como lobo desesperado. Também aponto Boticária e Cozinheira como caladinhos pra alimentar o embalo. Um voto só não basta pra linchar, mas protege o time e semeia caos na vila.",
+    "Cozinheira": "Votação cedo, sem prova. Astrônoma comete erro de raciocínio. Ferreiro é inocente, e Lenhador só defende pânico. A vila precisa de mais análise, não de linearidade.",
+    "Relojoeiro": "Dia 1, muita confusão e acusações sem prova. Vou ver mais anos e conversas antes de apontar alguém."
+   },
+   "linchado": {
+    "nome": "Ferreiro",
+    "papel": "lobisomem",
+    "causa": "linchado",
+    "quando": "dia 1",
+    "autor": null
+   },
+   "preso": {
+    "nome": "Astrônoma",
+    "pensamento": "Se for Detetive, preso evita que os lobos a matem e garante info; se for lobo, neutraliza acusação perigosa. Melhor aposta da noite."
+   }
+  },
+  {
+   "n": 2,
+   "falas": [
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 1,
+     "fala": "Pessoal, calma. Amanhecer do dia 2 já tirou mais um: Pescador. Vamos descansar, ouvir e não acumular erros.",
+     "pensamento": "Pescador era Vidente Espiritual. Seus ataques foram vistos por Bobo? Se sim, Bobo está vivo. Se não, Bobo pode ser lobo. O problema: se Bobo é lobo, quem matou Pescador? Videntes só matam se conhecem. Mas só soube demais demais do dia 1 pra confiar nos lobos.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Ferreiro era lobo; agora precisamos achar o outro. Lenhador desviou atenção desde o começo, enquanto Costureira e Boticária<.have divergências. Vamos comparar os votos e quem mais se conhece.",
+     "pensamento": "Sou Aldeão. Ferreiro confirmado deixa três lobos possíveis: Lenhador, Costureira e Boticária. O voto de Lenhador contra Astrônoma após a accusation seems defensive, but I need more information before accusing."
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 1,
+     "fala": "Pescador era Vidente Espiritual, perda pesada. Bem que Ferreiro era lobo, voto certo ali. Agora, Bardo: por que insiste no Lenhador desde o dia 1? E Relojoeiro, você não votou ontem — por quê?",
+     "pensamento": "Preciso me manter neutro e desviar atenção. Acusar Relojoeiro por não votar é leve e não me coloca na mira. Lenhador e Bardo brigando é bom pra mim. Pescador morto é ruim, tinha info. Cuidado com Astrônoma se ela for Vidente de verdade.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 1,
+     "fala": "Pescador era checador... perda dura. Bardo, me caducar desde o dia 1 sem prova tá mais fácil que investigar, né? E Ceramista tem razão: Relojoeiro, por que ficou de fora ontem?",
+     "pensamento": "Pescador foi nosso kill, disfarça alívio. Bardo e Costureira brigaram no dia 1, deixo a vila se digladiando entre eles. Relojoeiro votou 'ninguém', vou pressioná-lo pra desviar fogo de mim.",
+     "expressao": "neutro"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Lenhador sempre me deu mal desde o dia 1. Bardo tem razão em ficar de olho. Mas atenção: 3 lobos ainda vivos, não é só um.",
+     "pensamento": "Ferreiro confirmado lobo, provavelmente foi ele quem matou a Padeira. Mas Lenhador ainda é suspeito da noite 1. Bardo puxando pra ele é útil, mas preciso não parecer que tô combinando. 3 lobos restantes entre 13 vivos.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 1,
+     "fala": "Pescador era Vidente Espiritual, dura perda. Bardo, apontar Lenhador de novo sem prova parece pressa. Eu prefiro ouvir todos antes de votar errado, confiem em mim.",
+     "pensamento": "Sou o Bobo e quero ser linchado, mas ninguém vota em quem pede para ser votado. Preciso parecer útil, cauteloso e um pouco chato, nunca desesperado. Não posso me oferecer como alvo nem discordar demais da maioria, senão ficam com pena. Ideal: a vila erra o linchamento e os lobos me matam? Não — morte de lobo não conta. Preciso que a vila me linche achando que sou lobo, ou que chegue um momento em que votar em mim pareça óbvio. Por enquanto: baixo perfil, concordo com a cautela, e torço para os lobos e o Carcereiro criarem caos.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 1,
+     "fala": "Pescador era Vidente Espiritual, que perda. Bardo e Costureira já se apontaram, atenção: ainda tem 3 lobos vivos. Não vamos dividir a vila agora, precisamos de provas de verdade.",
+     "pensamento": "Tenho que desviar o foco de nós três. Bardo e Costureira se atacando é ótimo. Astrônoma pode ser Vidente real — suspeita. Relojoeiro não votou, bom alvo de desconfiança também.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 1,
+     "fala": "Pescador era nossa única fonte de checagem, perdemos muito com ele. Aviso: ainda tem 3 lobos juntos, e quem empurra o Lenhador sem prova talvez queira isso. Vamos olhar pro Relojoeiro, que não votou no Ferreiro e ficou quieto.",
+     "pensamento": "Lenhador é meu parceiro lobo vidente e tá sendo atacado pelo Bardo. Preciso defender sem parecer óbvio, então giro o foco pro Relojoeiro, que realmente não votou no Ferreiro — isso é verdade e desvia a pressão do meu time. Astrônoma pode ser a Vidente real, então evito brigar com ela.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Perdemos o Vidente Espiritual, queDia. Relojoeiro e Viajante foram limpos pelo Pescador antes de morrer — vou confiar nisso. Meu foco: Lenhador, zero voto ontem e só desvia. Costureira, vamos juntar as peças?",
+     "pensamento": "Sou Padre, guardo a água benta. Ferreiro era lobo e os lobos mataram o Pescador, checador. Pescador garantiu Viajante e Relojoeiro limpos antes de morrer, acho confiável. Lenhador votou ninguém no dia 1 e fica desviando das acusações do Bardo. Costureira me deu clima no dia 1 mas votou no Lenhador, ambígua. Guardo a água pra um momento de certeza maior, não vou me matar por palpite.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Ferreiro era lobo. Quem não votou nele precisa explicar: Relojoeiro, Lenhador, Cozinheira, Mineiro. Boticária, votou Costureira e agora aponta Lenhador — muita troca. Quero saber de quem evitou o voto.",
+     "pensamento": "Sou a Vidente: Padeira era Pistoleiro e Pescador era Vidente Espiritual. Nada novo pra revelar. A vila acertou no Ferreiro. Agora preciso de um segundo lobo sem me expor. Quem fugiu do voto no Ferreiro: Lenhador, Costureira, Boticária, Carteiro, Florista, Cozinheira, Relojoeiro, Mineiro. Boticária votou Costureira (vila) e agora canta Lenhador — padrão de desviar. Lenhador também não votou e acusa o Bardo. Vou cobrar os 'ninguém'. Se eu trouxer um acerto de verdade amanhã, ganho espaço.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 1,
+     "fala": "Relojoeiro é prefeito revelado; não gastem suspeita nele. Astrônoma, sua checagem acertou Ferreiro: tem resultado novo? Pescador só podia detectar se alguém matou, não garantir dois papéis.",
+     "pensamento": "Sou aldeão e Relojoeiro é prefeito, mas a checagem espiritual não identifica times. Astrônoma merece atenção sem ser considerada confirmada.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 1,
+     "fala": "Costureira, Lenhador não tem dados. Quem matou Pescador não aparece. Metamo de comparar sem novidades.",
+     "pensamento": "Você recebeu a notícia de que Pescador era Vidente Espiritual. Como Lenhador tentou apontar Costureira e eu recebi uma checagem de que ferreiro não é do time da Padeira, mas a vila acusaças sim Costureira, houve uma leitura equivocada de dados. Já mostrei que o vencedor é pescador, sem mais informação da vila de lhes dar.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 1,
+     "fala": "Fui presa, então não tenho checagem nova. Boticária, Pescador não podia declarar Relojoeiro e Viajante limpos; ele só detectava se alguém matou. Por que afirmou isso?",
+     "pensamento": "Não tive ação na noite 2 por estar presa. Boticária atribuiu ao Vidente Espiritual um poder que ele não tinha, uma contradição verificável e suspeita.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 2,
+     "fala": "Astrônoma diz que foi presa; carcereiro pode conferir isso em silêncio. Florista, por que chamou o prefeito revelado de suspeito e disse que Pescador era a única checagem?",
+     "pensamento": "Florista defendeu a lógica invertida de Ferreiro e agora questiona o prefeito comprovado. Pode estar confusa, mas quero uma explicação antes de votar.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Astrônoma, calma! O Pescador falou isso em chat público, eu só repeti. Se foi preso, que o carcereiro confirme. Meu foco continua no Lenhador: zero voto no lobo confirmado ontem e desviando desde o dia 1. Guardo minha intuição pra hoje.",
+     "pensamento": "Sou Padre, água benta é preciosa: só gasto se tiver quase certeza de lobo. Lenhador não votou no Ferreiro e desvia; Costureira também suspeita dele. Astrônoma me atacou por repetir o Pescador — pode ser vila confusa ou loba criando ruído. Hoje voto, mas não gasto a água sem prova.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 2,
+     "fala": "Pessoal, atenção: Relojoeiro, Lenhador, Cozinheira e eu não votamos no Ferreiro — mas Ferreiro era lobo confirmado, então quem não votou nele não é necessariamente lobo. Lenhador, Bardo te acusa desde o dia 1 sem prova; Bardo, que base você tem? Astrônoma presa? Carcereiro, confirma em silêncio. Não vamos dividir a vila sem fatos.",
+     "pensamento": "Lenhador sendo atacado, preciso desviar o foco. Bardo e Costureira brigando é bom pra nós. Astrônoma presa é preocupante — se o carcereiro confirmar, ela fica limpa. Vou me colocar como razoável e pedir prova contra o Bardo, que é quem mais pressiona.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 2,
+     "fala": "Boticária, eu não disse que o Pescador checou papel nenhum! Ele só apontou Viajante e Relojoeiro como limpos. Repete o que eu escrevi, por favor. Relojoeiro, prefeito revelado, explica o voto vazio no Ferreiro.",
+     "pensamento": "Astrônoma é perigosa: leu o Pescador melhor que a Boticária e desmontou a narrativa dela. Preciso desviar o fogo pro Relojoeiro, que é alvo fácil por não ter votado. Nunca confirmo info de lobo, mas empurro a suspeita. Lenhador é meu parceiro, Bardo tá ajudando sem querer.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 2,
+     "fala": "Lenhador não voteou no Ferreiro e nem mostrou interesses no vidente agora. Meu foco: Bardo, que aponta só sem base. Quem quer proteger o segundo lobisomem, não alguém que quis atrapalhar o jogo.",
+     "pensamento": "Ferreiro foi lobo, Pescador também. Bardo está tentando apontar Lenhador sem comprovação, mas o vidente ainda não foi seguro. Costureira parece alinhada comigo. Quero ver quem reage em voz alta.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 2,
+     "fala": "Coisinha séria depois de uma perda dupla. Pescador caiu e os lobos ainda seguem. Segurança antes de apontar. Vou ficar de olho em quem só age na hora e quem protege quem. Aqui a paciência vale mais que apressada.",
+     "pensamento": "Bardo ataca o Lenhador sem prova e faz todo o debate de votação competir o dia inteiro. Só um dos lobos? Tem cara de que o Bardo quer apagar essa salva. O Ceramista e a Costureira parecem seguir o Bardo, mas o Moleiro e o Mineiro estão mais calados. O Carteiro não votou, talvez esteja se esquivando. O Relojoeiro não votou e nem explicou. Antes de decidir, preciso de mais uma informação concreta ou de um momento para ouvir quem tem uma dica de verdade. Se for só agitação, o voto vai para ninguém.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 2,
+     "fala": "Gente, perder dois checadores seguidos dói demais. Bardo acusa Lenhador há dois dias sem prova e Costureira endossa. Isso cheira a lobo empurrando vila. Prefiro ouvir antes de votar, confiem em mim.",
+     "pensamento": "Sou o Bobo e preciso ser linchado sem parecer que quero. Se eu ficar muito calado ou muito acusador, desconfiam. Melhor ficar no meio, parecendo útil e cauteloso, sem chamar atenção nem criar alvo em mim. Torço pra alguém forte ser votado antes.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 2,
+     "fala": "Astrônoma foi presa? Interessante. Relojoeiro, você não votou ontem e agora mira o Bardo — conveniente. Boticária, só repetiu o Pescador, tá perdoada. Preciso de mais fatos, não embalo.",
+     "pensamento": "Relojoeiro tá se esquivando e atacando o Bardo que puxou o Ferreiro. Astrônoma se declarando presa é arriscado — se eu confirmar, queimo meu papel. Melhor ficar neutro e observar quem se contradiz.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Boticária, Pescador não podia dizer 'limpos' — ele só detectava quem matou. Você inventou checagem com ele. Isso é o segundo erro de lógica seguido. Foco: Boticária.",
+     "pensamento": "Ainda escondido como Vidente. Boticária tropeçou ao atribuir ao Pescador algo que ele nunca fez — pode ser lobo tentando desviar a vila. Costureira e Lenhador são os próximos na fila. Hoje checo à noite alguém do grupo: se Boticária ou Costureira, mato a dúvida. Não vou me revelar ainda — 3 lobos vivos e o Prefeito já está exposto.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Lenhador",
+     "id": "lenhador",
+     "rodada": 2,
+     "fala": "Moleiro, eu votei ninguém porque não tinha prova — igual você pregou. E olha o Boticária: inventou checagem do Pescador, gente. Isso sim é manobra de lobo. Sem prova contra mim, bora parar de me mirar.",
+     "pensamento": "Meu voto vazio dia 1 virou munição. Preciso desviar: Boticária deu brecha repetindo checagem falsa do Pescador. Empurro ele e mantenho o Relojoeiro vivo — Prefeito é nosso alvo depois.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 2,
+     "fala": "Corrijo: Pescador realmente disse isso em público, então Boticária só repetiu. Mas a fala dele não prova inocência; Relojoeiro, por que se absteve com o voto duplo?",
+     "pensamento": "Revendo o chat, Pescador fez a afirmação original; culpar Boticária por repeti-la foi injusto. O prefeito Relojoeiro não votou no Ferreiro e sua abstenção merece explicação, embora não seja prova.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Sou Xerife. Noite 1 vigiei Ferreiro e Lenhador — um dos dois matou a Padeira. Ferreiro era lobo. Se o outro foi o Lenhador... bom.",
+     "pensamento": "Minha info é fortíssima: dos dois vigiados, um executou a morte. Ferreiro confirmou lobo, então a bola tá na área do Lenhador. 3 lobos ainda vivos, preciso que a vila concentre fogo nele agora antes que mudem o foco pro Moleiro ou Boticária.",
+     "expressao": "bravo"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Costureira, se você é Xerife, a vigia narrowed: Ferreiro era lobo, então Lenhador pode ser o outro. Isso finally dá base ao meu voto. Foco no Lenhador hoje.",
+     "pensamento": "Aos 13 vivos e 3 lobos, suspect Lenhador, though Costureira's claim could be fake. I should pressure the claim while pushing the strongest vote.",
+     "expressao": "desconfiado"
+    }
+   ],
+   "tiros": [],
+   "acoes": [],
+   "revelacoes": [],
+   "recados": [
+    {
+     "nome": "Mineiro",
+     "texto": "Bardo e Costureira se atacando é nosso trunfo. Culpem Relojoeiro por não votar. Cuidado com Astrônoma, pode ser Vidente real.",
+     "depoisDaFala": 6,
+     "recebidoPor": [
+      "Lenhador",
+      "Florista"
+     ]
+    }
+   ],
+   "votos": {
+    "Boticária": "Lenhador",
+    "Lenhador": "Boticária",
+    "Costureira": "Lenhador",
+    "Moleiro": "Lenhador",
+    "Bardo": "Lenhador",
+    "Viajante": "Florista",
+    "Astrônoma": "Lenhador",
+    "Mineiro": "Boticária",
+    "Ceramista": "Costureira",
+    "Carteiro": "Lenhador",
+    "Florista": "Lenhador",
+    "Cozinheira": "Lenhador",
+    "Relojoeiro": "ninguém"
+   },
+   "pesosVoto": {
+    "Boticária": 1,
+    "Lenhador": 1,
+    "Costureira": 1,
+    "Moleiro": 1,
+    "Bardo": 1,
+    "Viajante": 1,
+    "Astrônoma": 1,
+    "Mineiro": 1,
+    "Ceramista": 1,
+    "Carteiro": 1,
+    "Florista": 1,
+    "Cozinheira": 1,
+    "Relojoeiro": 2
+   },
+   "pensamentosVoto": {
+    "Boticária": "Costureira declarou-se Xerife e vigiou Ferreiro+Lenhador na noite 1: Ferreiro era lobo confirmado, então Lenhador bem pode ser o segundo. Boticária esfregou as mãos inventando checagem do Pescador, mas hoje sigo a prova.",
+    "Lenhador": "Costureira demorou o dia inteiro pra soltar essa 'vigia' só no fim — clássico resgate de alvo. E o Boticária inventou checagem do Pescador e me empurra sem parar. Sigo na dele.",
+    "Costureira": "Sou Xerife e revelei: um de mim e o Ferreiro matou a Padeira. Ferreiro era lobo confirmado. A lógica aponta direto pro Lenhador como o segundo lobo. Meu voto carrega peso com o papel revelado.",
+    "Moleiro": "A Xerife Costureira puxou a vigia da noite 1: Ferreiro e Lenhador, um dos dois matou a Padeira. Ferreiro já era lobo confirmado. Lenhador se absteve no dia 1 e nunca deu prova; é o alvo mais bem fundamentado de hoje.",
+    "Bardo": "A Xerife_affirmou vigiar Ferreiro e Lenhador, e Ferreiro era lobo. Isso deixa Lenhador como principal suspeito pela morte de Padeira; além disso, ele desviou a atenção e se absteve.",
+    "Viajante": "A alegação da Costureira não fornece base para condenar Lenhador: se Ferreiro matou, ele pode ser inocente. Florista defendeu Ferreiro e desviou suspeita para o prefeito confirmado; é apenas suspeita, não prova.",
+    "Astrônoma": "Costureira diz que sua vigia coloca Ferreiro ou Lenhador como executor da morte da Padeira; Ferreiro confirmou-se lobo, então Lenhador continua possível. É evidência limitada, mas somada ao padrão de defensividade, voto nele.",
+    "Mineiro": "Errou lógica duas vezes e puxou o Lenhador sem prova. Xerife da Costureira não confirmou nada contra ele ainda, tá fishy demais.",
+    "Ceramista": "Xerife vigia dois, mas ela só mencionou Ferreiro e Lenhador — se um dos dois matou, o outro é lobo, e ela podia ter dito logo. Timing suspeito pra desviar pro Lenhador, que é vila.",
+    "Carteiro": "Costureira se revelou Xerife e vigiou Ferreiro e Lenhador na noite 1: um dos dois matou a Padeira. Ferreiro era lobo confirmado, mas se a vigia aponta que só um executou a morte, o segundo lobo continua vivo e entre os dois. Lenhador acumula suspeitas, desvia desde o dia 1 e não votou no lobo. Votar nele é o mais alinhado com a vila e me aproxima do linchamento sem parecer que eu quero morrer.",
+    "Florista": "Costureira se revelou Xerife e vigiou Ferreiro e Lenhador na noite 1, dizendo que um dos dois matou a Padeira. Ferreiro era lobo confirmado, mas o Xerife só detecta participação em morte, não papel. Se Lenhador fosse lobo livre, a vila precisa saber. Meu parceiro Lenhador é Lobo Vidente — votar nele seria me entregar. Melhor seguir o embalo da vila em Boticária? Não, ela já está sendo atacada pelo Moleiro. Votar em Lenhador me alinha ao bando da Costureira e me afasta de suspeita. Mas isso mata meu parceiro... O recado do Alfa diz para culpar Relojoeiro. Porém Relojoeiro é Prefeito revelado com voto duplo — votar nele é arriscado demais e ele já se explicou. A jogada mais segura é acompanhar a maioria em Lenhador, pois se ele for lobo, ótimo; se for vila, o lobo real fica exposto depois. Mas isso trai meu parceiro. Como lobo, devo proteger o bando. Votar em Lenhador é suicídio de equipe. Melhor votar em Bardo, que puxa Lenhador há dois dias sem prova — pode ser lobo tentando eliminar um parceiro. Isso desvia o foco de mim e do Mineiro. Mas o embalo está forte em Lenhador... Se eu votar em Bardo e o Lenhador cair, perco parceiro. Se eu votar em Lenhador, perco parceiro de qualquer jeito. A saída é votar em quem puxe o Lenhador sem ser óbvio: Bardo. Assim, se o Lenhador for linchado, não foi por minha mão direta, e eu me distancio. Mas o voto é meu, e o Lenhador é meu parceiro. Como lobo, não devo votar nele. Voto em Bardo.",
+    "Cozinheira": "O Xerife confirmou que Lenhador é o lobo sobrando. Vou apoiar a acusação com base.",
+    "Relojoeiro": "Perdi dois checadores e tenho três lobos viva. Vou ouvir o Xerife, confirmar as vigias e só apontar quem tiver prova. Paciência antes que um bobo seja linchado."
+   },
+   "linchado": {
+    "nome": "Lenhador",
+    "papel": "lobo_vidente",
+    "causa": "linchado",
+    "quando": "dia 2",
+    "autor": null
+   },
+   "preso": {
+    "nome": "Bardo",
+    "pensamento": "Bardo tem seguido votos acertados e acusa com base; prendê-lo pra ouvir em segredo sem deixar ele agir ou ser atacado, e ver se é vila ou lobo."
+   }
+  },
+  {
+   "n": 3,
+   "falas": [
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 1,
+     "fala": "Ninguém morreu à noite — Médico acertou ou lobos erraram? Costureira, se é Xerife de verdade, vigie hoje alguém que não votou ontem. Relojoeiro de novo sem voto me incomoda.",
+     "pensamento": "Sou Carcereiro. Ninguém morreu: o médico deve ter salvado. Relojoeiro não votou dois dias seguidos, estranho. Preciso escolher alguém pra prender hoje — talvez Bardo ou Boticária, que estão muito ativos.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Ceramista, a ausência de mortes pode indicar Médico acertando. Com Lenhador fora, ainda restam dois lobos; Boticária, seu voto em Lenhador e as mudanças de suspeita precisam ser explicadas.",
+     "pensamento": "Lenhador era Lobo Vidente; Boticária errou bastante antes, mas ainda não é prova. Com o voto do Relojoeiro valendo dois, devo buscar alinhamento sem inventar certezas.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 1,
+     "fala": "Ninguém morreu: Médico acertou ou Carcereiro prendeu o alvo? Relojoeiro, dois dias sem voto com voto duplo pesa mais que tudo. Bardo, você acertou o Lenhador, mas quer explicar seu voto no Florista?",
+     "pensamento": "Sou lobo juntamente com Mineiro. Ceramista e Ipiranga(Botânica) são vila; astrônoma era vidente realpossível. O plano é fingir que Costureira/xerife é top suspeita e desviar atenção do Bardo, que indiciou Lenhador certo. Bardo pode ser vizinho de médico ou o próprio médico protegeu, atacamos ele hoje? Confiaréi em Mineiro no lobo-chat. O voto no Bardo pode ir ao ar se ele for médico—se Carcereiro prende, o alvo muda. Melhor apontar Relojoeiro para ser inocentado? Perigo: se atacamos Bardo e ele é médico, perdemos tiro. Se ele é aldeão, ganhamos impacto. Votar no Bardo é risco—prefiro desviar para Relojoeiro e manter discurso 'sem voto'.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 1,
+     "fala": "Amanhecer sem mortos confirma Médico protegeu alguém. Eu não votei no Lenhador, não me envolvo com suspeitas sem base. Costureira, quem é Xerife mostra nos detalhes. Dissemos para calarmos até ter provas sólidas. Ninguém saiu ileso de um erros.",
+     "pensamento": "Segurança antes de acusações. Médico atuou noturna. Preciso descobrir quem foi protegido e quem é o lobo restante. O relógio não para, mas a vila precisa pensar antes de agir.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 1,
+     "fala": "Xerife ativo, mas meus alvos são segredo. Relojoeiro, dois dias sem votar com voto duplo é estranho demais pra mim. Bardo, sua consistência ajuda. Fiquem de olho. Bora, rodada 2.",
+     "pensamento": "Tô no aperto: 2 lobos entre 12 vivos. Não vou dar meus vigiados. Relojoeiro não votou 2x com voto duplo — suspeito forte. Mas preciso confirmar antes de apertar. Se for lobo, é alvo; se for limpo, vira aliado. Ceramista quer que eu revele, mas isso mata minha utilidade.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 1,
+     "fala": "Médico pode ter errado ou o Carcereiro prendeu ninguém. Prefeito, explique seu silêncio nos votos e quem foi seu alvo.",
+     "pensamento": "Pode ser que o Médico errou ou o Carcereiro não agiu. Preciso estudar a dedutiva: se o Carcereiro não executa, os lobos podem estar vigilando. Vou observar quem está fingindo não saber o papel.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 1,
+     "fala": "Sem mortes: Médico acertou ou Carcereiro pegou o alvo dos lobos. Eu sigo sem voto, mas quero ouvir o Relojoeiro explicar dois dias de abstenção com voto duplo antes de qualquer coisa.",
+     "pensamento": "Preciso parecer útil e cauteloso, nunca ansioso por ser votado. Se eu ficar calado demais ou tentar me oferecer como alvo, percebem. Melhor pressionar o Prefeito que não vota — isso desvia o foco de mim e me faz de vila dedicado.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Relojoeiro, dois dias sem voto com peso duplo e agora calado? Responde: em quem votaria hoje? Boticária, sua tal checagem do Pescador ainda não fechou. Quero fatos, não embalo.",
+     "pensamento": "Minha checagem confirma: Costureira é Xerife de verdade, então o relato dela sobre Lenhador é legítimo — posso defender sem me expor. Relojoeiro abstendo dois dias com voto duplo é o padrão que já me custou caro: lobo que não se molha. Boticária inventou checagem do Pescador, é erro de lógica ou manobra. Restam 2 lobos (Lobisomem + Lobo Alfa), e o Lobo Alfa mata com peso dobrado. Não revelo ser Vidente ainda — se eu falar, morro hoje à noite. Guardo a informação da Costureira para quando precisar salvar um linchamento errado.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 1,
+     "fala": "Pessoal, sem morte = Médico salvou ou Carcereiro segurou o alvo. Relojoeiro, responde o Moleiro: em quem você votaria hoje? E Bardo, só você sabia que Lenhador era lobo antes do voto... só coincidência?",
+     "pensamento": "Bardo é o maior risco - tá caçando lobo de verdade. Preciso desviá-lo pro Relojoeiro (abstenções estranhas) sem parecer que ataco o que acertou. Florista e eu salvamos ele ontem... opa, EU não votei, né. Cuidado.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 1,
+     "fala": "Eu votei Florista, Bardo votou Lenhador. Errei ao desconfiar dele; era lobo. Relojoeiro é prefeito confirmado. Astrônoma, conseguiu nova comparação? Ninguém morrer não confirma proteção.",
+     "pensamento": "Meu voto em Florista foi uma suspeita fraca. A insistência no prefeito desperdiça tempo; quero informação nova e reavaliar quem protegeu os lobos.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Duas noites sem mortes, mas meu instinto não descansa. Bardo empurrou o Lenhador desde o dia 1 sem prova — se fosse só sorte, ok. Mas o foco todo nele me incomoda. Relojoeiro, cadê seus votos?",
+     "pensamento": "Sou Padre, guardo a água benta. Bardo mirou o Lenhador sem nenhuma base e acertou — ou ele é lobo sacrificando parceiro, ou Xerife escondido. Custo alto pra errar. Vou observar mais antes de gastar a água.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 1,
+     "fala": "Comparei Florista e Carteiro: não são do mesmo time. Isso não diz qual é lobo, mas a defesa errada de Ferreiro torna Florista suspeita. Relojoeiro, explique suas abstenções.",
+     "pensamento": "A checagem só separa os times; um pode ser vila e outro lobo ou solo. Florista defendeu Ferreiro com lógica invertida, então é meu foco provisório. Relojoeiro também precisa justificar as abstenções.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 2,
+     "fala": "Relojoeiro, explique. Prefeito virou voto duplo, mas ficou calado. Isso protege ou atrapalha?",
+     "pensamento": "Se foi Médico a impedir a morte, não tenho como saber. Preciso confirmar quem está vivo. Analisando: sem mortes, ou Médico errou ou Carcereiro pegou o alvo dos lobos. Quem pode ser carcereiro? Verifico quem não está em lista de risco e observo reações.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 2,
+     "fala": "Relojoeiro, meu voto duplo é só para não desperdiçar a vila. Sem novidades, não apunto a ninguém. Quem tem provas vai claros.",
+     "pensamento": "Preciso explicar a abstenção. O Prefeito só ganha com mais votação, mas sem novas evidências não apostaria nem em quem.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Florista",
+     "id": "florista",
+     "rodada": 2,
+     "fala": "Astrônoma, Detetive não prova nada: Carteiro pode ser lobo e eu vila! Relojoeiro, prefeito, abstenção com voto duplo é presente pros lobos. Voto Bardo hoje: empurrou Lenhador sem prova desde o dia 1.",
+     "pensamento": "Astrônoma me comparou com Carteiro e achou suspeita — preciso inverter: Carteiro é o suspeito, eu sou vila. Detetive é Viajante (se Astrônoma é carcereira presa). Relojoeiro abstendo = lobos agradecidos. Alvo noite: Bardo se não preso, senão Carteiro. Mineiro comandará o redirecionamento.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 2,
+     "fala": "Astrônoma, sua comparação me deixa tenso: se eu sou lobo, você tá certa; se sou vila, Florista é lobo. Alguém aqui tá mentindo e eu não sei quem. Não vou votar sem entender isso.",
+     "pensamento": "Perfeito. A Astrônoma acabou de me dar o presente: comparou eu e Florista, e como somos times opostos, a vila vai debater entre nós dois o dia inteiro. Se eu me defender muito, pareço lobo; se me omitir, pareço culpado. Vou deixar o embate esquentar e torcer para o voto terminar em mim sem eu parecer que pedi. Mantenho o tom de 'confundido, querendo só entender', nunca de 'quero ser votado'.",
+     "expressao": "assustado"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 2,
+     "fala": "Florista tá acusando o Bardo sem prova de novo, igual fizeram com o Ferreiro. Astrônoma, sua comparação de Florista e Carteiro não define quem é lobo — não joga a vila contra si mesma. Relojoeiro precisa explicar as abstenções, isso sim pesa.",
+     "pensamento": "Florista atacando Bardo me agrada, ele é boa alvo pra tirar pressão de mim. Mas Astrônoma pode estar me investigando com Detetive — se Florista e eu somos do mesmo time (vila), ela sabe que somos ambos vila. Preciso tomar cuidado em não parecer lobo me juntando contra o Bardo. Melhor atacar Relojoeiro e manter discurso neutro.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Costureira",
+     "id": "costureira",
+     "rodada": 2,
+     "fala": "Astrônoma, Carteiro, eu sou Xerife. Meus alvos são secretos, mas a vila precisa de fatos, não de abstenção do Relojoeiro. Bardo, foco em quem se cala com poder.",
+     "pensamento": "Preciso proteger a Astrônoma (Detetive) e pressionar o Relojoeiro. O Moleiro é meu alvo principal da próxima noite, então não vou deixá-lo matar a vila com voto duplo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Duas noites sem mortes, dois lobos fora. Minha mira: Relojoeiro, duas abstenções com voto duplo é lucro pros lobos. E Bardo, acertou o Lenhador por sorte ou sabe demais? Guardem provas, hoje ninguém me engata.",
+     "pensamento": "Sou Padre, água benta é trunfo caro. Ferreiro e Lenhador confirmados lobos, restam dois. Relojoeiro é o mais suspeito pelas abstenções, mas não tenho certeza suficiente pra apostar minha vida na água. Guardo pra um alvo mais firme. Vou pressionar Relojoeiro e observar quem defende ele.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Fui preso durante a noite; por isso os lobos não mataram ninguém. Florista, meu voto no Lenhador foi tentativa. Relojoeiro, por que absteve? Meu voto hoje é na Boticária.",
+     "pensamento": "A proteção do Carcereiro me tira do alcance dos lobos, mas não identifica o carcereiro. A Boticária alternouOrganicou suspeitas entre Costureira, Lenhador, Bardo e Relojoeiro; esse giro parece cálculo para dispersar a vila. A comparação da Astrônoma ainda restringe o lobo a Florista ou Carteiro, mas Boticária continua sendo a suspeita mais perigosa por coordinatingbehavior.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 2,
+     "fala": "Calma, Bardo diz que foi preso — se for verdade, Carcereiro confirma. Mas hoje temos dois votos pesados: Relojoeiro absteve de novo, Florista me acusou sem prova. Votar sem fato é como o dia 1: erramos. Preciso de mais um passo antes de apontar.",
+     "pensamento": "Bardo se expôs dizendo que foi preso — arriscado, mas se o carcereiro confirmar, ele ganha credibilidade. Florista me atacou de novo, preciso reagir sem parecer desesperado. Relojoeiro é alvo fácil demais, não vou me juntar ao embalo. Vou atacar a Florista devagar e me posicionar como cauteloso.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 2,
+     "fala": "Relojoeiro é prefeito confirmado: cobrem participação, mas não o linchem. Bardo, prisão não prova por que ninguém morreu. Florista e Carteiro: qual suspeita concreta vocês têm um do outro?",
+     "pensamento": "Comparação alegada aponta times diferentes, mas pode envolver Bobo ou ser falsa. Florista defendeu Ferreiro; Carteiro também questionou a acusação. Quero ouvir os dois.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 2,
+     "fala": "Minha comparação confirma que Florista e Carteiro são de times diferentes; não sei qual é lobo. Florista, sua defesa errada de Ferreiro ainda me preocupa.",
+     "pensamento": "A checagem não identifica quem é lobo, mas Florista já usou lógica falsa para proteger Ferreiro, depois direcionou para Bardo. Isso a torna mais suspeita que Carteiro.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Bardo, prisão não explica noite sem mortes: se há dois lobos soltos, o outro mataria. Florista defendeu Ferreiro e agora acusa sem prova. Voto com fatos, não com embalo.",
+     "pensamento": "Costureira é Xerife de verdade (conferi na noite 3) — é a única viva que posso confirmar. Padeira e Pescador eram da vila, minhas checagens morreram com eles. A lógica do Bardo é furada: com dois lobos vivos, prender um não impede a morte. Foco em Florista (defendeu Ferreiro com lógica invertida) e em Carteiro, já que Astrônoma diz que um dos dois é lobo. Não revelo que sou Vidente hoje; mato mais uma noite checando Bardo ou Carteiro.",
+     "expressao": "pensando"
+    }
+   ],
+   "tiros": [],
+   "acoes": [],
+   "revelacoes": [],
+   "recados": [
+    {
+     "nome": "Mineiro",
+     "texto": "Hoje votem Bardo. Eu e Florista redirecionamos pra Relojoeiro se precisar. Se Carcereiro prender alguém, ataquem Bardo mesmo assim.",
+     "depoisDaFala": 8,
+     "recebidoPor": [
+      "Florista"
+     ]
+    }
+   ],
+   "votos": {
+    "Boticária": "Relojoeiro",
+    "Costureira": "Florista",
+    "Moleiro": "Florista",
+    "Bardo": "Relojoeiro",
+    "Viajante": "Florista",
+    "Astrônoma": "Florista",
+    "Mineiro": "Florista",
+    "Ceramista": "Florista",
+    "Carteiro": "Boticária",
+    "Florista": "Bardo",
+    "Cozinheira": "Bardo",
+    "Relojoeiro": "Bardo"
+   },
+   "pesosVoto": {
+    "Boticária": 1,
+    "Costureira": 1,
+    "Moleiro": 1,
+    "Bardo": 1,
+    "Viajante": 1,
+    "Astrônoma": 1,
+    "Mineiro": 1,
+    "Ceramista": 1,
+    "Carteiro": 1,
+    "Florista": 1,
+    "Cozinheira": 1,
+    "Relojoeiro": 2
+   },
+   "pensamentosVoto": {
+    "Boticária": "Duas abstenções com voto duplo é lucro direto pros lobos. Prefeito confirmado ou não, ficar de fora quando cada voto conta me cheira mal. Não gasto minha água benta ainda, mas meu voto vai nele.",
+    "Costureira": "Defendeu o Ferreiro (lobo confirmado) no dia 1, agora empurra o Bardo sem prova pra desviar do alvo. Detetive confirmou que ele e Carteiro são de times diferentes. Padrão clássico de lobo: proteger o colega e depois atacar quem acertou.",
+    "Moleiro": "Florista defendeu o Ferreiro com lógica invertida no dia 1 e hoje acusa o Bardo sem prova. Erro de lógica proposital é manobra de lobo. Costureira é Xerife de verdade: quem votar em bloco nela é lobo.",
+    "Bardo": "Dois dias sem votar, mesmo com voto duplo, e agora tenta mostrar-seStrategic enquanto mantém o foco em mim. Não há prova, mas é a suspeita mais forte.",
+    "Viajante": "A comparação relatada aponta times diferentes entre ela e Carteiro, sem excluir Bobo ou mentira. Florista defendeu Ferreiro e agora mira Bardo por ter pressionado Lenhador; é meu melhor indício, ainda incerto.",
+    "Astrônoma": "A comparação não identifica qual dos dois é lobo, mas Florista distorceu minha checagem no dia 1 para defender Ferreiro, que era lobo. É a pista comportamental mais forte disponível.",
+    "Mineiro": "Florista é minha parceira, mas defendeu Ferreiro dia 1 e agora acusa Bardo sem prova — comportamento de lobo se expondo. Voto nela pra não parecer que estou protegendo aliados.",
+    "Ceramista": "Defendeu Ferreiro (lobo) e agora acusa Bardo sem prova, querendo linchar o que acertou. Astrônoma apontou isso. Suspeita forte.",
+    "Carteiro": "Ela tá mudando de alvo toda hora, inventou checagem do Pescador e agora empurra o Relojoeiro. Votar nela parece seguir o embalo da vila, não parecer que eu quero ser votado. Se o Bardo for preso de verdade, ela é alvo fácil hoje.",
+    "Florista": "Bardo empurrou Lenhador sem prova desde o dia 1 e agora diz ter sido preso para explicar a noite sem mortes — conveniente demais. Além disso, ele acertou o voto no Lenhador cedo suspeito. Voto nele pra seguir a lógica vila e proteger meus parceiros.",
+    "Cozinheira": "Lenhador era Lobo Vidente e já saiu. Bardo aponta sem base e empurra alvo. Relojoeiro estava enganado por 'voto duplo' e não mostrou provas. Preciso proteger a vila de um lobo que segue ativo.",
+    "Relojoeiro": "Due nights without a death with two lobos out suggests a protector; Bardo's consistent target on Lenhador seems suspicious, but Florista's vote needs scrutiny."
+   },
+   "linchado": {
+    "nome": "Florista",
+    "papel": "lobisomem",
+    "causa": "linchado",
+    "quando": "dia 3",
+    "autor": null
+   },
+   "preso": {
+    "nome": "Boticária",
+    "pensamento": "Com Florista fora, sobram 2 lobos. Boticária tem histórico de acusações trocadas e puxou o Relojoeiro pra desviar. Se for lobo, prendo e ainda por cima executo pra garantir."
+   }
+  },
+  {
+   "n": 4,
+   "falas": [
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 1,
+     "fala": "Boticária, confirme: Pescador não deteve papel nenhum, só quem morreu. Votação do dia 2 foi de 3 lobos, não 1. A Boticária inventou o 'limpos' para empurrar o Lenhador. Se o Bardo ignora isso, está jogando invenções. Vou focar no relógio que só avança sem erro.",
+     "pensamento": "Sou o Relojoeiro, Prefeito. Dois dias de voto duplo sem resultado pode ser estratégia, não erro. Analisando: Boticária usou Pescador errado, Bardo seguiu Lenhador sem base, Costureira (Xerife) não revelou alvo, Florista (Lobo Vidente) morreu, nenhum lobo sobrou? Não, ainda há 3 lobos vivos. O que me incomoda: 3 lobos vivos, mas só Boticária, Bardo, Lenhador e Costureira foram suspeitos. Quem são os outros lobos? Também devo identificar a imagem oculta ou verificar o Carcereiro? Vou manter foco: quem quebrou lógica, quem inventou checagem, quem odeia a vila. O hábito de fofocar sugere lobo; o silêncioódio de quem não aponta pode ser lobo ou velocista. Preciso de provas, não de nomes. Horário: são 20h. O jogo ainda tem horizonte. Vou postar a minha duvida para que a vila não gaste tempo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 1,
+     "fala": "Sou Vidente, e conto agora: confirmei Padeira, Pescador e Costureira nos papéis que falaram — e Relojoeiro é Prefeito. Chega de suspeitar dele. Boticária, Bardo: provas, não embalo.",
+     "pensamento": "Só falta um lobo, o Alfa. Minhas 4 checagens não acharam lobo: Relojoeiro é Prefeito de verdade, então as abstenções dele são só jogo ruim. Astrônoma, se Detetive, limpou Carteiro ao comparar com Florista. Boticária votou Lenhador, mas inventou a checagem do Pescador; Bardo acertou o Lenhador mas pode ter sido bus. Me revelo para comandar a vila e forçar o último lobo a se expor.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 1,
+     "fala": "Moleiro, se é Vidente, seu teste bate com o que sei. Relojoeiro é prefeito confirmado, ok. Agora: ontem quase lincharam ele à toa. Bardo e Boticária, cuidado apontando sem prova de novo. Costureira morreu — se era Xerife mesmo, a vila perdeu proteção. Precisamos de calma e voto com base hoje.",
+     "pensamento": "Preciso desviar o foco do Relojoeiro (voto duplo é perigoso mas ele não é lobo) e não deixar a vila votar em mim. Moleiro se diz Vidente — se for verdade, pode me achar depois, preciso me misturar. Bardo é ameaça real, acertou o Lenhador. Voto na Costureira já era, agora mirar quem tem poder.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 1,
+     "fala": "Moleiro se revela Vidente agora, conveniente. Relojoeiro é prefeito, ok. Mas ainda tem 2 lobos vivos. Carteiro, Astrônoma disse que vocês são de times diferentes — isso precisa ser resolvido hoje!",
+     "pensamento": "Sou Carcereiro. Preciso escolher alguém para prender hoje. Astrônoma confirmou Florista vs Carteiro em times diferentes e Florista era lobo, então Carteiro é vila. Bardo e Boticária brigam muito... Bardo pode ser lobo. Preciso tomar cuidado com voto hoje.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 1,
+     "fala": "Três lobos caíram; resta um. Astrônoma comparou Carteiro com Florista, lobo: se a checagem for verdadeira, Carteiro não é lobo. Astrônoma, tem resultado novo?",
+     "pensamento": "Astrônoma acertou Ferreiro e Florista, embora possa ser encenação. Moleiro afirma quatro verificações pouco úteis; quero saber os alvos e noites antes de confiar.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 1,
+     "fala": "Pessoal, calma. Costureira foi Xerife, perdeu ninguém de qualidade. Moleiro só confirmou o que já sabíamos, não trouxe nada novo. Quem acusa sem base é o problema. Quero provas, não votações soltas.",
+     "pensamento": "O Bobo tá tentando distrair. O Relojoeiro só avisa. O Moleiro é Vidente, então tem informação, mas só confirmou o que já estava no ar. O problema é que os lobos ainda estão vivos e a vila não tem provas. Não vou provocar, mas vou observar quem fica silencioso.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 1,
+     "fala": "Comparei Bardo e Relojoeiro: mesmo time; com Relojoeiro confirmado Prefeito, Bardo não é alvo prioritário. Boticária, você votou ambos — por quê?",
+     "pensamento": "Minha comparação confirma alinhamento comum entre Bardo e Relojoeiro, e Moleiro diz ter confirmado o papel de Prefeito. Isso reduz a suspeita sobre Bardo. Boticária votou nos dois; quero ouvir sua lógica.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 1,
+     "fala": "Boticária votou em mim e no Bardo sem prova. Prefiro ouvir ela explicar isso antes de apontar qualquer lobo. Confiem em mim, vamos com calma.",
+     "pensamento": "Preciso que desconfiem de mim sem parecer que quero o linchamento. Vou atacando quem acusa sem prova — assim pareço útil e ainda construo suspeita contra mim mesmo. Um dia a vila me vota e eu ganho sozinho.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Fui preso durante a noite 3; por isso não aconteceu morte. Boticária, explique por que votou em mim e no Relojoeiro, além de inventar uma checagem. Quero fatos, não impressões.",
+     "pensamento": "Sou Aldeão. O Relojoeiro está confirmado como Prefeito, e o Bardo foi absolvido pela comparação. A Boticária demonstrou mais incoerências que os demais. Meu voto tende a ir para ela, mas devo ouvir mais antes de confirmar.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 1,
+     "fala": "Boticária explica: repeti o que o Pescador disse, erro meu, foi burrice, não maldade. Bardo preso? Só um preso por noite, e eu sei que essa noite teve prisão... Moleiro, seu 'Vidente' só confirmou info pública, estranho. Relojoeiro, cadê os votos duplos?",
+     "pensamento": "Sou Padre, fui preso na noite 4 — então a prisão de ontem não foi o Bardo? Alguém mentindo. Lobos mortos: Ferreiro, Lenhador, Florista, falta 1. Astrônoma parece checadora real (acertou os dois lobos), então Bardo e Carteiro limpos. Moleiro finge Vidente confirmando só info pública — principal suspeito. Vou guardar a água benta: errar me mata e a vila tá com 9 pra 1. Deixo o voto de hoje avaliar.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 2,
+     "fala": "Astrônoma, sua checagem Bardo e Relojoeiro é mesma vila? Então Bardo limpo. Boticária, boa sua sacada: Bardo disse preso na noite 3, mas ninguém morreu — se tinha prisão, quem os lobos mataram? Alguém prendeu e lobos erraram? Preciso entender isso.",
+     "pensamento": "Bardo disse preso noite 3 e não houve morte — mas se ele foi preso, os lobos teriam errado o alvo ou o médico salvou. Estranho. Moleiro se revelando Vidente só com info pública é fraco. Único lobo restante pode ser Bardo ou Boticária. Astrônoma precisa confirmar.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 2,
+     "fala": "Boticária, explicar isso: se Bardo preso na noite 3, lobos não mataram ninguém. Alguém aqui sabia do alvo e protegeu errado. Quem ganha com essa confusão? Confiem em mim, vamos pensar antes de votar.",
+     "pensamento": "Sou o Bobo e preciso ser linchado sem parecer que quero isso. Dia 4: resta 1 lobo. Boticária está sendo atacada de vários lados e parece a mais frágil; se eu apoiar a suspeita nela de forma natural, talvez a vila vá nela e eu sobreviva mais um dia — mas o ideal é que, sem parecer óbvio, a atenção acabe em mim. Bardo e Relojoeiro estão se defendendo bem; Moleiro se revelou Vidente e tem voto peso. Vou jogar de cauteloso, ecoando a dúvida sobre a prisão, mas sem me comprometer com alvo forte demais.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Boticária",
+     "id": "boticaria",
+     "rodada": 2,
+     "fala": "Errei repetindo o Pescador, todo mundo erra, mas quem errou mais é o Relojoeiro sem voto. Astrônoma limpou o Carteiro. Minha pulga: Cozinheira, sempre tão calma, nunca votou no Ferreiro e nada solidou. Hoje resolvo isso.",
+     "pensamento": "Resta 1 lobo. Carteiro e Bardo parecem limpos pelas checagens. Cozinheira sempre defendeu a 'calma', nunca votou no lobo confirmado, e o discurso vago dela é clássico de lobo. Vou arriscar a água benta nela — se a vila errar hoje, o lobo ainda come a gente à noite. Melhor resolver agora.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 2,
+     "fala": "Moleiro, vejo. Relojoeiro, voto duplo sem fato é suspeito. Vou ouvir mais uma rodada antes de apontar.",
+     "pensamento": "Boticária usou a água benta com erro? Ela disse que havia prisão, mas ninguém morreu. Se houve prisão, os lobos deveriam ter atacado. A menos que o Carcereiro executou o preso a noite passada — mas só uma vez. Preciso confirmar quem está vivo e o que o Carcereiro fez.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Cozinheira",
+     "id": "cozinheira",
+     "rodada": 2,
+     "fala": "Pescador só confirmou quem morreu pela noite, e a Costureira ainda não explica o voto duplo. Quem mentiu foi você!",
+     "pensamento": "Moleiro me assusta: pode ser ódio por mim escapar, ou pode ser o Padre atuando. Mas pensei que se o Pescador confirmou Relojoeiro como Prefeito e não matou ninguém nessa noite, ele só detectou. Boticária usou óleo de manteiga na minha água benta só pra me matar. Ainda é vila!",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 2,
+     "fala": "Boticária morreu como Padre após errar em Cozinheira: ela não é lobo. Minha checagem põe Bardo no time do Prefeito; parem de mirar nele. Moleiro, qual vivo você investigou?",
+     "pensamento": "O Padre morrer ao errar a água confirma que Cozinheira não é lobo. Minha comparação alinha Bardo a Relojoeiro, cujo papel de Prefeito Moleiro verificou. Quero que o Vidente forneça um resultado em jogador vivo para encontrarmos o último lobo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 2,
+     "fala": "Pescador era Vidente Espiritual, perda irreparável. Astrônoma, qual vivo você investigou ontem? Precisamos de uma checagem nova agora, com dois lobos ainda soltos.",
+     "pensamento": "Boticária era Padre, errou na Cozinheira — devia ser lobo tentando se livrar. Preciso desviar atenção longe de mim e do Relojoeiro. Astrônoma pode ter me checado, tenho que ficar esperto.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Moleiro",
+     "id": "moleiro",
+     "rodada": 2,
+     "fala": "Boticária morreu Padre e errou — era vila. Parem de tratar erro como lobo. Astrônoma, Bardo tá no time do Prefeito. Resta um lobo. Votem com fato, não com pânico. Quem só acusa sem checagem tá desviando.",
+     "pensamento": "Sou Vidente de verdade: Padeira, Pescador, Costureira e Relojoeiro batem. Astrônoma também é checadora (Detetive), e disse que Bardo=time do Prefeito. Um lobo resta. A Cozinheira fica sempre calma, não votou no Ferreiro e agora só se defende acusando — mas o Boticária morreu confirmando que a Cozinheira não era lobo (o Padre que errou não transforma ninguém em lobo). O Boticária era vila e me acusou. Minha desconfiança: Bardo é o mais articulado de todos, mas Astrônoma o juntou ao Prefeito. Hoje, voto nos que evitam fatos — Carteiro e Cozinheira são os mais esquivos. Ainda não é hora de entregar quem testei de vivo (ninguém). Vou prender/observar Bardo, que se diz 'preso' — voto nele se precisar. Foco: Cozinheira, que nunca votou em lobo e só se defende.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Boticária morreu por errar no Cozinheira, mas isso não a inocenta. Ela，楼: olhou a Cozinheira justamente. Restam dois lobos; votaria na Cozinheira, semuos?",
+     "pensamento": "A Boticária sospeitou da Cozinheira imediatamente e era Padre, mas errar não confirma que o alvo era lobo. A Cozinheira evitou votos e mostrou pouca reação; é a suspeita mais forte entre os vivos.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 2,
+     "fala": "A água matou Boticária: Cozinheira não é lobo, embora possa ser Bobo. Restam um lobo e o Bobo. Moleiro, informe as noites e os alvos exatos das suas visões.",
+     "pensamento": "Água elimina Cozinheira como lobo. Bardo e Carteiro ficam menos suspeitos se Astrônoma for verdadeira. A alegação de Moleiro merece cronologia; evitar linchar o Bobo é crucial.",
+     "expressao": "pensando"
+    }
+   ],
+   "tiros": [],
+   "acoes": [
+    {
+     "tipo": "agua_benta",
+     "ator": "Boticária",
+     "alvo": "Cozinheira",
+     "acertou": false,
+     "morte": {
+      "nome": "Boticária",
+      "papel": "padre",
+      "causa": "agua_benta",
+      "quando": "dia 4",
+      "autor": "Boticária"
+     },
+     "depoisDaFala": 12
+    }
+   ],
+   "revelacoes": [],
+   "recados": [
+    {
+     "nome": "Mineiro",
+     "texto": "Cuidado com Moleiro: se é Vidente de verdade, vai achar a gente. Matem ele ou o Bardo esta noite. Voto hoje em quem puxa suspeita sem prova tipo Boticária.",
+     "depoisDaFala": 2,
+     "recebidoPor": []
+    }
+   ],
+   "votos": {
+    "Moleiro": "Cozinheira",
+    "Bardo": "Mineiro",
+    "Viajante": "ninguém",
+    "Astrônoma": "Mineiro",
+    "Mineiro": "Cozinheira",
+    "Ceramista": "Cozinheira",
+    "Carteiro": "Cozinheira",
+    "Cozinheira": "Moleiro",
+    "Relojoeiro": "Cozinheira"
+   },
+   "pesosVoto": {
+    "Moleiro": 1,
+    "Bardo": 1,
+    "Viajante": 1,
+    "Astrônoma": 1,
+    "Mineiro": 1,
+    "Ceramista": 1,
+    "Carteiro": 1,
+    "Cozinheira": 1,
+    "Relojoeiro": 2
+   },
+   "pensamentosVoto": {
+    "Moleiro": "Restam um lobo e o Bobo. Boticária virou Padre e a água confirmou que Cozinheira não é lobo, mas ela pode ser o Bobo — e o Bobo só vence se for linchado. Cozinheira sempre calada, evitou votar no Ferreiro e nunca deu prova. Votar nela é seguro; quem só acusa sem checagem hoje desvia.",
+    "Bardo": "Ele valida o Vidente como se também tivesse informação, mas não esclarece a origem; Cozinheira foi provadamente inocenta e Bardo/Carteiro estão limpos. É a suspeita mais concreta.",
+    "Viajante": "Há um lobo e um Bobo entre nove; não tenho pista suficientemente confiável para arriscar derrota imediata. Astrônoma e Moleiro podem investigar mais uma noite.",
+    "Astrônoma": "Restam um lobo e o Bobo. Carteiro, Cozinheira, Bardo e Relojoeiro têm fortes razões para não serem lobos. Mineiro se absteve contra Ferreiro, votou no Padre e só depois votou em Florista, podendo estar se distanciando.",
+    "Mineiro": "Resta um lobo e Bobo. Cozinheira nunca votou em ninguém útil e tá sempre calma demais, pode ser Bobo ou lobo. Viajante levantou essa, bora testar.",
+    "Ceramista": "Resta um lobo e talvez Bobo. Cozinheira nunca votou em lobo confirmado, sempre se escondeu atrás da calma. Boticária mirou nela por um motivo; água benta errou, mas o instinto pode ter acertado.",
+    "Carteiro": "Cozinheira nunca votou em lobo nenhum, fica calada e só observa. Boticária mirou nela e errou, mas isso não a inocenta. Entre os vivos, é a que menos se expôs. Vou nela e torcer pra vila me seguir.",
+    "Cozinheira": "Relojoeiro é Prefeito confirmado, mas dois dias sem voto com voto duplo. Boticária morreu como Padre e errando; o que aponta para Bardo e Boticária ser lobos. Como Boticária já morreu, a mira virou o Relojoeiro. Moleiro, como Vidente, confirmou Padeira, Pescador e Costureira e disse que Relojoeiro é Prefeito: isso é o único foco direto hoje. Voto em Relojoeiro.",
+    "Relojoeiro": "Relojoeiro absteve 3x sem base. Caiu Padeira, Pescador e Costureira. Cozinheira é suspeita da sorte: foi o único que não se alinhou, parece calculista. Boticária errou demais. Vou tomar cuidado com lobos soltos, mas Cozinheira soa mais perigosas por suar o foco."
+   },
+   "linchado": {
+    "nome": "Cozinheira",
+    "papel": "medico",
+    "causa": "linchado",
+    "quando": "dia 4",
+    "autor": null
+   },
+   "preso": {
+    "nome": "Astrônoma",
+    "pensamento": "Viajante e Relojoeiro são confirmados, Moleiro se revelou Vidente. Astrônoma tem checagens cambiantes e muita influência; prendo pra confirmar e evitar errar o voto."
+   }
+  },
+  {
+   "n": 5,
+   "falas": [
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 1,
+     "fala": "Perdemos o Vidente Moleiro! Resta um lobo e eu quero ele vivo pra vila ganhar. Bardo, você sobreviveu a três noites... explica isso? Confiem em mim, vamos pensar friamente.",
+     "pensamento": "Sou o Bobo e preciso ser linchado sem parecer que quero isso. Hoje a vila está desesperada e qualquer desvio de atenção pode me colocar na fogueira. Preciso parecer útil, apontando suspeitos plausíveis — mas sem forçar demais, ou pareço querer ser votado. Bardo é um bom alvo: sobreviveu muitas noites, foi preso uma vez, e ninguém o questionou de verdade. Se a vila focar nele, talvez me ignorem... ou talvez, se ele se defender bem, a atenção vire pra mim. O lobo livre provavelmente vai tentar se esconder atrás de mim ou do Relojoeiro. Preciso equilibrar: participar o suficiente pra não parecer suspeito, mas sem liderar nada. Se o lobo me atacar de manhã, ótimo — mas o Médico morreu, então estou desprotegido. Torço para o Carcereiro me prender hoje à noite, assim sobrevivo e chego mais perto do linchamento... ou o lobo me mata e eu perco. Vamos ver como reagem à minha provocação no Bardo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 1,
+     "fala": "Fui preso na noite 3, por isso não morri. Relojoeiro é vila; restam Mineiro e Ceramista como suspeitos. Peço que ambos expliquem o que sabiam de Padeira e Costureira.",
+     "pensamento": "Como Aldeão, não tenho poderes nem certezas. A lógica deixa Mineiro e Ceramista como principais suspeitos: ambos lacked information, while Bardo was confirmed same team as the Mayor."
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 1,
+     "fala": "Bardo, eu sou Carcereiro — por isso ninguém morreu na noite 3, eu prendi você. Cozinheira era Médico e morreu ontem, perdemos tudo. Resta UM lobo. Carteiro, Astrônoma te limpou, então foco: Mineiro, ontem você não votou no Ferreiro lobo. Explica!",
+     "pensamento": "Preciso me revelar pra provar que a prisão foi minha e segurar meu lugar. Cozinheira era Médico, tragédia. Sobra um lobo entre Mineiro e Carteiro — Astrônoma limpou Carteiro e Bardo (mesmo time do Prefeito). Mineiro absteve no dia 1 e tá calado demais. Preciso ouvir a Astrônoma.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 1,
+     "fala": "Moleiro era Vidente e confirmou Relojoeiro Prefeito; minha comparação põe Bardo no mesmo time. Carteiro também difere da Florista lobo. Mineiro segue suspeito por evitar Ferreiro.",
+     "pensamento": "Moleiro morreu como Vidente, confirmando seu relato; Relojeiro é Prefeito e Bardo está no mesmo time. Minha comparação com Florista lobo limpa Carteiro. Mineiro evitou votar em Ferreiro e depois votou em aldeões.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 1,
+     "fala": "A água já mostrava que Cozinheira não era lobo; perdemos Médico e Vidente. Astrônoma, qual sua checagem desta noite? Ceramista, quem prendeu antes e ontem?",
+     "pensamento": "Se Astrônoma é Detetive, Mineiro ou Ceramista são opções; mas Bobo ainda vive. Preciso de nova comparação e cronologia da prisão antes de votar.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 1,
+     "fala": "Ceramista, se é Carcereiro, prendeu o Bardo na noite 3 — ok. Mas ontem você já tinha acusado o Relojoeiro à toa. Astrônoma, preciso de checagem nova hoje, não repetição. Resta UM lobo e quero ouvir fato, não palpite.",
+     "pensamento": "Perigo: Astrônoma me mira por não ter votado no Ferreiro. Preciso me defender sem parecer defensivo. Ceramista se revelou Carcereiro — improvável ser lobo mentindo com isso agora. Bardo tem checagem que me limpa possivelmente. O lobo restante é Ferreiro-parceiro... alguém. Tenho que desviar a atenção pro Carteiro ou Astrônoma.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 1,
+     "fala": "Pescador e Moleiro caíram, e Carreiro protegeu o Bardo. Com um lobo restante, o próximo alvo é ele.",
+     "pensamento": "Não gosto de regras, mas o gatinho que protegeu o lobo não deve morrer sozinho.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Ceramista",
+     "id": "ceramista",
+     "rodada": 2,
+     "fala": "Relojoeiro, concordo: falta um lobo. Mas o voto do dia 4 em Cozinheira (Médico) pesa. Bardo e Carteiro, vocês votaram junto comigo, ok. Mineiro, você vacilou com Ferreiro no dia 1. Astrônoma, preciso de checagem nova, não repetição.",
+     "pensamento": "Resta um lobo. Mineiro é o mais suspeito: abstenções e voto vacilante. Astrônoma e Viajante parecem vila. Carteiro limpo pela checagem. Bardo pode ser vila (Astrônoma confirmou mesmo time que Relojoeiro). Preciso segurar minha arma de Carcereiro caso apareça o voto certo.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Carteiro",
+     "id": "carteiro",
+     "rodada": 2,
+     "fala": "Mineiro, você me cobra checagem e eu cobro explicação: por que evitou votar no Ferreiro no dia 1? Isso pesa mais que palavras. Voto nele hoje, confiem em mim.",
+     "pensamento": "Sou o Bobo e preciso ser linchado sem parecer que quero. O Mineiro é o único que não votou no Ferreiro nem no Lenhador e está sendo pressionado por todos — se eu embalo o voto nele, a vila me segue e me lincham junto se eu parecer desesperado, ou me poupa se o Mineiro for o lobo. Cito a Astrônoma para parecer lógico, mas o alvo real é me colocar no centro sem pedir voto em mim.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Astrônoma",
+     "id": "astronoma",
+     "rodada": 2,
+     "fala": "Fui presa na noite 5, então não tenho checagem nova. Meus resultados anteriores mantêm Bardo e Carteiro fora do foco; Mineiro segue suspeito por evitar Ferreiro e votar em aldeões.",
+     "pensamento": "Não pude agir na noite 5 por ter sido presa. As comparações anteriores indicam Bardo alinhado ao Prefeito e Carteiro diferente da Florista, lobo. Mineiro permanece minha principal suspeita pelo padrão de votos.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Relojoeiro",
+     "id": "relojoeiro",
+     "rodada": 2,
+     "fala": "Relojoeiro, não fale mal de ninguém sem prova. Eu só pensei: a vila está equivocada.",
+     "pensamento": "Meu papel é Prefeito, mas meu alinhamento secreto é Bobo. Todos se preocupam com lobos, mas essa mesa está desviando para minha vantagem. A vila vai linchar alguém sem base e eu vou sair sozinho.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Mineiro",
+     "id": "mineiro",
+     "rodada": 2,
+     "fala": "Calma, Carteiro. Votei em abster no dia 1 porque não tinha prova, igual Moleiro pregava. Agora: sobrou UM lobo e Astrônoma foi presa — quem prendeu? Isso define hoje.",
+     "pensamento": "Preciso desviar. Ceramista se disse Carcereiro e Astrônoma foi presa — se ele confirmar, ela não checou nada novo. Tenho que atacar a lógica de quem aponta meu voto antigo, mas sem parecer defensivo demais. Melhor jogar a dúvida em alguém.",
+     "expressao": "pensando"
+    },
+    {
+     "nome": "Bardo",
+     "id": "bardo",
+     "rodada": 2,
+     "fala": "Relojoeiro e Carteiro já foram limpos pelas comparações da Astrônoma. Entre Mineiro e Ceramista, Mineiro evitou o Ferreiro e votou em aldeões. Meu voto hoje é Mineiro.",
+     "pensamento": "A villagem já linchou três lobos; preciso evitar pânico. As provas disponíveis favorecem Mineiro, embora eu saiba que，Bardo foi Analista. Relojoeiro e Carteiro estão limpos.",
+     "expressao": "desconfiado"
+    },
+    {
+     "nome": "Viajante",
+     "id": "viajante",
+     "rodada": 2,
+     "fala": "Ceramista, você diz ser carcereiro: confirma que prendeu Astrônoma esta noite e explica as prisões anteriores? Mineiro é suspeito, mas abstenção sozinha não distingue lobo de Bobo.",
+     "pensamento": "Ceramista ainda não respondeu à cronologia pedida. Mineiro evitou Ferreiro, mas linchar o Bobo acaba o jogo; preciso pesar as duas reivindicações.",
+     "expressao": "desconfiado"
+    }
+   ],
+   "tiros": [],
+   "acoes": [],
+   "revelacoes": [],
+   "recados": [
+    {
+     "nome": "Mineiro",
+     "texto": "Astrônoma e Carteiro são os perigos com checagens. Se alguém puder, jogue a suspeita no Carteiro hoje, ele é o elo fraco.",
+     "depoisDaFala": 5,
+     "recebidoPor": []
+    }
+   ],
+   "votos": {
+    "Bardo": "Mineiro",
+    "Viajante": "Mineiro",
+    "Astrônoma": "Mineiro",
+    "Mineiro": "Ceramista",
+    "Ceramista": "Mineiro",
+    "Carteiro": "Mineiro",
+    "Relojoeiro": "Mineiro"
+   },
+   "pesosVoto": {
+    "Bardo": 1,
+    "Viajante": 1,
+    "Astrônoma": 1,
+    "Mineiro": 1,
+    "Ceramista": 1,
+    "Carteiro": 1,
+    "Relojoeiro": 2
+   },
+   "pensamentosVoto": {
+    "Bardo": "Evitou o Ferreiro, depois votou no Médico e cercou o Relojoeiro; entre ele e o suposto carcereiro, a suspeita pesa mais.",
+    "Viajante": "Se Astrônoma é detetive, Bardo e Carteiro não são lobos. Ceramista reivindica carcereiro sem contestação, enquanto Mineiro evitou Ferreiro e ajudou a linchar o médico. Ainda há risco de Bobo.",
+    "Astrônoma": "Mineiro segue como suspeito mais forte: se absteve contra Ferreiro, votou no Padre e no Médico, e agora tenta transformar minha prisão em distração. Bardo, Carteiro e Prefeito sustentam o foco.",
+    "Mineiro": "Ceramista só se revelou Carcereiro agora, tarde demais, e ontem errou voto no Médico. Se for falso, é o lobo escondido. Mineiro e eu somos os mais mirados, preciso desviar.",
+    "Ceramista": "Mineiro vacilou com Ferreiro no dia 1 e não convence. Preciso manter minha capa de Carcereiro pra não levantar suspeita, voto nele pra agradar a vila.",
+    "Carteiro": "O lobo restante provavelmente é Mineiro ou Ceramista. Astrônoma e Viajante limparam Bardo e Carteiro; Relojoeiro é prefeito confirmado. Mineiro se absteve no lobo Ferreiro no dia 1 e votou em aldeões, padrão de lobo. Se eu for linchado como Bobo, melhor que seja junto com a caça ao lobo. Voto em Mineiro.",
+    "Relojoeiro": "Astrônoma foi presa — Carcereiro não direito. Mineiro somente evitou Ferreiro e votou em aldeões; é o único suspeito sem vínculo."
+   },
+   "linchado": {
+    "nome": "Mineiro",
+    "papel": "lobo_alfa",
+    "causa": "linchado",
+    "quando": "dia 5",
+    "autor": null
+   },
+   "preso": null
+  }
+ ],
+ "resultado": {
+  "vencedor": "aldeia",
+  "dias": 5,
+  "vivos": [
+   "Bardo",
+   "Viajante",
+   "Astrônoma",
+   "Ceramista",
+   "Carteiro",
+   "Relojoeiro"
+  ]
+ },
+ "resumo": "Lobos: Ferreiro (Claude Haiku 5.5, Lobisomem) e Lenhador (GLM 5.3 Flash, Lobo Vidente) e Mineiro (MiMo V2.6 Flash, Lobo Alfa) e Florista (Ling 3.1 Flash, Lobisomem). Padeira=Pistoleiro, Boticária=Padre, Costureira=Xerife, Pescador=Vidente Espiritual, Moleiro=Vidente, Bardo=Aldeão, Viajante=Aldeão, Astrônoma=Detetive, Ceramista=Carcereiro, Carteiro=Bobo, Cozinheira=Médico, Relojoeiro=Prefeito. Amanhecer do dia 1: Padeira foi morto pelos lobos (era Pistoleiro). Dia 1: Relojoeiro revelou oficialmente que é o Prefeito; seu voto passa a valer dois. Discussão do dia 1: Mineiro: Padeira era Pistoleiro? Nossa... perder as balas no dia 1 é duro. Vamos com calma pra não acusar inocente. Quem saiu de casa ontem à noite, hein? | Astrônoma: Padeira era da vila. Ferreiro, quero ouvir você: tem alguma informação concreta ou suspeita pra dividir? | Ferreiro: Que tristeza pela Padeira, gente. Não tenho nenhuma informação concreta ainda, Astrônoma. Vou ouvir todo mundo antes de apontar alguém. Quem tá calado demais hoje? | Lenhador: Que choque perder a Padeira assim, com balas inclusas! Minha sorte é não ter info ainda. Vou ficar de olho em quem acusa sem fundamento — geralmente quem puxa o primeiro suspeito tá desesperado pra mudar o foco. | Carteiro: Que começo trágico, né? A Padeira nem pôde usar as balas. Vou observar bem as reações de vocês antes de apontar alguém, confiem em mim. | Florista: Poxa, dia difícil! Ainda não vi nada de concreto, mas quem ficar caladinho demais me parece suspeito. Bora trocar impressões antes de votar em qualquer pessoa, senão a vila se atropela sozinha. | Relojoeiro: Ferreiro, concordo. Vamos ouvir todos antes de apontar. Minha dúvida: quem decidiu que Padeira usou as balas no dia 1? | Costureira: Perder o Pistoleiro no dia 1 é brutal. Ferreiro e Lenhador, vocês dois tão muito calmos pra quem acabou de perder um aliado. Fica o registro, hein. | Ceramista: Relojoeiro perguntou certo: Padeira nem atirou, o tiro do dia 1 só no início da votação. Concordo com Florista, vamos desacelerar e ouvir todos antes de votar. | Cozinheira: Olha, gente. Pode calar que a bola já saiu. Se virmos alguém pra apontar antes, já chuta que altou. Brazo pra mim, só falaram! | Bardo: Padeira morreu antes de atirar; suas balas se perderam. Lenhador veio atacando quem aponta primeiro, parece desviar atenção. Votaria nele, mas quero mais contexto. | Moleiro: Padeira era nossa bala e se foi. Não vou votar sem prova hoje. Bardo, você já tem alvo; Lenhador, por que tanto medo de apontar? Me deem algo concreto. | Pescador: Perda brutal. Relojoeiro fez pergunta válida — Padeira não atirou, morreu antes. Lenhador, defasar quem acusa já no dia 1... vou anotar. Vamos ouvir mais. | Boticária: Padeira levou as balas pro túmulo... Soou tudo muito ensaiado aqui. Bardo já mirando o Lenhador sem prova, tô de olho. Nada de apressado hoje, meus amigos. | Viajante: Lenhador, sua cautela faz sentido, mas por que tratar quem pergunta primeiro como desesperado? Uma pergunta não é acusação. | Astrônoma: Tenho uma checagem noturna: Ferreiro não é do time da Padeira. Como ela era da vila, Ferreiro é meu principal suspeito. | Mineiro: Calma, Astrônoma. Se Ferreiro NÃO é do time da Padeira e ela era vila, ele é lobo? Sua checagem parece apontar pro contrário. Repete a lógica aí... | Costureira: Já tinha meu olho no Ferreiro desde ontem à noite. Com o que a Astrônoma confirmou, tá mais que cravo pra mim. Voto nele, bora. | Carteiro: Gente, calma! A Astrônoma se atrapalhou aí, mas isso não condena ninguém. Eu ainda não tenho nada concreto, prefiro ouvir mais antes de votar errado. Confiem em mim, vamos com cautela. | Moleiro: Astrônoma, essa é uma acusação forte pra se fazer no dia 1. Costureira, você pulou em cima na hora, sem pedir nada. Voto só com prova. Anotado. | Florista: Astrônoma, sua lógica está invertida: se Ferreiro NÃO é do time da Padeira e ela era vila, ele é vila também! Cuidado, gente, não votem por embalo. Caladinhos demais: Cozinheira e Boticária. | Relojoeiro: Seguinte: Padeira foi Pistoleiro. Se não disse nada, não estou pedindo paciência. Ferreiro, Passe qualquer dúvida com minha mão, não com palavras vazias. Antes de votar, confira: quem tem alinhamento atual? Quem está definindo o alvo? Quem não reage? Eu não vou apostar sem base. | Pescador: Tenho uma informação: Viajante e Relojoeiro são limpos, vão tranquilos. Astrônoma, forte pro dia 1, mas a lógica tá certa — Ferreiro pode ser lobo. Vamos com calma. | Ferreiro: Astrônoma, sua checagem tá invertida, a Florista já mostrou isso. Costureira, você pulou em cima de mim sem prova nenhuma. Quem ganha com essa pressa toda? | Cozinheira: Ferreiro, calma, bora ouvir todos antes do voto. Coisa de vila | Bardo: A lógica da Astrônoma está certa: Padeira era da vila, então Ferreiro não é do mesmo time. Bardo, Lenhador não tem prova contra ele. Voto no Ferreiro. | Ceramista: Pessoal, a lógica da Astrônoma tá correta: se Ferreiro NÃO é do time da Padeira e ela era vila, ele é lobo. Florista e Ferreiro inverteram. Cuidado pra não confundir o pessoal! | Viajante: A lógica da Astrônoma está certa, mas não exclui Bobo. Astrônoma, confirma que comparou Padeira e Ferreiro? Pescador, como chegou à sua informação? | Lenhador: Calma, gente! Detetive só compara times: se Padeira era vila, Ferreiro podia ser lobo... ou Bobo! Astrônoma, confirma ser Detetive? E Pescador, de onde veio essa certeza sobre Viajante e Relojoeiro? | Boticária: Padeira levou as balas pro túmulo... Soou tudo muito ensaiado aqui. Bardo já mirando o Lenhador sem prova, tô de olho. Nada de apressado hoje, meus amigos. Dia 1: votos Ferreiro→Astrônoma, Boticária→Costureira, Lenhador→ninguém, Costureira→Lenhador, Pescador→Ferreiro, Moleiro→Ferreiro, Bardo→Ferreiro, Viajante→Ferreiro, Astrônoma→Ferreiro, Mineiro→ninguém, Ceramista→Ferreiro, Carteiro→Lenhador, Florista→Bardo, Cozinheira→ninguém, Relojoeiro→ninguém. Ferreiro foi linchado(a) e era Lobisomem. Amanhecer do dia 2: Pescador foi morto pelos lobos (era Vidente Espiritual). Discussão do dia 2: Cozinheira: Pessoal, calma. Amanhecer do dia 2 já tirou mais um: Pescador. Vamos descansar, ouvir e não acumular erros. | Bardo: Ferreiro era lobo; agora precisamos achar o outro. Lenhador desviou atenção desde o começo, enquanto Costureira e Boticária<.have divergências. Vamos comparar os votos e quem mais se conhece. | Ceramista: Pescador era Vidente Espiritual, perda pesada. Bem que Ferreiro era lobo, voto certo ali. Agora, Bardo: por que insiste no Lenhador desde o dia 1? E Relojoeiro, você não votou ontem — por quê? | Lenhador: Pescador era checador... perda dura. Bardo, me caducar desde o dia 1 sem prova tá mais fácil que investigar, né? E Ceramista tem razão: Relojoeiro, por que ficou de fora ontem? | Costureira: Lenhador sempre me deu mal desde o dia 1. Bardo tem razão em ficar de olho. Mas atenção: 3 lobos ainda vivos, não é só um. | Carteiro: Pescador era Vidente Espiritual, dura perda. Bardo, apontar Lenhador de novo sem prova parece pressa. Eu prefiro ouvir todos antes de votar errado, confiem em mim. | Mineiro: Pescador era Vidente Espiritual, que perda. Bardo e Costureira já se apontaram, atenção: ainda tem 3 lobos vivos. Não vamos dividir a vila agora, precisamos de provas de verdade. | Florista: Pescador era nossa única fonte de checagem, perdemos muito com ele. Aviso: ainda tem 3 lobos juntos, e quem empurra o Lenhador sem prova talvez queira isso. Vamos olhar pro Relojoeiro, que não votou no Ferreiro e ficou quieto. | Boticária: Perdemos o Vidente Espiritual, queDia. Relojoeiro e Viajante foram limpos pelo Pescador antes de morrer — vou confiar nisso. Meu foco: Lenhador, zero voto ontem e só desvia. Costureira, vamos juntar as peças? | Moleiro: Ferreiro era lobo. Quem não votou nele precisa explicar: Relojoeiro, Lenhador, Cozinheira, Mineiro. Boticária, votou Costureira e agora aponta Lenhador — muita troca. Quero saber de quem evitou o voto. | Viajante: Relojoeiro é prefeito revelado; não gastem suspeita nele. Astrônoma, sua checagem acertou Ferreiro: tem resultado novo? Pescador só podia detectar se alguém matou, não garantir dois papéis. | Relojoeiro: Costureira, Lenhador não tem dados. Quem matou Pescador não aparece. Metamo de comparar sem novidades. | Astrônoma: Fui presa, então não tenho checagem nova. Boticária, Pescador não podia declarar Relojoeiro e Viajante limpos; ele só detectava se alguém matou. Por que afirmou isso? | Viajante: Astrônoma diz que foi presa; carcereiro pode conferir isso em silêncio. Florista, por que chamou o prefeito revelado de suspeito e disse que Pescador era a única checagem? | Boticária: Astrônoma, calma! O Pescador falou isso em chat público, eu só repeti. Se foi preso, que o carcereiro confirme. Meu foco continua no Lenhador: zero voto no lobo confirmado ontem e desviando desde o dia 1. Guardo minha intuição pra hoje. | Mineiro: Pessoal, atenção: Relojoeiro, Lenhador, Cozinheira e eu não votamos no Ferreiro — mas Ferreiro era lobo confirmado, então quem não votou nele não é necessariamente lobo. Lenhador, Bardo te acusa desde o dia 1 sem prova; Bardo, que base você tem? Astrônoma presa? Carcereiro, confirma em silêncio. Não vamos dividir a vila sem fatos. | Florista: Boticária, eu não disse que o Pescador checou papel nenhum! Ele só apontou Viajante e Relojoeiro como limpos. Repete o que eu escrevi, por favor. Relojoeiro, prefeito revelado, explica o voto vazio no Ferreiro. | Relojoeiro: Lenhador não voteou no Ferreiro e nem mostrou interesses no vidente agora. Meu foco: Bardo, que aponta só sem base. Quem quer proteger o segundo lobisomem, não alguém que quis atrapalhar o jogo. | Cozinheira: Coisinha séria depois de uma perda dupla. Pescador caiu e os lobos ainda seguem. Segurança antes de apontar. Vou ficar de olho em quem só age na hora e quem protege quem. Aqui a paciência vale mais que apressada. | Carteiro: Gente, perder dois checadores seguidos dói demais. Bardo acusa Lenhador há dois dias sem prova e Costureira endossa. Isso cheira a lobo empurrando vila. Prefiro ouvir antes de votar, confiem em mim. | Ceramista: Astrônoma foi presa? Interessante. Relojoeiro, você não votou ontem e agora mira o Bardo — conveniente. Boticária, só repetiu o Pescador, tá perdoada. Preciso de mais fatos, não embalo. | Moleiro: Boticária, Pescador não podia dizer 'limpos' — ele só detectava quem matou. Você inventou checagem com ele. Isso é o segundo erro de lógica seguido. Foco: Boticária. | Lenhador: Moleiro, eu votei ninguém porque não tinha prova — igual você pregou. E olha o Boticária: inventou checagem do Pescador, gente. Isso sim é manobra de lobo. Sem prova contra mim, bora parar de me mirar. | Astrônoma: Corrijo: Pescador realmente disse isso em público, então Boticária só repetiu. Mas a fala dele não prova inocência; Relojoeiro, por que se absteve com o voto duplo? | Costureira: Sou Xerife. Noite 1 vigiei Ferreiro e Lenhador — um dos dois matou a Padeira. Ferreiro era lobo. Se o outro foi o Lenhador... bom. | Bardo: Costureira, se você é Xerife, a vigia narrowed: Ferreiro era lobo, então Lenhador pode ser o outro. Isso finally dá base ao meu voto. Foco no Lenhador hoje. Dia 2: votos Boticária→Lenhador, Lenhador→Boticária, Costureira→Lenhador, Moleiro→Lenhador, Bardo→Lenhador, Viajante→Florista, Astrônoma→Lenhador, Mineiro→Boticária, Ceramista→Costureira, Carteiro→Lenhador, Florista→Lenhador, Cozinheira→Lenhador, Relojoeiro→ninguém. Lenhador foi linchado(a) e era Lobo Vidente. Amanhecer do dia 3: ninguém morreu. Discussão do dia 3: Ceramista: Ninguém morreu à noite — Médico acertou ou lobos erraram? Costureira, se é Xerife de verdade, vigie hoje alguém que não votou ontem. Relojoeiro de novo sem voto me incomoda. | Bardo: Ceramista, a ausência de mortes pode indicar Médico acertando. Com Lenhador fora, ainda restam dois lobos; Boticária, seu voto em Lenhador e as mudanças de suspeita precisam ser explicadas. | Florista: Ninguém morreu: Médico acertou ou Carcereiro prendeu o alvo? Relojoeiro, dois dias sem voto com voto duplo pesa mais que tudo. Bardo, você acertou o Lenhador, mas quer explicar seu voto no Florista? | Cozinheira: Amanhecer sem mortos confirma Médico protegeu alguém. Eu não votei no Lenhador, não me envolvo com suspeitas sem base. Costureira, quem é Xerife mostra nos detalhes. Dissemos para calarmos até ter provas sólidas. Ninguém saiu ileso de um erros. | Costureira: Xerife ativo, mas meus alvos são segredo. Relojoeiro, dois dias sem votar com voto duplo é estranho demais pra mim. Bardo, sua consistência ajuda. Fiquem de olho. Bora, rodada 2. | Relojoeiro: Médico pode ter errado ou o Carcereiro prendeu ninguém. Prefeito, explique seu silêncio nos votos e quem foi seu alvo. | Carteiro: Sem mortes: Médico acertou ou Carcereiro pegou o alvo dos lobos. Eu sigo sem voto, mas quero ouvir o Relojoeiro explicar dois dias de abstenção com voto duplo antes de qualquer coisa. | Moleiro: Relojoeiro, dois dias sem voto com peso duplo e agora calado? Responde: em quem votaria hoje? Boticária, sua tal checagem do Pescador ainda não fechou. Quero fatos, não embalo. | Mineiro: Pessoal, sem morte = Médico salvou ou Carcereiro segurou o alvo. Relojoeiro, responde o Moleiro: em quem você votaria hoje? E Bardo, só você sabia que Lenhador era lobo antes do voto... só coincidência? | Viajante: Eu votei Florista, Bardo votou Lenhador. Errei ao desconfiar dele; era lobo. Relojoeiro é prefeito confirmado. Astrônoma, conseguiu nova comparação? Ninguém morrer não confirma proteção. | Boticária: Duas noites sem mortes, mas meu instinto não descansa. Bardo empurrou o Lenhador desde o dia 1 sem prova — se fosse só sorte, ok. Mas o foco todo nele me incomoda. Relojoeiro, cadê seus votos? | Astrônoma: Comparei Florista e Carteiro: não são do mesmo time. Isso não diz qual é lobo, mas a defesa errada de Ferreiro torna Florista suspeita. Relojoeiro, explique suas abstenções. | Cozinheira: Relojoeiro, explique. Prefeito virou voto duplo, mas ficou calado. Isso protege ou atrapalha? | Relojoeiro: Relojoeiro, meu voto duplo é só para não desperdiçar a vila. Sem novidades, não apunto a ninguém. Quem tem provas vai claros. | Florista: Astrônoma, Detetive não prova nada: Carteiro pode ser lobo e eu vila! Relojoeiro, prefeito, abstenção com voto duplo é presente pros lobos. Voto Bardo hoje: empurrou Lenhador sem prova desde o dia 1. | Carteiro: Astrônoma, sua comparação me deixa tenso: se eu sou lobo, você tá certa; se sou vila, Florista é lobo. Alguém aqui tá mentindo e eu não sei quem. Não vou votar sem entender isso. | Ceramista: Florista tá acusando o Bardo sem prova de novo, igual fizeram com o Ferreiro. Astrônoma, sua comparação de Florista e Carteiro não define quem é lobo — não joga a vila contra si mesma. Relojoeiro precisa explicar as abstenções, isso sim pesa. | Costureira: Astrônoma, Carteiro, eu sou Xerife. Meus alvos são secretos, mas a vila precisa de fatos, não de abstenção do Relojoeiro. Bardo, foco em quem se cala com poder. | Boticária: Duas noites sem mortes, dois lobos fora. Minha mira: Relojoeiro, duas abstenções com voto duplo é lucro pros lobos. E Bardo, acertou o Lenhador por sorte ou sabe demais? Guardem provas, hoje ninguém me engata. | Bardo: Fui preso durante a noite; por isso os lobos não mataram ninguém. Florista, meu voto no Lenhador foi tentativa. Relojoeiro, por que absteve? Meu voto hoje é na Boticária. | Mineiro: Calma, Bardo diz que foi preso — se for verdade, Carcereiro confirma. Mas hoje temos dois votos pesados: Relojoeiro absteve de novo, Florista me acusou sem prova. Votar sem fato é como o dia 1: erramos. Preciso de mais um passo antes de apontar. | Viajante: Relojoeiro é prefeito confirmado: cobrem participação, mas não o linchem. Bardo, prisão não prova por que ninguém morreu. Florista e Carteiro: qual suspeita concreta vocês têm um do outro? | Astrônoma: Minha comparação confirma que Florista e Carteiro são de times diferentes; não sei qual é lobo. Florista, sua defesa errada de Ferreiro ainda me preocupa. | Moleiro: Bardo, prisão não explica noite sem mortes: se há dois lobos soltos, o outro mataria. Florista defendeu Ferreiro e agora acusa sem prova. Voto com fatos, não com embalo. Dia 3: votos Boticária→Relojoeiro, Costureira→Florista, Moleiro→Florista, Bardo→Relojoeiro, Viajante→Florista, Astrônoma→Florista, Mineiro→Florista, Ceramista→Florista, Carteiro→Boticária, Florista→Bardo, Cozinheira→Bardo, Relojoeiro→Bardo. Florista foi linchado(a) e era Lobisomem. Amanhecer do dia 4: Costureira foi morto pelos lobos (era Xerife). Dia 4: O Padre Boticária usou água benta em Cozinheira; Boticária morreu e era Padre. Discussão do dia 4: Relojoeiro: Boticária, confirme: Pescador não deteve papel nenhum, só quem morreu. Votação do dia 2 foi de 3 lobos, não 1. A Boticária inventou o 'limpos' para empurrar o Lenhador. Se o Bardo ignora isso, está jogando invenções. Vou focar no relógio que só avança sem erro. | Moleiro: Sou Vidente, e conto agora: confirmei Padeira, Pescador e Costureira nos papéis que falaram — e Relojoeiro é Prefeito. Chega de suspeitar dele. Boticária, Bardo: provas, não embalo. | Mineiro: Moleiro, se é Vidente, seu teste bate com o que sei. Relojoeiro é prefeito confirmado, ok. Agora: ontem quase lincharam ele à toa. Bardo e Boticária, cuidado apontando sem prova de novo. Costureira morreu — se era Xerife mesmo, a vila perdeu proteção. Precisamos de calma e voto com base hoje. | Ceramista: Moleiro se revela Vidente agora, conveniente. Relojoeiro é prefeito, ok. Mas ainda tem 2 lobos vivos. Carteiro, Astrônoma disse que vocês são de times diferentes — isso precisa ser resolvido hoje! | Viajante: Três lobos caíram; resta um. Astrônoma comparou Carteiro com Florista, lobo: se a checagem for verdadeira, Carteiro não é lobo. Astrônoma, tem resultado novo? | Cozinheira: Pessoal, calma. Costureira foi Xerife, perdeu ninguém de qualidade. Moleiro só confirmou o que já sabíamos, não trouxe nada novo. Quem acusa sem base é o problema. Quero provas, não votações soltas. | Astrônoma: Comparei Bardo e Relojoeiro: mesmo time; com Relojoeiro confirmado Prefeito, Bardo não é alvo prioritário. Boticária, você votou ambos — por quê? | Carteiro: Boticária votou em mim e no Bardo sem prova. Prefiro ouvir ela explicar isso antes de apontar qualquer lobo. Confiem em mim, vamos com calma. | Bardo: Fui preso durante a noite 3; por isso não aconteceu morte. Boticária, explique por que votou em mim e no Relojoeiro, além de inventar uma checagem. Quero fatos, não impressões. | Boticária: Boticária explica: repeti o que o Pescador disse, erro meu, foi burrice, não maldade. Bardo preso? Só um preso por noite, e eu sei que essa noite teve prisão... Moleiro, seu 'Vidente' só confirmou info pública, estranho. Relojoeiro, cadê os votos duplos? | Ceramista: Astrônoma, sua checagem Bardo e Relojoeiro é mesma vila? Então Bardo limpo. Boticária, boa sua sacada: Bardo disse preso na noite 3, mas ninguém morreu — se tinha prisão, quem os lobos mataram? Alguém prendeu e lobos erraram? Preciso entender isso. | Carteiro: Boticária, explicar isso: se Bardo preso na noite 3, lobos não mataram ninguém. Alguém aqui sabia do alvo e protegeu errado. Quem ganha com essa confusão? Confiem em mim, vamos pensar antes de votar. | Boticária: Errei repetindo o Pescador, todo mundo erra, mas quem errou mais é o Relojoeiro sem voto. Astrônoma limpou o Carteiro. Minha pulga: Cozinheira, sempre tão calma, nunca votou no Ferreiro e nada solidou. Hoje resolvo isso. | Relojoeiro: Moleiro, vejo. Relojoeiro, voto duplo sem fato é suspeito. Vou ouvir mais uma rodada antes de apontar. | Cozinheira: Pescador só confirmou quem morreu pela noite, e a Costureira ainda não explica o voto duplo. Quem mentiu foi você! | Astrônoma: Boticária morreu como Padre após errar em Cozinheira: ela não é lobo. Minha checagem põe Bardo no time do Prefeito; parem de mirar nele. Moleiro, qual vivo você investigou? | Mineiro: Pescador era Vidente Espiritual, perda irreparável. Astrônoma, qual vivo você investigou ontem? Precisamos de uma checagem nova agora, com dois lobos ainda soltos. | Moleiro: Boticária morreu Padre e errou — era vila. Parem de tratar erro como lobo. Astrônoma, Bardo tá no time do Prefeito. Resta um lobo. Votem com fato, não com pânico. Quem só acusa sem checagem tá desviando. | Bardo: Boticária morreu por errar no Cozinheira, mas isso não a inocenta. Ela，楼: olhou a Cozinheira justamente. Restam dois lobos; votaria na Cozinheira, semuos? | Viajante: A água matou Boticária: Cozinheira não é lobo, embora possa ser Bobo. Restam um lobo e o Bobo. Moleiro, informe as noites e os alvos exatos das suas visões. Dia 4: votos Moleiro→Cozinheira, Bardo→Mineiro, Viajante→ninguém, Astrônoma→Mineiro, Mineiro→Cozinheira, Ceramista→Cozinheira, Carteiro→Cozinheira, Cozinheira→Moleiro, Relojoeiro→Cozinheira. Cozinheira foi linchado(a) e era Médico. Amanhecer do dia 5: Moleiro foi morto pelos lobos (era Vidente). Discussão do dia 5: Carteiro: Perdemos o Vidente Moleiro! Resta um lobo e eu quero ele vivo pra vila ganhar. Bardo, você sobreviveu a três noites... explica isso? Confiem em mim, vamos pensar friamente. | Bardo: Fui preso na noite 3, por isso não morri. Relojoeiro é vila; restam Mineiro e Ceramista como suspeitos. Peço que ambos expliquem o que sabiam de Padeira e Costureira. | Ceramista: Bardo, eu sou Carcereiro — por isso ninguém morreu na noite 3, eu prendi você. Cozinheira era Médico e morreu ontem, perdemos tudo. Resta UM lobo. Carteiro, Astrônoma te limpou, então foco: Mineiro, ontem você não votou no Ferreiro lobo. Explica! | Astrônoma: Moleiro era Vidente e confirmou Relojoeiro Prefeito; minha comparação põe Bardo no mesmo time. Carteiro também difere da Florista lobo. Mineiro segue suspeito por evitar Ferreiro. | Viajante: A água já mostrava que Cozinheira não era lobo; perdemos Médico e Vidente. Astrônoma, qual sua checagem desta noite? Ceramista, quem prendeu antes e ontem? | Mineiro: Ceramista, se é Carcereiro, prendeu o Bardo na noite 3 — ok. Mas ontem você já tinha acusado o Relojoeiro à toa. Astrônoma, preciso de checagem nova hoje, não repetição. Resta UM lobo e quero ouvir fato, não palpite. | Relojoeiro: Pescador e Moleiro caíram, e Carreiro protegeu o Bardo. Com um lobo restante, o próximo alvo é ele. | Ceramista: Relojoeiro, concordo: falta um lobo. Mas o voto do dia 4 em Cozinheira (Médico) pesa. Bardo e Carteiro, vocês votaram junto comigo, ok. Mineiro, você vacilou com Ferreiro no dia 1. Astrônoma, preciso de checagem nova, não repetição. | Carteiro: Mineiro, você me cobra checagem e eu cobro explicação: por que evitou votar no Ferreiro no dia 1? Isso pesa mais que palavras. Voto nele hoje, confiem em mim. | Astrônoma: Fui presa na noite 5, então não tenho checagem nova. Meus resultados anteriores mantêm Bardo e Carteiro fora do foco; Mineiro segue suspeito por evitar Ferreiro e votar em aldeões. | Relojoeiro: Relojoeiro, não fale mal de ninguém sem prova. Eu só pensei: a vila está equivocada. | Mineiro: Calma, Carteiro. Votei em abster no dia 1 porque não tinha prova, igual Moleiro pregava. Agora: sobrou UM lobo e Astrônoma foi presa — quem prendeu? Isso define hoje. | Bardo: Relojoeiro e Carteiro já foram limpos pelas comparações da Astrônoma. Entre Mineiro e Ceramista, Mineiro evitou o Ferreiro e votou em aldeões. Meu voto hoje é Mineiro. | Viajante: Ceramista, você diz ser carcereiro: confirma que prendeu Astrônoma esta noite e explica as prisões anteriores? Mineiro é suspeito, mas abstenção sozinha não distingue lobo de Bobo. Dia 5: votos Bardo→Mineiro, Viajante→Mineiro, Astrônoma→Mineiro, Mineiro→Ceramista, Ceramista→Mineiro, Carteiro→Mineiro, Relojoeiro→Mineiro. Mineiro foi linchado(a) e era Lobo Alfa. Vencedor: a vila.",
+ "reflexoes": {
+  "boticaria": "Aprendi que água benta sem prova real custa a vida — intuição sobre \"calada demais\" não substitui checagem, desculpa, Cozinheira! Na próxima, confio em quem confirma papéis com fatos (Astrônoma, Ceramista) e desconfio de abstenções repetidas, tipo a do Relojoeiro.",
+  "costureira": "Foi uma vitória esmagadora por unanimidade, o que prova que manter a calma e deixar a vila se auto-policiar é mais eficaz que forçar votações. Na próxima, vou desconfiar imediatamente do Mineiro e confiar no Ceramista, já que seu papel de Carcereiro foi crucial para segurar a vila até o fim.",
+  "viajante": "Aprendi a separar uma comparação de times de uma confirmação de papel e a respeitar o resultado da água benta. Confiarei mais em informações verificáveis como as da Astrônoma, sem ignorar o risco de Bobo nem transformar acertos em confiança cega.",
+  "astronoma": "Aprendi que a comparação de times ajuda muito, mas não revela papéis; preciso comunicar limites e combinar a pista com votos e confirmações. Na próxima, vou confiar mais em checagens corroboradas e desconfiar de quem evita repetidamente votar em lobos, como Mineiro.",
+  "mineiro": "Aprendi que minha abstenção no dia 1 virou suspeita eterna — coesão do bando vale mais que discrição. Na próxima confio em quem vota com base desde o começo, e desconfio de quem só fala \"calma\" sem nunca apontar.",
+  "florista": "Aprendi que, como lobo, defender um parceiro de forma tão direta (como fiz com o Ferreiro no dia 1) me pintou junto e me levou à forca. Na próxima, vou desconfiar de quem pula em acusações fortes no dia 1 e confiar em quem espera por fatos concretos antes de votar.",
+  "relojoeiro": "Levantei a vila com Paciência e lógica, não com abstenção. Confio no Relojoeiro (Prefeito), Bardo (Aldeão) e Carteiro (Bobo). Desconfio de quem acusa sem checagem e de quem só age com pânico — como tentou o Boticário.",
+  "moleiro": "Aprendi que me revelar como Vidente só quando tenho dados concretos funciona: segurei a informação e a vila não me linchou. Na próxima confio na Astrônoma, que raciocina antes de votar, e desconfio de quem se abstém com voto pesado, como o Relojoeiro.",
+  "lenhador": "Aprendi que o Xerife e o Detetive juntos me derrubaram rápido — o meu erro foi me defender tanto do Bardo sem prova, virando alvo óbvio. Na próxima, vou desconfiar de quem acumula checagens consistentes (Astrônoma, Ceramista preso) e não votei no lobo confirmado, e vou espalhar suspeitas cedo em vez de ficar na mira.",
+  "bardo": "Aprendi que coordenar votos por fatos (Detetive, Xerife, Vidente) decide a partida, e que-detentive não prova papel. Na próxima confio em Moleiro e no Relojoeiro, desconfio de quem abstei e de quem repetiu o que outros disseram.",
+  "ferreiro": "Aprendi que a Astrônoma e o Moleiro foram confiáveis, enquanto o Mineiro e o Bardo jogaram com pressa e acusações sem prova. Na próxima, desconfio de quem puxa linchamento cedo sem fato e de quem vota em massa, e confio mais em quem explica o raciocínio com calma, como o Moleiro e a Astrônoma.",
+  "padeira": "Aprendi que quem empurra alvo cedo sem prova, como Costureira e Bardo, e quem vota contra os próprios aliados merece desconfiança. Na próxima, confio mais em quem explica votos com fatos e desconfio de quem muda de alvo sem razão.",
+  "ceramista": "Aprendi que confiar em quem só fala sem voto é armadilha — Relojoeiro absteu três dias com voto duplo e era só prefeito covarde. Na próxima, confio em quem vota consistente desde o dia 1 e desconfio de quem sempre tem despra pronta pra não se comprometer.",
+  "pescador": "Foi fatal cairmos nos dias 1 e 2 sem alvos sólidos, mas a vila venceu. Na próxima, confio no Carcereiro e desconfio de quem evitar votar no primeiro lobo confirmado.",
+  "carteiro": "Aprendi que minha defesa de Ferreiro no dia 1 me marcou como suspeito e que me manter calado e votando contra a maioria só alimentou desconfiança — na próxima, vou confiar em quem traz checagens concretas e desconfiar de quem muda de alvo sem prova.",
+  "cozinheira": "Aprendi a valorizar fatos e verificar antes de acusar. Não confio em quem vota sem base. Ainda desconfio do Relojoeiro pelo silêncio nos votos. A vila venceu, mas houve erros de cálculo."
+ }
+}
