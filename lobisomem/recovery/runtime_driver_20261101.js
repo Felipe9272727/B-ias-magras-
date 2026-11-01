@@ -16,15 +16,18 @@ async function writeFile(path,value){
 }
 let checkpointQueue=Promise.resolve();
 const checkpoint=()=>{checkpointQueue=checkpointQueue.then(()=>shell("python3 lobisomem/checkpoint_ep2.py --push",1500));return checkpointQueue;};
-async function request(job){
+async function prepare(job){
  if(job.model.startsWith("openai/"))throw Error("OpenAI routing blocked");
  const boundedRouting={"qwen/qwen3.8-27b":{"only":["primeintellect","darkbloom","chutes","near-ai","ionstream","reka","modal"],"sort":"throughput"},"inclusionai/ling-3.1-flash":{"only":["deepinfra","novita"],"sort":"throughput"}};
  const parameters={model:job.model,system:job.system,message:job.message,max_tokens:job.max_tokens,...(job.reasoning_effort?{reasoning_effort:job.reasoning_effort}:{})};
  if(boundedRouting[job.model])parameters.provider=boundedRouting[job.model];
+ if(job.playerId==="juiz")parameters.reasoning_effort="none";
  if((job.model.startsWith("qwen/")||job.model.startsWith("deepseek/")||job.model.startsWith("xiaomi/"))&&(job.attempt>0||job.message.startsWith("A partida acabou.")))parameters.reasoning_effort="none";
  if(job.model.startsWith("qwen/")&&job.attempt>=4)parameters.reasoning_effort="high";
  await writeFile("lobisomem/.spool_ep2/dispatch/"+job.id+".json",JSON.stringify({id:job.id,parameters,startedAt:new Date().toISOString()}));
- await checkpoint();
+ return {job,parameters};
+}
+async function request({job,parameters}){
  store("currentPaidRequest",job.id);
  const response=await tools.mcp__codex_apps__openrouter_send_message(parameters);
  store("lastRawResponse",{job,response});
@@ -38,7 +41,6 @@ async function request(job){
  const installed=await shell("python3 lobisomem/runtime_io_ep2.py install "+q(dest),1000);
  notify({player:job.playerId,ok:value.ok});
  if(!value.ok)throw Error("External call failed; evidence saved, no automatic retry: "+raw.slice(0,1500));
- await checkpoint();
  return {player:job.playerId,id:job.id,ok:value.ok,generationId};
 }
 const started=Date.now();let paid=[];
@@ -49,7 +51,11 @@ while(Date.now()-started<180000){
  else p=JSON.parse(await shell("LOBO_EP2_VERIFY_REMOTE=1 python3 lobisomem/runtime_io_ep2.py pending 16",3000));
  if(p.jobs.length){
   const jobs=[];for(const id of p.jobs)jobs.push(JSON.parse(await readFile("lobisomem/.spool_ep2/req/"+id+".json")));
-  const results=await Promise.allSettled(jobs.map(request));
+  const prepared=await Promise.allSettled(jobs.map(prepare));
+  for(const r of prepared)if(r.status==="rejected")throw r.reason;
+  await checkpoint();
+  const results=await Promise.allSettled(prepared.map(r=>request(r.value)));
+  await checkpoint();
   for(const r of results){if(r.status==="rejected")throw r.reason;paid.push(r.value);}
  }else{
   const pending=JSON.parse(await shell("python3 lobisomem/runtime_io_ep2.py work",3000));

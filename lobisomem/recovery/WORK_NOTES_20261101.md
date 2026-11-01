@@ -1,3 +1,5 @@
+CURRENT: Match 7 reached Night 2 after Day 1 with no lynch and no shot. Seed 20316464. Engine PID recorded in engine_runtime.json; inspect before restart. Match 6 complete, all16 real reflections. Match5 unchanged. Video NOT rendered. Latest dispatcher batches pre/post checkpoints, saves replies before pricing, and uses non-reasoning judge calls. Synthetic in-memory transport test passed: two parallel requests dispatched only after preflight checkpoint, both installed before final checkpoint, zero real model calls.
+
 LATEST: Match 6 COMPLETE, wolves won Night 8; all 16 real reflections, memory verified, 398 received replies. Match 5 unchanged. Match 7 will use pinned seed 20316464. Current committed budget after verified cost reconciliation: USD 0.7993080154, including all historical uncertain reserves. Final video still NOT rendered. See fechamento_partida6_20261101.json.
 
 # Active production notes
