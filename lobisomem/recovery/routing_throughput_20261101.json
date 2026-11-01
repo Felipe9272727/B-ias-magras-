@@ -1,0 +1,118 @@
+{
+  "source": "OpenRouter list_model_endpoints",
+  "appliesOnlyToNewRequests": true,
+  "modelRosterUnchanged": true,
+  "promptsAndMemoriesUnchanged": true,
+  "priceBoundsEnforcedByEligibleProviderSet": true,
+  "evidence": [
+    {
+      "model": "qwen/qwen3.8-27b",
+      "priceCapsPerMillion": {
+        "input": 0.04,
+        "output": 2.3
+      },
+      "routing": {
+        "only": [
+          "primeintellect",
+          "darkbloom",
+          "chutes",
+          "near-ai",
+          "ionstream",
+          "reka",
+          "modal"
+        ],
+        "sort": "throughput"
+      },
+      "endpoints": [
+        {
+          "provider": "PrimeIntellect",
+          "tag": "primeintellect/fp8",
+          "input": 0.006,
+          "output": 0.349,
+          "medianTokensPerSecond": 21,
+          "medianLatencyMs": 781
+        },
+        {
+          "provider": "Darkbloom",
+          "tag": "darkbloom/fp4",
+          "input": 0.035,
+          "output": 1.5,
+          "medianTokensPerSecond": 65,
+          "medianLatencyMs": 680.5
+        },
+        {
+          "provider": "Chutes",
+          "tag": "chutes/fp8",
+          "input": 0.039,
+          "output": 1.25,
+          "medianTokensPerSecond": 25,
+          "medianLatencyMs": 2631
+        },
+        {
+          "provider": "Near AI",
+          "tag": "near-ai/fp8",
+          "input": 0.04,
+          "output": 1.35,
+          "medianTokensPerSecond": 49,
+          "medianLatencyMs": 1976
+        },
+        {
+          "provider": "Ionstream",
+          "tag": "ionstream/fp8",
+          "input": 0.04,
+          "output": 1.95,
+          "medianTokensPerSecond": 23,
+          "medianLatencyMs": 2223
+        },
+        {
+          "provider": "Reka",
+          "tag": "reka/fp8",
+          "input": 0.04,
+          "output": 2.2,
+          "medianTokensPerSecond": 52,
+          "medianLatencyMs": 478
+        },
+        {
+          "provider": "Modal",
+          "tag": "modal",
+          "input": 0.04,
+          "output": 2.3,
+          "medianTokensPerSecond": 56,
+          "medianLatencyMs": 2998.5
+        }
+      ]
+    },
+    {
+      "model": "inclusionai/ling-3.1-flash",
+      "priceCapsPerMillion": {
+        "input": 0.075,
+        "output": 0.225
+      },
+      "routing": {
+        "only": [
+          "deepinfra",
+          "novita"
+        ],
+        "sort": "throughput"
+      },
+      "endpoints": [
+        {
+          "provider": "DeepInfra",
+          "tag": "deepinfra/fp4",
+          "input": 0.075,
+          "output": 0.225,
+          "medianTokensPerSecond": 25,
+          "medianLatencyMs": 1207.5
+        },
+        {
+          "provider": "Novita",
+          "tag": "novita",
+          "input": 0.075,
+          "output": 0.225,
+          "medianTokensPerSecond": 92,
+          "medianLatencyMs": 1665.5
+        }
+      ]
+    }
+  ]
+}

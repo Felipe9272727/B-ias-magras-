@@ -18,7 +18,9 @@ let checkpointQueue=Promise.resolve();
 const checkpoint=()=>{checkpointQueue=checkpointQueue.then(()=>shell("python3 lobisomem/checkpoint_ep2.py --push",1500));return checkpointQueue;};
 async function request(job){
  if(job.model.startsWith("openai/"))throw Error("OpenAI routing blocked");
+ const boundedRouting={"qwen/qwen3.8-27b":{"only":["primeintellect","darkbloom","chutes","near-ai","ionstream","reka","modal"],"sort":"throughput"},"inclusionai/ling-3.1-flash":{"only":["deepinfra","novita"],"sort":"throughput"}};
  const parameters={model:job.model,system:job.system,message:job.message,max_tokens:job.max_tokens,...(job.reasoning_effort?{reasoning_effort:job.reasoning_effort}:{})};
+ if(boundedRouting[job.model])parameters.provider=boundedRouting[job.model];
  if((job.model.startsWith("qwen/")||job.model.startsWith("deepseek/")||job.model.startsWith("xiaomi/"))&&(job.attempt>0||job.message.startsWith("A partida acabou.")))parameters.reasoning_effort="none";
  if(job.model.startsWith("qwen/")&&job.attempt>=4)parameters.reasoning_effort="high";
  await writeFile("lobisomem/.spool_ep2/dispatch/"+job.id+".json",JSON.stringify({id:job.id,parameters,startedAt:new Date().toISOString()}));
@@ -29,7 +31,7 @@ async function request(job){
  const raw=(response.content??[]).filter(c=>c.type==="text").map(c=>c.text).join("\n");
  const generationId=raw.match(/generation id:\s*([^,\s)]+)/)?.[1];
  const textValue=raw.split("\n\n(model:")[0];
- const value={id:job.id,ok:!response.isError&&!!generationId&&!!textValue.trim(),source:"openrouter",model:job.model,text:textValue,generationId:generationId??null,costUsd:null,actualParameters:{model:job.model,max_tokens:parameters.max_tokens,reasoning_effort:parameters.reasoning_effort},...(!generationId?{error:raw}:{})};
+ const value={id:job.id,ok:!response.isError&&!!generationId&&!!textValue.trim(),source:"openrouter",model:job.model,text:textValue,generationId:generationId??null,costUsd:null,actualParameters:{model:job.model,max_tokens:parameters.max_tokens,reasoning_effort:parameters.reasoning_effort,provider:parameters.provider},...(!generationId?{error:raw}:{})};
  if(generationId){
   try{
    const priced=await tools.mcp__codex_apps__openrouter_get_generation({request:{id:generationId}});
