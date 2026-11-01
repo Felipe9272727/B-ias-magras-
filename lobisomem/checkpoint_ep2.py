@@ -9,6 +9,7 @@ import base64
 import gzip
 import hashlib
 import json
+import lzma
 from pathlib import Path
 import subprocess
 
@@ -18,8 +19,10 @@ PREFIXES = ['lobisomem/logs_ep2', 'lobisomem/.spool_ep2']
 
 
 def unpack(value):
-    if value.get('encoding') == 'gzip+base64':
-        data = gzip.decompress(base64.b64decode(value['data']))
+    encoding = value.get('encoding')
+    if encoding in ('gzip+base64', 'xz+base64'):
+        decoder = gzip.decompress if encoding == 'gzip+base64' else lzma.decompress
+        data = decoder(base64.b64decode(value['data']))
         if hashlib.sha256(data).hexdigest() != value['sha256']:
             raise RuntimeError('Hash inválido do snapshot comprimido')
         return json.loads(data)
@@ -88,8 +91,10 @@ def main():
         print(json.dumps({'checkpointFiles': 0, 'pushed': False}))
         return
     raw = json.dumps({'version': 1, 'files': files}, ensure_ascii=False).encode()
-    packed = {'version':2, 'encoding':'gzip+base64', 'sha256':hashlib.sha256(raw).hexdigest(),
-              'fileCount':len(files), 'data':base64.b64encode(gzip.compress(raw,mtime=0)).decode()}
+    # A larger dictionary shares repeated legitimate game context across files.
+    # Preserve legacy gzip decoding and every original per-file checksum.
+    packed = {'version':3, 'encoding':'xz+base64', 'sha256':hashlib.sha256(raw).hexdigest(),
+              'fileCount':len(files), 'data':base64.b64encode(lzma.compress(raw,preset=3)).decode()}
     payload = json.dumps(packed, ensure_ascii=False) + '\n'
     if not DEST.exists() or DEST.read_text() != payload:
         DEST.parent.mkdir(parents=True, exist_ok=True)
