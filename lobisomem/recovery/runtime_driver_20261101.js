@@ -19,7 +19,7 @@ const checkpoint=()=>{checkpointQueue=checkpointQueue.then(()=>shell("python3 lo
 async function request(job){
  if(job.model.startsWith("openai/"))throw Error("OpenAI routing blocked");
  const parameters={model:job.model,system:job.system,message:job.message,max_tokens:job.max_tokens,...(job.reasoning_effort?{reasoning_effort:job.reasoning_effort}:{})};
- if((job.model.startsWith("qwen/")||job.model.startsWith("deepseek/"))&&(job.attempt>0||job.message.startsWith("A partida acabou.")))parameters.reasoning_effort="none";
+ if((job.model.startsWith("qwen/")||job.model.startsWith("deepseek/")||job.model.startsWith("xiaomi/"))&&(job.attempt>0||job.message.startsWith("A partida acabou.")))parameters.reasoning_effort="none";
  if(job.model.startsWith("qwen/")&&job.attempt>=4)parameters.reasoning_effort="high";
  await writeFile("lobisomem/.spool_ep2/dispatch/"+job.id+".json",JSON.stringify({id:job.id,parameters,startedAt:new Date().toISOString()}));
  await checkpoint();
