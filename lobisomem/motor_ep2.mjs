@@ -39,7 +39,10 @@ async function pedir(chamar, j, system, prompt, valida, padrao) {
     const elenco = system.match(/Jogadores: ([^\n]+?)\. Fale/)
     const permitidos = lista ? lista[1].split(', ') : []
     const proibidos = elenco && permitidos.length ? elenco[1].split(', ').filter(nome=>!permitidos.includes(nome)) : []
-    const restricao = t < 8 || !permitidos.length ? '' : `\nLISTA FECHADA PARA ESTA AÇÃO: ${JSON.stringify(permitidos)}. NOMES PROIBIDOS NOS ALVOS: ${JSON.stringify(proibidos)}. Sua resposta foi rejeitada por não respeitar essa lista. Escolha você mesmo apenas nomes da lista fechada, mesmo que sua estratégia preferisse outro jogador. Não use nenhum nome proibido no campo de alvos.`
+    // Existing N1/N2 receipts remain byte-identical. Later night requests and
+    // subsequent matches receive the same legal set explicitly from the start.
+    const listaDesdeInicio = /NOITE (?:[3-9]|10)\./.test(prompt) || system.includes('- Partida 6:')
+    const restricao = (t < 8 && !listaDesdeInicio) || !permitidos.length ? '' : `\nLISTA FECHADA PARA ESTA AÇÃO: ${JSON.stringify(permitidos)}. NOMES PROIBIDOS NOS ALVOS: ${JSON.stringify(proibidos)}.${t >= 8 ? ' Sua resposta foi rejeitada por não respeitar essa lista.' : ''} Escolha você mesmo apenas nomes da lista fechada, mesmo que sua estratégia preferisse outro jogador. Não use nenhum nome proibido no campo de alvos.`
     const r = await chamar(j, system, prompt + feedback + restricao, { maxTokens: 600, timeoutMs: 180000, attempt:t })
     const d = r.ok ? json(r.text) : null
     if (d && valida(d)) return d

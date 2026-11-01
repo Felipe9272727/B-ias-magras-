@@ -44,8 +44,14 @@ def main():
             if sha256(archived) != migration['originalJournalSha256']:
                 raise RuntimeError('Original archived journal changed')
             original = json.loads(archived.read_text())
-            if journal['decisoes'][:len(original['decisoes'])] != original['decisoes']:
-                raise RuntimeError('An existing actual decision was replaced during continuation')
+            for before, after in zip(original['decisoes'], journal['decisoes']):
+                if before.get('resposta'):
+                    if before != after:
+                        raise RuntimeError('An existing actual decision was replaced during continuation')
+                elif any(before[k] != after[k] for k in ('i', 'id', 'pedido')):
+                    raise RuntimeError('An existing pending request changed during continuation')
+            if len(journal['decisoes']) < len(original['decisoes']):
+                raise RuntimeError('Original decisions were removed during continuation')
             if journal['identidade']['semente'] != original['identidade']['semente']:
                 raise RuntimeError('Original seed changed during continuation')
         for decision in journal['decisoes']:
