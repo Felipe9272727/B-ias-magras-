@@ -11,7 +11,9 @@ def main():
     command=sys.argv[1]
     if command=='pending':
         r=subprocess.run([sys.executable,str(ROOT/'lobisomem/ponte_ep2.py'),'pending','--limit','1'],check=True,capture_output=True,text=True)
-        data=json.loads(r.stdout)
+        # Remote verification writes its own JSON before the bridge result.
+        # Read the final bridge record without losing an already reserved job.
+        data=json.loads(r.stdout.strip().splitlines()[-1])
         p=ROOT/'lobisomem/recovery/runtime_pending.json'
         tmp=p.with_suffix('.part');tmp.write_text(r.stdout);tmp.replace(p)
         print(json.dumps({**data,'jobs':[j['id'] for j in data['jobs']]}))
