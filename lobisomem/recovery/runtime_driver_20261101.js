@@ -59,7 +59,9 @@ while(Date.now()-started<180000){
   for(const r of results){if(r.status==="rejected")throw r.reason;paid.push(r.value);}
  }else{
   const pending=JSON.parse(await shell("python3 lobisomem/runtime_io_ep2.py work",3000));
-  store("workPending",pending);text({answered:paid.length,committedUsd:p.committedUsd,work:pending});exit();
+  store("workPending",pending);
+  if(pending.length){text({answered:paid.length,committedUsd:p.committedUsd,work:pending});exit();}
+  await new Promise(resolve=>setTimeout(resolve,500));
  }
 }
 text({answered:paid.length});
