@@ -6,7 +6,11 @@ async function shell(cmd,max=2000){
  while(r.session_id){r=await tools.write_stdin({session_id:r.session_id,chars:"",yield_time_ms:1000,max_output_tokens:max});out+=r.output;}
  if(r.exit_code!==0||out.startsWith("Warning:"))throw Error(out.slice(0,2000));return out;
 }
-async function readFile(path){return await shell("cat "+q(path),30000);}
+async function readFile(path){
+ const size=Number(await shell("python3 lobisomem/runtime_io_ep2.py size "+q(path),200));
+ const results=await Promise.allSettled(Array.from({length:Math.ceil(size/25000)},(_,i)=>shell("python3 lobisomem/runtime_io_ep2.py read "+q(path)+" "+(i*25000)+" 25000",20000)));
+ let value="";for(const r of results){if(r.status==="rejected")throw r.reason;value+=JSON.parse(r.value);}return value;
+}
 async function writeFile(path,value){
  for(let i=0;i<value.length;i+=25000)await shell("python3 lobisomem/runtime_io_ep2.py write "+q(path)+" "+(i?"a":"w")+" "+q(value.slice(i,i+25000)),100);
 }
