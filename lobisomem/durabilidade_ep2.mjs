@@ -23,14 +23,23 @@ export function diarioDecisoes(dir, identidade) {
     atomicJson(file,dados)
   }
   let indice=0
+  const usados=new Set()
   return {
     async chamar(ator,system,prompt,options,transport) {
       // Atribuído antes do await: votos simultâneos mantêm a ordem determinística.
-      const i=indice++
+      const ordem=indice++
       const pedido={ator,system,prompt,options}
       const id=hash(pedido)
-      let item=dados.decisoes[i]
-      if(item && item.id!==id) throw new Error(`Replay divergente na decisão ${i}; nenhuma nova chamada será feita.`)
+      let item=dados.decisoes[ordem]
+      if(!item || item.id!==id || usados.has(item.i)) {
+        // Concurrent invalid votes can schedule their retries in a different
+        // arrival order during recovery. Reuse only a complete, exact request
+        // hash; never change the original journal order or recorded response.
+        item=dados.decisoes.find(x=>x.id===id && !usados.has(x.i))
+        if(!item && dados.decisoes.some(x=>!usados.has(x.i))) throw new Error(`Replay divergente na decisão ${ordem}; nenhuma nova chamada será feita.`)
+      }
+      const i=item?.i ?? dados.decisoes.length
+      usados.add(i)
       if(item?.resposta) return item.resposta
       if(!item) {
         item={i,id,pedido,status:'pending'}
@@ -46,7 +55,7 @@ export function diarioDecisoes(dir, identidade) {
       return resposta
     },
     concluir() {
-      if(indice!==dados.decisoes.length || dados.decisoes.some(d=>!d.resposta)) throw new Error('Diário incompleto; não pode concluir a partida.')
+      if(indice!==dados.decisoes.length || usados.size!==dados.decisoes.length || dados.decisoes.some(d=>!d.resposta)) throw new Error('Diário incompleto; não pode concluir a partida.')
       dados.status='completed'
       atomicJson(file,dados)
     }

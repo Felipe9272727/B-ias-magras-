@@ -25,6 +25,32 @@ test('retoma após interrupção e não paga de novo pela resposta preservada',a
  await assert.rejects(replay.chamar('A','privado de B','voto',{},async()=>result),/Replay divergente/)
 })
 
+test('reutiliza correções de votos paralelos sem depender da ordem de chegada',async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'lobo-parallel-replay-'))
+ const identity={seed:123,synthetic:true,memory:'individual'}
+ const journal=diarioDecisoes(dir,identity)
+ let calls=0
+ await Promise.all(['A','B'].map(async actor=>{
+  await journal.chamar(actor,'privado '+actor,'voto',{attempt:0},async()=>{
+   calls++;if(actor==='A')await new Promise(resolve=>setTimeout(resolve,30))
+   return {ok:true,text:'invalid technical vote',generationId:'synthetic-'+actor+'-0'}
+  })
+  await journal.chamar(actor,'privado '+actor,'voto',{attempt:1},async()=>{
+   calls++;return {ok:true,text:'{"voto":"ninguém"}',generationId:'synthetic-'+actor+'-1'}
+  })
+ }))
+ journal.concluir()
+ const file=path.join(dir,'decisoes.json'),before=fs.readFileSync(file,'utf8')
+ assert.deepEqual(JSON.parse(before).decisoes.map(x=>[x.pedido.ator,x.pedido.options.attempt]),[['A',0],['B',0],['B',1],['A',1]])
+ const replay=diarioDecisoes(dir,identity)
+ await Promise.all(['A','B'].map(async actor=>{
+  for(const attempt of [0,1])await replay.chamar(actor,'privado '+actor,'voto',{attempt},async()=>{throw new Error('no duplicate inference allowed')})
+ }))
+ replay.concluir()
+ assert.equal(calls,4)
+ assert.equal(fs.readFileSync(file,'utf8'),before)
+})
+
 test('a partida interrompida e partidas sem predecessora não iniciam chamadas',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'lobo-guard-'))
  const blocked=JSON.parse(fs.readFileSync(new URL('./recovery/status.json',import.meta.url))).blockedMatches
