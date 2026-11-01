@@ -32,16 +32,7 @@ async function request(job){
  const generationId=raw.match(/generation id:\s*([^,\s)]+)/)?.[1];
  const textValue=raw.split("\n\n(model:")[0];
  const value={id:job.id,ok:!response.isError&&!!generationId&&!!textValue.trim(),source:"openrouter",model:job.model,text:textValue,generationId:generationId??null,costUsd:null,actualParameters:{model:job.model,max_tokens:parameters.max_tokens,reasoning_effort:parameters.reasoning_effort,provider:parameters.provider},...(!generationId?{error:raw}:{})};
- if(generationId){
-  try{
-   const priced=await tools.mcp__codex_apps__openrouter_get_generation({request:{id:generationId}});
-   const receipt=JSON.parse(priced.content.find(x=>x.type==="text").text).data;
-   if(!priced.isError&&receipt.id===generationId&&typeof receipt.total_cost==="number"&&receipt.total_cost>=0){
-    value.costUsd=receipt.total_cost;
-    await writeFile("lobisomem/.spool_ep2/cost_receipts/"+job.id+".json",JSON.stringify({ledgerId:job.id,generationId,costUsd:receipt.total_cost,provider:receipt.provider_name,nativeTokensPrompt:receipt.native_tokens_prompt,nativeTokensCompletion:receipt.native_tokens_completion,finishReason:receipt.finish_reason}));
-   }
-  }catch(error){store("lastPriceLookupError",String(error));}
- }
+ // Persist the actual reply immediately; price metadata is reconciled in batches.
  const dest="lobisomem/.spool_ep2/raw_tools/"+job.id+".part";
  await writeFile(dest,JSON.stringify({job,response,value}));
  const installed=await shell("python3 lobisomem/runtime_io_ep2.py install "+q(dest),1000);
