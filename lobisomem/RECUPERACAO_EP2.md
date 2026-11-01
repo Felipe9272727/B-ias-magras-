@@ -1,5 +1,7 @@
 # Checkpoint de recuperação — 31/10/2026
 
+> Histórico de recuperação. Para o estado atual, consultar `recovery/RETOMADA_20261031.md`, `recovery/conciliacao_20261031.json` e `recovery/status.json`. A partida 5 foi concluída, incluindo as 16 reflexões. A partida 6 tem oito decisões recebidas e uma chamada de resultado incerto; não reenviar automaticamente.
+
 O ambiente local ficou indisponível durante a noite 2 da primeira partida.
 Nenhuma das quatro partidas novas foi concluída. A última resposta ainda acessível
 está em recovery/ultima_resposta_recebida.json e NÃO é um log de partida completa.
