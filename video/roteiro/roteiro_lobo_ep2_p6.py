@@ -6,7 +6,7 @@ CHAPTERS={'ep2p6':'Partida 2 — A vila não vota no escuro'}
 p,c=6,'ep2p6'
 SCENES=[
  N(c+'00',c,comp('LOBSorteio',partida=p),
-   'Papéis novos, memória antiga. Agora a Astrônoma é Pistoleiro. O Relojoeiro virou Vidente, Lenhador é Detetive, Mineiro é Vidente Espiritual. Boticária é Carcereiro, Cozinheira é Médica, Ceramista é Padre e Carteiro é Prefeito. A Padeira virou Bobo: precisa convencer a vila a linchar ela. Os lobos são Costureira, Bardo, Viajante e Florista. Costureira é Alfa; Viajante, Lobo Vidente. A Astrônoma investigou bem na partida passada. Vamos ver quanto tempo deixam ela jogar desta vez.'),
+   'Papéis novos, memória antiga. Agora a Astrônoma é Pistoleiro. O Relojoeiro virou Vidente, Lenhador é Detetive, Mineiro é Vidente Espiritual. Boticária é Carcereiro, Cozinheira é Médica, Ceramista é Padre e Carteiro é Prefeito. Moleiro é Xerife. Ferreiro e Pescador são Aldeões. A Padeira virou Bobo: precisa convencer a vila a linchar ela. Os lobos são Costureira, Bardo, Viajante e Florista. Costureira é Alfa; Viajante, Lobo Vidente. A Astrônoma investigou bem na partida passada. Vamos ver quanto tempo deixam ela jogar desta vez.'),
  CH(c+'01',c,noite(p,1,'lobos'),[LC(p,1,0),LC(p,1,2),LP(p,1,2),
    ('N','A Astrônoma ganhou duas balas. O time dos lobos leu a ficha antes de ela conseguir usar qualquer uma. [[m:sad-pablo:right:2]]')]),
  N(c+'02',c,comp('LOBAmanhecer',partida=p,noite=1),
