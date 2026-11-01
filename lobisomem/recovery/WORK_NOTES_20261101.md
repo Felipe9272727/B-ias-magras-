@@ -21,11 +21,15 @@ reflections + memory are complete and checkpointed. Match 5 must never run again
 Read the live journal/partial log for progress; these notes are historical.
 
 Engine had to pause at Moleiro's Night 2 observation: eight actual replies chose
-an unavailable target. Two explicit identity migrations archive every previous
+an unavailable target. Three explicit identity migrations archive every previous
 reply byte for byte, preserving seed/config/memory and all prior decisions.
 Engine now permits 12 attempts: original first four unchanged, next four generic
 validation feedback, last four explicit allowed/forbidden names derived from the
-same prompt. The tenth actual attempt succeeded. All 14 engine tests passed after
+same prompt. From Night 3 onward (and all of Match 7), the closed legal set is
+provided upfront for supported night actions. This changed none of the first 139
+recorded requests (138 received plus one pending); archive and assertions prove
+that. The tenth actual N2 attempt succeeded; N3 passed on the first attempt.
+All 14 engine tests passed after
 each change. Migration evidence is in execucao6/migrations and the snapshot.
 Do not undo migrations, overwrite replies or manufacture a choice.
 
@@ -100,3 +104,12 @@ by mood with ducking, render 540p then Lanczos upscale to 1080p, review frames/a
 fix, full decode and verify export. video/scripts/verify_wolvesville_ep2.py was
 prepared (not yet used on a final file) to enforce real matches, original archives,
 opening, duration, 1080p and full audio/video decode. Final video does NOT exist.
+Haiku 5.5 vision support was verified through get_model: text+image+file -> text,
+pricing $0.1/M input, $0.5/M output below 100k tokens per request. Prepared utility
+`video/scripts/prepare_ep2_visual_review.py` extracts TWO actual 960px JPEG frames
+per ~30 sec, pairs them with timed speech/source facts, and prepares batches of
+20 multimodal requests (no model call or pretend review). Run it AFTER rendering
+the actual video, then submit its JSON through openrouter_send_batch, preserve
+batch IDs, poll get_batch, inspect real results, and correct weak sections. The
+manifest explicitly says reviewPerformed false until a real reviewer runs.
+
