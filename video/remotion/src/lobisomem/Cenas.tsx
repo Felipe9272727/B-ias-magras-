@@ -343,11 +343,11 @@ const LOBTiro: React.FC<{P: Partida; dia: number; tiro?: number; scene: Scene}> 
 };
 
 // ---------------------------------------------------------------- ÁGUA BENTA (resultado lido do log, inclusive quando o Padre erra)
-const LOBAguaBenta:React.FC<{P:Partida;dia:number;acao?:number;scene:Scene}>=({P,dia,acao=0,scene})=>{
+const LOBAguaBenta:React.FC<{P:Partida;dia:number;acao?:number;gatilho?:string;scene:Scene}>=({P,dia,acao=0,gatilho='água',scene})=>{
   const f=useCurrentFrame();
   const D=P.dias.find(d=>d.n===dia)!;
   const A=D.acoes![acao];
-  const [g]=gatilhos(scene,['água']);const at=g>=0?g:45;
+  const [g]=gatilhos(scene,[gatilho]);const at=g>=0?g:45;
   const mortos=mortosAte(P,{fase:'dia',n:dia,acoes:acao,tiros:D.tiros.filter(t=>(t.depoisDaFala??-1)<A.depoisDaFala).length});
   const resultado=`${A.morte.nome} morreu: era ${PAPEIS[A.morte.papel].nome}.`;
   return <AbsoluteFill>
@@ -674,7 +674,7 @@ export const LOBVisual: React.FC<{name: string; props: Record<string, any>; scen
     case 'LOBNoite': return <LOBNoite P={P} noite={p.noite} modo={p.modo ?? 'lobos'} chat={(p.chat ?? []) as Item[]} scene={scene} avisos={p.avisos} />;
     case 'LOBAmanhecer': return <LOBAmanhecer P={P} noite={p.noite} scene={scene} />;
     case 'LOBTiro': return <LOBTiro P={P} dia={p.dia} tiro={p.tiro} scene={scene} />;
-    case 'LOBAguaBenta': return <LOBAguaBenta P={P} dia={p.dia} acao={p.acao} scene={scene} />;
+    case 'LOBAguaBenta': return <LOBAguaBenta P={P} dia={p.dia} acao={p.acao} gatilho={p.gatilho} scene={scene} />;
     case 'LOBVotos': return <LOBVotos P={P} dia={p.dia} scene={scene} />;
     case 'LOBLinchado': return <LOBLinchado P={P} dia={p.dia} scene={scene} />;
     case 'LOBSorteio': return <LOBSorteio P={P} scene={scene} />;
