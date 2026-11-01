@@ -12,6 +12,7 @@ import sys
 import build_timeline_lobo as b
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'roteiro'))
 PUBLIC=ROOT/'remotion/public'
 VOICES=json.loads((PUBLIC/'voice_lobo_ep2/vozes.json').read_text())['voices']
 b.VOZ=PUBLIC/'voice_lobo_ep2/scenes'
