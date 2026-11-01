@@ -10,7 +10,8 @@ SPOOL=ROOT/'lobisomem/.spool_ep2'
 def main():
     command=sys.argv[1]
     if command=='pending':
-        r=subprocess.run([sys.executable,str(ROOT/'lobisomem/ponte_ep2.py'),'pending','--limit','1'],check=True,capture_output=True,text=True)
+        limit=sys.argv[2] if len(sys.argv)>2 else '1'
+        r=subprocess.run([sys.executable,str(ROOT/'lobisomem/ponte_ep2.py'),'pending','--limit',limit],check=True,capture_output=True,text=True)
         # Remote verification writes its own JSON before the bridge result.
         # Read the final bridge record without losing an already reserved job.
         data=json.loads(r.stdout.strip().splitlines()[-1])
