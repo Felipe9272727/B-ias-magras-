@@ -5,6 +5,7 @@ sys.path.insert(0,str(Path(__file__).parent))
 from roteiro_lobo_ep2_common import *
 
 ORDEM=[5]
+CHAPTERS={'ep2p5':'Partida 1 — A calculadora dos lobos'}
 p,c=5,'ep2p5'
 SCENES=[
  N(c+'00',c,comp('LOBSorteio',partida=p),
