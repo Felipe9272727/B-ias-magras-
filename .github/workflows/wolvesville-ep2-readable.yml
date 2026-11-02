@@ -15,7 +15,7 @@ concurrency:
 jobs:
   render:
     name: Render part ${{ matrix.part }} of 16
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -49,9 +49,11 @@ jobs:
           cache-dependency-path: video/remotion/package-lock.json
       - name: Ensure FFmpeg is installed
         run: |
-          if ! command -v ffmpeg; then
-            sudo apt-get update -qq
-            sudo apt-get install -y ffmpeg
+          if ! command -v ffmpeg || ! command -v ffprobe; then
+            curl --fail --location --max-time 120 https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output /tmp/ep2-ffmpeg.tar.xz
+            mkdir -p /tmp/ep2-ffmpeg
+            tar -xJf /tmp/ep2-ffmpeg.tar.xz -C /tmp/ep2-ffmpeg --strip-components=1
+            echo /tmp/ep2-ffmpeg >> "$GITHUB_PATH"
           fi
       - name: Install renderer
         working-directory: video/remotion
@@ -68,7 +70,7 @@ jobs:
   assemble:
     name: Assemble native frames, preserve original mixed audio and verify
     needs: render
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v7
@@ -84,9 +86,11 @@ jobs:
             /lobisomem/
       - name: Ensure FFmpeg is installed
         run: |
-          if ! command -v ffmpeg; then
-            sudo apt-get update -qq
-            sudo apt-get install -y ffmpeg
+          if ! command -v ffmpeg || ! command -v ffprobe; then
+            curl --fail --location --max-time 120 https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz --output /tmp/ep2-ffmpeg.tar.xz
+            mkdir -p /tmp/ep2-ffmpeg
+            tar -xJf /tmp/ep2-ffmpeg.tar.xz -C /tmp/ep2-ffmpeg --strip-components=1
+            echo /tmp/ep2-ffmpeg >> "$GITHUB_PATH"
           fi
       - uses: actions/download-artifact@v4
         with:

@@ -54,16 +54,16 @@ export const Quadro: React.FC<{j: Jogador; s: EstadoQuadro; noite: boolean; t: n
         {s.preso ? <g>{[26, 58, 90, 122, 154, 186].map((x) => <rect key={x} x={x - 5} y={0} width={10} height={200} fill="#78909c" stroke="#455a64" strokeWidth={2} />)}<rect x={0} y={36} width={200} height={10} fill="#607d8b" /></g> : null}
       </svg>
       {s.lobo ? <div style={{position: 'absolute', inset: 0, boxShadow: 'inset 0 0 0 6px #e53935', background: 'rgba(229,57,53,0.18)', borderRadius: 14}} /> : null}
-      <div style={{position: 'absolute', left: 10, top: 6, fontFamily: FONTE, fontWeight: 800, fontSize: Math.max(20, tam * 0.085), lineHeight: 1.2, color: '#fff', background: '#102537d9', borderRadius: 5, padding: '1px 4px', textShadow: '0 1px 2px #000', whiteSpace: 'nowrap'}}>
+      <div style={{position: 'absolute', left: 10, top: 6, zIndex: 3, fontFamily: FONTE, fontWeight: 800, fontSize: Math.max(20, tam * 0.085), lineHeight: 1.2, color: '#fff', background: '#102537d9', borderRadius: 5, padding: '1px 4px', textShadow: '0 1px 2px #000', whiteSpace: 'nowrap'}}>
         {j.numero} {j.nome}
       </div>
-      {s.marca !== false && m ? <div style={{position: 'absolute', left: 10, top: Math.max(36, tam * 0.145), fontFamily: FONTE, fontWeight: 800, fontSize: Math.max(20, tam * 0.065), lineHeight: 1.2, color: '#fff', background: '#102537', border: `2px solid ${m.cor}`, borderLeftWidth: 6, borderRadius: 8, padding: '1px 7px', whiteSpace: 'nowrap'}}>{m.nome}</div> : null}
+      {s.marca !== false && m ? <div style={{position: 'absolute', left: 10, top: Math.max(36, tam * 0.145), zIndex: 3, fontFamily: FONTE, fontWeight: 800, fontSize: Math.max(20, tam * 0.065), lineHeight: 1.2, color: '#fff', background: '#102537', border: `2px solid ${m.cor}`, borderLeftWidth: 6, borderRadius: 8, padding: '1px 7px', whiteSpace: 'nowrap'}}>{m.nome}</div> : null}
       {s.lobo ? <div style={{position: 'absolute', right: 8, top: 8}}><IconeUi nome="pata" tamanho={tam * 0.13} cor="#ff5252" /></div> : null}
       {s.protegido ? <div style={{position: 'absolute', right: 8, top: 8}}><IconePapel papel="medico" tamanho={tam * 0.17} /></div> : null}
       {s.morto || s.revelado ? (
-        <div style={{position: 'absolute', left: '50%', top: '52%', transform: 'translate(-50%,-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <IconePapel papel={j.papel} tamanho={tam * 0.36} />
-          <div style={{marginTop: 4, fontFamily: FONTE, fontWeight: 900, fontSize: Math.max(18, tam * 0.075), lineHeight: 1.2, color: '#fff', background: PAPEIS[j.papel].cor, borderRadius: 8, padding: '1px 6px', border: '3px solid #fff', maxWidth: tam - 12, boxSizing: 'border-box', textAlign: 'center'}}>{PAPEIS[j.papel].nome}</div>
+        <div style={{position: 'absolute', left: '50%', top: tam <= 200 ? '64%' : '58%', transform: 'translate(-50%,-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <IconePapel papel={j.papel} tamanho={tam * (tam <= 200 ? 0.30 : 0.36)} />
+          <div style={{marginTop: 4, fontFamily: FONTE, fontWeight: 900, fontSize: Math.max(18, tam * 0.075), lineHeight: 1.2, color: '#fff', textShadow: '0 1px 2px #102537', background: PAPEIS[j.papel].cor, borderRadius: 8, padding: '1px 6px', border: '3px solid #fff', maxWidth: tam - 12, boxSizing: 'border-box', textAlign: 'center'}}>{PAPEIS[j.papel].nome}</div>
         </div>
       ) : null}
       {s.morto ? <div style={{position: 'absolute', right: 8, bottom: 8}}><IconeUi nome="caveira" tamanho={tam * 0.13} /></div> : null}
