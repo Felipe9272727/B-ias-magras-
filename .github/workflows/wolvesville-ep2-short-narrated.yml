@@ -1,0 +1,55 @@
+name: Wolvesville EP2 original narrated Short
+on:
+  push:
+    branches: ["agent/wolvesville-ep2-short-20261102"]
+    paths: [".github/workflows/wolvesville-ep2-short-narrated.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            video/scripts/render_wolvesville_ep2_new_short.py
+            video/remotion/public/music/sneaky-snitch.mp3
+          sparse-checkout-cone-mode: false
+      - name: Install media tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Restore original verified source
+        uses: actions/download-artifact@v4
+        with:
+          name: wolvesville-ep2-audio-final
+          run-id: 41490103665
+          github-token: ${{ github.token }}
+          repository: Felipe9272727/B-ias-magras-
+          path: source_episode
+      - name: Download NEW ElevenLabs narration
+        env:
+          ELEVEN_AUDIO_URL: 'https://elevenlabsusercontent.com/database/workspace/bba12653e7ca42d0bb53b1809a4ca746/content_generation/Mg2IQzLUJzWF1zznfSZe/QdMqeiRFfWUoZNTXKsmQ/content.mp3?Expires=1793656800&KeyName=assets-cdn-key-1&Signature=BFy519IlFp_tqrSk2wRJfndB-Mk='
+        run: |
+          mkdir -p narration
+          curl -fLsS --retry 3 --max-time 120 "$ELEVEN_AUDIO_URL" -o narration/new_gabriel.mp3
+          ffprobe -v error -show_entries format=duration -of default=nw=1 narration/new_gabriel.mp3
+      - name: Build NEW portrait edit with nine real story scenes
+        run: |
+          set -euo pipefail
+          SOURCE="$(find source_episode -type f -name 'wolvesville_ep2_1080p.mp4' -print -quit)"
+          test -n "$SOURCE"
+          python3 video/scripts/render_wolvesville_ep2_new_short.py "$SOURCE" narration/new_gabriel.mp3 out/Wolvesville_Parte_2_Short_Roteiro_Novo.mp4 video/remotion/public/music/sneaky-snitch.mp3
+      - name: Verify and upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-short-novo-roteiro-elevenlabs
+          path: |
+            out/Wolvesville_Parte_2_Short_Roteiro_Novo.mp4
+            out/verification.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
