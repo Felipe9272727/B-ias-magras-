@@ -1,0 +1,105 @@
+name: Wolvesville EP2 parallel finish
+on:
+  push:
+    branches: ["codex/wolvesville-ep2-16p-20261031"]
+    paths: [".github/workflows/wolvesville-ep2-upscale.yml", "video/ep2-upscale-request.json"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      source: ${{ steps.parts.outputs.source }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/ep2-upscale-request.json
+      - id: parts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,time,os
+          source=json.load(open('video/ep2-upscale-request.json'))['sourceRunId']
+          for attempt in range(120):
+            d=json.loads(subprocess.check_output(['gh','api',f'repos/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{source}/artifacts?per_page=100']))
+            names={a['name'] for a in d['artifacts'] if not a['expired']}
+            if all(f'ep2-part-{i}' in names for i in range(16)):break
+            print(f'Waiting for preserved parts: {len(names)}/16',flush=True);time.sleep(10)
+          else:raise RuntimeError('Source parts did not finish')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write(f'source={source}\n')
+          PY
+  upscale:
+    needs: wait
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        part: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /video/scripts/upscale_ep2_part.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep2-part-${{ matrix.part }}
+          run-id: ${{ needs.wait.outputs.source }}
+          github-token: ${{ github.token }}
+          path: input_part
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+      - name: Upscale part, preserving PCM audio
+        run: python3 video/scripts/upscale_ep2_part.py --input input_part/part_$(printf '%02d' ${{ matrix.part }}).mkv --out upscaled
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ep2-upscaled-${{ matrix.part }}
+          path: upscaled/*
+          retention-days: 1
+          compression-level: 1
+  assemble:
+    needs: upscale
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/
+            /video/roteiro/
+            /video/remotion/public/timeline_lobo_ep2.json
+            /video/remotion/public/music/
+            /video/remotion/public/voice_lobo_ep2/abertura*
+            /lobisomem/
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ep2-upscaled-*
+          path: cloud_parts
+          merge-multiple: true
+      - name: Install FFmpeg and restore audit journals
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python3 lobisomem/checkpoint_ep2.py --restore
+      - name: Mix and verify complete 1080p episode
+        run: python3 video/scripts/merge_ep2_parts.py --parts cloud_parts --out cloud_final
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-final
+          path: |
+            cloud_final/wolvesville_ep2_1080p.mp4
+            cloud_final/verified_export_ep2.json
+            cloud_final/cloud_assembly.json
+            video/roteiro/creditos_lobo_ep2.md
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0

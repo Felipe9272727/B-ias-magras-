@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import shutil
 
 ROOT=Path(__file__).resolve().parents[2]
 def main():
@@ -21,7 +22,10 @@ def main():
     raw=args.out/'wolvesville_ep2_joined_540.mkv';mixed=args.out/'wolvesville_ep2_mix_540.mp4';final=args.out/'wolvesville_ep2_1080p.mp4'
     subprocess.run(['ffmpeg','-v','error','-y','-f','concat','-safe','0','-i',str(listing),'-c','copy',str(raw)],check=True)
     subprocess.run([sys.executable,str(ROOT/'video/scripts/mix_audio.py'),str(raw),str(mixed),'--timeline',str(timeline),'--roteiro','roteiro_lobo_ep2'],check=True)
-    subprocess.run(['ffmpeg','-v','warning','-y','-i',str(mixed),'-vf','scale=1920:1080:flags=lanczos','-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(final)],check=True)
+    if all(x.get('dimensions')==[1920,1080] for x in parts):
+        shutil.copyfile(mixed,final)
+    else:
+        subprocess.run(['ffmpeg','-v','warning','-y','-i',str(mixed),'-vf','scale=1920:1080:flags=lanczos','-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(final)],check=True)
     report=args.out/'verified_export_ep2.json'
     subprocess.run([sys.executable,str(ROOT/'video/scripts/verify_wolvesville_ep2.py'),str(final),'--report',str(report),'--decode'],check=True)
     (args.out/'cloud_assembly.json').write_text(json.dumps({'frameRangesAreContiguous':True,'totalFrames':next_frame,'timelineSha256':sha,'parts':parts,'mechanicalVerification':json.loads(report.read_text())},indent=2))
