@@ -1,5 +1,749 @@
 [
   {
+    "id": "ep2native-0120",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "O ícone de pistola da Padeira cobre parte do badge 'Claude' no card 1.",
+      "No quadro de 140s, o chat já mostra a fala completa da Florista enquanto a bolha ainda digita 's' e a voz segue até 152s."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar o ícone de pistola do badge 'Claude' ou reduzir seu tamanho no card da Padeira.",
+      "Sincronizar o texto do chat com a digitação e a voz, sem revelar a fala completa antes do tempo."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0570",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo cobertos por chapéus e avatares nos cards 1, 2, 11 e 15 (Claude, MiMo, Solar)",
+      "Badge 'MiMo' do card 11 fica parcialmente sob o avatar e o badge Vidente Espiritual",
+      "Nomes e badges próximos das bordas dos cards, com pouca folga em relação às ilustrações"
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os badges de modelo para uma linha acima ou abaixo do avatar, sem sobreposição",
+      "Garantir fundo com contraste sólido atrás dos badges MiMo e Solar para legibilidade",
+      "Reduzir o avatar ou margem superior nos cards afetados para liberar espaço ao nome e ao modelo"
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0300",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel sobrepõem os badges de modelo em cards como Ferreiro (Claude), Costureira e Pescador (Qwen), cobrindo parte do texto.",
+      "Badge 'Lobo Vidente' quebra em duas linhas e fica apertado sobre o avatar no card do Lenhador.",
+      "Na cena do linchamento, a moldura cinza e o nome 'Ling' pequeno competem visualmente com a imagem."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar o ícone de papel para baixo ou para o canto, deixando o nome do modelo visível sem sobreposição.",
+      "Aumentar a largura do badge 'Lobo Vidente' para caber em uma linha ou reduzir levemente a fonte mantendo 20px.",
+      "Aumentar o contraste do rótulo 'Ling' sobre o fundo cinza da cena de linchamento."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0210",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel (pistola e lobo) cobrem parte do badge 'Claude' em Padeira e Ferreiro.",
+      "Mira vermelha sobrepõe o badge 'Qwen' do Pescador, deixando o nome do modelo parcialmente oculto.",
+      "O chapéu da Cozinheira invade o badge 'Solar' no quadro da noite."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar o ícone de papel/lobo para fora da área do badge de modelo, ou reduzir seu tamanho.",
+      "Manter a mira acima do avatar sem cobrir o badge, ou recuar o badge quando houver mira.",
+      "Afastar o chapéu da Cozinheira do badge 'Solar' ou reposicionar o badge em avatares com acessórios altos."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0450",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel sobrepõem os badges de modelo em Padeira (Claude), Pescador (Qwen) e Moleiro (DeepSeek), cortando parte do texto",
+      "No frame de 470 s, o chat aparece com grande vazio no topo, o que quebra a leitura visual do painel"
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar ou reduzir os ícones de papel para que não cubram os badges Claude, Qwen e DeepSeek",
+      "Ancorar o chat ao topo ou preencher o espaço vazio para manter o painel equilibrado"
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0030",
+    "attention": 6,
+    "entertainment": 6,
+    "visualVariety": 5,
+    "defects": [
+      "Tela de papéis secretos fica quase estática entre 35s e 50s, com a mesma grade e chat vazio",
+      "Badges de modelo e nomes parecem legíveis, mas 'Qwen' e 'Qwen' dos cards 5 e 6 ficam encostados nos avatares"
+    ],
+    "factualConcerns": [
+      "Em 50s a narração ainda não revelou o Carcereiro, mas a imagem de destaque da Astrônoma já mostra 'Detetive', o que é coerente com a fala",
+      "Fala do narrador em 30s diz 'A Boticária virou Padre', e a imagem de 35s mostra Boticária como Padre, sem contradição"
+    ],
+    "fixes": [
+      "Adicionar transição ou destaque animado entre as duas amostras para evitar sensação de tela parada",
+      "Deslocar o badge de papel do Pescador e da Costureira para não cobrir o nome do modelo",
+      "Manter o painel de chat com algum conteúdo visível ou reduzir seu espaço vazio"
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0360",
+    "attention": 7,
+    "entertainment": 6,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel sobrepõem os badges de modelo em Padeira, Ferreiro, Costureira, Pescador e Florista, cortando 'Claude', 'Qwen' e 'Ling'.",
+      "No quadro de 380s, a grade muda de layout: some o destaque do Viajante e os cards ficam menores e sem a borda amarela.",
+      "O chat mostra a fala do Viajante completa antes do fim do áudio, que vai até 373s; a sincronia do texto está adiantada."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar os ícones de papel dos badges de modelo ou reposicionar o badge abaixo do avatar nos cards afetados.",
+      "Manter o layout da grade fixo entre os quadros de 365s e 380s, ou explicar a transição com um corte limpo.",
+      "Revelar as linhas do chat conforme a narração, para que o texto não apareça antes da voz."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0180",
+    "attention": 8,
+    "entertainment": 8,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo 'Claude' nas cartas 1 e 2 sobrepõem parte do retrato e ficam com contraste fraco sobre o fundo escuro.",
+      "Badges de papel (Pistoleiro, Lobisomem) cobrem a ilustração dos cards 1 e 2, reduzindo a leitura do personagem.",
+      "Quadro de 185s mostra a fala do Lenhador ainda em digitação na lateral; é transição normal, sem defeito real."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Aumentar contraste ou adicionar contorno/fundo sólido aos badges Claude nos cards 1 e 2.",
+      "Reposicionar o badge de papel para não cobrir o rosto do personagem nas cartas com ícone de papel.",
+      "Manter a legibilidade atual dos badges GLM, MiMo, Qwen, Solar e Ling, que cabem sem sobreposição."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0330",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel sobrepõem os selos de modelo Claude, Qwen e Solar nos cards 1, 2, 5, 6, 15 e 16, cobrindo parte do texto.",
+      "Nas duas amostras, a bolha 'Boticária morreu Padre e errou — era vila. Parem' ainda está sendo digitada no quadro de 350s; é digitação progressiva, não corte.",
+      "Os nomes dos cards de Mineiro e Ceramista ficam com contraste baixo sobre o fundo azul claro."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar os ícones de papel do selo de modelo ou reduzir o tamanho do ícone para que o selo fique inteiro.",
+      "Aumentar o contraste dos nomes sobre o céu azul claro, por exemplo com fundo escuro semitransparente.",
+      "Manter o tamanho de 20px nos modelos, pois o teste de legibilidade passou."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0150",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "O carimbo DISTORÇÃO cobre a parte inferior do card 14 Florista e parte do avatar, sobrepondo-se ao cartão.",
+      "Os dois quadros são muito parecidos em composição, com pouca variação visual entre a grade e o linchamento."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afaste o carimbo DISTORÇÃO do card 14 ou reduza-o para não cobrir avatar e nome.",
+      "Varie o enquadramento ou o destaque visual no momento do linchamento para quebrar a repetição da grade."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 9
+  },
+  {
+    "id": "ep2native-0510",
+    "attention": 8,
+    "entertainment": 8,
+    "visualVariety": 6,
+    "defects": [
+      "Os ícones de papel sobrepõem os badges de modelo em vários cards (Claude, Qwen, DeepSeek, GLM), cortando parte do texto.",
+      "O painel de votação mostra só duas linhas de voto enquanto a narração diz que todos votaram no Mineiro.",
+      "A área do chat fica vazia durante a votação, o que pode dar sensação de tela parada."
+    ],
+    "factualConcerns": [
+      "O narrador diz que o Ceramista protegeu o alvo dos lobos, mas os fatos não registram nenhuma ação de proteção dele."
+    ],
+    "fixes": [
+      "Deslocar o ícone de papel ou reduzir o badge de modelo para que o nome do modelo fique inteiro e visível.",
+      "Mostrar todas as linhas de voto no painel ou ajustar a narração para não sugerir que a lista está completa.",
+      "Trocar 'O Ceramista protegeu o alvo dos lobos' por uma afirmação sustentada pelos fatos, como a prisão da Astrônoma."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0060",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Avatares cobrem parte dos badges de modelo (Claude no Padeira, MiMo no Mineiro, Solar na Cozinheira).",
+      "Cartões dos cargos de vidente e lobo quase sem respiro entre o texto e a borda do cartão."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Desloque avatares um pouco para baixo ou reduza-os para que a faixa dos badges fique livre.",
+      "Mantenha os badges acima da cabeça do avatar em todos os cartões, inclusive os que têm chapéu."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0270",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel sobrepõem o badge de modelo em Padeira, Ferreiro e Pescador, deixando 'Claude' e 'Qwen' parcialmente cobertos.",
+      "Chapéu da Cozinheira cobre parte do badge 'Solar', prejudicando a leitura do modelo.",
+      "Narração de 281s a 289s não aparece visivelmente nos quadros de 275s e 290s, sem confirmação visual dela."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar os ícones de papel e vidente do canto do badge de modelo ou reduzi-los nas células 1, 2 e 6.",
+      "Deslocar o badge 'Solar' da Cozinheira para fora da área do chapéu, ou recortar o chapéu.",
+      "Verificar se a narração de 281s a 289s está na tela durante o intervalo, ou exibir a legenda até o fim."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0090",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Carimbo OMISSÃO cobre a parte inferior do card do Ferreiro e a borda da Padeira e da Boticária, atrapalhando a leitura da grade.",
+      "O pensamento do Ferreiro aparece duplicado: na caixa lateral e no painel do chat, com o mesmo texto.",
+      "A caixa lateral de pensamento mostra só parte do texto enquanto digita, o que pode confundir quem assiste ao quadro."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Reduza o carimbo OMISSÃO ou desloque-o para não cobrir cards vizinhos.",
+      "Mostre o pensamento do Ferreiro em um único lugar, na caixa lateral ou no chat.",
+      "Mantenha a caixa de pensamento visível até o fim da digitação para não parecer cortada."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0000",
+    "attention": 5,
+    "entertainment": 4,
+    "visualVariety": 3,
+    "defects": [
+      "Em 20s o quadro mostra apenas o fundo rosa com pílulas, sem texto nem personagens, durante a fala sobre partidas anteriores.",
+      "Nenhum badge de modelo ou nome de jogador aparece nas duas amostras, então a legibilidade desses elementos não pôde ser confirmada."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Preencher o trecho de 20s com a lista de jogadores ou funções, ou um recorte das partidas anteriores citadas na fala.",
+      "Incluir uma amostra com badges e nomes visíveis para confirmar tamanho mínimo de 20px e ausência de sobreposição."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 6
+  },
+  {
+    "id": "ep2native-0240",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badge 'Qwen' do Pescador (6) fica parcialmente coberto pelo ícone de papel.",
+      "Badge 'Solar' da Cozinheira (15) é cortado por um ícone/nuvem sobre o avatar.",
+      "Na grade da noite 3, os badges de modelo ficam pequenos e encostam nos ícones, dificultando a leitura rápida."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Reposicionar o ícone de papel do Pescador para não cobrir o badge 'Qwen'.",
+      "Deixar o badge 'Solar' da Cozinheira sempre acima do ícone ou remover o elemento sobreposto.",
+      "Aumentar um pouco o padding dos badges na grade para garantir espaço livre ao redor dos ícones."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0420",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Avatares de cargo cobrem parte dos badges de modelo (Claude, Qwen) nos cards 1, 2, 5, 6 e 7, deixando os nomes dos modelos parcialmente ocultos.",
+      "Em 440s, o painel do chat já mostra a fala completa do Ceramista, enquanto o destaque ainda digita e o áudio segue até 453s."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os avatares de cargo para baixo ou reduzir seu tamanho, para que os badges de modelo fiquem totalmente visíveis.",
+      "Revelar o texto do chat progressivamente, sincronizado com o áudio de cada fala, e não de uma vez."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0540",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo (Claude, MiMo, Solar) são cobertos pelas cabeças dos avatares em alguns cards, como 2 Ferreiro e 12 Ceramista.",
+      "O badge 'Vidente Espiritual' quebra em duas linhas e fica mais apertado que os demais.",
+      "Nos cards mortos, os ícones de caveira são pequenos e pouco contrastantes sobre o cinza."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Reduzir a escala dos avatares ou subir os badges para ficarem acima das cabeças sem cobrir o rosto.",
+      "Encurtar o rótulo para 'Vid. Espiritual' ou ampliar a largura do badge para caber em uma linha.",
+      "Aumentar a caveira e aplicar contorno escuro para melhorar o contraste nos cards cinza."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0480",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel sobrepõem os badges de modelo em Claude, Qwen e DeepSeek, cortando parte do texto.",
+      "O carimbo OMISSÃO cobre parte do card do Mineiro e encosta no card da Astrônoma.",
+      "No quadro de 485s, o topo do chat fica vazio, deixando um grande espaço branco acima das falas."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os ícones de papel para cima ou reduzir seu tamanho, para que não cubram os badges de modelo.",
+      "Reposicionar o carimbo OMISSÃO para não cobrir o avatar do Mineiro.",
+      "Ajustar o chat para ancorar o texto no topo ou reduzir a área vazia."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0390",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícones de papel sobrepõem os badges de modelo 'Claude' e 'Qwen' nos cards 1, 2 e 5, cortando parte do texto.",
+      "Badges de papel grandes cobrem os rostos dos avatares dos mortos, reduzindo a leitura visual.",
+      "Quadro de votação em 395s mostra a fila de votos já completa, mas a lista ainda está sendo preenchida no áudio; a transição fica pouco clara."
+    ],
+    "factualConcerns": [
+      "A narração diz que, entre a noite 4 e a manhã do dia 5, a vila perdeu o Médico, mas o registro mostra a Cozinheira (Médico) linchada no dia 4, antes da noite 4."
+    ],
+    "fixes": [
+      "Afaste os ícones de papel dos badges de modelo ou reduza seu tamanho para não cobrir 'Claude' e 'Qwen'.",
+      "Corrija a narração: o Médico morreu no linchamento do dia 4, e só o Xerife morreu na noite 4.",
+      "Ajuste a posição dos ícones de papel para que não cubram os rostos dos avatares."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0600",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "No quadro de 620s, a grade sob o clarão amarelo perde contraste: nomes e badges de modelo ficam desbotados.",
+      "Na grade, o card aparece como 'Astrónoma' enquanto a narração diz 'Astrônoma'; grafia inconsistente.",
+      "Quadro de 605s: pensamento ainda sendo digitado ('pri'), o que é esperado pela digitação progressiva, não é defeito."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Reforçar o contraste dos nomes e badges durante o clarão ou escurecer levemente o overlay da transição.",
+      "Padronizar a grafia do nome como 'Astrônoma' no card e na narração.",
+      "Manter o destaque do pensamento secreto com 'GPT Terra' visível como está."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0840",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Nos dois quadros o layout da grade e o destaque são quase idênticos, com pouca variação visual entre 845s e 860s.",
+      "Os badges 'Solar' e 'Ling' cobrem parte do avatar nas tiles 13 a 16, reduzindo a área limpa da imagem."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Ajustar a posição vertical dos badges 'Solar' e 'Ling' para não cobrirem o avatar."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1110",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Ícone de Vidente Espiritual cobre o badge MiMo da Mineira (11), e o ícone de Lobo Alfa cobre o badge Qwen da Costureira (5).",
+      "O carimbo OMISSÃO encobre parte do cartão do Bardo (8) e sua área de badge, reduzindo a leitura.",
+      "A bolha de pensamento 'EM DESTAQUE' ficou pequena e apertada, com texto difícil de ler."
+    ],
+    "factualConcerns": [
+      "A narração diz que a Costureira foi executada, mas no quadro de 1115 o chat mostra só a morte da Cozinheira e a Costureira aparece sem marca de morte."
+    ],
+    "fixes": [
+      "Deslocar os ícones de papel para fora do centro do badge ou reduzir seu tamanho nos cartões 5 e 11.",
+      "Posicionar o carimbo OMISSÃO sobre a borda do cartão, sem cobrir o nome e o modelo do Bardo.",
+      "Aumentar a fonte da bolha de destaque para pelo menos 20px e ampliar sua largura."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 6
+  },
+  {
+    "id": "ep2native-1080",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "O carimbo PRESO cobre o badge Qwen e o rótulo Alfa na carta 5 no quadro de 1100s.",
+      "Na carta 11, o badge MiMo fica parcialmente coberto pelo rótulo Vidente Espiritual.",
+      "Na carta 5 do quadro de 1085s, o avatar e o badge ficam parcialmente escondidos pelas barras e pelo selo."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar o carimbo PRESO para fora do badge de modelo ou reduzir seu tamanho na carta 5.",
+      "Afastar o rótulo de papel do badge MiMo na carta 11 ou aumentar o espaçamento vertical.",
+      "Manter o badge de modelo acima da grade de barras da cela para garantir contraste e leitura."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0660",
+    "attention": 7,
+    "entertainment": 6,
+    "visualVariety": 5,
+    "defects": [
+      "Balão do destaque corta a frase em 'são de tim' e não mostra o texto completo.",
+      "No quadro de 665s, o chat já mostra a fala completa do Lenhador enquanto a voz ainda está no início.",
+      "Os nomes e modelos da grade ficam legíveis, mas o cartão em destaque repete o mesmo rótulo e reduz a variedade visual."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deixar o balão de destaque com altura para a frase inteira, sem cortar o trecho final.",
+      "Sincronizar a revelação do texto no chat com o início da fala do Lenhador.",
+      "Variar o enquadramento do destaque em relação ao quadro da grade para reduzir a repetição visual."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-1170",
+    "attention": 7,
+    "entertainment": 6,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo (Qwen, MiMo, MiniMax, Solar) são parcialmente cobertos pelos ícones de papel nos cards 5, 8, 11 e 12.",
+      "Na grade do Dia 6, o nome e o modelo se sobrepõem às figuras e ao ícone, reduzindo a legibilidade.",
+      "Frame de 1190s é a grade do Dia 6 com chat vazio, sem movimento visível entre as amostras; não há evidência de tela parada."
+    ],
+    "factualConcerns": [
+      "A narração diz 'o terceiro ataque ao Padre', mas o histórico só registra o ataque da noite 6 contra o Ceramista (padre)."
+    ],
+    "fixes": [
+      "Reposicione os ícones de papel para não cobrir os badges de modelo, ou reduza o ícone nos cards com badge longo.",
+      "Ajuste a fala para 'o ataque ao Padre' ou comprove os ataques anteriores no registro antes de citar uma contagem."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-1140",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo 'Qwen' (card 5) e 'MiMo' (card 11) ficam cobertos pelos ícones de papel e pelo emblema do Lobo Alfa/Vidente.",
+      "Nomes e badges nos cards de baixo ficam apertados e o avatar do Florista invade a faixa do nome.",
+      "Na tela de 1160s, os cards persistentes e o chat não mostram sinal de transição, mas a comparação entre amostras é limitada."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os badges de modelo para cima ou reduzir o ícone de papel para liberar a área do nome nos cards 5 e 11.",
+      "Reservar uma faixa fixa para o badge de modelo acima do ícone de papel em todos os cards.",
+      "Manter o texto digitado do chat sem cortes e revisar o espaçamento dos cards da última linha."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0990",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badges 'Claude' (Padeira) e 'Solar' (Cozinheira) sobrepõem chapéus dos avatares, reduzindo a limpeza visual.",
+      "No quadro de 1010s o chat rolado corta a primeira linha do Mineiro sob o cabeçalho, sem indicação de rolagem.",
+      "Os cards do grid e o destaque têm pouca variação de composição entre as duas amostras."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Desloque os badges de modelo para a base do card ou reduza a sobreposição com o chapéu do avatar.",
+      "Adicione uma faixa de degradê ou margem no topo do chat para indicar que há texto acima.",
+      "Mantenha o destaque do orador com moldura, mas varie a posição do card em destaque para reforçar o ritmo visual."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0780",
+    "attention": 7,
+    "entertainment": 6,
+    "visualVariety": 5,
+    "defects": [
+      "Carimbo FABRICAÇÃO cobre o avatar e parte do card do Viajante e da Astrônoma, sem fazer parte do acontecimento.",
+      "Medalhão de arma da Astrônoma sobrepõe o rótulo 'Pistoleiro', prejudicando a leitura do papel.",
+      "Primeira linha do chat aparece cortada sob o cabeçalho durante a rolagem."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar o carimbo para não cobrir o avatar nem o card do Viajante.",
+      "Afastar o medalhão do rótulo 'Pistoleiro' ou reduzir sua sobreposição.",
+      "Manter margem no topo do chat para a linha rolada não ficar sob o cabeçalho."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 9
+  },
+  {
+    "id": "ep2native-0750",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Caixa de destaque em 770s: texto pequeno e com entrelinhas apertadas, difícil de ler.",
+      "Quadro 755s: fala do Carteiro já aparece completa no chat, apesar de começar a ser digitada em 754,5s."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Aumentar o tamanho e o espaçamento entre linhas do texto na caixa de destaque.",
+      "Garantir que o chat digite a fala do Carteiro progressivamente desde 754,5s."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0630",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Balão do chat em 650s tem texto pequeno e denso, quase no limite de legibilidade",
+      "Badges de modelo sobrepõem cabelo ou chapéu em alguns avatares (ex.: Solar, MiniMax)",
+      "Grade muda de escala e posição entre a tela de dia e a de discussão, parecendo quebra visual"
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Aumentar o tamanho do texto do balão de destaque para manter leitura confortável",
+      "Deslocar levemente os badges dos cards da linha superior para não cobrir cabelo e chapéus",
+      "Manter a mesma escala e posição da grade entre as telas de Dia e Discussão"
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1020",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Linha superior do chat aparece cortada sob a borda do painel durante a rolagem.",
+      "Chapéu da Cozinheira encosta no badge 'Solar', levemente sobreposto."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Ajustar a margem superior do chat para que a última linha visível não fique cortada.",
+      "Deslocar o badge 'Solar' da Cozinheira alguns pixels para evitar sobreposição com o chapéu."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0690",
+    "attention": 7,
+    "entertainment": 6,
+    "visualVariety": 5,
+    "defects": [
+      "Chapéus de Padeira, Mineiro e Cozinheira invadem a faixa do nome/modelo, reduzindo o contraste dos badges",
+      "Quadros 695 e 710 repetem quase a mesma grade, com pouca variação visual entre as duas amostras"
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Reposicionar ou recortar os chapéus que avançam sobre os badges de modelo de Padeira, Mineiro e Cozinheira",
+      "Ampliar o contraste de fundo atrás dos badges (ex.: fundo escuro semitransparente) para reforçar a leitura"
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0810",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Badges de modelo (ex.: 'Solar' na Cozinheira, 'MiMo' no Mineiro) se sobrepõem a chapéus e nuvens dos avatares.",
+      "Nome 'Relojoeiro' e badge 'Solar' no quadro de linchamento ficam legíveis, mas o cartão de papel roxo tem pouca separação visual do fundo.",
+      "Quadro de amanhecer (830s) é a grade do Dia 3 com chat vazio; nenhuma evidência de tela parada."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os badges de modelo alguns pixels para baixo ou para a esquerda para não cobrir chapéus e nuvens.",
+      "Manter o contraste atual dos nomes, que já cabem sem cortes.",
+      "Validar em render 1920x1080 que nenhum badge encosta na borda do cartão."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0930",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "No quadro de 950s, o texto completo da Costureira aparece no chat dos lobos enquanto o destaque mostra só 'água be', com a fala ainda em andamento.",
+      "O chapéu da Cozinheira e o chapéu da Padeira encostam nas etiquetas de modelo, reduzindo a limpeza visual.",
+      "Quadros de 935s e 950s são quase iguais em composição, com pouca variação entre a discussão e a noite."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Revelar o texto da Costureira de forma progressiva, acompanhando a fala, em vez de exibir a frase inteira antes do tempo.",
+      "Deslocar levemente os chapéus ou as etiquetas de modelo para evitar encostos nas bordas dos cartões.",
+      "Acrescentar um recurso visual extra na transição para a noite, como um close no cartão linchado, para quebrar a repetição."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0720",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Chapéu da Cozinheira sobrepõe parcialmente a badge 'Solar' no quadro noturno",
+      "Os quadros são de grade parecida, com pouca variação visual entre a cela e a discussão"
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar o chapéu da Cozinheira ou reduzir a sobreposição sobre a badge 'Solar'",
+      "Alternar um close ou plano diferente na cena da discussão para quebrar a repetição da grade"
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-0960",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Mira vermelha do Ceramista cobre o badge MiMo, deixando o modelo ilegível.",
+      "Balão de fala do Mineiro corta o texto no meio ('minha checage'), com sobreposição visual.",
+      "Quadro de 980s mostra a discussão diurna enquanto a cena declarada é LOBChat noturno: confusão visual."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar ou reduzir a mira do Ceramista para não cobrir o badge MiMo.",
+      "Ajustar o balão do Mineiro para exibir a fala completa ou usar rolagem sem cortar a frase.",
+      "Conferir a ordem dos quadros para que 980s corresponda à cena LOBChat declarada."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
+  },
+  {
+    "id": "ep2native-0900",
+    "attention": 8,
+    "entertainment": 8,
+    "visualVariety": 6,
+    "defects": [
+      "Chapéu do avatar da Cozinheira (card 15) encosta no badge 'Solar' e no nome, levemente sobreposto.",
+      "Bolha de pensamento em destaque ocupa bastante altura e fica apertada nas linhas de texto."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar o badge 'Solar' do chapéu do avatar 15 ou reduzir o chapéu para não tocar o nome.",
+      "Aumentar um pouco o espaçamento interno da bolha de pensamento em destaque para as linhas respirarem."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 9
+  },
+  {
+    "id": "ep2native-0870",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Na amostra de 890s, o destaque 'Em destaque' com o balão do Viajante some, embora a fala dele ainda esteja no chat.",
+      "Os avatares da Cozinheira e da Florista sobrepõem parte dos badges/nomes, como o 'Solar' e o 'Ling'.",
+      "Na amostra de 890s, a grade muda de posição e escala em relação à de 875s, parecendo outra composição."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Manter o painel de destaque visível enquanto a fala do Viajante estiver no chat, ou explicar a troca de layout.",
+      "Ajustar o chapéu/avatar da Cozinheira e da Florista para não cobrir os badges de modelo.",
+      "Fixar a posição da grade entre quadros da mesma cena para evitar saltos visuais."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1050",
+    "attention": 6,
+    "entertainment": 6,
+    "visualVariety": 6,
+    "defects": [
+      "Nomes e modelos em 20px cabem, mas o badge 'Detetive' e o rótulo 'Vidente Espiritual' ficam apertados e pequenos para leitura em telas menores.",
+      "Cartões mortos ficam em cinza com ícone de caveira pequeno; contraste do rótulo sobre a imagem escurecida está baixo.",
+      "Linha 'Verifica se alguém entre até dois alvos matou à noite' ocupa três linhas no cartão, com espaçamento apertado."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Aumentar o contraste dos badges de modelo sobre avatares cinza (fundo mais opaco).",
+      "Ampliar a caveira de morto para facilitar leitura de status.",
+      "Aumentar a altura do cartão de papel para o texto de habilidade não ficar apertado."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
     "id": "ep2native-1650",
     "attention": 7,
     "entertainment": 7,
@@ -383,5 +1127,125 @@
     ],
     "modelLabelsReadable": false,
     "textLegibility": 6
+  },
+  {
+    "id": "ep2native-1920",
+    "attention": 8,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel cobrem badges de modelo: 'Claude' (Ferreiro), 'DeepSeek' (Moleiro), 'MiniMax' (Bardo) e 'MiMo' (Mineiro).",
+      "Badges de modelo ficam ilegíveis onde o ícone circular sobrepõe o texto, prejudicando a identificação.",
+      "Cenas de votação e linchamento repetem layout e cores, com pouca variação visual entre os quadros."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os ícones de papel para cima ou para fora do centro nos cards afetados, liberando a área do badge de modelo.",
+      "Manter o badge de modelo numa faixa fixa acima do ícone, com contraste de fundo, em todos os cards.",
+      "Variar o enquadramento do linchamento, por exemplo com zoom no card ou close no ícone do bobo."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 6
+  },
+  {
+    "id": "ep2native-1800",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel sobrepõem os nomes de modelo DeepSeek (Moleiro) e MiniMax (Bardo), escondendo parte do texto.",
+      "Dois quadros do pensamento da Florista aparecem juntos (balão roxo e caixa tracejada), repetindo a mesma frase na tela.",
+      "Na lista de jogadores, o rótulo 'Ling' do Carteiro fica muito próximo do ícone de Detetive, pesando a leitura."
+    ],
+    "factualConcerns": [
+      "A narração diz que o Mineiro defendeu o parceiro, mas a mensagem visível dele trata da checagem do Pescador e não defende o Ceramista."
+    ],
+    "fixes": [
+      "Deslocar o ícone de papel ou reduzir seu tamanho para não cobrir 'DeepSeek' e 'MiniMax'.",
+      "Manter apenas um destaque do pensamento da Florista, o balão ou a caixa, para evitar repetição.",
+      "Ajustar a narração para não atribuir ao Mineiro uma defesa que não aparece no chat exibido."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1890",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel sobrepõem rótulos de nome/modelo (DeepSeek do Moleiro, MiMo do Mineiro, 'Claude' do Ferreiro).",
+      "Na amostra de 1910s, o destaque 'Em destaque' e o balão 'Relojoeiro pensa' somem, sem transição clara.",
+      "Grade e chat aparecem em layout diferente entre as amostras, o que dificulta a leitura da cena."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Afastar os ícones de papel dos rótulos de nome e modelo, ou reduzi-los para não cobrir o texto.",
+      "Manter o painel de destaque e o balão do pensamento até o fim da cena do chat, ou animar sua saída.",
+      "Padronizar a posição da grade e do chat entre os quadros da mesma cena."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1860",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 6,
+    "defects": [
+      "Avatares cobrem parte dos rótulos de modelo (ex.: 'MiMo' do Mineiro e 'DeepSeek' do Moleiro) e 'Claude' do Ferreiro.",
+      "Nomes e modelos ficam encurtados ou sobrepostos nos cards de 1 a 12.",
+      "Texto de chat e destaque legíveis, mas o cartão 'Em destaque' tem pouco contraste no nome do modelo."
+    ],
+    "factualConcerns": [
+      "'Restam dois lobos entre nós' contradiz os fatos: Ferreiro e Mineiro estão mortos, Ceramista morreu no dia 3 pela água benta, restando só a Astrônoma."
+    ],
+    "fixes": [
+      "Reposicionar o avatar ou reduzir seu tamanho para não cobrir os rótulos de modelo e nomes.",
+      "Corrigir a fala da Costureira para 'resta um lobo entre nós' ou equivalente que bata com os mortos registrados.",
+      "Aumentar o contraste do rótulo de modelo sobre fundos cinza dos cards mortos."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 6
+  },
+  {
+    "id": "ep2native-1950",
+    "attention": 8,
+    "entertainment": 8,
+    "visualVariety": 7,
+    "defects": [
+      "Badge 'Solar' e nome 'Relojoeiro' legíveis, mas o texto 'Solar' fica apertado dentro da borda laranja.",
+      "Nome 'Bobo' e badge ocupam pouco espaço; o ícone de caveira no canto é pequeno e pouco contrastante.",
+      "Placar: nomes 'GPT Terra' e 'MiniMax' quase encostam na área das barras, reduzindo folga visual."
+    ],
+    "factualConcerns": [
+      "Narração diz que a vila 'linchou os três investigadores' na segunda vitória, mas o histórico registra apenas Bardo baleado por Padeira e Ferreiro linchado; não há três investigadores linchados."
+    ],
+    "fixes": [
+      "Ajustar a frase da segunda vitória para refletir o histórico: Bardo baleado e Viajante e Florista eliminados, ou revisar o dado.",
+      "Aumentar um pouco o padding do badge 'Solar' para folga com a borda.",
+      "Dar mais espaço horizontal entre rótulos de modelo e barras no placar."
+    ],
+    "modelLabelsReadable": true,
+    "textLegibility": 8
+  },
+  {
+    "id": "ep2native-1830",
+    "attention": 7,
+    "entertainment": 7,
+    "visualVariety": 5,
+    "defects": [
+      "Ícones de papel cobrem nomes/modelos: 'DeepSeek' (7), 'MiniMax' (8), 'Claude' (2) e 'Ling' (13/14) ficam parcialmente escondidos.",
+      "Legenda 'MiMo V2.6 Flash' e 'Claude Haiku 5.5' é pequena e fica fora do card, com baixa leitura.",
+      "Balão de Padeira na frame de 1850 aparece digitando ('Vou atir'); sem problema, mas o recorte visual é transitório."
+    ],
+    "factualConcerns": [],
+    "fixes": [
+      "Deslocar os ícones de papel para fora da área do nome/modelo ou reduzir seu tamanho nos cards 2, 7, 8, 13 e 14.",
+      "Aumentar a legenda de modelo abaixo do card em destaque para pelo menos 20px.",
+      "Manter a digitação do balão até o fim antes de cortar para a próxima cena."
+    ],
+    "modelLabelsReadable": false,
+    "textLegibility": 7
   }
 ]
