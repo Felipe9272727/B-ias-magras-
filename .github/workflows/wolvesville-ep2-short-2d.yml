@@ -2,7 +2,7 @@ name: Wolvesville EP2 native 2D Short render
 on:
   push:
     branches: ["agent/wolvesville-ep2-short-20261102"]
-    paths: [".github/workflows/wolvesville-ep2-short-2d.yml", "video/remotion/src/lobisomem/ShortEp2Native.tsx"]
+    paths: [".github/workflows/wolvesville-ep2-short-2d.yml", "video/remotion/src/lobisomem/ShortEp2Native.tsx", "video/remotion/src/lobisomem/ep2_words.json"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,6 +19,7 @@ jobs:
             video/remotion/package-lock.json
             video/remotion/public/fonts/
             video/remotion/public/music/sneaky-snitch.mp3
+            video/remotion/public/sfx/pop.mp3
             video/remotion/remotion.config.ts
             video/remotion/tsconfig.json
           sparse-checkout-cone-mode: false
