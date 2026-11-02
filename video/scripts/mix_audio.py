@@ -49,6 +49,8 @@ def main():
     ap.add_argument('--extra', default='', help='WAV com efeitos extras somados à voz (ex.: data/sfx_jogo2.wav)')
     args = ap.parse_args()
     global CUES
+    duck_release_ms=450
+    final_fade_seconds=.7
     if args.roteiro:
         import importlib.util
         spec = importlib.util.spec_from_file_location(args.roteiro, ROOT / 'roteiro' / f'{args.roteiro}.py')
@@ -58,6 +60,8 @@ def main():
         global SEM_SOBREPOR, SEM_TRILHA
         SEM_SOBREPOR = True  # roteiros novos: troca de faixa sem misturar
         SEM_TRILHA = getattr(mod, 'SEM_TRILHA', [])
+        duck_release_ms=int(getattr(mod,'DUCK_RELEASE_MS',450))
+        final_fade_seconds=float(getattr(mod,'FINAL_FADE_SECONDS',.7))
 
     tl = json.loads(Path(args.timeline).read_text())
     fps = tl['fps']
@@ -83,7 +87,7 @@ def main():
         # crossfade de 1 s entre faixas; nos cortes secos, nada de sobreposição
         if SEM_SOBREPOR:  # uma faixa termina (fade curto) exatamente onde a próxima começa
             cues.append(dict(id=mid, offset=offset, gain=gain, start=start + (0.9 if hard else 0), end=end,
-                             fade_out=0.08 if next_hard else 0.7))
+                             fade_out=0.08 if next_hard else final_fade_seconds if nxt is None else 0.7))
         else:
             cues.append(dict(id=mid, offset=offset, gain=gain,
                              start=start + 0.9 if hard else max(0, start - 0.5),
@@ -133,7 +137,7 @@ def main():
     else:
         filters.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voice][key]')
     # música abaixa ~10 dB enquanto há voz/efeitos
-    filters.append('[music][key]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=450:makeup=1[ducked]')
+    filters.append(f'[music][key]sidechaincompress=threshold=0.015:ratio=9:attack=25:release={duck_release_ms}:makeup=1[ducked]')
     filters.append('[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false,apad[out]')  # limitador: pico real < -1 dBFS após o AAC; apad: o -shortest não corta o vídeo
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', ';'.join(filters),
            '-map', '0:v', '-c:v', 'copy', '-map', '[out]', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',

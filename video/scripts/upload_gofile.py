@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 import urllib.request
 
-p=argparse.ArgumentParser();p.add_argument('video',type=Path);p.add_argument('--verification',type=Path,required=True);p.add_argument('--receipt',type=Path,required=True);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('video',type=Path);p.add_argument('--verification',type=Path,required=True);p.add_argument('--receipt',type=Path,required=True);p.add_argument('--name',default='Wolvesville_Parte_2_Nativo_1080p.mp4');args=p.parse_args()
 if args.receipt.exists():
     print(args.receipt.read_text());raise SystemExit(0)
 sha=hashlib.sha256();md5=hashlib.md5()
@@ -18,7 +18,7 @@ with urllib.request.urlopen('https://api.gofile.io/servers',timeout=30) as respo
 assert servers['status']=='ok'
 server=servers['data']['servers'][0]['name'];assert server.replace('-','').isalnum()
 with tempfile.NamedTemporaryFile() as response_file:
-    run=subprocess.run(['curl','--fail-with-body','--silent','--show-error','--connect-timeout','30','--max-time','1200','--form',f'file=@{args.video};filename=Wolvesville_Parte_2_Nativo_1080p.mp4;type=video/mp4',f'https://{server}.gofile.io/uploadFile','--output',response_file.name],capture_output=True,text=True)
+    run=subprocess.run(['curl','--fail-with-body','--silent','--show-error','--connect-timeout','30','--max-time','1200','--form',f'file=@{args.video};filename={args.name};type=video/mp4',f'https://{server}.gofile.io/uploadFile','--output',response_file.name],capture_output=True,text=True)
     if run.returncode:raise RuntimeError(f'GoFile upload failed, curl exit {run.returncode}; inspect before any retry')
     d=json.loads(Path(response_file.name).read_text());assert d['status']=='ok';v=d['data']
 assert v['size']==args.video.stat().st_size and v['md5']==md5.hexdigest()

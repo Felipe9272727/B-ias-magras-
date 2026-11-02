@@ -6,6 +6,7 @@ Não consulta chaves nem gera vozes por API. Cache ausente é um erro explícito
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -15,8 +16,8 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'roteiro'))
 PUBLIC=ROOT/'remotion/public'
 VOICES=json.loads((PUBLIC/'voice_lobo_ep2/vozes.json').read_text())['voices']
-b.VOZ=PUBLIC/'voice_lobo_ep2/scenes'
-b.VOICE_DIR_NAME='voice_lobo_ep2/scenes'
+b.VOICE_DIR_NAME=os.environ.get('EP2_VOICE_DIR','voice_lobo_ep2/scenes')
+b.VOZ=PUBLIC/b.VOICE_DIR_NAME
 b.NARRADOR=VOICES['N']['voiceId']
 b.VOZES={key:value['voiceId'] for key,value in VOICES.items() if key!='N'}
 b.LOGS_INT=ROOT.parent/'lobisomem/logs_ep2'

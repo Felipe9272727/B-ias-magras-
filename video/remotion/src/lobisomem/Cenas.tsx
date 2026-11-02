@@ -7,6 +7,7 @@ import {AbsoluteFill, Audio, Easing, interpolate, Sequence, spring, staticFile, 
 import type {Scene, Timeline} from '../types';
 import {Avatar, AvatarId, Expressao} from './Avatar';
 import {IconePapel, Papel, PAPEIS} from './Papeis';
+import {EncerramentoCTA} from './Encerramento';
 import {AZUL, Barra, Chat, EstadoQuadro, Faixa, FONTE, Fundo, Grade, Jogador, MARCA, Msg, posQuadro, Quadro, ROSA, TAM, tamQuadro} from './Tela';
 
 type Mentira = {tipo: string; motivo: string};
@@ -686,6 +687,7 @@ export const LOBVisual: React.FC<{name: string; props: Record<string, any>; scen
     case 'LOBFim': return <LOBFim P={P} />;
     case 'LOBTitulo': return <LOBTitulo titulo={p.titulo} sub={p.sub} selos={p.selos} scene={scene} />;
     case 'LOBPlacar': return <LOBPlacar partidas={ps} ordem={p.ordem ?? [1, 2, 3, 4]} />;
+    case 'LOBEp2Encerramento': return <><Sequence from={0} durationInFrames={p.ctaAt ?? 380}><LOBPlacar partidas={ps} ordem={p.ordem ?? [5,6,7]}/></Sequence><Sequence from={p.ctaAt ?? 380}><EncerramentoCTA commentAt={p.commentAt ?? 200} goodbyeAt={p.goodbyeAt ?? 350}/></Sequence></>;
     default: return <AbsoluteFill style={{background: '#300'}} />;
   }
 };

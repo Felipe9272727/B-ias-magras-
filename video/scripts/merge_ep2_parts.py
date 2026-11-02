@@ -16,8 +16,8 @@ def audio_sha(path):
     return digest.hexdigest()
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--parts',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--audio-from',type=Path);p.add_argument('--audio-sha256');args=p.parse_args();args.out.mkdir(parents=True,exist_ok=True)
-    timeline=ROOT/'video/remotion/public/timeline_lobo_ep2.json';data=json.loads(timeline.read_text());sha=hashlib.sha256(timeline.read_bytes()).hexdigest()
+    p=argparse.ArgumentParser();p.add_argument('--parts',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--audio-from',type=Path);p.add_argument('--audio-sha256');p.add_argument('--timeline',default='video/remotion/public/timeline_lobo_ep2.json');p.add_argument('--roteiro',default='roteiro_lobo_ep2');args=p.parse_args();args.out.mkdir(parents=True,exist_ok=True)
+    timeline=ROOT/args.timeline;data=json.loads(timeline.read_text());sha=hashlib.sha256(timeline.read_bytes()).hexdigest()
     parts=sorted((json.loads(f.read_text()) for f in args.parts.glob('part_*.json')),key=lambda x:x['index']);assert len(parts)==16
     next_frame=0
     for i,x in enumerate(parts):
@@ -36,12 +36,12 @@ def main():
         preserved_audio=audio_sha(final)
         assert preserved_audio==args.audio_sha256
     else:
-        subprocess.run([sys.executable,str(ROOT/'video/scripts/mix_audio.py'),str(raw),str(mixed),'--timeline',str(timeline),'--roteiro','roteiro_lobo_ep2'],check=True)
+        subprocess.run([sys.executable,str(ROOT/'video/scripts/mix_audio.py'),str(raw),str(mixed),'--timeline',str(timeline),'--roteiro',args.roteiro],check=True)
         if all(x.get('dimensions')==[1920,1080] for x in parts):
             shutil.copyfile(mixed,final)
         else:
             subprocess.run(['ffmpeg','-v','warning','-y','-i',str(mixed),'-vf','scale=1920:1080:flags=lanczos','-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',str(final)],check=True)
     report=args.out/'verified_export_ep2.json'
-    subprocess.run([sys.executable,str(ROOT/'video/scripts/verify_wolvesville_ep2.py'),str(final),'--report',str(report),'--decode'],check=True)
+    subprocess.run([sys.executable,str(ROOT/'video/scripts/verify_wolvesville_ep2.py'),str(final),'--timeline',str(timeline),'--report',str(report),'--decode'],check=True)
     (args.out/'cloud_assembly.json').write_text(json.dumps({'frameRangesAreContiguous':True,'totalFrames':next_frame,'timelineSha256':sha,'parts':parts,'preservedOriginalMixedAudioSha256':preserved_audio,'mechanicalVerification':json.loads(report.read_text())},indent=2))
 if __name__=='__main__':main()
