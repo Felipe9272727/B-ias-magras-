@@ -1,0 +1,150 @@
+name: Wolvesville EP2 audio final recovery
+on:
+  push:
+    branches: ["codex/wolvesville-ep2-16p-20261031"]
+    paths:
+      - ".github/workflows/wolvesville-ep2-audio-recovery.yml"
+      - "video/ep2-audio-recovery-request.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: wolvesville-ep2-audio-recovery-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  render:
+    name: Render part ${{ matrix.part }} of 16
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        part: [1]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/remotion/src/
+            /video/remotion/package.json
+            /video/remotion/package-lock.json
+            /video/remotion/tsconfig.json
+            /video/remotion/remotion.config.ts
+            /video/remotion/public/fonts/
+            /video/remotion/public/gifs/
+            /video/remotion/public/sfx*/
+            /video/remotion/public/voice_lobo_ep2/*.json
+            /video/remotion/public/voice_lobo_ep2/abertura.mp3
+            /video/remotion/public/voice_lobo_ep2/audio_revision/scenes/
+            /video/remotion/public/timeline_lobo_ep2_audiofix.json
+            /video/scripts/render_ep2_part.py
+            /lobisomem/elenco_ep2.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - name: Install renderer
+        working-directory: video/remotion
+        run: npm ci --no-audit --no-fund
+      - name: Use renderer media probes
+        run: echo "$GITHUB_WORKSPACE/video/remotion/node_modules/@remotion/compositor-linux-x64-gnu" >> "$GITHUB_PATH"
+      - name: Render exact range with PCM audio
+        run: python3 video/scripts/render_ep2_part.py --index ${{ matrix.part }} --count 16 --out cloud_parts --scale 1 --crf 16 --timeline video/remotion/public/timeline_lobo_ep2_audiofix.json --entry src/lobisomem/Episodio2AudioFinal.tsx --composition LobisomemEp2AudioFinal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ep2-part-${{ matrix.part }}
+          path: cloud_parts/*
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 1
+  assemble:
+    name: Assemble native frames, mix repaired voices and verify
+    needs: render
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/
+            /video/remotion/package.json
+            /video/remotion/package-lock.json
+            /video/roteiro/
+            /video/remotion/public/timeline_lobo_ep2_audiofix.json
+            /video/remotion/public/music/
+            /video/remotion/public/voice_lobo_ep2/abertura*
+            /video/remotion/public/voice_lobo_ep2/audio_revision/outro_request.json
+            /lobisomem/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install isolated media tools
+        run: |
+          npm ci --prefix video/remotion --no-audit --no-fund
+          python3 -m pip install --quiet --target /tmp/ep2-media-python imageio-ffmpeg==0.6.0
+          mkdir -p /tmp/ep2-media-bin
+          EP2_FFMPEG=$(PYTHONPATH=/tmp/ep2-media-python python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')
+          ln -s "$EP2_FFMPEG" /tmp/ep2-media-bin/ffmpeg
+          ln -s "$GITHUB_WORKSPACE/video/remotion/node_modules/@remotion/compositor-linux-x64-gnu/ffprobe" /tmp/ep2-media-bin/ffprobe
+          echo /tmp/ep2-media-bin >> "$GITHUB_PATH"
+      - name: Wait for preserved native parts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYWAIT'
+          import json,subprocess,time,os
+          for attempt in range(90):
+            data=json.loads(subprocess.check_output(['gh','api',f'repos/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/41485704072/artifacts?per_page=100']))
+            names={a['name']for a in data['artifacts']if not a['expired']}
+            if all(f'ep2-part-{i}'in names for i in range(16)if i!=1):break
+            time.sleep(10)
+          else:raise RuntimeError('Preserved source parts did not finish')
+          PYWAIT
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ep2-part-*
+          run-id: 41485704072
+          github-token: ${{ github.token }}
+          path: cloud_parts
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep2-part-1
+          path: cloud_parts
+      - name: Restore preserved actual gameplay journals
+        run: python3 lobisomem/checkpoint_ep2.py --restore
+      - name: Join native 1080p parts and mix revised speech with smooth music release
+        run: python3 video/scripts/merge_ep2_parts.py --parts cloud_parts --out cloud_final --timeline video/remotion/public/timeline_lobo_ep2_audiofix.json --roteiro roteiro_lobo_ep2_audiofix
+      - name: Extract actual encoded review frames
+        run: python3 video/scripts/extract_ep2_review_frames.py cloud_final/wolvesville_ep2_1080p.mp4 --out native_review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-audio-final-review
+          path: native_review/*
+          retention-days: 7
+          compression-level: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-audio-final
+          path: |
+            cloud_final/wolvesville_ep2_1080p.mp4
+            cloud_final/verified_export_ep2.json
+            cloud_final/cloud_assembly.json
+            video/roteiro/creditos_lobo_ep2.md
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+      - name: Upload verified readable video to GoFile
+        run: python3 video/scripts/upload_gofile.py cloud_final/wolvesville_ep2_1080p.mp4 --verification cloud_final/verified_export_ep2.json --receipt cloud_final/gofile_receipt.json --name Wolvesville_Parte_2_Audio_Final_1080p.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-audio-final-gofile
+          path: cloud_final/gofile_receipt.json
+          retention-days: 7
+          compression-level: 0
