@@ -61,15 +61,20 @@ def main():
             scenes.append({'id': scene['id'], 'visual': visual.get('name'), 'start': a, 'end': b})
             words = [w['w'] for w in scene.get('words', []) if start <= (scene['start'] + w['s']) / fps < end]
             if words:
-                speech.append({'speaker': 'Narrador', 'text': ' '.join(words)})
+                timed=[w for w in scene['words'] if start <= (scene['start']+w['s'])/fps < end]
+                speech.append({'speaker': 'Narrador', 'startSeconds': (scene['start']+timed[0]['s'])/fps, 'endSeconds': (scene['start']+timed[-1]['e'])/fps, 'text': ' '.join(words)})
             for item in props.get('chat', []):
                 if a + item['at'] / fps < end and a + item.get('ate', item['at'] + 1) / fps > start:
-                    speech.append({'speaker': item.get('cor'), 'thought': item.get('pensa', False), 'text': item['texto']})
+                    speech.append({'speaker': item.get('cor'), 'startSeconds': a+item['at']/fps, 'endSeconds': a+item.get('ate',item['at']+1)/fps, 'thought': item.get('pensa', False), 'text': item['texto']})
             if visual.get('name') == 'EP2AberturaRecuperada':
                 speech.append({'speaker': 'Narrador', 'text': opening_prompt})
             match = timeline['data'].get('partidas', {}).get(str(props.get('partida')))
             if match:
                 record = {'match': match['partida'], 'roles': [{'name': j['nome'], 'role': j['papel']} for j in match['jogadores']]}
+                current=props.get('dia',props.get('noite',999))
+                record['earlierDays']=[{'n':d['n'],'linchado':d['linchado'],'tiros':d.get('tiros',[]),'acoes':d.get('acoes',[])} for d in match['dias'] if d['n']<current]
+                record['earlierNights']=[{'n':n['n'],'mortes':n['mortes'],'cela':{'preso':n['cela']['preso'],'executou':n['cela']['executou']} if n.get('cela') else None} for n in match['noites'] if n['n']<=current-(1 if props.get('noite') else 0)]
+                record['visibleActionsAtSceneStart']={'tiros':props.get('tiros',0),'acoes':props.get('acoes',0)}
                 if props.get('dia'):
                     day = next(d for d in match['dias'] if d['n'] == props['dia'])
                     record['day'] = {k: v for k, v in day.items() if k not in ('falas', 'pensamentosVoto')}
@@ -83,12 +88,15 @@ def main():
         system = ('Você avalia um trecho REAL de Wolvesville do canal Felipex007. Examine as imagens e o texto falado fornecidos. '
                   'Não finja ter assistido aos quadros intermediários ou ouvido áudio: aqui há duas imagens e falas com tempo. '
                   'Falas dos jogadores incluem mentiras e erros reais: não peça para reescrevê-las. Verifique a fidelidade da narração e das imagens aos acontecimentos. '
+                  'O texto é digitado progressivamente enquanto a voz toca; frase ainda sendo digitada não é recorte geométrico. Cortinas rosas e clarões no início de cenas são transições intencionais curtas. '
+                  'Compare cada imagem com os horários exatos das falas, não com falas que só ocorrem depois dela. Consulte também o histórico anterior para mortes e prisões; o registro do dia contém ações que ainda podem acontecer após aquele quadro. '
                   'O canal usa Poppins, rosa/azul, avatares próprios, chat, pensamentos em voz normal com eco, memes pontuais, '
                   'humor ligado ao acontecimento e suspense. Não use emojis nem sugira lobby. '
                   'Avalie atenção, entretenimento e variedade visual de 0 a 10; marque texto cortado/sobreposto, confusão visual, '
                   'possível tela parada e narração que contradiz os fatos fornecidos. Sugira correções concretas só quando necessárias. '
+                  'Seja conciso: até 3 defeitos e 3 correções, cada um até 120 caracteres; factualConcerns só para contradições reais, não elogios ou falta de dados. '
                   'Retorne SOMENTE JSON: {"attention":0,"entertainment":0,"visualVariety":0,"defects":[],"factualConcerns":[],"fixes":[]}.')
-        request = {'custom_id': f'ep2qa-{start:04d}', 'body': {'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': content}], 'max_tokens': 1800, 'reasoning_effort': 'low', 'response_format': {'type': 'json_object'}}}
+        request = {'custom_id': f'ep2qa-{start:04d}', 'body': {'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': content}], 'max_tokens': 4096, 'reasoning_effort': 'low', 'response_format': {'type': 'json_object'}}}
         return request, {'id': request['custom_id'], **info, 'frameFiles': [f['file'] for f in frames]}
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
