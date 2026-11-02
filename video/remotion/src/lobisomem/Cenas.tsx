@@ -97,7 +97,8 @@ const useFocoFala = (P: Partida, chat: Item[]) => {
       cx = p.x + tamQuadro(P.jogadores.length) / 2; cy = p.y + tamQuadro(P.jogadores.length) / 2;
     }
   }
-  const z = 1 + 0.09 * k + 0.012 * Math.sin(f / 35);
+  const compacto=P.jogadores.length>8;
+  const z = 1 + (compacto?0.018:0.09) * k + (compacto?0.004:0.012) * Math.sin(f / 35);
   return {transform: `scale(${z})`, transformOrigin: `${cx}px ${cy}px`};
 };
 

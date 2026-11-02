@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: wolvesville-ep2-final-${{ github.ref }}
+  group: wolvesville-ep2-final-${{ github.sha }}
   cancel-in-progress: false
 jobs:
   render:

@@ -21,7 +21,7 @@ const Cena:React.FC<{scene:Scene;timeline:Timeline;anterior?:string}>=({scene,ti
   <AbsoluteFill style={{transform:`scale(${1+bump})`}}><LOBVisual name={name} props={scene.visual.props??{}} scene={scene} timeline={timeline}/></AbsoluteFill>
   {flash>.01&&<AbsoluteFill style={{background:'#fff',opacity:flash}}/>}
   {scene.events.map((e,i)=>{
-   if(e.type==='meme'&&timeline.memes[e.id])return <Sequence key={i} from={e.at} durationInFrames={e.dur}><MemeCard info={timeline.memes[e.id]} dur={e.dur} pos={e.pos} caption={e.caption}/></Sequence>;
+   if(e.type==='meme'&&timeline.memes[e.id])return <Sequence key={i} from={e.at} durationInFrames={e.dur}><AbsoluteFill style={e.pos==='right'?{transform:'translateX(-600px) scale(0.55)',transformOrigin:'right center'}:undefined}><MemeCard info={timeline.memes[e.id]} dur={e.dur} pos={e.pos} caption={e.caption}/></AbsoluteFill></Sequence>;
    if(e.type==='txt')return <Sequence key={i} from={e.at} durationInFrames={e.dur}><TextPop text={e.text} dur={e.dur} color={e.color}/></Sequence>;
    if(e.type==='voz')return <Sequence key={i} from={e.at}><Audio src={staticFile(e.src)}/></Sequence>;
    if(e.type==='sfx')return <Sequence key={i} from={e.at}><Audio src={staticFile(e.file?.includes('/')?e.file:`sfx/${e.file??e.id+'.wav'}`)} volume={e.vol??.3}/></Sequence>;
