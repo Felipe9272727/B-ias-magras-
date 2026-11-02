@@ -62,9 +62,9 @@ silent=OUT.parent/"assembled.mp4"
 run(["ffmpeg","-y","-loglevel","error","-f","concat","-safe","0","-i",str(lst),"-c","copy",str(silent)])
 # Original authored narration and one licensed background track with sidechain ducking.
 # Keep the original narration intelligible, restrained music at about -25 dB.
-mix=("[1:a]aresample=48000,volume=1.1[v];"
+mix=("[1:a]aresample=48000,volume=1.1,asplit=2[v][key];"
      "[2:a]aresample=48000,volume=0.055,aloop=loop=-1:size=1000000[m];"
-     "[m][v]sidechaincompress=threshold=0.01:ratio=9:attack=20:release=650[duck];"
+     "[m][key]sidechaincompress=threshold=0.01:ratio=9:attack=20:release=650[duck];"
      "[duck][v]amix=inputs=2:duration=shortest:normalize=0,"
      f"afade=t=out:st={max(0,dur-1.5):.2f}:d=1.5[a]")
 run(["ffmpeg","-y","-loglevel","error","-i",str(silent),"-i",str(VOICE),"-i",str(MUSIC),"-filter_complex",mix,
