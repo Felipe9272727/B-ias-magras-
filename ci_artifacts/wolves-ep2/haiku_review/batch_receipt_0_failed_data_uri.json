@@ -1,0 +1,22 @@
+{
+  "id": "batch-1793589322-M6CEo9YYFvDYbWMLhLwg",
+  "object": "batch",
+  "endpoint": "/v1/chat/completions",
+  "model": "anthropic/claude-haiku-5.5-20261007",
+  "completion_window": "24h",
+  "status": "failed",
+  "created_at": 1793589322,
+  "finalized_at": 1793589326,
+  "provider": "Anthropic",
+  "expires_at": 1793675722,
+  "request_counts": {
+    "total": 20,
+    "completed": 0,
+    "failed": 20
+  },
+  "usage": null,
+  "results": null,
+  "error": {
+    "message": "Batch request 'ep2qa-0000' contains unsupported 'image_url' content. Only public http(s) image URLs are supported in batch; base64/data-URI images are rejected."
+  }
+}

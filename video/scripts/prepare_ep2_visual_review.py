@@ -18,6 +18,7 @@ def main():
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument('video', type=Path, nargs='?')
     parser.add_argument('--composition-frames', type=Path, help='Actual Remotion frames from the identical final composition before encoding')
+    parser.add_argument('--image-base-url', help='Public HTTP location of the identical committed review frames; needed by the batch API')
     parser.add_argument('--timeline', type=Path, default=PUBLIC / 'timeline_lobo_ep2.json')
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
@@ -49,7 +50,7 @@ def main():
                 path.write_bytes(data);position=source['seconds']
             else:
                 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(position), '-i', str(args.video), '-frames:v', '1', '-vf', 'scale=960:-2', '-q:v', '8', str(path)], check=True)
-            frames.append({'seconds': position, 'file': path.name, 'data': base64.b64encode(path.read_bytes()).decode()})
+            frames.append({'seconds': position, 'file': path.name, 'data': base64.b64encode(path.read_bytes()).decode(), 'url': args.image_base_url.rstrip('/')+'/'+path.name if args.image_base_url else None})
         speech, scenes, facts = [], [], []
         for scene in timeline['scenes']:
             a, b = scene['start'] / fps, (scene['start'] + scene['duration']) / fps
@@ -78,7 +79,7 @@ def main():
                 facts.append(record)
         info = {'frameSource': 'exact_composition_frames_before_encoding' if rendered else 'encoded_video', 'startSeconds': start, 'endSeconds': end, 'framesAtSeconds': [f['seconds'] for f in frames], 'scenes': scenes, 'timedSpeech': speech, 'sourceFacts': facts}
         content = [{'type': 'text', 'text': json.dumps(info, ensure_ascii=False)}]
-        content.extend({'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,' + frame['data']}} for frame in frames)
+        content.extend({'type': 'image_url', 'image_url': {'url': frame['url'] or 'data:image/jpeg;base64,' + frame['data']}} for frame in frames)
         system = ('Você avalia um trecho REAL de Wolvesville do canal Felipex007. Examine as imagens e o texto falado fornecidos. '
                   'Não finja ter assistido aos quadros intermediários ou ouvido áudio: aqui há duas imagens e falas com tempo. '
                   'Falas dos jogadores incluem mentiras e erros reais: não peça para reescrevê-las. Verifique a fidelidade da narração e das imagens aos acontecimentos. '
@@ -87,7 +88,7 @@ def main():
                   'Avalie atenção, entretenimento e variedade visual de 0 a 10; marque texto cortado/sobreposto, confusão visual, '
                   'possível tela parada e narração que contradiz os fatos fornecidos. Sugira correções concretas só quando necessárias. '
                   'Retorne SOMENTE JSON: {"attention":0,"entertainment":0,"visualVariety":0,"defects":[],"factualConcerns":[],"fixes":[]}.')
-        request = {'custom_id': f'ep2qa-{start:04d}', 'body': {'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': content}], 'max_tokens': 600, 'reasoning_effort': 'low', 'response_format': {'type': 'json_object'}}}
+        request = {'custom_id': f'ep2qa-{start:04d}', 'body': {'messages': [{'role': 'system', 'content': system}, {'role': 'user', 'content': content}], 'max_tokens': 1800, 'reasoning_effort': 'low', 'response_format': {'type': 'json_object'}}}
         return request, {'id': request['custom_id'], **info, 'frameFiles': [f['file'] for f in frames]}
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
