@@ -141,7 +141,7 @@ def main():
     filters.append('[voice][ducked]amix=inputs=2:normalize=0:dropout_transition=0,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false,apad[out]')  # limitador: pico real < -1 dBFS após o AAC; apad: o -shortest não corta o vídeo
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', ';'.join(filters),
            '-map', '0:v', '-c:v', 'copy', '-map', '[out]', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
-           '-movflags', '+faststart', '-shortest', args.out]
+           '-movflags', '+faststart', '-t', f'{t1-t0:.6f}', '-shortest', args.out]
     print(f'Mixando {len(labels)} trechos de música…')
     subprocess.run(cmd, check=True)
     print('ok', args.out)
