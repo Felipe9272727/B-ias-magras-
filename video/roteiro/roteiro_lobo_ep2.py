@@ -1,4 +1,7 @@
 """Episódio completo: apenas partidas reais5/6/7, vozes originais e abertura recuperada."""
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).parent))
 from roteiro_lobo_ep2_common import *
 import roteiro_lobo_ep2_p5 as p5
 import roteiro_lobo_ep2_p6 as p6

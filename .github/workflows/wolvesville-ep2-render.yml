@@ -1,0 +1,108 @@
+name: Wolvesville EP2 parallel render
+on:
+  push:
+    branches: ["codex/wolvesville-ep2-16p-20261031"]
+    paths:
+      - ".github/workflows/wolvesville-ep2-render.yml"
+      - "video/ep2-render-request.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: wolvesville-ep2-final-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  render:
+    name: Render part ${{ matrix.part }} of 16
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        part: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/remotion/src/
+            /video/remotion/package.json
+            /video/remotion/package-lock.json
+            /video/remotion/remotion.config.ts
+            /video/remotion/public/fonts/
+            /video/remotion/public/gifs/
+            /video/remotion/public/sfx*/
+            /video/remotion/public/voice_lobo_ep2/*.json
+            /video/remotion/public/voice_lobo_ep2/abertura.mp3
+            /video/remotion/public/voice_lobo_ep2/scenes/
+            /video/remotion/public/timeline_lobo_ep2.json
+            /video/scripts/render_ep2_part.py
+            /lobisomem/elenco_ep2.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - name: Ensure FFmpeg is installed
+        run: |
+          if ! command -v ffmpeg; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Install renderer
+        working-directory: video/remotion
+        run: npm ci --no-audit --no-fund
+      - name: Render exact range with PCM audio
+        run: python3 video/scripts/render_ep2_part.py --index ${{ matrix.part }} --count 16 --out cloud_parts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ep2-part-${{ matrix.part }}
+          path: cloud_parts/*
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 1
+  assemble:
+    name: Assemble, mix, upscale and verify
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/
+            /video/roteiro/
+            /video/remotion/public/timeline_lobo_ep2.json
+            /video/remotion/public/music/
+            /video/remotion/public/voice_lobo_ep2/abertura*
+            /lobisomem/
+      - name: Ensure FFmpeg is installed
+        run: |
+          if ! command -v ffmpeg; then
+            sudo apt-get update -qq
+            sudo apt-get install -y ffmpeg
+          fi
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ep2-part-*
+          path: cloud_parts
+          merge-multiple: true
+      - name: Restore preserved actual gameplay journals
+        run: python3 lobisomem/checkpoint_ep2.py --restore
+      - name: Join lossless parts and create verified 1080p export
+        run: python3 video/scripts/merge_ep2_parts.py --parts cloud_parts --out cloud_final
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-final
+          path: |
+            cloud_final/wolvesville_ep2_1080p.mp4
+            cloud_final/verified_export_ep2.json
+            cloud_final/cloud_assembly.json
+            video/roteiro/creditos_lobo_ep2.md
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
