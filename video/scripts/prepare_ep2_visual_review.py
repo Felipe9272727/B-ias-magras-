@@ -6,6 +6,7 @@ import argparse
 import base64
 import concurrent.futures
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 
@@ -15,14 +16,24 @@ PUBLIC = ROOT / 'video/remotion/public'
 
 def main():
     parser = argparse.ArgumentParser(__doc__)
-    parser.add_argument('video', type=Path)
+    parser.add_argument('video', type=Path, nargs='?')
+    parser.add_argument('--composition-frames', type=Path, help='Actual Remotion frames from the identical final composition before encoding')
     parser.add_argument('--timeline', type=Path, default=PUBLIC / 'timeline_lobo_ep2.json')
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     timeline = json.loads(args.timeline.read_text())
     fps = timeline['fps']
-    duration = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(args.video)]))
+    rendered=None
+    if args.composition_frames:
+        rendered=json.loads((args.composition_frames/'composition_frames.json').read_text())
+        if rendered['timelineSha256']!=hashlib.sha256(args.timeline.read_bytes()).hexdigest():
+            raise RuntimeError('Review frames do not match the actual edited timeline')
+        duration=rendered['durationSeconds']
+    elif args.video:
+        duration = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(args.video)]))
+    else:
+        parser.error('Provide an actual video or actual composition frames')
     blocks = [(start, min(duration, start + 30)) for start in range(0, int(duration + .999), 30)]
     opening_prompt = json.loads((PUBLIC / 'voice_lobo_ep2/abertura.source.json').read_text())['prompt']
 
@@ -31,7 +42,13 @@ def main():
         frames = []
         for index, position in enumerate((start + (end - start) / 6, start + 2 * (end - start) / 3)):
             path = args.out / f'frame_{start:04d}_{index}.jpg'
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(position), '-i', str(args.video), '-frames:v', '1', '-vf', 'scale=960:-2', '-q:v', '8', str(path)], check=True)
+            if rendered:
+                source=next(b for b in rendered['blocks'] if b['start']==start)['frames'][index]
+                data=(args.composition_frames/source['file']).read_bytes()
+                if hashlib.sha256(data).hexdigest()!=source['sha256']:raise RuntimeError('Review frame changed')
+                path.write_bytes(data);position=source['seconds']
+            else:
+                subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(position), '-i', str(args.video), '-frames:v', '1', '-vf', 'scale=960:-2', '-q:v', '8', str(path)], check=True)
             frames.append({'seconds': position, 'file': path.name, 'data': base64.b64encode(path.read_bytes()).decode()})
         speech, scenes, facts = [], [], []
         for scene in timeline['scenes']:
@@ -59,11 +76,12 @@ def main():
                     night = next(n for n in match['noites'] if n['n'] == props['noite'])
                     record['night'] = {k: v for k, v in night.items() if k not in ('chat', 'cela')}
                 facts.append(record)
-        info = {'startSeconds': start, 'endSeconds': end, 'framesAtSeconds': [f['seconds'] for f in frames], 'scenes': scenes, 'timedSpeech': speech, 'sourceFacts': facts}
+        info = {'frameSource': 'exact_composition_frames_before_encoding' if rendered else 'encoded_video', 'startSeconds': start, 'endSeconds': end, 'framesAtSeconds': [f['seconds'] for f in frames], 'scenes': scenes, 'timedSpeech': speech, 'sourceFacts': facts}
         content = [{'type': 'text', 'text': json.dumps(info, ensure_ascii=False)}]
         content.extend({'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,' + frame['data']}} for frame in frames)
         system = ('Você avalia um trecho REAL de Wolvesville do canal Felipex007. Examine as imagens e o texto falado fornecidos. '
                   'Não finja ter assistido aos quadros intermediários ou ouvido áudio: aqui há duas imagens e falas com tempo. '
+                  'Falas dos jogadores incluem mentiras e erros reais: não peça para reescrevê-las. Verifique a fidelidade da narração e das imagens aos acontecimentos. '
                   'O canal usa Poppins, rosa/azul, avatares próprios, chat, pensamentos em voz normal com eco, memes pontuais, '
                   'humor ligado ao acontecimento e suspense. Não use emojis nem sugira lobby. '
                   'Avalie atenção, entretenimento e variedade visual de 0 a 10; marque texto cortado/sobreposto, confusão visual, '
@@ -83,7 +101,7 @@ def main():
             raise RuntimeError('Review batch exceeds tool payload limit')
         path.write_text(data)
         batches.append({'file': path.name, 'requests': len(value['requests']), 'bytes': len(data.encode())})
-    (args.out / 'review_manifest.json').write_text(json.dumps({'video': str(args.video.resolve()), 'durationSeconds': duration, 'reviewPerformed': False, 'blocks': [p[1] for p in prepared], 'batches': batches}, ensure_ascii=False, indent=2))
+    (args.out / 'review_manifest.json').write_text(json.dumps({'video': str(args.video.resolve()) if args.video else None, 'frameSource': 'exact_composition_frames_before_encoding' if rendered else 'encoded_video', 'finalEncodedVideoVerified': False, 'durationSeconds': duration, 'reviewPerformed': False, 'blocks': [p[1] for p in prepared], 'batches': batches}, ensure_ascii=False, indent=2))
     print(json.dumps({'preparedBlocks': len(prepared), 'batches': batches, 'reviewPerformed': False}))
 
 
