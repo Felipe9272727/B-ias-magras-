@@ -1,0 +1,65 @@
+name: Wolvesville EP2 native 2D Short render
+on:
+  push:
+    branches: ["agent/wolvesville-ep2-short-20261102"]
+    paths: [".github/workflows/wolvesville-ep2-short-2d.yml", "video/remotion/src/lobisomem/ShortEp2Native.tsx"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            video/remotion/src/
+            video/remotion/package.json
+            video/remotion/package-lock.json
+            video/remotion/public/fonts/
+            video/remotion/public/music/sneaky-snitch.mp3
+            video/remotion/remotion.config.ts
+            video/remotion/tsconfig.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - name: Install packages and ffmpeg
+        run: |
+          npm ci --prefix video/remotion --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+      - name: Reuse original newly generated ElevenLabs Gabriel narrator
+        env:
+          NARRATOR_URL: 'https://elevenlabsusercontent.com/database/workspace/bba12653e7ca42d0bb53b1809a4ca746/content_generation/Mg2IQzLUJzWF1zznfSZe/QdMqeiRFfWUoZNTXKsmQ/content.mp3?Expires=1793656800&KeyName=assets-cdn-key-1&Signature=BFy519IlFp_tqrSk2wRJfndB-Mk='
+        run: |
+          mkdir -p video/remotion/public/ep2_native
+          curl -fsSL --retry 3 --max-time 100 "$NARRATOR_URL" -o video/remotion/public/ep2_native/narrator.mp3
+          ffprobe -v error -show_entries format=duration -of default=nw=1 video/remotion/public/ep2_native/narrator.mp3
+      - name: Render Remotion native 2D vertical Short
+        working-directory: video/remotion
+        run: |
+          mkdir -p ../../out2d
+          npx remotion render src/lobisomem/ShortEp2Native.tsx WolvesvilleEp2ShortNative ../../out2d/render_540.mp4 --scale=0.5 --codec=h264 --crf=17 --concurrency=2
+      - name: Upscale Lanczos, test playback and sample nine screenshots
+        run: |
+          ffmpeg -y -v error -i out2d/render_540.mp4 -vf scale=1080:1920:flags=lanczos -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart out2d/Wolvesville_EP2_Short_2D_Final.mp4
+          ffmpeg -v error -i out2d/Wolvesville_EP2_Short_2D_Final.mp4 -f null -
+          mkdir -p out2d/review
+          for ts in 2 9 18 25 33 40 48 55 63; do
+            ffmpeg -y -loglevel error -ss "$ts" -i out2d/Wolvesville_EP2_Short_2D_Final.mp4 -frames:v 1 -vf scale=270:480 out2d/review/scene_${ts}.jpg
+          done
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_type,width,height -of json out2d/Wolvesville_EP2_Short_2D_Final.mp4 | tee out2d/verification.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-short-native-2d
+          path: |
+            out2d/Wolvesville_EP2_Short_2D_Final.mp4
+            out2d/verification.json
+            out2d/review/*.jpg
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 0
