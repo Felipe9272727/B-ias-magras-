@@ -39,20 +39,23 @@ for i,(start,a,b,c,color) in enumerate(stages):
     def esc(s):return s.replace("\\","\\\\").replace(":","\\:").replace("'","\\'").replace("%","\\%")
     q=lambda s:esc(s)
     vf=(
-      "scale=540:304:flags=lanczos,format=yuv420p,"
-      "pad=540:960:0:330:color=0x111622,"
-      "drawbox=x=0:y=0:w=540:h=324:color=0x161927:t=fill,"
-      "drawbox=x=0:y=650:w=540:h=310:color=0x1c1523:t=fill,"
-      "drawbox=x=12:y=328:w=516:h=296:color=0xffffff@0.14:t=5,"
-      f"drawtext=fontfile={font}:text='WOLVESVILLE - PARTE 2':fontsize=23:fontcolor=0xf3d654:borderw=2:bordercolor=black:x=(w-text_w)/2:y=42,"
-      f"drawtext=fontfile={font}:text='16 IAS':fontsize=43:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=99,"
-      f"drawtext=fontfile={font}:text='{q(a)}':fontsize=27:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=222,"
-      f"drawtext=fontfile={font}:text='{q(b)}':fontsize=36:fontcolor={color}:borderw=3:bordercolor=black:x=(w-text_w)/2:y=673,"
-      f"drawtext=fontfile={font}:text='{q(c)}':fontsize=21:fontcolor=white:borderw=2:bordercolor=black:x=(w-text_w)/2:y=760,"
-      f"drawtext=fontfile={font}:text='CASO REAL DAS IAS - PARTIDA 3':fontsize=15:fontcolor=0xcccccc:x=(w-text_w)/2:y=864,"
-      f"drawbox=x=0:y=944:w={int(540*(i+1)/n)}:h=16:color={color}:t=fill,"
+      "split=2[blur][scene];"
+      "[blur]scale=540:960:force_original_aspect_ratio=increase:flags=lanczos,crop=540:960,boxblur=18:6,eq=brightness=-0.43[bg];"
+      "[scene]crop=1500:970:90:40,scale=540:349:flags=lanczos[game];"
+      "[bg][game]overlay=0:309,"
+      "drawbox=x=0:y=0:w=540:h=302:color=0x131421@0.90:t=fill,"
+      "drawbox=x=0:y=665:w=540:h=295:color=0x17121f@0.91:t=fill,"
+      "drawbox=x=6:y=306:w=528:h=353:color=0xffd844@0.7:t=4,"
+      f"drawtext=fontfile={font}:text='WOLVESVILLE  /  PARTE 2':fontsize=25:fontcolor=0xf2d54d:borderw=2:bordercolor=black:x=(w-text_w)/2:y=30,"
+      f"drawtext=fontfile={font}:text='16 IAS':fontsize=56:fontcolor=white:borderw=4:bordercolor=black:x=(w-text_w)/2:y=99,"
+      f"drawtext=fontfile={font}:text='{q(a)}':fontsize=30:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=232,"
+      f"drawtext=fontfile={font}:text='{q(b)}':fontsize=38:fontcolor={color}:borderw=4:bordercolor=black:x=(w-text_w)/2:y=696,"
+      f"drawtext=fontfile={font}:text='{q(c)}':fontsize=25:fontcolor=white:borderw=3:bordercolor=black:x=(w-text_w)/2:y=783,"
+      f"drawtext=fontfile={font}:text='FATOS DA PARTIDA 3':fontsize=20:fontcolor=0xeeeeee:borderw=2:bordercolor=black:x=(w-text_w)/2:y=888,"
+      f"drawbox=x=0:y=947:w={int(540*(i+1)/n)}:h=13:color={color}:t=fill,"
       "format=yuv420p"
     )
+
     dest=OUT.parent/f"stage_{i:02d}.mp4"
     cmd=["ffmpeg","-y","-loglevel","error","-ss",f"{start:.3f}","-i",str(SRC),"-t",f"{end:.3f}","-an","-vf",vf,"-r","25","-c:v","libx264","-preset","veryfast","-crf","20",str(dest)]
     run(cmd);parts.append(dest)
