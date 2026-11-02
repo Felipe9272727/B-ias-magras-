@@ -1,0 +1,51 @@
+name: Wolvesville EP2 authentic vertical Short
+on:
+  push:
+    branches:
+      - agent/wolvesville-ep2-short-20261102
+    paths:
+      - .github/workflows/wolvesville-ep2-short.yml
+      - video/scripts/create_wolvesville_ep2_short.py
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  short:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            video/scripts/create_wolvesville_ep2_short.py
+          sparse-checkout-cone-mode: false
+      - name: Install system FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Download real verified Wolvesville episode
+        uses: actions/download-artifact@v4
+        with:
+          name: wolvesville-ep2-audio-final
+          run-id: 41490103665
+          github-token: ${{ github.token }}
+          repository: Felipe9272727/B-ias-magras-
+          path: source_episode
+      - name: Build vertical Short with original narration and scene audio
+        run: |
+          set -euo pipefail
+          SOURCE="$(find source_episode -type f -name 'wolvesville_ep2_1080p.mp4' -print -quit)"
+          test -n "$SOURCE"
+          python3 video/scripts/create_wolvesville_ep2_short.py "$SOURCE" out/wolvesville_ep2_short_bobo_9x16.mp4
+          ffmpeg -v error -i out/wolvesville_ep2_short_bobo_9x16.mp4 -f null -
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_type,width,height -of json out/wolvesville_ep2_short_bobo_9x16.mp4 | tee out/verification.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wolvesville-ep2-vertical-short
+          path: |
+            out/wolvesville_ep2_short_bobo_9x16.mp4
+            out/verification.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
