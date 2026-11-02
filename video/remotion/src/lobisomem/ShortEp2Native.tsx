@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill,Audio,Composition,Sequence,interpolate,spring,staticFile,useCurrentFrame,useVideoConfig,registerRoot} from 'remotion';
 import {Avatar} from './Avatar';
 import {IconePapel,IconeUi} from './Papeis';
+import words from './ep2_words.json';
 import {Quadro,Jogador,FONTE,ROSA} from './Tela';
 
 // New independent Shorts production; facts verified from the EP2 Match7 log.
@@ -22,15 +23,15 @@ const players: Record<string,Jogador>={
 };
 const FPS=30;
 const sections=[
- {start:0,end:7.0,ids:['relojoeiro','ferreiro','padeira'],header:'16 IAs NUMA VILA',pop:'A VILA DEU A VITÓRIA AO BOBO!',col:'#e72b67',phase:'hook'},
- {start:7.0,end:15.0,ids:['padeira','bardo'],header:'A PRIMEIRA BALA',pop:'ACERTOU O CARCEREIRO!',col:'#ec4048',phase:'shot'},
- {start:15.0,end:22.5,ids:['ferreiro','padeira'],header:'A VILA INVESTIGOU',pop:'1º LOBO ELIMINADO',col:'#23b67b',phase:'reveal'},
- {start:22.5,end:29.5,ids:['florista','ceramista'],header:'ÁGUA BENTA',pop:'2º LOBO ELIMINADO',col:'#20beae',phase:'holy'},
- {start:29.5,end:37,ids:['padeira','mineiro'],header:'A SEGUNDA BALA',pop:'O LOBO ALFA CAIU!',col:'#ffc13e',phase:'shot'},
- {start:37,end:44.0,ids:['astronoma','relojoeiro'],header:'TRÊS LOBOS FORA',pop:'SÓ FALTAVA UM...',col:'#ef5959',phase:'wolf'},
- {start:44,end:51.5,ids:['relojoeiro','astronoma','pescador'],header:'VOTAÇÃO FINAL',pop:'5 VOTOS NO RELOJOEIRO',col:'#f8a72c',phase:'vote'},
- {start:51.5,end:59.0,ids:['relojoeiro'],header:'REVELAÇÃO',pop:'ERA O BOBO!',col:'#f4c932',phase:'jester'},
- {start:59,end:67.24,ids:['relojoeiro','padeira','astronoma'],header:'VITÓRIA DO BOBO',pop:'SEM VOTAR NENHUMA VEZ!',col:'#ffcc39',phase:'ending'},
+ {start:0,end:8.7,ids:['relojoeiro','ferreiro','padeira'],header:'16 IAs NUMA VILA',pop:'A VILA DEU A VITÓRIA AO BOBO!',col:'#e72b67',phase:'hook'},
+ {start:8.7,end:17.2,ids:['padeira','bardo'],header:'A PRIMEIRA BALA',pop:'ACERTOU O CARCEREIRO!',col:'#ec4048',phase:'shot'},
+ {start:17.2,end:22.3,ids:['ferreiro','padeira'],header:'A VILA INVESTIGOU',pop:'1º LOBO ELIMINADO',col:'#23b67b',phase:'reveal'},
+ {start:22.3,end:29.0,ids:['florista','ceramista'],header:'ÁGUA BENTA',pop:'2º LOBO ELIMINADO',col:'#20beae',phase:'holy'},
+ {start:29.0,end:36.0,ids:['padeira','mineiro'],header:'A SEGUNDA BALA',pop:'O LOBO ALFA CAIU!',col:'#ffc13e',phase:'shot'},
+ {start:36.0,end:42.0,ids:['astronoma','relojoeiro'],header:'TRÊS LOBOS FORA',pop:'SÓ FALTAVA UM...',col:'#ef5959',phase:'wolf'},
+ {start:42.0,end:47.5,ids:['relojoeiro','astronoma','pescador'],header:'VOTAÇÃO FINAL',pop:'5 VOTOS NO RELOJOEIRO',col:'#f8a72c',phase:'vote'},
+ {start:47.5,end:54.5,ids:['relojoeiro'],header:'REVELAÇÃO',pop:'ERA O BOBO!',col:'#f4c932',phase:'jester'},
+ {start:54.5,end:67.33,ids:['relojoeiro','padeira','astronoma'],header:'VITÓRIA DO BOBO',pop:'SEM VOTAR NENHUMA VEZ!',col:'#ffcc39',phase:'ending'},
 ] as const;
 const clamp={extrapolateLeft:'clamp' as const,extrapolateRight:'clamp' as const};
 const Selo:React.FC<{s:string;bg:string;f:number;y:number;size?:number}>=({s,bg,f,y,size=57})=>{
@@ -49,6 +50,17 @@ const FinalVotes:React.FC<{f:number}>=({f})=><div style={{position:'absolute',to
  <svg width="126" height="140" viewBox="0 0 110 130"><rect x="6" y="5" width="95" height="110" rx="12" fill="#fff6d2" stroke="#23222b" strokeWidth="8"/><path d="M24 56l20 20 39-42" fill="none" stroke="#e73562" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"/></svg></div>)}
  <div style={{position:'absolute',top:180,left:0,right:0,textAlign:'center',fontWeight:900,fontFamily:FONTE,fontSize:48,color:'#ffe144',textShadow:'0 4px 0 #000'}}>5 VOTOS</div>
  </div>;
+const Subtitles:React.FC<{sec:number;frame:number}>=({sec,frame})=>{
+ const active=words.reduce((acc,w,i)=>w.start<=sec?i:acc,-1);
+ if(active<0)return null;
+ const start=Math.floor(active/3)*3;
+ const group=words.slice(start,start+3);
+ const enter=Math.round(group[0].start*FPS);
+ const k=spring({frame:Math.max(0,frame-enter),fps:FPS,config:{damping:12,stiffness:260}});
+ return <div style={{position:'absolute',left:38,right:38,top:1150,zIndex:45,display:'flex',alignItems:'center',justifyContent:'center',gap:13,transform:`scale(${.82+.18*k})`}}>
+ {group.map((w,i)=><span key={start+i} style={{fontSize:66,fontWeight:950,fontFamily:FONTE,lineHeight:1.08,color:start+i===active?'#ffe044':'#fff',WebkitTextStroke:'5px #0b0b0c',paintOrder:'stroke fill',textShadow:'0 8px 8px #000',textTransform:'uppercase'}}>{w.text}</span>)}
+ </div>;
+};
 const NativeShort:React.FC=()=>{
  const f=useCurrentFrame(),sec=f/FPS,idx=sections.findIndex((s,i)=>sec>=s.start&&sec<(sections[i+1]?.start??70));
  const n=Math.max(0,idx),s=sections[n],local=Math.max(0,f-Math.round(s.start*FPS));
@@ -69,7 +81,8 @@ const NativeShort:React.FC=()=>{
  </>:s.ids.map((id,i)=><Face key={id} id={id} f={local-i*7} x={65+i*330} y={160+(i%2)*90} size={360} selected={i===0}/>)}
  {s.phase==='vote'&&<FinalVotes f={local}/>}
  </div>
- <Selo s={s.pop} bg={s.col} f={local-8} y={1345} size={s.pop.length>26?50:67}/>
+ <Subtitles sec={sec} frame={f}/>
+ <Selo s={s.pop} bg={s.col} f={local-8} y={1370} size={s.pop.length>26?50:67}/>
  {s.phase==='shot'&&local>50&&local<75?<div style={{position:'absolute',top:800,left:390,fontSize:100,color:'#fff',textShadow:'0 0 25px #ffde4c'}}>✦</div>:null}
  {s.phase==='jester'&&<div style={{position:'absolute',top:1180,left:435,transform:`rotate(${Math.sin(local/7)*9}deg)`}}><IconePapel papel="bobo" tamanho={220}/></div>}
  {s.phase==='wolf'&&<div style={{position:'absolute',top:1210,left:470}}><IconePapel papel="lobo_vidente" tamanho={180}/></div>}
@@ -79,6 +92,7 @@ const NativeShort:React.FC=()=>{
  <AbsoluteFill style={{background:'#fff',opacity:flash,pointerEvents:'none'}}/>
  <Audio src={staticFile('ep2_native/narrator.mp3')}/>
  <Audio src={staticFile('music/sneaky-snitch.mp3')} volume={0.065}/>
+ {sections.slice(1).map((x,i)=><Sequence key={i} from={Math.round(x.start*FPS)} durationInFrames={29}><Audio src={staticFile('sfx/pop.mp3')} volume={0.13}/></Sequence>)}
  </AbsoluteFill>
 };
-registerRoot(()=> <Composition id="WolvesvilleEp2ShortNative" component={NativeShort} width={1080} height={1920} fps={FPS} durationInFrames={2018}/>);
+registerRoot(()=> <Composition id="WolvesvilleEp2ShortNative" component={NativeShort} width={1080} height={1920} fps={FPS} durationInFrames={2020}/>);
