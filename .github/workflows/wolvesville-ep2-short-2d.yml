@@ -39,6 +39,11 @@ jobs:
           mkdir -p video/remotion/public/ep2_native
           curl -fsSL --retry 3 --max-time 100 "$NARRATOR_URL" -o video/remotion/public/ep2_native/narrator.mp3
           ffprobe -v error -show_entries format=duration -of default=nw=1 video/remotion/public/ep2_native/narrator.mp3
+      - name: Use portable browser on GitHub runner
+        run: |
+          sed -i '/Config.setBrowserExecutable/d' video/remotion/remotion.config.ts
+          cd video/remotion
+          npx remotion browser ensure
       - name: Render Remotion native 2D vertical Short
         working-directory: video/remotion
         run: |
