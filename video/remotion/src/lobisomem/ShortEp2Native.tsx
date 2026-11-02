@@ -42,7 +42,7 @@ const Face:React.FC<{id:string;f:number;x:number;y:number;size:number;dead?:bool
  const j=players[id]; if(!j)return null;
  const k=spring({frame:Math.max(0,f),fps:FPS,config:{damping:12,stiffness:160}});
  return <div style={{position:'absolute',left:x,top:y,transform:`translateY(${(1-k)*130+Math.sin(f/12+ x)*7}px) scale(${.8+.2*k})`,zIndex:selected?6:3,filter:dead?'grayscale(1)':'none'}}>
- <Quadro j={j} s={{destaque:selected,revelado:dead, morto:dead, votos}} noite={false} t={f+10} tam={size}/></div>;
+ <Quadro j={j} s={{destaque:selected,revelado:dead, morto:dead, votos:votes}} noite={false} t={f+10} tam={size}/></div>;
 };
 const FinalVotes:React.FC<{f:number}>=({f})=><div style={{position:'absolute',top:1020,left:110,width:860,height:330,zIndex:15}}>
  {[0,1,2,3,4].map(i=><div key={i} style={{position:'absolute',left:70+i*145,top:80-Math.min(1,Math.max(0,(f-20-i*9)/14))*70,opacity:interpolate(f,[20+i*9,28+i*9],[0,1],clamp),transform:`rotate(${(i-2)*9}deg)`}}>
