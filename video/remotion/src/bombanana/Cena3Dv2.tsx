@@ -437,8 +437,10 @@ export function camPadrao(nome: string, t = 0): Cam {
   };
   switch (nome) {
     case 'jogo': return {pos: [0, 2.15, 2.25], alvo: [0, 0.95, -0.25], fov: 50};          // atrás do Cego e do Surdo, de cima
-    case 'geral': return {pos: [sen(t / 240) * 0.6, 2.05, 2.35], alvo: [0, 1.0, -0.3], fov: 55};
-    case 'frente': return {pos: [0.3, 1.9, -2.3], alvo: [0, 1.0, 0.4], fov: 52};          // de trás do Mudo, vendo Cego e Surdo
+    case 'geral': return {pos: [-1.3 + sen(t / 200) * 0.12, 1.85, 1.85], alvo: [0.15, 0.95, -0.15], fov: 58};      // canto, de frente-esquerda (abaixo das mangueiras)
+    case 'trilho': { const k = (t % 600) / 600; return {pos: [-1.38, 1.7, 0.7 - k * 1.4], alvo: [0.2, 0.95, 0.2 - k * 0.4], fov: 52}; }  // desliza pela lateral, devagar
+    case 'baixo': return {pos: [1.3, 1.0, 0.25], alvo: [-0.2, 1.15, 0.1], fov: 55};  // de baixo, pela direita: macacos imponentes
+    case 'frente': return {pos: [0.95, 1.85, -2.0], alvo: [-0.1, 1.0, 0.45], fov: 54};          // de trás do Mudo, vendo Cego e Surdo
     case 'lado': return {pos: [-1.35, 1.75, 0.0], alvo: [0.3, 1.0, 0.0], fov: 55};
     case 'orbita': return orbita(270 + sen(t / 150) * 40, 2.2, 2.0, 52);
     case 'bomba': return {pos: [m.x + 0.05, m.y + 0.8, m.z + 0.75], alvo: [m.x, m.y + 0.15, m.z - 0.1], fov: 42};
@@ -464,8 +466,8 @@ export function camPadrao(nome: string, t = 0): Cam {
     const dir = MESA.clone().sub(posMacaco(p)).setY(0).normalize();
     const fora = new THREE.Vector3(p === 'Mudo' ? 1 : Math.sign(posMacaco(p).x) || 1, 0, 0);
     const perto = nome.startsWith('close:');
-    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 0.95 : 1.3)).add(fora.multiplyScalar(perto ? (p === 'Mudo' ? 0.7 : 0.5) : (p === 'Mudo' ? 1.25 : 0.85))).add(new THREE.Vector3(0, perto ? 0.1 : 0.32, 0));
-    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.1 : -0.3, 0))), fov: perto ? 42 : 50};
+    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 1.1 : 1.35)).add(fora.multiplyScalar(perto ? (p === 'Mudo' ? 1.15 : 0.55) : (p === 'Mudo' ? 1.25 : 0.85))).add(new THREE.Vector3(0, perto ? 0.0 : 0.3, 0)).add(new THREE.Vector3(sen(t / 90) * 0.03, 0, 0));
+    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.08 : -0.3, 0))), fov: perto ? 38 : 50};
   }
   // por cima do ombro de um macaco olhando a bomba
   if (nome.startsWith('ombro:')) {

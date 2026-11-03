@@ -133,13 +133,23 @@ const Rodada: React.FC<{scene: Scene; timeline: Timeline; p: Record<string, any>
       ps.push({ini: it.at + 36, cam: 'painel'});
     } else {
       const pa = papelDe(it.cor!);
-      if (it.pensa) ps.push({ini: it.at, cam: `close:${pa}`});
-      else if (pa === 'Surdo') ps.push({ini: it.at, cam: ['pov:Surdo', 'close:Surdo', 'meio:Surdo', 'frente'][k], pov: k === 0 ? 'Surdo' : undefined});
-      else ps.push({ini: it.at, cam: ['close:Cego', 'meio:Cego', 'frente', 'close:Cego'][k]});
+      const op: Record<Papel3D, string[]> = {
+        Surdo: ['pov:Surdo', 'close:Surdo', 'meio:Surdo', 'ombro:Surdo', 'baixo', 'trilho'],
+        Cego: ['close:Cego', 'lado', 'meio:Cego', 'ombro:Cego', 'trilho', 'frente'],
+        Mudo: ['close:Mudo', 'meio:Mudo', 'frente', 'lado'],
+      };
+      const lista = op[pa];
+      const c1 = it.pensa ? `close:${pa}` : lista[hash(scene.id + 'c' + i) % lista.length];
+      ps.push({ini: it.at, cam: c1, pov: c1.startsWith('pov:') ? pa : undefined});
+      // fala longa: corta no meio para outro ângulo (nada de plano parado)
+      if (it.ate - it.at > 150) {
+        const c2 = it.pensa ? 'lado' : lista[(hash(scene.id + 'c' + i) + 2) % lista.length];
+        ps.push({ini: it.at + Math.round((it.ate - it.at) / 2), cam: c2 === c1 ? 'trilho' : c2, pov: c2.startsWith('pov:') ? pa : undefined});
+      }
     }
     // depois do item, se vier narrador, volta pro aberto
     const prox = chat[i + 1];
-    if (!prox || prox.at - it.ate > 20) ps.push({ini: it.ate + 4, cam: hash(scene.id + 'n' + i) % 2 ? 'jogo' : 'frente'});
+    if (!prox || prox.at - it.ate > 20) ps.push({ini: it.ate + 4, cam: ['jogo', 'geral', 'frente', 'trilho', 'lado'][hash(scene.id + 'n' + i) % 5]});
   });
   ps.sort((a, b) => a.ini - b.ini);
   const pi = ps.reduce((acc, x, i) => (f >= x.ini ? i : acc), 0);
