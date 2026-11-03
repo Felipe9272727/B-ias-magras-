@@ -36,9 +36,9 @@ const Etiqueta: React.FC<{nome: string; papel: Papel; cor: string; modelo: strin
 const Balao: React.FC<{texto: string; pensa?: boolean; lado: 'esq' | 'dir' | 'meio'; cor: string; f: number}> = ({texto, pensa, lado, cor, f}) => {
   const s = spring({frame: f, fps: 30, config: {damping: 14}});
   return (
-    <div style={{position: 'absolute', top: 40, ...(lado === 'esq' ? {left: 60} : lado === 'dir' ? {right: 60} : {left: 560}), maxWidth: 800, transform: `scale(${0.6 + 0.4 * s})`, transformOrigin: lado === 'dir' ? 'top right' : 'top left',
+    <div style={{position: 'absolute', top: lado === 'meio' ? 130 : 150, ...(lado === 'esq' ? {left: 40} : lado === 'dir' ? {right: 40} : {left: 520}), maxWidth: lado === 'meio' ? 880 : 760, transform: `scale(${0.6 + 0.4 * s})`, transformOrigin: lado === 'dir' ? 'top right' : 'top left',
       background: pensa ? '#ffffffd9' : '#fff', border: `6px ${pensa ? 'dashed' : 'solid'} ${cor}`, borderRadius: pensa ? 60 : 28, padding: '18px 26px',
-      fontFamily: FONT.display, fontWeight: 700, fontSize: 36, color: '#1b1b1b', fontStyle: pensa ? 'italic' : 'normal', boxShadow: '0 10px 0 #0005'}}>
+      fontFamily: FONT.display, fontWeight: 700, fontSize: 40, color: '#1b1b1b', fontStyle: pensa ? 'italic' : 'normal', boxShadow: '0 10px 0 #0005'}}>
       {pensa ? <div style={{fontSize: 22, color: cor, fontWeight: 900, fontStyle: 'normal', marginBottom: 4}}>PENSANDO...</div> : null}
       {texto}
     </div>
