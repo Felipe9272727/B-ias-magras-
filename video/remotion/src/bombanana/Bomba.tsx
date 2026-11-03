@@ -143,9 +143,9 @@ function conteudo(m: Modulo, w: number, h: number): React.ReactNode {
 
 const NOMES: Record<string, string> = {cabo: 'CABOS', slider: 'SLIDER DE COR', direcao: 'DIREÇÃO', calculadora: 'CALCULADORA', simbolo: 'SÍMBOLO'};
 
-export const Bomba: React.FC<{modulos: Modulo[]; resta: number; erros: number; maxErros: number; foco?: number; piscar?: boolean}> = ({modulos, resta, erros, maxErros, foco, piscar}) => {
+export const Bomba: React.FC<{modulos: Modulo[]; resta: number; erros: number; maxErros: number; foco?: number; piscar?: boolean; fileira?: boolean}> = ({modulos, resta, erros, maxErros, foco, piscar, fileira}) => {
   const n = modulos.length;
-  const cols = n <= 2 ? n : 2, rows = Math.ceil(n / cols);
+  const cols = fileira ? Math.max(2, n) : n <= 2 ? n : 2, rows = Math.ceil(n / cols);
   const pw = 420, ph = 420, gap = 30;
   const W = cols * pw + (cols - 1) * gap + 80, H = rows * ph + (rows - 1) * gap + 210;
   const mm = Math.max(0, Math.floor(resta / 60)), ss = Math.max(0, Math.floor(resta % 60));

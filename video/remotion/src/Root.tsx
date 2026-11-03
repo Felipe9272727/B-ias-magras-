@@ -2,6 +2,7 @@ import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotio
 import {TesteBB} from './bombanana/Teste';
 import {TesteBomba} from './bombanana/TesteBomba';
 import {TesteCena} from './bombanana/TesteCena';
+import {VideoBB, calcVideoBB} from './bombanana/Episodio';
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
@@ -262,6 +263,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="AU4MapaV5" component={ArtePreview} width={1920} height={1080} defaultProps={{v5: true}} />
       <Still id="AU4MapaV3" component={ArtePreview} width={1920} height={1080} defaultProps={{v3: true}} />
     <Still id="TesteBB" component={TesteBB} width={1920} height={1080} />
+      <Composition id="VideoBB" component={VideoBB as any} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{tl: null, arquivo: 'bb/timeline.json'}} calculateMetadata={calcVideoBB as any} />
       <Still id="TesteCena" component={TesteCena} width={1920} height={1080} defaultProps={{modulos: [], lugar: 'van'}} />
       <Still id="TesteBomba" component={TesteBomba} width={1920} height={1080} defaultProps={{modulos: []}} />
       </>
