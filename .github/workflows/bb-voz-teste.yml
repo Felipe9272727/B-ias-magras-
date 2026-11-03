@@ -1,0 +1,38 @@
+name: BOMBANANA teste de voz Qwen3-TTS
+on:
+  push:
+    branches: ["claude/video-3"]
+    paths:
+      - "video/scripts/bb_qwen_teste.py"
+      - ".github/workflows/bb-voz-teste.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/bb_qwen_teste.py
+            /video/remotion/public/bb/refs/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instala
+        run: |
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q qwen-tts soundfile
+          sudo apt-get install -y -qq ffmpeg sox > /dev/null
+      - name: Gera
+        run: python3 video/scripts/bb_qwen_teste.py
+      - name: Publica
+        if: always()
+        run: |
+          cd qwen_out && ls -la
+          git init -q -b bb-voz-teste && git config user.email actions@github.com && git config user.name "GitHub Actions"
+          git add -A && git commit -qm "teste Qwen3-TTS" && git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" bb-voz-teste
