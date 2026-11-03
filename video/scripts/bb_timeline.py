@@ -83,7 +83,9 @@ PEDIDOS = []
 def voz(id_, texto, quem=None, eco=False):
     """Registra uma fala para o TTS; devolve o caminho público (o mp3 sai depois, em lote)."""
     v, p = VOZES.get(quem, (NARRADOR, '+0Hz')) if quem else (NARRADOR, '+0Hz')
-    PEDIDOS.append({'id': id_, 'text': falado(texto), 'voice': v, 'pitch': p, 'rate': '+12%' if quem else '+6%', 'eco': eco})
+    PEDIDOS.append({'id': id_, 'text': falado(texto), 'voice': v, 'pitch': p, 'rate': '+12%' if quem else '+6%', 'eco': eco,
+                    # Chatterbox (nas máquinas do GitHub): clona a voz de refs/<quem>.wav; emoção mais forte nos gritos
+                    'ref': quem or 'narrador', 'texto_cb': falado(texto), 'exag': 0.4 if eco else 0.5 if not quem else (0.85 if '!' in texto or texto.isupper() else 0.65)})
     return f'bb/voz/{id_}{"_eco" if eco else ""}.mp3'
 
 
@@ -212,6 +214,7 @@ def main():
     blocos = cronometrar(blocos)
     tl = {'blocos': blocos, 'cores': CORES, 'modelos': MODELOS, 'musica': 'music/monkeys-spinning-monkeys.mp3'}
     SAIDA.mkdir(parents=True, exist_ok=True)
+    (SAIDA / 'pedidos_cb.json').write_text(json.dumps([{k: p[k] for k in ('id', 'texto_cb', 'ref', 'exag')} for p in PEDIDOS], ensure_ascii=False))
     (SAIDA / 'timeline.json').write_text(json.dumps(tl, ensure_ascii=False))
     tot = sum(b['dur'] for b in blocos) / FPS
     print(f'{len(blocos)} blocos, {tot / 60:.1f} min')
