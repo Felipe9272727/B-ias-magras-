@@ -241,7 +241,50 @@ if PAPEL == 'cego':
     # sobrancelhas aparecem por cima da venda, preocupadas
     for s in [o for o in extras if o.name.startswith('sobrancelha')]:
         s.location.z += 0.03
-# (Surdo e Mudo: os próximos, um por vez)
+if PAPEL == 'surdo':
+    # fone grande: arco de orelha a orelha por cima da cabeça (acompanha a cabeça) e duas conchas com luz vermelha
+    FONE = mat('fone', (0.1, 0.1, 0.11), 0.35, coat=0.6)
+    ALMOFADA = mat('almofada', (0.2, 0.2, 0.22), 0.8)
+    LUZF = mat('fone_luz', (1.0, 0.15, 0.12), 0.3, emit=3.0)
+    bpy.ops.curve.primitive_bezier_circle_add(radius=1, location=(0, 0, 0))
+    cv = bpy.context.active_object
+    pts = cv.data.splines[0].bezier_points
+    # meio arco: só os pontos de cima (de orelha a orelha), no plano X-Z
+    cv.data.splines.remove(cv.data.splines[0])
+    sp = cv.data.splines.new('BEZIER'); sp.bezier_points.add(2)
+    for k, (x, z) in enumerate(((-0.43, 0.9), (0, 1.25), (0.43, 0.9))):
+        b = sp.bezier_points[k]; b.co = (x, 0.01, z)
+        b.handle_left_type = b.handle_right_type = 'AUTO'
+    cv.data.dimensions = '3D'; cv.data.bevel_depth = 0.035; cv.data.bevel_resolution = 4
+    cv.data.resolution_u = 24
+    bpy.ops.object.convert(target='MESH')
+    arco = bpy.context.active_object; arco.name = 'fone_arco'
+    arco.scale = (1, 0.6, 1); bpy.ops.object.transform_apply(scale=True)  # arco achatado, como faixa
+    arco.data.materials.append(FONE); acessorios.append(arco)
+    for x in (-1, 1):
+        bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=0.12, depth=0.1, location=(0.42 * x, 0.01, 0.86), rotation=(0, math.pi / 2, 0))
+        c = bpy.context.active_object; c.name = f'fone_concha_{"LR"[x > 0]}'
+        md = c.modifiers.new('bisel', 'BEVEL'); md.width = 0.035; md.segments = 5; bpy.ops.object.modifier_apply(modifier='bisel')
+        c.data.materials.append(FONE); acessorios.append(c)
+        bpy.ops.mesh.primitive_torus_add(major_radius=0.1, minor_radius=0.03, location=(0.37 * x, 0.01, 0.86), rotation=(0, math.pi / 2, 0))
+        a = bpy.context.active_object; a.name = f'fone_almofada_{"LR"[x > 0]}'; a.data.materials.append(ALMOFADA); acessorios.append(a)
+        l = esfera((0.475 * x, 0.01, 0.86), (0.008, 0.045, 0.045)); l.name = f'fone_luz_{"LR"[x > 0]}'; l.data.materials.append(LUZF); acessorios.append(l)
+    for o in acessorios:
+        for p in o.data.polygons:
+            p.use_smooth = True
+# rabinho enrolado (todos)
+bpy.ops.curve.primitive_bezier_curve_add(location=(0, 0, 0))
+cv = bpy.context.active_object
+sp = cv.data.splines[0]; sp.bezier_points.add(2)
+for k, co in enumerate(((0, 0.22, 0.2), (0.05, 0.42, 0.28), (0.18, 0.4, 0.45), (0.12, 0.3, 0.52))):
+    b = sp.bezier_points[k]; b.co = co; b.handle_left_type = b.handle_right_type = 'AUTO'
+cv.data.dimensions = '3D'; cv.data.bevel_depth = 0.032; cv.data.bevel_resolution = 4
+for k, b in enumerate(sp.bezier_points):
+    b.radius = 1 - 0.45 * k / 3
+bpy.ops.object.convert(target='MESH')
+rabo = bpy.context.active_object; rabo.name = 'rabo'; rabo.data.materials.append(PELO)
+for p in rabo.data.polygons:
+    p.use_smooth = True
 
 # ---------------------------------------------------------------- esqueleto
 bpy.ops.object.armature_add(location=(0, 0, 0))
@@ -293,6 +336,7 @@ for o in olhos + extras + acessorios:
     if o.parent is None:
         prender(o, 'cabeca')
 prender(gola, 'coluna')
+prender(rabo, 'quadril')
 
 raiz = bpy.data.objects.new('macaco', None); bpy.context.collection.objects.link(raiz)
 arm.parent = raiz
