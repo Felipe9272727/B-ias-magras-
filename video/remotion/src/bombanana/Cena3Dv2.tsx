@@ -221,7 +221,7 @@ function texturaModulos(modulos: Modulo[] | undefined, foco: number | undefined,
   return {tex: null, svg};
 }
 
-const Bomba: React.FC<{g: THREE.Group; resta: number; erros: number; maxErros: number; t: number; tremor: number; modulos?: Modulo[]; foco?: number}> = ({g, resta, erros, maxErros, t, tremor, modulos, foco}) => {
+const Bomba: React.FC<{g: THREE.Group; resta: number; erros: number; maxErros: number; t: number; tremor: number; modulos?: Modulo[]; foco?: number; contorno?: boolean}> = ({g, resta, erros, maxErros, t, tremor, modulos, foco, contorno}) => {
   const [v, forca] = useState(0);
   const {advance} = useThree();
   const {tex: texM, svg} = texturaModulos(modulos, foco, () => forca((x) => x + 1));
@@ -236,6 +236,7 @@ const Bomba: React.FC<{g: THREE.Group; resta: number; erros: number; maxErros: n
   const painel = g.getObjectByName('painel') as THREE.Mesh | undefined;
   if (painel && texM && (painel.material as any).map !== texM) painel.material = new THREE.MeshStandardMaterial({map: texM, roughness: 0.7, emissive: new THREE.Color('#ffffff'), emissiveMap: texM, emissiveIntensity: 0.35});
   const lcd = g.getObjectByName('lcd') as THREE.Mesh;
+  if (lcd) lcd.visible = !contorno;  // o Cego não lê telas
   const alerta = resta <= 30 && Math.floor(t / 8) % 2 === 0;
   const tex = texLCD(resta, erros, maxErros, alerta);
   if (lcd && (lcd.material as any).map !== tex) {
@@ -287,6 +288,8 @@ const Ambiente: React.FC<{t: number; apagao: number; alarme: number; flash: numb
     gl.shadowMap.type = THREE.PCFSoftShadowMap;
   }, [scene, gl]);
   const luz = 1 - apagao * 0.85;
+  scene.environmentIntensity = 0.35 * (1 - apagao * 0.9);
+  gl.toneMappingExposure = 1.0 - apagao * 0.45;
   const sirene = alarme ? (0.5 + 0.5 * sen(t / 3)) : 0;
   return (
     <>
@@ -356,10 +359,28 @@ const Pronto: React.FC<{ok: boolean; h: number}> = ({ok, h}) => {
   return null;
 };
 
+// visão do Cego: cada objeto vira uma cor lisa própria (o filtro de bordas da edição desenha só os contornos)
+const idMats: Record<string, THREE.MeshBasicMaterial> = {};
+const idMat = (nome: string) => {
+  if (idMats[nome]) return idMats[nome];
+  let h = 0; for (const c of nome) h = (h * 131 + c.charCodeAt(0)) >>> 0;
+  return (idMats[nome] = new THREE.MeshBasicMaterial({color: new THREE.Color().setHSL((h % 360) / 360, 0.7, 0.25 + ((h >> 9) % 50) / 100)}));
+};
+const Restaura: React.FC = () => {
+  const {scene} = useThree();
+  scene.traverse((o: any) => { if (o.isMesh && o.userData.matOrig) { o.material = o.userData.matOrig; o.userData.matOrig = null; } });
+  return null;
+};
+const TrocaContorno: React.FC<{on: boolean}> = ({on}) => {
+  const {scene} = useThree();
+  if (on) scene.traverse((o: any) => { if (o.isMesh && !o.userData.matOrig) { o.userData.matOrig = o.material; o.material = idMat(o.name + (o.parent?.name ?? '')); } });
+  return null;
+};
+
 export type Cena3DProps = {
   atores: Record<Papel3D, Ator>; camera: Cam; t: number; resta: number; erros: number; maxErros: number; lugar: Lugar3D;
   width: number; height: number; apagao?: number; alarme?: number; explosao?: number; tremor?: number;
-  banana?: {de: Papel3D; para: Papel3D; k: number}; debug?: string; modulos?: Modulo[]; foco?: number; pov?: Papel3D;
+  banana?: {de: Papel3D; para: Papel3D; k: number}; debug?: string; modulos?: Modulo[]; foco?: number; pov?: Papel3D; contorno?: boolean;
 };
 
 export const Cena3D: React.FC<Cena3DProps> = (pr) => {
@@ -372,6 +393,7 @@ export const Cena3D: React.FC<Cena3DProps> = (pr) => {
   const exp = pr.explosao ?? 0;
   return (
     <ThreeCanvas width={pr.width} height={pr.height} shadows camera={{fov: 45, near: 0.05, far: 40}} gl={{antialias: true, preserveDrawingBuffer: true}}>
+      <Restaura />
       <Ambiente t={pr.t} apagao={pr.apagao ?? 0} alarme={pr.alarme ?? 0} flash={exp > 0 && exp < 0.15 ? 1 - exp / 0.15 : 0} />
       <Camera c={pr.camera} />
       <Pronto ok={!!g} h={h} />
@@ -379,7 +401,7 @@ export const Cena3D: React.FC<Cena3DProps> = (pr) => {
       {g && pr.debug !== 'cubo' ? (
         <>
           {pr.debug !== 'semsala' ? <Sala g={g.sala} lugar={pr.lugar} /> : null}
-          {exp < 0.08 && pr.debug !== 'sembomba' ? <Bomba g={g.bomba} resta={pr.resta} erros={pr.erros} maxErros={pr.maxErros} t={pr.t} tremor={pr.tremor ?? 0} modulos={pr.modulos} foco={pr.foco} /> : null}
+          {exp < 0.08 && pr.debug !== 'sembomba' ? <Bomba g={g.bomba} resta={pr.resta} erros={pr.erros} maxErros={pr.maxErros} t={pr.t} tremor={pr.tremor ?? 0} modulos={pr.modulos} foco={pr.foco} contorno={pr.contorno} /> : null}
           {pr.debug === 'semmacaco' || pr.debug === 'sembomba' ? null : (['Cego', 'Surdo', 'Mudo'] as Papel3D[]).map((p) => (
             pr.pov === p ? null : <Macaco key={p} g={g.m[p]} papel={p} ator={pr.atores[p]} t={pr.t} sujo={exp > 0 ? Math.min(1, exp * 4) : 0} />
           ))}
@@ -387,6 +409,7 @@ export const Cena3D: React.FC<Cena3DProps> = (pr) => {
           {pr.banana ? <BananaVoando de={cabecaMacaco(pr.banana.de)} para={cabecaMacaco(pr.banana.para)} k={pr.banana.k} /> : null}
         </>
       ) : null}
+      <TrocaContorno on={!!pr.contorno} />
     </ThreeCanvas>
   );
 };

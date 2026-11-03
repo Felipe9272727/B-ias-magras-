@@ -115,10 +115,10 @@ const Manual: React.FC<{tipo: string; f: number}> = ({tipo, f}) => {
 const FiltroContorno: React.FC = () => (
   <svg width={0} height={0} style={{position: 'absolute'}}>
     <filter id="bb-contorno" colorInterpolationFilters="sRGB">
-      <feColorMatrix type="matrix" values="0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0.3 0.59 0.11 0 0  0 0 0 1 0" />
       <feConvolveMatrix order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" />
+      <feColorMatrix type="matrix" values="2 2 2 0 0  2 2 2 0 0  2 2 2 0 0  0 0 0 1 0" />
       <feComponentTransfer>
-        <feFuncR type="discrete" tableValues="0 0 0 1 1 1" /><feFuncG type="discrete" tableValues="0 0 0 1 1 1" /><feFuncB type="discrete" tableValues="0 0 0 1 1 1" />
+        <feFuncR type="discrete" tableValues="0 0 1 1 1 1 1 1" /><feFuncG type="discrete" tableValues="0 0 1 1 1 1 1 1" /><feFuncB type="discrete" tableValues="0 0 1 1 1 1 1 1" />
       </feComponentTransfer>
     </filter>
   </svg>
@@ -204,7 +204,7 @@ const Rodada: React.FC<{b: Bloco; tl: Timeline}> = ({b, tl}) => {
       <FiltroContorno />
       <AbsoluteFill style={{transform: `translate(${shakeX}px, ${shakeY}px) scale(${grito})`, filter: contorno ? 'url(#bb-contorno)' : undefined}}>
         <Cena3D width={W} height={H} t={f + (b.fase?.n ?? 0) * 1000} camera={cam} atores={atores} resta={resta} erros={erros} maxErros={b.maxErros ?? 3}
-          lugar={(b.lugar ?? 'van') as Lugar3D} apagao={apagao} alarme={alarme} tremor={tremor} modulos={mods} foco={b.acao ? b.acao.modulo - 1 : undefined} pov={pl.pov}
+          lugar={(b.lugar ?? 'van') as Lugar3D} apagao={apagao} alarme={alarme} tremor={tremor} modulos={mods} foco={b.acao ? b.acao.modulo - 1 : undefined} pov={pl.pov} contorno={contorno}
           banana={b.gesto?.gesto === 'jogar_banana' && f >= b.gesto.ini ? {de: 'Mudo', para: 'Surdo', k: (f - b.gesto.ini - 8) / 22} : undefined} />
       </AbsoluteFill>
       {/* visão do Cego: mão branca indo até o módulo */}
