@@ -1,4 +1,7 @@
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
+import {TesteBB} from './bombanana/Teste';
+import {TesteBomba} from './bombanana/TesteBomba';
+import {TesteCena} from './bombanana/TesteCena';
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
 import {Thumb2} from './amongus/Thumb2';
@@ -258,6 +261,9 @@ export const RemotionRoot: React.FC = () => {
       <Still id="AU4Mapa" component={ArtePreview} width={1920} height={1080} defaultProps={{v4: true}} />
       <Still id="AU4MapaV5" component={ArtePreview} width={1920} height={1080} defaultProps={{v5: true}} />
       <Still id="AU4MapaV3" component={ArtePreview} width={1920} height={1080} defaultProps={{v3: true}} />
-    </>
+    <Still id="TesteBB" component={TesteBB} width={1920} height={1080} />
+      <Still id="TesteCena" component={TesteCena} width={1920} height={1080} defaultProps={{modulos: [], lugar: 'van'}} />
+      <Still id="TesteBomba" component={TesteBomba} width={1920} height={1080} defaultProps={{modulos: []}} />
+      </>
   );
 };
