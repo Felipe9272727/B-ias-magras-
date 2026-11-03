@@ -4,7 +4,7 @@
 // (quadril, coluna, cabeca, braco/mao/polegar .L/.R) mirando cada braço numa direção no espaço do macaco, então a pose
 // não depende do "roll" dos ossos do Blender. three.js quadro a quadro (determinístico: tudo vem de t).
 import React, {useEffect, useMemo, useState} from 'react';
-import {continueRender, delayRender, staticFile} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender, staticFile, useCurrentFrame} from 'remotion';
 import {ThreeCanvas} from '@remotion/three';
 import {useThree} from '@react-three/fiber';
 import * as THREE from 'three';
@@ -214,8 +214,10 @@ function texturaModulos(modulos: Modulo[] | undefined, foco: number | undefined,
       x.drawImage(img, (c.width - img.width * k) / 2, (c.height - img.height * k) / 2, img.width * k, img.height * k);
       const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; t.flipY = false;
       texSVG[svg] = t; avisar();
+      // garante que o quadro é liberado mesmo se o componente já trocou de módulos
+      setTimeout(() => { if (pendente[svg] >= 0) { const h = pendente[svg]; pendente[svg] = -1; continueRender(h); } }, 400);
     };
-    img.onerror = () => { continueRender(pendente[svg]); };
+    img.onerror = () => { if (pendente[svg] >= 0) { continueRender(pendente[svg]); pendente[svg] = -1; } };
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
   return {tex: null, svg};
@@ -233,15 +235,26 @@ const Bomba: React.FC<{g: THREE.Group; resta: number; erros: number; maxErros: n
       requestAnimationFrame(() => { advance(performance.now()); continueRender(h); });
     }
   }, [texM, svg, v, advance]);
+  // materiais fixos (um por bomba), só a textura troca
+  const mats = useMemo(() => ({
+    painel: new THREE.MeshStandardMaterial({roughness: 0.7, color: '#ffffff', emissive: new THREE.Color('#ffffff'), emissiveIntensity: 0.35}),
+    painelVazio: new THREE.MeshStandardMaterial({roughness: 0.7, color: '#3a3433'}),
+    lcd: new THREE.MeshBasicMaterial({toneMapped: false}),
+  }), []);
   const painel = g.getObjectByName('painel') as THREE.Mesh | undefined;
-  if (painel && texM && (painel.material as any).map !== texM) painel.material = new THREE.MeshStandardMaterial({map: texM, roughness: 0.7, emissive: new THREE.Color('#ffffff'), emissiveMap: texM, emissiveIntensity: 0.35});
+  if (painel) {
+    if (texM) {
+      if (mats.painel.map !== texM) { mats.painel.map = texM; mats.painel.emissiveMap = texM; mats.painel.needsUpdate = true; }
+      painel.material = mats.painel;
+    } else painel.material = mats.painelVazio;
+  }
   const lcd = g.getObjectByName('lcd') as THREE.Mesh;
   if (lcd) lcd.visible = !contorno;  // o Cego não lê telas
   const alerta = resta <= 30 && Math.floor(t / 8) % 2 === 0;
   const tex = texLCD(resta, erros, maxErros, alerta);
-  if (lcd && (lcd.material as any).map !== tex) {
-    lcd.material = new THREE.MeshBasicMaterial({map: tex, toneMapped: false});
-    // o plano do Blender tem UV padrão (0..1): garante a orientação certa da textura
+  if (lcd) {
+    if (mats.lcd.map !== tex) { mats.lcd.map = tex; mats.lcd.needsUpdate = true; }
+    lcd.material = mats.lcd;
   }
   g.position.set(sen(t * 2.1) * 0.01 * tremor, Math.abs(sen(t * 1.7)) * 0.012 * tremor, 0);
   g.traverse((c: any) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
@@ -383,7 +396,7 @@ export type Cena3DProps = {
   banana?: {de: Papel3D; para: Papel3D; k: number}; debug?: string; modulos?: Modulo[]; foco?: number; pov?: Papel3D; contorno?: boolean;
 };
 
-export const Cena3D: React.FC<Cena3DProps> = (pr) => {
+const Cena3DReal: React.FC<Cena3DProps> = (pr) => {
   const [g, setG] = useState<{sala: THREE.Group; bomba: THREE.Group; m: Record<Papel3D, THREE.Group>} | null>(null);
   const [h] = useState(() => delayRender('cena 3D bombanana', {timeoutInMilliseconds: 120000}));
   useEffect(() => {
@@ -468,4 +481,17 @@ export const misturarCam = (a: Cam, b: Cam, k: number): Cam => {
   const e = k * k * (3 - 2 * k);
   const L = (x: number[], y: number[]) => x.map((v, i) => v + (y[i] - v) * e) as [number, number, number];
   return {pos: L(a.pos, b.pos), alvo: L(a.alvo, b.alvo), fov: (a.fov ?? 45) + ((b.fov ?? 45) - (a.fov ?? 45)) * e, roll: (a.roll ?? 0) + ((b.roll ?? 0) - (a.roll ?? 0)) * e};
+};
+
+// Uma cena 3D só para o vídeo inteiro: os blocos "pedem" a cena (Cena3D guarda as props deste quadro) e o
+// CenaPersistente, que fica fixo embaixo de tudo, desenha. Assim o WebGL e os modelos carregam uma vez por aba,
+// em vez de recriar tudo (13 s) a cada bloco.
+const SLOT: {p: (Cena3DProps & {estilo?: React.CSSProperties}) | null} = {p: null};
+export const Cena3D: React.FC<Cena3DProps & {estilo?: React.CSSProperties}> = (pr) => { SLOT.p = pr; return null; };
+export const CenaPersistente: React.FC = () => {
+  useCurrentFrame();
+  const p = SLOT.p;
+  if (!p) return null;
+  const {estilo, ...resto} = p;
+  return <AbsoluteFill style={estilo}><Cena3DReal {...resto} /></AbsoluteFill>;
 };

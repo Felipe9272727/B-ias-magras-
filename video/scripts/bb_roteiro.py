@@ -25,5 +25,6 @@ ROTEIRO = {
     'f7_depois': 'O Claude mudou de ideia sobre o símbolo umas cinco vezes, a Gemini trocou de cor outras tantas, e o GPT passou os últimos cem segundos repetindo que não aperta no chute. Não apertou. E explodiu.',
     'f8_antes': 'Fase oito: símbolo e setas, quatro minutos. DeepSeek é o cego, Qwen é o surdo, e o Grok fica com o manual.',
     'f8_depois': 'As setas foram desarmadas, mas o símbolo... o DeepSeek ficou girando o seletor pra cima, sem achar o bipe. Quatro minutos não bastaram.',
+    'f9_depois': 'Só as setas e a primeira etapa da calculadora. O cabo cortado foi o errado, o MiMo passou os últimos dois minutos gritando pro Mistral parar de descrever a bomba, e o Mistral não parou. A final explodiu.',
     'f9_antes': 'A fase final. Os quatro módulos ao mesmo tempo: cabos, setas, calculadora e símbolo. Cinco minutos, apagão e alarme. MiMo é o cego, Mistral é o surdo, e o GLM tem o manual.',
 }

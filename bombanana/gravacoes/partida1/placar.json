@@ -1,19 +1,32 @@
 {
  "placar": {
-  "8": "tempo"
+  "9": "tempo"
  },
  "uso": {
-  "chamadas": 72,
-  "falhas": 0,
+  "chamadas": 90,
+  "falhas": 6,
   "porProvider": {
-   "or:deepseek/deepseek-v4.1-flash": 24,
-   "or:qwen/qwen3.8-flash": 24,
-   "or:x-ai/grok-4.7": 24
+   "or:xiaomi/mimo-v2.6-flash": 30,
+   "or:mistralai/mistral-large-4-0": 30,
+   "or:z-ai/glm-5.3-flash": 30
   },
-  "falhasPor": {},
+  "falhasPor": {
+   "or:mistralai/mistral-large-4-0": 6
+  },
   "custo": {
-   "or:x-ai/grok-4.7": 0.230188,
-   "or:qwen/qwen3.8-flash": 0.019567090000000002
+   "or:z-ai/glm-5.3-flash": 0.011356643500000003,
+   "or:xiaomi/mimo-v2.6-flash": 0.010840051600000003,
+   "or:mistralai/mistral-large-4-0": 0.12930540000000001
+  },
+  "motivos": {
+   "or:mistralai/mistral-large-4-0": [
+    "openrouter: HTTP 400 Provider returned error",
+    "openrouter: HTTP 400 Provider returned error",
+    "openrouter: HTTP 400 Provider returned error",
+    "openrouter: HTTP 400 Provider returned error",
+    "openrouter: HTTP 400 Provider returned error",
+    "openrouter: HTTP 400 Provider returned error"
+   ]
   }
  }
 }

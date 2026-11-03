@@ -11,7 +11,7 @@ concurrency:
   group: bb-render-${{ github.sha }}
   cancel-in-progress: false
 env:
-  PARTES: 16
+  PARTES: 40
 jobs:
   render:
     name: Render parte ${{ matrix.part }}
@@ -19,9 +19,9 @@ jobs:
     timeout-minutes: 300
     strategy:
       fail-fast: false
-      max-parallel: 16
+      max-parallel: 40
       matrix:
-        part: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        part: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -88,22 +88,17 @@ jobs:
             /video/remotion/public/ilha/mapa.json
             /video/remotion/public/overcooked/chefs/chefs.json
             /video/remotion/public/overcooked/pecas/pecas.json
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: video/remotion/package-lock.json
+            /video/scripts/bb_mix.py
       - uses: actions/download-artifact@v4
         with:
           path: partes
           merge-multiple: true
-      - name: Áudio (efeitos e música) e montagem
+      - name: Áudio (vozes, efeitos e música) e montagem
         working-directory: video/remotion
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libnss3 libatk-bridge2.0-0 libgbm1 libxkbcommon0 libasound2t64 > /dev/null || true
-          npm ci --no-audit --no-fund
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null || true
           ARQ=$(python3 -c "import json;print(json.load(open('public/bb/render_pedido.json')).get('arquivo','bb/timeline3d.json'))")
-          npx remotion render VideoBB3D ../../audio.wav --codec=wav --props="{\"arquivo\":\"$ARQ\",\"tl\":null}" --log=error
+          python3 ../scripts/bb_mix.py public/$ARQ ../../audio.wav
           cd ../..
           ls partes/*.mp4 | sort | sed "s|^|file '$PWD/|; s|$|'|" > lista.txt
           ffmpeg -v error -y -f concat -safe 0 -i lista.txt -c copy video540.mp4

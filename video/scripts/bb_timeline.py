@@ -91,6 +91,10 @@ def voz(id_, texto, quem=None, eco=False):
 
 
 SEM_VOZ = bool(__import__('os').environ.get('SEM_VOZ'))
+ELEVEN = bool(__import__('os').environ.get('ELEVEN'))
+EL_NARRADOR = 'lvkgCBi6spByiTZMPJEK'  # Gabriel
+EL_VOZES = {'Claude': 'dX7gRq1dIvLTgUaWpEFn', 'GPT': 'YU8EsJtXFMyKMxYtheDk', 'Gemini': 'GDzHdQOi6jjf8zaXhCYD', 'Grok': 'YbP0Eq5RE5uOoCEl7F3T',
+            'DeepSeek': '2CECaLAGTS5NRGxgbcxr', 'Qwen': 'ohZOfA9iwlZ5nOsoY7LB', 'GLM': 'bJrNspxJVFovUxNBQ0wh', 'MiMo': '33B4UnXyTNbgLmdEDh5P', 'Mistral': '4za2kOXGgUd57HRSQ1fn'}
 TEXTOS = {}
 
 
@@ -102,7 +106,7 @@ def dur_s(id_, eco=False):
     return tts.duration(f) if f.exists() else 2.0
 
 
-MAX_RODADAS = 9
+MAX_RODADAS = 7
 
 
 def escolher(rods, time):
@@ -201,7 +205,14 @@ def cronometrar(blocos):
         for it in b["itens"]:
             if it[0] in ("narr", "fala", "pensa"):
                 voz(it[1], it[2], it[3] if it[0] != "narr" else None, it[4])
-    if not SEM_VOZ:
+    if ELEVEN:  # ElevenLabs (vozes do canal), em paralelo, com cache por hash
+        import build_timeline_au5 as el
+        from concurrent.futures import ThreadPoolExecutor
+        def gerar(p):
+            el.tts(p['text'], EL_VOZES.get(p['ref'], EL_NARRADOR), VOZ / p['id'])
+        with ThreadPoolExecutor(4) as ex:
+            list(ex.map(gerar, PEDIDOS))
+    elif not SEM_VOZ:
         asyncio.run(tts.run_edge([{k: v for k, v in p.items() if k != 'eco'} for p in PEDIDOS], VOZ, 6))
     for p in ([] if SEM_VOZ else PEDIDOS):
         if p['eco']:
@@ -258,7 +269,7 @@ def main():
     tl = {'blocos': blocos, 'cores': CORES, 'modelos': MODELOS, 'musica': 'music/monkeys-spinning-monkeys.mp3', 'semVoz': SEM_VOZ}
     SAIDA.mkdir(parents=True, exist_ok=True)
     (SAIDA / 'pedidos_cb.json').write_text(json.dumps([{k: p[k] for k in ('id', 'texto_cb', 'ref', 'exag')} for p in PEDIDOS], ensure_ascii=False))
-    (SAIDA / ('timeline3d.json' if SEM_VOZ else 'timeline.json')).write_text(json.dumps(tl, ensure_ascii=False))
+    (SAIDA / ('timeline3d.json' if (SEM_VOZ or ELEVEN) else 'timeline.json')).write_text(json.dumps(tl, ensure_ascii=False))
     tot = sum(b['dur'] for b in blocos) / FPS
     print(f'{len(blocos)} blocos, {tot / 60:.1f} min')
 

@@ -7,7 +7,7 @@
 import React from 'react';
 import {AbsoluteFill, Audio, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import * as THREE from 'three';
-import {Cena3D, camPadrao, misturarCam, cabecaMacaco, posMacaco, MESA, Cam, Papel3D, Ator, Lugar3D} from './Cena3Dv2';
+import {Cena3D, CenaPersistente, camPadrao, misturarCam, cabecaMacaco, posMacaco, MESA, Cam, Papel3D, Ator, Lugar3D} from './Cena3Dv2';
 import {Figurinha, MaoCego} from './Figurinha';
 import {Bloco, Timeline, Fala} from './Episodio';
 import {FONT} from '../theme';
@@ -200,13 +200,11 @@ const Rodada: React.FC<{b: Bloco; tl: Timeline}> = ({b, tl}) => {
   const tela = Object.fromEntries(PAPEIS.map((p) => [p, projetar(cam, cabecaMacaco(p), W, H)])) as Record<Papel3D, {x: number; y: number; dentro: boolean}>;
   const corDe = (quem: string) => tl.cores[quem] ?? '#888';
   return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{overflow: 'hidden'}}>
       <FiltroContorno />
-      <AbsoluteFill style={{transform: `translate(${shakeX}px, ${shakeY}px) scale(${grito})`, filter: contorno ? 'url(#bb-contorno)' : undefined}}>
-        <Cena3D width={W} height={H} t={f + (b.fase?.n ?? 0) * 1000} camera={cam} atores={atores} resta={resta} erros={erros} maxErros={b.maxErros ?? 3}
+      <Cena3D estilo={{transform: `translate(${shakeX}px, ${shakeY}px) scale(${grito})`, filter: contorno ? 'url(#bb-contorno)' : undefined}} width={W} height={H} t={f + (b.fase?.n ?? 0) * 1000} camera={cam} atores={atores} resta={resta} erros={erros} maxErros={b.maxErros ?? 3}
           lugar={(b.lugar ?? 'van') as Lugar3D} apagao={apagao} alarme={alarme} tremor={tremor} modulos={mods} foco={b.acao ? b.acao.modulo - 1 : undefined} pov={pl.pov} contorno={contorno}
           banana={b.gesto?.gesto === 'jogar_banana' && f >= b.gesto.ini ? {de: 'Mudo', para: 'Surdo', k: (f - b.gesto.ini - 8) / 22} : undefined} />
-      </AbsoluteFill>
       {/* visão do Cego: mão branca indo até o módulo */}
       {contorno ? (
         <>
@@ -278,10 +276,8 @@ const Cartao: React.FC<{b: Bloco; tl: Timeline}> = ({b, tl}) => {
   const FRASE: Record<Papel3D, string> = {Cego: 'NÃO VÊ', Surdo: 'NÃO OUVE', Mudo: 'NÃO FALA'};
   const atores = Object.fromEntries(PAPEIS.map((p) => [p, {boca: 0, gesto: p === 'Surdo' ? 'polegar_cima' : p === 'Cego' ? 'mexer' : '', tg: 0}])) as Record<Papel3D, Ator>;
   return (
-    <AbsoluteFill style={{background: '#000'}}>
-      <AbsoluteFill style={{filter: 'blur(3px) brightness(0.7)'}}>
-        <Cena3D width={W} height={H} t={f} camera={camPadrao('orbita', f * 2)} atores={atores} resta={b.fase?.tempo ?? 150} erros={0} maxErros={b.fase?.erros ?? 3} lugar={(b.lugar ?? b.fase?.lugar ?? 'van') as Lugar3D} />
-      </AbsoluteFill>
+    <AbsoluteFill>
+      <Cena3D estilo={{filter: 'blur(3px) brightness(0.7)'}} width={W} height={H} t={f} camera={camPadrao('orbita', f * 2)} atores={atores} resta={b.fase?.tempo ?? 150} erros={0} maxErros={b.fase?.erros ?? 3} lugar={(b.lugar ?? b.fase?.lugar ?? 'van') as Lugar3D} />
       <div style={{position: 'absolute', top: 40, width: '100%', textAlign: 'center', transform: `scale(${s}) rotate(-3deg)`}}>
         <span style={{fontFamily: FONT.comic, fontSize: 150, color: '#fff', WebkitTextStroke: '10px #1d1530', paintOrder: 'stroke', letterSpacing: 6}}>{b.titulo}</span>
       </div>
@@ -315,10 +311,8 @@ const Explosao: React.FC<{b: Bloco; tl: Timeline}> = ({b}) => {
   const cam = f < 40 ? camPadrao('bomba', f) : camPadrao('jogo', f);
   const sh = f < 30 ? (1 - f / 30) * 30 : 0;
   return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `translate(${sen(f * 3) * sh}px, ${sen(f * 2.3) * sh}px)`}}>
-        <Cena3D width={W} height={H} t={f} camera={cam} atores={atores} resta={0} erros={3} maxErros={3} lugar={(b.lugar ?? 'van') as Lugar3D} explosao={f < 40 ? k : 0.5 + (f - 40) / 200} />
-      </AbsoluteFill>
+    <AbsoluteFill style={{overflow: 'hidden'}}>
+      <Cena3D estilo={{transform: `translate(${sen(f * 3) * sh}px, ${sen(f * 2.3) * sh}px)`}} width={W} height={H} t={f} camera={cam} atores={atores} resta={0} erros={3} maxErros={3} lugar={(b.lugar ?? 'van') as Lugar3D} explosao={f < 40 ? k : 0.5 + (f - 40) / 200} />
       {f < 6 ? <AbsoluteFill style={{background: '#fff'}} /> : null}
       {f < 70 ? Array.from({length: 22}, (_, i) => {
         const a = (i / 22) * Math.PI * 2 + i, d = interpolate(f, [0, 50], [0, 1100], {extrapolateRight: 'clamp'});
@@ -342,7 +336,7 @@ const Vitoria: React.FC<{b: Bloco; tl: Timeline}> = ({b, tl}) => {
   const {width: W, height: H} = useVideoConfig();
   const atores = Object.fromEntries(PAPEIS.map((p) => [p, {boca: 0.5 + 0.5 * Math.abs(sen(f / 3)), gesto: 'comemorar', tg: PAPEIS.indexOf(p) * 5}])) as Record<Papel3D, Ator>;
   return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{overflow: 'hidden'}}>
       <Cena3D width={W} height={H} t={f} camera={camPadrao('orbita', f * 3)} atores={atores} resta={b.resta ?? 0} erros={0} maxErros={3} lugar={(b.lugar ?? 'van') as Lugar3D} />
       {Array.from({length: 60}, (_, i) => <div key={i} style={{position: 'absolute', left: (i * 97) % W, top: ((f * (7 + (i % 6))) + i * 61) % (H + 80) - 60, width: 18, height: 32, background: ['#ffd600', '#e53935', '#1e88e5', '#43a047', '#fff'][i % 5], transform: `rotate(${f * 9 + i * 23}deg)`}} />)}
       <div style={{position: 'absolute', top: 120, width: '100%', textAlign: 'center', transform: `scale(${spring({frame: f, fps: 30, config: {damping: 8}})}) rotate(-4deg)`}}>
@@ -363,7 +357,7 @@ const Narrador: React.FC<{b: Bloco; tl: Timeline}> = ({b}) => {
   const txt = String(b.texto ?? '');
   const n = Math.ceil(Math.min(1, f / Math.max(15, txt.length * 0.45)) * txt.length);
   return (
-    <AbsoluteFill style={{background: '#000'}}>
+    <AbsoluteFill>
       <Cena3D width={W} height={H} t={f} camera={{...cam, fov: (cam.fov ?? 45) * (1 - Math.min(1, f / 200) * 0.08)}} atores={atores} resta={150} erros={0} maxErros={3} lugar={(b.lugar ?? 'van') as Lugar3D} />
       <AbsoluteFill style={{background: 'linear-gradient(180deg, #0000 45%, #000c 100%)'}} />
       <div style={{position: 'absolute', left: 120, right: 120, bottom: 80, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 56, lineHeight: 1.2, color: '#fff', textShadow: '0 5px 0 #000'}}>
@@ -383,7 +377,7 @@ const Abertura: React.FC<{b: Bloco; tl: Timeline}> = () => {
   if (cena === 0) {
     const s = spring({frame: f - 6, fps: 30, config: {damping: 7, stiffness: 120}});
     return (
-      <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <AbsoluteFill style={{overflow: 'hidden'}}>
         <Cena3D width={W} height={H} t={f} camera={camPadrao('orbita', f * 6)} atores={atores} resta={150} erros={0} maxErros={3} lugar="van" />
         <AbsoluteFill style={{background: 'radial-gradient(circle, #ffb30055 0%, #000a 80%)'}} />
         {Array.from({length: 12}, (_, i) => (
@@ -405,10 +399,8 @@ const Abertura: React.FC<{b: Bloco; tl: Timeline}> = () => {
   const entra = spring({frame: df, fps: 30, config: {damping: 13}});
   const ladoDir = cena !== 2;
   return (
-    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `translateX(${ladoDir ? -220 : 220}px)`}}>
-        <Cena3D width={W} height={H} t={f} camera={{...camPadrao(`close:${p}`, f), fov: 42 - df * 0.06}} atores={atores} resta={150} erros={0} maxErros={3} lugar="van" />
-      </AbsoluteFill>
+    <AbsoluteFill style={{overflow: 'hidden'}}>
+      <Cena3D estilo={{transform: `translateX(${ladoDir ? -220 : 220}px)`}} width={W} height={H} t={f} camera={{...camPadrao(`close:${p}`, f), fov: 42 - df * 0.06}} atores={atores} resta={150} erros={0} maxErros={3} lugar="van" />
       <div style={{position: 'absolute', top: -40, bottom: -40, width: 760, [ladoDir ? 'right' : 'left']: -60, background: COR_PAPEL[p], transform: `translateX(${(1 - entra) * (ladoDir ? 900 : -900)}px) rotate(${ladoDir ? 4 : -4}deg)`, borderLeft: ladoDir ? '16px solid #fff' : undefined, borderRight: ladoDir ? undefined : '16px solid #fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{fontFamily: FONT.comic, fontSize: 150, color: '#fff', lineHeight: 0.95, textAlign: 'center', textShadow: '0 10px 0 #0005', transform: `rotate(${ladoDir ? -4 : 4}deg)`}}>{FR[p][0]}<br />{FR[p][1]}</div>
         <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', marginTop: 30, background: '#0004', padding: '6px 20px', borderRadius: 12}}>{p === 'Cego' ? 'SÓ ELE MEXE NA BOMBA' : p === 'Surdo' ? 'SÓ ELE VÊ A BOMBA' : 'SÓ ELE TEM O MANUAL'}</div>
@@ -423,6 +415,7 @@ export const EpisodioBB3D: React.FC<{tl: Timeline & {semVoz?: boolean}}> = ({tl}
   let ini = 0;
   return (
     <AbsoluteFill style={{background: '#000'}}>
+      <AbsoluteFill style={{zIndex: 1}}>
       {tl.blocos.map((b, i) => {
         const C = BLOCOS[b.tipo] ?? Narrador;
         const s = ini; ini += b.dur;
@@ -433,6 +426,8 @@ export const EpisodioBB3D: React.FC<{tl: Timeline & {semVoz?: boolean}}> = ({tl}
           </Sequence>
         );
       })}
+      </AbsoluteFill>
+      <AbsoluteFill style={{zIndex: 0}}><CenaPersistente /></AbsoluteFill>
     </AbsoluteFill>
   );
 };
