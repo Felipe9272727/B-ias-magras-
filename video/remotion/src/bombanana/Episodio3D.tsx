@@ -373,7 +373,51 @@ const Narrador: React.FC<{b: Bloco; tl: Timeline}> = ({b}) => {
   );
 };
 
-const BLOCOS: Record<string, React.FC<{b: Bloco; tl: Timeline}>> = {rodada: Rodada, fase: Cartao, titulo: Cartao, explosao: Explosao, vitoria: Vitoria, narrador: Narrador};
+// abertura no estilo do trailer: logo e um painel colorido para cada papel, com o close do macaco
+const Abertura: React.FC<{b: Bloco; tl: Timeline}> = () => {
+  const f = useCurrentFrame();
+  const {width: W, height: H} = useVideoConfig();
+  const atores = Object.fromEntries(PAPEIS.map((p) => [p, {boca: 0, gesto: p === 'Mudo' ? 'mao_parada' : p === 'Surdo' ? 'falar' : 'cabeca_nao', tg: 0}])) as Record<Papel3D, Ator>;
+  const cena = Math.floor(f / 75);
+  const df = f - cena * 75;
+  if (cena === 0) {
+    const s = spring({frame: f - 6, fps: 30, config: {damping: 7, stiffness: 120}});
+    return (
+      <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+        <Cena3D width={W} height={H} t={f} camera={camPadrao('orbita', f * 6)} atores={atores} resta={150} erros={0} maxErros={3} lugar="van" />
+        <AbsoluteFill style={{background: 'radial-gradient(circle, #ffb30055 0%, #000a 80%)'}} />
+        {Array.from({length: 12}, (_, i) => (
+          <svg key={i} viewBox="-50 -30 100 60" width={150} style={{position: 'absolute', left: (i * 173) % W, top: ((f * (9 + i % 4)) + i * 90) % (H + 100) - 80, transform: `rotate(${f * 8 + i * 30}deg)`}}>
+            <path d="M-40,0 Q0,34 40,-6 Q30,20 0,24 Q-30,22 -40,0 Z" fill="#fdd835" stroke="#2a1a00" strokeWidth={4} />
+          </svg>
+        ))}
+        <div style={{position: 'absolute', top: 300, width: '100%', textAlign: 'center', transform: `scale(${s}) rotate(${-4 + sen(f / 10) * 1.5}deg)`}}>
+          <span style={{fontFamily: FONT.comic, fontSize: 260, color: '#ffd21f', WebkitTextStroke: '16px #b3220f', paintOrder: 'stroke', textShadow: '0 18px 0 #000a', letterSpacing: 6}}>BOMBANANA!</span>
+        </div>
+        <div style={{position: 'absolute', top: 640, width: '100%', textAlign: 'center', transform: `scale(${spring({frame: f - 22, fps: 30, config: {damping: 9}})})`}}>
+          <span style={{fontFamily: FONT.comic, fontSize: 110, color: '#fff', background: '#1f3fd6', padding: '0 40px', borderRadius: 26, border: '9px solid #fff', letterSpacing: 4}}>DAS IAs</span>
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  const p = PAPEIS[Math.min(2, cena - 1)];
+  const FR: Record<Papel3D, [string, string]> = {Cego: ['UM', 'NÃO VÊ'], Surdo: ['UM', 'NÃO OUVE'], Mudo: ['UM', 'NÃO FALA']};
+  const entra = spring({frame: df, fps: 30, config: {damping: 13}});
+  const ladoDir = cena !== 2;
+  return (
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <AbsoluteFill style={{transform: `translateX(${ladoDir ? -220 : 220}px)`}}>
+        <Cena3D width={W} height={H} t={f} camera={{...camPadrao(`close:${p}`, f), fov: 42 - df * 0.06}} atores={atores} resta={150} erros={0} maxErros={3} lugar="van" />
+      </AbsoluteFill>
+      <div style={{position: 'absolute', top: -40, bottom: -40, width: 760, [ladoDir ? 'right' : 'left']: -60, background: COR_PAPEL[p], transform: `translateX(${(1 - entra) * (ladoDir ? 900 : -900)}px) rotate(${ladoDir ? 4 : -4}deg)`, borderLeft: ladoDir ? '16px solid #fff' : undefined, borderRight: ladoDir ? undefined : '16px solid #fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{fontFamily: FONT.comic, fontSize: 150, color: '#fff', lineHeight: 0.95, textAlign: 'center', textShadow: '0 10px 0 #0005', transform: `rotate(${ladoDir ? -4 : 4}deg)`}}>{FR[p][0]}<br />{FR[p][1]}</div>
+        <div style={{fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', marginTop: 30, background: '#0004', padding: '6px 20px', borderRadius: 12}}>{p === 'Cego' ? 'SÓ ELE MEXE NA BOMBA' : p === 'Surdo' ? 'SÓ ELE VÊ A BOMBA' : 'SÓ ELE TEM O MANUAL'}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const BLOCOS: Record<string, React.FC<{b: Bloco; tl: Timeline}>> = {abertura: Abertura, rodada: Rodada, fase: Cartao, titulo: Cartao, explosao: Explosao, vitoria: Vitoria, narrador: Narrador};
 
 export const EpisodioBB3D: React.FC<{tl: Timeline & {semVoz?: boolean}}> = ({tl}) => {
   let ini = 0;

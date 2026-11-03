@@ -35,7 +35,7 @@ const rotMacaco = (p: Papel3D) => {
   return Math.atan2((MESA.x - m.x) * 0.5, MESA.z - m.z);
 };
 // ponto da cabeça de cada macaco (para mirar câmeras e prender balões)
-export const cabecaMacaco = (p: Papel3D) => posMacaco(p).clone().add(new THREE.Vector3(0, 0.95 * ESCALA_MACACO, 0));
+export const cabecaMacaco = (p: Papel3D) => posMacaco(p).clone().add(new THREE.Vector3(0, 0.82 * ESCALA_MACACO, 0));
 
 // ---------------------------------------------------------------- carregamento (uma vez por arquivo)
 const cache: Record<string, Promise<THREE.Group>> = {};
@@ -413,7 +413,7 @@ export function camPadrao(nome: string, t = 0): Cam {
   // primeira pessoa (como no jogo): olhos do macaco; o Surdo e o Cego olham a bomba, o Mudo olha os outros dois
   if (nome.startsWith('pov:')) {
     const p = nome.split(':')[1] as Papel3D;
-    const olho = cabecaMacaco(p).add(new THREE.Vector3(0, p === 'Mudo' ? 0.12 : -0.02, 0));
+    const olho = cabecaMacaco(p).add(new THREE.Vector3(0, p === 'Mudo' ? 0.25 : 0.11, 0));
     const pm = posMacaco(p); const dir = MESA.clone().sub(pm).setY(0).normalize();
     olho.add(dir.clone().multiplyScalar(0.12));
     const alvo = p === 'Mudo' ? new THREE.Vector3(0, 1.3, MESA.z + 0.98) : MESA.clone().add(new THREE.Vector3(0, 0.22, 0));
@@ -428,8 +428,8 @@ export function camPadrao(nome: string, t = 0): Cam {
     const dir = MESA.clone().sub(posMacaco(p)).setY(0).normalize();
     const fora = new THREE.Vector3(p === 'Mudo' ? 1 : Math.sign(posMacaco(p).x) || 1, 0, 0);
     const perto = nome.startsWith('close:');
-    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 0.78 : 1.15)).add(fora.multiplyScalar(perto ? (p === 'Mudo' ? 0.7 : 0.5) : (p === 'Mudo' ? 1.25 : 0.85))).add(new THREE.Vector3(0, perto ? 0.1 : 0.32, 0));
-    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.08 : -0.3, 0))), fov: perto ? 40 : 50};
+    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 0.95 : 1.3)).add(fora.multiplyScalar(perto ? (p === 'Mudo' ? 0.7 : 0.5) : (p === 'Mudo' ? 1.25 : 0.85))).add(new THREE.Vector3(0, perto ? 0.1 : 0.32, 0));
+    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.1 : -0.3, 0))), fov: perto ? 42 : 50};
   }
   // por cima do ombro de um macaco olhando a bomba
   if (nome.startsWith('ombro:')) {

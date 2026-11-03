@@ -137,6 +137,8 @@ def montar(nome='partida1', fases=range(1, 10)):
     def narr(id_, texto, lugar='van'):
         blocos.append({'tipo': 'narrador', 'lugar': lugar, 'texto': texto, 'itens': [('narr', id_, texto, None, False)]})
 
+    if 1 in dados:  # abertura no estilo do trailer (logo + um painel por papel)
+        blocos.append({'tipo': 'abertura', 'lugar': 'van', 'itens': [('sfx', 'sfx/whoosh.mp3'), ('dur', 300)]})
     for i, t in enumerate(R.get('intro', [])):
         narr(f'intro{i}', t)
     for n, evs in dados.items():
@@ -237,6 +239,8 @@ def cronometrar(blocos):
             elif kind == 'sfx':
                 audio.append({'src': it[1], 'ini': 0})
                 f = max(f, 105)
+            elif kind == 'dur':
+                f = max(f, it[1] - 10)
         if b['tipo'] == 'fase':
             f = max(f, 120)
         b['falas'] = falas
