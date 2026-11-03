@@ -60,7 +60,7 @@ jobs:
           echo "total $TOT frames, parte $I: $A-$B"
           mkdir -p ../../saida
           if [ $A -le $B ]; then
-            npx remotion render VideoBB3D ../../saida/parte_$(printf %02d $I).mp4 --props="{\"arquivo\":\"$ARQ\",\"tl\":null}" --frames=$A-$B --scale=0.5 --gl=swangle --muted --concurrency=3 --timeout=240000 --crf=18 --log=error
+            npx remotion render VideoBB3D ../../saida/parte_$(printf %02d $I).mp4 --props="{\"arquivo\":\"$ARQ\",\"tl\":null}" --frames=$A-$B --scale=0.5 --gl=swangle --muted --concurrency=4 --timeout=240000 --crf=18 --log=error
           fi
       - uses: actions/upload-artifact@v4
         with:

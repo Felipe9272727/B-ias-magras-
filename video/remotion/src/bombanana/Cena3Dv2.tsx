@@ -308,8 +308,8 @@ const Ambiente: React.FC<{t: number; apagao: number; alarme: number; flash: numb
     <>
       <hemisphereLight args={['#dfe6ff', '#4a4060', 1.1 * luz]} />
       <ambientLight intensity={0.35 * luz} />
-      <pointLight position={[MESA.x, 2.05, MESA.z]} intensity={9 * luz + flash * 60} distance={8} decay={1.6} color="#ffd59a" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.002} />
-      <directionalLight position={[-1.5, 4, 4]} intensity={1.3 * luz} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} shadow-bias={-0.0015} />
+      <pointLight position={[MESA.x, 2.05, MESA.z]} intensity={9 * luz + flash * 60} distance={8} decay={1.6} color="#ffd59a" />
+      <directionalLight position={[-1.5, 4, 4]} intensity={1.3 * luz} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} shadow-bias={-0.0015} />
       <directionalLight position={[3, 2, -2]} intensity={0.5 * luz} color="#bcd4ff" />
       {apagao ? <pointLight position={[MESA.x, 1.2, MESA.z]} intensity={2.5 * apagao} distance={3} color="#7dff6a" /> : null}
       {alarme ? <pointLight position={[0, 2.5, 0]} intensity={14 * sirene * alarme} distance={9} color="#ff2010" /> : null}
@@ -405,7 +405,7 @@ const Cena3DReal: React.FC<Cena3DProps> = (pr) => {
   }, [h]);
   const exp = pr.explosao ?? 0;
   return (
-    <ThreeCanvas width={pr.width} height={pr.height} shadows camera={{fov: 45, near: 0.05, far: 40}} gl={{antialias: true, preserveDrawingBuffer: true}}>
+    <ThreeCanvas width={pr.width} height={pr.height} shadows camera={{fov: 45, near: 0.05, far: 40}} gl={{antialias: false, preserveDrawingBuffer: true, powerPreference: 'high-performance'}}>
       <Restaura />
       <Ambiente t={pr.t} apagao={pr.apagao ?? 0} alarme={pr.alarme ?? 0} flash={exp > 0 && exp < 0.15 ? 1 - exp / 0.15 : 0} />
       <Camera c={pr.camera} />
