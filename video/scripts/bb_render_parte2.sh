@@ -10,7 +10,7 @@ CH=$(( (TOT + N - 1) / N )); A=$(( I * CH )); B=$(( A + CH - 1 )); [ $B -ge $TOT
 NN=$(printf %02d $I)
 OUT=/tmp/bb2_parte_$NN.mkv
 echo "parte $I: quadros $A-$B de $TOT"
-GL=angle-egl; [ -e /opt/pw-browsers ] || GL=swangle
+GL=${GL:-swangle}
 npx remotion render Bombanana $OUT --codec=h264-mkv --frames=$A-$B --scale=0.5 --gl=$GL --concurrency=4 --timeout=240000 --crf=18 --log=error
 R=$(git remote get-url origin)
 D=$(mktemp -d); cd $D; git init -q; git checkout -q -b bb2-parte-$NN
