@@ -36,3 +36,78 @@
 [10s] Cego GLM: Mudo, tem as regras? Três cabos, azul-preto-preto, luz vermelha, e slider em 3!  -> 
        Surdo MiMo: Cego, não mexe ainda! O Mudo pediu espera, tá caçando a regra no manual. Segura aí. mao_parada
        Mudo Mistral: apontar_banana:azul (Luz vermelha + 3 cabos + último é preto (não branco) = corta o 1º, que é o azul.)
+[20s] Cego GLM: Beleza, seguro o dedo longe dos cabos! Mudo, corre com essas regras aí, 2:10 no relógio!  -> 
+       Surdo MiMo: Mudo achou! Ele apontou a banana AZUL. Cego, é o cabo azul — o primeiro da esquerda — corta ele agora! polegar_cima
+       Mudo Mistral: - ()
+[30s] Cego GLM: Cortando o primeiro cabo! {"modulo":1,"tipo":"cortar_cabo","valor":"1"} -> cortou o primeiro cabo: certo
+       Surdo MiMo: Cego, cortou o cabo azul ainda? Se não cortou, corta agora — o primeiro da esquerda! Mudo, e o módulo 2 do slider? Tela laranja, entalhe 3 de 5 — acha a regra aí! apontar_banana:azul
+       Mudo Mistral: dedos:2 (Luz vermelha, 3 cabos, último é preto (não branco): corta o 1º (azul) — já passe)
+[40s] Cego GLM: Módulo 1 tá fora! Mudo, agora o slider: tá no entalhe 3 de 5, tela laranja. Qual posição eu travo?  -> 
+       Surdo MiMo: Boa, Cego! Cabo azul cortado, módulo 1 desarmado! Agora módulo 2, o slider: tela LARANJA, entalhe 3 de 5 (do 1 ao 5, tá no meio). Mudo, procura essa regra aí — tela laranja, posição 3! mao_parada
+       Mudo Mistral: dedos:2 (Tela laranja no manual pede entalhe 2. Zero X aceso, então não soma — é 2 direto)
+[50s] Cego GLM: Mudo, tá no entalhe 3 de 5, tela laranja! Qual posição eu travo? Diz aí!  -> 
+       Surdo MiMo: Cego, o Mudo respondeu: dois! O slider vai pro entalhe 2 de 5. Tá no 3 agora, empurra uma pra esquerda — vai pro 2! Corre! dedos:2
+       Mudo Mistral: dedos:2 (Tela laranja, zero X aceso — então é entalhe 2 direto, sem soma! Vai no 2!)
+[60s] Cego GLM: Vou pro 2 e travo! {"modulo":2,"tipo":"travar_slider","valor":"2"} -> travou o slider no entalhe 2: certo
+       Surdo MiMo: Cego, o slider ainda tá no 3! Manda pro 2 AGORA — empurra uma pra esquerda! Mudo, tela LARANJA, entalhe 3, confirma: é 2 mesmo? dedos:2
+       Mudo Mistral: dedos:2 (Tela laranja com zero X aceso = entalhe 2. Já falei, mas vou mostrar de novo pro)
+=== Fase 3: DESARMOU
+
+=== Fase 4 (aviao) | Cego Gemini, Surdo Claude, Mudo GPT | slider + direcao
+[0s] Cego Gemini: Mudo, módulo 1 tem slider de 5 entalhes no 3. Módulo 2 tem setas e a placa em Braille diz 4, etapa 1 de 2! Claude, fica de olho nele!  -> 
+       Surdo Claude: Galera, olhem: Módulo 1 é um slider com a tela azul, e ele tá no entalhe 3 de 5. Módulo 2 tem luz vermelha, quatro setas e uma plaquinha de bolinha em relevo que eu não sei ler. Mudo, o que o manual diz? apontar:cima
+       Mudo GPT: mao_parada (Preciso que o Surdo descreva a cor do slider e, depois, a luz e o número em Brai)
+[10s] Cego Gemini: Mudo, responde pro Claude se a gente vai no slider ou nas setas! Claude, me fala assim que ele apontar!  -> 
+       Surdo Claude: Calma, Gemini, não encosta em nada! O Mudo pediu pra esperar. Mudo, achou a regra? A tela azul e o slider no 3 batem com alguma coisa aí? mao_parada
+       Mudo GPT: dedos:1 (O slider azul deve ir para o entalhe 1. A seta para luz vermelha e Braille 4 é d)
+[20s] Cego Gemini: Tô com a mão fora da bomba! Claude, assim que o Mudo gesticular o que fazer, me canta a letra!  -> 
+       Surdo Claude: Mudo, 1 dedo é o Módulo 1? Então a regra é o slider azul no entalhe 3? Confirma com polegar, Gemini segura a mão até lá! dedos:1
+       Mudo GPT: apontar:direita (Azul exige entalhe 1. Para luz vermelha e número 4, a direção é direita.)
+[30s] Cego Gemini: Mão parada! Claude, só fala pra qual entalhe mexer e se travo agora!  -> 
+       Surdo Claude: Mudo, apontou pra direita: é mexer o slider pra direita? Gemini, mão parada, não encosta em nada até confirmar! mao_parada
+       Mudo GPT: dedos:1 (Azul exige entalhe 1. Depois, vermelho com número 4 exige seta para a direita.)
+[40s] Cego Gemini: Tô paradinho! Claude, confirma o número do entalhe exato com o Mudo e me manda travar!  -> 
+       Surdo Claude: Mudo, de novo: 1 dedo é o Módulo 1? E apontar pra direita é mover o slider pra direita? Confirma com polegar ou cabeça não. Gemini, segura essa mão! mao_parada
+       Mudo GPT: dedos:1 (A tela é azul; o slider deve ir ao entalhe 1. O gesto dedos:1 confirma o entalhe)
+[50s] Cego Gemini: Mão parada! Claude, se for mover pra direita, pergunta pro Mudo se vai pro entalhe 4 ou 5!  -> 
+       Surdo Claude: Mudo, entendi: Módulo 1, slider azul no 3, e a direita é o sentido. Mas pra qual entalhe, 4 ou 5? Confirma com polegar. Gemini, mão parada, nada de chute! apontar:direita
+       Mudo GPT: dedos:1 (Azul exige o entalhe 1, não o 3. O módulo é o slider; mova para a esquerda até a)
+[60s] Cego Gemini: Mudo, responde pro Claude se é entalhe 4 ou 5 logo! Claude, tô esperando seu comando!  -> 
+       Surdo Claude: Mudo, tá travado nesse 1 dedo! Me dá sim ou não, sem enrolar. Gemini, continua de mão parada, cronômetro correndo! apontar:direita
+       Mudo GPT: dedos:1 (O slider está azul e sem erros: o entalhe correto é 1, não 4 nem 5.)
+[70s] Cego Gemini: Mudo, mostra 4 ou 5 dedos pro Claude saber o entalhe! Claude, tô pronto pra travar assim que você cantar!  -> 
+       Surdo Claude: Mudo, para com o 1 dedo! Vou por partes: o slider azul tá no 3. Se o manual manda mexer ele, você levanta polegar. Se manda ler o Braille primeiro, você bate cabeça não. Gemini, mão parada, ninguém encosta em nada! apontar:baixo
+       Mudo GPT: dedos:1 (Azul sem erros vai no entalhe 1, não no 4 nem no 5. Preciso insistir no número c)
+[80s] Cego Gemini: Mão congelada! Mudo, responde rápido o Claude, temos 1 minuto e 40! Fala logo o que fazer!  -> 
+       Surdo Claude: Mudo, para com o 1 dedo! Pergunta direta: o slider azul no 3 vai pro 4 ou pro 5? Me responde com dedos: 4 dedos é o 4, 5 é o 5. Gemini, mão parada, não encosta em nada! repetir
+       Mudo GPT: dedos:1 (Azul exige entalhe 1, sem erro adicional. Não é 4 nem 5.)
+[90s] Cego Gemini: Mudo, faz 4 ou 5 dedos na cara do Claude logo! Mão paradinha aqui, Claude!  -> 
+       Surdo Claude: Gente, apagou tudo, não enxergo a bomba! Gemini, mão parada, não encosta em nada até a luz voltar. Mudo, se você ainda tá vendo, para de mostrar 1 dedo e me fala a regra em voz alta! mao_parada
+       Mudo GPT: dedos:1 (Azul sem erros vai para o entalhe 1, não 4 nem 5. O Claude precisa travar no 1.)
+[100s] Cego Gemini: Claude, o Mudo NÃO FALA! Mudo, quando a luz voltar ou se der pra ver, mostra 4 ou 5 dedos pro Claude! Mão parada!  -> 
+       Surdo Claude: Gente, continuo no escuro, não vejo nada! Gemini, mão parada, não encosta em nada! Mudo, se a sua tela ainda tá acesa, me dá um sinal claro, nada de 1 dedo de novo! mao_parada
+       Mudo GPT: dedos:1 (Azul deve ir para o entalhe 1; não é 4 nem 5. Vou insistir claramente.)
+[110s] Cego Gemini: Mão congelada aqui! Mudo, quando a luz do Claude voltar, mostra 4 ou 5 dedos direto na fuça dele!  -> 
+       Surdo Claude: Gente, a bomba tá acesa, eu vejo tudo, esquece o escuro! Mudo, descrevo de novo: slider azul no entalhe 3 de 5; módulo 2, luz vermelha, quatro setas e uma plaquinha de Braille. Me diz a regra em voz alta, sem 1 dedo! Gemini, mão parada, ninguém encosta! mao_parada
+       Mudo GPT: dedos:1 (Azul deve ir para o entalhe 1. Não é 4 nem 5; mantenho a indicação correta.)
+[120s] Cego Gemini: Mudo, o Claude NÃO TE OUVE e esquece que você não fala! Se 1 dedo for entalhe 1 ou módulo 1, aponta ou gesticula pro Claude entender! Claude, eu continuo de mão parada!  -> 
+       Surdo Claude: Mudo, eu te vejo, mas 1 dedo não me diz nada! Repito: slider azul no 3 de 5, módulo 2 com luz vermelha, quatro setas e uma plaquinha de Braille. Me fala a regra em voz alta, ou então polegar pra sim e polegar pra não. Gemini, mão parada, ninguém encosta! mao_parada
+       Mudo GPT: dedos:1 (Azul corresponde ao entalhe 1. O Claude deve mover o slider do 3 para o 1; depoi)
+[130s] Cego Gemini: Mudo, o Claude quer SIM ou NÃO com polegar! Aponta pro slider ou faz polegar! Claude, pelo amor de Deus, me dá a ordem!  -> 
+       Surdo Claude: Gemini, mão parada, não encosta em nada! Mudo, 1 dedo não ajuda, a gente tá sem tempo! Escuta: slider azul no 3 de 5, módulo 2 com luz vermelha e quatro setas. Me responde só com polegar: polegar pra cima se for pro 4, polegar pra baixo se for pro 5. Vai! apontar:cima
+       Mudo GPT: dedos:1 (Azul exige entalhe 1. O Claude já sabe que é o slider azul; mostrar 1 dedo é a i)
+[140s] Cego Gemini: Mudo, faz o polegar pro Claude AGORA! Pra cima 4, pra baixo 5! Faltam 40 segundos, caralho! Claude, assim que você falar eu travo!  -> 
+       Surdo Claude: Mudo, 1 dedo de novo? Não entendo nada assim! Responde só com polegar: achou a regra pro slider azul no 3 de 5? Polegar pra cima é sim, pra baixo é não. Gemini, mão parada, não corta nada! mao_parada
+       Mudo GPT: apontar:esquerda (Azul exige entalhe 1, a ponta esquerda. Depois o módulo de direção precisa do nú)
+[150s] Cego Gemini: MUDO, PARA DE MOSTRAR 1 DEDO, FAZ O POLEGAR PRA CIMA PRO CLAUDE! OU APONTA PRO MEU DEDO! FALTAM 30 SEGUNDOS!  -> 
+       Surdo Claude: Mudo, apontou pra esquerda, mas não entendi! Isso é pro slider ir pra esquerda? Polegar pra cima é sim, pra baixo é não. Gemini, mão parada, nada de chute! mao_parada
+       Mudo GPT: dedos:1 (Azul exige entalhe 1, não 4 nem 5. Preciso insistir no número correto para o sli)
+[160s] Cego Gemini: MUDO, FAZ POLEGAR PRA CIMA PRO CLAUDE AGORA! CLAUDE, SE ELE FIZER, ME MANDA PRO 1! RÁPIDO!  -> 
+       Surdo Claude: Mudo, 20 segundos! Pergunta só de sim ou não: o slider azul tem que ir pro 4? Polegar pra cima é sim, pra baixo é não. Gemini, mão parada, não encosta em nada! apontar:cima
+       Mudo GPT: dedos:1 (Azul exige o entalhe 1; não é 4 nem 5. O slider deve ir para a ponta esquerda.)
+[170s] Cego Gemini: ACABOU O TEMPO, O MUDO TÁ MOSTRANDO 1 DEDO E ESQUERDA HÁ MEIA HORA, VOU TRAVAR NO 1! {"modulo":1,"tipo":"travar_slider","valor":1} -> travou o slider no entalhe 1: certo
+       Surdo Claude: Gemini, mão parada, não encosta em nada! Mudo, último sinal: 1 dedo ou polegar? Se não tiver certeza, a gente não mexe! mao_parada
+       Mudo GPT: polegar_baixo (Não. O slider azul deve ficar no entalhe 1, não no 4.)
+=== Fase 4: TEMPO
+
+=== Fase 5 (aviao) | Cego Qwen, Surdo Grok, Mudo DeepSeek | slider + calculadora
