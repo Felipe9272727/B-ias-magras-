@@ -37,7 +37,7 @@ NARIZ = mat('nariz', (0.86, 0.3, 0.22), 0.55)
 LINHA = mat('linha', (0.32, 0.13, 0.05), 0.7)
 COPO = mat('copo', (0.43, 0.6, 0.82), 0.6)
 ARO = mat('aro', (0.88, 0.6, 0.12), 0.55)
-GOLA = mat('gola', (0.85, 0.47, 0.34), 0.6)
+GOLA = mat('gola', {'cego': (0.95, 0.55, 0.1), 'surdo': (0.15, 0.7, 0.45), 'mudo': (0.25, 0.5, 0.95)}.get(PAPEL, (0.9, 0.9, 0.9)), 0.6)  # cor da IA (o three.js troca por fase)
 VERMELHO = mat('vermelho', (0.88, 0.2, 0.15), 0.75)
 
 
@@ -146,16 +146,13 @@ b = esfera((0, -0.175, 0.37), (0.155, 0.055, 0.165)); b.name = 'barriga'; b.data
 for x in (-1, 1):
     o = esfera((0.34 * x, 0.0, 0.8), (0.15, 0.05, 0.15)); o.name = f'orelha_{"LR"[x > 0]}'; o.data.materials.append(PELO); pecas.append(o)
     i = esfera((0.345 * x, -0.035, 0.8), (0.1, 0.025, 0.1)); i.name = f'orelha_miolo_{"LR"[x > 0]}'; i.data.materials.append(PELE); pecas.append(i)
-# topete em espiral de sorvete
-pts, rs = [], []
-for k in range(9):
-    t = k / 8
-    ang = t * math.pi * 3.2
-    r = 0.11 * (1 - t) + 0.015
-    pts.append((math.cos(ang) * r, -0.05 + math.sin(ang) * r * 0.8 - 0.04 * t, 1.0 + t * 0.15))
-    rs.append(1.0 - 0.75 * t)
-top = curva(pts, 0.07, 'topete', rs); top.data.materials.append(TOPETE); pecas.append(top)
-base_top = esfera((0, -0.04, 0.99), (0.15, 0.12, 0.06)); base_top.name = 'topete_base'; base_top.data.materials.append(TOPETE); pecas.append(base_top)
+# topete em chama: nasce largo na testa, sobe e a ponta enrola para trás (como no boneco de referência)
+pts = [(0, -0.17, 0.97), (0, -0.14, 1.06), (0, -0.07, 1.13), (0, 0.02, 1.15), (0, 0.07, 1.11), (0, 0.05, 1.07)]
+rs = [1.0, 0.95, 0.8, 0.55, 0.32, 0.12]
+top = curva(pts, 0.075, 'topete', rs, res=32)
+top.scale = (1.45, 1, 1); bpy.ops.object.transform_apply(scale=True)
+top.data.materials.append(TOPETE); pecas.append(top)
+base_top = esfera((0, -0.08, 0.985), (0.16, 0.13, 0.05)); base_top.name = 'topete_base'; base_top.data.materials.append(TOPETE); pecas.append(base_top)
 # olhos ovais pretos foscos
 olhos = []
 for x in (-1, 1):
@@ -169,10 +166,11 @@ boca = curva([(-0.09, -0.27, 0.69), (0, -0.29, 0.665), (0.09, -0.27, 0.69)], 0.0
 md = boca.modifiers.new('cola', 'SHRINKWRAP'); md.target = pele; md.offset = 0.002; bpy.ops.object.modifier_apply(modifier='cola')
 boca.data.materials.append(LINHA)
 # gola (cor da IA): faixinha no pescoço
-bpy.ops.mesh.primitive_torus_add(major_radius=0.16, minor_radius=0.03, location=(0, -0.01, 0.57))
-gola = bpy.context.active_object; gola.name = 'gola'; gola.scale = (1.15, 1.0, 0.6); bpy.ops.object.transform_apply(scale=True)
+bpy.ops.mesh.primitive_torus_add(major_radius=0.185, minor_radius=0.035, location=(0, -0.015, 0.585))
+gola = bpy.context.active_object; gola.name = 'gola'; gola.scale = (1.12, 1.0, 0.55); bpy.ops.object.transform_apply(scale=True)
 gola.data.materials.append(GOLA)
-for p in gola.data.polygons:
+bpy.data.objects.remove(gola)  # sem gola: o boneco de referência não tem; a IA é identificada pelo letreiro do vídeo
+for p in []:
     p.use_smooth = True
 # luvas de mitene (peça lisa à parte)
 luvas = []
@@ -287,7 +285,7 @@ def prender(o, nome_osso):
 
 for o in pecas + olhos + acess + ([boca] if boca else []):
     prender(o, 'cabeca')
-for o in corpo_pecas + [gola]:
+for o in corpo_pecas:
     prender(o, 'coluna')
 for o in (copo, aro, borda):
     prender(o, 'quadril')

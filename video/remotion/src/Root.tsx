@@ -3,6 +3,7 @@ import {TesteBB} from './bombanana/Teste';
 import {TesteBomba} from './bombanana/TesteBomba';
 import {TesteCena} from './bombanana/TesteCena';
 import {Teste3D} from './bombanana/Teste3D';
+import {Teste3Dv2} from './bombanana/Teste3Dv2';
 import {VideoBB, calcVideoBB} from './bombanana/Episodio';
 import {Main} from './Main';
 import {Thumbnail} from './Thumbnail';
@@ -265,6 +266,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="AU4MapaV3" component={ArtePreview} width={1920} height={1080} defaultProps={{v3: true}} />
     <Still id="TesteBB" component={TesteBB} width={1920} height={1080} />
       <Composition id="VideoBB" component={VideoBB as any} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{tl: null, arquivo: 'bb/timeline.json'}} calculateMetadata={calcVideoBB as any} />
+      <Still id="Teste3Dv2" component={Teste3Dv2 as any} width={960} height={540} defaultProps={{cam: 'jogo', gc: 'mexer', gs: 'falar', gm: 'dedos:3', lugar: 'van'}} />
       <Still id="Teste3D" component={Teste3D as any} width={1920} height={1080} defaultProps={{cam: 'geral'}} />
       <Still id="TesteCena" component={TesteCena} width={1920} height={1080} defaultProps={{modulos: [], lugar: 'van'}} />
       <Still id="TesteBomba" component={TesteBomba} width={1920} height={1080} defaultProps={{modulos: []}} />

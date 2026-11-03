@@ -170,3 +170,21 @@ export const Bomba: React.FC<{modulos: Modulo[]; resta: number; erros: number; m
     </svg>
   );
 };
+
+// só os módulos (para a textura do painel da bomba 3D): grade 1x1, 2x1 ou 2x2, fundo da maleta
+export const PainelModulos: React.FC<{modulos: Modulo[]; foco?: number}> = ({modulos, foco}) => {
+  const n = modulos.length;
+  const cols = n <= 1 ? 1 : 2, rows = Math.ceil(n / cols);
+  const pw = 420, ph = 420, gap = 30;
+  const W = cols * pw + (cols - 1) * gap + 60, H = rows * ph + (rows - 1) * gap + 60;
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${W} ${H}`} width={W} height={H}>
+      <rect x={0} y={0} width={W} height={H} rx={30} fill="#1c1715" />
+      {modulos.map((m, i) => (
+        <Painel key={i} x={30 + (i % cols) * (pw + gap)} y={30 + Math.floor(i / cols) * (ph + gap)} w={pw} h={ph} ok={m.resolvido} titulo={`${i + 1} · ${NOMES[m.tipo] ?? m.tipo}`} destaque={foco === i}>
+          {conteudo(m, pw, ph)}
+        </Painel>
+      ))}
+    </svg>
+  );
+};

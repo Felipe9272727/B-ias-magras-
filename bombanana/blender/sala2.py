@@ -359,14 +359,16 @@ caixote_laranja('caixote_laranja_fundo', (2.55, -1.95, 0.22), t=0.45)
 # ---------------- mesa hexagonal no centro (como no jogo): borda de madeira, feltro verde, pé central
 BX, BY = 0.0, 0.2
 MESA_Z = 0.74
-cil('mesa_tampo', (BX, BY, MESA_Z - 0.05), 0.98, 0.1, MAD_VERM, v=6, bis=0.03)
-cil('mesa_borda', (BX, BY, MESA_Z + 0.005), 0.98, 0.05, MAD_VERM, v=6, bis=0.02)
-cil('mesa_feltro', (BX, BY, MESA_Z + 0.012), 0.84, 0.03, FELTRO, v=6, bis=0.008)
+cil('mesa_tampo', (BX, BY, MESA_Z - 0.04), 1.0, 0.09, MAD_VERM, v=6, bis=0.03)
+cil('mesa_feltro', (BX, BY, MESA_Z + 0.01), 0.9, 0.02, FELTRO, v=6, bis=0.005)
+for i in range(6):  # borda de madeira levantada em volta do feltro (como no jogo)
+    a = math.radians(60 * i); ap = 1.0 * math.cos(math.radians(30)) - 0.06
+    caixa(f'mesa_borda{i}', (BX + ap * math.cos(a), BY + ap * math.sin(a), MESA_Z + 0.03), (0.13, 1.06, 0.07), MAD_VERM, r=0.03, rot=(0, 0, a))
 cil('mesa_pe', (BX, BY, 0.36), 0.14, 0.6, MAD, r2=0.1, v=32)
 cil('mesa_base', (BX, BY, 0.04), 0.5, 0.08, MAD, v=6, bis=0.02)
 # banquinhos dos três macacos (o copo azul do macaco senta no prato do banco)
 BANCO_Z = 0.36
-ASSENTOS = {'cego': 252, 'surdo': 140, 'mudo': 30}  # ângulo (graus) em volta da mesa
+ASSENTOS = {'cego': 238, 'surdo': 130, 'mudo': 18}  # ângulo (graus) em volta da mesa
 BANCO_R = 1.32
 BANCO_MAT = mat('banco', (0.62, 0.7, 0.86), 0.45)
 for papel, ang in ASSENTOS.items():
@@ -490,7 +492,7 @@ if '--previa' in sys.argv:
         antes = set(bpy.data.objects)
         bpy.ops.import_scene.gltf(filepath=os.path.join(SAIDA, f'macaco3_{papel}.glb'))
         raiz = next(o for o in bpy.data.objects if o not in antes and o.name.startswith('macaco'))
-        raiz.location = (x, y, BANCO_Z); raiz.scale = (1.35,) * 3; raiz.rotation_mode = 'XYZ'
+        raiz.location = (x, y, BANCO_Z); raiz.scale = (1.15,) * 3; raiz.rotation_mode = 'XYZ'
         dx, dy = BX - x, BY - y
         raiz.rotation_euler = (0, 0, math.atan2(dx, -dy))
     def mirar(c, alvo):
@@ -499,12 +501,13 @@ if '--previa' in sys.argv:
     vistas = {'previa_sala2': ((-0.9, -2.3, 1.55), (math.radians(78), 0, math.radians(-14))),
               'previa_sala2_fundo': ((0.2, 2.0, 1.6), (math.radians(80), 0, math.radians(180)))}
     ca = math.radians(ASSENTOS['cego'])
-    vistas['previa_jogo'] = ((BX + 2.45 * math.cos(ca) - 0.2, BY + 2.45 * math.sin(ca), 2.05), None)
+    vistas.clear() if '--so-jogo' in sys.argv else None
+    vistas['previa_jogo'] = ((BX + 2.3 * math.cos(math.radians(262)), BY + 2.3 * math.sin(math.radians(262)), 2.35), None)
     vistas['previa_jogo_mudo'] = ((BX + 2.3 * math.cos(math.radians(205)), BY + 2.3 * math.sin(math.radians(205)), 1.9), None)
     for nome, (loc, rot) in vistas.items():
         cam.location = loc
         if rot is None:
-            bpy.context.view_layer.update(); mirar(cam, (BX + 0.1, BY + 0.25, 0.85))
+            bpy.context.view_layer.update(); mirar(cam, (BX, BY + 0.15, 0.8))
         else:
             cam.rotation_euler = rot
         sc.render.filepath = os.path.join(SAIDA, nome + '.png')
