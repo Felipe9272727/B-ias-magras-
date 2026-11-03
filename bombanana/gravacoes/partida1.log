@@ -229,3 +229,48 @@
 [60s] Cego Mistral: Surdo! Cadê a resposta do Mudo?! Módulo 1 etapa 2: digito que número? E o slider, confirma aí: trava no entalhe 5 mesmo ou muda? Tô parado esperando!  -> 
        Surdo GLM: MUDO, CABOS PRONTOS! FALTA O SLIDER! Amarelo, entalhe 3 de 5! '5' é o entalhe certo?! Confirma: dedos 5 sim, outro número mostra! dedos:5
        Mudo MiMo: polegar_cima (Cabos já desarmados, calculadora OK, falta só o slider. Amarelo = entalhe 5, sem)
+[70s] Cego Mistral: Surdo! Tô parado aqui! Módulo 1 etapa 2: digito QUE número? E o slider: o Mudo mostrou 5 dedos, é pra travar no entalhe 5 ou fica no 3? Me fala a ordem certa que eu executo na hora!  -> 
+       Surdo GLM: CEGO! SLIDER AMARELO pro ENTALHE 5, confirmado pelo Mudo! Arrasta agora! dedos:5
+       Mudo MiMo: repetir (Slider amarelo com 0 erros = entalhe 5, já confirmei. Agora preciso saber a cor )
+[80s] Cego Mistral: Travando o slider no entalhe 5! Surdo, e o módulo 1 etapa 2, digito que número agora? {"modulo":3,"tipo":"travar_slider","valor":"5"} -> travou o slider no entalhe 5: certo
+       Surdo GLM: CEGO! MÓDULO 3, SLIDER AMARELO: arrasta do entalhe 3 pro ENTALHE 5, AGORA! Mudo confirmou duas vezes! dedos:5
+       Mudo MiMo: repetir (Slider amarelo sem erro = entalhe 5, confirmado. Agora falta o módulo 1 etapa 2:)
+[90s] Cego Mistral: Surdo! Cabo e slider foram, dois dings! Agora é só o módulo 1, etapa 2, o teclado! Mudo, mostra aí depressa: QUE número eu digito? Tô com 2:00 no cronômetro!  -> 
+       Surdo GLM: CEGO, MÃO! Só falta a CALCULADORA! MUDO, CALCULADORA, ETAPA 2: tela mostra '2 OK', luz AZUL acesa! Qual botão apertar?! apontar:cima
+       Mudo MiMo: mao_parada (Só falta a calculadora etapa 2. Preciso saber a COR da luz e se o resultado da e)
+[100s] Cego Mistral: Surdo! Eu não vejo tela nem luz azul, só sinto o teclado em Braille! Fala logo: QUE número de 0 a 9 eu digito?!  -> 
+       Surdo GLM: APAGÃO! Não tô vendo NADA! Cego, tira a mão da bomba, NINGUÉM MEXE! Mudo, se puder acende uma luz ou me dá um toque! mao_parada
+       Mudo MiMo: dedos:6 (Luz AZUL, resultado 2 (PAR) → par com azul = 6. Preciso mostrar 6 dedos pro Surd)
+[110s] Cego Mistral: Mão parada, Surdo! Tô quieto aqui! Mudo, fala logo qual número eu digito no módulo 1, senão a gente perde tempo e acende X à toa!  -> 
+       Surdo GLM: CEGO, MÃO NA BOMBA! Apagão total, não vejo NADA! MUDO, se ouvir, dá dois toques em mim pra eu saber que tá vivo! Espera a luz voltar! mao_parada
+       Mudo MiMo: dedos:6 (A conta deu 2 (par), luz AZUL, par -> 6. Já mandei dedos:6 mas o Surdo reclamou )
+[120s] Cego Mistral: Tô parado, Surdo! Mudo, fala o número do módulo 1 depressa! 1:30 no cronômetro, não dá pra esperar muito!  -> 
+       Surdo GLM: LUZ VOLTOU! Cego, mãos fora, ninguém mexe! MUDO, ESCUTA: CALCULADORA, etapa 2, tela '2 OK', luz AZUL acesa! Qual botão aperta?! Mostra com dedos ou gesto! apontar:cima
+       Mudo MiMo: polegar_cima (Etapa 2, luz AZUL, resultado era 2 (PAR): manual diz par->6. Já mandei 6, vou co)
+[130s] Cego Mistral: Surdo! Fala logo: QUE número de 0 a 9 eu digito no módulo 1?! Tô parado esperando a ordem do Mudo, 1:20 no relógio!  -> 
+       Surdo GLM: MUDO! Que botão eu aperto?! Mostra com DEDOS o número do botão na CALCULADORA! Dedos, AGORA! dedos:1
+       Mudo MiMo: dedos:6 (Resultado era par e luz azul = 6, já mostrei duas vezes! Repito forte pra surdo )
+[140s] Cego Mistral: Surdo, fala logo o número de 0 a 9 que eu digito no módulo 1! Tô com o dedo no Braille esperando, 1:10 no relógio! Mudo, passa logo pro Surdo!  -> 
+       Surdo GLM: MUDO, CONFIRMANDO: botão 6 da CALCULADORA?! Mostra 6 de novo se for isso! CEGO, prepara o dedo no botão 6, mas NÃO aperta ainda! repetir
+       Mudo MiMo: dedos:6 (Luz AZUL + resultado 2 (PAR) = tecla 6. Já mandei 6 duas vezes, o Surdo não capt)
+[150s] Cego Mistral: Tô com o dedo no 6 aqui, Surdo! Mudo, mostra o 6 de novo AGORA que o tempo tá acabando!  -> 
+       Surdo GLM: CEGO! CONFIRMADO: BOTÃO 6 DA CALCULADORA! APERTA AGORA, LOGO! dedos:6
+       Mudo MiMo: polegar_cima (Luz AZUL, resultado da etapa 1 foi par (2 é par) → tecla 6. Já confirmei 6 duas )
+[160s] Cego Mistral: 6! Apertando agora, Surdo! {"modulo":1,"tipo":"digitar","valor":"6"} -> digitou 6: calculadora desarmada
+       Surdo GLM: CEGO, APERTOU O 6? Agora olha a Calculadora e me diz o que a tela mostra! MUDO, se tiver MAIS uma etapa, mostra 1 dedo; se tá DESARMADO, mostra 0! dedos:6
+       Mudo MiMo: mao_parada (O 6 foi apertado na Etapa 1; agora preciso da cor da luz da Etapa 2 para calcula)
+=== Fase 6: DESARMOU
+
+=== Fase 7 (laboratorio) | Cego GPT, Surdo Gemini, Mudo Claude | simbolo
+[0s] Cego GPT: Surdo, veja o gesto do Mudo e me diga a posição e o botão exatos!  -> 
+       Surdo Gemini: Módulo 1: seletor tá na espiral (posição 1 de 4: espiral, triângulo, olho, coroa). Botões: 1 azul, 2 vermelho, 3 verde, 4 amarelo. Nenhuma luz acesa. Claude, qual aperta? dedos:1
+       Mudo Claude: repetir (Ouço o bipe no seletor 1, mas não sei qual símbolo é. Preciso que o Surdo diga q)
+[10s] Cego GPT: Surdo, me diga a posição do seletor e o botão exatos assim que o Mudo responder!  -> 
+       Surdo Gemini: Repetindo, Claude: Módulo 1! Seletor na ESPIRAL (1 de 4: espiral, triângulo, olho, coroa). Botões da esquerda pra direita: 1 azul, 2 vermelho, 3 verde, 4 amarelo! Qual botão? dedos:1
+       Mudo Claude: dedos:4 (O símbolo que apita é a espiral (posição 1). Etapa 1 da espiral é amarelo, e o S)
+[20s] Cego GPT: Surdo, aguardo a resposta exata do Mudo: posição do seletor e botão!  -> 
+       Surdo Gemini: GPT, no Módulo 1, aperta o botão 4, o AMARELO da ponta direita! polegar_cima
+       Mudo Claude: dedos:4 (Seletor na espiral, que é o símbolo que apita. Primeira etapa da espiral é amare)
+[30s] Cego GPT: Apertando o botão 4, agora! {"modulo":1,"tipo":"apertar_botao","valor":"4"} -> apertou o botão 4: etapa 1 de 4 certa
+       Surdo Gemini: Bora GPT, aperta o botão 4, o AMARELO na ponta direita do Módulo 1! Rápido! dedos:4
+       Mudo Claude: mao_parada (Símbolo que apita é a espiral. Etapa 1 da espiral é amarelo, que já mandei apert)

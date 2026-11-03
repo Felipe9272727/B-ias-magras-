@@ -31,17 +31,17 @@ def mat(nome, cor, rough=0.6, emit=0.0, coat=0.0):
     return m
 
 
-PELO = mat('pelo', (0.47, 0.27, 0.13), 0.8)
-PELE = mat('pele', (0.96, 0.8, 0.62), 0.65)
+PELO = mat('pelo', (0.5, 0.24, 0.09), 0.55, coat=0.08)
+PELE = mat('pele', (0.95, 0.76, 0.56), 0.45)
 LUVA = mat('luva', (0.98, 0.98, 0.98), 0.45)
 OLHO = mat('olho', (0.04, 0.04, 0.05), 0.08, coat=1.0)
 BRILHO = mat('brilho', (1, 1, 1), 0.1, emit=2.0)
 BOCA = mat('boca', (0.28, 0.06, 0.08), 0.6)
 LINGUA = mat('lingua', (0.85, 0.35, 0.38), 0.5)
-NARIZ = mat('nariz', (0.3, 0.16, 0.08), 0.4)
+NARIZ = mat('nariz', (0.86, 0.42, 0.4), 0.3, coat=0.5)
 SOBRANCELHA = mat('sobrancelha', (0.3, 0.17, 0.08), 0.7)
 GOLA = mat('gola', (0.85, 0.47, 0.34), 0.6)
-VENDA = mat('venda', (0.72, 0.06, 0.06), 0.75)
+VENDA = mat('venda', (0.85, 0.12, 0.1), 0.8)
 VENDA_ESC = mat('venda_esc', (0.5, 0.04, 0.04), 0.75)
 
 
@@ -79,11 +79,13 @@ CAB = Vector((0, 0, 0.86))
 formas = []
 formas.append(esfera(CAB, (0.37, 0.34, 0.33)))                                  # cabeça grande, um pouco larga
 formas.append(esfera((0, -0.06, 0.98), (0.3, 0.27, 0.2)))                         # testa
+formas += tubo((-0.04, 0.02, 1.16), (0.03, -0.12, 1.2), 0.085, 0.06)              # topete: tufo grosso puxado para a frente
+formas += tubo((0.03, -0.12, 1.2), (0.1, -0.22, 1.13), 0.06, 0.035)                #   com a ponta caindo na testa
 for x in (-1, 1):
     formas.append(esfera((0.125 * x, -0.25, 0.9), (0.16, 0.1, 0.15)))             # bochechas de cima do coração (olhos)
 formas.append(esfera((0, -0.27, 0.74), (0.22, 0.14, 0.13)))                       # focinho (ponta do coração)
 for x in (-1, 1):
-    formas.append(esfera((0.4 * x, 0.02, 0.86), (0.035, 0.13, 0.13), rot=(0, 0, math.radians(-25 * x))))  # orelhas
+    formas.append(esfera((0.4 * x, 0.02, 0.86), (0.04, 0.145, 0.145), rot=(0, 0, math.radians(-25 * x))))  # orelhas
     formas.append(esfera((0.37 * x, 0.0, 0.86), (0.07, 0.08, 0.09)))             # base da orelha
 formas.append(esfera((0, 0, 0.42), (0.27, 0.23, 0.3)))                            # tronco (pera)
 formas.append(esfera((0, 0.0, 0.25), (0.3, 0.26, 0.2)))                           # quadril
@@ -100,10 +102,10 @@ for x, lado in ((-1, 'L'), (1, 'R')):
     SHOULDER[lado] = (om, co, pu)
     formas += tubo(om, co, 0.07, 0.06)
     formas += tubo(co, pu, 0.06, 0.055)
-    g = [esfera(pu + Vector((0, -0.01, -0.01)), (0.08, 0.072, 0.06)), esfera(pu + Vector((0, -0.025, -0.075)), (0.075, 0.06, 0.07))]  # punho e palma
+    g = [esfera(pu + Vector((0, -0.01, -0.005)), (0.09, 0.08, 0.06)), esfera(pu + Vector((0, -0.025, -0.075)), (0.088, 0.07, 0.08))]  # punho e palma
     for k in range(4):
         dx = (k - 1.5) * 0.034 * x
-        g += tubo(pu + Vector((dx, -0.03, -0.12)), pu + Vector((dx * 1.15, -0.045, -0.19)), 0.022, 0.02)
+        g += tubo(pu + Vector((dx, -0.03, -0.12)), pu + Vector((dx * 1.15, -0.045, -0.19)), 0.027, 0.025)
     g += tubo(pu + Vector((-0.06 * x, -0.06, -0.06)), pu + Vector((-0.085 * x, -0.09, -0.11)), 0.024, 0.021)  # polegar
     LUVAS.append(g)
 pele = juntar(formas, 'pele')
@@ -131,7 +133,7 @@ def dist(c, centro, raios):
     return Vector(((c.x - centro[0]) / raios[0], (c.y - centro[1]) / raios[1], (c.z - centro[2]) / raios[2])).length
 
 
-cor_pelo, cor_pele = Vector((0.47, 0.27, 0.13)), Vector((0.96, 0.8, 0.62))
+cor_pelo, cor_pele = Vector((0.52, 0.25, 0.09)), Vector((0.95, 0.76, 0.56))
 ca = pele.data.color_attributes.new('Col', 'FLOAT_COLOR', 'POINT')
 for v in pele.data.vertices:
     c = v.co
@@ -147,7 +149,7 @@ for v in pele.data.vertices:
     col = cor_pelo.lerp(cor_pele, w)
     ca.data[v.index].color = (*[k ** 2.2 for k in col], 1)
 PINTADA = bpy.data.materials.new('pele_pintada'); PINTADA.use_nodes = True
-nt = PINTADA.node_tree; bsdf = nt.nodes['Principled BSDF']; bsdf.inputs['Roughness'].default_value = 0.75
+nt = PINTADA.node_tree; bsdf = nt.nodes['Principled BSDF']; bsdf.inputs['Roughness'].default_value = 0.55; bsdf.inputs['Coat Weight'].default_value = 0.06
 attr = nt.nodes.new('ShaderNodeVertexColor'); attr.layer_name = 'Col'
 nt.links.new(attr.outputs['Color'], bsdf.inputs['Base Color'])
 pele.data.materials.clear(); pele.data.materials.append(PINTADA)
@@ -171,19 +173,16 @@ for lado, g in zip(('L', 'R'), LUVAS):
 extras = []
 olhos = []
 for x in (-1, 1):
-    o = esfera((0.115 * x, -0.335, 0.9), (0.075, 0.035, 0.095)); o.name = f'olho_{"LR"[x > 0]}'
+    o = esfera((0.1 * x, -0.33, 0.9), (0.04, 0.025, 0.055)); o.name = f'olho_{"LR"[x > 0]}'
     o.data.materials.append(OLHO); olhos.append(o)
-    b = esfera((0.115 * x + 0.025, -0.365, 0.94), (0.022, 0.01, 0.026)); b.name = f'brilho_{"LR"[x > 0]}'
+    b = esfera((0.1 * x + 0.012, -0.352, 0.92), (0.011, 0.006, 0.013)); b.name = f'brilho_{"LR"[x > 0]}'
     b.data.materials.append(BRILHO); olhos.append(b)
-    s = esfera((0.12 * x, -0.31, 1.035), (0.075, 0.02, 0.018), rot=(0, math.radians(12 * x), 0)); s.name = f'sobrancelha_{"LR"[x > 0]}'
-    s.data.materials.append(SOBRANCELHA); extras.append(s)
-for x in (-1, 1):
-    n = esfera((0.03 * x, -0.405, 0.79), (0.018, 0.01, 0.012)); n.name = f'narina_{"LR"[x > 0]}'; n.data.materials.append(NARIZ); extras.append(n)
+n = esfera((0, -0.41, 0.795), (0.038, 0.028, 0.03)); n.name = 'nariz'; n.data.materials.append(NARIZ); extras.append(n)
 # boca: um sorriso largo escuro (a abertura é escalada pelo three.js quando fala) com língua
-boca = esfera((0, -0.39, 0.7), (0.11, 0.02, 0.032)); boca.name = 'boca'; boca.data.materials.append(BOCA)
+boca = esfera((0, -0.395, 0.71), (0.09, 0.015, 0.014)); boca.name = 'boca'; boca.data.materials.append(BOCA)
 for v in boca.data.vertices:  # sorriso: as pontas sobem
-    v.co.z += 0.04 * ((v.co.x / 0.11) ** 2)
-    v.co.y += 0.012 * ((v.co.x / 0.11) ** 2)
+    v.co.z += 0.03 * ((v.co.x / 0.09) ** 2)
+    v.co.y += 0.01 * ((v.co.x / 0.09) ** 2)
 lingua = esfera((0, -0.392, 0.69), (0.05, 0.012, 0.015)); lingua.name = 'lingua'; lingua.data.materials.append(LINGUA); lingua.parent = boca
 extras.append(boca)
 for o in olhos + extras:
@@ -200,7 +199,7 @@ for p in gola.data.polygons:
 acessorios = []
 if PAPEL == 'cego':
     # venda: faixa larga em volta da cabeça, na altura dos olhos, com nó e duas pontas atrás
-    bpy.ops.mesh.primitive_cylinder_add(vertices=64, radius=1, depth=0.13, location=(0, 0, 0), end_fill_type='NOTHING')
+    bpy.ops.mesh.primitive_cylinder_add(vertices=64, radius=1, depth=0.17, location=(0, 0, 0), end_fill_type='NOTHING')
     v = bpy.context.active_object; v.name = 'venda'
     # encaixa a faixa na cabeça: raio que acompanha a forma (mais larga na frente por causa da cara)
     for vert in v.data.vertices:
@@ -238,9 +237,6 @@ if PAPEL == 'cego':
     for o in olhos:  # o Cego não mostra os olhos (estão embaixo da venda)
         bpy.data.objects.remove(o)
     olhos = []
-    # sobrancelhas aparecem por cima da venda, preocupadas
-    for s in [o for o in extras if o.name.startswith('sobrancelha')]:
-        s.location.z += 0.03
 if PAPEL == 'surdo':
     # fone grande: arco de orelha a orelha por cima da cabeça (acompanha a cabeça) e duas conchas com luz vermelha
     FONE = mat('fone', (0.1, 0.1, 0.11), 0.35, coat=0.6)
@@ -265,13 +261,49 @@ if PAPEL == 'surdo':
         bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=0.12, depth=0.1, location=(0.42 * x, 0.01, 0.86), rotation=(0, math.pi / 2, 0))
         c = bpy.context.active_object; c.name = f'fone_concha_{"LR"[x > 0]}'
         md = c.modifiers.new('bisel', 'BEVEL'); md.width = 0.035; md.segments = 5; bpy.ops.object.modifier_apply(modifier='bisel')
-        c.data.materials.append(FONE); acessorios.append(c)
+        c.data.materials.append(mat('concha', (0.85, 0.13, 0.12), 0.35, coat=0.6)); acessorios.append(c)
         bpy.ops.mesh.primitive_torus_add(major_radius=0.1, minor_radius=0.03, location=(0.37 * x, 0.01, 0.86), rotation=(0, math.pi / 2, 0))
         a = bpy.context.active_object; a.name = f'fone_almofada_{"LR"[x > 0]}'; a.data.materials.append(ALMOFADA); acessorios.append(a)
         l = esfera((0.475 * x, 0.01, 0.86), (0.008, 0.045, 0.045)); l.name = f'fone_luz_{"LR"[x > 0]}'; l.data.materials.append(LUZF); acessorios.append(l)
     for o in acessorios:
         for p in o.data.polygons:
             p.use_smooth = True
+if PAPEL == 'mudo':
+    # fita adesiva em X na boca (grudada no focinho) e o manual: fichário azul aberto na mão esquerda
+    FITA = mat('fita', (0.62, 0.63, 0.66), 0.45)  # silver tape
+    for i, ang in enumerate((-16, 16)):
+        bpy.ops.mesh.primitive_plane_add(size=1, location=(0, -0.42, 0.71), rotation=(math.pi / 2, math.radians(ang), 0))
+        t = bpy.context.active_object; t.name = f'fita{i}'; t.scale = (0.34, 0.085, 1); bpy.ops.object.transform_apply(scale=True, rotation=True)
+        bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.subdivide(number_cuts=12); bpy.ops.object.mode_set(mode='OBJECT')
+        md = t.modifiers.new('cola', 'SHRINKWRAP'); md.target = pele; md.wrap_method = 'PROJECT'; md.use_project_y = True; md.use_negative_direction = True; md.use_positive_direction = True; md.offset = 0.006 + 0.004 * i
+        bpy.ops.object.modifier_apply(modifier='cola')
+        md = t.modifiers.new('sol', 'SOLIDIFY'); md.thickness = 0.01; bpy.ops.object.modifier_apply(modifier='sol')
+        t.data.materials.append(FITA); acessorios.append(t)
+    bpy.data.objects.remove(bpy.data.objects['lingua']); bpy.data.objects.remove(boca); extras.remove(boca)
+    CAPA = mat('capa', (0.6, 0.84, 0.94), 0.55)
+    PAGINA = mat('pagina', (0.97, 0.97, 0.95), 0.8)
+    ARGOLA = mat('argola', (0.9, 0.36, 0.46), 0.35)
+    TINTA = mat('tinta', (0.24, 0.5, 0.63), 0.6)
+    pu = SHOULDER['L'][2]
+    centro = pu + Vector((0.06, -0.16, 0.06))
+    manual = bpy.data.objects.new('manual', None); bpy.context.collection.objects.link(manual); manual.location = centro
+    for lado in (-1, 1):  # duas metades abertas em V
+        bpy.ops.mesh.primitive_cube_add(location=centro + Vector((0.11 * lado, 0.015 * abs(lado), 0)), rotation=(math.radians(90), 0, math.radians(-14 * lado)))
+        c = bpy.context.active_object; c.name = f'manual_capa{lado}'; c.scale = (0.11, 0.15, 0.008); bpy.ops.object.transform_apply(scale=True, rotation=True)
+        md = c.modifiers.new('bisel', 'BEVEL'); md.width = 0.006; md.segments = 2; bpy.ops.object.modifier_apply(modifier='bisel')
+        c.data.materials.append(CAPA); c.parent = manual; c.matrix_parent_inverse = manual.matrix_world.inverted()
+        bpy.ops.mesh.primitive_plane_add(size=1, location=centro + Vector((0.105 * lado, 0.004, 0)), rotation=(math.radians(90), 0, math.radians(-14 * lado)))
+        pg = bpy.context.active_object; pg.name = f'manual_pagina{lado}'; pg.scale = (0.2, 0.28, 1); bpy.ops.object.transform_apply(scale=True, rotation=True)
+        pg.data.materials.append(PAGINA); pg.parent = manual; pg.matrix_parent_inverse = manual.matrix_world.inverted()
+        for k in range(3):  # linhas de texto e desenhos
+            bpy.ops.mesh.primitive_plane_add(size=1, location=centro + Vector((0.105 * lado, 0.0, 0.06 - k * 0.05)), rotation=(math.radians(90), 0, math.radians(-14 * lado)))
+            ln = bpy.context.active_object; ln.name = f'manual_linha{lado}_{k}'; ln.scale = (0.14, 0.018, 1); bpy.ops.object.transform_apply(scale=True, rotation=True)
+            ln.location.y -= 0.003
+            ln.data.materials.append(TINTA); ln.parent = manual; ln.matrix_parent_inverse = manual.matrix_world.inverted()
+    for k in range(3):
+        bpy.ops.mesh.primitive_torus_add(major_radius=0.018, minor_radius=0.005, location=centro + Vector((0, -0.005, 0.08 - k * 0.08)), rotation=(0, math.pi / 2, 0))
+        a = bpy.context.active_object; a.name = f'manual_argola{k}'; a.data.materials.append(ARGOLA); a.parent = manual; a.matrix_parent_inverse = manual.matrix_world.inverted()
+    MANUAL_OBJ = manual
 # rabinho enrolado (todos)
 bpy.ops.curve.primitive_bezier_curve_add(location=(0, 0, 0))
 cv = bpy.context.active_object
@@ -337,6 +369,8 @@ for o in olhos + extras + acessorios:
         prender(o, 'cabeca')
 prender(gola, 'coluna')
 prender(rabo, 'quadril')
+if PAPEL == 'mudo':
+    prender(MANUAL_OBJ, 'mao.L')
 
 raiz = bpy.data.objects.new('macaco', None); bpy.context.collection.objects.link(raiz)
 arm.parent = raiz
