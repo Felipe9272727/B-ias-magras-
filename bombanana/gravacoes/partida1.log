@@ -116,3 +116,71 @@
 [0s] Cego Qwen: Calma! Módulo 1 tem slider no 3, com 5 entalhes, e botão de travar; módulo 2 é teclado 0 a 9, etapa 1 de 2. Mudo, pelo amor... Surdo, lê ele aí e me diz o que fazer, porque sem regra é tiro!  -> 
        Surdo Grok: Mudo! Slider amarelo, entalhe 3 de 5. Calculadora: 10 vezes 4. Qual mexe primeiro? mao_parada
        Mudo DeepSeek: dedos:1 (Bora começar pelo módulo 1, o slider. Preciso que o Surdo me diga a cor na tela )
+[10s] Cego Qwen: Surdo, me diz a resposta do Mudo antes, porque eu não quero explosão! Slider está no entalhe 3 e o teclado é etapa 1 de 2.  -> 
+       Surdo Grok: Cego, PARA! Módulo 1 primeiro. Mudo, slider amarelo no entalhe 3 de 5 — qual entalhe eu mando? mao_parada
+       Mudo DeepSeek: dedos:5 (Amarelo é entalhe 5, não 3! Manda o Surdo puxar o slider pra direita até o 5 e t)
+[20s] Cego Qwen: Surdo, me manda o entalhe que o Mudo apontou! Slider tá no 3, mas eu não travo sem regra.  -> 
+       Surdo Grok: Cego! Módulo 1, slider amarelo: empurra até o entalhe 5 de 5. Agora! dedos:5
+       Mudo DeepSeek: polegar_cima (Amarelo é entalhe 5, já passei. Slider amarelo=5, certo. Agora a calculadora: 10)
+[30s] Cego Qwen: Entalhe 5 no módulo 1, travando já! {"modulo":1,"tipo":"travar_slider","valor":"5"} -> travou o slider no entalhe 5: certo
+       Surdo Grok: Cego! Módulo 1, slider amarelo: vai pro entalhe 5 de 5, agora! Mudo, calculadora 10 vezes 4 — qual o resultado? dedos:5
+       Mudo DeepSeek: polegar_cima (Amarelo é entalhe 5 e sem X, então tá certo. Confirma pro Surdo que o Cego pode )
+[40s] Cego Qwen: Módulo 2 é teclado etapa 1 de 2, tela lisa. Surdo, me passa a resposta do Mudo pra 10 vezes 4 antes de eu digitar!  -> 
+       Surdo Grok: Cego, PARA! Não mexe. Mudo, módulo 1 desarmado, luz verde. Calculadora: tela 10 vezes 4 igual interrogação. Qual número eu mando digitar? mao_parada
+       Mudo DeepSeek: dedos:4 (Módulo 1 já foi, ding confirmou. Agora a calculadora: 10x4 = 40, então tenho que)
+[50s] Cego Qwen: Tô parado, Surdo! Espera o Mudo confirmar 10x4 e me manda o número. Sem resposta dele, não digito.  -> 
+       Surdo Grok: Cego! Módulo 2, calculadora: digita 4 e confirma! Agora! dedos:4
+       Mudo DeepSeek: dedos:0 (10x4=40. Já mostrei 4; agora mostro 0 pra completar '40'. Surdo tem que mandar o)
+[60s] Cego Qwen: Beleza, Surdo! Digito 4 no módulo 2 e não mexo em mais nada... {"modulo":2,"tipo":"digitar","valor":"4"} -> digitou 4: errado
+       Surdo Grok: Cego, PARA! Não mexe na calculadora. Mudo, vi 4 e depois 0: se for 40, polegar pra cima; se for só 0, mostra 0 de novo! mao_parada
+       Mudo DeepSeek: polegar_baixo (Errado! 10x4 é 40, não 4! Preciso parar o Cego antes que confirme 4 e exploda. S)
+[70s] Cego Qwen: SURDO! PAREI! X ALENTO, tá doendo! Digitei só o 4 e tomei buzina! A resposta deve ser 40, mas eu NÃO digito nada até o Mudo confirmar! Me passa o polegar pra cima ou pra baixo do Mudo, pelo amor de Deus!  -> 
+       Surdo Grok: Cego, PARA! Não mexe na calculadora! Mudo, tela ainda é 10 vezes 4 igual interrogação. O 4 deu X. Mostra SÓ o primeiro dígito certo agora! mao_parada
+       Mudo DeepSeek: polegar_cima (Errei feio: 10x4 é 40, era polegar pra cima, não pra baixo. Já tomamos 1 X. Prec)
+[80s] Cego Qwen: Parei! Não digito nada! Mudo, manda só o primeiro dígito certo pelo Surdo, que a bomba tá quase indo comigo!  -> 
+       Surdo Grok: Cego, PARA! Não encosta! Mudo, polegar não é número. Tela ainda 10 vezes 4. Mostra o PRIMEIRO dígito certo nos dedos, agora! repetir
+       Mudo DeepSeek: dedos:4 (A conta é 10x4 = 40, o Cego digitou só 4 e tomou X. Já confirmei com polegar pra)
+[90s] Cego Qwen: Paro as patas! Surdo, me manda só o número da tela do Mudo, tipo 'digita 40', senão fudê. Se for dois dígitos, confirma qual!  -> 
+       Surdo Grok: Cego, PARA! Não encosta na calculadora! Mudo, tela ainda é 10 vezes 4. O 4 sozinho explodiu. Mostra o SEGUNDO dígito agora! repetir
+       Mudo DeepSeek: dedos:0 (O Cego digitou só 4 e tomou X; a resposta é 40. Já mostrei 4, agora mostro 0 pra)
+[100s] Cego Qwen: Surdo, não encosto! Manda só o número que o Mudo mostrou, tipo '4' ou '40', e fala se precisa confirmar. Se for dois dígitos, diz a ordem!  -> 
+       Surdo Grok: Cego, módulo 2, calculadora: digita 4 e depois 0. Quarenta! Não aperta outra coisa! polegar_cima
+       Mudo DeepSeek: polegar_cima (A conta é 10x4=40; o Cego errou ao digitar só 4. Já mostrei 4 e depois 0. Agora )
+[110s] Cego Qwen: Surdo, não encosto! Só digito se o Mudo apontar no teclado exatamente a ordem, tipo '4' depois '0' e confirmar; sem isso, eu paro.  -> 
+       Surdo Grok: Cego, módulo 2, calculadora: digita 4 e depois 0. Quarenta! Só isso, confirma agora! polegar_cima
+       Mudo DeepSeek: polegar_cima (Conta 10x4=40. Já passei 4 e 0 nos dedos; agora é confirmar que ele digite 40 in)
+
+=== Fase 5 (aviao) | Cego Qwen, Surdo Grok, Mudo DeepSeek | slider + calculadora
+[0s] Cego Qwen: Tem teclado com Braille de 0 a 9! Qual número, Surdo?  -> 
+       Surdo Grok: Mudo, escuta: slider de cor tá AMARELO, entalhe 3 de 5. Calculadora mostra 10 vezes 4. Qual corto primeiro? mao_parada
+       Mudo DeepSeek: mao_parada (Nada de descrição ainda, preciso que o Surdo fale a cor do slider e a conta ante)
+[10s] Cego Qwen: Fala pro Mudo, Surdo! Sem corte, sem chute. Preciso de entalhe do slider e número do teclado. Se for 10x4, é 40? Só digito se ele confirmar.  -> 
+       Surdo Grok: Mudo, de novo: slider AMARELO, entalhe 3 de 5. Calculadora: 10 vezes 4. Qual módulo e o que o Cego faz? mao_parada
+       Mudo DeepSeek: dedos:5 (Amarelo, sem erro, entalhe 5! Slider primeiro: mostro 5 dedos. Calculadora 10x4=)
+[20s] Cego Qwen: Mudo, mostra pro Surdo: entalhe e tecla. Sem resposta dele, eu não toco. Porra, não é chute.  -> 
+       Surdo Grok: Cego, PARA, não mexe! Mudo, você fez 5 dedos: é o slider pro entalhe 5, ou o número da calculadora? mao_parada
+       Mudo DeepSeek: polegar_cima (Amarelo é entalhe 5 (já mandei os 5 dedos). 10x4=40, é par — confirma pro Surdo )
+[30s] Cego Qwen: Surdo, confirma pro Mudo: é Módulo 1 no entalhe 5 ou Módulo 2 digitando 5? Se ele não cravar, não toco em nada. Porra, 2:30, para de briga e me fala qual entalhe!  -> 
+       Surdo Grok: Cego, PARA! Mudo: slider amarelo vai pro entalhe 5? Cima = sim, baixo = não. mao_parada
+       Mudo DeepSeek: dedos:5 (Amarelo é entalhe 5, não 3! Confirmo com 5 dedos de novo. Calculadora 10x4=40, m)
+[40s] Cego Qwen: SURDO, SEM O SIM OU NÃO DO MUDO EU NÃO TOCO. SEGURAI E CONFIRMA!  -> 
+       Surdo Grok: Cego, PARA, mão longe da bomba! Mudo: é SÓ o slider amarelo pro entalhe 5? Cima = empurra até o 5. Baixo = não mexe no slider. mao_parada
+       Mudo DeepSeek: polegar_cima (Caralho, eles tão travados: amarelo é entalhe 5, e ele perguntou exatamente isso)
+[50s] Cego Qwen: SURDO, mão longe. Se o Mudo fizer CIMA, travo o Módulo 1 no entalhe 5. Se for BAIXO, eu não toco.  -> 
+       Surdo Grok: Cego, Módulo 1, slider amarelo: empurra do entalhe 3 até o 5. Não encosta na calculadora! polegar_cima
+       Mudo DeepSeek: repetir (Ninguém me descreveu a cor da tela nem a conta da calculadora! Não vou confirmar)
+[60s] Cego Qwen: Fechado, Surdo! Travo o Módulo 1 no entalhe 5 e nem chego na calculadora. {"modulo":1,"tipo":"travar_slider","valor":"5"} -> travou o slider no entalhe 5: certo
+       Surdo Grok: Cego, de novo: Módulo 1, slider amarelo, empurra do entalhe 3 até o 5. Calculadora nem encosta! repetir
+       Mudo DeepSeek: polegar_cima (Amarelo é entalhe 5 e não tem X, então é só confirmar pro Surdo. Sem enrolar, po)
+[70s] Cego Qwen: Surdo, Módulo 2: teclado, etapa 1 de 2. Pede pro Mudo qual número digitar. Sem resposta dele, mão longe.  -> 
+       Surdo Grok: Cego, PARA! Mão longe da bomba. Mudo: Módulo 2, calculadora, tela 10 x 4 = ?. Qual número entra? Dedos ou aponta. mao_parada
+       Mudo DeepSeek: apontar:direita (Slider amarelo no 5 e módulo 1 desarmado, boa. Agora só a calculadora: preciso q)
+[80s] Cego Qwen: Surdo, segura que eu não digito! Faz o Mudo cravar o número: se a conta pede 40, ele faz 4 dedos e depois zero. Sem isso, mão longe.  -> 
+       Surdo Grok: Cego, PARA! Mão longe da calculadora. Mudo, apontar direita não é número. Tela: 10 x 4 = ?. Mostra o resultado em dedos, agora! repetir
+       Mudo DeepSeek: dedos:4 (10 x 4 = 40. Não tenho 40 dedos, então mostro 4 dedos = 4 dezenas = 40. Vou insi)
+[90s] Cego Qwen: Surdo, trava com o Mudo: Módulo 2 é 40? Se sim, faz 4 e 0. Sem valor exato, mão longe!  -> 
+       Surdo Grok: Cego, PARA! Mão longe. Mudo: tela 10 x 4 = ?. Você mostrou 4. Digita 4 ou é 40? Polegar cima se entra 4; se não, mostra o número certo! mao_parada
+       Mudo DeepSeek: dedos:0 (A conta é 10x4=40. Já mostrei 4 dedos; agora mostro zero pra fechar o 40. Surdo,)
+[100s] Cego Qwen: SURDO, tempo apertando! Se o Mudo mostrou 4 e 0, me fala AGORA: Módulo 2, digitar 40. Sem valor exato, mão longe da calculadora!  -> 
+       Surdo Grok: Cego, PARA! Mão longe da calculadora. Mudo mostrou zero. Tela continua 10 x 4 = ?. Entra 0? Polegar cima se digita 0; se não, mostra o número certo agora! mao_parada
+       Mudo DeepSeek: polegar_cima (Conta 10x4=40, já mostrei 4 e 0. Confirmo que o 40 está certo e espero a luz pra)
