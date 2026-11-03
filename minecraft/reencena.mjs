@@ -62,7 +62,6 @@ async function bonecos () {
     await new Promise(ok => b[n].once('spawn', ok))
     b[n].physicsEnabled = false
     if (b[n].health <= 0) try { b[n].respawn() } catch {}
-    b[n].on('forcedMove', () => { const q = querPos[n]; if (q && b[n].entity.position.distanceTo(q) > 2) um(`tp ${n} ${q.x.toFixed(2)} ${q.y.toFixed(2)} ${q.z.toFixed(2)}`) })
     b[n].on('death', () => setTimeout(() => { try { b[n].respawn() } catch {} }, 200))
     await espera(400)
   }
@@ -73,17 +72,21 @@ async function bonecos () {
 let filaRcon = Promise.resolve()
 const um = c => (filaRcon = filaRcon.then(() => cmd(c)))
 const PACK = path.join(process.env.MUNDO ?? '/tmp/srv/mundo', 'datapacks', 'reenc')
+// cada cena tem nomes de função próprios: o encadeamento (schedule) de uma cena anterior que ainda esteja rodando
+// chama nomes que não existem mais depois do reload e para sozinho (senão as duas cenas brigam pelos bonecos)
+let nCena = 0
 function escreverFuncoes (prep, ticks) {
+  nCena++
   const pasta = path.join(PACK, 'data', 'reenc', 'function')
   fs.rmSync(pasta, { recursive: true, force: true }); fs.mkdirSync(pasta, { recursive: true })
   fs.writeFileSync(path.join(PACK, 'pack.mcmeta'), JSON.stringify({ pack: { pack_format: 61, description: 'reencenacao' } }))
   fs.writeFileSync(path.join(pasta, 'prep.mcfunction'), prep.join('\n') + '\n')
-  ticks.forEach((l, k) => fs.writeFileSync(path.join(pasta, `t${k}.mcfunction`), [...l, ...(k + 1 < ticks.length ? [`schedule function reenc:t${k + 1} 1t`] : [])].join('\n') + '\n'))
+  ticks.forEach((l, k) => fs.writeFileSync(path.join(pasta, `c${nCena}_t${k}.mcfunction`), [...l, ...(k + 1 < ticks.length ? [`schedule function reenc:c${nCena}_t${k + 1} 1t`] : [])].join('\n') + '\n'))
 }
 
 const mudadosPorNos = new Map()  // "x,y,z" -> estado que pusemos no servidor
 function prepararMundo (t0, centro, prep) {
-  for (const g of ['doDaylightCycle true', 'doMobSpawning false', 'doTileDrops false', 'doFireTick false', 'mobGriefing false', 'randomTickSpeed 0', 'keepInventory true', 'fallDamage false', 'drowningDamage false', 'fireDamage false', 'doImmediateRespawn true', 'showDeathMessages false', 'doWeatherCycle false', 'announceAdvancements false', 'sendCommandFeedback false', 'doEntityDrops false', 'doMobLoot false', 'commandModificationBlockLimit 99999999', 'maxCommandChainLength 99999999']) prep.push('gamerule ' + g)
+  for (const g of ['doDaylightCycle true', 'doMobSpawning false', 'doTileDrops false', 'doFireTick false', 'mobGriefing false', 'randomTickSpeed 0', 'keepInventory true', 'fallDamage false', 'drowningDamage false', 'fireDamage false', 'doImmediateRespawn true', 'showDeathMessages false', 'doWeatherCycle false', 'announceAdvancements false', 'sendCommandFeedback false', 'doEntityDrops false', 'doMobLoot false', 'commandModificationBlockLimit 99999999', 'disablePlayerMovementCheck true', 'disableElytraMovementCheck true', 'maxCommandChainLength 99999999']) prep.push('gamerule ' + g)
   prep.push('weather clear', `time set ${horaDoDia(t0)}`, 'kill @e[type=!player]')
   // arena: caixa de vidro feita por comando (não está no log de blocos)
   if (ARENA) {
@@ -139,7 +142,7 @@ async function filmar (bots, id, t0, t1, cam) {
   // bonecos: lugar, mão, armadura; quem não aparece na cena fica invisível
   const vestido = {}
   for (const n of NOMES) {
-    prep.push(`gamemode adventure ${n}`, `effect give ${n} regeneration infinite 255 true`, `effect give ${n} saturation infinite 255 true`)
+    prep.push(`gamemode creative ${n}`, `effect give ${n} regeneration infinite 255 true`, `effect give ${n} saturation infinite 255 true`)
     const p = tr[n]?.[0]
     // quem morrer ou renascer volta pro lugar da cena (o ponto de nascimento do mundo é dentro do chão)
     if (p) prep.push(`spawnpoint ${n} ${Math.floor(p.x)} ${Math.floor(p.y)} ${Math.floor(p.z)}`, `effect clear ${n} invisibility`, `tp ${n} ${p.x} ${p.y} ${p.z} ${yawMC(p.yaw)} ${pitchMC(p.pitch)}`)
@@ -220,7 +223,7 @@ async function filmar (bots, id, t0, t1, cam) {
   const w0 = Date.now()
   await espera(1200)
   const passo = 50 * LENTO, w1 = Date.now()
-  um('function reenc:t0')
+  um(`function reenc:c${nCena}_t0`)
   let ig = 0
   for (let k = 0; k < nT; k++) {
     const t = ini + k * 0.05
