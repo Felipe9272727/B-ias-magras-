@@ -422,13 +422,14 @@ export function camPadrao(nome: string, t = 0): Cam {
   }
   // close de um macaco: a câmera fica do outro lado da mesa, olhando o rosto
   if (nome.startsWith('close:') || nome.startsWith('meio:')) {
+    // a câmera fica na frente do macaco mas deslocada para fora da mesa, para a tampa da bomba não tapar
     const p = nome.split(':')[1] as Papel3D;
     const cab = cabecaMacaco(p);
     const dir = MESA.clone().sub(posMacaco(p)).setY(0).normalize();
-    const lado = new THREE.Vector3(-dir.z, 0, dir.x);
+    const fora = new THREE.Vector3(p === 'Mudo' ? 1 : Math.sign(posMacaco(p).x) || 1, 0, 0);
     const perto = nome.startsWith('close:');
-    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 0.95 : 1.7)).add(lado.multiplyScalar(perto ? 0.18 : 0.4)).add(new THREE.Vector3(0, perto ? 0.05 : 0.3, 0));
-    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.05 : -0.25, 0))), fov: perto ? 38 : 45};
+    const pos = cab.clone().add(dir.clone().multiplyScalar(perto ? 0.78 : 1.15)).add(fora.multiplyScalar(perto ? (p === 'Mudo' ? 0.7 : 0.5) : (p === 'Mudo' ? 1.25 : 0.85))).add(new THREE.Vector3(0, perto ? 0.1 : 0.32, 0));
+    return {pos: tr(pos), alvo: tr(cab.clone().add(new THREE.Vector3(0, perto ? -0.08 : -0.3, 0))), fov: perto ? 40 : 50};
   }
   // por cima do ombro de um macaco olhando a bomba
   if (nome.startsWith('ombro:')) {

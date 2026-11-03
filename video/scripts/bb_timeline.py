@@ -82,6 +82,7 @@ PEDIDOS = []
 
 def voz(id_, texto, quem=None, eco=False):
     """Registra uma fala para o TTS; devolve o caminho público (o mp3 sai depois, em lote)."""
+    TEXTOS[id_] = texto
     v, p = VOZES.get(quem, (NARRADOR, '+0Hz')) if quem else (NARRADOR, '+0Hz')
     PEDIDOS.append({'id': id_, 'text': falado(texto), 'voice': v, 'pitch': p, 'rate': '+12%' if quem else '+6%', 'eco': eco,
                     # Chatterbox (nas máquinas do GitHub): clona a voz de refs/<quem>.wav; emoção mais forte nos gritos
@@ -89,9 +90,43 @@ def voz(id_, texto, quem=None, eco=False):
     return f'bb/voz/{id_}{"_eco" if eco else ""}.mp3'
 
 
+SEM_VOZ = bool(__import__('os').environ.get('SEM_VOZ'))
+TEXTOS = {}
+
+
 def dur_s(id_, eco=False):
+    if SEM_VOZ:  # sem voz ainda: tempo de leitura do balão (~15 caracteres/s), com folga
+        t = TEXTOS.get(id_, '')
+        return max(1.8, len(t) / 15 + 0.9)
     f = VOZ / f'{id_}{"_eco" if eco else ""}.mp3'
     return tts.duration(f) if f.exists() else 2.0
+
+
+MAX_RODADAS = 9
+
+
+def escolher(rods, time):
+    """Rodadas que entram no vídeo (as fases longas ficam com as melhores ~9): ações na bomba e a rodada antes delas,
+    começo, fim, caos, tapas/bananas e gritos."""
+    if len(rods) <= MAX_RODADAS:
+        return set(range(len(rods)))
+    nota = {}
+    for k, r in enumerate(rods):
+        d = r['dec']; v = 0
+        falas = ' '.join(str(d[time[p]].get('fala') or '') for p in ('Cego', 'Surdo'))
+        if r.get('acao'):
+            v += 10 + (4 if (r.get('efeito') or {}).get('ok') is False else 0)
+        if k + 1 < len(rods) and rods[k + 1].get('acao'):
+            v += 6
+        if k < 2 or k == len(rods) - 1:
+            v += 6
+        if (r['caos'].get('apagao') or r['caos'].get('alarme')) and not (k and (rods[k - 1]['caos'].get('apagao') or rods[k - 1]['caos'].get('alarme'))):
+            v += 4
+        if d[time['Mudo']].get('gesto') in ('tapa', 'jogar_banana'):
+            v += 5
+        v += min(3, falas.count('!')) + (2 if any(w.isupper() and len(w) > 3 for w in falas.split()) else 0)
+        nota[k] = v
+    return set(sorted(nota, key=lambda k: -nota[k])[:MAX_RODADAS])
 
 
 def montar(nome='partida1', fases=range(1, 10)):
@@ -112,31 +147,34 @@ def montar(nome='partida1', fases=range(1, 10)):
                        'itens': [('narr', f'f{n}_antes', R.get(f'f{n}_antes', f"Fase {n}. {time['Cego']} é o cego, {time['Surdo']} é o surdo e {time['Mudo']} é o mudo."), None, False)]})
         mods = ini['modulos']
         rods = [e for e in evs if e['tipo'] == 'rodada']
+        manter = escolher(rods, time)
+        usou_pulo = False
         ant = {}
         pulo = 0
         for k, r in enumerate(rods):
             d = r['dec']
             cego, surdo, mudo = time['Cego'], time['Surdo'], time['Mudo']
             fs, fc, gm = d[surdo]['fala'], d[cego]['fala'], d[mudo]['gesto']
-            repetida = not r.get('acao') and parecido(fs, ant.get('fs')) and parecido(fc, ant.get('fc')) and gm == ant.get('gm')
+            repetida = (k not in manter) or (not r.get('acao') and parecido(fs, ant.get('fs')) and parecido(fc, ant.get('fc')) and gm == ant.get('gm'))
             ant = {'fs': fs, 'fc': fc, 'gm': gm}
             if repetida and k < len(rods) - 1 and not (r['caos'].get('apagao') or r['caos'].get('alarme')):
                 pulo += 1
                 mods = r['modulos']
                 continue
             if pulo:
-                txt = R.get(f'f{n}_pulo{k}', f"E isso se repetiu por mais {pulo * 10} segundos.")
+                txt = R.get(f'f{n}_pulo{k}') or (R.get(f'f{n}_pulo') if pulo >= 3 and not usou_pulo else None) or f"{pulo * 10} segundos de confusão depois..."
+                usou_pulo = usou_pulo or (pulo >= 3 and bool(R.get(f'f{n}_pulo')))
                 blocos.append({'tipo': 'narrador', 'lugar': fase['lugar'], 'texto': txt, 'itens': [('narr', f'f{n}_p{k}', txt, None, False)]})
                 pulo = 0
             itens = []
             if fs:
-                itens.append(('fala', f'f{n}r{k}s', curto(fs), surdo, False))
+                itens.append(('fala', f'f{n}r{k}s', curto(fs, 150), surdo, False))
             if gm:
                 itens.append(('gesto', None, gm, mudo, False))
-            if d[mudo]['pensamento'] and (k % 2 == 0 or gm in ('tapa', 'jogar_banana')):
+            if d[mudo]['pensamento'] and (k % 3 == 0 or gm in ('tapa', 'jogar_banana')):
                 itens.append(('pensa', f'f{n}r{k}m', curto(d[mudo]['pensamento'], 120), mudo, True))
             if fc:
-                itens.append(('fala', f'f{n}r{k}c', curto(fc), cego, False))
+                itens.append(('fala', f'f{n}r{k}c', curto(fc, 150), cego, False))
             if r.get('acao'):
                 if d[cego]['pensamento']:
                     itens.append(('pensa', f'f{n}r{k}cp', curto(d[cego]['pensamento'], 110), cego, True))
@@ -161,8 +199,9 @@ def cronometrar(blocos):
         for it in b["itens"]:
             if it[0] in ("narr", "fala", "pensa"):
                 voz(it[1], it[2], it[3] if it[0] != "narr" else None, it[4])
-    asyncio.run(tts.run_edge([{k: v for k, v in p.items() if k != 'eco'} for p in PEDIDOS], VOZ, 6))
-    for p in PEDIDOS:
+    if not SEM_VOZ:
+        asyncio.run(tts.run_edge([{k: v for k, v in p.items() if k != 'eco'} for p in PEDIDOS], VOZ, 6))
+    for p in ([] if SEM_VOZ else PEDIDOS):
         if p['eco']:
             src, dst = VOZ / f"{p['id']}.mp3", VOZ / f"{p['id']}_eco.mp3"
             if not dst.exists() or dst.stat().st_mtime < src.stat().st_mtime:
@@ -212,10 +251,10 @@ def main():
     a, z = (sys.argv[2] if len(sys.argv) > 2 else '1-9').split('-')
     blocos = montar(nome, range(int(a), int(z) + 1))
     blocos = cronometrar(blocos)
-    tl = {'blocos': blocos, 'cores': CORES, 'modelos': MODELOS, 'musica': 'music/monkeys-spinning-monkeys.mp3'}
+    tl = {'blocos': blocos, 'cores': CORES, 'modelos': MODELOS, 'musica': 'music/monkeys-spinning-monkeys.mp3', 'semVoz': SEM_VOZ}
     SAIDA.mkdir(parents=True, exist_ok=True)
     (SAIDA / 'pedidos_cb.json').write_text(json.dumps([{k: p[k] for k in ('id', 'texto_cb', 'ref', 'exag')} for p in PEDIDOS], ensure_ascii=False))
-    (SAIDA / 'timeline.json').write_text(json.dumps(tl, ensure_ascii=False))
+    (SAIDA / ('timeline3d.json' if SEM_VOZ else 'timeline.json')).write_text(json.dumps(tl, ensure_ascii=False))
     tot = sum(b['dur'] for b in blocos) / FPS
     print(f'{len(blocos)} blocos, {tot / 60:.1f} min')
 
