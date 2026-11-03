@@ -8,6 +8,7 @@ import {SceneVisual} from './scenes/registry';
 import {escolherTransicao, TransicaoEntrada} from './amongus/Transicoes';
 import {escolherTransicaoInt, TransicaoInt} from './interrogatorio/Transicoes';
 import {escolherTransicaoLobo, TransicaoLobo} from './lobisomem/Transicoes';
+import {CenaPersistente} from './bombanana/Cena3Dv2';
 
 // Nome do componente visual da cena (só para cenas de componente); usado nas transições.
 const nomeVisual = (s: Scene | undefined): string | undefined =>
@@ -56,8 +57,10 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
     return x - Math.floor(x) - 0.5;
   };
   const tx = tremor * rnd(1) * 2, ty = tremor * rnd(2) * 2;
+  // BOMBANANA: a cena 3D é uma só (CenaPersistente, embaixo de tudo); a cena aqui fica transparente por cima
+  const bb = scene.visual.type === 'component' && scene.visual.name.startsWith('BB');
   return (
-    <AbsoluteFill style={{background: C.bg}}>
+    <AbsoluteFill style={{background: bb ? 'transparent' : C.bg}}>
       <AbsoluteFill style={{transform: `translate(${tx}px, ${ty}px) scale(${1 + bump + (trig ? 0.06 : 0)})`}}>
       {scene.segments.map((sg, i) => (
         <Sequence key={i} from={sg.start} durationInFrames={Math.max(1, sg.end - sg.start)} name={`${sg.clip}@${sg.from}`}>
@@ -134,11 +137,14 @@ export const Main: React.FC<{timeline: Timeline | null; short?: boolean}> = ({ti
   return (
     <ModoShort.Provider value={!!short}>
     <AbsoluteFill style={{background: C.bg}}>
+      <AbsoluteFill style={{zIndex: 1}}>
       {timeline.scenes.map((scene, i) => (
         <Sequence key={scene.id} from={scene.start} durationInFrames={scene.duration} name={`${scene.id} · ${scene.chapter}`}>
           <SceneView scene={scene} timeline={timeline} anterior={nomeVisual(timeline.scenes[i - 1])} />
         </Sequence>
       ))}
+      </AbsoluteFill>
+      {timeline.scenes.some((s) => s.visual.type === 'component' && s.visual.name.startsWith('BB')) ? <AbsoluteFill style={{zIndex: 0}}><CenaPersistente /></AbsoluteFill> : null}
     </AbsoluteFill>
     </ModoShort.Provider>
   );

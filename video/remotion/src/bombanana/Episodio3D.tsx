@@ -14,14 +14,14 @@ import {FONT} from '../theme';
 import MANUAL from '../../public/bb/manual.json';
 
 const PAPEIS: Papel3D[] = ['Cego', 'Surdo', 'Mudo'];
-const COR_PAPEL: Record<Papel3D, string> = {Cego: '#e8402f', Surdo: '#2f7de8', Mudo: '#f2b01e'};
-const NOME_PAPEL: Record<Papel3D, string> = {Cego: 'CEGO', Surdo: 'SURDO', Mudo: 'MUDO'};
+export const COR_PAPEL: Record<Papel3D, string> = {Cego: '#e8402f', Surdo: '#2f7de8', Mudo: '#f2b01e'};
+export const NOME_PAPEL: Record<Papel3D, string> = {Cego: 'CEGO', Surdo: 'SURDO', Mudo: 'MUDO'};
 const sen = Math.sin;
 const hash = (s: string) => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) | 0; return Math.abs(h); };
 
 // ---------------------------------------------------------------- projeção 3D -> tela (para balões e etiquetas)
 const _cam = new THREE.PerspectiveCamera();
-function projetar(c: Cam, p: THREE.Vector3, w: number, h: number): {x: number; y: number; dentro: boolean} {
+export function projetar(c: Cam, p: THREE.Vector3, w: number, h: number): {x: number; y: number; dentro: boolean} {
   _cam.fov = c.fov ?? 45; _cam.aspect = w / h; _cam.near = 0.05; _cam.far = 40;
   _cam.position.set(...c.pos); _cam.up.set(Math.sin(c.roll ?? 0), Math.cos(c.roll ?? 0), 0); _cam.lookAt(...c.alvo);
   _cam.updateProjectionMatrix(); _cam.updateMatrixWorld(true);
@@ -30,7 +30,7 @@ function projetar(c: Cam, p: THREE.Vector3, w: number, h: number): {x: number; y
 }
 
 // ---------------------------------------------------------------- peças de interface
-const Cronometro: React.FC<{resta: number; erros: number; maxErros: number; f: number}> = ({resta, erros, maxErros, f}) => {
+export const Cronometro: React.FC<{resta: number; erros: number; maxErros: number; f: number}> = ({resta, erros, maxErros, f}) => {
   const r = Math.max(0, resta);
   const txt = `${String(Math.floor(r / 60)).padStart(2, '0')}:${String(Math.floor(r % 60)).padStart(2, '0')}`;
   const alerta = r <= 30;
@@ -79,7 +79,7 @@ const Balao: React.FC<{fala: Fala; f: number; cor: string; x: number; y: number;
   );
 };
 
-const Carimbo: React.FC<{texto: string; cor: string; f: number; rot?: number; top?: number; tam?: number}> = ({texto, cor, f, rot = -8, top = 420, tam = 150}) => {
+export const Carimbo: React.FC<{texto: string; cor: string; f: number; rot?: number; top?: number; tam?: number}> = ({texto, cor, f, rot = -8, top = 420, tam = 150}) => {
   const s = spring({frame: f, fps: 30, config: {damping: 8, stiffness: 220}});
   return (
     <div style={{position: 'absolute', top, width: '100%', textAlign: 'center', transform: `scale(${2.2 - 1.2 * s}) rotate(${rot}deg)`, opacity: Math.min(1, f / 3)}}>
@@ -89,7 +89,7 @@ const Carimbo: React.FC<{texto: string; cor: string; f: number; rot?: number; to
 };
 
 // página do manual (como o fichário de argolas do jogo), na mão do Mudo
-const Manual: React.FC<{tipo: string; f: number}> = ({tipo, f}) => {
+export const Manual: React.FC<{tipo: string; f: number}> = ({tipo, f}) => {
   const txt: string = (MANUAL as any)[tipo] ?? '';
   const [cab, ...linhas] = txt.split('\n');
   const titulo = cab.split('(')[0].trim();
@@ -112,7 +112,7 @@ const Manual: React.FC<{tipo: string; f: number}> = ({tipo, f}) => {
 };
 
 // filtro de bordas da visão do Cego (contornos brancos no preto, como no jogo)
-const FiltroContorno: React.FC = () => (
+export const FiltroContorno: React.FC = () => (
   <svg width={0} height={0} style={{position: 'absolute'}}>
     <filter id="bb-contorno" colorInterpolationFilters="sRGB">
       <feConvolveMatrix order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" />
@@ -266,7 +266,7 @@ const LEGENDA: Record<string, (v?: string) => string> = {
   mao_parada: () => 'ESPERA!', repetir: () => 'DE NOVO!', cabeca_sim: () => 'SIM COM A CABEÇA', cabeca_nao: () => 'NÃO COM A CABEÇA',
   tapa: () => 'TAPA!', jogar_banana: () => 'JOGOU UMA BANANA!',
 };
-const legendaGesto = (g: string) => { const [a, v] = g.split(':'); return (LEGENDA[a] ?? (() => a.toUpperCase()))(v); };
+export const legendaGesto = (g: string) => { const [a, v] = g.split(':'); return (LEGENDA[a] ?? (() => a.toUpperCase()))(v); };
 
 // ---------------------------------------------------------------- cartão da fase (painéis de quadrinho, como "ONE CAN'T SEE")
 const Cartao: React.FC<{b: Bloco; tl: Timeline}> = ({b, tl}) => {

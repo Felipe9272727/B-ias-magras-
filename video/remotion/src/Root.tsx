@@ -94,6 +94,7 @@ const calculateMetadataAU5 = calcTimeline('timeline_au5.json');
 const calculateMetadataAU4 = calcTimeline('timeline_au4.json');
 const calculateMetadataInt = calcTimeline('timeline_int.json');
 const calculateMetadataLobo = calcTimeline('timeline_lobo.json');
+const calculateMetadataBB = calcTimeline('timeline_bb.json');
 const calculateMetadata3a = calcTimeline('timeline3_amostra.json');
 const calculateMetadata3c = calcTimeline('timeline3_completo.json');
 
@@ -192,6 +193,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AmongUs2" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU2} />
       <Composition id="AmongUs3" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU3} />
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
+      <Composition id="Bombanana" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataBB} />
       <Composition id="Lobisomem" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataLobo} />
       <Composition id="AmongUs4" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU4} />
       <Composition id="AU5Narrado" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU5} />
