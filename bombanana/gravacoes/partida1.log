@@ -190,3 +190,27 @@
 [120s] Cego Qwen: Módulo 2, valor zero? Fechado, vou de 0! {"modulo":2,"tipo":"digitar","valor":"0"} -> digitou 0: errado
        Surdo Grok: Cego, AGORA! Módulo 2, calculadora. Digita 0 e aperta confirmar. Não é 4, não é 40. Zero! polegar_cima
        Mudo DeepSeek: dedos:4 (Grok mandou o Cego digitar 0, mas a conta é 10x4=40! Preciso corrigir AGORA: mos)
+[130s] Cego Qwen: Putz, errei! Deu a buzina, acendeu mais um X! Grok, não pode ter 3, a porra explode! Vai logo, manda o Mudo confirmar: tela é 10x4=40 ou mudou? Se for 40, faz 4 e 0 com os dedos. Eu não toco em mais tecla nenhuma sem essa porra cravada!  -> 
+       Surdo Grok: Cego! Módulo 2, calculadora. O zero ERROU. Digita 4 e confirma. Não é 40, é 4! Mudo, tela ainda 10 x 4, você mostrou 4 dedos, mandando o 4! dedos:4
+       Mudo DeepSeek: repetir (Erramos: o Grok mandou 0 e a bomba apitou. Preciso que ele repita o que está esc)
+[140s] Cego Qwen: Beleza, Grok: é 4, não 40. Vou apertar 4 agora; se tiver confirmação, grita. {"modulo":2,"tipo":"digitar","valor":"4"} -> digitou 4: errado
+       Surdo Grok: Cego, PARA! Mão longe da calculadora, não digita 4 ainda! Mudo, tela continua 10 x 4 = ?. O zero ERROU. Você fez repetir. Mostra agora quantos dedos entram! mao_parada
+       Mudo DeepSeek: dedos:4 (Erro foi digitar 0 na etapa 1. A conta é 10x4=40, tem que digitar 4 e depois 0 ()
+[150s] Cego Qwen: GROK, MÃO TRAVADA! Dois X acesos, mais um e a porra explode! Errou o 0, errou o 4 — a calculadora deve pedir 40, os DOIS dígitos juntos antes de confirmar. Faz o Mudo mostrar quantos dedos entram (4 e 0 = 'quarenta') e só me toca quando você gritar em voz alta: Módulo 2, digitar 40! Sem essa cravada  -> 
+       Surdo Grok: Cego, PARA! Mão longe! O 4 ERROU, dois X, trinta segundos! Mudo, tela AINDA 10 x 4 = ?. Zero errou, quatro errou. Mostra AGORA o número certo, dedos! mao_parada
+       Mudo DeepSeek: dedos:4 (É 40: primeiro 4, depois 0. O 4 sozinho já deu erro, então mostro 4 agora e o 0 )
+[160s] Cego Qwen: GROK, MÃO TRAVADA! MUDO: se é 40, faz 4 e 0. SURDO, só grita o número cravado: 'Módulo 2, digitar 40'. Sem isso, não toco.  -> 
+       Surdo Grok: Cego, PARA! Não digita 4 de novo, já errou! Mudo, tela AINDA 10 x 4 = ?. Zero errou, quatro errou, dois X, vinte segundos! Quatro NÃO! Mostra OUTRO número, agora! polegar_baixo
+       Mudo DeepSeek: polegar_cima (10x4=40, o resultado é 40 — tem que digitar os dois dígitos (4 e 0) antes de con)
+[170s] Cego Qwen: GROK, TRAVA! NÃO DIGITO NADA SEM O MUDO CONFIRMAR OS DOIS DÍGITOS DE UMA VEZ! Se for 40, ele faz 4 e 0 JUNTOS. Grita AGORA se viu os dois dedos!  -> 
+       Surdo Grok: Cego, PARA! Mão longe, não digita nada! Mudo, tela AINDA 10 x 4 = ?. Zero errou, quatro errou, dois X, dez segundos! Quatro NÃO! Mostra AGORA outro número nos dedos! repetir
+       Mudo DeepSeek: dedos:4 (A conta é 10 x 4 = 40, os dois dígitos juntos! O 4 é o primeiro dígito — o erro )
+=== Fase 5: TEMPO
+
+=== Fase 6 (aviao) | Cego Mistral, Surdo GLM, Mudo MiMo | calculadora + cabo + slider
+[0s] Cego Mistral: Mudo! Módulo 1: teclado 0-9 em Braille, tela lisa. Módulo 2: 4 cabos esticados, 1 a 4 da esquerda pra direita. Módulo 3: slider de 5 entalhes no meio (entalhe 3) com botão de travar. Qual a regra?  -> 
+       Surdo GLM: MUDO, OLHA O MANUAL! Calculadora: 29 menos 27! Cabos: preto, vermelho, azul, amarelo, luz VERDE! Slider: amarelo, no entalhe 3 de 5! Corre! mao_parada
+       Mudo MiMo: mao_parada (Primeira rodada, preciso que o Surdo me descreva a bomba antes de qualquer coisa)
+[10s] Cego Mistral: Mudo, 29 menos 27 dá 2! Digitando 2 no módulo 1 agora! {"modulo":1,"tipo":"digitar","valor":"2"} -> digitou 2: resultado aceito, agora acendeu uma luz
+       Surdo GLM: MUDO, REPETINDO PRA VOCÊ! Slider: amarelo, entalhe 3 de 5! Calculadora: 29 menos 27! Cabos: preto, vermelho, azul, amarelo, luz verde! QUAL A RESPOSTA?! mao_parada
+       Mudo MiMo: dedos:2 (Calculadora: 29-27=2, resultado par. Preciso mandar o 2 pro Surdo primeiro pra e)
