@@ -9,18 +9,18 @@ PI = math.pi
 
 def casa():
     plataforma(0, 0, 7.8, 7.8, 0.5)
-    caixa(0, 0, 0.5, 6.8, 6.4, 2.7, M['cal'], bisel=0.1)
+    caixa(0, 0, 0.5, 6.8, 6.4, 3.3, M['cal'], bisel=0.1)
     caixa(0, 0, 0.5, 6.95, 6.55, 0.35, M['pedra'], bisel=0.05)
     for xx in (-3.4, -1.1, 1.1, 3.4):
-        caixa(xx, -3.22, 0.85, 0.2, 0.14, 2.35, M['madeira_esc'], bisel=0.02)
-    caixa(0, -3.22, 3.0, 6.9, 0.16, 0.22, M['madeira_esc'], bisel=0.02)
+        caixa(xx, -3.22, 0.85, 0.2, 0.14, 2.95, M['madeira_esc'], bisel=0.02)
+    caixa(0, -3.22, 3.5, 6.9, 0.16, 0.22, M['madeira_esc'], bisel=0.02)
     caixa(0, -3.22, 0.85, 6.9, 0.16, 0.2, M['madeira_esc'], bisel=0.02)
     porta(-1.4, -3.2, 0.5, 1.5, 2.3)
-    janela(2.0, -3.2, 1.5, 1.0, 1.1, veneziana=M['jog'])
-    telhado(0, 0, 3.2, 6.8, 6.4, 3.0, M['telha1'], M['telha2'], m_nucleo=M['cal'], m_cumeeira=M['jog'])
-    caixa(-2.2, 1.2, 3.4, 1.0, 1.0, 3.0, M['pedra'], bisel=0.06)
-    caixa(-2.2, 1.2, 6.4, 1.2, 1.2, 0.25, M['pedra_esc'], bisel=0.04)
-    fumaca(-2.2, 1.2, 6.9, n=2, r=0.35)
+    janela(2.0, -3.2, 1.7, 1.0, 1.2, veneziana=M['jog'])
+    telhado(0, 0, 3.8, 6.4, 6.8, 3.0, M['telha1'], M['telha2'], rot90=True, m_nucleo=M['cal'], m_cumeeira=M['jog'])
+    caixa(-2.2, 1.2, 3.4, 1.0, 1.0, 3.6, M['pedra'], bisel=0.06)
+    caixa(-2.2, 1.2, 7.0, 1.2, 1.2, 0.25, M['pedra_esc'], bisel=0.04)
+    fumaca(-2.2, 1.2, 7.5, n=2, r=0.35)
     pano(-3.55 + 0.0, -3.28, 3.0, 0.0, 0.0) if False else None
     barril(3.4, -4.1, 0.5, r=0.45, h=0.9)
     mastro(-3.6, -3.7, 0.5, 4.0, 1.4, 0.9, M['jog'], forma='pontuda')
@@ -78,62 +78,64 @@ def centro_cidade():
 
 
 def quartel():
-    plataforma(0, 0, 15.6, 15.6, 0.4)
-    caixa(0, 2.2, 0.4, 13.2, 8.2, 4.2, M['madeira'], bisel=0.1)
-    caixa(0, 2.2, 0.4, 13.4, 8.4, 1.1, M['pedra'], bisel=0.06)
-    for xx in (-6.6, -3.3, 0, 3.3, 6.6):
-        caixa(xx, -1.95, 1.4, 0.35, 0.3, 3.2, M['madeira_esc'], bisel=0.03)
-    caixa(0, -1.95, 4.3, 13.4, 0.3, 0.4, M['madeira_esc'], bisel=0.03)
-    telhado(0, 2.2, 4.6, 13.2, 8.2, 4.4, M['tabua1'], M['tabua2'], m_nucleo=M['madeira'], m_cumeeira=M['jog'], ov=0.9, filas=8)
-    # faixa na cor no beiral
-    caixa(0, -2.4, 4.6, 14.0, 0.2, 0.35, M['jog'], bisel=0.02)
-    porta(0, -1.95, 0.4, 2.6, 3.2, moldura=M['madeira_esc'])
-    for xx in (-4.6, 4.6):
-        pano(xx, -2.1, 4.0, 1.5, 3.2)
+    caixa(0, 0, 0, 15.6, 15.6, 0.3, M['terra'], bisel=0.1)
+    # salão com empena para a frente
+    caixa(-1.6, 3.2, 0.3, 9.6, 8.6, 4.2, M['madeira'], bisel=0.1)
+    caixa(-1.6, 3.2, 0.3, 9.8, 8.8, 1.1, M['pedra'], bisel=0.06)
+    for xx in (-6.0, -3.8, -1.6, 0.6, 2.8):
+        caixa(xx, -1.15, 1.3, 0.3, 0.3, 3.2, M['madeira_esc'], bisel=0.03)
+    caixa(-1.6, -1.15, 4.2, 9.8, 0.3, 0.4, M['madeira_esc'], bisel=0.03)
+    telhado(-1.6, 3.2, 4.5, 8.6, 9.6, 4.2, M['tabua1'], M['tabua2'], rot90=True, m_nucleo=M['madeira'], m_cumeeira=M['jog'], ov=0.8, filas=7)
+    caixa(-1.6, -1.6, 4.4, 10.8, 0.2, 0.3, M['jog'], bisel=0.02)
+    porta(-1.6, -1.1, 0.3, 2.6, 3.0, moldura=M['madeira_esc'])
+    for xx in (-5.4, 2.2):
+        pano(xx, -1.25, 4.1, 1.4, 3.0)
+    # anexo (arsenal) à direita
+    caixa(5.4, 3.6, 0.3, 4.2, 6.2, 2.8, M['madeira'], bisel=0.08)
+    telhado(5.4, 3.6, 3.1, 6.2, 4.2, 1.6, M['tabua2'], M['tabua1'], rot90=True, m_nucleo=M['madeira'], m_cumeeira=M['madeira_esc'], ov=0.5, filas=5)
     # pátio de treino
-    for xx in (-4.5, 0.5):
-        caixa(xx, -5.0, 0.4, 0.22, 0.22, 2.2, M['madeira_esc'], bisel=0.03)
-        caixa(xx, -5.0, 1.7, 1.5, 0.18, 0.2, M['madeira_esc'], bisel=0.03)
-        esf(xx, -5.0, 2.55, 0.34, 0.34, 0.34, M['palha1'], seg=10, anel=8)
-        cil(xx, -5.27, 1.0, 0.45, 0.1, M['jog'], rot=(PI / 2, 0, 0), verts=14, centro=True)
-    # rack de lanças
-    caixa(5.3, -5.2, 0.4, 2.4, 0.4, 0.7, M['madeira_esc'], bisel=0.03)
+    for xx in (-5.2, -1.0):
+        caixa(xx, -4.6, 0.3, 0.22, 0.22, 2.2, M['madeira_esc'], bisel=0.03)
+        caixa(xx, -4.6, 1.6, 1.5, 0.18, 0.2, M['madeira_esc'], bisel=0.03)
+        esf(xx, -4.6, 2.45, 0.34, 0.34, 0.34, M['palha1'], seg=10, anel=8)
+        cil(xx, -4.87, 1.0, 0.45, 0.1, M['jog'], rot=(PI / 2, 0, 0), verts=14, centro=True)
+    caixa(3.6, -4.6, 0.3, 2.4, 0.4, 0.7, M['madeira_esc'], bisel=0.03)
     for i in range(5):
-        xx = 4.4 + i * 0.45
-        cil(xx, -5.2, 0.4, 0.05, 2.9, M['madeira_lisa'], verts=6)
-        cil(xx, -5.2, 3.2, 0.12, 0.45, M['aco'], verts=6, r2=0.0)
-    cerca(-7.2, -7.2, 7.2, -7.2)
-    cerca(-7.2, -7.2, -7.2, -3.2)
-    mastro(7.0, -6.8, 0.4, 5.2, 2.0, 1.2, M['jog'])
-    barril(-6.4, -3.2, 0.4)
+        xx = 2.7 + i * 0.45
+        cil(xx, -4.6, 0.3, 0.05, 2.9, M['madeira_lisa'], verts=6)
+        cil(xx, -4.6, 3.1, 0.12, 0.45, M['aco'], verts=6, r2=0.0)
+    cerca(-7.4, -7.0, 7.4, -7.0)
+    cerca(-7.4, -7.0, -7.4, -2.0)
+    cerca(7.4, -7.0, 7.4, -2.0)
+    mastro(5.8, -6.2, 0.3, 5.2, 2.0, 1.2, M['jog'])
+    barril(6.2, -1.0, 0.3)
 
 
 def estabulo():
-    plataforma(0, 0, 16, 14, 0.35)
-    caixa(0, 2.5, 0.35, 14.4, 8.4, 3.6, M['madeira'], bisel=0.1)
-    caixa(0, 2.5, 0.35, 14.6, 8.6, 0.8, M['pedra'], bisel=0.06)
-    telhado(0, 2.5, 3.95, 14.4, 8.4, 4.6, M['palha1'], M['palha2'], m_nucleo=M['madeira'], m_cumeeira=M['jog'], ov=1.0, filas=9)
-    # portão grande em arco com faixa na cor
-    caixa(0, -1.75, 0.35, 5.0, 0.3, 3.2, M['porta'], bisel=0.05)
-    caixa(-2.7, -1.8, 0.35, 0.5, 0.4, 3.4, M['madeira_esc'], bisel=0.03)
-    caixa(2.7, -1.8, 0.35, 0.5, 0.4, 3.4, M['madeira_esc'], bisel=0.03)
-    caixa(0, -1.8, 3.4, 5.9, 0.4, 0.5, M['madeira_esc'], bisel=0.03)
+    caixa(0, 0, 0, 16, 14, 0.3, M['terra'], bisel=0.1)
+    caixa(-2.6, 2.4, 0.3, 9.4, 8.8, 3.8, M['madeira'], bisel=0.1)
+    caixa(-2.6, 2.4, 0.3, 9.6, 9.0, 0.8, M['pedra'], bisel=0.06)
+    telhado(-2.6, 2.4, 4.1, 8.8, 9.4, 4.2, M['palha1'], M['palha2'], rot90=True, m_nucleo=M['madeira'], m_cumeeira=M['jog'], ov=0.9, filas=7)
+    caixa(-2.6, -2.35, 0.3, 4.4, 0.3, 3.2, M['porta'], bisel=0.05)
     for s in (-1, 1):
-        caixa(s * 1.2, -1.95, 0.7, 0.2, 0.1, 2.6, M['jog'], bisel=0.02)
-    caixa(0, -1.96, 1.2, 4.8, 0.12, 0.25, M['jog'], bisel=0.02)
-    for xx in (-5.2, 5.2):
-        pano(xx, -1.8, 3.6, 1.4, 2.8)
-    # fardos de feno e cercado
-    for (hx, hy, rz) in ((5.4, -3.2, 0), (6.4, -3.4, 0.3), (5.7, -4.3, -0.2)):
-        cil(hx, hy, 0.35, 0.65, 1.1, M['feno'], rot=(0, PI / 2, rz), verts=14, centro=False)
-    caixa(-5.8, -3.4, 0.35, 1.2, 0.9, 0.9, M['feno'], bisel=0.1)
-    cerca(-7.4, -6.6, 7.4, -6.6)
-    cerca(-7.4, -6.6, -7.4, -2.0)
-    cerca(7.4, -6.6, 7.4, -2.0)
-    # cocho
-    caixa(-3.0, -4.6, 0.35, 2.4, 0.7, 0.5, M['madeira_esc'], bisel=0.05)
-    caixa(-3.0, -4.6, 0.8, 2.2, 0.5, 0.1, M['agua'], bisel=0.02)
-    mastro(0.0, -6.6, 0.35, 5.6, 2.0, 1.2, M['jog'])
+        caixa(-2.6 + s * 2.4, -2.4, 0.3, 0.5, 0.4, 3.4, M['madeira_esc'], bisel=0.03)
+        caixa(-2.6 + s * 1.1, -2.55, 0.5, 0.2, 0.1, 2.6, M['jog'], bisel=0.02)
+    caixa(-2.6, -2.4, 3.5, 5.4, 0.4, 0.5, M['madeira_esc'], bisel=0.03)
+    caixa(-2.6, -2.56, 1.2, 4.2, 0.12, 0.25, M['jog'], bisel=0.02)
+    for xx in (-7.0, 1.7):
+        pano(xx, -2.4, 3.8, 1.2, 2.6)
+    # curral à direita com cocho e feno
+    cerca(2.8, -6.8, 7.4, -6.8)
+    cerca(7.4, -6.8, 7.4, 6.4)
+    cerca(2.8, -6.8, 2.8, -3.6)
+    cerca(2.8, 6.4, 7.4, 6.4)
+    caixa(5.4, 3.0, 0.3, 2.4, 0.7, 0.5, M['madeira_esc'], bisel=0.05)
+    caixa(5.4, 3.0, 0.75, 2.2, 0.5, 0.1, M['agua'], bisel=0.02)
+    for (hx, hy, rz) in ((5.2, -2.2, 0), (6.3, -2.6, 0.3), (5.6, -3.7, -0.2)):
+        cil(hx, hy, 0.3, 0.65, 1.1, M['feno'], rot=(0, PI / 2, rz), verts=14)
+    cil(6.0, 0.0, 0.3, 0.65, 1.1, M['feno'], rot=(0, PI / 2, 0.4), verts=14)
+    caixa(-7.0, -4.6, 0.3, 1.2, 0.9, 0.9, M['feno'], bisel=0.1)
+    mastro(-6.0, -6.4, 0.3, 5.6, 2.0, 1.2, M['jog'])
 
 
 def torre():
@@ -179,28 +181,26 @@ def fazenda():
 
 
 def ferreiro():
-    plataforma(0, 0, 12, 12, 0.35)
-    caixa(1.2, 1.5, 0.35, 8.4, 6.6, 3.3, M['pedra'], bisel=0.1)
-    telhado(1.2, 1.5, 3.65, 8.4, 6.6, 3.0, M['tabua1'], M['tabua2'], m_nucleo=M['pedra'], m_cumeeira=M['jog'], ov=0.8, filas=6)
-    caixa(-1.8, 2.4, 0.35, 1.6, 1.6, 7.2, M['pedra'], bisel=0.08)
-    caixa(-1.8, 2.4, 7.55, 2.0, 2.0, 0.3, M['pedra_esc'], bisel=0.05)
-    fumaca(-1.8, 2.4, 8.2, n=3, r=0.45)
-    porta(2.2, -1.8, 0.35, 1.5, 2.4)
-    janela(-0.2, -1.8, 1.6, 0.9, 1.0, veneziana=M['jog'])
-    pano(4.8, -1.88, 3.4, 1.0, 2.2)
-    # forja aberta (brilho) e bigorna
-    caixa(-3.6, -1.3, 0.35, 2.2, 1.6, 1.0, M['pedra_esc'], bisel=0.06)
-    caixa(-3.6, -1.3, 1.3, 1.8, 1.2, 0.15, M['brasa'], bisel=0.02)
-    esf(-3.6, -1.3, 1.5, 0.6, 0.45, 0.25, M['fogo'], seg=8, anel=6)
-    caixa(-0.8, -4.2, 0.35, 0.6, 0.6, 0.75, M['madeira_esc'], bisel=0.04)
-    caixa(-0.8, -4.2, 1.1, 1.3, 0.55, 0.3, M['ferro'], bisel=0.05)
-    caixa(-0.2, -4.2, 1.15, 0.5, 0.35, 0.18, M['ferro'], bisel=0.04)
-    barril(3.8, -4.6, 0.35)
-    # espadas penduradas no lado
+    caixa(0, 0, 0, 12, 12, 0.3, M['terra'], bisel=0.1)
+    caixa(2.2, 2.2, 0.3, 6.8, 7.2, 3.4, M['pedra'], bisel=0.1)
+    telhado(2.2, 2.2, 3.7, 7.2, 6.8, 3.0, M['tabua1'], M['tabua2'], rot90=True, m_nucleo=M['pedra'], m_cumeeira=M['jog'], ov=0.8, filas=6)
+    caixa(-1.9, 4.2, 0.3, 1.6, 1.6, 7.2, M['pedra'], bisel=0.08)
+    caixa(-1.9, 4.2, 7.5, 2.0, 2.0, 0.3, M['pedra_esc'], bisel=0.05)
+    fumaca(-1.9, 4.2, 8.1, n=3, r=0.45)
+    porta(3.4, -1.45, 0.3, 1.5, 2.4)
+    janela(0.6, -1.45, 1.7, 0.9, 1.0, veneziana=M['jog'])
+    pano(5.3, -1.52, 3.5, 1.0, 2.2)
+    caixa(-3.6, -1.6, 0.3, 2.2, 1.6, 1.0, M['pedra_esc'], bisel=0.06)
+    caixa(-3.6, -1.6, 1.25, 1.8, 1.2, 0.15, M['brasa'], bisel=0.02)
+    esf(-3.6, -1.6, 1.45, 0.6, 0.45, 0.25, M['fogo'], seg=8, anel=6)
+    caixa(-0.6, -4.2, 0.3, 0.6, 0.6, 0.75, M['madeira_esc'], bisel=0.04)
+    caixa(-0.6, -4.2, 1.05, 1.3, 0.55, 0.3, M['ferro'], bisel=0.05)
+    caixa(0.0, -4.2, 1.1, 0.5, 0.35, 0.18, M['ferro'], bisel=0.04)
+    barril(3.8, -4.6, 0.3)
     for i in range(3):
-        caixa(5.55, -0.3 + i * 0.5, 1.7, 0.06, 0.1, 1.4, M['aco'], bisel=0.01)
-    caixa(-4.3, -4.8, 0.35, 0.8, 0.8, 0.45, M['pedra_esc'], bisel=0.06)
-    mastro(5.2, -5.2, 0.35, 4.0, 1.6, 1.0, M['jog'])
+        caixa(5.55 + 0.0, 1.0 + i * 0.5, 1.7, 0.06, 0.1, 1.4, M['aco'], bisel=0.01)
+    rocha(-4.3, -4.8, 0.55, 0.55, M['pedra_esc'], seed=9)
+    mastro(5.2, -5.2, 0.3, 4.0, 1.6, 1.0, M['jog'])
 
 
 def templo():
@@ -222,7 +222,7 @@ def templo():
     caixa(0, -6.8, 7.25, 10.8, 1.5, 0.5, M['marmore'], bisel=0.05)
     caixa(0, -6.8, 7.75, 10.8, 1.5, 0.12, M['jog'], bisel=0.02)
     # frontão (ridge ao longo de y) cobrindo cela e pórtico
-    telhado(0, 1.6, 7.75, 16.6 + 0.0, 11.2, 3.6, M['jog'], M['jog_esc'], rot90=True, m_nucleo=M['marmore'], m_cumeeira=M['ouro'], ov=0.7, ovx=0.55, filas=7)
+    telhado(0, 1.6, 7.75, 16.6 + 0.0, 11.2, 3.2, M['telha1'], M['telha2'], rot90=True, m_nucleo=M['marmore'], m_cumeeira=M['jog'], ov=0.7, ovx=0.55, filas=7)
     esf(0, -7.0, 11.9, 0.35, 0.35, 0.35, M['ouro'], seg=8, anel=6)
     porta(0, -2.95, 1.4, 2.2, 3.8, moldura=M['pedra_esc'])
     for xx in (-3.5, 3.5):
@@ -256,8 +256,8 @@ def mercado():
     for (px, py) in ((-1.8, -1.8), (1.8, -1.8), (-1.8, 1.8), (1.8, 1.8)):
         cil(px, py, 0.3, 0.16, 4.2, M['madeira_esc'], verts=6)
     caixa(0, 0, 4.5, 4.4, 4.4, 0.3, M['madeira_esc'], bisel=0.04)
-    cil(0, 0, 4.8, 3.6, 2.6, M['jog'], rot=(0, 0, PI / 4), verts=4, r2=0.0)
-    caixa(0, 0, 4.8, 5.1, 5.1, 0.32, M['creme'], bisel=0.03)
+    cil(0, 0, 4.8, 3.2, 2.6, M['jog'], rot=(0, 0, PI / 4), verts=4, r2=0.0)
+    caixa(0, 0, 4.8, 4.6, 4.6, 0.32, M['creme'], bisel=0.03)
     mastro(0, 0, 7.3, 2.0, 1.6, 1.0, M['jog'])
     esf(0, 0, 0.7, 0.9, 0.9, 0.5, M['agua'], seg=10, anel=6)
     cil(0, 0, 0.3, 1.0, 0.6, M['pedra_esc'], verts=12, r2=1.1)

@@ -11,7 +11,7 @@ ELEV = 52
 SS = 2                     # supersampling (renderiza em 2x e reduz com Lanczos)
 PX_PREDIOS = 8             # pixels por metro: prédios e árvores
 PX_UNID = 40               # pixels por metro: unidades, animais, arbustos, rochas
-LUZ = Vector((0.62, 0.30, -0.72)).normalized()   # direção em que a luz viaja (sombra cai para a direita/atrás)
+LUZ = Vector((0.55, 0.28, -0.88)).normalized()   # direção em que a luz viaja (sombra cai para a direita/atrás)
 
 COR = {'vermelho': (220, 40, 40), 'azul': (40, 90, 230), 'amarelo': (240, 200, 30),
        'verde': (40, 170, 60), 'roxo': (150, 60, 200), 'laranja': (240, 130, 30)}
@@ -71,7 +71,8 @@ def mat_tex(nome, c1, c2, mort, larg, alto, msz=0.05, rough=0.85, plano=False):
 def mats():
     M['pedra'] = mat_tex('pedra', (200, 190, 168), (178, 168, 148), (120, 112, 98), 1.4, 0.7, 0.07)
     M['pedra_esc'] = mat_tex('pedra_esc', (150, 142, 130), (128, 120, 110), (90, 84, 76), 1.4, 0.7, 0.07)
-    M['laje'] = mat_tex('laje', (214, 204, 182), (196, 186, 164), (140, 130, 114), 1.6, 1.6, 0.06, plano=True)
+    M['terra'] = mat('terra', (168, 138, 96), 1.0)
+    M['laje'] = mat_tex('laje', (196, 186, 164), (178, 168, 148), (140, 130, 114), 1.6, 1.6, 0.06, plano=True)
     M['cal'] = mat('cal', (236, 222, 188), 0.85)
     M['marmore'] = mat('marmore', (244, 240, 230), 0.4)
     M['madeira'] = mat_tex('madeira', (160, 108, 58), (140, 92, 48), (78, 48, 24), 0.55, 40.0, 0.05, 0.75)
@@ -81,8 +82,8 @@ def mats():
     M['telha2'] = mat('telha2', (170, 62, 34), 0.7)
     M['tabua1'] = mat('tabua1', (122, 86, 54), 0.8)
     M['tabua2'] = mat('tabua2', (104, 72, 44), 0.8)
-    M['palha1'] = mat('palha1', (222, 184, 82), 0.9)
-    M['palha2'] = mat('palha2', (200, 160, 66), 0.9)
+    M['palha1'] = mat('palha1', (214, 168, 70), 0.9)
+    M['palha2'] = mat('palha2', (176, 134, 54), 0.9)
     M['jog'] = mat('jog', (200, 50, 50), 0.55)
     M['jog_esc'] = mat('jog_esc', (120, 30, 30), 0.55)
     M['jog_cla'] = mat('jog_cla', (240, 120, 120), 0.55)
@@ -267,7 +268,7 @@ def telhado(x, y, z_parede, w, d, subida, m1, m2, pai=None, rot90=False, ov=0.6,
             yy = lado * (run - s * math.cos(a))
             zz = s * math.sin(a) + 0.09 * math.cos(a) + 0.045 * (i % 2)
             caixa(0, yy, zz, w + 2 * ovx, passo * 1.4, 0.16, m1 if i % 2 == 0 else m2, e,
-                  rot=(lado * a, 0, 0), bisel=0.03, centro=True)
+                  rot=(-lado * a, 0, 0), bisel=0.03, centro=True)
     caixa(0, 0, subida, w + 2 * ovx + 0.1, 0.5, 0.5, m_cumeeira or m1, e, rot=(math.pi / 4, 0, 0), bisel=0.04, centro=True)
     return e
 
@@ -407,7 +408,7 @@ def iniciar(teste=False):
     sc.camera = cam
     bpy.ops.object.light_add(type='SUN')
     sol = bpy.context.active_object; sol.name = 'SOL'
-    sol.data.energy = 4.2
+    sol.data.energy = 5.0
     sol.data.color = (1.0, 0.88, 0.70)
     sol.data.angle = math.radians(3.5)
     sol.rotation_euler = LUZ.to_track_quat('-Z', 'Y').to_euler()
