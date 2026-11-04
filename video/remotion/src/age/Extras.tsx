@@ -19,17 +19,24 @@ export const Brasao: React.FC<{j: number; s?: number}> = ({j, s = 90}) => (
   </svg>
 );
 
-export const Elenco: React.FC<{ias: IA[]; destaque?: number[]}> = ({ias, destaque}) => {
+export const Elenco: React.FC<{ias: IA[]; destaque?: number[]; marcas?: number[]}> = ({ias, destaque, marcas}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
+  // marcas[i] = quadro em que o narrador fala o nome da IA i: o card dela acende e os outros apagam
+  let atual = -1;
+  marcas?.forEach((m, i) => {
+    if (f >= m) atual = i;
+  });
   return (
     <div style={{position: 'absolute', inset: 0, background: '#0008', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 420px)', gap: 28}}>
         {ias.map((ia, i) => {
           const e = spring({frame: f - i * 18, fps, config: {damping: 13, stiffness: 170}});
-          const dest = destaque?.includes(i + 1);
+          const dest = destaque?.includes(i + 1) || atual === i;
+          const ac = atual === i && marcas ? spring({frame: f - marcas[i], fps, config: {damping: 10, stiffness: 200}}) : 0;
+          const apaga = atual >= 0 && atual !== i ? 0.45 : 1;
           return (
-            <div key={i} style={{...PAINEL, borderColor: dest ? '#fff' : OURO, padding: '18px 20px', display: 'flex', gap: 16, alignItems: 'center', transform: `translateY(${(1 - e) * 120}px) scale(${0.8 + 0.2 * e})`, opacity: e}}>
+            <div key={i} style={{...PAINEL, borderColor: dest ? '#fff' : OURO, boxShadow: atual === i ? `0 0 40px ${CORES_J[i + 1]}` : undefined, padding: '18px 20px', display: 'flex', gap: 16, alignItems: 'center', transform: `translateY(${(1 - e) * 120}px) scale(${(0.8 + 0.2 * e) * (1 + 0.12 * ac)}) rotate(${atual === i ? Math.sin(f / 6) * 1.2 : 0}deg)`, opacity: e * apaga}}>
               <Brasao j={i + 1} s={84} />
               <div>
                 <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 44, color: '#fff', lineHeight: 1}}>{ia.nome}</div>

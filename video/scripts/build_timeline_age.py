@@ -68,12 +68,17 @@ def main():
     for c in todas:
         t = 0.0
         over, audio = [], []
+        marcas = None
         for it in c['itens']:
             k = it[0]
             if k == 'n':
                 src, d = tts(it[1], NARRADOR)
                 audio.append(dict(src=src, at=round(t * FPS)))
                 over.append(dict(tipo='legenda_n', at=round(t * FPS), dur=round(d * FPS), texto=it[1]))
+                if c.get('visual') == 'elenco' and marcas is None:  # card de cada IA acende quando o nome é dito
+                    tx = falado(it[1])
+                    pos = [tx.find(falado(ia['nome'])) for ia in ias]
+                    marcas = [round((t + max(0, p) / len(tx) * d - 0.15) * FPS) for p in pos]
                 t += d + 0.12
             elif k in ('fala', 'pensa'):
                 j = it[1]
@@ -106,7 +111,7 @@ def main():
         n = max(round((t + c.get('folga', 0.4)) * FPS), 45)
         # legenda do narrador não aparece (regra: legenda só em palavra difícil); fica só para conferência
         over = [o for o in over if o['tipo'] != 'legenda_n']
-        cenas.append(dict(id=c['id'], dur=n, t0=round(c['t0_s'] * 1000), vel=round(c.get('vel', 2.0) * 1000 / FPS, 3), cam=c['cam'], foco=c.get('foco'), hud=c.get('hud', True), over=over, audio=audio, cap=c.get('cap'), visual=c.get('visual'), comentarios=c.get('comentarios'), partida=c['partida']))
+        cenas.append(dict(id=c['id'], dur=n, t0=round(c['t0_s'] * 1000), vel=round(c.get('vel', 2.0) * 1000 / FPS, 3), cam=c['cam'], foco=c.get('foco'), hud=c.get('hud', True), over=over, audio=audio, cap=c.get('cap'), visual=c.get('visual'), marcas=marcas, comentarios=c.get('comentarios'), partida=c['partida']))
         print(f"{c['id']:14s} {n / FPS:6.1f}s", flush=True)
     tl = dict(partida=rot['partida'], ias=ias, cenas=cenas)
     (PUB / 'timeline_age.json').write_text(json.dumps(tl, ensure_ascii=False))

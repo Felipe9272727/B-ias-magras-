@@ -34,7 +34,8 @@ fil.append(''.join(f'[m{i}]' for i in range(len(blocos))) + f'concat=n={len(bloc
 fil.append('[0:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voz][chave]')
 fil.append('[mus][chave]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=450:makeup=1[md]')
 fil.append('[voz][md]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[a]')
-fil.append('[0:v]scale=1920:1080:flags=lanczos[v]')
+# edição de cor: mais contraste e saturação (cara de jogo), nitidez depois do upscale e vinheta leve
+fil.append('[0:v]scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42[v]')
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', ent, *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-map', '[a]',
-                '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', sai], check=True)
+                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', sai], check=True)
 print('ok', sai)
