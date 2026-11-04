@@ -146,7 +146,8 @@ const Macaco: React.FC<{g: THREE.Group; papel: Papel3D; ator: Ator; t: number; s
   raiz.position.set(p0.x, p0.y + p.pulo, p0.z);
   raiz.rotation.set(0, rotMacaco(papel) + (ator.olhar ?? 0), 0);
   raiz.scale.setScalar(ESCALA_MACACO);
-  const n = (x: string) => raiz.getObjectByName(x)!;
+  const ossos = (raiz.userData.ossos ??= {}) as Record<string, THREE.Object3D>;
+  const n = (x: string) => (ossos[x] ??= raiz.getObjectByName(x)!);  // procura no grafo só na primeira vez
   const entra = Math.min(1, tg / 6);  // 0,2 s para chegar na pose (sem estalo)
   girar(raiz, n('coluna'), V(1, 0, 0), p.inclina * entra);
   girar(raiz, n('coluna'), V(0, 0, 1), p.tomba * entra);
@@ -169,12 +170,15 @@ const Macaco: React.FC<{g: THREE.Group; papel: Papel3D; ator: Ator; t: number; s
   const pisca = (t + papel.length * 37) % 110 < 4 ? 0.1 : 1;
   for (const o of ['olho_L', 'olho_R']) { const ol = raiz.getObjectByName(o); if (ol) ol.scale.set(1, pisca, 1); }
   // fuligem depois da explosão
-  raiz.traverse((c: any) => {
-    if (c.isMesh && c.material) {
-      if (!c.userData.cor0) c.userData.cor0 = c.material.color.clone();
-      c.material.color.copy(c.userData.cor0).lerp(new THREE.Color('#1a1210'), sujo * 0.75);
-    }
-  });
+  if (raiz.userData.sujo !== sujo) {  // só percorre o modelo quando a fuligem muda
+    raiz.userData.sujo = sujo;
+    raiz.traverse((c: any) => {
+      if (c.isMesh && c.material) {
+        if (!c.userData.cor0) c.userData.cor0 = c.material.color.clone();
+        c.material.color.copy(c.userData.cor0).lerp(new THREE.Color('#1a1210'), sujo * 0.75);
+      }
+    });
+  }
   return <primitive object={raiz} />;
 };
 
@@ -199,10 +203,12 @@ function texLCD(resta: number, erros: number, maxErros: number, alerta: boolean)
 }
 
 const texSVG: Record<string, THREE.Texture> = {};
+const svgCache: Record<string, string> = {};
 const pendente: Record<string, number> = {};  // svg -> handle do delayRender
 function texturaModulos(modulos: Modulo[] | undefined, foco: number | undefined, avisar: () => void): {tex: THREE.Texture | null; svg: string} {
   if (!modulos?.length) return {tex: null, svg: ''};
-  const svg = renderToStaticMarkup(<PainelModulos modulos={modulos} foco={foco} />);
+  const chave = JSON.stringify([modulos, foco]);
+  const svg = (svgCache[chave] ??= renderToStaticMarkup(<PainelModulos modulos={modulos} foco={foco} />));  // gerar o SVG é caro: uma vez por estado
   if (texSVG[svg]) return {tex: texSVG[svg], svg};
   if (pendente[svg] === undefined) {
     pendente[svg] = delayRender('textura dos módulos');
@@ -257,7 +263,7 @@ const Bomba: React.FC<{g: THREE.Group; resta: number; erros: number; maxErros: n
     lcd.material = mats.lcd;
   }
   g.position.set(sen(t * 2.1) * 0.01 * tremor, Math.abs(sen(t * 1.7)) * 0.012 * tremor, 0);
-  g.traverse((c: any) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+  if (!g.userData.sombraOk) { g.traverse((c: any) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } }); g.userData.sombraOk = true; }
   const pino = g.getObjectByName('bomba_pino_botao') as THREE.Mesh | undefined;
   if (pino) (pino.material as THREE.MeshStandardMaterial).emissive = new THREE.Color(Math.floor(t / 15) % 2 ? '#ff2020' : '#300000');
   return <primitive object={g} />;
@@ -311,8 +317,9 @@ const Ambiente: React.FC<{t: number; apagao: number; alarme: number; flash: numb
       <pointLight position={[MESA.x, 2.05, MESA.z]} intensity={9 * luz + flash * 60} distance={8} decay={1.6} color="#ffd59a" />
       <directionalLight position={[-1.5, 4, 4]} intensity={1.3 * luz} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} shadow-bias={-0.0015} />
       <directionalLight position={[3, 2, -2]} intensity={0.5 * luz} color="#bcd4ff" />
-      {apagao ? <pointLight position={[MESA.x, 1.2, MESA.z]} intensity={2.5 * apagao} distance={3} color="#7dff6a" /> : null}
-      {alarme ? <pointLight position={[0, 2.5, 0]} intensity={14 * sirene * alarme} distance={9} color="#ff2010" /> : null}
+      {/* sempre montadas (intensidade 0 quando desligadas): trocar o número de luzes recompila todos os shaders */}
+      <pointLight position={[MESA.x, 1.2, MESA.z]} intensity={2.5 * apagao} distance={3} color="#7dff6a" />
+      <pointLight position={[0, 2.5, 0]} intensity={14 * sirene * alarme} distance={9} color="#ff2010" />
     </>
   );
 };
