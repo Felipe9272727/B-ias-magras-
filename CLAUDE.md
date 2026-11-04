@@ -53,3 +53,4 @@
 - **Plantar e colher**: citar cedo algo que só paga depois ("guarda esse nome"); cena misteriosa da abertura é explicada no fim.
 - **Público dentro do vídeo**: pedidos de comentário viram elemento do jogo com selo "ideia de @fulano"; fãs recorrentes viram gag.
 - **Fechamento em 3 passos**: placar/prêmios com nome e número ("ASSASSINO DA TEMPORADA"), uma lição de uma frase, pergunta ao público.
+- Ao escolher as IAs de um vídeo, seguir `video/IAS_FAVORITAS.md` (favoritas, moderadas, evitar e preferência por modelos novos e pequenos).
