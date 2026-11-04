@@ -34,3 +34,22 @@
 - **Variar os finais** de cada parte (não repetir a mesma estrutura em sequência) e guardar o melhor momento para o último quarto.
 - **Fechar com uma pergunta** para o público comentar.
 - Na revisão dos Haikus a cada ~30 s, avaliar também repetição, jargão e se dá para entender o que está acontecendo.
+
+## O que os vídeos que mais prendem fazem (Among Us 4: 12 min de média; 60 Segundos: 10:57; Among Us 5: 10:49) — vale para TODOS os vídeos
+- **O espectador sabe o segredo antes das IAs** (papéis, manual, plano, pensamento secreto): todo erro ou mentira tem
+  que ser conferível na tela. É isso que transforma a fala da IA em piada.
+- **Cada cena = 1 evento + 1 virada**, fechada com meme, selo ou frase de efeito ("...sem testemunhas. Só que o Roxo tava ali.").
+- **Contraste fala x realidade**: quando a IA diz uma coisa e a tela mostra outra, pôr selo ("4 MATEI · 0 MORTES").
+  Partida monótona vira a própria piada ("a partida mais lenta").
+- **Só os eventos grandes** (morte, traição, erro enorme, batalha); o resto pula com marcador de tempo na tela ("Dia 14", "Ano 30").
+- **Moldura do narrador**: antes da fala diz quem fala e por quê; cita só 1-2 frases (as melhores); depois reage. Nunca a rodada inteira.
+- **Nunca mais de 2 cenas seguidas com a mesma tela**: trocar câmera, foco ou componente a cada cena.
+- **Função/unidade/mecânica nova explicada em 1 frase na primeira vez que age** (nunca em lista no começo);
+  cada parte abre com um cartão do que estreia nela.
+- **Número-chave em texto grande na tela** (tempo, dias, baixas, placar), pelo menos um por parte.
+- **Ritmo de efeitos**: pelo menos 1 efeito (meme, selo, texto, zoom, som) a cada ~15-20 s; referência dos sucessos ~2 memes/min.
+- **Cada parte tem título-história** (pela virada, não "Fase 3"), um protagonista e termina com número na tela + gancho
+  para a próxima ("E o próximo... deixou a filha pra trás no primeiro minuto").
+- **Plantar e colher**: citar cedo algo que só paga depois ("guarda esse nome"); cena misteriosa da abertura é explicada no fim.
+- **Público dentro do vídeo**: pedidos de comentário viram elemento do jogo com selo "ideia de @fulano"; fãs recorrentes viram gag.
+- **Fechamento em 3 passos**: placar/prêmios com nome e número ("ASSASSINO DA TEMPORADA"), uma lição de uma frase, pergunta ao público.
