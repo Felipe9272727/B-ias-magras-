@@ -21,7 +21,7 @@ from pathlib import Path
 
 from mapa6 import cfg
 
-URL = 'http://127.0.0.1:6000'
+URL = f"http://127.0.0.1:{os.environ.get('PORTA', '6000')}"
 PASSO_MS = 200
 TURNO_S = 30
 QUADRO_S = 2
@@ -168,6 +168,7 @@ def fase_tech(civ, fase):
 class Jogo:
     def __init__(self):
         self.st = None
+        self.antes = {}
         self.aloc = {j: dict(comida=60, madeira=30, pedra=0, metal=10) for j in range(1, 7)}
         self.ataque = {}  # j -> (alvo_j, ate_t)
         self.turnos = open(DIR / 'turnos.jsonl', 'a')
@@ -177,6 +178,7 @@ class Jogo:
         self.caixa = {j: [] for j in range(1, 7)}  # privadas recebidas
         self.historia = {j: [] for j in range(1, 7)}  # resumo das últimas decisões
         self.mortos_por = Counter()
+        self.pedidos = {j: [] for j in range(1, 7)}  # construções pedidas no turno (para avisar se não começaram)
 
     # ---- leitura
     def ents(self, owner=None):
@@ -413,6 +415,7 @@ class Jogo:
                     else:
                         cmds += c
                         res.append(f"construindo {a.get('predio')}")
+                        self.pedidos[j].append(PREDIO.get(a.get('predio', ''), ''))
                 elif t == 'evoluir':
                     c = self.cc(j)
                     tech = fase_tech(civ, self.st['players'][j]['phase'])
@@ -464,7 +467,22 @@ class Jogo:
         return cmds, res
 
     # ---- laço
+    def conferir_pedidos(self):
+        for j, ped in self.pedidos.items():
+            if not ped:
+                continue
+            tem = Counter(e['template'].split('/')[-1] for e in self.ents(j) if e['template'].startswith('foundation|') or e['template'].startswith('structures/'))
+            for tpl in set(ped):
+                if tem[tpl] == 0 or (tpl not in self.antes.get(j, Counter()) and False):
+                    pass
+            novos = [tpl for tpl in set(ped) if tem[tpl] <= self.antes.get(j, Counter())[tpl]]
+            for tpl in novos:
+                self.eventos_turno[j].append(f"a construção de {NOME_PREDIO.get(tpl, tpl)} NÃO começou (faltou recurso ou espaço)")
+            self.pedidos[j] = []
+
     def turno(self, n):
+        self.conferir_pedidos()
+        self.antes = {j: Counter(e['template'].split('/')[-1] for e in self.ents(j) if e['template'].startswith('foundation|') or e['template'].startswith('structures/')) for j in range(1, 7)}
         vivos = [j for j in range(1, 7) if self.vivo(j)]
         resumos = {j: self.resumo(j) for j in vivos}
 
