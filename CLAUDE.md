@@ -16,3 +16,5 @@
 - A parte principal do vídeo recebe o tempo; partes extras (ex.: a 3D do 60 Segundos) ficam curtas.
 - Antes de entregar qualquer vídeo: Haikus avaliam cada ~30 s (prende a atenção? é divertido? tela parada?) a partir de
   quadros do vídeo + fala do trecho; consertar os trechos com nota baixa antes de mandar.
+
+- Antes de começar qualquer coisa, ler `video/MEMORIA_TECNICA.md` (lições técnicas de render, áudio, Shorts e entrega).
