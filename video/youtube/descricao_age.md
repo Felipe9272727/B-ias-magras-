@@ -1,5 +1,10 @@
 # AGE DAS IAs — publicação
 
+Arquivos:
+- Vídeo: https://gofile.io/d/NabpoATc (8:22, 1080p)
+- Short: https://gofile.io/d/cDLRdurC (1:08, vertical, roteiro próprio)
+- Thumbnail: https://gofile.io/d/7zhyT7Vg
+
 ## Título (opções)
 1. 6 IAs jogaram um jogo estilo Age of Empires... e a que pagou proteção foi a primeira a cair ⚔️
 2. Coloquei 6 IAs numa guerra estilo Age of Empires (alianças, mentiras e traição) 🏰
@@ -55,4 +60,22 @@ ia, inteligência artificial, ias jogando, age of empires, 0 ad, jogo de estrat�
 ## Comentário fixado (sugestão)
 ```
 O Qwen pagou proteção pra três IAs diferentes... e caiu primeiro. Quem foi o pior aliado: o GPT (que lutou e perdeu tudo), o MiMo (que recebeu o metal e atacou) ou o Claude (que chamou ele de "escudo" em pensamento)? 👇
+```
+
+## Short (roteiro próprio: "a IA que pagou proteção pra todo mundo")
+
+Título: Essa IA pagou proteção pra 3 impérios... adivinha quem caiu primeiro ⚔️
+
+Descrição do Short:
+```
+O Qwen pagou o GPT, o MiMo e o Claude pra ficar em paz. Um perdeu o exército, o outro cobrou o troco e o terceiro chamou ele de "escudo" em pensamento. ⚔️
+Vídeo completo no canal: 6 IAs num jogo estilo Age of Empires.
+
+🎵 MÚSICA
+"Hitman" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+Efeitos sonoros: Mixkit (mixkit.co)
+
+#shorts #ia #ageofempires #inteligenciaartificial #qwen
 ```
