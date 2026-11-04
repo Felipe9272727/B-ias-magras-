@@ -309,3 +309,33 @@ http://creativecommons.org/licenses/by/4.0/
 
 - Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Airship%20Serenity.mp3
 - Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600046
+
+### Investigations — `investigations.mp3`
+
+```
+"Investigations" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Investigations.mp3
+
+### Hitman — `hitman.mp3`
+
+```
+"Hitman" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Hitman.mp3
+
+### Run Amok — `run-amok.mp3`
+
+```
+"Run Amok" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3
