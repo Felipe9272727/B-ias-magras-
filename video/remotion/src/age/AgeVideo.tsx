@@ -8,6 +8,8 @@ import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence,
 import {fontsReady} from '../fonts';
 import {Mapa, type Pecas, type Quadro, type Recurso} from './Mapa';
 import {AU2Comentarios, type Comentario} from '../amongus3/Comentarios';
+import {Diagrama, Elenco, Numero, type Seta} from './Extras';
+import {MemeCard} from '../components/overlays';
 import {BarraRecursos, CartaoMarco, Fala, FONTE, type IA, Minimapa, Pensamento, Placar, Selo, Tempo} from './Hud';
 
 type Over =
@@ -15,8 +17,11 @@ type Over =
   | {tipo: 'fala'; at: number; dur: number; j: number; texto: string; para?: string}
   | {tipo: 'selo'; at: number; dur: number; texto: string; cor?: string}
   | {tipo: 'marco'; at: number; dur: number; titulo: string; sub?: string}
-  | {tipo: 'legenda'; at: number; dur: number; texto: string};
-type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string; comentarios?: Comentario[]};
+  | {tipo: 'legenda'; at: number; dur: number; texto: string}
+  | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: {file: string; width: number; height: number; duration: number}}
+  | {tipo: 'diagrama'; at: number; dur: number; setas: Seta[]}
+  | {tipo: 'numero'; at: number; dur: number; texto: string; sub?: string};
+type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; batalha?: number; exercito?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string; comentarios?: Comentario[]};
 type TL = {partida: string; ias: IA[]; cenas: Cena[]};
 
 export const calcAge: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -24,7 +29,7 @@ export const calcAge: CalculateMetadataFunction<{tl: TL | null}> = async () => {
   return {durationInFrames: tl.cenas.reduce((a: number, c: Cena) => a + c.dur, 0), props: {tl}};
 };
 
-type Dados = {qs: Quadro[]; rec: Recurso[]; tam: number; pecas: Pecas | null};
+type Dados = {qs: Quadro[]; rec: Recurso[]; tam: number; pecas: Pecas | null; vidaMax: Map<number, number>};
 
 function quadroEm(qs: Quadro[], t: number): Quadro {
   let i = 0;
@@ -41,13 +46,33 @@ function centroDe(qs: Quadro[], j: number, t: number): [number, number] {
   return [es.reduce((a, e) => a + e[3], 0) / es.length, es.reduce((a, e) => a + e[4], 0) / es.length];
 }
 
+const MIL = (m: string) => m.includes('infantry') || m.includes('cavalry') || m.includes('champion');
+// câmera na ação: centro dos soldados em combate perto da base do alvo (batalha) ou do exército de um império
+// (exercito); média de vários quadros vizinhos para a câmera não tremer
+function alvoAcao(qs: Quadro[], t: number, modo: 'batalha' | 'exercito', j: number): [number, number] {
+  const pts: [number, number][] = [];
+  for (let dt = -6000; dt <= 6000; dt += 2000) {
+    const q = quadroEm(qs, t + dt);
+    let es = q.ents;
+    if (modo === 'exercito') es = es.filter((e) => e[1] === j && MIL(e[2]));
+    else {
+      const [bx, bz] = centroDe(qs, j, t);
+      es = es.filter((e) => e[1] > 0 && MIL(e[2]) && Math.hypot(e[3] - bx, e[4] - bz) < 320 && (e[1] !== j || e[6].includes('COMBAT')));
+      if (es.length < 3) es = q.ents.filter((e) => MIL(e[2]) && e[6].includes('COMBAT'));
+    }
+    if (es.length) pts.push([es.reduce((a, e) => a + e[3], 0) / es.length, es.reduce((a, e) => a + e[4], 0) / es.length]);
+  }
+  if (!pts.length) return centroDe(qs, j, t);
+  return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+}
+
 const CenaView: React.FC<{c: Cena; d: Dados; ias: IA[]}> = ({c, d, ias}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = c.t0 + f * c.vel;
   const k = c.dur > 1 ? f / (c.dur - 1) : 0;
   const ease = (x: number) => x * x * (3 - 2 * x);
-  let [cx, cz] = c.cam.j ? centroDe(d.qs, c.cam.j, t) : [c.cam.x ?? 640, c.cam.z ?? 640];
+  let [cx, cz] = c.cam.batalha ? alvoAcao(d.qs, t, 'batalha', c.cam.batalha) : c.cam.exercito ? alvoAcao(d.qs, t, 'exercito', c.cam.exercito) : c.cam.j ? centroDe(d.qs, c.cam.j, t) : [c.cam.x ?? 640, c.cam.z ?? 640];
   if (c.cam.x2 !== undefined && c.cam.z2 !== undefined) {
     cx = cx + (c.cam.x2 - cx) * ease(k);
     cz = cz + (c.cam.z2 - cz) * ease(k);
@@ -58,10 +83,11 @@ const CenaView: React.FC<{c: Cena; d: Dados; ias: IA[]}> = ({c, d, ias}) => {
   const flash = interpolate(f, [0, 5], [0.6, 0], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>
-      <Mapa qs={d.qs} recursos={d.rec} pecas={d.pecas} t={t} cx={cx} cz={cz} zoom={zoom} f={f} />
+      <Mapa qs={d.qs} recursos={d.rec} pecas={d.pecas} t={t} cx={cx} cz={cz} zoom={zoom} f={f} vidaMax={d.vidaMax} />
       {c.visual === 'comentarios' && c.comentarios ? (
         <AbsoluteFill style={{transform: 'scale(0.92)'}}><AU2Comentarios comentarios={c.comentarios} passo={45} /></AbsoluteFill>
       ) : null}
+      {c.visual === 'elenco' ? <Elenco ias={ias} /> : null}
       {c.hud !== false ? (
         <>
           {c.foco ? <BarraRecursos q={q} j={c.foco} ia={ias[c.foco - 1]} /> : null}
@@ -77,6 +103,9 @@ const CenaView: React.FC<{c: Cena; d: Dados; ias: IA[]}> = ({c, d, ias}) => {
           {o.tipo === 'selo' ? <SeloSeq texto={o.texto} cor={o.cor} /> : null}
           {o.tipo === 'marco' ? <MarcoSeq titulo={o.titulo} sub={o.sub} /> : null}
           {o.tipo === 'legenda' ? <Legenda texto={o.texto} /> : null}
+          {o.tipo === 'meme' ? <MemeCard info={o.info} dur={o.dur} pos={o.pos} /> : null}
+          {o.tipo === 'diagrama' ? <Diagrama ias={ias} setas={o.setas} dur={o.dur} /> : null}
+          {o.tipo === 'numero' ? <Numero texto={o.texto} sub={o.sub} dur={o.dur} /> : null}
         </Sequence>
       ))}
       {c.audio.map((a, i) => (
@@ -119,7 +148,9 @@ export const AgeVideo: React.FC<{tl: TL | null}> = ({tl}) => {
         const r = await fetch(staticFile('age/pecas/pecas.json'));
         if (r.ok) pecas = await r.json();
       } catch { /* sem sprites */ }
-      setD({qs, rec: m.recursos, tam: m.tamanho, pecas});
+      const vidaMax = new Map<number, number>();
+      for (const q of qs as Quadro[]) for (const e of q.ents) if (e[1] > 0 && e[2].indexOf('/') < 0 && !(vidaMax.get(e[0]) >= e[5])) vidaMax.set(e[0], e[5]);
+      setD({qs, rec: m.recursos, tam: m.tamanho, pecas, vidaMax});
       continueRender(h);
     })();
   }, [h, tl]);

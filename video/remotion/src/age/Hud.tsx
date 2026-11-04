@@ -1,6 +1,6 @@
 // Interface no estilo do Age of Empires IV (painéis escuros com borda dourada), desenhada em SVG/CSS, sem emoji:
 // barra de recursos do império em foco, placar das 6 IAs, minimapa, balão de pensamento secreto, chat, selos e tempo.
-import React from 'react';
+import React, {useMemo} from 'react';
 import {interpolate, spring, useVideoConfig} from 'remotion';
 import {CORES_J, type Quadro, type Recurso} from './Mapa';
 
@@ -38,7 +38,12 @@ export const BarraRecursos: React.FC<{q: Quadro; j: number; ia: IA}> = ({q, j, i
 };
 
 export const Placar: React.FC<{q: Quadro; ias: IA[]; foco?: number; derrotas?: number[]}> = ({q, ias, foco}) => {
-  const mil = (j: number) => q.ents.filter((e) => e[1] === j && (e[2].includes('infantry') || e[2].includes('cavalry') || e[2].includes('champion'))).length;
+  const cont = useMemo(() => {
+    const c = [0, 0, 0, 0, 0, 0, 0];
+    for (const e of q.ents) if (e[1] > 0 && (e[2].includes('infantry') || e[2].includes('cavalry') || e[2].includes('champion'))) c[e[1]]++;
+    return c;
+  }, [q]);
+  const mil = (j: number) => cont[j];
   return (
     <div style={{position: 'absolute', top: 90, right: 18, width: 330, padding: '10px 12px', ...PAINEL}}>
       {ias.map((ia, i) => {
@@ -67,12 +72,20 @@ export const Placar: React.FC<{q: Quadro; ias: IA[]; foco?: number; derrotas?: n
 export const Minimapa: React.FC<{q: Quadro; recursos: Recurso[]; tam: number; cx: number; cz: number; vw: number; vh: number}> = ({q, recursos, tam, cx, cz, vw, vh}) => {
   const S = 250;
   const k = S / tam;
+  // recursos do minimapa: uma <path> por cor, calculada uma vez (não muda)
+  const camadas = useMemo(() => {
+    const d: Record<string, string> = {};
+    recursos.forEach(([x, z, m], i) => {
+      if (i % 3) return;
+      const c = m.includes('tree') ? '#2f5a20' : m.includes('rock') || m.includes('ore') ? '#bbb' : '#c33';
+      d[c] = (d[c] ?? '') + `M${x * k - 1} ${S - z * k - 1}h2v2h-2z`;
+    });
+    return d;
+  }, [recursos, k]);
   return (
     <div style={{position: 'absolute', left: 18, bottom: 18, width: S + 12, height: S + 12, ...PAINEL, borderRadius: '50%', overflow: 'hidden', padding: 6}}>
       <svg width={S} height={S} style={{borderRadius: '50%', background: '#5d8a38'}}>
-        {recursos.filter((_, i) => i % 3 === 0).map(([x, z, m], i) => (
-          <rect key={i} x={x * k - 1} y={S - z * k - 1} width={2} height={2} fill={m.includes('tree') ? '#2f5a20' : m.includes('rock') || m.includes('ore') ? '#bbb' : '#c33'} />
-        ))}
+        {Object.entries(camadas).map(([c, d]) => <path key={c} d={d} fill={c} />)}
         {q.ents.filter((e) => e[1] > 0).map((e) => {
           const pred = e[2].includes('civil_centre') || e[2].includes('house') || e[2].includes('barracks') || e[2].includes('tower') || e[2].includes('fortress');
           return <rect key={e[0]} x={e[3] * k - (pred ? 2.5 : 1.2)} y={S - e[4] * k - (pred ? 2.5 : 1.2)} width={pred ? 5 : 2.4} height={pred ? 5 : 2.4} fill={CORES_J[e[1]]} />;
@@ -87,7 +100,7 @@ export const Minimapa: React.FC<{q: Quadro; recursos: Recurso[]; tam: number; cx
 export const Pensamento: React.FC<{ia: IA; j: number; texto: string; f: number; dur: number}> = ({ia, j, texto, f, dur}) => {
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 14, stiffness: 160}});
-  const n = Math.floor(interpolate(f, [6, Math.max(8, dur * 0.6)], [0, texto.length], cl));
+  const n = Math.floor(interpolate(f, [4, Math.max(8, Math.min(dur * 0.35, texto.length * 0.9))], [0, texto.length], cl));
   return (
     <div style={{position: 'absolute', left: 300, right: 380, bottom: 40, transform: `translateY(${(1 - e) * 300}px)`, opacity: e}}>
       <div style={{...PAINEL, border: '3px dashed #b9a7ff', background: 'linear-gradient(#2a2440f2, #1a1630f2)', padding: '16px 24px'}}>
@@ -107,7 +120,7 @@ export const Pensamento: React.FC<{ia: IA; j: number; texto: string; f: number; 
 export const Fala: React.FC<{ia: IA; j: number; texto: string; f: number; dur: number; privado?: string}> = ({ia, j, texto, f, dur, privado}) => {
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 14, stiffness: 160}});
-  const n = Math.floor(interpolate(f, [6, Math.max(8, dur * 0.6)], [0, texto.length], cl));
+  const n = Math.floor(interpolate(f, [4, Math.max(8, Math.min(dur * 0.35, texto.length * 0.9))], [0, texto.length], cl));
   return (
     <div style={{position: 'absolute', left: 300, right: 380, bottom: 40, transform: `translateY(${(1 - e) * 300}px)`, opacity: e}}>
       <div style={{...PAINEL, padding: '16px 24px', borderColor: privado ? '#ff9f43' : OURO}}>
@@ -123,11 +136,11 @@ export const Fala: React.FC<{ia: IA; j: number; texto: string; f: number; dur: n
   );
 };
 
-export const Selo: React.FC<{texto: string; f: number; cor?: string; top?: number}> = ({texto, f, cor = '#d92b2b', top = 330}) => {
+export const Selo: React.FC<{texto: string; f: number; cor?: string; top?: number}> = ({texto, f, cor = '#d92b2b', top = 200}) => {
   const e = interpolate(f, [0, 6], [2.4, 1], cl);
   return (
-    <div style={{position: 'absolute', top, left: 0, right: 0, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
-      <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 70, color: '#fff', background: cor, border: '7px solid #fff', borderRadius: 16, padding: '4px 34px', transform: `rotate(-6deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: '0 12px 0 #0008', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{texto}</div>
+    <div style={{position: 'absolute', top, left: 300, right: 380, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+      <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: texto.length > 22 ? 48 : 64, color: '#fff', background: cor, border: '7px solid #fff', maxWidth: 1180, textAlign: 'center', borderRadius: 16, padding: '4px 34px', transform: `rotate(-6deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: '0 12px 0 #0008', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{texto}</div>
     </div>
   );
 };

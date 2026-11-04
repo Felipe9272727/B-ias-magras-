@@ -4,6 +4,7 @@
 // Sem sprite (ainda não renderizado), a peça vira uma forma simples na cor do jogador.
 import React from 'react';
 import {Img, staticFile} from 'remotion';
+import {Fogo, Poeira} from './Extras';
 
 export type Ent = [number, number, string, number, number, number, string]; // id, dono, modelo, x, z, vida, estado
 export type Quadro = {t: number; ents: Ent[]; jogadores: {fase: string; rec: Record<string, number>; pop: number; lim: number; estado: string}[]};
@@ -15,7 +16,14 @@ export const CORES_J = ['#888', '#dc2828', '#285ae6', '#f0c81e', '#28aa3c', '#96
 export const NOME_COR = ['', 'vermelho', 'azul', 'amarelo', 'verde', 'roxo', 'laranja'];
 const SIN = Math.sin((52 * Math.PI) / 180);
 
-export function pecaDe(modelo: string, dono: number): {nome: string; unidade: boolean; tam: number} | null {
+const CACHE_PECA = new Map<string, ReturnType<typeof pecaDeBase>>();
+export function pecaDe(modelo: string, dono: number) {
+  const k = dono + '|' + modelo;
+  let r = CACHE_PECA.get(k);
+  if (r === undefined) CACHE_PECA.set(k, (r = pecaDeBase(modelo, dono)));
+  return r;
+}
+function pecaDeBase(modelo: string, dono: number): {nome: string; unidade: boolean; tam: number} | null {
   const m = modelo.replace('foundation|', '');
   const fund = modelo.startsWith('foundation|');
   const cor = NOME_COR[dono];
@@ -61,7 +69,7 @@ export function entsEm(qs: Quadro[], t: number): {e: Ent; x: number; z: number; 
   });
 }
 
-export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | null; t: number; cx: number; cz: number; zoom?: number; w?: number; h?: number; f: number}> = ({qs, recursos, pecas, t, cx, cz, zoom = 1, w = 1920, h = 1080, f}) => {
+export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | null; t: number; cx: number; cz: number; zoom?: number; w?: number; h?: number; f: number; vidaMax?: Map<number, number>}> = ({qs, recursos, pecas, t, cx, cz, zoom = 1, w = 1920, h = 1080, f, vidaMax}) => {
   const pxm = (pecas?.px_m ?? 8) * zoom;
   const pxu = (pecas?.px_m_unidades ?? pecas?.px_m ?? 8) * zoom;
   const larg = w / pxm / 2 + 40;
@@ -89,6 +97,9 @@ export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | n
       if (pecas && !pecas.pecas?.[nome]) nome = `${base}_andar1_${cor}`;
     }
     itens.push({y: sy, el: <Peca key={`e${e[0]}`} nome={nome} tam={p.tam} sx={sx} sy={sy} px={p.unidade ? pxu : pxm} pecas={pecas} cor={CORES_J[e[1]]} unidade={p.unidade} sumindo={morreu} />});
+    if (combate && p.unidade && e[0] % 2 === 0) itens.push({y: sy + 1, el: <Poeira key={`p${e[0]}`} sx={sx} sy={sy} s={pxu * 2.2} f={f} seed={e[0]} />});
+    const vm = vidaMax?.get(e[0]);
+    if (!p.unidade && e[1] > 0 && vm && e[5] < vm * 0.6) itens.push({y: sy + 2, el: <Fogo key={`f${e[0]}`} sx={sx} sy={sy - p.tam * pxm * 0.35} s={p.tam * pxm * 0.45} f={f} seed={e[0]} />});
   }
   itens.sort((a, b) => a.y - b.y);
   return (
@@ -99,8 +110,9 @@ export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | n
   );
 };
 
+const Chao = (p: {cx: number; cz: number; pxm: number; w: number; h: number}) => <ChaoMemo {...p} />;
 // chão de grama com manchas de terra (fixas no mundo, andam com a câmera)
-const Chao: React.FC<{cx: number; cz: number; pxm: number; w: number; h: number}> = ({cx, cz, pxm, w, h}) => {
+const ChaoBase: React.FC<{cx: number; cz: number; pxm: number; w: number; h: number}> = ({cx, cz, pxm, w, h}) => {
   const manchas: React.ReactNode[] = [];
   const passo = 36;
   const x0 = Math.floor((cx - w / pxm / 2) / passo) - 1;
@@ -132,3 +144,5 @@ const Peca: React.FC<{nome: string; tam: number; sx: number; sy: number; px: num
   if (unidade) return <div style={{position: 'absolute', left: sx - r * 0.4, top: sy - r * 1.6, width: r * 0.8, height: r * 1.6, borderRadius: r, background: cor, border: '2px solid #0008', opacity: op}} />;
   return <div style={{position: 'absolute', left: sx - r, top: sy - r * 1.3, width: r * 2, height: r * 1.3, borderRadius: 6, background: cor, border: '3px solid #0006', opacity: op}} />;
 };
+
+const ChaoMemo = React.memo(ChaoBase);

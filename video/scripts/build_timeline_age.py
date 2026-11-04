@@ -28,6 +28,7 @@ VOZES = {1: 'dX7gRq1dIvLTgUaWpEFn', 2: 'ohZOfA9iwlZ5nOsoY7LB', 3: 'YU8EsJtXFMyKM
 PRON = {'GPT': 'GêPêTê', 'GLM': 'Gê Éle Ême', 'DeepSeek': 'Dípsíque', 'Qwen': 'Cuên', 'MiMo': 'Mímo', 'Mistral': 'Mistrál', 'Gemini': 'Djêmini'}
 CHAVE = (Path.home() / '.config' / 'elevenlabs' / 'api_key').read_text().strip()
 gasto = 0
+MEMES = {m['id']: m for m in json.loads((PUB / 'gifs' / 'catalog.json').read_text())}
 
 
 def falado(t):
@@ -85,6 +86,15 @@ def main():
             elif k == 'marco':
                 over.append(dict(tipo='marco', at=round(t * FPS), dur=80, titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/whoosh.mp3', at=round(t * FPS), vol=0.4))
+            elif k == 'meme':  # ["meme", id, pos, segundos]
+                m = MEMES[it[1]]
+                d = float(it[3]) if len(it) > 3 else min(2.6, max(1.6, m['duration_sec']))
+                over.append(dict(tipo='meme', at=round(t * FPS), dur=round(d * FPS), id=it[1], pos=it[2] if len(it) > 2 else 'right',
+                                 info=dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])))
+            elif k == 'diagrama':  # ["diagrama", [[de, para, rotulo, cor], ...], segundos]
+                over.append(dict(tipo='diagrama', at=round(t * FPS), dur=round(float(it[2] if len(it) > 2 else 6) * FPS), setas=it[1]))
+            elif k == 'numero':  # ["numero", texto, sub, segundos]
+                over.append(dict(tipo='numero', at=round(t * FPS), dur=round(float(it[3] if len(it) > 3 else 2.2) * FPS), texto=it[1], sub=it[2] if len(it) > 2 else None))
             elif k == 's':
                 audio.append(dict(src=f'sfx/{it[1]}.mp3', at=round(t * FPS), vol=it[2] if len(it) > 2 else 0.5))
             elif k == 'p':
