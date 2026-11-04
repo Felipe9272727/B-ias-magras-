@@ -77,13 +77,28 @@ const CenaView: React.FC<{c: Cena; d: Dados; ias: IA[]}> = ({c, d, ias}) => {
     cx = cx + (c.cam.x2 - cx) * ease(k);
     cz = cz + (c.cam.z2 - cz) * ease(k);
   }
-  const zoom = (c.cam.zoom ?? 1.6) + ((c.cam.zoom2 ?? c.cam.zoom ?? 1.6) - (c.cam.zoom ?? 1.6)) * ease(k);
+  const zoom0 = (c.cam.zoom ?? 1.6) + ((c.cam.zoom2 ?? c.cam.zoom ?? 1.6) - (c.cam.zoom ?? 1.6)) * ease(k);
+  // impacto: cada selo/meme/número dá um soco de zoom; explosões e números tremem a tela
+  let soco = 0;
+  let tremor = 0;
+  for (const o of c.over) {
+    const d = f - o.at;
+    if (d >= 0 && d < 12 && (o.tipo === 'selo' || o.tipo === 'meme' || o.tipo === 'numero')) soco = Math.max(soco, 0.07 * (1 - d / 12));
+    if (d >= 0 && d < 14 && o.tipo === 'numero') tremor = Math.max(tremor, 14 * (1 - d / 14));
+  }
+  for (const a of c.audio) {
+    const d = f - a.at;
+    if (d >= 0 && d < 16 && a.src.includes('explosion')) tremor = Math.max(tremor, 16 * (1 - d / 16));
+  }
+  const zoom = zoom0 * (1 + soco);
+  const tx = tremor ? Math.sin(f * 2.7) * tremor : 0;
+  const ty = tremor ? Math.cos(f * 3.3) * tremor : 0;
   const q = quadroEm(d.qs, t);
   const pxm = (d.pecas?.px_m ?? 8) * zoom;
   const flash = interpolate(f, [0, 5], [0.6, 0], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>
-      <Mapa qs={d.qs} recursos={d.rec} pecas={d.pecas} t={t} cx={cx} cz={cz} zoom={zoom} f={f} vidaMax={d.vidaMax} />
+      <AbsoluteFill style={{transform: `translate(${tx}px, ${ty}px)`}}><Mapa qs={d.qs} recursos={d.rec} pecas={d.pecas} t={t} cx={cx} cz={cz} zoom={zoom} f={f} vidaMax={d.vidaMax} /></AbsoluteFill>
       {c.visual === 'comentarios' && c.comentarios ? (
         <AbsoluteFill style={{transform: 'scale(0.92)'}}><AU2Comentarios comentarios={c.comentarios} passo={45} /></AbsoluteFill>
       ) : null}
