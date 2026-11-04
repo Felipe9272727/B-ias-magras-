@@ -86,6 +86,7 @@ export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | n
     if (p.unidade && e[1] > 0) {
       const [base, cor] = [nome.slice(0, nome.lastIndexOf('_')), nome.slice(nome.lastIndexOf('_') + 1)];
       nome = combate ? `${base}_atacar_${cor}` : `${base}_andar${anda && Math.floor(f / 4 + e[0]) % 2 ? 2 : 1}_${cor}`;
+      if (pecas && !pecas.pecas?.[nome]) nome = `${base}_andar1_${cor}`;
     }
     itens.push({y: sy, el: <Peca key={`e${e[0]}`} nome={nome} tam={p.tam} sx={sx} sy={sy} px={p.unidade ? pxu : pxm} pecas={pecas} cor={CORES_J[e[1]]} unidade={p.unidade} sumindo={morreu} />});
   }

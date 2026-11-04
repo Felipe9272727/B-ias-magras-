@@ -1,4 +1,5 @@
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
+import {ShortAge, calcShortAge} from './age/ShortAge';
 import {AgeVideo, calcAge} from './age/AgeVideo';
 import {AgeTeste} from './age/Teste';
 import {ShortBB, calcShortBB} from './bombanana/ShortBB';
@@ -198,6 +199,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AmongUs3" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU3} />
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
       <Composition id="ShortBB" component={ShortBB} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{blocos: null}} calculateMetadata={calcShortBB} />
+      <Composition id="ShortAge" component={ShortAge} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{sa: null}} calculateMetadata={calcShortAge} />
       <Composition id="AgeVideo" component={AgeVideo} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{tl: null}} calculateMetadata={calcAge} />
       <Composition id="AgeTeste" component={AgeTeste} width={1920} height={1080} fps={30} durationInFrames={300} defaultProps={{partida: 'partida1', j: 1, t0: 130000, zoom: 1}} />
       <Composition id="BBComentarios" component={BBComentariosAbertura} width={1920} height={1080} fps={30} durationInFrames={DUR_COMENT_BB} />
