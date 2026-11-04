@@ -116,8 +116,8 @@ def mats():
     M['cavalo'] = mat('cavalo', (116, 72, 40), 0.7)
     M['cavalo_esc'] = mat('cavalo_esc', (48, 30, 20), 0.7)
     M['cervo'] = mat('cervo', (176, 122, 70), 0.8)
-    M['rocha'] = mat('rocha', (190, 190, 186), 0.85)
-    M['rocha2'] = mat('rocha2', (168, 168, 164), 0.85)
+    M['rocha'] = mat('rocha', (150, 148, 142), 0.85)
+    M['rocha2'] = mat('rocha2', (130, 129, 125), 0.85)
     M['rocha_esc'] = mat('rocha_esc', (96, 96, 104), 0.8)
     M['cristal'] = mat('cristal', (255, 204, 72), 0.25, metal=0.9, emit=0.35)
     M['fogo'] = mat('fogo', (255, 120, 20), 0.5, emit=6.0)
@@ -126,6 +126,7 @@ def mats():
     M['carvao'] = mat('carvao', (30, 26, 24), 0.9)
     M['baga'] = mat('baga', (200, 30, 50), 0.4)
     M['feno'] = mat('feno', (226, 190, 80), 0.9)
+    M['anel'] = mat('anel', (170, 118, 66), 0.8)
     M['agua'] = mat('agua', (70, 140, 200), 0.1)
 
 
@@ -408,7 +409,7 @@ def iniciar(teste=False):
     sc.camera = cam
     bpy.ops.object.light_add(type='SUN')
     sol = bpy.context.active_object; sol.name = 'SOL'
-    sol.data.energy = 5.0
+    sol.data.energy = 4.2
     sol.data.color = (1.0, 0.88, 0.70)
     sol.data.angle = math.radians(3.5)
     sol.rotation_euler = LUZ.to_track_quat('-Z', 'Y').to_euler()

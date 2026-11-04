@@ -260,11 +260,17 @@ def metal():
         a = rnd.uniform(0, 2 * PI)
         x, y = 1.2 * math.cos(a), 1.0 * math.sin(a) - 0.3
         z = rnd.uniform(0.7, 1.9)
-        cil(x, y, z, rnd.uniform(0.14, 0.24), rnd.uniform(0.5, 0.95), M['cristal'], verts=5, r2=0.0,
+        cil(x, y, z, rnd.uniform(0.1, 0.17), rnd.uniform(0.35, 0.65), M['cristal'], verts=5, r2=0.0,
             rot=(rnd.uniform(-0.6, 0.6), rnd.uniform(-0.6, 0.6), rnd.uniform(0, 3)))
     for (x, y, z, rx, rz) in ((0.3, -1.3, 1.1, 0.6, 0.3), (-0.8, -1.0, 1.5, -0.4, 0.5), (1.5, -1.3, 0.55, 0.3, 0.1)):
         caixa(x, y, z, 0.9, 0.12, 0.16, M['ouro'], rot=(rx, 0, rz), bisel=0.03, centro=True)
     rocha(0.9, -0.2, 1.9, 0.35, M['cristal'], seed=44, sub=1)
+
+
+def ramo(g, p0, d, L, r, m=None):
+    d = Vector(d).normalized()
+    c = Vector(p0) + d * L / 2
+    cil(c.x, c.y, c.z, r, L, m or M['tronco_cl'], g, verts=5, centro=True, rot=d.to_track_quat('Z', 'Y').to_euler())
 
 
 def cervo(pose=None):
@@ -277,11 +283,10 @@ def cervo(pose=None):
     esf(0.97, 0, 1.54, 0.05, 0.05, 0.05, M['preto'], g, seg=6, anel=4)
     for s in (-1, 1):
         cil(0.62, s * 0.08, 1.72, 0.04, 0.16, c, g, verts=5, r2=0.01, rot=(s * 0.4, 0, 0))
-        # galhada
-        for (dx, dz, rx) in ((0.0, 0.0, 0.35), (-0.12, 0.28, 0.6)):
-            cil(0.66 + dx, s * (0.09 + dz * 0.4), 1.76 + dz, 0.022, 0.4, M['tronco_cl'], g, verts=5, rot=(s * rx, -0.35, 0))
-        cil(0.7, s * 0.2, 2.02, 0.022, 0.3, M['tronco_cl'], g, verts=5, rot=(s * 0.7, 0.3, 0))
-        cil(0.58, s * 0.3, 2.1, 0.02, 0.28, M['tronco_cl'], g, verts=5, rot=(s * 0.9, -0.4, 0))
+        ramo(g, (0.64, s * 0.09, 1.76), (-0.25, s * 0.45, 0.85), 0.55, 0.025)
+        ramo(g, (0.60, s * 0.2, 2.05), (0.5, s * 0.3, 0.8), 0.32, 0.02)
+        ramo(g, (0.57, s * 0.3, 2.2), (-0.5, s * 0.3, 0.8), 0.3, 0.02)
+        ramo(g, (0.6, s * 0.16, 1.95), (0.8, s * 0.2, 0.5), 0.3, 0.02)
     esf(-0.58, 0, 1.0, 0.07, 0.06, 0.1, M['creme'], g, seg=6, anel=4)
     for (lado, x, sw) in ((-1, 0.38, 14), (1, 0.38, -12), (-1, -0.38, -14), (1, -0.38, 10)):
         pv = grupo((x, lado * 0.11, 0.9), (0, -R(sw), 0), g, 'pata')
@@ -294,9 +299,8 @@ def cervo(pose=None):
 def toco():
     cil(0, 0, 0, 0.62, 0.75, M['tronco'], verts=12, r2=0.5)
     cil(0, 0, 0.74, 0.52, 0.05, M['tronco_cl'], verts=12)
-    for r, m in ((0.4, 'tronco'), (0.28, 'tronco_cl'), (0.16, 'tronco')):
-        cil(0, 0, 0.77, r, 0.02, M[m], verts=12)
-    cil(0, 0, 0.78, 0.05, 0.02, M['tronco'], verts=8)
+    for k, (r, m) in enumerate(((0.4, 'anel'), (0.3, 'tronco_cl'), (0.2, 'anel'), (0.1, 'tronco_cl'))):
+        cil(0, 0, 0.79 + 0.004 * k, r, 0.004, M[m], verts=12)
     for a in range(5):
         ang = a * 1.26 + 0.3
         esf(0.55 * math.cos(ang), 0.55 * math.sin(ang), 0.1, 0.32, 0.14, 0.14, M['tronco'], rot=(0, 0, ang), seg=8, anel=6)
