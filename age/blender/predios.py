@@ -270,6 +270,7 @@ def mercado():
 def _muralha(x, y, z0, sx, sy, h, lados):
     caixa(x, y, z0, sx, sy, h, M['pedra'], bisel=0.1)
     caixa(x, y, z0, sx + 0.2, sy + 0.2, 0.8, M['pedra_esc'], bisel=0.06)
+    caixa(x, y, z0 + h - 0.02, sx - 0.05, sy - 0.05, 0.08, M['laje'], bisel=0.02)
     ameias(x, y, z0 + h, sx, sy, M['pedra_esc'], lados=lados, alt=0.9, larg=1.0, esp=0.7, passo=2.2)
 
 
@@ -285,6 +286,7 @@ def fortaleza():
     caixa(0, 3, z, 13, 12, 8, M['pedra'], bisel=0.12)
     caixa(0, 3, z, 13.3, 12.3, 0.9, M['pedra_esc'], bisel=0.06)
     caixa(0, 3, z + 8, 14.2, 13.2, 0.7, M['pedra_esc'], bisel=0.06)
+    caixa(0, 3, z + 8.68, 14.1, 13.1, 0.06, M['laje'], bisel=0.01)
     ameias(0, 3, z + 8.7, 14.2, 13.2, M['pedra_esc'], alt=0.9, larg=1.0, esp=0.7, passo=2.2)
     caixa(0, 3, z + 8.7, 8, 7, 3.5, M['pedra'], bisel=0.1)
     telhado(0, 3, z + 12.2, 8, 7, 3.6, M['telha1'], M['telha2'], m_nucleo=M['pedra'], m_cumeeira=M['jog'], ov=0.7)
@@ -319,7 +321,8 @@ def maravilha():
     niveis = [(34, 34, 0.0, 2.4), (29, 29, 2.4, 2.4), (24, 24, 4.8, 2.4), (19, 19, 7.2, 2.4)]
     for (sx, sy, z0, h) in niveis:
         caixa(0, 0, z0, sx, sy, h, M['pedra'], bisel=0.12)
-        caixa(0, 0, z0 + h - 0.35, sx + 0.5, sy + 0.5, 0.5, M['marmore'], bisel=0.06)
+        caixa(0, 0, z0 + h - 0.1, sx + 0.3, sy + 0.3, 0.2, M['marmore'], bisel=0.04)
+        caixa(0, 0, z0 + h + 0.08, sx - 0.2, sy - 0.2, 0.05, M['laje'], bisel=0.01)
         caixa(0, -sy / 2 - 0.1, z0 + 0.5, sx - 0.5, 0.2, 0.28, M['jog'], bisel=0.03)
     # escadaria frontal
     for i in range(8):
@@ -338,7 +341,8 @@ def maravilha():
     # cela superior
     caixa(0, 0, 9.6, 12, 12, 7.0, M['marmore'], bisel=0.14)
     caixa(0, 0, 9.6, 12.4, 12.4, 0.7, M['pedra'], bisel=0.06)
-    caixa(0, 0, 16.6, 13.2, 13.2, 0.8, M['ouro'], bisel=0.08)
+    caixa(0, 0, 16.6, 13.2, 13.2, 0.8, M['pedra_esc'], bisel=0.08)
+    caixa(0, 0, 17.35, 13.4, 13.4, 0.1, M['ouro'], bisel=0.02)
     porta(0, -6.05, 9.6, 3.2, 4.6, moldura=M['pedra_esc'])
     for xx in (-4.2, 4.2):
         pano(xx, -6.1, 15.8, 2.0, 5.0)

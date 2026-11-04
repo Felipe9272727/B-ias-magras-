@@ -74,7 +74,7 @@ def mats():
     M['terra'] = mat('terra', (168, 138, 96), 1.0)
     M['laje'] = mat_tex('laje', (196, 186, 164), (178, 168, 148), (140, 130, 114), 1.6, 1.6, 0.06, plano=True)
     M['cal'] = mat('cal', (236, 222, 188), 0.85)
-    M['marmore'] = mat('marmore', (244, 240, 230), 0.4)
+    M['marmore'] = mat('marmore', (214, 210, 198), 0.5)
     M['madeira'] = mat_tex('madeira', (160, 108, 58), (140, 92, 48), (78, 48, 24), 0.55, 40.0, 0.05, 0.75)
     M['madeira_lisa'] = mat('madeira_lisa', (150, 100, 54), 0.75)
     M['madeira_esc'] = mat('madeira_esc', (92, 58, 30), 0.8)
