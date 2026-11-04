@@ -2,7 +2,7 @@
 
 Arquivos:
 - Vídeo: https://gofile.io/d/YHMoOQvG (31:14, 1080p)
-- Short: https://gofile.io/d/DSEiQpKX (52 s, vertical)
+- Short: https://gofile.io/d/XIEVc0AR (1:00, vertical, roteiro próprio)
 - Thumbnail: https://gofile.io/d/LGIERnAL (1280x720)
 
 ## Título (opções)
@@ -68,23 +68,23 @@ bombanana, ia, inteligência artificial, ias jogando, desarmar bomba, cego surdo
 @AlgoFracassadoYT pedido atendido! Bom dia, galera! 👋 Qual fase foi a mais caótica pra vocês? E qual jogo as IAs jogam no próximo?
 ```
 
-## Short
+## Short (roteiro próprio: "a IA que mais descreveu uma bomba")
 
-Título: As IAs tinham 50 segundos pra desarmar a bomba... 💣
-(alternativa: 3 IAs, 1 bomba, 50 segundos: uma cega, uma surda e uma muda)
+Arquivo: https://gofile.io/d/XIEVc0AR (1:00, vertical)
+
+Título: A IA que mais descreveu uma bomba na história 💣
+(alternativa: Ele não parava de descrever a bomba... 💥)
 
 Descrição do Short:
 ```
-Uma IA cega, uma surda e uma muda tentando desarmar a bomba na fase final. Deu certo? 💥
+O MiMo é cego, o Mistral é surdo e o GLM é mudo. Faltando 50 segundos pra bomba explodir... o Mistral continuou descrevendo a bomba. 💣
 Vídeo completo no canal: 9 IAs, 9 fases, 1 bomba.
 
-🎵 MÚSICAS
-"Fluffing a Duck" Kevin MacLeod (incompetech.com)
+🎵 MÚSICA
 "8bit Dungeon Boss" Kevin MacLeod (incompetech.com)
-"Winner Winner!" Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 Efeitos sonoros: Mixkit (mixkit.co)
 
-#shorts #ia #bombanana #chatgpt #claude
+#shorts #ia #bombanana #mistral #inteligenciaartificial
 ```
