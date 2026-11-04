@@ -28,3 +28,9 @@ Lições aprendidas na produção, para não repetir erros quando a sessão rein
 - Short: roteiro e edição próprios da parte mais marcante (molde `scripts/short_lobo.py`, `short_bb.py`):
   gancho com superlativo que volta no fim, um personagem só, contador, selos, legenda grande. Nunca só um corte do longo.
 - Entrega: gofile (`curl -F file=@... https://<server>.gofile.io/contents/uploadfile`).
+
+## Vídeo longo com muitos áudios (AGE, 20 min): não deixar o Remotion mixar
+- A mixagem de áudio do Remotion (mergeAudioTrackUnlimited) junta os clipes de 10 em 10 e grava cada bloco como WAV do
+  tamanho do vídeo inteiro (~230 MB por bloco em 20 min): com centenas de vozes lotou o disco DEPOIS de renderizar todos os quadros.
+- Fazer assim: render com `--muted`, faixa de vozes/efeitos montada da timeline em numpy (`video/scripts/age_audio.py`, 30 s,
+  ~100 MB em FLAC) e juntar com `ffmpeg -c:v copy`. Depois o mix padrão (trilha, sidechain, loudnorm).
