@@ -7,6 +7,7 @@ import type {CalculateMetadataFunction} from 'remotion';
 import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fontsReady} from '../fonts';
 import {Mapa, type Pecas, type Quadro, type Recurso} from './Mapa';
+import {AU2Comentarios, type Comentario} from '../amongus3/Comentarios';
 import {BarraRecursos, CartaoMarco, Fala, FONTE, type IA, Minimapa, Pensamento, Placar, Selo, Tempo} from './Hud';
 
 type Over =
@@ -15,7 +16,7 @@ type Over =
   | {tipo: 'selo'; at: number; dur: number; texto: string; cor?: string}
   | {tipo: 'marco'; at: number; dur: number; titulo: string; sub?: string}
   | {tipo: 'legenda'; at: number; dur: number; texto: string};
-type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string};
+type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string; comentarios?: Comentario[]};
 type TL = {partida: string; ias: IA[]; cenas: Cena[]};
 
 export const calcAge: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -58,6 +59,9 @@ const CenaView: React.FC<{c: Cena; d: Dados; ias: IA[]}> = ({c, d, ias}) => {
   return (
     <AbsoluteFill>
       <Mapa qs={d.qs} recursos={d.rec} pecas={d.pecas} t={t} cx={cx} cz={cz} zoom={zoom} f={f} />
+      {c.visual === 'comentarios' && c.comentarios ? (
+        <AbsoluteFill style={{transform: 'scale(0.92)'}}><AU2Comentarios comentarios={c.comentarios} passo={45} /></AbsoluteFill>
+      ) : null}
       {c.hud !== false ? (
         <>
           {c.foco ? <BarraRecursos q={q} j={c.foco} ia={ias[c.foco - 1]} /> : null}
