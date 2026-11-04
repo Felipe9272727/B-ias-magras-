@@ -58,10 +58,14 @@ def tts(texto, voz, eco=False):
 
 
 def main():
-    rot = json.loads((ROOT / 'roteiro' / 'roteiro_age.json').read_text())
+    # várias partes em sequência (cada arquivo com sua partida): build_timeline_age.py roteiro_age.json roteiro_age_p2.json ...
+    arqs = sys.argv[1:] or ['roteiro_age.json']
+    rots = [json.loads((ROOT / 'roteiro' / a).read_text()) for a in arqs]
+    rot = rots[0]
     ias = rot['ias']
     cenas = []
-    for c in rot['cenas']:
+    todas = [dict(c, partida=r['partida']) for r in rots for c in r['cenas']]
+    for c in todas:
         t = 0.0
         over, audio = [], []
         for it in c['itens']:
@@ -102,7 +106,7 @@ def main():
         n = max(round((t + c.get('folga', 0.4)) * FPS), 45)
         # legenda do narrador não aparece (regra: legenda só em palavra difícil); fica só para conferência
         over = [o for o in over if o['tipo'] != 'legenda_n']
-        cenas.append(dict(id=c['id'], dur=n, t0=round(c['t0_s'] * 1000), vel=round(c.get('vel', 2.0) * 1000 / FPS, 3), cam=c['cam'], foco=c.get('foco'), hud=c.get('hud', True), over=over, audio=audio, cap=c.get('cap'), visual=c.get('visual'), comentarios=c.get('comentarios')))
+        cenas.append(dict(id=c['id'], dur=n, t0=round(c['t0_s'] * 1000), vel=round(c.get('vel', 2.0) * 1000 / FPS, 3), cam=c['cam'], foco=c.get('foco'), hud=c.get('hud', True), over=over, audio=audio, cap=c.get('cap'), visual=c.get('visual'), comentarios=c.get('comentarios'), partida=c['partida']))
         print(f"{c['id']:14s} {n / FPS:6.1f}s", flush=True)
     tl = dict(partida=rot['partida'], ias=ias, cenas=cenas)
     (PUB / 'timeline_age.json').write_text(json.dumps(tl, ensure_ascii=False))

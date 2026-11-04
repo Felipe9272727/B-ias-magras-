@@ -12,7 +12,7 @@ PUB = Path('public')
 tl = json.loads((PUB / 'timeline_age.json').read_text())
 info = {m['id']: m for m in json.loads((PUB / 'music' / 'music.json').read_text())}
 # capítulos na ordem do roteiro -> música (Kevin MacLeod, CC BY 4.0; créditos na descrição)
-TRILHAS = ['hitman', 'sneaky-snitch', 'investigations', 'run-amok', '8bit-dungeon-boss', 'mega-hyper-ultrastorm', 'heroic-age', 'winner-winner']
+TRILHAS = ['hitman', 'sneaky-snitch', 'investigations', 'run-amok', '8bit-dungeon-boss', 'mega-hyper-ultrastorm', 'heroic-age', 'pixel-peeker-polka-faster', 'bit-shift', 'quirky-dog', 'fluffing-a-duck', 'voxel-revolution']
 FPS = 30
 blocos = []  # (inicio_s, fim_s)
 t = 0
@@ -24,7 +24,7 @@ for i, b in enumerate(blocos):
     b[1] = blocos[i + 1][0] if i + 1 < len(blocos) else t / FPS
 ins, fil = [], []
 for i, (a, b) in enumerate(blocos):
-    mid = TRILHAS[min(i, len(TRILHAS) - 1)] if i < len(blocos) - 1 else 'winner-winner'
+    mid = TRILHAS[i % len(TRILHAS)] if i < len(blocos) - 1 else 'winner-winner'
     vol = info.get(mid, {}).get('suggested_bg_volume', 0.2) * 0.85
     d = b - a
     ins += ['-stream_loop', '-1', '-i', str(PUB / 'music' / f'{mid}.mp3')]

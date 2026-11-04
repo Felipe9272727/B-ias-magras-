@@ -21,7 +21,7 @@ type Over =
   | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: {file: string; width: number; height: number; duration: number}}
   | {tipo: 'diagrama'; at: number; dur: number; setas: Seta[]}
   | {tipo: 'numero'; at: number; dur: number; texto: string; sub?: string};
-type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; batalha?: number; exercito?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string; comentarios?: Comentario[]};
+type Cena = {id: string; dur: number; t0: number; vel: number; cam: {j?: number; batalha?: number; exercito?: number; x?: number; z?: number; zoom?: number; x2?: number; z2?: number; zoom2?: number}; foco?: number; hud?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: string; comentarios?: Comentario[]; partida?: string};
 type TL = {partida: string; ias: IA[]; cenas: Cena[]};
 
 export const calcAge: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -150,24 +150,28 @@ const Legenda: React.FC<{texto: string}> = ({texto}) => {
 };
 
 export const AgeVideo: React.FC<{tl: TL | null}> = ({tl}) => {
-  const [d, setD] = useState<Dados | null>(null);
+  const [d, setD] = useState<Record<string, Dados> | null>(null);
   const [h] = useState(() => delayRender('dados age'));
   useEffect(() => {
     if (!tl) return;
     (async () => {
       await fontsReady;
-      const qs = await (await fetch(staticFile(`age/${tl.partida}/quadros.json`))).json();
-      const m = await (await fetch(staticFile(`age/${tl.partida}/mapa.json`))).json();
       let pecas = null;
       try {
         const r = await fetch(staticFile('age/pecas/pecas.json'));
         if (r.ok) pecas = await r.json();
       } catch { /* sem sprites */ }
-      const vidaMax = new Map<number, number>();
-      // fogo só em prédio pronto que levou dano: guarda a vida máxima e quando ela foi atingida (prédio em construção
-      // tem vida baixa e não pode pegar fogo); a chave negativa guarda o tempo
-      for (const q of qs as Quadro[]) for (const e of q.ents) if (e[1] > 0 && e[2].indexOf('/') < 0 && !(vidaMax.get(e[0]) >= e[5])) { vidaMax.set(e[0], e[5]); vidaMax.set(-e[0], q.t); }
-      setD({qs, rec: m.recursos, tam: m.tamanho, pecas, vidaMax});
+      const nomes = [...new Set(tl.cenas.map((c) => c.partida ?? tl.partida))];
+      const tudo: Record<string, Dados> = {};
+      for (const n of nomes) {
+        const qs = await (await fetch(staticFile(`age/${n}/quadros.json`))).json();
+        const m = await (await fetch(staticFile(`age/${n}/mapa.json`))).json();
+        const vidaMax = new Map<number, number>();
+        // fogo só em prédio pronto que levou dano (a chave negativa guarda quando a vida máxima foi atingida)
+        for (const q of qs as Quadro[]) for (const e of q.ents) if (e[1] > 0 && e[2].indexOf('/') < 0 && !(vidaMax.get(e[0]) >= e[5])) { vidaMax.set(e[0], e[5]); vidaMax.set(-e[0], q.t); }
+        tudo[n] = {qs, rec: m.recursos, tam: m.tamanho, pecas, vidaMax};
+      }
+      setD(tudo);
       continueRender(h);
     })();
   }, [h, tl]);
@@ -180,7 +184,7 @@ export const AgeVideo: React.FC<{tl: TL | null}> = ({tl}) => {
         ini += c.dur;
         return (
           <Sequence key={c.id} from={de} durationInFrames={c.dur}>
-            <CenaView c={c} d={d} ias={tl.ias} />
+            <CenaView c={c} d={d[c.partida ?? tl.partida]} ias={tl.ias} />
           </Sequence>
         );
       })}
