@@ -164,7 +164,9 @@ export const AgeVideo: React.FC<{tl: TL | null}> = ({tl}) => {
         if (r.ok) pecas = await r.json();
       } catch { /* sem sprites */ }
       const vidaMax = new Map<number, number>();
-      for (const q of qs as Quadro[]) for (const e of q.ents) if (e[1] > 0 && e[2].indexOf('/') < 0 && !(vidaMax.get(e[0]) >= e[5])) vidaMax.set(e[0], e[5]);
+      // fogo só em prédio pronto que levou dano: guarda a vida máxima e quando ela foi atingida (prédio em construção
+      // tem vida baixa e não pode pegar fogo); a chave negativa guarda o tempo
+      for (const q of qs as Quadro[]) for (const e of q.ents) if (e[1] > 0 && e[2].indexOf('/') < 0 && !(vidaMax.get(e[0]) >= e[5])) { vidaMax.set(e[0], e[5]); vidaMax.set(-e[0], q.t); }
       setD({qs, rec: m.recursos, tam: m.tamanho, pecas, vidaMax});
       continueRender(h);
     })();

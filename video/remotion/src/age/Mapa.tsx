@@ -99,7 +99,7 @@ export const Mapa: React.FC<{qs: Quadro[]; recursos: Recurso[]; pecas: Pecas | n
     itens.push({y: sy, el: <Peca key={`e${e[0]}`} nome={nome} tam={p.tam} sx={sx} sy={sy} px={p.unidade ? pxu : pxm} pecas={pecas} cor={CORES_J[e[1]]} unidade={p.unidade} sumindo={morreu} />});
     if (combate && p.unidade && e[0] % 2 === 0) itens.push({y: sy + 1, el: <Poeira key={`p${e[0]}`} sx={sx} sy={sy} s={pxu * 2.2} f={f} seed={e[0]} />});
     const vm = vidaMax?.get(e[0]);
-    if (!p.unidade && e[1] > 0 && vm && e[5] < vm * 0.6) itens.push({y: sy + 2, el: <Fogo key={`f${e[0]}`} sx={sx} sy={sy - p.tam * pxm * 0.35} s={p.tam * pxm * 0.45} f={f} seed={e[0]} />});
+    if (!p.unidade && e[1] > 0 && vm && e[5] < vm * 0.6 && t > (vidaMax?.get(-e[0]) ?? Infinity)) itens.push({y: sy + 2, el: <Fogo key={`f${e[0]}`} sx={sx} sy={sy - p.tam * pxm * 0.35} s={p.tam * pxm * 0.45} f={f} seed={e[0]} />});
   }
   itens.sort((a, b) => a.y - b.y);
   return (
