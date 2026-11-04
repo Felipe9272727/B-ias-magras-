@@ -1,4 +1,5 @@
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
+import {ShortBB, calcShortBB} from './bombanana/ShortBB';
 import {BBComentariosAbertura, DUR_COMENT_BB} from './bombanana/ComentariosBB';
 import {TesteBB} from './bombanana/Teste';
 import {TesteBomba} from './bombanana/TesteBomba';
@@ -194,6 +195,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="AmongUs2" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU2} />
       <Composition id="AmongUs3" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataAU3} />
       <Composition id="Interrogatorio" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataInt} />
+      <Composition id="ShortBB" component={ShortBB} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{blocos: null}} calculateMetadata={calcShortBB} />
       <Composition id="BBComentarios" component={BBComentariosAbertura} width={1920} height={1080} fps={30} durationInFrames={DUR_COMENT_BB} />
       <Composition id="Bombanana" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataBB} />
       <Composition id="Lobisomem" component={Main} width={W} height={H} fps={FPS} durationInFrames={300} defaultProps={{timeline: null} as Props} calculateMetadata={calculateMetadataLobo} />
