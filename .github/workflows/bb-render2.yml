@@ -1,0 +1,54 @@
+name: BOMBANANA render metades
+on:
+  push:
+    branches: ["claude/video-3"]
+    paths:
+      - "video/remotion/public/bb/render_pedido2.json"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    name: Metade ${{ matrix.h }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 40
+      matrix:
+        h: [2, 3, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/remotion/*
+            !/video/remotion/public/*
+            /video/remotion/public/bb/
+            /video/remotion/public/fonts/
+            /video/remotion/public/sfx/
+            /video/remotion/public/gifs/
+            /video/remotion/public/timeline_bb.json
+            /video/remotion/public/ilha/mapa.json
+            /video/remotion/public/overcooked/chefs/chefs.json
+            /video/remotion/public/overcooked/pecas/pecas.json
+            /video/scripts/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - name: Dependências
+        working-directory: video/remotion
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq libnss3 libatk-bridge2.0-0 libgbm1 libxkbcommon0 libasound2t64 > /dev/null || true
+          npm ci --no-audit --no-fund
+          npx remotion browser ensure
+      - name: Renderiza e entrega
+        env:
+          GL: swangle
+          PUSH_URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        run: |
+          git config --global user.name bb; git config --global user.email bb@local
+          bash video/scripts/bb_trabalhador.sh "${{ matrix.h }}"
