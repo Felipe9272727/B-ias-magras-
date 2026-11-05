@@ -21,6 +21,10 @@ export const COR: Record<string, {body: string; shade: string}> = {
   Banana: {body: '#f0e7a8', shade: '#d2bc89'},
   Caqui: {body: '#928776', shade: '#51412f'},
   Rose: {body: '#ecc0d3', shade: '#de92b3'},
+  // AU6 (modo zumbi): as 2 cores novas e a pele de zumbi
+  Turquesa: {body: '#1fb5a8', shade: '#13786f'},
+  Dourado: {body: '#e0b030', shade: '#9a7414'},
+  Zumbi: {body: '#6fae4a', shade: '#3c6b26'},
 };
 
 export type AnimCrewmate = 'parado' | 'andando' | 'tarefa' | 'susto';

@@ -3,7 +3,7 @@
 // lua cheia, morcegos e neblina. A parte estática (ArteMira) é memorizada; o que mexe (luz piscando, morcegos,
 // neblina) fica em CamadaViva, desenhada por cima, quadro a quadro.
 import React from 'react';
-import {LIGACOES, MUNDO, SALAS, type SalaId} from './mapaMira';
+import {CORREDORES, DUTOS, MUNDO, P, SALAS, type SalaId} from './mapaMira';
 
 const L = '#121014'; // contorno
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -95,7 +95,7 @@ function objetos(s: SalaId): React.ReactNode {
     case 'Comunicacoes': return <><Console x={X(0.25)} y={Y(0.35)} cor="#7ad0ff" /><Console x={X(0.75)} y={Y(0.35)} cor="#7ad0ff" /><Abobora x={X(0.5)} y={Y(0.8)} /></>;
     case 'Vestiario': return <>{[0.08, 0.24, 0.4, 0.56, 0.72].map((k) => <Armario key={k} x={X(k)} y={Y(0.18)} />)}<Mesa x={X(0.5)} y={Y(0.72)} r={90} cor="#8a7660" /></>;
     case 'Descontaminacao': return <><rect x={X(0.08)} y={Y(0.3)} width={r.w * 0.84} height={r.h * 0.45} rx={10} fill="#b4ff5a" opacity={0.12} stroke="#b4ff5a" strokeWidth={4} strokeDasharray="16 10" /></>;
-    case 'Corredor': return <>{[0.12, 0.38, 0.64, 0.9].map((k) => <Abobora key={k} x={X(k)} y={Y(0.22)} s={0.8} />)}</>;
+    case 'Corredor': return null;
     case 'Reator': return <><circle cx={X(0.5)} cy={Y(0.52)} r={95} fill="#123248" stroke={L} strokeWidth={8} /><circle cx={X(0.5)} cy={Y(0.52)} r={58} fill="#4ad8ff" opacity={0.85} stroke={L} strokeWidth={6} /><Console x={X(0.15)} y={Y(0.82)} /><Console x={X(0.85)} y={Y(0.82)} /></>;
     case 'Laboratorio': return <><Console x={X(0.2)} y={Y(0.35)} cor="#b88cff" /><Console x={X(0.5)} y={Y(0.35)} cor="#b88cff" />{[0.72, 0.8, 0.88].map((k) => <rect key={k} x={X(k)} y={Y(0.25)} width={34} height={90} rx={14} fill="#9be36a" opacity={0.75} stroke={L} strokeWidth={5} />)}<Mesa x={X(0.45)} y={Y(0.75)} r={110} cor="#c9d2de" /></>;
     case 'Escritorio': return <><rect x={X(0.15)} y={Y(0.3)} width={r.w * 0.7} height={70} rx={8} fill="#8a5a3a" stroke={L} strokeWidth={6} /><Console x={X(0.3)} y={Y(0.38)} cor="#ffc46a" /><Vela x={X(0.75)} y={Y(0.36)} /></>;
@@ -118,15 +118,22 @@ const SalaArte: React.FC<{id: SalaId}> = ({id}) => {
           <rect width={32} height={32} fill={r.piso2} /><rect x={32} y={32} width={32} height={32} fill={r.piso2} />
         </pattern>
       </defs>
-      <rect x={r.x} y={r.y} width={r.w} height={r.h} rx={22} fill={`url(#${pid})`} stroke={L} strokeWidth={14} />
+      {id === 'Estufa' ? (
+        <path d={`M${r.x} ${r.y + r.h} L${r.x} ${r.y + r.h * 0.55} Q${r.x + r.w / 2} ${r.y - r.h * 0.45} ${r.x + r.w} ${r.y + r.h * 0.55} L${r.x + r.w} ${r.y + r.h} Z`} fill={`url(#${pid})`} stroke={L} strokeWidth={14} />
+      ) : (
+        <rect x={r.x} y={r.y} width={r.w} height={r.h} rx={22} fill={`url(#${pid})`} stroke={L} strokeWidth={14} />
+      )}
       {/* parede do fundo com faixa, como no jogo */}
-      <rect x={r.x + 7} y={r.y + 7} width={r.w - 14} height={70} rx={14} fill={r.parede} />
-      <rect x={r.x + 7} y={r.y + 62} width={r.w - 14} height={10} fill="#00000040" />
-      <line x1={r.x + 7} y1={r.y + 77} x2={r.x + r.w - 7} y2={r.y + 77} stroke={L} strokeWidth={6} />
+      {id !== 'Estufa' && id !== 'Lancamento' ? (
+        <>
+          <rect x={r.x + 7} y={r.y + 7} width={r.w - 14} height={70} rx={14} fill={r.parede} />
+          <rect x={r.x + 7} y={r.y + 62} width={r.w - 14} height={10} fill="#00000040" />
+          <line x1={r.x + 7} y1={r.y + 77} x2={r.x + r.w - 7} y2={r.y + 77} stroke={L} strokeWidth={6} />
+        </>
+      ) : null}
       {objetos(id)}
-      <Teia x={r.x + 10} y={r.y + 10} r={Math.min(90, r.w * 0.2)} />
-      <Teia x={r.x + r.w - 10} y={r.y + 10} r={Math.min(70, r.w * 0.16)} rot={90} />
-      <text x={r.x + 24} y={r.y + 52} fontFamily="Inter, Arial" fontWeight={900} fontSize={34} fill="#ffffffcc" stroke={L} strokeWidth={6} paintOrder="stroke">{r.nome.toUpperCase()}</text>
+      {id !== 'Estufa' ? <><Teia x={r.x + 10} y={r.y + 10} r={Math.min(90, r.w * 0.25)} /><Teia x={r.x + r.w - 10} y={r.y + 10} r={Math.min(70, r.w * 0.2)} rot={90} /></> : null}
+      <text x={r.x + r.w / 2} y={id === 'Estufa' ? r.y + r.h * 0.42 : r.y + 50} textAnchor="middle" fontFamily="Inter, Arial" fontWeight={900} fontSize={Math.min(38, (r.w - 30) / (r.nome.length * 0.68))} fill="#ffffffcc" stroke={L} strokeWidth={6} paintOrder="stroke">{r.nome.toUpperCase()}</text>
     </g>
   );
 };
@@ -151,16 +158,34 @@ const Exterior: React.FC = () => (
 
 const Corredores: React.FC = () => (
   <g>
-    {LIGACOES.map((l, i) => {
-      const d = l.pts.map((p, k) => `${k ? 'L' : 'M'}${p.x} ${p.y}`).join(' ');
+    {CORREDORES.map((pts, i) => {
+      const d = pts.map((p, k) => `${k ? 'L' : 'M'}${p.x} ${p.y}`).join(' ');
+      return <path key={`b${i}`} d={d} stroke={L} strokeWidth={196} fill="none" strokeLinejoin="round" strokeLinecap="square" />;
+    })}
+    {CORREDORES.map((pts, i) => {
+      const d = pts.map((p, k) => `${k ? 'L' : 'M'}${p.x} ${p.y}`).join(' ');
       return (
         <g key={i}>
-          <path d={d} stroke={L} strokeWidth={130} fill="none" strokeLinejoin="round" strokeLinecap="square" />
-          <path d={d} stroke="#4b505c" strokeWidth={106} fill="none" strokeLinejoin="round" strokeLinecap="square" />
-          <path d={d} stroke="#565b68" strokeWidth={60} fill="none" strokeLinejoin="round" strokeLinecap="square" strokeDasharray="30 30" opacity={0.6} />
+          <path d={d} stroke="#4b505c" strokeWidth={172} fill="none" strokeLinejoin="round" strokeLinecap="square" />
+          <path d={d} stroke="#575c69" strokeWidth={90} fill="none" strokeLinejoin="round" strokeLinecap="square" strokeDasharray="40 40" opacity={0.55} />
         </g>
       );
     })}
+  </g>
+);
+
+// grade de duto no chão, como no jogo
+const Duto: React.FC<{x: number; y: number}> = ({x, y}) => (
+  <g transform={`translate(${x},${y})`}>
+    <rect x={-38} y={-24} width={76} height={48} rx={6} fill="#2a2d35" stroke={L} strokeWidth={6} />
+    {[-22, -8, 6, 20].map((dx) => <line key={dx} x1={dx} y1={-16} x2={dx} y2={16} stroke="#4a4f5c" strokeWidth={6} />)}
+  </g>
+);
+
+// abóboras, velas e teias pelos corredores (o Y central e o corredor de baixo)
+const CorredorDecor: React.FC = () => (
+  <g>
+    {[[656, 200], [600, 312], [712, 312], [380, 482], [500, 482], [453, 410]].map(([x, y], i) => (i % 2 ? <Vela key={i} {...P(x, y)} /> : <Abobora key={i} {...P(x, y)} s={0.9} />))}
   </g>
 );
 
@@ -168,7 +193,9 @@ const ArteBase: React.FC = () => (
   <svg width={MUNDO.w} height={MUNDO.h} style={{position: 'absolute', left: 0, top: 0}}>
     <Exterior />
     <Corredores />
-    {(Object.keys(SALAS) as SalaId[]).map((id) => <SalaArte key={id} id={id} />)}
+    {(Object.keys(SALAS) as SalaId[]).filter((id) => id !== 'Corredor').map((id) => <SalaArte key={id} id={id} />)}
+    <CorredorDecor />
+    {DUTOS.map((p, i) => <Duto key={i} {...p} />)}
   </svg>
 );
 export const ArteMira = React.memo(ArteBase);
