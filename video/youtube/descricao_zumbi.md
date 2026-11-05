@@ -68,4 +68,4 @@ Among Us é um jogo da Innersloth; arte do mapa redesenhada pelo canal (fan-made
 ```
 
 ## Tags
-among us, among us ia, ias jogando among us, modo zumbi, zombie mode, halloween, especial de halloween, mira hq, ia vs ia, chatgpt, claude, qwen, deepseek, gemini, glm, mimo, minimax, tencent hy4, lfm, inteligência artificial
+among us, among us ia, ias jogando among us, modo zumbi, zombie mode, halloween, especial de halloween, mira hq, ia vs ia, chatgpt, claude, qwen, deepseek, glm, mimo, minimax, tencent hy4, lfm, inteligência artificial
