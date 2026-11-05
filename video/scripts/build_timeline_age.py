@@ -26,7 +26,8 @@ FPS = 30
 NARRADOR = 'lvkgCBi6spByiTZMPJEK'
 VOZES = {1: 'dX7gRq1dIvLTgUaWpEFn', 2: 'ohZOfA9iwlZ5nOsoY7LB', 3: 'YU8EsJtXFMyKMxYtheDk', 4: '33B4UnXyTNbgLmdEDh5P', 5: 'bJrNspxJVFovUxNBQ0wh', 6: '2CECaLAGTS5NRGxgbcxr'}
 PRON = {'GPT': 'GêPêTê', 'GLM': 'Gê Éle Ême', 'DeepSeek': 'Dípsíque', 'Qwen': 'Cuên', 'MiMo': 'Mímo', 'Mistral': 'Mistrál', 'Gemini': 'Djêmini'}
-CHAVE = (Path.home() / '.config' / 'elevenlabs' / 'api_key').read_text().strip()
+import os
+CHAVE = os.environ.get('ELEVENLABS_API_KEY') or (Path.home() / '.config' / 'elevenlabs' / 'api_key').read_text().strip()
 gasto = 0
 MEMES = {m['id']: m for m in json.loads((PUB / 'gifs' / 'catalog.json').read_text())}
 
