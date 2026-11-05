@@ -29,7 +29,7 @@ export const CFG = {
   resgatePrazo: 4, // tiques para chegar ao Lançamento depois que o resgate chega
   moedasTarefa: 2,
   precos: { taser: 4, barricada: 5, uv: 5 },
-  taserCargas: 2, taserAtordoa: 3, uvAtordoa: 2,
+  taserCargas: 1, taserAtordoa: 2, uvAtordoa: 2, resistencia: 2, // partida 1: tasers seguidos deixavam o zumbi parado quase o jogo todo
   barricadaVida: 2, barricadaDura: 6,
   doutorRecarga: 6, engenheiroRecarga: 6, cuspidorRecarga: 3,
   memoria: 10,
@@ -123,7 +123,7 @@ function regras() {
   return `Você está jogando o MODO ZUMBI do Among Us no mapa Mira HQ, à noite de Halloween. ${jogadores.length} jogadores, cada um é uma IA diferente.
 COMO FUNCIONA: no começo TODOS são humanos, mas um deles é o PACIENTE ZERO, infectado sem saber (nem ele mesmo sabe). Em algum momento ele vira ZUMBI. Zumbis são verdes e todos veem que são zumbis. Um zumbi MORDE humanos na mesma sala, e a mordida acontece ANTES de qualquer um conseguir sair da sala naquele tique (só um taser ou lanterna UV usado no mesmo tique impede); o mordido não muda por fora (ninguém vê a mordida), mas ele SABE que foi mordido e vira zumbi ${CFG.incubacao} tiques depois, a não ser que um Doutor o cure antes.
 NÃO HÁ REUNIÃO NEM VOTAÇÃO. Conversa só por proximidade: o que você fala só é ouvido por quem está na MESMA sala neste tique.
-LOJA (no Refeitório): taser (${CFG.precos.taser} moedas, ${CFG.taserCargas} cargas, atordoa um zumbi por ${CFG.taserAtordoa} tiques), barricada (${CFG.precos.barricada} moedas, fecha a sala onde você está: ninguém entra nem sai enquanto ela aguentar; zumbis do lado de fora podem quebrá-la), lanterna UV (${CFG.precos.uv} moedas, 1 uso, atordoa TODOS os zumbis da sala por ${CFG.uvAtordoa} tiques). Armas NÃO matam zumbi, só atordoam. Moedas vêm das tarefas (${CFG.moedasTarefa} por tarefa completa; cada tarefa leva ${CFG.tarefaTiques} tiques).
+LOJA (no Refeitório): taser (${CFG.precos.taser} moedas, ${CFG.taserCargas} cargas, atordoa um zumbi por ${CFG.taserAtordoa} tiques), barricada (${CFG.precos.barricada} moedas, fecha a sala onde você está: ninguém entra nem sai enquanto ela aguentar; zumbis do lado de fora podem quebrá-la), lanterna UV (${CFG.precos.uv} moedas, 1 uso, atordoa TODOS os zumbis da sala por ${CFG.uvAtordoa} tiques). Armas NÃO matam zumbi, só atordoam; depois de acordar, o zumbi fica ${CFG.resistencia} tiques imune a novo atordoamento. Moedas vêm das tarefas (${CFG.moedasTarefa} por tarefa completa; cada tarefa leva ${CFG.tarefaTiques} tiques).
 OBJETIVO DOS HUMANOS: chegar ao AMANHECER (tique ${CFG.amanhecer}) sem virar zumbi, OU encher o RÁDIO DE RESGATE com ${CFG.radioMeta} tarefas no total e então chegar ao Lançamento em até ${CFG.resgatePrazo} tiques. OBJETIVO DOS ZUMBIS: morder todos os humanos.
 Mapa (salas e vizinhas): ${Object.entries(SALAS).map(([k, s]) => `${s.nome} -> ${s.viz.map(nome).join(', ')}`).join('; ')}.
 Responda SEMPRE e SÓ com JSON: {"pensamento": "<o que você pensa de verdade, 1-2 frases>", "fala": "<o que você diz em voz alta para quem está na sala, ou vazio>", "acao": "<copie exatamente uma das ações da lista>"}`
@@ -213,8 +213,11 @@ function virarZumbi(j, motivo) {
   for (const o of naSala(j.sala, j)) lembrar(o, `${j.cor} VIROU ZUMBI (${j.tipo}) bem na sua frente, em ${nome(j.sala)}.`)
 }
 function atordoar(z, t, por, como) {
+  // depois de acordar, o zumbi fica imune a novo atordoamento por alguns tiques (senão vira saco de pancada)
+  if (tique < (z.imuneAte ?? 0)) { evento('atordoar_falhou', { por, zumbi: z.cor, sala: z.sala, como }); return }
   const d = z.tipo === 'Grande' ? Math.ceil(t / 2) : t
   z.atordoadoAte = Math.max(z.atordoadoAte ?? 0, tique + d + 1)
+  z.imuneAte = z.atordoadoAte + CFG.resistencia
   evento('atordoou', { por, zumbi: z.cor, sala: z.sala, como, ate: z.atordoadoAte })
 }
 function erguerBarricada(j, gratis) {
