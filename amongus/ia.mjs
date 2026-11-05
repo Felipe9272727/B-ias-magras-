@@ -115,6 +115,10 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   // o DeepSeek Flash raciocina antes de responder e o raciocínio consome o limite de tokens:
   // damos folga para sobrar espaço para a resposta em si
   if (provider === 'deepseek' || provider.includes('deepseek/')) maxTokens += 3000 // o Flash pensa antes de responder
+  // modelos com raciocínio OBRIGATÓRIO (não dá para desligar): folga grande de tokens e nunca tentar sem raciocínio.
+  // 5/11: no AU6 zumbi o LFM ficou ~95% das jogadas sem resposta por isso (350 tokens não bastavam).
+  const raciocinioObrigatorio = /liquid\/lfm/.test(provider)
+  if (raciocinioObrigatorio) maxTokens += 3000
   // o Opus pensa antes de responder: esforço médio (pedido da pessoa) e folga de tokens para o pensamento
   if (provider === 'opus') { effort = effort ?? process.env.OPUS_EFFORT ?? 'medium'; maxTokens += 6000 }
   // o Sonnet também pensa: esforço alto (pedido da pessoa para o 60 Segundos) e a mesma folga de tokens
@@ -125,7 +129,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   let vazias = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     // 2 respostas vazias seguidas (o raciocínio comeu a resposta): a última tentativa vai sem raciocínio, para a IA não ficar muda
-    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, tentativa === 2 && vazias >= 2)
+    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, tentativa === 2 && vazias >= 2 && !raciocinioObrigatorio)
     if (r.ok && !r.text.trim()) vazias++
     ultimo = r
     if (process.env.IA_DEBUG && !(r.ok && r.text?.trim())) console.error('[ia] falhou', provider, JSON.stringify(r).slice(0, 500))
