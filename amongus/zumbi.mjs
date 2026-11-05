@@ -24,13 +24,13 @@ export const CFG = {
   amanhecer: Number(args['max-tiques'] ?? 60), // humanos que chegarem vivos e sem mordida até aqui sobrevivem
   pzVira: [5, 8], // o Paciente Zero vira zumbi entre esses tiques, sem saber antes
   incubacao: 5, // tiques entre a mordida e virar zumbi
-  radioMeta: 160, // tarefas completas somadas para o rádio de resgate (teste 1: com 45 enchia em 3 tiques)
+  radioMeta: 380, // tarefas completas para o rádio (teste 1: 45 enchia em 3 tiques; teste 2: ~7 por tique antes do caos)
   tarefaTiques: 2, // cada tarefa leva 2 tiques de trabalho na sala
   resgatePrazo: 4, // tiques para chegar ao Lançamento depois que o resgate chega
   moedasTarefa: 2,
-  precos: { taser: 3, barricada: 3, uv: 4 },
+  precos: { taser: 4, barricada: 5, uv: 5 },
   taserCargas: 2, taserAtordoa: 3, uvAtordoa: 2,
-  barricadaVida: 2, barricadaDura: 8,
+  barricadaVida: 2, barricadaDura: 6,
   doutorRecarga: 6, engenheiroRecarga: 6, cuspidorRecarga: 3,
   memoria: 10,
 }
@@ -121,7 +121,7 @@ function montar() {
 
 function regras() {
   return `Você está jogando o MODO ZUMBI do Among Us no mapa Mira HQ, à noite de Halloween. ${jogadores.length} jogadores, cada um é uma IA diferente.
-COMO FUNCIONA: no começo TODOS são humanos, mas um deles é o PACIENTE ZERO, infectado sem saber (nem ele mesmo sabe). Em algum momento ele vira ZUMBI. Zumbis são verdes e todos veem que são zumbis. Um zumbi MORDE humanos na mesma sala; o mordido não muda por fora (ninguém vê a mordida), mas ele SABE que foi mordido e vira zumbi ${CFG.incubacao} tiques depois, a não ser que um Doutor o cure antes.
+COMO FUNCIONA: no começo TODOS são humanos, mas um deles é o PACIENTE ZERO, infectado sem saber (nem ele mesmo sabe). Em algum momento ele vira ZUMBI. Zumbis são verdes e todos veem que são zumbis. Um zumbi MORDE humanos na mesma sala, e a mordida acontece ANTES de qualquer um conseguir sair da sala naquele tique (só um taser ou lanterna UV usado no mesmo tique impede); o mordido não muda por fora (ninguém vê a mordida), mas ele SABE que foi mordido e vira zumbi ${CFG.incubacao} tiques depois, a não ser que um Doutor o cure antes.
 NÃO HÁ REUNIÃO NEM VOTAÇÃO. Conversa só por proximidade: o que você fala só é ouvido por quem está na MESMA sala neste tique.
 LOJA (no Refeitório): taser (${CFG.precos.taser} moedas, ${CFG.taserCargas} cargas, atordoa um zumbi por ${CFG.taserAtordoa} tiques), barricada (${CFG.precos.barricada} moedas, fecha a sala onde você está: ninguém entra nem sai enquanto ela aguentar; zumbis do lado de fora podem quebrá-la), lanterna UV (${CFG.precos.uv} moedas, 1 uso, atordoa TODOS os zumbis da sala por ${CFG.uvAtordoa} tiques). Armas NÃO matam zumbi, só atordoam. Moedas vêm das tarefas (${CFG.moedasTarefa} por tarefa completa; cada tarefa leva ${CFG.tarefaTiques} tiques).
 OBJETIVO DOS HUMANOS: chegar ao AMANHECER (tique ${CFG.amanhecer}) sem virar zumbi, OU encher o RÁDIO DE RESGATE com ${CFG.radioMeta} tarefas no total e então chegar ao Lançamento em até ${CFG.resgatePrazo} tiques. OBJETIVO DOS ZUMBIS: morder todos os humanos.
@@ -237,7 +237,7 @@ async function rodarTique() {
     if (!d.fala.trim()) continue
     for (const o of jogadores) if (o !== j && (o.sala === j.sala || (o.tipo === 'Uivador' && o.estado === 'zumbi' && SALAS[o.sala].viz.includes(j.sala)))) o.ouviu.push(`${j.cor}${j.estado === 'zumbi' ? ' (zumbi)' : ''} disse: "${d.fala}"${o.sala !== j.sala ? ` (na sala vizinha ${nome(j.sala)})` : ''}`)
   }
-  // ordem de resolução: armas e cura -> barricadas -> movimento -> mordidas -> tarefas e loja
+  // ordem de resolução: armas e cura -> barricadas -> MORDIDAS (antes de fugir) -> movimento -> uivo -> tarefas e loja
   const ord = (re) => decisoes.filter(([, d]) => re.test(d.acao))
   for (const [j, d] of ord(/^(atordoar|acender)/)) {
     const zs = naSala(j.sala, j).filter((z) => z.estado === 'zumbi')
@@ -259,6 +259,13 @@ async function rodarTique() {
       if (b) { b.vida -= j.tipo === 'Grande' ? CFG.barricadaVida : 1; evento('golpe_barricada', { zumbi: j.cor, sala: alvo, vida: Math.max(0, b.vida) }); if (b.vida <= 0) { delete barricadas[alvo]; evento('barricada_quebrou', { zumbi: j.cor, sala: alvo }) } }
     }
   }
+  for (const [z, d] of ord(/^(morder|cuspir)/)) {
+    if (atordoado(z)) continue
+    const h = J(d.acao.split(' ')[d.acao.startsWith('cuspir') ? 2 : 1])
+    if (!h) continue
+    if (d.acao.startsWith('cuspir')) { if (SALAS[z.sala].viz.includes(h.sala)) { z.cospeEm = tique + CFG.cuspidorRecarga; morder(z, h, 'cuspe') } }
+    else if (h.sala === z.sala) morder(z, h)
+  }
   for (const [j, d] of ord(/^(ir para|correr para)/)) {
     const destino = salaPorNome(d.acao.replace(/^(ir|correr) para /, '').replace(/ \(2 salas\)$/, ''))
     if (destino && !fechada(destino) && !fechada(j.sala)) { evento('moveu', { cor: j.cor, de: j.sala, para: destino }); j.sala = destino }
@@ -266,13 +273,6 @@ async function rodarTique() {
   for (const [j, d] of ord(/^uivar$/)) {
     j.uivou = true; evento('uivo', { zumbi: j.cor, sala: j.sala })
     for (const h of naSala(j.sala, j).filter((h) => h.estado !== 'zumbi')) { const v = escolher(SALAS[j.sala].viz.filter((v) => !fechada(v)).concat(j.sala)); evento('fugiu_uivo', { cor: h.cor, de: h.sala, para: v }); h.sala = v; lembrar(h, `Um uivo te fez fugir em pânico para ${nome(v)}.`) }
-  }
-  for (const [z, d] of ord(/^(morder|cuspir)/)) {
-    if (atordoado(z)) continue
-    const h = J(d.acao.split(' ')[d.acao.startsWith('cuspir') ? 2 : 1])
-    if (!h) continue
-    if (d.acao.startsWith('cuspir')) { if (SALAS[z.sala].viz.includes(h.sala)) { z.cospeEm = tique + CFG.cuspidorRecarga; morder(z, h, 'cuspe') } }
-    else if (h.sala === z.sala) morder(z, h)
   }
   for (const [j, d] of ord(/^(fazer a tarefa|comprar|olhar as câmeras)/)) {
     if (d.acao.startsWith('fazer a tarefa')) {
