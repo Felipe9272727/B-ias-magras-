@@ -3,12 +3,14 @@
 # primeira linha); se o id mudou, executa e manda a saída (e tudo que estiver em /tmp/roblox_status) para "roblox-status".
 # Rodar uma vez no terminal do Codespace:  nohup setsid bash roblox/ponte.sh > /tmp/ponte.log 2>&1 &
 cd "$(dirname "$0")/.."
+export GIT_TERMINAL_PROMPT=0  # sem terminal: erro em vez de ficar esperando senha
 URL=$(git remote get-url origin)
 ST=/tmp/roblox_status; mkdir -p $ST
 ULT=""
 envia() {
   D=/tmp/roblox_push; rm -rf $D; mkdir -p $D; cp -r $ST/. $D/ 2>/dev/null
-  (cd $D && git init -q && git checkout -q -b roblox-status && git add -A && git -c user.name=roblox -c user.email=roblox@local commit -qm "status $(date -u +%H:%M:%S)" && git push -q -f "$URL" roblox-status)
+  (cd $D && git init -q && git checkout -q -b roblox-status && git add -A && git -c user.name=roblox -c user.email=roblox@local commit -qm "status $(date -u +%H:%M:%S)" && timeout 120 git push -f "$URL" roblox-status) 2>&1 | tail -3
+  echo "envia $(date -u +%T) saida=$?"
 }
 echo "ponte ligada $(date -u)" > $ST/ponte.txt; envia
 while true; do
