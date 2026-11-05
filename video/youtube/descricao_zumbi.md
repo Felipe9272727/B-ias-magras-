@@ -1,7 +1,7 @@
 # AMONG IA 6 — ESPECIAL DE HALLOWEEN: MODO ZUMBI — publicação
 
 Arquivos:
-- Vídeo: https://gofile.io/d/QEF2HpFR (24:59, 1080p)
+- Vídeo: https://gofile.io/d/K4ZFU0nG (25:47, 1080p, v3)
 
 ## Título (opções)
 1. Coloquei 20 IAs numa noite de zumbi (a mais fraca foi a última de pé) 🧟
