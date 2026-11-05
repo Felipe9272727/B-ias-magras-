@@ -4,6 +4,10 @@ Cena: {id, partida, t0 (tique), vel (tiques por segundo de vídeo), cam, foco?, 
 Itens: ["n", texto] narrador · ["fala", cor, texto] fala por proximidade na voz da cor · ["pensa", cor, texto] pensamento
 com ECO (regra do canal: nunca sussurro) · ["selo", texto, cor?] · ["meme", id, pos?] (mesmo tempo do selo da cena) ·
 ["numero", texto, sub?] · ["marco", titulo, sub?] · ["s", sfx, vol?] · ["p", segundos].
+v3: ["ir", tique] âncora (neste ponto da narração o jogo está no tique X; entre âncoras o tique é interpolado) ·
+["fimpartida", titulo, sub?] cartão de fim de partida · ["popups"] comentários que pediram o modo (roteiro/comentarios_zumbi.json) ·
+campo de cena "entrada": aranha|fantasma|morcegos (transição de Halloween cobrindo o corte).
+Meme logo depois de um selo começa junto com o selo (nunca antes do evento).
 Selo fica o tempo de ler; a cena nunca corta selo/meme/número (padrão aprovado do AGE v4).
 --contar: só conta os caracteres que faltam gerar (não gasta nada) e compara com a cota do ElevenLabs.
 A chave do ElevenLabs vem do ambiente (ELEVENLABS_API_KEY) ou do mod chaves-ias (/chave elevenlabs ...)."""
@@ -88,14 +92,30 @@ def main():
     rot = json.loads((ROOT / 'roteiro' / 'roteiro_zumbi.json').read_text())
     cenas = []
     for c in rot['cenas']:
-        t, over, audio, fim_selo = 0.0, [], [], 0.0
+        t, over, audio, fim_selo, tk, ult = 0.0, [], [], 0.0, [], None
         if c.get('cap'):
             over.append(dict(tipo='marco', at=0, dur=80, titulo=c['cap'], sub=f"Partida {c['partida']}"))
             audio.append(dict(src='sfx/whoosh.mp3', at=0, vol=0.4))
             t += 0.6
         for it in c['itens']:
             k = it[0]
-            if k == 'n':
+            if k not in ('s', 'p', 'ir'):
+                ult = k if k != 'meme' else ult
+            if k == 'ir':
+                fr = round(t * FPS)
+                if tk and fr <= tk[-1][0]:
+                    tk[-1] = [tk[-1][0], max(tk[-1][1], float(it[1]))]
+                elif not tk or float(it[1]) >= tk[-1][1]:
+                    tk.append([fr, float(it[1])])
+            elif k == 'fimpartida':
+                over.append(dict(tipo='fim', at=round(t * FPS), dur=round(4.6 * FPS), titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
+                audio.append(dict(src='sfx/impact-epic.mp3', at=round(t * FPS), vol=0.45))
+            elif k == 'popups':
+                cs = [dict(autor=x['autor'], texto=x['texto']) for x in json.loads((ROOT / 'roteiro' / 'comentarios_zumbi.json').read_text())][:8]
+                over.append(dict(tipo='popups', at=round(t * FPS), dur=round((0.6 * len(cs) + 3.4) * FPS), comentarios=cs))
+                for j in range(len(cs)):
+                    audio.append(dict(src='sfx/pop.mp3', at=round((t + 0.6 * j) * FPS), vol=0.35))
+            elif k == 'n':
                 src, d = tts(it[1], NARRADOR)
                 if src: audio.append(dict(src=src, at=round(t * FPS)))
                 t += d + 0.12
@@ -111,11 +131,13 @@ def main():
                 over.append(dict(tipo='selo', at=round(ini * FPS), dur=round(ds * FPS), texto=it[1], **({'cor': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/pop.mp3', at=round(ini * FPS), vol=0.5))
             elif k == 'marco':
-                over.append(dict(tipo='marco', at=round(t * FPS), dur=80, titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
+                over.append(dict(tipo='marco', at=round(t * FPS), dur=110 if 'HALLOWEEN' in it[1].upper() else 80, titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/whoosh.mp3', at=round(t * FPS), vol=0.4))
             elif k == 'meme':
                 m = MEMES[it[1]]
-                over.append(dict(tipo='meme', at=round(t * FPS), dur=None, id=it[1], pos=it[2] if len(it) > 2 else 'right',
+                selo_ant = [o for o in over if o['tipo'] == 'selo']
+                at_m = selo_ant[-1]['at'] if ult == 'selo' and selo_ant else round(t * FPS)  # junto com o selo do evento
+                over.append(dict(tipo='meme', at=at_m, dur=None, id=it[1], pos=it[2] if len(it) > 2 else 'right',
                                  info=dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])))
             elif k == 'numero':
                 over.append(dict(tipo='numero', at=round(t * FPS), dur=round(2.4 * FPS), texto=it[1], sub=it[2] if len(it) > 2 else None))
@@ -129,10 +151,11 @@ def main():
             if o['tipo'] == 'meme':
                 o['dur'] = max(selos) if selos else round(2.2 * FPS)  # meme fica o mesmo tempo do selo da cena
         n = max(round((t + c.get('folga', 0.5)) * FPS), 45)
-        n = max(n, max((o['at'] + o['dur'] + 4 for o in over if o['tipo'] in ('selo', 'meme', 'numero', 'marco')), default=0))
+        n = max(n, max((o['at'] + o['dur'] + 4 for o in over if o['tipo'] in ('selo', 'meme', 'numero', 'marco', 'fim', 'popups')), default=0))
         vel = float(c.get('vel', 0.25)) / FPS
         cenas.append(dict(id=c['id'], dur=n, partida=c['partida'], t0=float(c['t0']), vel=round(vel, 5), cam=c.get('cam', {'mapa': True}), foco=c.get('foco'),
-                          hud=c.get('hud', True), over=over, audio=audio, visual=c.get('visual'), comentarios=c.get('comentarios')))
+                          hud=c.get('hud', True), over=over, audio=audio, visual=c.get('visual'), comentarios=c.get('comentarios'),
+                          **({'tk': tk} if tk else {}), **({'entrada': c['entrada']} if c.get('entrada') else {})))
     tot = sum(c['dur'] for c in cenas) / FPS
     if CONTAR:
         print(f'duração estimada {tot / 60:.1f} min; faltam gerar {falta} caracteres de voz')
