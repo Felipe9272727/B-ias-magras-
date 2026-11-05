@@ -1,5 +1,7 @@
 # Short do AMONG IA 6 (modo zumbi): a IA mais fraca foi a última de pé
 
+Vídeo: https://gofile.io/d/eYJme287 (66 s, 1080x1920)
+
 ## Título (opções)
 1. A IA mais fraca sobreviveu a 17 zumbis fazendo QUASE NADA 🧟
 2. Ela fez 2 coisas em 60 tiques… e foi a única sobrevivente 🎃

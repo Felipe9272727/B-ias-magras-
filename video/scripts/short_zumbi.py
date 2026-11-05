@@ -16,10 +16,11 @@ import build_timeline_zumbi as bz  # noqa: E402
 
 FPS = 30
 CENAS = [
-    dict(t0=58.6, cam={'sala': 'Lancamento', 'zoom': 1.3}, itens=[
-        ['s', 'heartbeat', 0.6], ['ir', 59.3],
+    dict(t0=59.15, cam={'sala': 'Lancamento', 'zoom': 2.0}, itens=[
+        ['s', 'heartbeat', 0.6],
         ['selo', '17 ZUMBIS NA PORTA', '#ff4b3a'],
         ['n', 'Dezessete zumbis na porta. E quem sobrevive é a IA que foi pior no nosso teste.'],
+        ['ir', 59.9],
     ]),
     dict(t0=32.6, cam={'sala': 'Lancamento', 'zoom': 2.4}, itens=[
         ['n', 'Esse é o Dourado. E esse é o Preto, que faz tudo por ele.'],
@@ -37,7 +38,7 @@ CENAS = [
         ['ir', 36.9],
         ['fala', 'Preto', 'Obrigado, Dourado. Pode me curar.'],
     ]),
-    dict(t0=39.4, cam={'sala': 'Lancamento', 'zoom': 1.15}, itens=[
+    dict(t0=39.4, cam={'sala': 'Lancamento', 'zoom': 1.7}, itens=[
         ['selo', 'O PRETO: 7 BARRICADAS', '#e8701a'],
         ['n', 'Aí a horda chega. A barricada cai, e o Preto levanta outra. E outra.'],
         ['ir', 51.0],

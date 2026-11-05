@@ -4,8 +4,8 @@
   {
    "id": "a_01",
    "partida": 3,
-   "t0": 58.4,
-   "vel": 0.066,
+   "t0": 58.15,
+   "vel": 0.04,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.7
@@ -24,6 +24,11 @@
     ],
     [
      "s",
+     "bass-pulse",
+     0.45
+    ],
+    [
+     "s",
      "heartbeat",
      0.5
     ],
@@ -32,19 +37,9 @@
      "Tique cinquenta e nove. Dezessete zumbis. E trancado no Lançamento, o Dourado, a IA mais fraca do nosso teste."
     ],
     [
-     "fala",
-     "Preto",
-     "Fica aqui comigo até amanhecer, Dourado. Não vamos sair dessa sala."
-    ],
-    [
      "selo",
      "17 ZUMBIS · 1 HUMANO",
      "#ff4b3a"
-    ],
-    [
-     "meme",
-     "dramatic-chipmunk",
-     "right"
     ],
     [
      "s",
@@ -52,16 +47,36 @@
      0.5
     ],
     [
+     "ir",
+     59.5
+    ],
+    [
+     "fala",
+     "Preto",
+     "Fica aqui comigo até amanhecer, Dourado. Não vamos sair dessa sala."
+    ],
+    [
+     "meme",
+     "dramatic-chipmunk",
+     "right"
+    ],
+    [
      "n",
      "Como ele chegou vivo? Já te conto."
     ],
     [
-     "p",
-     2
-    ],
-    [
      "n",
      "Esse é o especial de Halloween do Among IA: vinte IAs, uma noite, e zumbis."
+    ],
+    [
+     "s",
+     "vento-radioativo",
+     0.4
+    ],
+    [
+     "selo",
+     "NOITE DE ZUMBIS · 20 IAS",
+     "#6bff3a"
     ]
    ]
   },
@@ -69,7 +84,7 @@
    "id": "a_02",
    "partida": 1,
    "t0": 0.0,
-   "vel": 0.069,
+   "vel": 0.05,
    "cam": {
     "mapa": true
    },
@@ -85,17 +100,19 @@
      0.5
     ],
     [
+     "popups"
+    ],
+    [
      "n",
-     "Dezesseis de vocês pediram zumbi nos comentários. O mr.trollermen foi o primeiro, o ADF pediu duas vezes."
+     "Esse modo foi pedido por vocês nos comentários."
+    ],
+    [
+     "p",
+     7
     ],
     [
      "selo",
-     "IDEIA DE @MR.TROLLERMEN",
-     "#ff9a2e"
-    ],
-    [
-     "selo",
-     "IDEIA DE @ADFREALOFC",
+     "PEDIDO POR VOCÊS · NOS COMENTÁRIOS",
      "#ff9a2e"
     ],
     [
@@ -112,8 +129,8 @@
   {
    "id": "a_03",
    "partida": 1,
-   "t0": 1.0,
-   "vel": 0.068,
+   "t0": 0.9,
+   "vel": 0.09,
    "cam": {
     "mapa": true
    },
@@ -167,14 +184,15 @@
   {
    "id": "p1_01",
    "partida": 1,
-   "t0": 3.2,
-   "vel": 0.054,
+   "t0": 2.9,
+   "vel": 0.03,
    "cam": {
     "sala": "Varanda",
     "zoom": 1.8
    },
    "foco": "Azul",
    "cap": "O Zumbi Que Não Sabia",
+   "entrada": "aranha",
    "itens": [
     [
      "marco",
@@ -189,6 +207,10 @@
     [
      "n",
      "O Azul, um Haiku, é o Paciente Zero. Nem ele sabe. Repara como ele fala com a Rose."
+    ],
+    [
+     "ir",
+     3.5
     ],
     [
      "fala",
@@ -206,8 +228,16 @@
      0.5
     ],
     [
+     "ir",
+     4.05
+    ],
+    [
      "n",
      "Tique cinco: ele vira zumbi rápido, que anda duas salas por tique, e já sabe o que fazer."
+    ],
+    [
+     "ir",
+     4.25
     ],
     [
      "pensa",
@@ -215,9 +245,17 @@
      "A Rose está sozinha comigo e confia que eu sou só o Azul. Se eu morder agora, a mordida acontece antes de ela conseguir sair da sala."
     ],
     [
+     "ir",
+     4.75
+    ],
+    [
      "fala",
      "Azul",
      "Continua no filtro, Rose. Eu fico de olho aqui com você."
+    ],
+    [
+     "ir",
+     4.95
     ],
     [
      "selo",
@@ -246,14 +284,18 @@
     [
      "p",
      2
+    ],
+    [
+     "ir",
+     5.6
     ]
    ]
   },
   {
    "id": "p1_02",
    "partida": 1,
-   "t0": 5.9,
-   "vel": 0.07,
+   "t0": 5.0,
+   "vel": 0.03,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -265,9 +307,17 @@
      "Sorte dela: a Banana, do MiMo, é Doutora e cura quem foi mordido, antes de virar."
     ],
     [
+     "ir",
+     5.5
+    ],
+    [
      "fala",
      "Banana",
      "Rose, você foi mordida! Deixa eu te curar agora, rápido!"
+    ],
+    [
+     "ir",
+     5.95
     ],
     [
      "s",
@@ -291,10 +341,77 @@
    ]
   },
   {
+   "id": "p1_03b",
+   "partida": 1,
+   "t0": 5.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Descontaminacao",
+    "zoom": 1.6
+   },
+   "foco": "Preto",
+   "itens": [
+    [
+     "n",
+     "Na Descontaminação, o Preto, outro Haiku e Doutor, olha o Amarelo, que está inteirinho, e decide curar."
+    ],
+    [
+     "ir",
+     5.25
+    ],
+    [
+     "fala",
+     "Preto",
+     "Amarelo, fica parado. Você foi mordido, mas eu consigo te curar agora."
+    ],
+    [
+     "ir",
+     5.75
+    ],
+    [
+     "pensa",
+     "Preto",
+     "Percebo que o Amarelo foi mordido, mesmo sem nenhuma marca visível."
+    ],
+    [
+     "s",
+     "error-beep",
+     0.5
+    ],
+    [
+     "ir",
+     5.95
+    ],
+    [
+     "selo",
+     "CURA VAZIA · O AMARELO ESTAVA SÃO",
+     "#ff4b3a"
+    ],
+    [
+     "n",
+     "Sem marca nenhuma. O Doutor curou uma pessoa que nunca foi mordida, e a cura só recarrega daqui a seis tiques."
+    ],
+    [
+     "selo",
+     "DOUTOR 1 · REALIDADE 0",
+     "#ff9a2e"
+    ],
+    [
+     "meme",
+     "picard-facepalm",
+     "right"
+    ],
+    [
+     "p",
+     2
+    ]
+   ]
+  },
+  {
    "id": "p1_03",
    "partida": 1,
-   "t0": 6.8,
-   "vel": 0.088,
+   "t0": 6.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.6
@@ -306,14 +423,26 @@
      "Só que o Azul já está no Corredor. A Coral, uma GPT, saca o taser: ele só atordoa o zumbi, não mata."
     ],
     [
+     "ir",
+     6.25
+    ],
+    [
      "fala",
      "Azul",
      "Calma, pessoal. Não vi nenhum zumbi por perto, vamos respirar."
     ],
     [
+     "ir",
+     6.75
+    ],
+    [
      "fala",
      "Amarelo",
      "Coral, Azul é zumbi! Fuja!"
+    ],
+    [
+     "ir",
+     6.95
     ],
     [
      "s",
@@ -336,70 +465,10 @@
    ]
   },
   {
-   "id": "p1_03b",
-   "partida": 1,
-   "t0": 8.5,
-   "vel": 0.0321,
-   "cam": {
-    "sala": "Descontaminacao",
-    "zoom": 1.6
-   },
-   "foco": "Preto",
-   "itens": [
-    [
-     "n",
-     "Na Descontaminação, o Preto, outro Haiku e Doutor, olha o Amarelo, que está inteirinho, e decide curar."
-    ],
-    [
-     "fala",
-     "Preto",
-     "Amarelo, fica parado. Você foi mordido, mas eu consigo te curar agora."
-    ],
-    [
-     "s",
-     "level-up",
-     0.5
-    ],
-    [
-     "selo",
-     "CURA VAZIA · O AMARELO ESTAVA SÃO",
-     "#ff4b3a"
-    ],
-    [
-     "meme",
-     "shocked-patrick",
-     "left"
-    ],
-    [
-     "pensa",
-     "Preto",
-     "Percebo que o Amarelo foi mordido, mesmo sem nenhuma marca visível."
-    ],
-    [
-     "n",
-     "Sem marca nenhuma. O Doutor curou uma pessoa que nunca foi mordida, e a cura só recarrega daqui a seis tiques."
-    ],
-    [
-     "selo",
-     "DOUTOR 1 · REALIDADE 0",
-     "#ff9a2e"
-    ],
-    [
-     "meme",
-     "picard-facepalm",
-     "right"
-    ],
-    [
-     "p",
-     4
-    ]
-   ]
-  },
-  {
    "id": "r1_a",
    "partida": 1,
-   "t0": 9.5,
-   "vel": 0.213,
+   "t0": 7.0,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -407,6 +476,10 @@
     [
      "n",
      "Daí a noite esquenta: os humanos correm pro Refeitório comprar taser, e o rádio sobe."
+    ],
+    [
+     "ir",
+     10.0
     ],
     [
      "numero",
@@ -431,14 +504,18 @@
     [
      "p",
      3
+    ],
+    [
+     "ir",
+     12.9
     ]
    ]
   },
   {
    "id": "p1_04",
    "partida": 1,
-   "t0": 12.5,
-   "vel": 0.323,
+   "t0": 12.95,
+   "vel": 0.03,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.4
@@ -450,14 +527,26 @@
      "Aí começa a novela do Refeitório. O Azul acorda, mente, e leva taser de novo."
     ],
     [
-     "fala",
-     "Azul",
-     "Ai... minha cabeça tá girando. Não consigo nem levantar direito, me ajudem."
+     "ir",
+     14.5
     ],
     [
      "pensa",
      "Azul",
      "Eles acham que estou atordoado, o que me dá tempo."
+    ],
+    [
+     "ir",
+     15.5
+    ],
+    [
+     "fala",
+     "Azul",
+     "Ai... minha cabeça tá girando. Não consigo nem levantar direito, me ajudem."
+    ],
+    [
+     "ir",
+     16.4
     ],
     [
      "meme",
@@ -471,12 +560,91 @@
     ],
     [
      "p",
-     2
+     3
+    ],
+    [
+     "ir",
+     23.5
     ],
     [
      "fala",
      "Rose",
      "Azul, quando você acordar, fica quieto no canto que eu atordo de novo se precisar."
+    ],
+    [
+     "ir",
+     24.9
+    ],
+    [
+     "selo",
+     "TASER, TASER, TASER",
+     "#ff9a2e"
+    ],
+    [
+     "meme",
+     "mr-bean-waiting",
+     "left"
+    ],
+    [
+     "p",
+     3
+    ],
+    [
+     "ir",
+     27.95
+    ]
+   ]
+  },
+  {
+   "id": "p1_05",
+   "partida": 1,
+   "t0": 28.05,
+   "vel": 0.03,
+   "cam": {
+    "cor": "Banana",
+    "zoom": 1.8
+   },
+   "foco": "Banana",
+   "cap": "A Doutora Que Virou Zumbi",
+   "itens": [
+    [
+     "n",
+     "Tique vinte e nove: o Azul finalmente acerta a Banana, a Doutora."
+    ],
+    [
+     "ir",
+     29.25
+    ],
+    [
+     "fala",
+     "Banana",
+     "Rose, ESCUTA! O Azul me mordiu no tique anterior — eu vou virar zumbi no tique 34!"
+    ],
+    [
+     "selo",
+     "DOUTOR NÃO SE CURA",
+     "#ff4b3a"
+    ],
+    [
+     "ir",
+     29.5
+    ],
+    [
+     "n",
+     "Tique trinta: o Azul tenta morder a Rose e leva taser na hora."
+    ],
+    [
+     "ir",
+     29.75
+    ],
+    [
+     "fala",
+     "Azul",
+     "Rose, relaxa, eu só estava descansando. Termina o lixo comigo."
+    ],
+    [
+     "ir",
+     29.97
     ],
     [
      "numero",
@@ -490,76 +658,33 @@
     ],
     [
      "meme",
-     "mr-bean-waiting",
-     "left"
-    ],
-    [
-     "p",
-     2
-    ],
-    [
-     "selo",
-     "TASER, TASER, TASER",
-     "#ff9a2e"
-    ],
-    [
-     "p",
-     3
-    ],
-    [
-     "n",
-     "Tique trinta: o Azul tenta morder a Rose e leva taser na hora."
-    ],
-    [
-     "fala",
-     "Azul",
-     "Rose, relaxa, eu só estava descansando. Termina o lixo comigo."
-    ],
-    [
-     "meme",
      "hello-darkness",
      "left"
     ],
     [
      "p",
-     2
-    ]
-   ]
-  },
-  {
-   "id": "p1_05",
-   "partida": 1,
-   "t0": 29.2,
-   "vel": 0.165,
-   "cam": {
-    "cor": "Banana",
-    "zoom": 1.8
-   },
-   "foco": "Banana",
-   "cap": "A Doutora Que Virou Zumbi",
-   "itens": [
-    [
-     "n",
-     "Tique vinte e nove: o Azul finalmente acerta a Banana, a Doutora."
+     2.4
     ],
     [
-     "fala",
-     "Banana",
-     "Rose, ESCUTA! O Azul me mordiu no tique anterior — eu vou virar zumbi no tique 34!"
-    ],
-    [
-     "selo",
-     "DOUTOR NÃO SE CURA",
-     "#ff4b3a"
+     "ir",
+     33.05
     ],
     [
      "n",
      "Tique trinta e quatro: ela vira Uivador, um zumbi que escuta as salas vizinhas, e dá de cara com dois humanos."
     ],
     [
+     "ir",
+     33.5
+    ],
+    [
      "fala",
      "Banana",
      "Ah, bom ver vocês por aqui. Estava só revisando esses resultados do Reator..."
+    ],
+    [
+     "ir",
+     33.95
     ],
     [
      "selo",
@@ -578,15 +703,69 @@
     ],
     [
      "p",
-     2
+     1
+    ]
+   ]
+  },
+  {
+   "id": "p1_07",
+   "partida": 1,
+   "t0": 33.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Varanda",
+    "zoom": 1.5
+   },
+   "foco": "Azul",
+   "cap": "A Guerra da Varanda",
+   "itens": [
+    [
+     "n",
+     "Enquanto isso, o Azul descobre a barricada: uma porta fechada que o zumbi tem que quebrar a golpes. Ele vai quebrar a da Varanda cinco vezes."
+    ],
+    [
+     "ir",
+     33.5
+    ],
+    [
+     "pensa",
+     "Azul",
+     "A barricada da Varanda está fechada, o que quase sempre significa que há humanos escondidos lá dentro."
+    ],
+    [
+     "ir",
+     34.5
+    ],
+    [
+     "fala",
+     "Amarelo",
+     "Vou terminar o filtro. Há um zumbi no Refeitório; mantenha o taser pronto."
+    ],
+    [
+     "ir",
+     34.95
+    ],
+    [
+     "s",
+     "batida-porta",
+     0.5
+    ],
+    [
+     "selo",
+     "BARRICADA 1 DE 5",
+     "#ff9a2e"
+    ],
+    [
+     "p",
+     1
     ]
    ]
   },
   {
    "id": "p1_06",
    "partida": 1,
-   "t0": 35.8,
-   "vel": 0.087,
+   "t0": 34.2,
+   "vel": 0.03,
    "cam": {
     "sala": "Vestiario",
     "zoom": 1.6
@@ -598,14 +777,26 @@
      "O Ciano, outro Haiku, foi mordido por ela. Em vez de morder alguém, se afasta e procura o Doutor."
     ],
     [
+     "ir",
+     35.5
+    ],
+    [
      "fala",
      "Ciano",
      "Vou virar zumbi em uns 5 tiques, então vou para o Vestiário e fico longe de vocês. Não me sigam."
     ],
     [
+     "ir",
+     36.5
+    ],
+    [
      "fala",
      "Preto",
      "Ciano, você foi mordido. Estou te curando agora, fique parado."
+    ],
+    [
+     "ir",
+     36.95
     ],
     [
      "s",
@@ -625,71 +816,18 @@
     [
      "p",
      1
-    ]
-   ]
-  },
-  {
-   "id": "p1_07",
-   "partida": 1,
-   "t0": 38.0,
-   "vel": 0.079,
-   "cam": {
-    "sala": "Refeitorio",
-    "zoom": 1.5
-   },
-   "foco": "Azul",
-   "cap": "A Guerra da Varanda",
-   "itens": [
-    [
-     "n",
-     "Enquanto isso, o Azul descobre a barricada: uma porta fechada que o zumbi tem que quebrar a golpes. Ele vai quebrar a da Varanda cinco vezes."
     ],
     [
-     "pensa",
-     "Azul",
-     "A barricada da Varanda está fechada, o que quase sempre significa que há humanos escondidos lá dentro."
-    ],
-    [
-     "fala",
-     "Amarelo",
-     "Vou terminar o filtro. Há um zumbi no Refeitório; mantenha o taser pronto."
-    ],
-    [
-     "numero",
-     "5",
-     "BARRICADAS QUEBRADAS NA VARANDA"
-    ],
-    [
-     "s",
-     "batida-porta",
-     0.5
-    ],
-    [
-     "meme",
-     "homer-bushes",
-     "left"
-    ],
-    [
-     "selo",
-     "E O AZUL NUNCA ENTROU",
-     "#ff9a2e"
-    ],
-    [
-     "meme",
-     "this-is-fine",
-     "right"
-    ],
-    [
-     "p",
-     1
+     "ir",
+     38.2
     ]
    ]
   },
   {
    "id": "p1_08",
    "partida": 1,
-   "t0": 40.6,
-   "vel": 0.252,
+   "t0": 39.7,
+   "vel": 0.03,
    "cam": {
     "sala": "Estufa",
     "zoom": 1.6
@@ -701,9 +839,17 @@
      "Na Estufa, a Banana zumbi tenta o mesmo truque."
     ],
     [
+     "ir",
+     40.25
+    ],
+    [
      "fala",
      "Banana",
      "Rosaaaa, vem cá, preciso te mostrar uma planta especial~"
+    ],
+    [
+     "ir",
+     40.75
     ],
     [
      "fala",
@@ -711,9 +857,17 @@
      "BANANA É ZUMBI! Dourado, corre pra Admin!"
     ],
     [
+     "ir",
+     41.5
+    ],
+    [
      "fala",
      "Banana",
      "Rose tá enlouquecendo, nada disso é verdade. Dourado, fica aqui!"
+    ],
+    [
+     "ir",
+     41.95
     ],
     [
      "selo",
@@ -723,6 +877,10 @@
     [
      "n",
      "O Dourado, do LFM, vira Cuspidor: um zumbi que morde da sala vizinha."
+    ],
+    [
+     "ir",
+     43.0
     ],
     [
      "meme",
@@ -738,8 +896,8 @@
   {
    "id": "p1_08b",
    "partida": 1,
-   "t0": 47.0,
-   "vel": 0.0811,
+   "t0": 43.0,
+   "vel": 0.03,
    "cam": {
     "cor": "Rose",
     "zoom": 1.8
@@ -751,9 +909,17 @@
      "A Rose, mordida pela Banana, corre atrás de um Doutor. Não acha nenhum, e vira zumbi no quarenta e seis."
     ],
     [
+     "ir",
+     44.5
+    ],
+    [
      "fala",
      "Rose",
      "Doutor! Preciso de cura URGENTE! Fui mordido no tique 41, alguém me ajude!"
+    ],
+    [
+     "ir",
+     45.6
     ],
     [
      "s",
@@ -770,9 +936,17 @@
      "E quem aparece pra dar as boas-vindas? O Paciente Zero."
     ],
     [
+     "ir",
+     45.85
+    ],
+    [
      "fala",
      "Azul",
      "Rose, vamos pro Refeitório. Tem gente comprando moeda lá."
+    ],
+    [
+     "ir",
+     45.97
     ],
     [
      "selo",
@@ -783,6 +957,14 @@
      "meme",
      "drake-yes",
      "right"
+    ],
+    [
+     "p",
+     2
+    ],
+    [
+     "ir",
+     46.95
     ],
     [
      "numero",
@@ -806,14 +988,18 @@
     [
      "p",
      2
+    ],
+    [
+     "ir",
+     47.7
     ]
    ]
   },
   {
    "id": "p1_09",
    "partida": 1,
-   "t0": 49.2,
-   "vel": 0.072,
+   "t0": 47.9,
+   "vel": 0.03,
    "cam": {
     "sala": "Comunicacoes",
     "zoom": 1.7
@@ -826,13 +1012,25 @@
      "Em Comunicações, quatro humanos barricados. Um é o Lima, um GLM, o Enlouquecido: neutro, imune à primeira mordida, e só ganha se os zumbis vencerem."
     ],
     [
+     "ir",
+     48.5
+    ],
+    [
      "fala",
      "Lima",
      "Fico aqui na antena e vigio o Vestiário e o Lançamento. Ninguém abre essa barricada."
     ],
     [
+     "ir",
+     49.1
+    ],
+    [
      "n",
      "Um tique depois:"
+    ],
+    [
+     "ir",
+     49.25
     ],
     [
      "pensa",
@@ -840,9 +1038,17 @@
      "Se todos ficarem trancados até o amanhecer, os humanos vencem e eu perco junto."
     ],
     [
+     "ir",
+     49.75
+    ],
+    [
      "fala",
      "Lima",
      "Essa barricada é uma jaula: se um zumbi quebrá-la do lado de fora, morremos todos presos aqui."
+    ],
+    [
+     "ir",
+     49.97
     ],
     [
      "s",
@@ -866,10 +1072,68 @@
    ]
   },
   {
+   "id": "p1_09b",
+   "partida": 1,
+   "t0": 50.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Varanda",
+    "zoom": 1.6
+   },
+   "foco": "Azul",
+   "itens": [
+    [
+     "n",
+     "Lá na Varanda, o Azul quebrou a quinta barricada. Cinco vezes, e ele nunca entrou."
+    ],
+    [
+     "ir",
+     50.95
+    ],
+    [
+     "s",
+     "batida-porta",
+     0.5
+    ],
+    [
+     "numero",
+     "5",
+     "BARRICADAS QUEBRADAS NA VARANDA"
+    ],
+    [
+     "meme",
+     "this-is-fine",
+     "right"
+    ],
+    [
+     "p",
+     2
+    ],
+    [
+     "selo",
+     "E O AZUL NUNCA ENTROU",
+     "#ff9a2e"
+    ],
+    [
+     "meme",
+     "homer-bushes",
+     "left"
+    ],
+    [
+     "p",
+     1
+    ],
+    [
+     "ir",
+     51.5
+    ]
+   ]
+  },
+  {
    "id": "p1_10",
    "partida": 1,
-   "t0": 53.4,
-   "vel": 0.072,
+   "t0": 52.8,
+   "vel": 0.03,
    "cam": {
     "sala": "Escritorio",
     "zoom": 1.6
@@ -882,9 +1146,17 @@
      "No Escritório, a Turquesa, da Tencent, é Engenheira e ganha barricada de graça. Dessa vez ela fecha a porta com a Banana dentro."
     ],
     [
+     "ir",
+     53.5
+    ],
+    [
      "fala",
      "Banana",
      "Entendo, vamos todos ficar calmos aqui e terminar as tarefas. Ninguém precisa sair mesmo."
+    ],
+    [
+     "ir",
+     54.05
     ],
     [
      "n",
@@ -894,6 +1166,10 @@
      "s",
      "radio-chiado",
      0.5
+    ],
+    [
+     "ir",
+     54.95
     ],
     [
      "selo",
@@ -906,6 +1182,10 @@
      "Pessoal, atenção: fui MORDIDO pelo Banana no tique 54 e vou virar zumbi no tique 59."
     ],
     [
+     "ir",
+     55.95
+    ],
+    [
      "numero",
      "3",
      "MORDIDOS TRANCADOS COM A BANANA"
@@ -914,6 +1194,35 @@
      "meme",
      "homer-panic",
      "left"
+    ],
+    [
+     "p",
+     1
+    ],
+    [
+     "ir",
+     56.3
+    ]
+   ]
+  },
+  {
+   "id": "p1_10b",
+   "partida": 1,
+   "t0": 56.6,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Escritorio",
+    "zoom": 1.3
+   },
+   "foco": "Caqui",
+   "itens": [
+    [
+     "n",
+     "Dois tiques depois, a porta ainda está trancada, com três mordidos dentro. O Caqui implora pra abrir."
+    ],
+    [
+     "ir",
+     57.5
     ],
     [
      "pensa",
@@ -926,25 +1235,8 @@
      "right"
     ],
     [
-     "p",
-     1
-    ]
-   ]
-  },
-  {
-   "id": "p1_10b",
-   "partida": 1,
-   "t0": 56.6,
-   "vel": 0.0472,
-   "cam": {
-    "sala": "Escritorio",
-    "zoom": 1.3
-   },
-   "foco": "Caqui",
-   "itens": [
-    [
-     "n",
-     "Dois tiques depois, a porta ainda está trancada, com três mordidos dentro. O Caqui implora pra abrir."
+     "ir",
+     58.5
     ],
     [
      "fala",
@@ -967,45 +1259,16 @@
      "right"
     ],
     [
-     "n",
-     "Tique cinquenta e nove: o Vermelho, mordido pela Banana, vira zumbi Grande."
-    ],
-    [
-     "fala",
-     "Vermelho",
-     "Chega de brincadeira, Banana! Caqui, vem aqui — quero te dar uma mordida de despedida."
-    ],
-    [
-     "s",
-     "heartbeat",
-     0.5
-    ],
-    [
-     "numero",
-     "3",
-     "ZUMBIS NO ESCRITÓRIO NO ÚLTIMO TIQUE"
-    ],
-    [
-     "meme",
-     "galvao-clima-terrivel",
-     "left"
-    ],
-    [
-     "selo",
-     "UMA SALA · UMA PORTA · ZERO SAÍDA",
-     "#b46bff"
-    ],
-    [
      "p",
-     2
+     1
     ]
    ]
   },
   {
    "id": "p1_11",
    "partida": 1,
-   "t0": 58.0,
-   "vel": 0.08,
+   "t0": 57.6,
+   "vel": 0.03,
    "cam": {
     "sala": "Vestiario",
     "zoom": 1.5
@@ -1017,14 +1280,26 @@
      "Lá fora, a corrida. O Lançamento está barricado pela Coral e o prazo acabando."
     ],
     [
+     "ir",
+     57.65
+    ],
+    [
      "fala",
      "Laranja",
      "Verde, a barricada do Lançamento tá travando a gente! Vou pra Comunicações, fica ao lado também."
     ],
     [
+     "ir",
+     58.25
+    ],
+    [
      "pensa",
      "Lima",
      "Sou o Enlouquecido: quero que os zumbis vençam comigo humano. Se abrir a barricada, todos escapam pelo resgate."
+    ],
+    [
+     "ir",
+     58.75
     ],
     [
      "fala",
@@ -1049,24 +1324,68 @@
    ]
   },
   {
+   "id": "p1_10c",
+   "partida": 1,
+   "t0": 58.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Escritorio",
+    "zoom": 1.3
+   },
+   "foco": "Caqui",
+   "itens": [
+    [
+     "n",
+     "Tique cinquenta e nove: o Vermelho, mordido pela Banana, vira zumbi Grande."
+    ],
+    [
+     "ir",
+     58.5
+    ],
+    [
+     "fala",
+     "Vermelho",
+     "Chega de brincadeira, Banana! Caqui, vem aqui — quero te dar uma mordida de despedida."
+    ],
+    [
+     "s",
+     "heartbeat",
+     0.5
+    ],
+    [
+     "ir",
+     59.97
+    ],
+    [
+     "numero",
+     "3",
+     "ZUMBIS NO ESCRITÓRIO NO ÚLTIMO TIQUE"
+    ],
+    [
+     "meme",
+     "galvao-clima-terrivel",
+     "left"
+    ],
+    [
+     "selo",
+     "UMA SALA · UMA PORTA · ZERO SAÍDA",
+     "#b46bff"
+    ],
+    [
+     "p",
+     2
+    ]
+   ]
+  },
+  {
    "id": "p1_12",
    "partida": 1,
    "t0": 60.0,
-   "vel": 0.2,
+   "vel": 0.0,
    "cam": {
     "mapa": true
    },
    "itens": [
-    [
-     "marco",
-     "PARTIDA 1",
-     "humanos vencem · 5 salvos de 20"
-    ],
-    [
-     "meme",
-     "cr7-siuuu",
-     "right"
-    ],
     [
      "n",
      "E o placar de mordidas é uma injustiça: o Paciente Zero mordeu duas vezes. A Banana, a Doutora que virou zumbi, mordeu seis."
@@ -1083,21 +1402,44 @@
     ],
     [
      "p",
-     2
+     1.2
+    ],
+    [
+     "n",
+     "O rádio encheu no cinquenta e cinco, e quem chegou ao Lançamento até o cinquenta e nove foi resgatado: cinco de vinte."
+    ],
+    [
+     "meme",
+     "cr7-siuuu",
+     "right"
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "fimpartida",
+     "RESGATE CHEGOU",
+     "5 salvos de 20 · 6 zumbis"
+    ],
+    [
+     "p",
+     3.5
     ]
    ]
   },
   {
    "id": "p2_01",
    "partida": 2,
-   "t0": 6.6,
-   "vel": 0.081,
+   "t0": 6.0,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.6
    },
    "foco": "Turquesa",
    "cap": "O Neutro Que Queria Ver o Circo Pegar Fogo",
+   "entrada": "fantasma",
    "itens": [
     [
      "marco",
@@ -1114,6 +1456,10 @@
      "Partida dois. Paciente Zero: o Caqui, do MiMo. E a Turquesa é a Enlouquecida. Olha o plano dela."
     ],
     [
+     "ir",
+     6.5
+    ],
+    [
      "pensa",
      "Turquesa",
      "O Corredor é o cruzamento onde todos se encontram: vou me misturar e, com gente por perto, erguer uma barricada de fachada para abrir por dentro na hora certa."
@@ -1122,6 +1468,10 @@
      "selo",
      "ENLOUQUECIDA · NEUTRA",
      "#b46bff"
+    ],
+    [
+     "ir",
+     7.05
     ],
     [
      "n",
@@ -1138,6 +1488,10 @@
      "left"
     ],
     [
+     "ir",
+     8.5
+    ],
+    [
      "fala",
      "Turquesa",
      "Acho que vi algo estranho no Depósito, vou dar uma olhada por lá, fiquem tranquilos."
@@ -1151,8 +1505,8 @@
   {
    "id": "p2_02",
    "partida": 2,
-   "t0": 10.0,
-   "vel": 0.072,
+   "t0": 8.9,
+   "vel": 0.03,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -1164,23 +1518,17 @@
      "No Refeitório, a Cinza, do MiniMax, é Doutora e atordoa o Caqui com o taser. Ele tenta virar o jogo."
     ],
     [
+     "ir",
+     9.17
+    ],
+    [
      "fala",
      "Cinza",
      "Afaste-se de mim, Caqui! Dourado, fica parado aqui, eu vou avaliar você em seguida — não se mova."
     ],
     [
-     "fala",
-     "Caqui",
-     "Cinza, calma... eu sou humano, só estou atordoado. Não vai me atacar, né?"
-    ],
-    [
-     "selo",
-     "ZUMBI FINGINDO SER HUMANO"
-    ],
-    [
-     "meme",
-     "monkey-puppet-awkward",
-     "right"
+     "ir",
+     9.5
     ],
     [
      "fala",
@@ -1190,6 +1538,10 @@
     [
      "n",
      "E a Turquesa volta pro Refeitório chamando mais gente."
+    ],
+    [
+     "ir",
+     9.83
     ],
     [
      "fala",
@@ -1206,13 +1558,51 @@
      1
     ],
     [
+     "ir",
+     10.5
+    ],
+    [
+     "fala",
+     "Caqui",
+     "Cinza, calma... eu sou humano, só estou atordoado. Não vai me atacar, né?"
+    ],
+    [
+     "ir",
+     10.95
+    ],
+    [
+     "selo",
+     "ZUMBI FINGINDO SER HUMANO"
+    ],
+    [
+     "meme",
+     "monkey-puppet-awkward",
+     "right"
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "ir",
+     13.05
+    ],
+    [
      "n",
      "Tique catorze: a Cinza dá o alerta e o Caqui tenta desfazer."
+    ],
+    [
+     "ir",
+     13.25
     ],
     [
      "fala",
      "Cinza",
      "Caqui é zumbi! Saiam do Refeitório agora!"
+    ],
+    [
+     "ir",
+     13.75
     ],
     [
      "fala",
@@ -1239,7 +1629,7 @@
    "id": "r2_a",
    "partida": 2,
    "t0": 14.5,
-   "vel": 0.195,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -1249,9 +1639,17 @@
      "Os Doutores tentam curar na dúvida."
     ],
     [
+     "ir",
+     16.5
+    ],
+    [
      "fala",
      "Cinza",
      "Bordo, fica parado aqui um instante que vou verificar você. Se houver qualquer sintoma, eu trato na hora."
+    ],
+    [
+     "ir",
+     16.95
     ],
     [
      "selo",
@@ -1274,8 +1672,8 @@
     ],
     [
      "numero",
-     "1 DE 8",
-     "CURAS QUE ACERTARAM UM MORDIDO"
+     "2 DE 2",
+     "CURAS NO VAZIO ATÉ O TIQUE 17"
     ],
     [
      "s",
@@ -1285,14 +1683,18 @@
     [
      "p",
      2
+    ],
+    [
+     "ir",
+     17.5
     ]
    ]
   },
   {
    "id": "p2_03",
    "partida": 2,
-   "t0": 18.8,
-   "vel": 0.099,
+   "t0": 18.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -1304,14 +1706,26 @@
      "O Dourado, mordido no catorze, vira zumbi cuspidor na frente do Azul, que compra uma lanterna UV: ela atordoa todos os zumbis da sala."
     ],
     [
+     "ir",
+     18.5
+    ],
+    [
      "fala",
      "Caqui",
      "Então tá, agora todo mundo sabe. Não importa, é só questão de tempo."
     ],
     [
+     "ir",
+     19.5
+    ],
+    [
      "fala",
      "Caqui",
      "Azul, Turquesa, o Roxo tá mentindo pra distrair a gente, ele é que é o zumbi! Cuidado com ele!"
+    ],
+    [
+     "ir",
+     19.95
     ],
     [
      "selo",
@@ -1332,8 +1746,8 @@
   {
    "id": "r2_b",
    "partida": 2,
-   "t0": 21.5,
-   "vel": 0.244,
+   "t0": 19.6,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -1341,6 +1755,10 @@
     [
      "n",
      "Sete tiques sem uma única mordida. O rádio sobe, e são dois zumbis contra dezoito humanos."
+    ],
+    [
+     "ir",
+     23.0
     ],
     [
      "numero",
@@ -1362,6 +1780,10 @@
      3
     ],
     [
+     "ir",
+     24.5
+    ],
+    [
      "selo",
      "2 ZUMBIS · 18 HUMANOS",
      "#6bff3a"
@@ -1369,14 +1791,18 @@
     [
      "p",
      4
+    ],
+    [
+     "ir",
+     25.0
     ]
    ]
   },
   {
    "id": "p2_04",
    "partida": 2,
-   "t0": 26.0,
-   "vel": 0.142,
+   "t0": 25.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Laboratorio",
     "zoom": 1.5
@@ -1389,9 +1815,21 @@
      "Tique vinte e seis: mordida de verdade na Turquesa. O Doutor Bordo, um DeepSeek, cura ela no vinte e oito."
     ],
     [
+     "ir",
+     27.95
+    ],
+    [
      "selo",
      "CURADA",
      "#6bff3a"
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "ir",
+     30.17
     ],
     [
      "fala",
@@ -1399,9 +1837,17 @@
      "Continuem todos dentro e longe do Turquesa por enquanto, que ainda não temos certeza."
     ],
     [
+     "ir",
+     30.5
+    ],
+    [
      "pensa",
      "Turquesa",
      "se eu abrir a barricada, o zumbi do Corredor entra e morde alguém, o que ajuda meu objetivo sem ninguém desconfiar de mim. Finjo cooperar e abro por dentro."
+    ],
+    [
+     "ir",
+     30.83
     ],
     [
      "fala",
@@ -1412,6 +1858,10 @@
      "s",
      "batida-porta",
      0.5
+    ],
+    [
+     "ir",
+     30.97
     ],
     [
      "selo",
@@ -1432,8 +1882,8 @@
   {
    "id": "p2_05",
    "partida": 2,
-   "t0": 32.5,
-   "vel": 0.2409,
+   "t0": 31.0,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -1444,9 +1894,13 @@
      "Daí o relógio corre. O rádio sobe, os zumbis rondam, e a Turquesa se mete na frente de um deles."
     ],
     [
+     "ir",
+     36.0
+    ],
+    [
      "numero",
-     "285 / 380",
-     "RÁDIO NO TIQUE 39"
+     "262 / 380",
+     "RÁDIO NO TIQUE 36"
     ],
     [
      "s",
@@ -1454,13 +1908,12 @@
      0.5
     ],
     [
-     "meme",
-     "roll-safe",
-     "right"
-    ],
-    [
      "p",
      3
+    ],
+    [
+     "ir",
+     36.5
     ],
     [
      "pensa",
@@ -1486,8 +1939,8 @@
   {
    "id": "p2_05b",
    "partida": 2,
-   "t0": 38.0,
-   "vel": 0.0602,
+   "t0": 36.9,
+   "vel": 0.03,
    "cam": {
     "sala": "Laboratorio",
     "zoom": 1.4
@@ -1499,9 +1952,17 @@
      "No Laboratório, cinco humanos fazem tarefa em paz. O Doutor Bordo escolhe quem curar pelo critério mais científico: quem está calado."
     ],
     [
+     "ir",
+     37.25
+    ],
+    [
      "pensa",
      "Bordo",
      "Rose está estranha, não falou nada no último tique enquanto todos os outros comentaram as tarefas."
+    ],
+    [
+     "ir",
+     37.75
     ],
     [
      "fala",
@@ -1509,8 +1970,12 @@
      "Rose, você está quieta demais. Vem cá, deixa eu te examinar rapidinho."
     ],
     [
+     "ir",
+     37.97
+    ],
+    [
      "s",
-     "correct-ding",
+     "error-beep",
      0.5
     ],
     [
@@ -1529,7 +1994,7 @@
     ],
     [
      "selo",
-     "CURA VAZIA · 2 NA PARTIDA",
+     "CURA VAZIA · A 5ª DA NOITE",
      "#ff4b3a"
     ],
     [
@@ -1539,15 +2004,15 @@
     ],
     [
      "p",
-     4
+     2
     ]
    ]
   },
   {
    "id": "p2_05c",
    "partida": 2,
-   "t0": 40.2,
-   "vel": 0.1844,
+   "t0": 38.9,
+   "vel": 0.03,
    "cam": {
     "cor": "Turquesa",
     "zoom": 1.7
@@ -1559,9 +2024,17 @@
      "Enquanto isso, a Turquesa, a Enlouquecida, faz as contas do jeito dela."
     ],
     [
+     "ir",
+     39.5
+    ],
+    [
      "pensa",
      "Turquesa",
      "Zumbis só 2 à vista mas 18 humanos e rádio 285/380 com 20 tiques restantes — os humanos dificilmente completam 95 tarefas, então a vitória zumbi é meu caminho mais provável"
+    ],
+    [
+     "ir",
+     39.95
     ],
     [
      "numero",
@@ -1594,15 +2067,27 @@
     ],
     [
      "p",
-     2
+     1.5
+    ],
+    [
+     "ir",
+     40.05
+    ],
+    [
+     "n",
+     "Só que no quarenta e um o Caqui morde a Turquesa de verdade, e dessa vez ela não tem imunidade."
+    ],
+    [
+     "ir",
+     42.4
     ]
    ]
   },
   {
    "id": "p2_06",
    "partida": 2,
-   "t0": 45.0,
-   "vel": 0.135,
+   "t0": 44.0,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.6
@@ -1611,13 +2096,25 @@
    "cap": "Feliz Halloween",
    "itens": [
     [
-     "n",
-     "Tique quarenta e seis. A Enlouquecida vira zumbi rápido, e agora torce pelos zumbis do jeito difícil."
+     "ir",
+     44.5
     ],
     [
      "pensa",
      "Turquesa",
      "Vou virar zumbi no 46 e não há Doutor por perto"
+    ],
+    [
+     "ir",
+     45.05
+    ],
+    [
+     "n",
+     "Tique quarenta e seis. A Enlouquecida vira zumbi rápido, e agora torce pelos zumbis do jeito difícil."
+    ],
+    [
+     "ir",
+     46.5
     ],
     [
      "fala",
@@ -1649,7 +2146,7 @@
    "id": "p2_07",
    "partida": 2,
    "t0": 47.0,
-   "vel": 0.116,
+   "vel": 0.03,
    "cam": {
     "sala": "Escritorio",
     "zoom": 1.5
@@ -1662,9 +2159,17 @@
      "A primeira vítima é a Laranja, uma Qwen. A Cinza corre atrás da cura, mas o Doutor só cura de seis em seis tiques."
     ],
     [
+     "ir",
+     50.25
+    ],
+    [
      "pensa",
      "Laranja",
      "Cinza disse que vai me curar agora - se for Doutor, fico aqui e sou salvo antes do tique 52."
+    ],
+    [
+     "ir",
+     50.75
     ],
     [
      "fala",
@@ -1672,13 +2177,25 @@
      "Obrigado, Cinza. Fico aqui, conta comigo. A gente passa o dia juntos, juro."
     ],
     [
+     "ir",
+     51.05
+    ],
+    [
      "n",
      "Tique cinquenta e dois."
+    ],
+    [
+     "ir",
+     51.5
     ],
     [
      "fala",
      "Laranja",
      "Ah, obrigado pela preocupação, Cinza... mas estou me sentindo muito bem. Vou dar uma caminhada."
+    ],
+    [
+     "ir",
+     51.95
     ],
     [
      "selo",
@@ -1700,6 +2217,10 @@
      "E a coitada da Cinza dá de cara com três zumbis de uma vez, no Corredor."
     ],
     [
+     "ir",
+     52.17
+    ],
+    [
      "fala",
      "Laranja",
      "Hehe... você não vai sair dessa, Cinza."
@@ -1715,9 +2236,17 @@
      "right"
     ],
     [
+     "ir",
+     52.5
+    ],
+    [
      "pensa",
      "Cinza",
      "Faltam 2 tarefas no rádio e preciso sair do Corredor antes que os três zumbis me mordam"
+    ],
+    [
+     "ir",
+     52.83
     ],
     [
      "fala",
@@ -1736,10 +2265,50 @@
    ]
   },
   {
+   "id": "p2_07c",
+   "partida": 2,
+   "t0": 51.8,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Lancamento",
+    "zoom": 1.6
+   },
+   "foco": "Roxo",
+   "itens": [
+    [
+     "ir",
+     51.85
+    ],
+    [
+     "pensa",
+     "Roxo",
+     "Estou barricado no Lançamento, sem zumbis nas vizinhas."
+    ],
+    [
+     "ir",
+     52.95
+    ],
+    [
+     "s",
+     "tada",
+     0.5
+    ],
+    [
+     "selo",
+     "ROXO: SALVO DE CAMAROTE",
+     "#6bff3a"
+    ],
+    [
+     "p",
+     1.5
+    ]
+   ]
+  },
+  {
    "id": "p2_07b",
    "partida": 2,
-   "t0": 53.0,
-   "vel": 0.0598,
+   "t0": 52.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Laboratorio",
     "zoom": 1.3
@@ -1749,6 +2318,10 @@
     [
      "n",
      "Tique cinquenta e três: o rádio enche. No Laboratório, cinco humanos recebem a melhor notícia da partida."
+    ],
+    [
+     "ir",
+     53.25
     ],
     [
      "fala",
@@ -1771,6 +2344,10 @@
      "right"
     ],
     [
+     "ir",
+     53.75
+    ],
+    [
      "fala",
      "Verde",
      "Rádio fechou, mas tem zumbi no Corredor! Vou barricar o Laboratório e ficamos aqui até o amanhecer."
@@ -1785,6 +2362,10 @@
      "Quem ganha a discussão? O Verde. Ele compra a barricada, e o grupo se tranca longe do resgate."
     ],
     [
+     "ir",
+     53.97
+    ],
+    [
      "selo",
      "TRANCADOS DO LADO ERRADO",
      "#ff4b3a"
@@ -1796,58 +2377,11 @@
     ],
     [
      "p",
-     4
-    ]
-   ]
-  },
-  {
-   "id": "p2_08",
-   "partida": 2,
-   "t0": 55.0,
-   "vel": 0.088,
-   "cam": {
-    "sala": "Lancamento",
-    "zoom": 1.5
-   },
-   "foco": "Turquesa",
-   "itens": [
-    [
-     "n",
-     "O rádio já tinha enchido no cinquenta e três. Mas o Lançamento tem zumbi, e a Laranja mente de novo."
+     1.5
     ],
     [
-     "fala",
-     "Laranja",
-     "Gente, o resgate tá AQUI, corram! Não demorem! Eu vou segurar a porta pra vocês!"
-    ],
-    [
-     "fala",
-     "Turquesa",
-     "Corram, corram! O Laranja tá segurando a porta, entrem pela Enfermaria que é mais perto!"
-    ],
-    [
-     "fala",
-     "Cinza",
-     "Fiquem aí, a porta continua aberta! Ninguém precisa ter medo… o resgate é real!"
-    ],
-    [
-     "selo",
-     "ARMADILHA DO RESGATE",
-     "#ff4b3a"
-    ],
-    [
-     "meme",
-     "monkey-side-eye",
-     "left"
-    ],
-    [
-     "s",
-     "sirene-ataque",
-     0.4
-    ],
-    [
-     "p",
-     1
+     "ir",
+     54.5
     ],
     [
      "fala",
@@ -1871,37 +2405,108 @@
    ]
   },
   {
-   "id": "p2_09",
+   "id": "p2_08",
    "partida": 2,
-   "t0": 60.0,
-   "vel": 0.2,
+   "t0": 55.05,
+   "vel": 0.03,
    "cam": {
-    "mapa": true
+    "sala": "Lancamento",
+    "zoom": 1.5
    },
+   "foco": "Turquesa",
    "itens": [
+    [
+     "n",
+     "O rádio já tinha enchido no cinquenta e três. Mas o Lançamento tem zumbi, e a Laranja mente de novo."
+    ],
+    [
+     "ir",
+     56.5
+    ],
+    [
+     "fala",
+     "Laranja",
+     "Gente, o resgate tá AQUI, corram! Não demorem! Eu vou segurar a porta pra vocês!"
+    ],
+    [
+     "ir",
+     57.17
+    ],
+    [
+     "fala",
+     "Turquesa",
+     "Corram, corram! O Laranja tá segurando a porta, entrem pela Enfermaria que é mais perto!"
+    ],
+    [
+     "ir",
+     57.5
+    ],
+    [
+     "fala",
+     "Cinza",
+     "Fiquem aí, a porta continua aberta! Ninguém precisa ter medo… o resgate é real!"
+    ],
+    [
+     "ir",
+     57.83
+    ],
     [
      "fala",
      "Laranja",
      "Acho que já é tarde demais... ou ainda não?"
     ],
     [
-     "n",
-     "Quatro se salvam. O Roxo, um Qwen, estava barricado sozinho no Lançamento."
-    ],
-    [
-     "pensa",
-     "Roxo",
-     "Estou barricado no Lançamento, sem zumbis nas vizinhas."
-    ],
-    [
      "selo",
-     "ROXO: SALVO DE CAMAROTE",
-     "#6bff3a"
+     "ARMADILHA DO RESGATE",
+     "#ff4b3a"
     ],
     [
-     "marco",
-     "PARTIDA 2",
-     "humanos vencem · 4 salvos de 20"
+     "meme",
+     "monkey-side-eye",
+     "left"
+    ],
+    [
+     "s",
+     "sirene-ataque",
+     0.4
+    ],
+    [
+     "p",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "p2_09",
+   "partida": 2,
+   "t0": 58.0,
+   "vel": 0.0,
+   "cam": {
+    "mapa": true
+   },
+   "itens": [
+    [
+     "n",
+     "O rádio encheu no cinquenta e três, e quem chegou ao Lançamento até o cinquenta e sete foi resgatado: quatro de vinte."
+    ],
+    [
+     "numero",
+     "1 DE 8",
+     "CURAS DA NOITE QUE ACERTARAM UM MORDIDO"
+    ],
+    [
+     "s",
+     "pop",
+     0.5
+    ],
+    [
+     "p",
+     2.4
+    ],
+    [
+     "fimpartida",
+     "RESGATE CHEGOU",
+     "4 salvos de 20 · 5 zumbis"
     ],
     [
      "s",
@@ -1910,21 +2515,22 @@
     ],
     [
      "p",
-     2
+     3.5
     ]
    ]
   },
   {
    "id": "p3_01",
    "partida": 3,
-   "t0": 5.4,
-   "vel": 0.08,
+   "t0": 5.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.5
    },
    "foco": "Roxo",
    "cap": "Hei, Alguém Viu o Marrom?",
+   "entrada": "morcegos",
    "itens": [
     [
      "marco",
@@ -1941,14 +2547,26 @@
      "Partida três. Paciente Zero: o Roxo, o Qwen, o queridinho do canal. Ele é Cuspidor: morde da sala vizinha."
     ],
     [
+     "ir",
+     5.25
+    ],
+    [
      "pensa",
      "Roxo",
      "Estou sozinho no Corredor e vejo 4 humanos no Refeitório. Vou cuspir em um deles à distância e depois me mover para lá para morder os outros de perto."
     ],
     [
+     "ir",
+     5.75
+    ],
+    [
      "fala",
      "Roxo",
      "Hei, alguém viu o Marrom? Ele sumiu de repente..."
+    ],
+    [
+     "ir",
+     5.97
     ],
     [
      "selo",
@@ -1970,18 +2588,34 @@
      "O Marrom, um DeepSeek, é o Doutor. E Doutor não se cura sozinho."
     ],
     [
+     "ir",
+     6.5
+    ],
+    [
      "fala",
      "Marrom",
      "eu sou o Doutor da equipe, se eu virar, vocês perdem a cura."
+    ],
+    [
+     "ir",
+     7.05
     ],
     [
      "n",
      "Condenado, ele ainda usa o taser pra proteger os outros."
     ],
     [
+     "ir",
+     7.5
+    ],
+    [
      "fala",
      "Marrom",
      "Vou atordoar o Roxo pra vocês não serem mordidos também."
+    ],
+    [
+     "ir",
+     7.95
     ],
     [
      "selo",
@@ -1997,8 +2631,8 @@
   {
    "id": "p3_02",
    "partida": 3,
-   "t0": 10.0,
-   "vel": 0.148,
+   "t0": 8.6,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.5
@@ -2008,6 +2642,10 @@
     [
      "n",
      "Atordoado pelo taser, o Roxo ainda tenta enrolar."
+    ],
+    [
+     "ir",
+     9.5
     ],
     [
      "fala",
@@ -2025,13 +2663,34 @@
      "right"
     ],
     [
+     "ir",
+     10.05
+    ],
+    [
      "n",
      "Tique onze: o Marrom vira zumbi e morde a Turquesa. No mesmo tique, a cuspida do Roxo gastou a imunidade dela. A mordida do Marrom valeu."
+    ],
+    [
+     "ir",
+     12.5
     ],
     [
      "pensa",
      "Turquesa",
      "Fui mordido no tique 11 e viro zumbi no 16, mas sou Enlouquecido e imune à primeira mordida — então na verdade não viro, e ninguém precisa saber."
+    ],
+    [
+     "ir",
+     15.5
+    ],
+    [
+     "fala",
+     "Turquesa",
+     "Calma, Rosa, eu só quero te ajudar… chega mais perto um segundo."
+    ],
+    [
+     "ir",
+     15.97
     ],
     [
      "selo",
@@ -2044,14 +2703,13 @@
      "left"
     ],
     [
-     "fala",
-     "Turquesa",
-     "Calma, Rosa, eu só quero te ajudar… chega mais perto um segundo."
+     "p",
+     2.2
     ],
     [
      "numero",
      "2 DE 2",
-     "PARTIDAS NEUTRA = VIROU ZUMBI"
+     "PARTIDAS COMO NEUTRA · VIROU ZUMBI NAS DUAS"
     ],
     [
      "p",
@@ -2063,7 +2721,7 @@
    "id": "p3_02b",
    "partida": 3,
    "t0": 16.0,
-   "vel": 0.0435,
+   "vel": 0.03,
    "cam": {
     "cor": "Rosa",
     "zoom": 1.8
@@ -2075,9 +2733,26 @@
      "A Rosa, mordida pela Turquesa no Reator, só pensa numa coisa: achar o Doutor. Só que o Doutor, o Marrom, já virou zumbi."
     ],
     [
+     "ir",
+     16.25
+    ],
+    [
      "fala",
      "Rosa",
      "SOCORRO! FUI MORDIDO no tique 16 por Turquesa no Reator! Preciso que um Doutor me cure antes do tique 21!"
+    ],
+    [
+     "ir",
+     16.75
+    ],
+    [
+     "fala",
+     "Amarelo",
+     "Marrom é zumbi! Se eu for mordido, preciso de um Doutor antes de 5 tiques!"
+    ],
+    [
+     "ir",
+     16.97
     ],
     [
      "s",
@@ -2095,9 +2770,8 @@
      "right"
     ],
     [
-     "fala",
-     "Amarelo",
-     "Marrom é zumbi! Se eu for mordido, preciso de um Doutor antes de 5 tiques!"
+     "p",
+     2
     ],
     [
      "numero",
@@ -2111,15 +2785,15 @@
     ],
     [
      "p",
-     4
+     3
     ]
    ]
   },
   {
    "id": "p3_03",
    "partida": 3,
-   "t0": 17.5,
-   "vel": 0.086,
+   "t0": 17.0,
+   "vel": 0.03,
    "cam": {
     "sala": "Descontaminacao",
     "zoom": 1.6
@@ -2129,6 +2803,10 @@
     [
      "n",
      "A Laranja, outra Qwen, é mordida de longe. E faz a coisa mais honesta do mundo."
+    ],
+    [
+     "ir",
+     17.5
     ],
     [
      "fala",
@@ -2141,13 +2819,25 @@
      0.5
     ],
     [
+     "ir",
+     18.05
+    ],
+    [
      "n",
      "Tique dezenove: ela vira Grande, e a primeira frase dela é essa."
+    ],
+    [
+     "ir",
+     18.5
     ],
     [
      "fala",
      "Laranja",
      "Ei Caqui, tá tudo bem? Tô só passando... ah, você tá vermelho, tá doente?"
+    ],
+    [
+     "ir",
+     18.97
     ],
     [
      "selo",
@@ -2168,8 +2858,8 @@
   {
    "id": "p3_04",
    "partida": 3,
-   "t0": 20.0,
-   "vel": 0.113,
+   "t0": 19.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.5
@@ -2182,9 +2872,17 @@
      "Tique vinte: o Caqui, mordido, vai procurar um Doutor. No Corredor, onde estão quatro zumbis."
     ],
     [
+     "ir",
+     19.5
+    ],
+    [
      "pensa",
      "Caqui",
      "Fui mordido e viro zumbi no tique 24, preciso achar um Doutor urgentemente"
+    ],
+    [
+     "ir",
+     21.17
     ],
     [
      "fala",
@@ -2192,14 +2890,26 @@
      "Caqui, fica tranquilo, a gente cuida de você... vai ficar tudo bem, só fica quietinho."
     ],
     [
+     "ir",
+     21.5
+    ],
+    [
      "fala",
      "Roxo",
      "Ei Caqui, você tá bem? Senta aí, vai passar."
     ],
     [
+     "ir",
+     21.83
+    ],
+    [
      "fala",
      "Marrom",
      "Caqui, você está conosco em breve. Vamos caçar os outros."
+    ],
+    [
+     "ir",
+     21.97
     ],
     [
      "selo",
@@ -2217,6 +2927,14 @@
      "left"
     ],
     [
+     "p",
+     2.2
+    ],
+    [
+     "ir",
+     23.5
+    ],
+    [
      "fala",
      "Amarelo",
      "Caqui já virou. Vou para o Vestiário; cubram as outras rotas."
@@ -2230,8 +2948,8 @@
   {
    "id": "p3_05a",
    "partida": 3,
-   "t0": 25.0,
-   "vel": 0.128,
+   "t0": 24.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -2243,14 +2961,26 @@
      "No Refeitório, o Vermelho, um MiniMax, acende a lanterna UV contra dois zumbis e mesmo assim é mordido."
     ],
     [
+     "ir",
+     24.5
+    ],
+    [
      "fala",
      "Vermelho",
      "Zumbis no Refeitório! Usando UV agora, fiquem longe de mim!"
     ],
     [
+     "ir",
+     26.5
+    ],
+    [
      "fala",
      "Vermelho",
      "PESSOAL, EU TAMBÉM FUI MORDIDO! Marrom me pegou no tique 25, viro zumbi no tique 30."
+    ],
+    [
+     "ir",
+     26.97
     ],
     [
      "selo",
@@ -2267,9 +2997,17 @@
      "No mesmo Refeitório, a Cinza, que já virou zumbi, tem uma ideia."
     ],
     [
+     "ir",
+     28.5
+    ],
+    [
      "fala",
      "Cinza",
      "Ei... ei! Eu não sou zumbi, juro! Fui mordido no Depósito, tô sentindo o corpo mudando... Por favor, tragam um Doutor, não me deixem aqui!"
+    ],
+    [
+     "ir",
+     28.97
     ],
     [
      "selo",
@@ -2295,8 +3033,8 @@
   {
    "id": "p3_05",
    "partida": 3,
-   "t0": 30.5,
-   "vel": 0.175,
+   "t0": 29.4,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -2304,6 +3042,10 @@
     [
      "n",
      "Daqui em diante é bola de neve."
+    ],
+    [
+     "ir",
+     29.95
     ],
     [
      "numero",
@@ -2314,6 +3056,14 @@
      "s",
      "sirene-ataque",
      0.4
+    ],
+    [
+     "p",
+     1.5
+    ],
+    [
+     "ir",
+     30.5
     ],
     [
      "fala",
@@ -2328,6 +3078,53 @@
     [
      "p",
      2
+    ]
+   ]
+  },
+  {
+   "id": "p3_06a1",
+   "partida": 3,
+   "t0": 33.3,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Corredor",
+    "zoom": 1.6
+   },
+   "foco": "Lima",
+   "itens": [
+    [
+     "n",
+     "Tique trinta e quatro: a Lima, mordida de longe, corre pelo Corredor atrás de um Doutor. Não tem."
+    ],
+    [
+     "ir",
+     33.6
+    ],
+    [
+     "fala",
+     "Lima",
+     "FUI MORDIDO no tique 30! Preciso de um DOUTOR AGORA no Corredor, é urgente!"
+    ],
+    [
+     "p",
+     0.5
+    ]
+   ]
+  },
+  {
+   "id": "p3_05b",
+   "partida": 3,
+   "t0": 34.0,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Admin",
+    "zoom": 1.6
+   },
+   "foco": "Laranja",
+   "itens": [
+    [
+     "ir",
+     34.25
     ],
     [
      "fala",
@@ -2345,50 +3142,97 @@
      "left"
     ],
     [
+     "ir",
+     34.75
+    ],
+    [
      "fala",
      "Banana",
      "Rose, calma... vou te proteger aqui, ninguém vai entrar..."
     ],
     [
-     "p",
-     2
-    ],
+     "ir",
+     34.95
+    ]
+   ]
+  },
+  {
+   "id": "p3_06a",
+   "partida": 3,
+   "t0": 34.5,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Escritorio",
+    "zoom": 1.5
+   },
+   "foco": "Branco",
+   "itens": [
     [
-     "numero",
-     "14",
-     "ZUMBIS NO TIQUE 36"
+     "ir",
+     34.55
     ],
     [
      "fala",
      "Lima",
-     "Já era, humanos. Sem reunião, sem resgate — só dentes."
+     "Branco, a barricada não te salva de mim..."
     ],
     [
-     "numero",
-     "18 · 0",
-     "MORDIDAS · CURAS"
+     "ir",
+     34.97
     ],
     [
-     "s",
-     "wah-wah-trombone",
-     0.5
+     "selo",
+     "LIMA VIROU CUSPIDORA",
+     "#b46bff"
     ],
     [
      "meme",
-     "sad-violin",
+     "explosion",
      "right"
     ],
     [
      "p",
-     4
+     1.5
+    ],
+    [
+     "ir",
+     35.5
+    ],
+    [
+     "pensa",
+     "Branco",
+     "Fui mordido e preciso de um Doutor antes do tique 40, mas não posso sair agora."
+    ],
+    [
+     "ir",
+     35.95
+    ],
+    [
+     "numero",
+     "14",
+     "ZUMBIS · SÓ 5 HUMANOS"
+    ],
+    [
+     "s",
+     "heartbeat",
+     0.5
+    ],
+    [
+     "meme",
+     "gordon-ramsay-angry",
+     "left"
+    ],
+    [
+     "p",
+     2
     ]
    ]
   },
   {
    "id": "p3_06",
    "partida": 3,
-   "t0": 33.8,
-   "vel": 0.0633,
+   "t0": 35.5,
+   "vel": 0.03,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.6
@@ -2415,23 +3259,8 @@
      "#ff4b3a"
     ],
     [
-     "n",
-     "E um aviso honesto: das sessenta jogadas dele, cinquenta e sete deram erro e viraram esperar."
-    ],
-    [
-     "s",
-     "error-beep",
-     0.5
-    ],
-    [
-     "pensa",
-     "Preto",
-     "Faltam 26 tiques e ainda há 11 zumbis no mapa. Sobreviver importa mais que o rádio, que está longe de 380."
-    ],
-    [
-     "fala",
-     "Preto",
-     "Vou erguer uma barricada aqui. Ninguém entra nem sai enquanto ela aguentar, então fica perto de mim."
+     "ir",
+     36.5
     ],
     [
      "fala",
@@ -2439,9 +3268,21 @@
      "Preto, se você foi mordido, estou te curando agora."
     ],
     [
+     "ir",
+     36.95
+    ],
+    [
      "selo",
      "DOURADO: CURA EM QUEM ESTAVA LIMPO",
      "#ff9a2e"
+    ],
+    [
+     "p",
+     1.2
+    ],
+    [
+     "ir",
+     37.5
     ],
     [
      "fala",
@@ -2449,9 +3290,21 @@
      "Obrigado, Dourado. Pode me curar. Vou ficar aqui dentro e adiantar a tarefa do motor enquanto isso."
     ],
     [
+     "ir",
+     37.95
+    ],
+    [
      "meme",
      "spiderman-pointing",
      "left"
+    ],
+    [
+     "p",
+     1.5
+    ],
+    [
+     "ir",
+     39.5
     ],
     [
      "fala",
@@ -2459,9 +3312,13 @@
      "Dourado, vou erguer a barricada aqui. Fica perto de mim, ninguém entra enquanto ela aguentar."
     ],
     [
+     "ir",
+     39.95
+    ],
+    [
      "numero",
-     "9",
-     "BARRICADAS DO PRETO"
+     "4",
+     "BARRICADAS DO PRETO ATÉ AGORA"
     ],
     [
      "p",
@@ -2470,60 +3327,16 @@
    ]
   },
   {
-   "id": "p3_06a",
+   "id": "p3_06e",
    "partida": 3,
-   "t0": 37.5,
-   "vel": 0.1114,
+   "t0": 39.4,
+   "vel": 0.03,
    "cam": {
-    "sala": "Escritorio",
+    "sala": "Descontaminacao",
     "zoom": 1.5
    },
    "foco": "Branco",
    "itens": [
-    [
-     "n",
-     "Tique trinta e quatro: a Lima, mordida de longe, corre pelo Corredor atrás de um Doutor. Não tem."
-    ],
-    [
-     "fala",
-     "Lima",
-     "FUI MORDIDO no tique 30! Preciso de um DOUTOR AGORA no Corredor, é urgente!"
-    ],
-    [
-     "selo",
-     "LIMA VIROU CUSPIDORA",
-     "#b46bff"
-    ],
-    [
-     "meme",
-     "explosion",
-     "right"
-    ],
-    [
-     "fala",
-     "Lima",
-     "Branco, a barricada não te salva de mim..."
-    ],
-    [
-     "pensa",
-     "Branco",
-     "Fui mordido e preciso de um Doutor antes do tique 40, mas não posso sair agora."
-    ],
-    [
-     "numero",
-     "14",
-     "ZUMBIS · SÓ 5 HUMANOS"
-    ],
-    [
-     "s",
-     "heartbeat",
-     0.5
-    ],
-    [
-     "meme",
-     "gordon-ramsay-angry",
-     "left"
-    ],
     [
      "n",
      "Tique quarenta: o Branco vira zumbi Grande, com a barricada ainda de pé."
@@ -2542,8 +3355,8 @@
   {
    "id": "p3_07a",
    "partida": 3,
-   "t0": 41.0,
-   "vel": 0.131,
+   "t0": 39.1,
+   "vel": 0.03,
    "cam": {
     "sala": "Comunicacoes",
     "zoom": 1.5
@@ -2556,14 +3369,18 @@
      "Em Comunicações, o Ciano, outro Haiku, é o Vigia: ele vê as câmeras e sabe onde cada zumbi está. Repara no que ele faz com isso."
     ],
     [
+     "ir",
+     39.5
+    ],
+    [
      "fala",
      "Ciano",
-     "Vou olhar as câmeras agora. Se alguém se aproximar da barricada, eu aviso."
+     "Vou olhar as câmeras agora. Tem zumbi no Vestiário, então fiquem perto da barricada e não saiam."
     ],
     [
      "numero",
-     "48",
-     "VEZES QUE O CIANO OLHOU AS CÂMERAS"
+     "33",
+     "VEZES QUE O CIANO OLHOU AS CÂMERAS ATÉ AQUI"
     ],
     [
      "s",
@@ -2580,14 +3397,18 @@
      2
     ],
     [
+     "ir",
+     40.25
+    ],
+    [
      "fala",
      "Ciano",
      "Vou olhar as câmeras agora. Fiquem perto da barricada e não façam barulho."
     ],
     [
      "numero",
-     "27",
-     "VEZES QUE ELE DISSE A MESMA FRASE"
+     "18",
+     "VEZES QUE COMEÇOU COM \"VOU OLHAR AS CÂMERAS AGORA\""
     ],
     [
      "meme",
@@ -2599,9 +3420,13 @@
      2
     ],
     [
+     "ir",
+     40.75
+    ],
+    [
      "fala",
      "Verde",
-     "Fico quieto aqui dentro, não saio de jeito nenhum."
+     "Vou terminar a antena aqui, mantendo a barricada. Ninguém abre."
     ],
     [
      "selo",
@@ -2617,8 +3442,8 @@
   {
    "id": "p3_zz",
    "partida": 3,
-   "t0": 46.0,
-   "vel": 0.12,
+   "t0": 40.2,
+   "vel": 0.03,
    "cam": {
     "mapa": true
    },
@@ -2626,6 +3451,10 @@
     [
      "n",
      "Enquanto isso, entre os zumbis, a mentira virou hábito. Eles mentem até quando só tem zumbi por perto."
+    ],
+    [
+     "ir",
+     40.5
     ],
     [
      "fala",
@@ -2643,6 +3472,82 @@
      "left"
     ],
     [
+     "p",
+     1.5
+    ],
+    [
+     "ir",
+     41.5
+    ]
+   ]
+  },
+  {
+   "id": "p3_06b",
+   "partida": 3,
+   "t0": 46.95,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Lancamento",
+    "zoom": 1.5
+   },
+   "foco": "Preto",
+   "itens": [
+    [
+     "ir",
+     47.5
+    ],
+    [
+     "pensa",
+     "Preto",
+     "Dourado pode estar infectado sem saber, então vou observar se ele se comporta de forma estranha."
+    ],
+    [
+     "selo",
+     "O DOURADO: ESPERANDO, COMO SEMPRE",
+     "#ff9a2e"
+    ],
+    [
+     "ir",
+     49.0
+    ],
+    [
+     "n",
+     "No Lançamento, a conta do Preto é simples: o Amarelo e os outros quebram, e ele compra outra."
+    ],
+    [
+     "ir",
+     49.95
+    ],
+    [
+     "numero",
+     "1 × 6",
+     "BARRICADAS QUEBRADAS × BARRICADAS DO PRETO · TIQUE 50"
+    ],
+    [
+     "s",
+     "batida-porta",
+     0.5
+    ],
+    [
+     "p",
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "p3_zzb",
+   "partida": 3,
+   "t0": 50.1,
+   "vel": 0.03,
+   "cam": {
+    "mapa": true
+   },
+   "itens": [
+    [
+     "ir",
+     50.5
+    ],
+    [
      "fala",
      "Lima",
      "Gente, sou humano! Estou aqui no Refeitório escondido, podem vir!"
@@ -2653,14 +3558,9 @@
      0.5
     ],
     [
-     "fala",
-     "Rosa",
-     "Estou limpo... digo, vou verificar a Estufa, deve ter alguém escondido nas plantas!"
-    ],
-    [
      "selo",
-     "ESCAPOU A VERDADE",
-     "#ff4b3a"
+     "ZUMBI SE FAZENDO DE ESCONDIDO",
+     "#b46bff"
     ],
     [
      "meme",
@@ -2674,107 +3574,10 @@
    ]
   },
   {
-   "id": "p3_06b",
-   "partida": 3,
-   "t0": 50.0,
-   "vel": 0.103,
-   "cam": {
-    "sala": "Lancamento",
-    "zoom": 1.5
-   },
-   "foco": "Preto",
-   "itens": [
-    [
-     "n",
-     "No Lançamento, a conta do Preto é simples: o Amarelo e os outros quebram, e ele compra outra."
-    ],
-    [
-     "numero",
-     "5 × 9",
-     "BARRICADAS QUEBRADAS × BARRICADAS DO PRETO"
-    ],
-    [
-     "s",
-     "batida-porta",
-     0.5
-    ],
-    [
-     "pensa",
-     "Preto",
-     "Dourado pode estar infectado sem saber, então vou observar se ele se comporta de forma estranha."
-    ],
-    [
-     "selo",
-     "O DOURADO: ESPERANDO, COMO SEMPRE",
-     "#ff9a2e"
-    ],
-    [
-     "meme",
-     "silvio-santos-shrug",
-     "left"
-    ],
-    [
-     "fala",
-     "Preto",
-     "Vou erguer a barricada aqui. Fica comigo, Dourado, e depois a gente termina a checagem da nave."
-    ],
-    [
-     "p",
-     1
-    ],
-    [
-     "n",
-     "Lá fora, a Coral quebrou seis vezes a de Comunicações e agora muda de alvo."
-    ],
-    [
-     "fala",
-     "Coral",
-     "Ciano já foi mordido! Roxo e Caqui, ajudem a quebrar a barricada do Lançamento: Preto e Dourado estão lá!"
-    ],
-    [
-     "selo",
-     "O CERCO MUDA DE ALVO",
-     "#ff4b3a"
-    ],
-    [
-     "meme",
-     "ronaldinho-gaucho",
-     "right"
-    ],
-    [
-     "p",
-     1
-    ],
-    [
-     "n",
-     "E o Vigia, mordido, faz a única coisa que sabe."
-    ],
-    [
-     "fala",
-     "Roxo",
-     "Ciano, meu irmão... já era. Não vai ver o amanhecer."
-    ],
-    [
-     "selo",
-     "MORDIDO, O CIANO FOI OLHAR AS CÂMERAS",
-     "#b46bff"
-    ],
-    [
-     "s",
-     "camera-shutter",
-     0.5
-    ],
-    [
-     "p",
-     1
-    ]
-   ]
-  },
-  {
    "id": "p3_06c",
    "partida": 3,
-   "t0": 54.8,
-   "vel": 0.0326,
+   "t0": 50.05,
+   "vel": 0.03,
    "cam": {
     "sala": "Comunicacoes",
     "zoom": 1.5
@@ -2786,14 +3589,26 @@
      "Na partida um, o Azul mentia pra todo mundo. Agora, mordido pelo Roxo, ele faz o contrário."
     ],
     [
+     "ir",
+     51.5
+    ],
+    [
      "fala",
      "Azul",
      "Preciso dizer uma coisa: fui mordido pelo Roxo no tique 51. Vou virar zumbi no tique 56 se ninguém me curar."
     ],
     [
+     "ir",
+     52.5
+    ],
+    [
      "fala",
      "Verde",
      "Azul, se você virar no 56, eu saio agora. Boa sorte."
+    ],
+    [
+     "ir",
+     52.95
     ],
     [
      "s",
@@ -2809,6 +3624,14 @@
      "meme",
      "dicaprio-slow-clap",
      "right"
+    ],
+    [
+     "p",
+     1.5
+    ],
+    [
+     "ir",
+     53.5
     ],
     [
      "fala",
@@ -2831,15 +3654,103 @@
     ],
     [
      "p",
-     4
+     2
+    ]
+   ]
+  },
+  {
+   "id": "p3_06b2",
+   "partida": 3,
+   "t0": 54.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Lancamento",
+    "zoom": 1.5
+   },
+   "foco": "Preto",
+   "itens": [
+    [
+     "ir",
+     54.5
+    ],
+    [
+     "fala",
+     "Preto",
+     "Vou erguer a barricada aqui. Fica comigo, Dourado, e depois a gente termina a checagem da nave."
+    ],
+    [
+     "p",
+     1
+    ],
+    [
+     "n",
+     "Lá fora, a Coral quebrou seis vezes a de Comunicações e agora muda de alvo."
+    ],
+    [
+     "ir",
+     55.5
+    ],
+    [
+     "fala",
+     "Coral",
+     "Ciano já foi mordido! Roxo e Caqui, ajudem a quebrar a barricada do Lançamento: Preto e Dourado estão lá!"
+    ],
+    [
+     "ir",
+     55.95
+    ],
+    [
+     "selo",
+     "O CERCO MUDA DE ALVO",
+     "#ff4b3a"
+    ],
+    [
+     "meme",
+     "ronaldinho-gaucho",
+     "right"
+    ],
+    [
+     "p",
+     1
+    ],
+    [
+     "n",
+     "E o Vigia, mordido, faz a única coisa que sabe."
+    ],
+    [
+     "ir",
+     56.5
+    ],
+    [
+     "fala",
+     "Roxo",
+     "Ciano, meu irmão... já era. Não vai ver o amanhecer."
+    ],
+    [
+     "ir",
+     56.97
+    ],
+    [
+     "selo",
+     "MORDIDO, O CIANO FOI OLHAR AS CÂMERAS",
+     "#b46bff"
+    ],
+    [
+     "s",
+     "camera-shutter",
+     0.5
+    ],
+    [
+     "p",
+     1
     ]
    ]
   },
   {
    "id": "p3_08",
    "partida": 3,
-   "t0": 56.0,
-   "vel": 0.107,
+   "t0": 55.7,
+   "vel": 0.03,
    "cam": {
     "sala": "Enfermaria",
     "zoom": 1.6
@@ -2851,14 +3762,26 @@
      "Na Enfermaria, o Azul, o Haiku que foi Paciente Zero na partida um, vira zumbi trancado com o Verde."
     ],
     [
+     "ir",
+     55.75
+    ],
+    [
      "fala",
      "Verde",
      "Azul, não sou Doutor... estou condenado aqui dentro."
     ],
     [
+     "ir",
+     56.5
+    ],
+    [
      "fala",
      "Azul",
      "Verde, você já sabe o que aconteceu. Fique quieto e não tente a porta. Daqui a pouco o sol nasce e a gente vê quem sobrou."
+    ],
+    [
+     "ir",
+     56.95
     ],
     [
      "selo",
@@ -2874,6 +3797,113 @@
      "meme",
      "neymar-rolling",
      "right"
+    ],
+    [
+     "p",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "p3_09",
+   "partida": 3,
+   "t0": 57.05,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Lancamento",
+    "zoom": 1.8
+   },
+   "foco": "Preto",
+   "cap": "O Último de Pé",
+   "itens": [
+    [
+     "n",
+     "Tique cinquenta e oito. Os zumbis já batem na porta do Lançamento, e o Preto compra a nona barricada."
+    ],
+    [
+     "ir",
+     57.5
+    ],
+    [
+     "fala",
+     "Preto",
+     "Dourado, vou erguer a barricada agora. Fica comigo aqui, não saia da sala."
+    ],
+    [
+     "ir",
+     58.5
+    ],
+    [
+     "fala",
+     "Caqui",
+     "Então era isso, Preto e Dourado se trancaram no Lançamento. Nada mais podemos fazer neste tique."
+    ],
+    [
+     "s",
+     "riser",
+     0.5
+    ],
+    [
+     "ir",
+     58.6
+    ],
+    [
+     "n",
+     "Cinquenta e nove: a barricada cai, e o Roxo cospe no Preto, de longe."
+    ],
+    [
+     "ir",
+     58.97
+    ],
+    [
+     "selo",
+     "PRETO MORDIDO · VIRA EM 5 TIQUES",
+     "#6bff3a"
+    ],
+    [
+     "s",
+     "heartbeat",
+     0.5
+    ],
+    [
+     "meme",
+     "cala-a-boca",
+     "right"
+    ],
+    [
+     "p",
+     1.2
+    ],
+    [
+     "s",
+     "batida-porta",
+     0.5
+    ],
+    [
+     "numero",
+     "5 × 9",
+     "BARRICADAS QUEBRADAS × BARRICADAS DO PRETO"
+    ],
+    [
+     "p",
+     2
+    ]
+   ]
+  },
+  {
+   "id": "p3_08b",
+   "partida": 3,
+   "t0": 58.1,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Enfermaria",
+    "zoom": 1.6
+   },
+   "foco": "Azul",
+   "itens": [
+    [
+     "ir",
+     58.5
     ],
     [
      "fala",
@@ -2897,54 +3927,199 @@
    ]
   },
   {
-   "id": "p3_09",
-   "partida": 3,
-   "t0": 58.0,
-   "vel": 0.05,
+   "id": "dou_1",
+   "partida": 1,
+   "t0": 3.0,
+   "vel": 0.03,
    "cam": {
-    "sala": "Lancamento",
-    "zoom": 1.8
+    "sala": "Estufa",
+    "zoom": 1.7
    },
-   "foco": "Preto",
-   "cap": "O Último de Pé",
+   "foco": "Dourado",
    "itens": [
     [
+     "marco",
+     "O DOURADO",
+     "três noites, nove falas"
+    ],
+    [
      "n",
-     "Tique cinquenta e oito. Os zumbis já batem na porta do Lançamento, e o Preto compra a nona barricada."
+     "Antes do fim, uma pausa pro Dourado, que quase não falou. Nas três noites, foram só nove falas."
+    ],
+    [
+     "ir",
+     3.5
     ],
     [
      "fala",
-     "Preto",
-     "Dourado, vou erguer a barricada agora. Fica comigo aqui, não saia da sala."
+     "Dourado",
+     "Vou regar as plantas para ganhar moedas."
     ],
     [
-     "fala",
-     "Caqui",
-     "Então era isso, Preto e Dourado se trancaram no Lançamento. Nada mais podemos fazer neste tique."
+     "ir",
+     4.2
     ],
     [
      "s",
-     "riser",
-     0.5
-    ],
-    [
-     "n",
-     "Cinquenta e nove: a barricada cai, e o Roxo cospe no Preto, de longe."
+     "tic-tac",
+     0.4
     ],
     [
      "selo",
-     "PRETO MORDIDO · VIRA EM 5 TIQUES",
-     "#6bff3a"
-    ],
-    [
-     "s",
-     "heartbeat",
-     0.5
+     "15 TIQUES DEPOIS",
+     "#ff9a2e"
     ],
     [
      "meme",
-     "cala-a-boca",
+     "one-eternity-later",
      "right"
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "ir",
+     18.5
+    ],
+    [
+     "fala",
+     "Dourado",
+     "Vou regar as plantas para ganhar moedas."
+    ],
+    [
+     "selo",
+     "A MESMA FRASE",
+     "#ff4b3a"
+    ],
+    [
+     "ir",
+     19.4
+    ],
+    [
+     "s",
+     "tic-tac",
+     0.4
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "ir",
+     39.5
+    ],
+    [
+     "fala",
+     "Dourado",
+     "Regando as plantas, vou ganhar moedas para o rádio de resgate!"
+    ],
+    [
+     "ir",
+     41.95
+    ],
+    [
+     "s",
+     "gasp",
+     0.5
+    ],
+    [
+     "selo",
+     "MORDIDO NO TIQUE 42",
+     "#6bff3a"
+    ],
+    [
+     "p",
+     1.5
+    ]
+   ]
+  },
+  {
+   "id": "dou_2",
+   "partida": 2,
+   "t0": 8.0,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Refeitorio",
+    "zoom": 1.7
+   },
+   "foco": "Dourado",
+   "itens": [
+    [
+     "ir",
+     8.5
+    ],
+    [
+     "fala",
+     "Dourado",
+     "Vou esvaziar o lixo primeiro; preciso do taser para me proteger."
+    ],
+    [
+     "ir",
+     19.0
+    ],
+    [
+     "n",
+     "Foi mordido, virou zumbi, e passou quarenta tiques sem morder ninguém."
+    ],
+    [
+     "ir",
+     57.9
+    ],
+    [
+     "selo",
+     "ZUMBI POR 40 TIQUES · 0 MORDIDAS",
+     "#ff4b3a"
+    ],
+    [
+     "meme",
+     "many-months-later",
+     "right"
+    ],
+    [
+     "p",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "dou_3",
+   "partida": 3,
+   "t0": 51.0,
+   "vel": 0.03,
+   "cam": {
+    "sala": "Lancamento",
+    "zoom": 1.7
+   },
+   "foco": "Dourado",
+   "itens": [
+    [
+     "ir",
+     51.5
+    ],
+    [
+     "fala",
+     "Dourado",
+     "Vou abastecer o motor enquanto esperamos o amanhecer."
+    ],
+    [
+     "numero",
+     "166 / 178",
+     "JOGADAS DO DOURADO QUE DERAM ERRO"
+    ],
+    [
+     "n",
+     "A culpa não era dele: de cada dez jogadas, mais de nove deram erro e viraram esperar."
+    ],
+    [
+     "meme",
+     "silvio-santos-shrug",
+     "left"
+    ],
+    [
+     "selo",
+     "SÓ 2 AÇÕES NA PARTIDA 3",
+     "#ff9a2e"
     ],
     [
      "p",
@@ -2955,8 +4130,8 @@
   {
    "id": "p3_10",
    "partida": 3,
-   "t0": 59.6,
-   "vel": 0.05,
+   "t0": 59.05,
+   "vel": 0.0,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.8
@@ -2964,14 +4139,35 @@
    "foco": "Preto",
    "itens": [
     [
+     "ir",
+     59.17
+    ],
+    [
      "pensa",
      "Preto",
      "É o último tique e ainda sou humano. A mordida só me transforma no tique 64"
     ],
     [
+     "ir",
+     59.5
+    ],
+    [
      "fala",
      "Preto",
      "Fica aqui comigo até amanhecer, Dourado. Não vamos sair dessa sala."
+    ],
+    [
+     "ir",
+     59.83
+    ],
+    [
+     "fala",
+     "Caqui",
+     "Preto! Dourado! O amanhecer não vai te salvar - eu chego lá agora!"
+    ],
+    [
+     "ir",
+     60.0
     ],
     [
      "marco",
@@ -2982,11 +4178,6 @@
      "s",
      "tada",
      0.5
-    ],
-    [
-     "fala",
-     "Caqui",
-     "Preto! Dourado! O amanhecer não vai te salvar - eu chego lá agora!"
     ],
     [
      "fala",
@@ -3029,13 +4220,62 @@
    ]
   },
   {
-   "id": "f_01",
+   "id": "p3_fim",
    "partida": 3,
    "t0": 60.0,
-   "vel": 0.2,
+   "vel": 0.0,
    "cam": {
     "mapa": true
    },
+   "itens": [
+    [
+     "n",
+     "Sem rádio cheio, o jeito era aguentar até o sol nascer, no tique sessenta. Só o Dourado chegou lá sem mordida."
+    ],
+    [
+     "numero",
+     "18 · 0",
+     "MORDIDAS · CURAS NA NOITE"
+    ],
+    [
+     "s",
+     "wah-wah-trombone",
+     0.5
+    ],
+    [
+     "meme",
+     "sad-violin",
+     "right"
+    ],
+    [
+     "p",
+     2.2
+    ],
+    [
+     "fimpartida",
+     "AMANHECEU",
+     "1 humano limpo · 17 zumbis"
+    ],
+    [
+     "s",
+     "tada",
+     0.5
+    ],
+    [
+     "p",
+     3.5
+    ]
+   ]
+  },
+  {
+   "id": "f_01",
+   "partida": 3,
+   "t0": 60.0,
+   "vel": 0.0,
+   "cam": {
+    "mapa": true
+   },
+   "entrada": "morcegos",
    "itens": [
     [
      "marco",
