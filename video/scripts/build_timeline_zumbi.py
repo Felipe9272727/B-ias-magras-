@@ -93,6 +93,9 @@ def main():
     cenas = []
     for c in rot['cenas']:
         t, over, audio, fim_selo, tk, ult = 0.0, [], [], 0.0, [], None
+        if c.get('entrada'):  # som da transição de Halloween (o corte cai no meio dela)
+            for sfx, vol in {'aranha': [('slide-whistle-fall', 0.4), ('heartbeat', 0.5)], 'fantasma': [('gasp', 0.55), ('swoosh-fly', 0.45)], 'morcegos': [('swoosh-fly', 0.5), ('whoosh', 0.4)]}[c['entrada']]:
+                audio.append(dict(src=f'sfx/{sfx}.mp3', at=0, vol=vol))
         if c.get('cap'):
             over.append(dict(tipo='marco', at=0, dur=80, titulo=c['cap'], sub=f"Partida {c['partida']}"))
             audio.append(dict(src='sfx/whoosh.mp3', at=0, vol=0.4))
