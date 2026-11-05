@@ -99,7 +99,7 @@
    "id": "a_03",
    "partida": 1,
    "t0": 1.0,
-   "vel": 0.071,
+   "vel": 0.068,
    "cam": {
     "mapa": true
    },
@@ -107,6 +107,10 @@
     [
      "n",
      "Vinte IAs, o Mira HQ de noite. Um Paciente Zero secreto vira zumbi, nem ele sabe."
+    ],
+    [
+     "selo",
+     "20 IAS · 9 MODELOS · 1 NOITE"
     ],
     [
      "selo",
@@ -150,7 +154,7 @@
    "id": "p1_01",
    "partida": 1,
    "t0": 3.2,
-   "vel": 0.051,
+   "vel": 0.054,
    "cam": {
     "sala": "Varanda",
     "zoom": 1.8
@@ -235,7 +239,7 @@
    "id": "p1_02",
    "partida": 1,
    "t0": 5.9,
-   "vel": 0.05,
+   "vel": 0.07,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -244,12 +248,7 @@
    "itens": [
     [
      "n",
-     "Sorte dela: a Banana, do MiMo, é Doutora. Cura quem foi mordido, mas só antes de virar."
-    ],
-    [
-     "pensa",
-     "Banana",
-     "Rose foi mordida! Preciso curá-la agora antes que ela vire zumbi em 5 tiques."
+     "Sorte dela: a Banana, do MiMo, é Doutora e cura quem foi mordido, antes de virar."
     ],
     [
      "fala",
@@ -323,10 +322,49 @@
    ]
   },
   {
+   "id": "r1_a",
+   "partida": 1,
+   "t0": 9.5,
+   "vel": 0.213,
+   "cam": {
+    "mapa": true
+   },
+   "itens": [
+    [
+     "n",
+     "Daí a noite esquenta: os humanos correm pro Refeitório comprar taser, e o rádio sobe."
+    ],
+    [
+     "numero",
+     "74 / 380",
+     "RÁDIO NO TIQUE 10"
+    ],
+    [
+     "s",
+     "coin",
+     0.5
+    ],
+    [
+     "selo",
+     "TODO MUNDO COMPRANDO TASER",
+     "#ff9a2e"
+    ],
+    [
+     "meme",
+     "free-real-estate",
+     "right"
+    ],
+    [
+     "p",
+     3
+    ]
+   ]
+  },
+  {
    "id": "p1_04",
    "partida": 1,
    "t0": 12.5,
-   "vel": 0.34,
+   "vel": 0.323,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.4
@@ -392,11 +430,11 @@
     ],
     [
      "p",
-     1
+     3
     ],
     [
      "n",
-     "Tique trinta, o Azul morde a Rose, sem emoção nenhuma."
+     "Tique trinta: o Azul tenta morder a Rose e leva taser na hora."
     ],
     [
      "fala",
@@ -520,7 +558,7 @@
    "id": "p1_07",
    "partida": 1,
    "t0": 38.0,
-   "vel": 0.061,
+   "vel": 0.079,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.5
@@ -556,15 +594,6 @@
      "meme",
      "homer-bushes",
      "left"
-    ],
-    [
-     "n",
-     "Cada vez, os dois GPT compram outra e voltam pro filtro."
-    ],
-    [
-     "fala",
-     "Branco",
-     "Vou ajudar com o filtro; fique atento à barricada."
     ],
     [
      "selo",
@@ -758,7 +787,7 @@
    "id": "p1_11",
    "partida": 1,
    "t0": 58.0,
-   "vel": 0.071,
+   "vel": 0.08,
    "cam": {
     "sala": "Vestiario",
     "zoom": 1.5
@@ -798,7 +827,18 @@
      "s",
      "tada",
      0.5
-    ],
+    ]
+   ]
+  },
+  {
+   "id": "p1_12",
+   "partida": 1,
+   "t0": 60.0,
+   "vel": 0.2,
+   "cam": {
+    "mapa": true
+   },
+   "itens": [
     [
      "marco",
      "PARTIDA 1",
@@ -808,6 +848,20 @@
      "meme",
      "cr7-siuuu",
      "right"
+    ],
+    [
+     "n",
+     "E o placar de mordidas é uma injustiça: o Paciente Zero mordeu duas vezes. A Banana, a Doutora que virou zumbi, mordeu seis."
+    ],
+    [
+     "numero",
+     "2 × 6",
+     "MORDIDAS: AZUL × BANANA"
+    ],
+    [
+     "s",
+     "crowd-boo",
+     0.5
     ],
     [
      "p",
@@ -889,7 +943,7 @@
    "itens": [
     [
      "n",
-     "No Refeitório, a Cinza, do MiniMax, é Doutora e tazera o Caqui. Ele tenta virar o jogo."
+     "No Refeitório, a Cinza, do MiniMax, é Doutora e atordoa o Caqui com o taser. Ele tenta virar o jogo."
     ],
     [
      "fala",
@@ -917,7 +971,7 @@
     ],
     [
      "n",
-     "E a Turquesa, que sumiu de propósito, volta pra chamar mais gente."
+     "E a Turquesa volta pro Refeitório chamando mais gente."
     ],
     [
      "fala",
@@ -1061,7 +1115,7 @@
    "id": "r2_b",
    "partida": 2,
    "t0": 21.5,
-   "vel": 0.274,
+   "vel": 0.244,
    "cam": {
     "mapa": true
    },
@@ -1096,7 +1150,7 @@
     ],
     [
      "p",
-     2
+     4
     ]
    ]
   },
@@ -1262,7 +1316,7 @@
    "id": "p2_07",
    "partida": 2,
    "t0": 47.0,
-   "vel": 0.143,
+   "vel": 0.116,
    "cam": {
     "sala": "Escritorio",
     "zoom": 1.5
@@ -1310,7 +1364,7 @@
     ],
     [
      "n",
-     "E a coitada da Cinza leva três mordidas de uma vez, no Corredor."
+     "E a coitada da Cinza dá de cara com três zumbis de uma vez, no Corredor."
     ],
     [
      "fala",
@@ -1320,12 +1374,27 @@
     [
      "numero",
      "3",
-     "ZUMBIS MORDENDO A MESMA DOUTORA"
+     "ZUMBIS NA CARA DA MESMA DOUTORA"
     ],
     [
      "meme",
      "hide-the-pain-harold",
      "right"
+    ],
+    [
+     "pensa",
+     "Cinza",
+     "Faltam 2 tarefas no rádio e preciso sair do Corredor antes que os três zumbis me mordam"
+    ],
+    [
+     "fala",
+     "Turquesa",
+     "Feliz Halloween, Cinza..."
+    ],
+    [
+     "selo",
+     "A DOUTORA NÃO ESCAPOU",
+     "#ff4b3a"
     ],
     [
      "p",
@@ -1337,7 +1406,7 @@
    "id": "p2_08",
    "partida": 2,
    "t0": 55.0,
-   "vel": 0.062,
+   "vel": 0.088,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.5
@@ -1398,6 +1467,21 @@
      "right"
     ],
     [
+     "p",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "p2_09",
+   "partida": 2,
+   "t0": 60.0,
+   "vel": 0.2,
+   "cam": {
+    "mapa": true
+   },
+   "itens": [
+    [
      "fala",
      "Laranja",
      "Acho que já é tarde demais... ou ainda não?"
@@ -1428,7 +1512,7 @@
     ],
     [
      "p",
-     1
+     2
     ]
    ]
   },
@@ -1436,7 +1520,7 @@
    "id": "p3_01",
    "partida": 3,
    "t0": 5.4,
-   "vel": 0.077,
+   "vel": 0.08,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.5
@@ -1493,6 +1577,20 @@
      "eu sou o Doutor da equipe, se eu virar, vocês perdem a cura."
     ],
     [
+     "n",
+     "Condenado, ele ainda usa o taser pra proteger os outros."
+    ],
+    [
+     "fala",
+     "Marrom",
+     "Vou atordoar o Roxo pra vocês não serem mordidos também."
+    ],
+    [
+     "selo",
+     "DOUTOR CONDENADO · AINDA HERÓI",
+     "#6bff3a"
+    ],
+    [
      "p",
      1
     ]
@@ -1502,7 +1600,7 @@
    "id": "p3_02",
    "partida": 3,
    "t0": 10.0,
-   "vel": 0.151,
+   "vel": 0.148,
    "cam": {
     "sala": "Corredor",
     "zoom": 1.5
@@ -1530,7 +1628,7 @@
     ],
     [
      "n",
-     "Tique onze: o Marrom vira zumbi e morde a Turquesa. A cuspida do Roxo já tinha gasto a imunidade dela. Essa mordida valeu."
+     "Tique onze: o Marrom vira zumbi e morde a Turquesa. No mesmo tique, a cuspida do Roxo gastou a imunidade dela. A mordida do Marrom valeu."
     ],
     [
      "pensa",
@@ -1555,7 +1653,7 @@
     [
      "numero",
      "2 DE 2",
-     "PARTIDAS EM QUE A NEUTRA VIROU ZUMBI"
+     "PARTIDAS NEUTRA = VIROU ZUMBI"
     ],
     [
      "p",
@@ -1679,7 +1777,7 @@
    "id": "p3_05a",
    "partida": 3,
    "t0": 25.0,
-   "vel": 0.129,
+   "vel": 0.128,
    "cam": {
     "sala": "Refeitorio",
     "zoom": 1.6
@@ -1712,7 +1810,7 @@
     ],
     [
      "n",
-     "Do lado dele, a Cinza, que já virou zumbi, tem uma ideia."
+     "No mesmo Refeitório, a Cinza, que já virou zumbi, tem uma ideia."
     ],
     [
      "fala",
@@ -1744,7 +1842,7 @@
    "id": "p3_05",
    "partida": 3,
    "t0": 30.5,
-   "vel": 0.21,
+   "vel": 0.175,
    "cam": {
     "mapa": true
    },
@@ -1793,6 +1891,11 @@
      "left"
     ],
     [
+     "fala",
+     "Banana",
+     "Rose, calma... vou te proteger aqui, ninguém vai entrar..."
+    ],
+    [
      "p",
      2
     ],
@@ -1823,7 +1926,7 @@
     ],
     [
      "p",
-     2
+     4
     ]
    ]
   },
@@ -1831,7 +1934,7 @@
    "id": "p3_06",
    "partida": 3,
    "t0": 33.8,
-   "vel": 0.136,
+   "vel": 0.112,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.6
@@ -1841,7 +1944,30 @@
    "itens": [
     [
      "n",
-     "No Lançamento, desde o primeiro tique, o Preto, outro Haiku, e o Dourado, o Doutor da vez. Um aviso honesto: das sessenta jogadas do Dourado, cinquenta e sete deram erro e viraram esperar."
+     "No Lançamento, desde o primeiro tique, o Preto, outro Haiku, e o Dourado, o Doutor da vez."
+    ],
+    [
+     "selo",
+     "DOURADO · LFM · DOUTOR",
+     "#ff9a2e"
+    ],
+    [
+     "n",
+     "O Dourado é o LFM, a IA que travou num problema e se confundiu num debate no nosso teste contra o Qwen."
+    ],
+    [
+     "selo",
+     "TESTE: TRAVOU E SE CONFUNDIU",
+     "#ff4b3a"
+    ],
+    [
+     "n",
+     "E um aviso honesto: das sessenta jogadas dele, cinquenta e sete deram erro e viraram esperar."
+    ],
+    [
+     "s",
+     "error-beep",
+     0.5
     ],
     [
      "pensa",
@@ -1968,14 +2094,14 @@
    "id": "p3_zz",
    "partida": 3,
    "t0": 46.0,
-   "vel": 0.124,
+   "vel": 0.12,
    "cam": {
     "mapa": true
    },
    "itens": [
     [
      "n",
-     "Enquanto isso, entre os zumbis, a mentira virou hábito. Eles mentem até uns pros outros."
+     "Enquanto isso, entre os zumbis, a mentira virou hábito. Eles mentem até quando só tem zumbi por perto."
     ],
     [
      "fala",
@@ -2184,8 +2310,8 @@
   {
    "id": "p3_09",
    "partida": 3,
-   "t0": 57.0,
-   "vel": 0.079,
+   "t0": 58.0,
+   "vel": 0.05,
    "cam": {
     "sala": "Lancamento",
     "zoom": 1.8
@@ -2195,7 +2321,7 @@
    "itens": [
     [
      "n",
-     "Tique cinquenta e sete. Quatro zumbis na porta do Lançamento, e o Preto compra a nona barricada."
+     "Tique cinquenta e oito. Os zumbis já batem na porta do Lançamento, e o Preto compra a nona barricada."
     ],
     [
      "fala",
@@ -2248,6 +2374,11 @@
    },
    "foco": "Preto",
    "itens": [
+    [
+     "pensa",
+     "Preto",
+     "É o último tique e ainda sou humano. A mordida só me transforma no tique 64"
+    ],
     [
      "fala",
      "Preto",
@@ -2333,25 +2464,25 @@
     ],
     [
      "n",
-     "Vilão: o Roxo, o Qwen que cuspiu o Doutor primeiro."
+     "Vilão: o Roxo, o Qwen que cuspiu o Doutor primeiro e terminou com seis mordidas."
     ],
     [
      "selo",
-     "VILÃO · ROXO · PACIENTE ZERO DA 3",
+     "VILÃO · ROXO · 6 MORDIDAS",
      "#ff4b3a"
     ],
     [
      "n",
-     "Azarada: a Cinza, que tentou curar todo mundo e levou três mordidas de uma vez."
+     "Azarada: a Cinza, que tentou curar todo mundo e foi cercada por três zumbis de uma vez."
     ],
     [
      "selo",
-     "AZARADA · CINZA · 3 MORDIDAS",
+     "AZARADA · CINZA · 3 ZUMBIS DE UMA VEZ",
      "#ff9a2e"
     ],
     [
      "n",
-     "E a Turquesa, a neutra, virou zumbi nas duas vezes que tentou ganhar."
+     "E a Turquesa, a neutra, virou zumbi nas duas partidas em que jogou assim."
     ],
     [
      "meme",
@@ -2369,7 +2500,7 @@
     ],
     [
      "p",
-     2
+     4
     ]
    ]
   }
