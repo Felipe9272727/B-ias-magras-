@@ -54,3 +54,8 @@
 - **Público dentro do vídeo**: pedidos de comentário viram elemento do jogo com selo "ideia de @fulano"; fãs recorrentes viram gag.
 - **Fechamento em 3 passos**: placar/prêmios com nome e número ("ASSASSINO DA TEMPORADA"), uma lição de uma frase, pergunta ao público.
 - Ao escolher as IAs de um vídeo, seguir `video/IAS_FAVORITAS.md` (favoritas, moderadas, evitar e preferência por modelos novos e pequenos).
+
+## Padrão aprovado (AGE DAS IAs v4, "nesse aí vc se superou") — vale para TODOS os vídeos
+- Câmera sempre fluida e na ação (nunca pulando de amostra em amostra do log) e com deriva lenta em toda cena.
+- Selo fica o tempo de ler; meme fica o mesmo tempo do selo; nenhum efeito pode ser cortado pelo fim da cena.
+- Sem meme repetido no vídeo. Detalhes e receita completa em `video/MEMORIA_TECNICA.md` (seção RECEITA DO AGE).

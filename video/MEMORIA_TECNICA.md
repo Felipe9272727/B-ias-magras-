@@ -34,3 +34,32 @@ Lições aprendidas na produção, para não repetir erros quando a sessão rein
   tamanho do vídeo inteiro (~230 MB por bloco em 20 min): com centenas de vozes lotou o disco DEPOIS de renderizar todos os quadros.
 - Fazer assim: render com `--muted`, faixa de vozes/efeitos montada da timeline em numpy (`video/scripts/age_audio.py`, 30 s,
   ~100 MB em FLAC) e juntar com `ffmpeg -c:v copy`. Depois o mix padrão (trilha, sidechain, loudnorm).
+
+## RECEITA DO AGE DAS IAs v4 (o Felipe aprovou: "nesse aí vc se superou") — repetir nos próximos vídeos
+Fluxo: jogo real rodando com as IAs (log de turnos + quadros de posição) -> destaques -> roteiro com falas copiadas do log
+-> timeline + vozes (ElevenLabs, cache por hash) -> Remotion mudo em 16 máquinas do GitHub Actions -> áudio montado fora
+-> mix padrão + edição de cor -> gofile. Arquivos: `age/` (motor), `video/scripts/build_timeline_age.py`, `age_audio.py`,
+`age_render_parte.sh`, `age_final.py`, `.github/workflows/age-render.yml`, `src/age/*`.
+
+O que fez a diferença (aplicar sempre):
+1. **Câmera contínua**: nunca seguir o "quadro do log mais próximo" (pula a cada amostra = sensação de 2 FPS). Média
+   gaussiana no tempo (sigma ~3,5 s de jogo) dos pontos de cada quadro; em batalha, centro do MAIOR GRUPO em luta
+   (estado COMBAT/FIGHTING, vizinhos a <55 m), nunca média de grupos espalhados (cai no mato).
+2. **Deriva lenta em toda cena** (zoom +9% ao longo da cena e passeio de poucos metros): acaba com tela parada.
+3. **Selo/meme/número não podem ser cortados pelo fim da cena**: a cena dura até o último terminar. Selo = tempo de
+   leitura (0,9 s + 0,3 s por palavra, entre 1,6 e 3 s); selo seguido de selo espera o anterior sair; **meme fica o
+   mesmo tempo do selo da cena** (o Felipe pediu assim; sem selo, 2,2 s). Conferir: nenhum overlay com at+dur > dur da cena.
+4. Memes sem repetição no vídeo inteiro (contar com Counter antes de renderizar).
+5. Elenco: card de cada personagem acende quando o narrador fala o nome (posição do nome no texto x duração da fala).
+6. Mix final: Lanczos 1080p + `eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42`, preset veryfast.
+7. Revisão dos Haikus a cada 30 s (quadros +8 s e +22 s + texto da janela) e consertar câmera fora do assunto,
+   tela parada e meme repetido. Notas de "selo não aparece no quadro" costumam ser só amostragem.
+
+Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upload):
+- Dados que o git não tem (quadros.json, vozes, gifs ignorados) vão num branch órfão `age-dados` em pedaços de 60 MB
+  (`split -b 60M`; o GitHub recusa arquivo >100 MB).
+- Workflow com matriz de 16 partes, checkout esparso SÓ do necessário — mas inclua os JSON que o código importa de
+  `public/` (bb/manual.json, ilha/mapa.json, overcooked/...), senão o webpack falha em 13 s, e o arquivo de pedido.
+- Cada parte entrega num branch `<prefixo>-parte-NN`; o proxy daqui NÃO deixa apagar branch remoto, então cada pedido
+  usa prefixo novo (`prefixo` em `public/age_pedido.json`). Commit nesse arquivo dispara o workflow.
+- Local: bundle copia o `public/` inteiro (3 GB): para stills, usar `publicDir` com uma pasta de hardlinks (`cp -al`).
