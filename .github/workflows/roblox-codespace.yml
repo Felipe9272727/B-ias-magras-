@@ -1,0 +1,31 @@
+name: ROBLOX codespace
+# Liga/desliga o Codespace do teste do Roblox. Pedido: commit em roblox/pedido.json ({"acao": "criar"|"parar"|"apagar"}).
+# Usa o token do Felipe guardado no segredo CODESPACE_TOKEN (Settings > Secrets and variables > Actions).
+on:
+  push:
+    branches: ["claude/video-3"]
+    paths: ["roblox/pedido.json"]
+  workflow_dispatch:
+jobs:
+  codespace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Executa o pedido
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          set -e
+          ACAO=$(jq -r .acao roblox/pedido.json)
+          R=${{ github.repository }}
+          API=https://api.github.com
+          H=(-H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json")
+          lista() { curl -s "${H[@]}" "$API/repos/$R/codespaces" | jq -r '.codespaces[] | select(.devcontainer_path==".devcontainer/roblox/devcontainer.json") | .name'; }
+          case $ACAO in
+            criar)
+              N=$(lista | head -1)
+              if [ -n "$N" ]; then curl -s -X POST "${H[@]}" "$API/user/codespaces/$N/start" | jq '{name, state}';
+              else curl -s -X POST "${H[@]}" "$API/repos/$R/codespaces" -d '{"ref":"claude/wizardly-bell-35bp85","devcontainer_path":".devcontainer/roblox/devcontainer.json","machine":"standardLinux32gb","idle_timeout_minutes":240,"retention_period_minutes":1440}' | jq '{name, state, message}'; fi ;;
+            parar) for N in $(lista); do curl -s -X POST "${H[@]}" "$API/user/codespaces/$N/stop" | jq '{name, state}'; done ;;
+            apagar) for N in $(lista); do curl -s -X DELETE "${H[@]}" "$API/user/codespaces/$N"; echo "apagado $N"; done ;;
+          esac
