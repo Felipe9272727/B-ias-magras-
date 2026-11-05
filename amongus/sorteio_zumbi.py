@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 R = secrets.SystemRandom()
+TROCA = {'or:openai/gpt-6.1-terra': 'or:openai/gpt-6-luna'}  # 5/11: o Terra foi 43% do gasto (vale da partida 4 do AU6 em diante)
 NOVAS = {'Turquesa': 'or:tencent/hy4', 'Dourado': 'or:liquid/lfm-2.5-24b-a2b'}
 SALAS_INI = ['Lancamento', 'Enfermaria', 'Comunicacoes', 'Vestiario', 'Descontaminacao', 'Reator', 'Laboratorio', 'Escritorio', 'Admin', 'Estufa', 'Refeitorio', 'Varanda', 'Deposito']
 TIPOS = ['Normal', 'Grande', 'Rapido', 'Cuspidor', 'Uivador']
@@ -38,7 +39,7 @@ def main():
     ap.add_argument('--saida', default=str(Path(__file__).parent / 'logs_zumbi' / 'temporada.json'))
     a = ap.parse_args()
     au5 = json.loads((Path(__file__).parent / 'logs5' / 'temporada.json').read_text())
-    cores = {**au5['cores'], **NOVAS}
+    cores = {**{c: TROCA.get(p, p) for c, p in au5['cores'].items()}, **NOVAS}
     partidas = [sortear_partida(cores) for _ in range(a.partidas)]
     out = {'sorteado_em': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'fonte': 'python secrets (SystemRandom)', 'cores': cores, 'partidas': partidas}
     Path(a.saida).parent.mkdir(parents=True, exist_ok=True)

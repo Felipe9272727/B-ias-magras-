@@ -61,7 +61,7 @@ export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo',
 const MODELOS = {
   'haiku': 'Claude Haiku 5.5', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash',
   'or:xiaomi/mimo-v2.6-flash': 'MiMo V2.6 Flash', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:minimax/minimax-m3.1-flash': 'MiniMax M3.1 Flash',
-  'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:tencent/hy4': 'Tencent HY4', 'or:liquid/lfm-2.5-24b-a2b': 'LFM 2.5 24B',
+  'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:openai/gpt-6-luna': 'GPT-6 Luna', 'or:tencent/hy4': 'Tencent HY4', 'or:liquid/lfm-2.5-24b-a2b': 'LFM 2.5 24B',
 }
 const ELENCO = ['haiku', 'haiku', 'haiku', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b',
   'or:deepseek/deepseek-v4.1-flash', 'or:deepseek/deepseek-v4.1-flash', 'or:xiaomi/mimo-v2.6-flash', 'or:xiaomi/mimo-v2.6-flash', 'or:z-ai/glm-5.3-flash', 'or:z-ai/glm-5.3-flash',
