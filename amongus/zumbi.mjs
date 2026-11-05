@@ -311,7 +311,21 @@ function fim() {
   return null
 }
 
+// TETO DE GASTO (5/11: as partidas gastaram o crédito todo do OpenRouter sem aviso). Lê o gasto REAL da chave no OpenRouter
+// (inclui chamadas cortadas por tempo, que também são cobradas) e para a partida antes de passar de ORCAMENTO_USD.
+import { execFileSync } from 'node:child_process'
+const ORCAMENTO = Number(process.env.ORCAMENTO_USD ?? args.orcamento ?? 0.8)
+function gastoOR() {
+  try {
+    const k = fs.readFileSync('/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json', 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0]
+    const r = JSON.parse(execFileSync('curl', ['-s', '--max-time', '20', 'https://openrouter.ai/api/v1/key', '-H', `Authorization: Bearer ${k}`], { encoding: 'utf8' }))
+    return Number(r.data.usage)
+  } catch { return null }
+}
+let gastoInicio = null
+
 async function main() {
+  if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
   montar()
   console.log(`Modo zumbi, partida ${NPARTIDA}, seed ${SEED}. Paciente Zero: ${jogadores.find((j) => j.pacienteZero).cor}`)
   for (tique = 1; tique <= CFG.amanhecer; tique++) {
@@ -321,6 +335,12 @@ async function main() {
     console.log(`tique ${tique}: humanos ${limpos().length} · mordidos ${jogadores.filter((j) => j.estado === 'mordido').length} · zumbis ${zumbis().length} · rádio ${radio} (${((Date.now() - t0) / 1000).toFixed(0)} s)`)
     fs.mkdirSync(path.dirname(SAIDA), { recursive: true }); fs.writeFileSync(SAIDA, JSON.stringify(log))
     if (r) { log.resultado = r; break }
+    if (!MOCK) {
+      const g = gastoOR()
+      log.gastoOR = g == null ? log.gastoOR : g - gastoInicio
+      console.log(`  gasto real no OpenRouter nesta partida: US$ ${(log.gastoOR ?? 0).toFixed(3)} de ${ORCAMENTO}`)
+      if (log.gastoOR > ORCAMENTO) { log.resultado = { vencedor: null, como: 'parada_por_orcamento', gasto: log.gastoOR }; console.log('PARADA: teto de gasto atingido'); break }
+    }
   }
   if (!log.resultado) log.resultado = fim() ?? { vencedor: 'humanos', como: 'amanhecer' }
   log.uso = uso
