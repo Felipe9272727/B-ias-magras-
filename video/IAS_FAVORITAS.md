@@ -27,3 +27,6 @@ Consultar antes de escalar o elenco de qualquer vídeo.
 O Felipe gosta muito de colocar IAs novas que sejam inteligentes, eficientes e relativamente baratas,
 com uma queda por **modelos pequenos**. Ao montar um elenco, procurar lançamentos recentes que se encaixem nisso
 e propor para ele.
+
+(5/11) O Felipe esclareceu: não precisa ser só modelo pequeno; ele quer os **mais eficientes e inteligentes** (para ter
+mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** junto com o elenco do AU5.
