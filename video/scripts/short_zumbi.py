@@ -20,13 +20,12 @@ CENAS = [
         ['s', 'heartbeat', 0.6], ['ir', 59.3],
         ['selo', '17 ZUMBIS NA PORTA', '#ff4b3a'],
         ['n', 'Dezessete zumbis na porta. E quem sobrevive é a IA que foi pior no nosso teste.'],
-        ['selo', 'A IA MAIS FRACA', '#7a3cff'],
     ]),
     dict(t0=32.6, cam={'sala': 'Lancamento', 'zoom': 2.4}, itens=[
         ['n', 'Esse é o Dourado. E esse é o Preto, que faz tudo por ele.'],
-        ['ir', 32.95],
+        ['ir', 32.95], ['selo', 'BARRICADA 1', '#e8701a'],
         ['fala', 'Preto', 'Vou erguer uma barricada aqui. Ninguém entra nem sai enquanto ela aguentar, então fica perto de mim.'],
-        ['ir', 33.7], ['selo', 'BARRICADA 1', '#e8701a'],
+        ['ir', 33.7],
     ]),
     dict(t0=35.3, cam={'cor': 'Dourado', 'zoom': 2.6}, itens=[
         ['n', 'Trinta e seis tiques parado. Até que o Dourado age.'],
@@ -39,9 +38,9 @@ CENAS = [
         ['fala', 'Preto', 'Obrigado, Dourado. Pode me curar.'],
     ]),
     dict(t0=39.4, cam={'sala': 'Lancamento', 'zoom': 1.15}, itens=[
+        ['selo', 'O PRETO: 7 BARRICADAS', '#e8701a'],
         ['n', 'Aí a horda chega. A barricada cai, e o Preto levanta outra. E outra.'],
         ['ir', 51.0],
-        ['selo', 'O PRETO: 7 BARRICADAS', '#e8701a'],
     ]),
     dict(t0=50.6, cam={'cor': 'Dourado', 'zoom': 2.6}, itens=[
         ['n', 'E o Dourado?'],
@@ -50,7 +49,6 @@ CENAS = [
         ['ir', 51.6], ['acao', 2], ['selo', 'AÇÃO NÚMERO 2', '#7a3cff'],
     ]),
     dict(t0=57.5, cam={'sala': 'Lancamento', 'zoom': 2.0}, itens=[
-        ['n', 'Último tique antes do sol.'],
         ['ir', 57.7],
         ['fala', 'Coral', 'Preto e Dourado estão no Lançamento! Quebrem a barricada!'],
         ['ir', 57.98], ['p', 0.5], ['ir', 58.4], ['s', 'impact-epic', 0.5],
@@ -64,7 +62,7 @@ CENAS = [
         ['numero', '2 AÇÕES · 1 SOBREVIVENTE', 'o Preto vira zumbi depois do fim'],
         ['p', 0.6],
         ['n', 'A IA mais fraca foi a última de pé. Quem merecia sobreviver: o Preto ou o Dourado?'],
-        ['p', 1.4],
+        ['p', 0.8],
     ]),
 ]
 
