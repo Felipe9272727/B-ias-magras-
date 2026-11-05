@@ -19,11 +19,13 @@ const Maca: React.FC<{x: number; y: number; w: number; h: number}> = ({x, y, w, 
 export const SalaEnfermaria: React.FC<SalaProps> = ({r}) => {
   const H = r.h - 70; // área útil: os ~70 px de baixo ficam livres
   const cx = r.x + r.w * 0.5;
-  const cy = r.y + H * 0.68;
-  const raio = Math.min(r.w, H) * 0.2;
-  const mW = Math.min(150, r.w * 0.36);
-  const mH = 64;
-  const linhaY = r.y + 130;
+  const cy = r.y + H * 0.7;
+  const raio = Math.min(r.w, H) * 0.17;
+  const mW = Math.min(150, r.w * 0.38);
+  const mH = Math.min(64, H * 0.2);
+  const linhaY = r.y + H * 0.22;
+  const esqX = r.x + r.w * 0.06;
+  const dirX = r.x + r.w * 0.94 - mW;
   return (
     <g>
       <Piso id="piso_Enfermaria" r={{...r, h: H}} a="#cfe6e2" b="#bcd8d3" />
@@ -45,31 +47,28 @@ export const SalaEnfermaria: React.FC<SalaProps> = ({r}) => {
         );
       })}
 
+      {/* macas: a da esquerda normal, a da direita com a múmia (Halloween) */}
+      <Maca x={esqX} y={linhaY} w={mW} h={mH} />
+      <Maca x={dirX} y={linhaY} w={mW} h={mH} />
+      <rect x={dirX + 22} y={linhaY + 8} width={mW - 48} height={mH - 16} rx={18} fill="#f2f0e6" stroke={L} strokeWidth={5} />
+      <circle cx={dirX + 26} cy={linhaY + mH / 2} r={14} fill="#f2f0e6" stroke={L} strokeWidth={4} />
+      <circle cx={dirX + 22} cy={linhaY + mH / 2 - 4} r={3} fill={L} />
+      <circle cx={dirX + 30} cy={linhaY + mH / 2 - 4} r={3} fill={L} />
+      {[0, 1, 2, 3].map((i) => (
+        <path key={i} d={`M${dirX + 50 + i * 18} ${linhaY + 10} L${dirX + 62 + i * 18} ${linhaY + mH - 10}`} stroke="#c3ccc8" strokeWidth={4} />
+      ))}
+
       {/* scanner médico verde no chão */}
-      <circle cx={cx} cy={cy} r={raio + 16} fill="#8fffd2" opacity={0.25} />
+      <circle cx={cx} cy={cy} r={raio + 14} fill="#8fffd2" opacity={0.25} />
       <circle cx={cx} cy={cy} r={raio} fill="#2fbf8a" stroke={L} strokeWidth={8} />
       <circle cx={cx} cy={cy} r={raio * 0.7} fill="none" stroke="#b4ffe0" strokeWidth={5} />
       <circle cx={cx} cy={cy} r={raio * 0.4} fill="none" stroke="#b4ffe0" strokeWidth={4} />
       <rect x={cx - 6} y={cy - 6} width={12} height={12} fill="#e8fff6" stroke={L} strokeWidth={2} />
 
-      {/* macas */}
-      <Maca x={r.x + r.w * 0.06} y={linhaY} w={mW} h={mH} />
-      <Maca x={r.x + r.w * 0.94 - mW} y={linhaY} w={mW} h={mH} />
-
-      {/* Halloween: maca com múmia enfaixada */}
-      <g>
-        <Maca x={r.x + r.w * 0.5 - mW / 2} y={linhaY + 140} w={mW} h={mH} />
-        <rect x={r.x + r.w * 0.5 - mW / 2 + 22} y={linhaY + 148} width={mW - 52} height={mH - 16} rx={18} fill="#f2f0e6" stroke={L} strokeWidth={5} />
-        <circle cx={r.x + r.w * 0.5 - mW / 2 + 26} cy={linhaY + 140 + mH / 2} r={16} fill="#f2f0e6" stroke={L} strokeWidth={4} />
-        <circle cx={r.x + r.w * 0.5 - mW / 2 + 22} cy={linhaY + 140 + mH / 2 - 4} r={3} fill={L} />
-        <circle cx={r.x + r.w * 0.5 - mW / 2 + 30} cy={linhaY + 140 + mH / 2 - 4} r={3} fill={L} />
-        {[0, 1, 2, 3, 4].map((i) => (
-          <path key={i} d={`M${r.x + r.w * 0.5 - mW / 2 + 48 + i * 16} ${linhaY + 146} L${r.x + r.w * 0.5 - mW / 2 + 60 + i * 16} ${linhaY + 194}`} stroke="#c3ccc8" strokeWidth={4} />
-        ))}
-      </g>
-      <Vela x={r.x + r.w * 0.5 + mW / 2 + 22} y={linhaY + 200} s={1} />
-      <Abobora x={r.x + r.w * 0.1} y={r.y + H * 0.9} s={0.8} />
-      <Teia x={r.x + 4} y={r.y + H - 4} r={100} rot={-90} />
+      {/* Halloween: vela, abóbora e teia */}
+      <Vela x={r.x + r.w * 0.5 - raio - 26} y={cy + raio * 0.2} s={1} />
+      <Abobora x={r.x + r.w * 0.2} y={r.y + H * 0.9} s={0.8} />
+      <Teia x={r.x + r.w - 4} y={r.y + H - 4} r={100} rot={180} />
     </g>
   );
 };

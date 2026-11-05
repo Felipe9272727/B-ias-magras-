@@ -33,40 +33,36 @@ export const SalaEstufa: React.FC<SalaProps> = ({r}) => {
   return (
     <g>
       <Piso id="estufa_piso" r={r} a="#3f6d6a" b="#38625f" tam={56} />
-      {/* parede de vidro do fundo com cúpula */}
-      <rect x={r.x} y={top} width={r.w} height={64} fill="#3a4a58" />
-      {Array.from({length: Math.floor(r.w / 110)}).map((_, k) => (
-        <rect key={k} x={r.x + 14 + k * 110} y={top + 10} width={92} height={44} rx={6} fill="#142a3a" stroke={L} strokeWidth={5} />
+      <rect x={r.x} y={top} width={r.w} height={60} fill="#3a4a58" />
+      {Array.from({length: Math.floor(r.w / 100)}).map((_, k) => (
+        <rect key={k} x={r.x + 12 + k * 100} y={top + 10} width={80} height={38} rx={6} fill="#142a3a" stroke={L} strokeWidth={5} />
       ))}
-      <rect x={cx - 130} y={top} width={260} height={74} rx={30} fill="#7fa5b8" stroke={L} strokeWidth={8} />
-      <rect x={cx - 100} y={top + 12} width={200} height={50} rx={22} fill="#b9dbe8" opacity={0.7} />
+      <rect x={cx - 110} y={top} width={220} height={70} rx={28} fill="#7fa5b8" stroke={L} strokeWidth={8} />
+      <rect x={cx - 85} y={top + 12} width={170} height={44} rx={20} fill="#b9dbe8" opacity={0.7} />
       {/* passarela em X de vidro */}
       <g stroke={L} strokeWidth={8} strokeLinejoin="round">
-        <polygon points={`${cx - 300},${top + 70} ${cx - 240},${top + 70} ${cx + 300},${top + h} ${cx + 240},${top + h}`} fill="#a9d4e6" />
-        <polygon points={`${cx + 300},${top + 70} ${cx + 240},${top + 70} ${cx - 300},${top + h} ${cx - 240},${top + h}`} fill="#a9d4e6" />
-        <rect x={cx - 52} y={top + h - 6} width={104} height={12} fill="#7fb0c8" />
+        <polygon points={`${cx - 250},${top + 78} ${cx - 190},${top + 78} ${cx + 250},${top + h} ${cx + 190},${top + h}`} fill="#a9d4e6" />
+        <polygon points={`${cx + 250},${top + 78} ${cx + 190},${top + 78} ${cx - 250},${top + h} ${cx - 190},${top + h}`} fill="#a9d4e6" />
       </g>
       <g stroke="#e8f6fb" strokeWidth={3} opacity={0.7}>
-        <line x1={cx - 270} y1={top + 70} x2={cx + 270} y2={top + h} /><line x1={cx + 270} y1={top + 70} x2={cx - 270} y2={top + h} />
+        <line x1={cx - 220} y1={top + 78} x2={cx + 220} y2={top + h} /><line x1={cx + 220} y1={top + 78} x2={cx - 220} y2={top + h} />
       </g>
-      {/* canteiros com abóboras */}
-      <Canteiro x={r.x + 40} y={top + 96} w={210} i={1} />
-      <Canteiro x={r.x + 300} y={top + h - 78} w={240} i={2} />
-      <Canteiro x={r.x + r.w - 250} y={top + 96} w={210} i={3} />
-      <Canteiro x={r.x + r.w - 540} y={top + h - 78} w={240} i={4} />
-      <Canteiro x={cx - 460} y={top + 100} w={180} i={5} />
-      <Canteiro x={cx + 280} y={top + 100} w={180} i={6} />
-      {/* árvores secas */}
-      <Arvore x={r.x + 60} y={top + h - 6} s={1.5} i={1} />
-      <Arvore x={r.x + r.w - 70} y={top + h - 6} s={1.5} i={9} />
-      <Arvore x={cx - 160} y={top + 150} s={1.1} i={4} />
-      <Arvore x={cx + 170} y={top + 150} s={1.1} i={7} />
-      <Abobora x={cx - 600} y={top + h - 40} s={1.6} />
-      <Abobora x={cx + 620} y={top + h - 40} s={1.6} />
-      <Teia x={r.x + 6} y={r.y + 6} r={130} />
-      <Teia x={r.x + r.w - 6} y={r.y + 6} r={130} rot={90} />
-      <Luzinhas x1={r.x + 60} x2={cx - 150} y={top + 70} />
-      <Luzinhas x1={cx + 150} x2={r.x + r.w - 60} y={top + 70} />
+      <Canteiro x={r.x + 30} y={top + 104} w={170} i={1} />
+      <Canteiro x={r.x + 90} y={top + h - 62} w={190} i={2} />
+      <Canteiro x={r.x + r.w - 200} y={top + 104} w={170} i={3} />
+      <Canteiro x={r.x + r.w - 280} y={top + h - 62} w={190} i={4} />
+      <Canteiro x={cx - 70} y={top + 104} w={140} i={5} />
+      <Canteiro x={cx - 70} y={top + h - 62} w={140} i={6} />
+      <Arvore x={r.x + 50} y={top + h - 2} s={1.1} i={1} />
+      <Arvore x={r.x + r.w - 50} y={top + h - 2} s={1.1} i={9} />
+      <Arvore x={r.x + 140} y={top + 200} s={0.9} i={4} />
+      <Arvore x={r.x + r.w - 140} y={top + 200} s={0.9} i={7} />
+      <Abobora x={r.x + 320} y={top + h - 70} s={1.5} />
+      <Abobora x={r.x + r.w - 330} y={top + h - 70} s={1.5} />
+      <Teia x={r.x + 6} y={r.y + 6} r={120} />
+      <Teia x={r.x + r.w - 6} y={r.y + 6} r={120} rot={90} />
+      <Luzinhas x1={r.x + 40} x2={cx - 120} y={top + 66} />
+      <Luzinhas x1={cx + 120} x2={r.x + r.w - 40} y={top + 66} />
     </g>
   );
 };

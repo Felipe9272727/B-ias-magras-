@@ -31,7 +31,6 @@ const Lata: React.FC<{x: number; y: number}> = ({x, y}) => (
 // caixão visto de cima: hexágono com a tampa e uma cruz clara
 const Caixao: React.FC<{x: number; y: number}> = ({x, y}) => (
   <g>
-    <ellipse cx={x} cy={y + 92} rx={74} ry={9} fill="#000" opacity={0.35} />
     <polygon points={`${x - 40},${y} ${x + 40},${y} ${x + 64},${y + 45} ${x + 40},${y + 90} ${x - 40},${y + 90} ${x - 64},${y + 45}`}
       fill="#3b2a4a" stroke={L} strokeWidth={6} strokeLinejoin="round" />
     <polygon points={`${x - 30},${y + 10} ${x + 30},${y + 10} ${x + 48},${y + 45} ${x + 30},${y + 80} ${x - 30},${y + 80} ${x - 48},${y + 45}`}

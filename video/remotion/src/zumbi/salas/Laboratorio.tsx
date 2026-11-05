@@ -35,25 +35,25 @@ export const SalaLaboratorio: React.FC<SalaProps> = ({r}) => {
       <rect x={r.x} y={r.y} width={W} height={86} fill="#56707e" />
       <rect x={r.x} y={r.y + 78} width={W} height={10} fill="#33464f" />
       {/* janelas */}
-      {[0.2, 0.5, 0.8].map((k) => <rect key={k} x={r.x + W * k - 60} y={r.y + 14} width={120} height={50} rx={8} fill="#142a3a" stroke={L} strokeWidth={6} />)}
+      {[0.2, 0.5, 0.8].map((k) => <rect key={k} x={r.x + W * k - 45} y={r.y + 14} width={90} height={44} rx={8} fill="#142a3a" stroke={L} strokeWidth={6} />)}
       {/* bancadas ao longo do fundo e da lateral */}
-      <Bancada x={r.x + 30} y={r.y + 100} w={300} h={86} i={1} />
-      <Bancada x={r.x + W - 330} y={r.y + 100} w={300} h={86} i={2} />
-      <Bancada x={r.x + 30} y={r.y + 230} w={90} h={260} i={3} />
-      <Bancada x={r.x + W - 120} y={r.y + 230} w={90} h={260} i={4} />
+      <Bancada x={r.x + 16} y={r.y + 96} w={200} h={76} i={1} />
+      <Bancada x={r.x + W - 216} y={r.y + 96} w={200} h={76} i={2} />
+      <Bancada x={r.x + 14} y={r.y + 190} w={64} h={150} i={3} />
+      <Bancada x={r.x + W - 78} y={r.y + 190} w={64} h={150} i={4} />
       {/* tubos de amostra verdes em fila */}
-      {[0, 1, 2, 3, 4].map((k) => <Tubo key={k} x={cx - 100 + k * 50} y={r.y + 160} i={k} />)}
+      {[0, 1, 2, 3, 4].map((k) => <Tubo key={k} x={cx - 70 + k * 36} y={r.y + 168} i={k} />)}
       {/* mesa grande */}
       <g stroke={L} strokeWidth={9}>
-        <rect x={cx - 230} y={r.y + 380} width={460} height={190} rx={22} fill="#a8bac6" />
-        <rect x={cx - 210} y={r.y + 395} width={420} height={140} rx={14} fill="#c7d6df" />
+        <rect x={cx - 150} y={r.y + 270} width={300} height={140} rx={22} fill="#a8bac6" />
+        <rect x={cx - 134} y={r.y + 282} width={268} height={100} rx={14} fill="#c7d6df" />
       </g>
-      <rect x={cx - 150} y={r.y + 410} width={90} height={60} rx={6} fill="#1c2a38" stroke={L} strokeWidth={5} />
-      <rect x={cx - 142} y={r.y + 418} width={74} height={40} fill="#5aff7a" opacity={0.85} />
-      <rect x={cx + 60} y={r.y + 410} width={90} height={60} rx={6} fill="#1c2a38" stroke={L} strokeWidth={5} />
-      <rect x={cx + 68} y={r.y + 418} width={74} height={40} fill="#7ae8ff" opacity={0.85} />
+      <rect x={cx - 120} y={r.y + 292} width={64} height={44} rx={6} fill="#1c2a38" stroke={L} strokeWidth={5} />
+      <rect x={cx - 114} y={r.y + 298} width={52} height={30} fill="#5aff7a" opacity={0.85} />
+      <rect x={cx + 56} y={r.y + 292} width={64} height={44} rx={6} fill="#1c2a38" stroke={L} strokeWidth={5} />
+      <rect x={cx + 62} y={r.y + 298} width={52} height={30} fill="#7ae8ff" opacity={0.85} />
       {/* frasco com olho */}
-      <g transform={`translate(${cx},${r.y + 500})`}>
+      <g transform={`translate(${cx},${r.y + 350}) scale(0.8)`}>
         <rect x={-30} y={-46} width={60} height={70} rx={22} fill="#bfeedd" fillOpacity={0.6} stroke={L} strokeWidth={5} />
         <rect x={-26} y={-18} width={52} height={38} rx={16} fill="#5aff7a" opacity={0.8} />
         <ellipse cx={0} cy={-2} rx={17} ry={12} fill="#fff" stroke={L} strokeWidth={3} />
@@ -61,12 +61,12 @@ export const SalaLaboratorio: React.FC<SalaProps> = ({r}) => {
         <rect x={-18} y={-56} width={36} height={12} rx={4} fill="#5a6270" stroke={L} strokeWidth={4} />
       </g>
       {/* Halloween */}
-      <Abobora x={r.x + W - 90} y={r.y + H - 70} s={1.9} />
-      <Abobora x={cx - 300} y={r.y + 460} s={1.3} />
-      <Vela x={cx + 280} y={r.y + 450} s={1.5} />
-      <Vela x={r.x + 220} y={r.y + 360} s={1.4} />
-      <Teia x={r.x + 6} y={r.y + 6} r={170} />
-      <Teia x={r.x + W - 6} y={r.y + H - 4} r={150} rot={-90} />
+      <Abobora x={r.x + W - 70} y={r.y + H - 40} s={1.5} />
+      <Abobora x={r.x + 70} y={r.y + H - 50} s={1.2} />
+      <Vela x={cx + 170} y={r.y + 300} s={1.4} />
+      <Vela x={r.x + 110} y={r.y + 300} s={1.3} />
+      <Teia x={r.x + 6} y={r.y + 6} r={130} />
+      <Teia x={r.x + W - 6} y={r.y + H - 4} r={110} rot={-90} />
     </g>
   );
 };
