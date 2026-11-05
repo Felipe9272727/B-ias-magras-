@@ -5,7 +5,7 @@
 // Uso: IA_DIRETO=1 node zumbi.mjs [--mock] [--seed N] [--partida N] [--saida arq.json] [--max-tiques 60]
 import fs from 'node:fs'
 import path from 'node:path'
-import { perguntar, lerJSON, uso } from './ia.mjs'
+import { perguntar, lerJSON, uso, chaveDoMod } from './ia.mjs'
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, v) => (a.startsWith('--') ? [a.slice(2), v[i + 1] && !v[i + 1].startsWith('--') ? v[i + 1] : true] : null)).filter(Boolean))
 const MOCK = !!args.mock
@@ -318,8 +318,7 @@ const ORCAMENTO = Number(process.env.ORCAMENTO_USD ?? args.orcamento ?? 1.0) // 
 function gastoOR() {
   try {
     let k = process.env.OPENROUTER_API_KEY
-    const arq = path.join(process.env.HOME ?? '/root', '.config', 'openrouter', 'api_key')
-    if (!k && fs.existsSync(arq)) k = fs.readFileSync(arq, 'utf8').trim()
+    if (!k) k = chaveDoMod('openrouter')
     if (!k) k = fs.readFileSync('/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json', 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0]
     const r = JSON.parse(execFileSync('curl', ['-s', '--max-time', '20', 'https://openrouter.ai/api/v1/key', '-H', `Authorization: Bearer ${k}`], { encoding: 'utf8' }))
     return Number(r.data.usage)

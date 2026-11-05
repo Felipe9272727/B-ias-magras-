@@ -18,12 +18,23 @@ const dormir = (ms) => new Promise((r) => setTimeout(r, ms))
 // IA_TIMEOUT_S limita cada resposta (sem isso: 5 min). A chave é a mesma guardada pelo mod.
 import { execFile } from 'node:child_process'
 const ARQ_CHAVE = '/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json'
+// mod chaves-ias (5/11): o /chave guarda cada chave no armazenamento do mod, em /root/.claude/plugins/store/chaves-ias*.json
+export function chaveDoMod(servico) {
+  try {
+    const dir = '/root/.claude/plugins/store'
+    for (const f of fs.readdirSync(dir).filter((f) => f.startsWith('chaves-ias') && f.endsWith('.json'))) {
+      const v = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))
+      const achado = v?.[servico] ?? v?.data?.[servico] ?? v?.values?.[servico]
+      if (typeof achado === 'string' && achado) return achado
+    }
+  } catch {}
+  return null
+}
 let chaveOR
 function lerChaveOR() {
   if (chaveOR !== undefined) return chaveOR
   // a chave pode vir do ambiente (OPENROUTER_API_KEY) ou do arquivo do mod (contêineres antigos)
-  const arqLocal = path.join(process.env.HOME ?? '/root', '.config', 'openrouter', 'api_key') // fora do repositório
-  if (!process.env.OPENROUTER_API_KEY && fs.existsSync(arqLocal)) process.env.OPENROUTER_API_KEY = fs.readFileSync(arqLocal, 'utf8').trim()
+  if (!process.env.OPENROUTER_API_KEY) { const m = chaveDoMod('openrouter'); if (m) process.env.OPENROUTER_API_KEY = m }
   try { chaveOR = process.env.OPENROUTER_API_KEY || (fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null) } catch { chaveOR = process.env.OPENROUTER_API_KEY || null }
   return chaveOR
 }
@@ -52,7 +63,7 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio
 // AU5 (pedido do Felipe): o DeepSeek Flash vai pela API do próprio DeepSeek (chave do mod), não pelo OpenRouter
 let chaveDS
 function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
-  if (chaveDS === undefined) { try { chaveDS = process.env.DEEPSEEK_API_KEY || (JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null) } catch { chaveDS = process.env.DEEPSEEK_API_KEY || null } }
+  if (chaveDS === undefined) { try { chaveDS = process.env.DEEPSEEK_API_KEY || chaveDoMod('deepseek') || (JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null) } catch { chaveDS = process.env.DEEPSEEK_API_KEY || null } }
   if (!chaveDS) return Promise.resolve({ ok: false, text: 'deepseek: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
   const corpo = JSON.stringify({ model: 'deepseek-flash', messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, ...(semRaciocinio ? { thinking: { type: 'disabled' } } : { reasoning_effort: 'low' }) })
@@ -73,7 +84,7 @@ function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) 
 }
 
 async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
-  const temDS = !!(process.env.DEEPSEEK_API_KEY || fs.existsSync(ARQ_CHAVE))
+  const temDS = !!(process.env.DEEPSEEK_API_KEY || chaveDoMod('deepseek') || fs.existsSync(ARQ_CHAVE))
   if (process.env.IA_DIRETO && provider.includes('deepseek/') && temDS) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
   if (process.env.IA_DIRETO && provider === 'haiku' && !fs.existsSync(ARQ_CHAVE)) return viaCurlOR('or:anthropic/claude-haiku-5.5', system, prompt, maxTokens, timeoutMs, semRaciocinio) // sem a ponte do mod
   if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
