@@ -30,6 +30,7 @@ VOZES = {  # mesmas do AU5 (cada cor é um personagem) + as 2 cores novas
 PRON = {'Haiku': 'Raicu', 'GPT': 'GêPêTê', 'GLM': 'Gê Éle Ême', 'DeepSeek': 'Dípsíque', 'Qwen': 'Cuên', 'MiMo': 'Mímo', 'MiniMax': 'Mini Mécs',
         'LFM': 'Éle Éfe Ême', 'HY4': 'Agá Ípsilon Quatro', 'Tencent': 'Tênsent', 'Luna': 'Lúna', 'Terra': 'Térra', 'Mira': 'Míra', 'HQ': 'Agá Quê', 'Among': 'Amông', 'Us': 'Âs'}
 CONTAR = '--contar' in sys.argv
+SEM_VOZ = '--sem-voz' in sys.argv  # prévia: duração estimada, sem áudio de voz (não gasta cota)
 MEMES = {m['id']: m for m in json.loads((PUB / 'gifs' / 'catalog.json').read_text())}
 gasto, falta = 0, 0
 
@@ -61,6 +62,8 @@ def tts(texto, voz, eco=False):
     h = hashlib.sha1(json.dumps([texto, voz, eco, MODELO]).encode()).hexdigest()[:16]
     mp3 = VOZ / f'{h}.mp3'
     if not mp3.exists():
+        if SEM_VOZ:
+            return None, max(0.8, len(texto) / 14)
         if CONTAR:
             falta += len(texto)
             return f'zumbi/voz/{h}.mp3', max(0.8, len(texto) / 14)
@@ -94,11 +97,11 @@ def main():
             k = it[0]
             if k == 'n':
                 src, d = tts(it[1], NARRADOR)
-                audio.append(dict(src=src, at=round(t * FPS)))
+                if src: audio.append(dict(src=src, at=round(t * FPS)))
                 t += d + 0.12
             elif k in ('fala', 'pensa'):
                 src, d = tts(it[2], VOZES[it[1]], eco=(k == 'pensa'))
-                audio.append(dict(src=src, at=round(t * FPS)))
+                if src: audio.append(dict(src=src, at=round(t * FPS)))
                 over.append(dict(tipo=k, at=round(t * FPS), dur=round((d + 0.6) * FPS), cor=it[1], texto=it[2]))
                 t += d + 0.25
             elif k == 'selo':

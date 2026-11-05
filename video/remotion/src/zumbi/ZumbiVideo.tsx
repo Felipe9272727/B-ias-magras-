@@ -5,7 +5,6 @@
 // capítulo). Soco de zoom em selo/meme/número e tremida no número, como no padrão aprovado (AGE v4).
 import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence, staticFile, useCurrentFrame, type CalculateMetadataFunction} from 'remotion';
-import {Selo} from '../age/Hud';
 import {Numero} from '../age/Extras';
 import {MemeCard, type MemeInfo} from '../components/overlays';
 import {AU2Comentarios, type Comentario} from '../amongus3/Comentarios';
@@ -80,7 +79,17 @@ const SeqF: React.FC<{k: 'fala' | 'pensa'; o: {cor: string; texto: string; dur: 
   const f = useCurrentFrame();
   return k === 'fala' ? <Fala cor={o.cor} modelo={modelo} texto={o.texto} f={f} dur={o.dur} sala={sala} estado={estado} /> : <Pensamento cor={o.cor} modelo={modelo} texto={o.texto} f={f} dur={o.dur} estado={estado} />;
 };
-const SeqSelo: React.FC<{texto: string; cor?: string}> = ({texto, cor}) => <Selo texto={texto} cor={cor ?? '#e8701a'} f={useCurrentFrame()} top={260} />;
+// selo centralizado, fonte menor quando o texto é longo (o do AGE ficava cortado na borda com texto comprido)
+const SeqSelo: React.FC<{texto: string; cor?: string}> = ({texto, cor = '#e8701a'}) => {
+  const f = useCurrentFrame();
+  const e = interpolate(f, [0, 6], [2.4, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const fs = texto.length > 34 ? 40 : texto.length > 22 ? 50 : 64;
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 250, display: 'flex', justifyContent: 'center'}}>
+      <div style={{fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: fs, color: '#fff', background: cor, border: '7px solid #fff', maxWidth: 1500, textAlign: 'center', borderRadius: 16, padding: '4px 34px', transform: `rotate(-5deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], {extrapolateRight: 'clamp'}), boxShadow: '0 12px 0 #0008', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{texto}</div>
+    </div>
+  );
+};
 const SeqCap: React.FC<{titulo: string; sub?: string}> = ({titulo, sub}) => <Capitulo titulo={titulo} sub={sub} f={useCurrentFrame()} />;
 
 export const ZumbiVideo: React.FC<{tl: TL | null}> = ({tl}) => {
