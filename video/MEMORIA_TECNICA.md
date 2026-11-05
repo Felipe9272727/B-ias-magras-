@@ -63,3 +63,11 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - Cada parte entrega num branch `<prefixo>-parte-NN`; o proxy daqui NÃO deixa apagar branch remoto, então cada pedido
   usa prefixo novo (`prefixo` em `public/age_pedido.json`). Commit nesse arquivo dispara o workflow.
 - Local: bundle copia o `public/` inteiro (3 GB): para stills, usar `publicDir` com uma pasta de hardlinks (`cp -al`).
+
+## GASTO NO OPENROUTER (5/11: o modo zumbi gastou ~US$ 4 num dia e zerou o crédito do Felipe — não pode repetir)
+- SEMPRE rodar partidas com teto de gasto lido do OpenRouter (`GET /api/v1/key` -> `usage`), não com a soma do motor:
+  o custo que o motor anota (`usage.cost` das respostas boas) deixou de fora ~metade (chamadas cortadas por tempo e
+  repetidas também são cobradas). `zumbi.mjs` já para sozinho em `ORCAMENTO_USD` (padrão 0,80 por partida).
+- Antes de rodar várias partidas, avisar o Felipe do custo estimado (custo real de 1 partida x número de partidas) e o saldo.
+- Os caros do elenco: GPT-6.1 Terra (US$ 1/5 por M tokens, 43% do gasto) e Qwen 3.8 27B (raciocínio longo, 29%).
+- `IA_TIMEOUT_S` baixo (90) faz a chamada ser cortada e repetida = paga duas vezes; preferir 180.
