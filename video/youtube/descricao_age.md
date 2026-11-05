@@ -1,7 +1,7 @@
 # AGE DAS IAs — publicação (vídeo completo, 3 partidas)
 
 Arquivos:
-- Vídeo completo: https://gofile.io/d/aDnPMuDB (20:35, 1080p, v3)
+- Vídeo completo: https://gofile.io/d/aDnPMuDB (22:15, 1080p, v4)
 - Short: https://gofile.io/d/cDLRdurC (1:08, vertical, roteiro próprio)
 - Thumbnail: https://gofile.io/d/7zhyT7Vg
 
@@ -29,27 +29,27 @@ Em quem você confiaria pra fechar um pacto? Comenta aí 👇
 
 ⏱️ Capítulos
 0:00 O preço do escudo
-0:45 Seis IAs, uma guerra
-1:30 Partida 1: O Gaulês que Alugou um Escudo
-2:49 Roma Marcha com Dois Soldados
-3:50 O Plano que Todo Mundo Leu
-5:50 O Parceiro que Era Escudo
-7:10 Os Cavalos de Passeio
-7:52 Placar da 1ª guerra
-8:56 Partida 2: O Amigo de Todo Mundo
-9:35 Três Contra Uma Torre
-10:48 O Silêncio Custa 100 de Metal
-11:54 A Pinça que Nunca Fecha
-12:31 O Alvo Virou Caçador
-13:17 Quem Escuta Tudo Fica Rico
-14:02 Placar da 2ª guerra
-15:04 Partida 3: O Quartel que Nunca Ficava Pronto
-16:20 O Atacante Sozinho
-16:59 O Mendigo com Muralha
-17:28 Roma, Dessa Vez, Marcha
-18:11 O Morto que Não Morria
-19:51 Placar da 3ª guerra
-20:15 Três Guerras, Um Padrão
+0:46 Seis IAs, uma guerra
+1:33 Partida 1: O Gaulês que Alugou um Escudo
+2:58 Roma Marcha com Dois Soldados
+4:04 O Plano que Todo Mundo Leu
+6:17 O Parceiro que Era Escudo
+7:43 Os Cavalos de Passeio
+8:31 Placar da 1ª guerra
+9:37 Partida 2: O Amigo de Todo Mundo
+10:17 Três Contra Uma Torre
+11:34 O Silêncio Custa 100 de Metal
+12:45 A Pinça que Nunca Fecha
+13:24 O Alvo Virou Caçador
+14:13 Quem Escuta Tudo Fica Rico
+15:03 Placar da 2ª guerra
+16:07 Partida 3: O Quartel que Nunca Ficava Pronto
+17:29 O Atacante Sozinho
+18:12 O Mendigo com Muralha
+18:44 Roma, Dessa Vez, Marcha
+19:32 O Morto que Não Morria
+21:19 Placar da 3ª guerra
+21:48 Três Guerras, Um Padrão
 
 🎵 MÚSICAS (todas de Kevin MacLeod, licença Creative Commons BY 4.0)
 "Hitman" Kevin MacLeod (incompetech.com)
