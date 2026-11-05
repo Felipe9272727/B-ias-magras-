@@ -1,4 +1,5 @@
 import {TesteMira} from './zumbi/TesteMira';
+import {ZumbiVideo, calcZumbi} from './zumbi/ZumbiVideo';
 import {TesteJogo} from './zumbi/TesteJogo';
 import {CalculateMetadataFunction, Composition, staticFile, Still} from 'remotion';
 import {ShortAge, calcShortAge} from './age/ShortAge';
@@ -287,6 +288,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="TesteCena" component={TesteCena} width={1920} height={1080} defaultProps={{modulos: [], lugar: 'van'}} />
       <Still id="TesteBomba" component={TesteBomba} width={1920} height={1080} defaultProps={{modulos: []}} />
             <Composition id="TesteJogo" component={TesteJogo} durationInFrames={150} fps={30} width={1920} height={1080} defaultProps={{partida: 1, t0: 4, vel: 1, cam: {sala: 'Varanda', zoom: 1.5}}} />
+      <Composition id="ZumbiVideo" component={ZumbiVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcZumbi} />
       <Composition id="TesteMira" component={TesteMira} durationInFrames={90} fps={30} width={1920} height={1080} />
     </>
   );
