@@ -71,3 +71,15 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - Antes de rodar várias partidas, avisar o Felipe do custo estimado (custo real de 1 partida x número de partidas) e o saldo.
 - Os caros do elenco: GPT-6.1 Terra (US$ 1/5 por M tokens, 43% do gasto) e Qwen 3.8 27B (raciocínio longo, 29%).
 - `IA_TIMEOUT_S` baixo (90) faz a chamada ser cortada e repetida = paga duas vezes; preferir 180.
+
+## AU6 zumbi (5/11): o que deu errado e como ficou
+- Contêiner reiniciado do zero apaga tudo que não está no git: GIFs dos memes (*.gif é ignorado), músicas (*.mp3), chaves.
+  GIFs: baixar de novo pelo `media_url` do catalog.json E REDUZIR (≤400 px, 12 fps), senão o render no Actions estoura a
+  memória ("Array buffer allocation failed"). ATENÇÃO: 9 entradas do catálogo têm `media_url` errado (todas baixam o
+  "avengers-assemble"): cat-ok-thumbs-up, coffin-dance-byu, goodbye-see-ya, hangry-cat, hide-the-pain-harold, im-hungry-cat,
+  nuclear-mushroom-cloud, running-from-problems, wait-who-are-you. Conferir md5 duplicado antes de usar.
+- Mesmo com --muted, o Remotion lê os arquivos de áudio (duração): o render no Actions precisa das vozes no checkout.
+- Cena com t0+vel*dur além do fim da partida: travar o tique no último (senão aparece "TIQUE 62/60").
+- Revisão dos Haikus deu ~5/10 por "tela parada" com personagens imóveis: personagens passeiam pela sala o tempo todo e
+  um painel de eventos ao vivo (kill feed) mostra o que o log registrou. Fazer isso em todo vídeo de mapa.
+- Upload: a API de servidores do gofile às vezes não responde; cair para store1.
