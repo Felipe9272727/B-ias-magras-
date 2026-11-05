@@ -69,6 +69,7 @@ def main():
         t = 0.0
         over, audio = [], []
         marcas = None
+        fim_selo = 0.0
         for it in c['itens']:
             k = it[0]
             if k == 'n':
@@ -90,14 +91,18 @@ def main():
                 over.append(o)
                 t += d + 0.25
             elif k == 'selo':
-                over.append(dict(tipo='selo', at=round(t * FPS), dur=55, texto=it[1], **({'cor': it[2]} if len(it) > 2 else {})))
-                audio.append(dict(src='sfx/pop.mp3', at=round(t * FPS), vol=0.5))
+                # tempo de leitura pelo tamanho do texto; selo seguido de selo espera o anterior sair
+                ds = min(3.0, max(1.6, 0.9 + 0.3 * len(it[1].split())))
+                ini = max(t, fim_selo)
+                fim_selo = ini + ds
+                over.append(dict(tipo='selo', at=round(ini * FPS), dur=round(ds * FPS), texto=it[1], **({'cor': it[2]} if len(it) > 2 else {})))
+                audio.append(dict(src='sfx/pop.mp3', at=round(ini * FPS), vol=0.5))
             elif k == 'marco':
                 over.append(dict(tipo='marco', at=round(t * FPS), dur=80, titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/whoosh.mp3', at=round(t * FPS), vol=0.4))
             elif k == 'meme':  # ["meme", id, pos, segundos]
                 m = MEMES[it[1]]
-                d = float(it[3]) if len(it) > 3 else min(2.6, max(1.6, m['duration_sec']))
+                d = min(1.8, max(1.4, float(it[3]) if len(it) > 3 else m['duration_sec']))  # meme curto: só o tempo de ver
                 over.append(dict(tipo='meme', at=round(t * FPS), dur=round(d * FPS), id=it[1], pos=it[2] if len(it) > 2 else 'right',
                                  info=dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])))
             elif k == 'diagrama':  # ["diagrama", [[de, para, rotulo, cor], ...], segundos]
@@ -109,6 +114,8 @@ def main():
             elif k == 'p':
                 t += float(it[1])
         n = max(round((t + c.get('folga', 0.4)) * FPS), 45)
+        # a cena não pode acabar antes do selo/meme/número terminar (antes 85 de 147 sumiam em 0,4 s)
+        n = max(n, max((o['at'] + o['dur'] + 4 for o in over if o['tipo'] in ('selo', 'meme', 'numero')), default=0))
         # legenda do narrador não aparece (regra: legenda só em palavra difícil); fica só para conferência
         over = [o for o in over if o['tipo'] != 'legenda_n']
         cenas.append(dict(id=c['id'], dur=n, t0=round(c['t0_s'] * 1000), vel=round(c.get('vel', 2.0) * 1000 / FPS, 3), cam=c['cam'], foco=c.get('foco'), hud=c.get('hud', True), over=over, audio=audio, cap=c.get('cap'), visual=c.get('visual'), marcas=marcas, comentarios=c.get('comentarios'), partida=c['partida']))
