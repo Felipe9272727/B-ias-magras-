@@ -10,8 +10,11 @@ import { perguntar, lerJSON, uso } from './ia.mjs'
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, v) => (a.startsWith('--') ? [a.slice(2), v[i + 1] && !v[i + 1].startsWith('--') ? v[i + 1] : true] : null)).filter(Boolean))
 const MOCK = !!args.mock
 const NPARTIDA = Number(args.partida ?? 1)
+// sorteio de verdade (python secrets, sorteio_zumbi.py): elenco por cor, profissões, Paciente Zero, salas, tipos de zumbi e semente
+const TEMPORADA = args.temporada ? JSON.parse(fs.readFileSync(args.temporada, 'utf8')) : null
+const DA_TEMP = TEMPORADA?.partidas[NPARTIDA - 1] ?? null
 const SAIDA = args.saida ?? `logs_zumbi/partida${NPARTIDA}${MOCK ? '_mock' : ''}.json`
-let semente = Number(args.seed ?? Math.floor(Math.random() * 1e9))
+let semente = Number(DA_TEMP?.seed ?? args.seed ?? Math.floor(Math.random() * 1e9))
 const SEED = semente
 const rand = () => ((semente = (semente * 1664525 + 1013904223) >>> 0) / 4294967296)
 const escolher = (a) => a[Math.floor(rand() * a.length)]
@@ -21,7 +24,8 @@ export const CFG = {
   amanhecer: Number(args['max-tiques'] ?? 60), // humanos que chegarem vivos e sem mordida até aqui sobrevivem
   pzVira: [5, 8], // o Paciente Zero vira zumbi entre esses tiques, sem saber antes
   incubacao: 5, // tiques entre a mordida e virar zumbi
-  radioMeta: 45, // tarefas somadas para o rádio de resgate funcionar
+  radioMeta: 160, // tarefas completas somadas para o rádio de resgate (teste 1: com 45 enchia em 3 tiques)
+  tarefaTiques: 2, // cada tarefa leva 2 tiques de trabalho na sala
   resgatePrazo: 4, // tiques para chegar ao Lançamento depois que o resgate chega
   moedasTarefa: 2,
   precos: { taser: 3, barricada: 3, uv: 4 },
@@ -103,11 +107,14 @@ function montar() {
   const provs = embaralhar(ELENCO)
   const papeis = embaralhar(['Doutor', 'Doutor', 'Engenheiro', 'Vigia', 'Enlouquecido', ...Array(15).fill('Sobrevivente')])
   const salasIni = Object.keys(SALAS).filter((s) => s !== 'Corredor')
-  cores.forEach((cor, i) => jogadores.push({ cor, provider: MOCK ? 'mock' : provs[i], modelo: MODELOS[provs[i]], papel: papeis[i], estado: 'humano', sala: escolher(salasIni), moedas: 0, itens: { taser: 0, uv: 0 }, memoria: [], ouviu: [], recarga: 0 }))
-  // Paciente Zero: um Sobrevivente qualquer, sorteado em segredo; vira zumbi sozinho entre pzVira[0] e pzVira[1]
-  const pz = escolher(jogadores.filter((j) => j.papel === 'Sobrevivente'))
+  cores.forEach((cor, i) => {
+    const prov = TEMPORADA ? TEMPORADA.cores[cor] : provs[i] // com temporada: cada cor tem sempre a mesma IA (como no AU5)
+    jogadores.push({ cor, provider: MOCK ? 'mock' : prov, modelo: MODELOS[prov], papel: DA_TEMP?.papeis[cor] ?? papeis[i], estado: 'humano', sala: DA_TEMP?.salas[cor] ?? escolher(salasIni), moedas: 0, itens: { taser: 0, uv: 0 }, memoria: [], ouviu: [], recarga: 0 })
+  })
+  // Paciente Zero: um Sobrevivente sorteado em segredo; vira zumbi sozinho no tique sorteado
+  const pz = DA_TEMP ? J(DA_TEMP.pacienteZero) : escolher(jogadores.filter((j) => j.papel === 'Sobrevivente'))
   pz.pacienteZero = true
-  pz.viraEm = CFG.pzVira[0] + Math.floor(rand() * (CFG.pzVira[1] - CFG.pzVira[0] + 1))
+  pz.viraEm = DA_TEMP?.pzViraEm ?? CFG.pzVira[0] + Math.floor(rand() * (CFG.pzVira[1] - CFG.pzVira[0] + 1))
   log.jogadores = jogadores.map((j) => ({ cor: j.cor, modelo: j.modelo, provider: j.provider, papel: j.papel, pacienteZero: !!j.pacienteZero, viraEm: j.viraEm ?? null }))
   evento('inicio', { pacienteZero: pz.cor, viraEm: pz.viraEm })
 }
@@ -116,7 +123,7 @@ function regras() {
   return `Você está jogando o MODO ZUMBI do Among Us no mapa Mira HQ, à noite de Halloween. ${jogadores.length} jogadores, cada um é uma IA diferente.
 COMO FUNCIONA: no começo TODOS são humanos, mas um deles é o PACIENTE ZERO, infectado sem saber (nem ele mesmo sabe). Em algum momento ele vira ZUMBI. Zumbis são verdes e todos veem que são zumbis. Um zumbi MORDE humanos na mesma sala; o mordido não muda por fora (ninguém vê a mordida), mas ele SABE que foi mordido e vira zumbi ${CFG.incubacao} tiques depois, a não ser que um Doutor o cure antes.
 NÃO HÁ REUNIÃO NEM VOTAÇÃO. Conversa só por proximidade: o que você fala só é ouvido por quem está na MESMA sala neste tique.
-LOJA (no Refeitório): taser (${CFG.precos.taser} moedas, ${CFG.taserCargas} cargas, atordoa um zumbi por ${CFG.taserAtordoa} tiques), barricada (${CFG.precos.barricada} moedas, fecha a sala onde você está: ninguém entra nem sai enquanto ela aguentar; zumbis do lado de fora podem quebrá-la), lanterna UV (${CFG.precos.uv} moedas, 1 uso, atordoa TODOS os zumbis da sala por ${CFG.uvAtordoa} tiques). Armas NÃO matam zumbi, só atordoam. Moedas vêm das tarefas (${CFG.moedasTarefa} por tarefa).
+LOJA (no Refeitório): taser (${CFG.precos.taser} moedas, ${CFG.taserCargas} cargas, atordoa um zumbi por ${CFG.taserAtordoa} tiques), barricada (${CFG.precos.barricada} moedas, fecha a sala onde você está: ninguém entra nem sai enquanto ela aguentar; zumbis do lado de fora podem quebrá-la), lanterna UV (${CFG.precos.uv} moedas, 1 uso, atordoa TODOS os zumbis da sala por ${CFG.uvAtordoa} tiques). Armas NÃO matam zumbi, só atordoam. Moedas vêm das tarefas (${CFG.moedasTarefa} por tarefa completa; cada tarefa leva ${CFG.tarefaTiques} tiques).
 OBJETIVO DOS HUMANOS: chegar ao AMANHECER (tique ${CFG.amanhecer}) sem virar zumbi, OU encher o RÁDIO DE RESGATE com ${CFG.radioMeta} tarefas no total e então chegar ao Lançamento em até ${CFG.resgatePrazo} tiques. OBJETIVO DOS ZUMBIS: morder todos os humanos.
 Mapa (salas e vizinhas): ${Object.entries(SALAS).map(([k, s]) => `${s.nome} -> ${s.viz.map(nome).join(', ')}`).join('; ')}.
 Responda SEMPRE e SÓ com JSON: {"pensamento": "<o que você pensa de verdade, 1-2 frases>", "fala": "<o que você diz em voz alta para quem está na sala, ou vazio>", "acao": "<copie exatamente uma das ações da lista>"}`
@@ -172,6 +179,7 @@ function situacao(j) {
     `Salas vizinhas: ${viz.join('; ')}.`,
     `Humanos: ${humanos().length} · Zumbis à vista no mapa: ${zumbis().length}.`,
   ]
+  if (j.estado !== 'zumbi' && Object.values(j.progresso ?? {}).some((v) => v)) linhas.push(`Tarefas pela metade (cada tarefa leva ${CFG.tarefaTiques} tiques; se sair da sala, continua depois): ${Object.entries(j.progresso).filter(([, v]) => v).map(([t, v]) => `"${t}" ${v}/${CFG.tarefaTiques}`).join(', ')}.`)
   if (j.estado !== 'zumbi') linhas.push(`Suas moedas: ${j.moedas}. Itens: taser ${j.itens.taser} carga(s), lanterna UV ${j.itens.uv}.`)
   if (j.estado === 'mordido') linhas.push(`VOCÊ FOI MORDIDO no tique ${j.mordidoEm}. Vai virar ZUMBI no tique ${j.viraEm}, a não ser que um Doutor te cure antes. Ninguém viu a mordida por fora: só você sabe.`)
   if (j.ouviu.length) linhas.push(`O que você OUVIU no último tique:\n${j.ouviu.map((f) => `- ${f}`).join('\n')}`)
@@ -186,7 +194,7 @@ async function decidir(j) {
   const d = lerJSON(r.text) ?? {}
   const pedida = String(d.acao ?? '').trim()
   // casa a ação pedida com a lista (a IA às vezes muda maiúsculas ou tira as aspas); sem casamento = esperar
-  const norm = (x) => x.toLowerCase().replace(/["“”]/g, '').replace(/\s+/g, ' ').trim()
+  const norm = (x) => x.toLowerCase().replace(/["“”'‘’]/g, '').replace(/\s+/g, ' ').trim()
   const acao = acoes.find((x) => norm(x) === norm(pedida)) ?? acoes.find((x) => norm(pedida).startsWith(norm(x).split(' (')[0])) ?? 'esperar'
   return { pensamento: String(d.pensamento ?? ''), fala: String(d.fala ?? '').slice(0, 300), acao, pedida, cru: r.text ?? '' }
 }
@@ -200,7 +208,7 @@ function morder(z, h, como = 'mordida') {
   lembrar(h, `${z.cor} (zumbi) te MORDEU. Você vira zumbi no tique ${h.viraEm} se ninguém te curar.`)
 }
 function virarZumbi(j, motivo) {
-  j.estado = 'zumbi'; j.tipo = escolher(Object.keys(ZUMBIS)); j.memoria = []
+  const n = zumbis().length; j.estado = 'zumbi'; j.tipo = DA_TEMP?.tiposZumbi[n] ?? escolher(Object.keys(ZUMBIS)); j.memoria = []
   evento('virou_zumbi', { cor: j.cor, classe: j.tipo, sala: j.sala, motivo })
   for (const o of naSala(j.sala, j)) lembrar(o, `${j.cor} VIROU ZUMBI (${j.tipo}) bem na sua frente, em ${nome(j.sala)}.`)
 }
@@ -267,7 +275,11 @@ async function rodarTique() {
     else if (h.sala === z.sala) morder(z, h)
   }
   for (const [j, d] of ord(/^(fazer a tarefa|comprar|olhar as câmeras)/)) {
-    if (d.acao.startsWith('fazer a tarefa')) { j.moedas += CFG.moedasTarefa; radio++; evento('tarefa', { cor: j.cor, sala: j.sala, nome: d.acao.match(/"(.+)"/)?.[1] }) }
+    if (d.acao.startsWith('fazer a tarefa')) {
+      const t = d.acao.match(/"(.+)"/)?.[1]; j.progresso ??= {}; j.progresso[t] = (j.progresso[t] ?? 0) + 1
+      if (j.progresso[t] >= CFG.tarefaTiques) { j.progresso[t] = 0; j.moedas += CFG.moedasTarefa; radio++; evento('tarefa', { cor: j.cor, sala: j.sala, nome: t }) }
+      else evento('tarefa_parte', { cor: j.cor, sala: j.sala, nome: t, feito: j.progresso[t], de: CFG.tarefaTiques })
+    }
     else if (d.acao.startsWith('comprar taser') && j.moedas >= CFG.precos.taser) { j.moedas -= CFG.precos.taser; j.itens.taser += CFG.taserCargas; evento('compra', { cor: j.cor, item: 'taser' }) }
     else if (d.acao.startsWith('comprar lanterna') && j.moedas >= CFG.precos.uv) { j.moedas -= CFG.precos.uv; j.itens.uv++; evento('compra', { cor: j.cor, item: 'uv' }) }
     else if (d.acao.startsWith('olhar')) { const v = zumbis().map((z) => `${z.cor} em ${nome(z.sala)}`).join(', ') || 'nenhum zumbi'; lembrar(j, `Câmeras: ${v}.`); evento('cameras', { cor: j.cor, viu: v }) }
