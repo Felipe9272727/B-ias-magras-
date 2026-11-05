@@ -22,6 +22,8 @@ let chaveOR
 function lerChaveOR() {
   if (chaveOR !== undefined) return chaveOR
   // a chave pode vir do ambiente (OPENROUTER_API_KEY) ou do arquivo do mod (contêineres antigos)
+  const arqLocal = path.join(process.env.HOME ?? '/root', '.config', 'openrouter', 'api_key') // fora do repositório
+  if (!process.env.OPENROUTER_API_KEY && fs.existsSync(arqLocal)) process.env.OPENROUTER_API_KEY = fs.readFileSync(arqLocal, 'utf8').trim()
   try { chaveOR = process.env.OPENROUTER_API_KEY || (fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null) } catch { chaveOR = process.env.OPENROUTER_API_KEY || null }
   return chaveOR
 }
@@ -71,7 +73,9 @@ function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) 
 }
 
 async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
-  if (process.env.IA_DIRETO && provider.includes('deepseek/')) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
+  const temDS = !!(process.env.DEEPSEEK_API_KEY || fs.existsSync(ARQ_CHAVE))
+  if (process.env.IA_DIRETO && provider.includes('deepseek/') && temDS) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
+  if (process.env.IA_DIRETO && provider === 'haiku' && !fs.existsSync(ARQ_CHAVE)) return viaCurlOR('or:anthropic/claude-haiku-5.5', system, prompt, maxTokens, timeoutMs, semRaciocinio) // sem a ponte do mod
   if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
