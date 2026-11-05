@@ -314,10 +314,11 @@ function fim() {
 // TETO DE GASTO (5/11: as partidas gastaram o crédito todo do OpenRouter sem aviso). Lê o gasto REAL da chave no OpenRouter
 // (inclui chamadas cortadas por tempo, que também são cobradas) e para a partida antes de passar de ORCAMENTO_USD.
 import { execFileSync } from 'node:child_process'
-const ORCAMENTO = Number(process.env.ORCAMENTO_USD ?? args.orcamento ?? 0.8)
+const ORCAMENTO = Number(process.env.ORCAMENTO_USD ?? args.orcamento ?? 1.0) // 5/11: o Felipe liberou US$ 1 por partida
 function gastoOR() {
   try {
-    const k = fs.readFileSync('/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json', 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0]
+    let k = process.env.OPENROUTER_API_KEY
+    if (!k) k = fs.readFileSync('/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json', 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0]
     const r = JSON.parse(execFileSync('curl', ['-s', '--max-time', '20', 'https://openrouter.ai/api/v1/key', '-H', `Authorization: Bearer ${k}`], { encoding: 'utf8' }))
     return Number(r.data.usage)
   } catch { return null }

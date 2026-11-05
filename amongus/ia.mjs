@@ -21,7 +21,8 @@ const ARQ_CHAVE = '/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json
 let chaveOR
 function lerChaveOR() {
   if (chaveOR !== undefined) return chaveOR
-  try { chaveOR = fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null } catch { chaveOR = null }
+  // a chave pode vir do ambiente (OPENROUTER_API_KEY) ou do arquivo do mod (contêineres antigos)
+  try { chaveOR = process.env.OPENROUTER_API_KEY || (fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null) } catch { chaveOR = process.env.OPENROUTER_API_KEY || null }
   return chaveOR
 }
 function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
@@ -49,7 +50,7 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio
 // AU5 (pedido do Felipe): o DeepSeek Flash vai pela API do próprio DeepSeek (chave do mod), não pelo OpenRouter
 let chaveDS
 function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
-  if (chaveDS === undefined) { try { chaveDS = JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null } catch { chaveDS = null } }
+  if (chaveDS === undefined) { try { chaveDS = process.env.DEEPSEEK_API_KEY || (JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null) } catch { chaveDS = process.env.DEEPSEEK_API_KEY || null } }
   if (!chaveDS) return Promise.resolve({ ok: false, text: 'deepseek: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
   const corpo = JSON.stringify({ model: 'deepseek-flash', messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, ...(semRaciocinio ? { thinking: { type: 'disabled' } } : { reasoning_effort: 'low' }) })
