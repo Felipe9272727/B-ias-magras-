@@ -102,8 +102,8 @@ def main():
                 audio.append(dict(src='sfx/whoosh.mp3', at=round(t * FPS), vol=0.4))
             elif k == 'meme':  # ["meme", id, pos, segundos]
                 m = MEMES[it[1]]
-                d = min(1.8, max(1.4, float(it[3]) if len(it) > 3 else m['duration_sec']))  # meme curto: só o tempo de ver
-                over.append(dict(tipo='meme', at=round(t * FPS), dur=round(d * FPS), id=it[1], pos=it[2] if len(it) > 2 else 'right',
+                d = None  # meme fica o mesmo tempo do selo da cena (acertado no fim da cena)
+                over.append(dict(tipo='meme', at=round(t * FPS), dur=d, id=it[1], pos=it[2] if len(it) > 2 else 'right',
                                  info=dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])))
             elif k == 'diagrama':  # ["diagrama", [[de, para, rotulo, cor], ...], segundos]
                 over.append(dict(tipo='diagrama', at=round(t * FPS), dur=round(float(it[2] if len(it) > 2 else 6) * FPS), setas=it[1]))
@@ -113,6 +113,10 @@ def main():
                 audio.append(dict(src=f'sfx/{it[1]}.mp3', at=round(t * FPS), vol=it[2] if len(it) > 2 else 0.5))
             elif k == 'p':
                 t += float(it[1])
+        selos = [o['dur'] for o in over if o['tipo'] == 'selo']
+        for o in over:
+            if o['tipo'] == 'meme' and o['dur'] is None:
+                o['dur'] = max(selos) if selos else round(2.2 * FPS)
         n = max(round((t + c.get('folga', 0.4)) * FPS), 45)
         # a cena não pode acabar antes do selo/meme/número terminar (antes 85 de 147 sumiam em 0,4 s)
         n = max(n, max((o['at'] + o['dur'] + 4 for o in over if o['tipo'] in ('selo', 'meme', 'numero')), default=0))
