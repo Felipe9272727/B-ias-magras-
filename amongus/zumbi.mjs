@@ -326,6 +326,18 @@ function gastoOR() {
 }
 let gastoInicio = null
 
+// 5/11: um reinício do contêiner apagou a partida 4 no tique 20 (o log só existia no disco). A cada 10 tiques e no fim,
+// o log vai para o git e é enviado (push) para os branches do vídeo.
+function salvarNoGit(msg) {
+  try {
+    const raiz = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
+    const g = (...a) => execFileSync('git', ['-C', raiz, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+    g('add', '-f', path.resolve(SAIDA))
+    g('commit', '-q', '-m', `AU6 zumbi: partida ${NPARTIDA}, ${msg}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01Woq95yLbPN57ZkuGg4Yt9F`)
+    for (const b of ['claude/video-3', 'claude/wizardly-bell-35bp85']) { try { g('push', '-q', 'origin', `HEAD:${b}`) } catch {} }
+  } catch (e) { console.log('  (não consegui salvar no git:', String(e.message ?? e).slice(0, 120), ')') }
+}
+
 async function main() {
   if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
   montar()
@@ -337,6 +349,7 @@ async function main() {
     console.log(`tique ${tique}: humanos ${limpos().length} · mordidos ${jogadores.filter((j) => j.estado === 'mordido').length} · zumbis ${zumbis().length} · rádio ${radio} (${((Date.now() - t0) / 1000).toFixed(0)} s)`)
     fs.mkdirSync(path.dirname(SAIDA), { recursive: true }); fs.writeFileSync(SAIDA, JSON.stringify(log))
     if (r) { log.resultado = r; break }
+    if (!MOCK && tique % 10 === 0) salvarNoGit(`log parcial (tique ${tique})`)
     if (!MOCK) {
       const g = gastoOR()
       log.gastoOR = g == null ? log.gastoOR : g - gastoInicio
@@ -347,6 +360,7 @@ async function main() {
   if (!log.resultado) log.resultado = fim() ?? { vencedor: 'humanos', como: 'amanhecer' }
   log.uso = uso
   fs.writeFileSync(SAIDA, JSON.stringify(log))
+  if (!MOCK) salvarNoGit('completa')
   console.log('RESULTADO', JSON.stringify(log.resultado), 'custo', JSON.stringify(uso.custo ?? {}))
 }
 main().catch((e) => { console.error(e); log.erro = String(e); fs.writeFileSync(SAIDA, JSON.stringify(log)); process.exit(1) })
