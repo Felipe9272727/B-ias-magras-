@@ -165,7 +165,18 @@ export const Jogo: React.FC<{log: Log; T: number; cam: Cam; f: number; foco?: st
     for (let i = 0; i < N; i++) { const a = alvoCam(log, Math.max(0, T + (i - (N - 1) / 2) * 0.04), cam); x += a.x; y += a.y; s += a.s; }
     return {x: x / N, y: y / N, s: s / N};
   }, [log, T, cam]);
-  const ps = posicoes(log, T).filter((p) => !p.salvo).sort((a, b) => a.p.y - b.p.y);
+  // ninguém fica parado: cada um passeia pela sala (zumbi cambaleia mais), com animação de andar quando se mexe
+  const ps = posicoes(log, T).filter((p) => !p.salvo).map((p) => {
+    if (p.andando) return p;
+    const h = p.cor.length * 1.7 + p.cor.charCodeAt(0) * 0.13;
+    const z = p.estado === 'zumbi' && !p.atordoado;
+    const amp = p.atordoado ? 0 : z ? 55 : 32;
+    const vel = z ? 0.022 : 0.016;
+    const ox = amp * Math.sin(f * vel + h) + amp * 0.4 * Math.sin(f * vel * 2.3 + h * 2);
+    const oy = amp * 0.45 * Math.sin(f * vel * 1.7 + h * 3);
+    const dx = amp * vel * Math.cos(f * vel + h) + amp * 0.4 * vel * 2.3 * Math.cos(f * vel * 2.3 + h * 2);
+    return {...p, p: {x: p.p.x + ox, y: p.p.y + oy}, andando: Math.abs(dx) > 0.35, virado: dx < 0};
+  }).sort((a, b) => a.p.y - b.p.y);
   const tq = log.tiques[Math.max(0, Math.min(log.tiques.length - 1, Math.ceil(T) - 1))];
   return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden', background: '#0b0820'}}>

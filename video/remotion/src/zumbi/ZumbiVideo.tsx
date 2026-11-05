@@ -9,7 +9,7 @@ import {Numero} from '../age/Extras';
 import {MemeCard, type MemeInfo} from '../components/overlays';
 import {AU2Comentarios, type Comentario} from '../amongus3/Comentarios';
 import {Jogo, type Cam, type Log} from './Jogo';
-import {Capitulo, Fala, Pensamento, Placar, Relogio} from './HudZumbi';
+import {Capitulo, Fala, Feed, Pensamento, Placar, Relogio} from './HudZumbi';
 
 type Over =
   | {tipo: 'fala' | 'pensa'; at: number; dur: number; cor: string; texto: string}
@@ -56,6 +56,7 @@ const CenaView: React.FC<{c: Cena; log: Log}> = ({c, log}) => {
         <>
           <Placar t={tq} f={f} />
           <Relogio T={T} t={tq} meta={log.cfg.radioMeta} amanhecer={log.cfg.amanhecer} />
+          <Feed eventos={log.eventos} T={T} />
         </>
       ) : null}
       {c.over.map((o, i) => (

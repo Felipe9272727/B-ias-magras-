@@ -118,3 +118,54 @@ export const Capitulo: React.FC<{titulo: string; sub?: string; f: number}> = ({t
     </div>
   );
 };
+
+// ---------- painel de eventos ao vivo (kill feed): cartões com o que o log registrou nos últimos tiques ----------
+const ICONE: Record<string, React.ReactNode> = {
+  mordida: <path d="M4 6 L8 14 L12 6 L16 14 L20 6" stroke="#ff4a3a" strokeWidth={3} fill="none" strokeLinejoin="round" />,
+  virou: <><circle cx={12} cy={11} r={8} fill="#6fae4a" stroke="#000" strokeWidth={2} /><circle cx={9} cy={10} r={1.6} fill="#f22" /><circle cx={15} cy={10} r={1.6} fill="#f22" /></>,
+  taser: <path d="M13 2 L5 13 H11 L9 22 L19 9 H13 Z" fill="#7ae8ff" stroke="#000" strokeWidth={1.5} />,
+  cura: <path d="M9 3 H15 V9 H21 V15 H15 V21 H9 V15 H3 V9 H9 Z" fill="#4aff8a" stroke="#000" strokeWidth={1.5} />,
+  barricada: <><rect x={2} y={6} width={20} height={5} rx={1} fill="#a8743a" stroke="#000" strokeWidth={1.5} /><rect x={2} y={13} width={20} height={5} rx={1} fill="#a8743a" stroke="#000" strokeWidth={1.5} /></>,
+  quebrou: <path d="M3 12 L9 9 L12 13 L16 8 L21 12" stroke="#ffb04a" strokeWidth={3} fill="none" />,
+  imune: <circle cx={12} cy={12} r={8} fill="none" stroke="#fff" strokeWidth={3} strokeDasharray="4 3" />,
+  uivo: <><path d="M6 8 Q12 4 18 8" stroke="#c9b8ff" strokeWidth={2.5} fill="none" /><path d="M4 13 Q12 7 20 13" stroke="#c9b8ff" strokeWidth={2.5} fill="none" /></>,
+  nave: <path d="M12 2 Q18 8 16 18 H8 Q6 8 12 2 Z" fill="#d9dde6" stroke="#000" strokeWidth={1.5} />,
+};
+const NOME_SALA: Record<string, string> = {Lancamento: 'Lançamento', Comunicacoes: 'Comunicações', Vestiario: 'Vestiário', Descontaminacao: 'Descontaminação', Laboratorio: 'Laboratório', Escritorio: 'Escritório', Refeitorio: 'Refeitório', Deposito: 'Depósito'};
+const sal = (s: unknown) => NOME_SALA[String(s)] ?? String(s ?? '');
+function texto(e: {tipo: string; [k: string]: unknown}): [string, string] | null {
+  switch (e.tipo) {
+    case 'mordida': return ['mordida', `${e.zumbi} ${e.como === 'cuspe' ? 'cuspiu em' : 'mordeu'} ${e.alvo}`];
+    case 'virou_zumbi': return ['virou', `${e.cor} virou zumbi ${String(e.classe ?? '').toLowerCase()}`];
+    case 'atordoou': return ['taser', `${e.por} atordoou ${e.zumbi}${e.como === 'uv' ? ' (UV)' : ''}`];
+    case 'cura': return ['cura', `${e.doutor} curou ${e.alvo}`];
+    case 'barricada': return ['barricada', `${e.cor}: barricada em ${sal(e.sala)}`];
+    case 'barricada_quebrou': return ['quebrou', `barricada de ${sal(e.sala)} caiu`];
+    case 'abriu_barricada': return ['quebrou', `${e.cor} ABRIU a barricada`];
+    case 'mordida_imune': return ['imune', `${e.alvo} levou mordida... e nada`];
+    case 'uivo': return ['uivo', `${e.zumbi} uivou`];
+    case 'resgate_chegou': return ['nave', 'A NAVE DE RESGATE CHEGOU'];
+    case 'salvo': return ['nave', `${e.cor} entrou na nave`];
+    default: return null;
+  }
+}
+export const Feed: React.FC<{eventos: {tique: number; tipo: string; [k: string]: unknown}[]; T: number}> = ({eventos, T}) => {
+  const n = Math.ceil(T);
+  const itens = eventos.filter((e) => e.tique <= n && e.tique > n - 6 && texto(e)).slice(-5);
+  return (
+    <div style={{position: 'absolute', right: 24, top: 190, width: 360, display: 'flex', flexDirection: 'column', gap: 8}}>
+      {itens.map((e, i) => {
+        const [ic, tx] = texto(e)!;
+        const idade = T - (e.tique - 0.85);
+        const entra = Math.max(0, Math.min(1, idade * 3));
+        if (idade < 0) return null;
+        return (
+          <div key={`${e.tique}_${i}_${tx}`} style={{display: 'flex', alignItems: 'center', gap: 10, padding: '6px 12px', background: '#160b24dd', border: `3px solid ${ic === 'mordida' || ic === 'virou' ? '#6aff3a' : '#ff8a2a'}`, borderRadius: 12, transform: `translateX(${(1 - entra) * 400}px)`, opacity: Math.max(0.35, 1 - Math.max(0, n - e.tique) * 0.15)}}>
+            <svg width={28} height={28} viewBox="0 0 24 24">{ICONE[ic]}</svg>
+            <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 20, color: '#fff'}}>{tx}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
