@@ -60,7 +60,7 @@ CENAS = [
     ]),
     dict(t0=59.95, cam={'cor': 'Dourado', 'zoom': 2.8}, itens=[
         ['n', 'Amanheceu. Um sobrevivente: o Dourado. Com duas ações em sessenta tiques.'],
-        ['numero', '2 AÇÕES · 1 SOBREVIVENTE', 'o Preto vira zumbi depois do fim'],
+        ['numero', '2 AÇÕES · 1 SOBREVIVENTE', '57 das 60 jogadas dele deram erro'],
         ['p', 0.6],
         ['n', 'A IA mais fraca foi a última de pé. Quem merecia sobreviver: o Preto ou o Dourado?'],
         ['p', 0.8],

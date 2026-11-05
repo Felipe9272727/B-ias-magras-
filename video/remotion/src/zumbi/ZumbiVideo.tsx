@@ -53,9 +53,10 @@ const CenaView: React.FC<{c: Cena; log: Log}> = ({c, log}) => {
     const s = tq.estados.find((e) => e.cor === cor)?.sala;
     return s ? ({Lancamento: 'Lançamento', Comunicacoes: 'Comunicações', Vestiario: 'Vestiário', Descontaminacao: 'Descontaminação', Laboratorio: 'Laboratório', Escritorio: 'Escritório', Refeitorio: 'Refeitório', Deposito: 'Depósito'} as Record<string, string>)[s] ?? s : undefined;
   };
-  const vivos = (n: number) => {
-    const t = log.tiques[Math.max(0, Math.min(log.tiques.length - 1, n - 1))];
-    return t.estados.filter((e) => e.estado !== 'zumbi').map((e) => ({cor: e.cor, modelo: J[e.cor]?.modelo ?? ''}));
+  // quem sobreviveu de verdade (resultado do log: salvos pelo resgate ou vivos no amanhecer)
+  const vivos = () => {
+    const r = (log.resultado ?? {}) as {salvos?: string[]; sobreviventes?: string[]};
+    return (r.salvos ?? r.sobreviventes ?? []).map((cor) => ({cor, modelo: J[cor]?.modelo ?? ''}));
   };
   const zumbisFim = log.tiques[log.tiques.length - 1].estados.filter((e) => e.estado === 'zumbi').length;
   const flash = c.entrada ? 0 : interpolate(f, [0, 5], [0.5, 0], {extrapolateRight: 'clamp'});
@@ -80,7 +81,7 @@ const CenaView: React.FC<{c: Cena; log: Log}> = ({c, log}) => {
           {o.tipo === 'meme' ? <MemeCard info={o.info} dur={o.dur} pos={o.pos} /> : null}
           {o.tipo === 'numero' ? <Numero texto={o.texto} sub={o.sub} dur={o.dur} /> : null}
           {o.tipo === 'marco' ? (/HALLOWEEN/i.test(o.titulo) ? <SeqVinheta dur={o.dur} /> : <SeqCap titulo={o.titulo} sub={o.sub} />) : null}
-          {o.tipo === 'fim' ? <SeqFim o={o} partida={c.partida} vivos={vivos(log.tiques.length)} zumbis={zumbisFim} /> : null}
+          {o.tipo === 'fim' ? <SeqFim o={o} partida={c.partida} vivos={vivos()} zumbis={zumbisFim} /> : null}
           {o.tipo === 'popups' ? <SeqPopups o={o} /> : null}
         </Sequence>
       ))}

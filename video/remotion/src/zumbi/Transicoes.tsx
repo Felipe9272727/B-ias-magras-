@@ -423,7 +423,7 @@ export const PopupsComentarios: React.FC<{f: number; dur: number; comentarios: {
                 <div style={{flex: 1, minWidth: 0, fontFamily: fonte}}>
                   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12}}>
                     <div style={{fontWeight: 900, fontSize: 28, color: '#3b177c', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>@{c.autor.replace('@', '')}</div>
-                    <div style={{display: 'flex', alignItems: 'center', gap: 6, flex: '0 0 auto', transform: `scale(${1 + 0.3 * Math.max(0, Math.sin(cl((f - d - 8) / 10, 0, 1) * Math.PI))})`}}><Curtida s={28} /><span style={{fontWeight: 900, fontSize: 24, color: '#6b2fbb'}}>{12 + ((c.autor.length * 37 + i * 91) % 480)}</span></div>
+                    <div style={{display: 'flex', alignItems: 'center', gap: 6, flex: '0 0 auto', transform: `scale(${1 + 0.3 * Math.max(0, Math.sin(cl((f - d - 8) / 10, 0, 1) * Math.PI))})`}}><Curtida s={28} /></div>
                   </div>
                   <div style={{fontWeight: 700, fontSize: tam, lineHeight: 1.18, color: '#17102a', maxHeight: tam * 1.18 * 4, overflow: 'hidden', wordBreak: 'break-word'}}>{c.texto}</div>
                 </div>

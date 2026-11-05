@@ -92,7 +92,7 @@ def main():
     rot = json.loads((ROOT / 'roteiro' / 'roteiro_zumbi.json').read_text())
     cenas = []
     for c in rot['cenas']:
-        t, over, audio, fim_selo, tk, ult = 0.0, [], [], 0.0, [], None
+        t, over, audio, fim_selo, tk, ult, t0 = 0.0, [], [], 0.0, [], None, float(c['t0'])
         if c.get('entrada'):  # som da transição de Halloween (o corte cai no meio dela)
             for sfx, vol in {'aranha': [('slide-whistle-fall', 0.4), ('heartbeat', 0.5)], 'fantasma': [('gasp', 0.55), ('swoosh-fly', 0.45)], 'morcegos': [('swoosh-fly', 0.5), ('whoosh', 0.4)]}[c['entrada']]:
                 audio.append(dict(src=f'sfx/{sfx}.mp3', at=0, vol=vol))
@@ -106,7 +106,9 @@ def main():
                 ult = k if k != 'meme' else ult
             if k == 'ir':
                 fr = round(t * FPS)
-                if tk and fr <= tk[-1][0]:
+                if fr == 0 and not tk:  # âncora no começo da cena = tique inicial
+                    t0 = float(it[1])
+                elif tk and fr <= tk[-1][0]:
                     tk[-1] = [tk[-1][0], max(tk[-1][1], float(it[1]))]
                 elif not tk or float(it[1]) >= tk[-1][1]:
                     tk.append([fr, float(it[1])])
@@ -156,7 +158,7 @@ def main():
         n = max(round((t + c.get('folga', 0.5)) * FPS), 45)
         n = max(n, max((o['at'] + o['dur'] + 4 for o in over if o['tipo'] in ('selo', 'meme', 'numero', 'marco', 'fim', 'popups')), default=0))
         vel = float(c.get('vel', 0.25)) / FPS
-        cenas.append(dict(id=c['id'], dur=n, partida=c['partida'], t0=float(c['t0']), vel=round(vel, 5), cam=c.get('cam', {'mapa': True}), foco=c.get('foco'),
+        cenas.append(dict(id=c['id'], dur=n, partida=c['partida'], t0=t0, vel=round(vel, 5), cam=c.get('cam', {'mapa': True}), foco=c.get('foco'),
                           hud=c.get('hud', True), over=over, audio=audio, visual=c.get('visual'), comentarios=c.get('comentarios'),
                           **({'tk': tk} if tk else {}), **({'entrada': c['entrada']} if c.get('entrada') else {})))
     tot = sum(c['dur'] for c in cenas) / FPS
