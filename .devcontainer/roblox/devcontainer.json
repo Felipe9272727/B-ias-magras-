@@ -1,0 +1,7 @@
+{
+  "name": "roblox (IA jogando)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "privileged": true,
+  "hostRequirements": {"cpus": 4},
+  "postStartCommand": "bash roblox/setup.sh > /tmp/roblox_setup.log 2>&1 &"
+}
