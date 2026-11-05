@@ -27,7 +27,8 @@ export const calcZumbi: CalculateMetadataFunction<{tl: TL | null}> = async () =>
 
 const CenaView: React.FC<{c: Cena; log: Log}> = ({c, log}) => {
   const f = useCurrentFrame();
-  const T = c.t0 + f * c.vel;
+  // nunca passa do último tique registrado (cena que estoura o fim da partida fica parada no final, sem mostrar 'tique 62/60')
+  const T = Math.min(c.t0 + f * c.vel, log.tiques.length);
   let soco = 0, tremor = 0;
   for (const o of c.over) {
     const d = f - o.at;
