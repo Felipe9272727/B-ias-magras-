@@ -83,3 +83,15 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - Revisão dos Haikus deu ~5/10 por "tela parada" com personagens imóveis: personagens passeiam pela sala o tempo todo e
   um painel de eventos ao vivo (kill feed) mostra o que o log registrou. Fazer isso em todo vídeo de mapa.
 - Upload: a API de servidores do gofile às vezes não responde; cair para store1.
+
+## Lições do AU6 v3 (zumbi)
+- Movimento por QUADRO, não por fração de tique: velocidade constante (px/s de vídeo), passeio em passinhos que some
+  perto de uma caminhada (sem teleporte), empurrão suave entre vizinhos, lado = movimento real com janelas presas a uma
+  grade de 4 quadros (não pisca). Avanço rápido de tiques mostra rastro. Conferir com script: maior salto por quadro.
+- Sincronia: item ["ir", tique] no roteiro (relógio por âncoras) e meme junto com o selo do evento.
+- Meme NOVO no roteiro precisa estar nos dados do render do Actions (branch de dados): senão a parte quebra com
+  "Wrong content type: application/json". GIF grande: reduzir para 400 px / 12 fps antes.
+- Render local é rápido para remendo: ~2900 quadros em 1,5 min (scale 0.5, 4 núcleos). Erro visual em poucas cenas:
+  renderizar só esses trechos e encaixar com overlay no tempo exato, sem refazer o render inteiro.
+- Cartão de capítulo duplicado: não pôr ["marco"] numa cena que já tem "cap" (dois cartões se sobrepõem).
+- Pop-ups de comentário: nunca número de curtidas inventado.

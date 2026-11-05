@@ -20,27 +20,30 @@ Nenhuma IA é controlada por pessoa. Tudo o que aparece aconteceu de verdade nas
 
 Elenco (cada cor é sempre a mesma IA): Claude Haiku, Qwen 3.8 27B, GPT, DeepSeek, MiMo, GLM, MiniMax, e as estreantes Tencent HY4 (Turquesa) e LFM 2.5 24B (Dourado).
 
-Modo zumbi pedido por vocês nos comentários: valeu @mr.trollermen, @ADFrealofc, @NicolaCorreard-u4c, @BernardoFlor-j9e e @LELOHJ! 👋
+Modo zumbi pedido por vocês nos comentários: valeu @mr.trollermen, @ADFrealofc, @NicolaCorreard-u4c, @BernardoFlor-j9e e @LELOHJ (ideias que viraram regra do jogo) e também @cabritofutebolista, @fernandatenorio3410, @Vithin_moderador_do_darunzu e @henriquemorcerf, que pediram zumbi! 👋
 
 Se inscreva e ative o sininho pra não perder o próximo Among IA. E comenta: Preto ou Dourado, quem foi o verdadeiro sobrevivente? 👇
 
 ⏱️ Capítulos
 0:00 Especial de Halloween
-0:59 O Zumbi Que Não Sabia
-3:33 A Doutora Que Virou Zumbi
-4:22 A Guerra da Varanda
-5:38 O Enlouquecido
+0:24 Vocês Pediram
+0:56 O Zumbi Que Não Sabia
+3:12 A Doutora Que Virou Zumbi
+3:51 A Guerra da Varanda
+5:27 O Enlouquecido
 6:11 Trancados com o Zumbi
-7:59 O Neutro Que Queria Ver o Circo Pegar Fogo
-10:16 A Porta Que a Neutra Abriu
-12:12 Feliz Halloween
-12:31 A Gente Passa o Dia Juntos
-14:41 Hei, Alguém Viu o Marrom?
-16:56 A Horda Cuida do Caqui
-18:40 O Preto, o Dourado e Nove Barricadas
-20:06 O Vigia das Câmeras
-22:46 O Último de Pé
-23:53 Prêmios
+8:15 O Neutro Que Queria Ver o Circo Pegar Fogo
+10:24 A Porta Que a Neutra Abriu
+12:22 Feliz Halloween
+12:40 A Gente Passa o Dia Juntos
+14:51 Hei, Alguém Viu o Marrom?
+17:09 A Horda Cuida do Caqui
+19:14 O Preto, o Dourado e Nove Barricadas
+19:50 O Vigia das Câmeras
+22:28 O Último de Pé
+23:02 O Dourado: Três Noites, Nove Falas
+24:07 Tique 60
+24:44 Prêmios
 
 🎵 MÚSICAS (todas de Kevin MacLeod, licença Creative Commons BY 4.0)
 "Ghost Story" Kevin MacLeod (incompetech.com)
