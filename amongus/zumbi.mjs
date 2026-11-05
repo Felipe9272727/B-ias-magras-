@@ -52,13 +52,14 @@ const nome = (s) => SALAS[s].nome
 const salaPorNome = (n) => Object.keys(SALAS).find((k) => k.toLowerCase() === String(n).toLowerCase() || nome(k).toLowerCase() === String(n).toLowerCase())
 
 export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Marrom', 'Ciano', 'Lima', 'Cinza', 'Coral', 'Bordo', 'Banana', 'Caqui', 'Rose', 'Turquesa', 'Dourado']
+// Haiku pela assinatura (ponte do mod) e DeepSeek pela API própria (IA_DIRETO manda deepseek/ para api.deepseek.com).
 // elenco do AU5 + Tencent HY4 + Liquid LFM 2.5 24B (Haiku e Qwen 27B com 3 cores cada; o resto com 2)
 const MODELOS = {
-  'or:anthropic/claude-haiku-5.5': 'Claude Haiku 5.5', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash',
+  'haiku': 'Claude Haiku 5.5', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash',
   'or:xiaomi/mimo-v2.6-flash': 'MiMo V2.6 Flash', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:minimax/minimax-m3.1-flash': 'MiniMax M3.1 Flash',
   'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:tencent/hy4': 'Tencent HY4', 'or:liquid/lfm-2.5-24b-a2b': 'LFM 2.5 24B',
 }
-const ELENCO = ['or:anthropic/claude-haiku-5.5', 'or:anthropic/claude-haiku-5.5', 'or:anthropic/claude-haiku-5.5', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b',
+const ELENCO = ['haiku', 'haiku', 'haiku', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b', 'or:qwen/qwen3.8-27b',
   'or:deepseek/deepseek-v4.1-flash', 'or:deepseek/deepseek-v4.1-flash', 'or:xiaomi/mimo-v2.6-flash', 'or:xiaomi/mimo-v2.6-flash', 'or:z-ai/glm-5.3-flash', 'or:z-ai/glm-5.3-flash',
   'or:minimax/minimax-m3.1-flash', 'or:minimax/minimax-m3.1-flash', 'or:openai/gpt-6.1-terra', 'or:openai/gpt-6.1-terra', 'or:tencent/hy4', 'or:tencent/hy4',
   'or:liquid/lfm-2.5-24b-a2b', 'or:liquid/lfm-2.5-24b-a2b']
