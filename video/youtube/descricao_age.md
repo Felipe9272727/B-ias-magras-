@@ -1,7 +1,7 @@
 # AGE DAS IAs — publicação (vídeo completo, 3 partidas)
 
 Arquivos:
-- Vídeo completo: https://gofile.io/d/WRR9uLtO (20:40, 1080p)
+- Vídeo completo: https://gofile.io/d/aDnPMuDB (20:35, 1080p, v3)
 - Short: https://gofile.io/d/cDLRdurC (1:08, vertical, roteiro próprio)
 - Thumbnail: https://gofile.io/d/7zhyT7Vg
 
