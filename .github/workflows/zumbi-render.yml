@@ -1,0 +1,61 @@
+name: ZUMBI render em partes
+on:
+  push:
+    branches: ["claude/video-3"]
+    paths:
+      - "video/remotion/public/zumbi_pedido.json"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render:
+    name: Parte ${{ matrix.p }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        p: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/remotion/*
+            !/video/remotion/public/*
+            /video/remotion/public/zumbi/partida1.json
+            /video/remotion/public/zumbi/partida2.json
+            /video/remotion/public/zumbi/partida3.json
+            /video/remotion/public/fonts/
+            /video/remotion/public/sfx/
+            /video/remotion/public/gifs/
+            /video/remotion/public/timeline_zumbi.json
+            /video/remotion/public/zumbi_pedido.json
+            /video/remotion/public/bb/manual.json
+            /video/remotion/public/ilha/mapa.json
+            /video/remotion/public/overcooked/chefs/chefs.json
+            /video/remotion/public/overcooked/pecas/pecas.json
+            /video/scripts/
+      - uses: actions/checkout@v4
+        with:
+          ref: zumbi-dados
+          path: dados
+      - name: Dados da partida
+        run: cat dados/zumbi_dados.tgz.* | tar xz -C video/remotion/public && rm -rf dados
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: video/remotion/package-lock.json
+      - name: Dependências
+        working-directory: video/remotion
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq libnss3 libatk-bridge2.0-0 libgbm1 libxkbcommon0 libasound2t64 > /dev/null || true
+          npm ci --no-audit --no-fund
+          npx remotion browser ensure
+      - name: Renderiza e entrega
+        env:
+          PUSH_URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        run: bash video/scripts/zumbi_render_parte.sh ${{ matrix.p }} 16

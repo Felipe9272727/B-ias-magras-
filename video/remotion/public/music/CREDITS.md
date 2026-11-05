@@ -339,3 +339,69 @@ http://creativecommons.org/licenses/by/4.0/
 ```
 
 - Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3
+
+### Batty McFaddin — `batty-mcfaddin.mp3`
+"Batty McFaddin" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Batty%20McFaddin.mp3
+
+### Comedic Juggernaut — `comedic-juggernaut.mp3`
+"Comedic Juggernaut" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Comedic%20Juggernaut.mp3
+
+### Danse Macabre — `danse-macabre.mp3`
+"Danse Macabre" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Danse%20Macabre.mp3
+
+### Darkest Child — `darkest-child.mp3`
+"Darkest Child" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Darkest%20Child.mp3
+
+### Ghost Story — `ghost-story.mp3`
+"Ghost Story" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Ghost%20Story.mp3
+
+### Graveyard Shift — `graveyard-shift.mp3`
+"Graveyard Shift" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Graveyard%20Shift.mp3
+
+### Halls of the Undead — `halls-of-the-undead.mp3`
+"Halls of the Undead" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Halls%20of%20the%20Undead.mp3
+
+### Night of Chaos — `night-of-chaos.mp3`
+"Night of Chaos" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Night%20of%20Chaos.mp3
+
+### Scheming Weasel faster — `scheming-weasel-faster.mp3`
+"Scheming Weasel faster" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Scheming%20Weasel%20faster.mp3
+
+### Spellbound — `spellbound.mp3`
+"Spellbound" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Spellbound.mp3
+
+### Zombie Hoodoo — `zombie-hoodoo.mp3`
+"Zombie Hoodoo" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Zombie%20Hoodoo.mp3
