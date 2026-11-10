@@ -32,7 +32,7 @@ def post(url, body, headers, timeout=40):
 
 def tela(n):
     f = LOG / f'tela_{n:05d}.jpg'
-    subprocess.run(['import', '-display', DISPLAY, '-window', 'root', '-resize', '960x540', '-quality', '70', str(f)], check=True)
+    subprocess.run(['import', '-display', DISPLAY, '-window', 'root', '-quality', '80', str(f)], check=True)
     return f
 
 
@@ -42,12 +42,20 @@ def haiku(msgs, max_tokens=300):
     return r['choices'][0]['message'].get('content') or ''
 
 
-VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival, do ponto de vista do jogador Carlosalberto1234736 '
-       f'(personagem de cabelo castanho e jaqueta preta, no centro). Responda SÓ um JSON: '
-       '{"cena":"lobby|rodada|morto|menu","desastre":"texto do aviso de desastre ou vazio","perigo":"o que ameaça agora (ou vazio)",'
+VER = (f'Você está vendo a tela do Roblox (1280x720), jogo Natural Disaster Survival. O jogador é Carlosalberto1234736: o personagem '
+       'de cabelo castanho e jaqueta preta no CENTRO da tela (câmera atrás dele; "frente" = para onde a câmera olha, fundo da tela). '
+       'Guia da tela: faixa vermelha no topo com "AVISO DE DESASTRE" = o desastre da rodada; barra verde no canto superior direito = vida '
+       '(vazia/sumindo = levando dano); chat no canto superior esquerdo; o lobby é uma torre/plataforma cinza escura com vidro em volta, '
+       'longe do mapa; a rodada acontece num mapa colorido (casas, prédios, praia, parque...); morto = volta para o lobby ou tela de espectador. '
+       'Olhe com atenção a cena inteira: água subindo, fogo, lava, meteoros, tornado, neve descendo, prédios caindo, objetos voando, telhados, '
+       'escadas e lugares altos próximos. Descreva SÓ o que dá para ver, sem chutar. Responda SÓ um JSON: '
+       '{"cena":"lobby|rodada|morto|menu","desastre":"texto exato do aviso ou vazio","perigo":"o que ameaça agora e onde (ou vazio)",'
+       '"vida":"cheia|media|baixa","abrigo_visivel":"teto/lugar alto mais próximo e a direção (ou vazio)",'
        '"lugar_seguro":"esquerda|direita|frente|tras|aqui","obstaculo_frente":true/false,'
-       '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto","falaram_comigo":true/false,"resumo":"1 frase"}. falaram_comigo = alguém no chat citou Carlos/Carlosalberto ou o amigo falou algo que pede resposta. '
-       f'O amigo do jogador se chama {AMIGO}. Em chat_novo ponha só as últimas 3 linhas do chat no canto superior esquerdo.')
+       '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto",'
+       '"falaram_comigo":true/false,"resumo":"2 frases sobre o que está acontecendo agora na partida"}. '
+       f'falaram_comigo = alguém no chat citou Carlos ou o amigo {AMIGO} falou algo que pede resposta. '
+       f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 4 linhas do chat.')
 
 
 def ver(img):
@@ -62,6 +70,7 @@ ACOES = {
     'direita': 'andar para a direita (D)', 'pular_frente': 'correr e pular para a frente (subir em algo)',
     'parar': 'ficar parado observando', 'falar': 'mandar uma mensagem curta no chat',
     'seguir_amigo': 'andar na direção do amigo para ficar junto dele',
+    'girar_camera': 'girar a câmera para olhar em volta (quando não dá para ver o perigo, o abrigo ou o amigo)',
 }
 ESTRATEGIA = ('Regras do Natural Disaster Survival: no lobby, ficar perto do amigo e conversar. Na rodada, o aviso diz o desastre: '
               'enchente/tsunami/vulcão -> subir no lugar mais alto (pular em prédios/escadas); terremoto -> lugar aberto, longe de prédios; '
@@ -119,6 +128,8 @@ def executar(acao):
     m = {'frente': 'w', 'tras': 's', 'esquerda': 'a', 'direita': 'd'}
     if acao in m:
         tecla(m[acao], 1.2)
+    elif acao == 'girar_camera':
+        tecla('Right', 0.6)
     elif acao == 'pular_frente':
         e = {**os.environ, 'DISPLAY': DISPLAY}
         subprocess.run(['xdotool', 'keydown', 'w'], env=e); time.sleep(0.3)
@@ -132,7 +143,7 @@ def main():
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
-    historico, minhas = [], []  # memória da conversa, para entender o clima
+    historico, minhas, desastre_atual = [], [], ''  # memória da conversa, para entender o clima
     while time.time() < fim:
         n += 1
         t0 = time.time()
@@ -140,7 +151,13 @@ def main():
         try:
             img = tela(n)
             v = ver(img); reg['viu'] = v
+            if v.get('cena') == 'lobby':
+                desastre_atual = ''
+            elif v.get('desastre'):
+                desastre_atual = v['desastre']
+            v['desastre'] = v.get('desastre') or desastre_atual
             estado = (f"Cena: {v.get('cena')}. Desastre: {v.get('desastre') or 'nenhum'}. Perigo: {v.get('perigo') or 'nenhum'}. "
+                      f"Vida: {v.get('vida')}. Abrigo visível: {v.get('abrigo_visivel') or 'nenhum'}. "
                       f"Lugar mais seguro: {v.get('lugar_seguro')}. Obstáculo à frente: {v.get('obstaculo_frente')}. "
                       f"Amigo {AMIGO} visível: {v.get('amigo_visivel')} (direção: {v.get('amigo_dir')}). Falaram comigo: {v.get('falaram_comigo')}. Chat: {json.dumps(v.get('chat_novo', []), ensure_ascii=False)}. "
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
