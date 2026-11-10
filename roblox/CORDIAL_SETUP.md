@@ -28,3 +28,13 @@ Ponte para comandar o Codespace: roblox/ponte.sh (branch roblox-cmd -> roblox-st
   (sem UDP). No Codespace (internet normal) deve conectar.
 - Cookie NUNCA no repositório (é público): no Codespace usar um segredo do Codespaces chamado ROBLOSECURITY
   (github.com/settings/codespaces -> Codespaces secrets -> repositório B-ias-magras-).
+
+## 10/11/2026 (tarde) — JOGANDO NO CODESPACE ✅
+- Codespace TEM UDP (teste STUN ok). Este é o lugar.
+- Cordial **0.34.1** (release v0.34.1, `Cordial-0.34.1-0-g378c83b-x86_64.AppImage`) roda o Roblox **2.746.0.1266**
+  (o 0.34.0 só rodava 2.741, que o servidor recusa com erro 280 "cliente desatualizado").
+- Sober NÃO serve no Codespace: exige placa de vídeo ("couldn't find a supported graphics device").
+- Fluxo que funcionou: sway em Xvfb :110 -> Cordial 0.34.1 (Wayland) -> "Download Roblox" -> cookie no perfil ->
+  Home logada -> busca "Natural Disaster Survival" -> Jogar -> dentro do jogo, com chat de jogadores reais.
+- Busca da Home: barra em (673,28); botão Jogar do 1º resultado em (380,573) (tela 1280x720).
+- Comandos pela ponte: roblox/ponte.sh no Codespace; aqui `cmd.sh` manda e lê o branch roblox-status.
