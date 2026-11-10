@@ -280,7 +280,29 @@ def dizer(texto):
     subprocess.run(['xdotool', 'key', 'Return'], env=e)
 
 
-MOV = {'tecla': None, 't': 0.0}  # último movimento: continua andando enquanto a próxima olhada não chega
+def mini():
+    # print minúsculo (64x36, cinza) para saber se a tela mudou
+    r = subprocess.run(['import', '-display', DISPLAY, '-window', 'root', '-resize', '64x36!', '-colorspace', 'Gray', 'gray:-'], capture_output=True)
+    return r.stdout
+
+
+def preso(antes, depois):
+    if not antes or not depois or len(antes) != len(depois):
+        return False
+    dif = sum(abs(a - b) for a, b in zip(antes, depois)) / len(antes)
+    return dif < 2.5  # andou e a tela quase não mudou = encostado na parede
+
+
+def desenroscar():
+    e = {**os.environ, 'DISPLAY': DISPLAY}
+    subprocess.run(['xdotool', 'keydown', 'w'], env=e); time.sleep(0.15)
+    subprocess.run(['xdotool', 'key', 'space'], env=e); time.sleep(0.4)
+    subprocess.run(['xdotool', 'keyup', 'w'], env=e)
+    tecla('Right' if random.random() < 0.5 else 'Left', 0.7)  # vira uns 90 graus
+    tecla(random.choice(['a', 'd']), 0.5)
+
+
+MOV = {'tecla': None, 't': 0.0, 'presas': 0}  # último movimento: continua andando enquanto a próxima olhada não chega
 
 
 def executar(acao):
@@ -339,7 +361,14 @@ def main():
     while time.time() < fim:
         if VISTA['n'] == ultima_vista:  # espera uma tela nova (não decide duas vezes a mesma)
             if MOV['tecla'] and time.time() - MOV['t'] < 3.5:
+                a = mini()
                 tecla(MOV['tecla'], 0.35)  # segue andando na mesma direção até a próxima decisão
+                if preso(a, mini()):
+                    MOV['presas'] += 1
+                    if MOV['presas'] >= 2:  # duas vezes seguidas sem sair do lugar
+                        desenroscar(); MOV['presas'] = 0
+                else:
+                    MOV['presas'] = 0
             else:
                 time.sleep(0.1)
             continue
