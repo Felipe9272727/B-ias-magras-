@@ -22,6 +22,7 @@ OR_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 JEV_KEY = os.environ.get('JEV_API_KEY', '')
 MODELO = os.environ.get('MODELO_HAIKU', 'anthropic/claude-haiku-5.5')
 AMIGO = os.environ.get('AMIGO', 'Bush')
+JOGO = os.environ.get('JOGO', 'nds')  # nds = Natural Disaster Survival; mm = The Mad Murderer X
 MINUTOS = float(sys.argv[sys.argv.index('--minutos') + 1]) if '--minutos' in sys.argv else 15
 
 
@@ -131,7 +132,7 @@ def haiku_or(msgs, max_tokens=300):
     return r['choices'][0]['message'].get('content') or ''
 
 
-VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O jogador é Carlosalberto1234736: o personagem '
+VER = (f'Você está vendo a tela do Roblox, jogo {"The Mad Murderer X (tipo Murder Mystery)" if JOGO == "mm" else "Natural Disaster Survival"}. O jogador é Carlosalberto1234736: o personagem '
        'de cabelo castanho e jaqueta preta no CENTRO da tela (câmera atrás dele; "frente" = para onde a câmera olha, fundo da tela). '
        'Guia da tela: faixa vermelha no topo com "AVISO DE DESASTRE" = o desastre da rodada; barra verde no canto superior direito = vida '
        '(vazia/sumindo = levando dano); chat no canto superior esquerdo; o lobby é uma torre/plataforma cinza escura com vidro em volta, '
@@ -142,7 +143,7 @@ VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O j
        '"vida":"cheia|media|baixa","abrigo_visivel":"teto/lugar alto mais próximo e a direção (ou vazio)",'
        '"lugar_seguro":"esquerda|direita|frente|tras|aqui","obstaculo_frente":true/false,'
        '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto",'
-       '"falaram_comigo":true/false,"pedido_amigo":"seguir|ir_esquerda|ir_direita|ir_frente|ir_tras|ir_lugar|esperar|pular|parar_de_seguir|nenhum","alvo_pedido":"se pedido_amigo=ir_lugar, o lugar pedido (ex.: predio azul, torre, casa vermelha); senão vazio","lugares":[{"nome":"nome curto e visual do lugar (cor + tipo: predio azul, torre branca, casa vermelha, escada, telhado...)","dir":"esquerda|direita|frente|tras","dist":"perto|longe"}],"objetivo_dir":"se há OBJETIVO ATUAL: para que lado andar para chegar nele (esquerda|direita|frente|tras|cheguei|nao_vejo); senão vazio","conselho":"a melhor ação agora (uma de: frente, tras, esquerda, direita, pular_frente, parar, seguir_amigo, girar_camera) e por quê, em poucas palavras","resumo":"2 frases sobre o que está acontecendo agora na partida"}. pedido_amigo = o que a ÚLTIMA mensagem do amigo pede para você fazer (ex.: "vem cá", "me segue", "cola em mim" = seguir; "vai pra lá/esquerda" = ir_esquerda; "espera aí" = esperar; "para de me seguir" = parar_de_seguir). '
+       '"falaram_comigo":true/false,"pedido_amigo":"seguir|ir_esquerda|ir_direita|ir_frente|ir_tras|ir_lugar|esperar|pular|parar_de_seguir|nenhum","alvo_pedido":"se pedido_amigo=ir_lugar, o lugar pedido (ex.: predio azul, torre, casa vermelha); senão vazio","lugares":[{"nome":"nome curto e visual do lugar (cor + tipo: predio azul, torre branca, casa vermelha, escada, telhado...)","dir":"esquerda|direita|frente|tras","dist":"perto|longe"}],"objetivo_dir":"se há OBJETIVO ATUAL: para que lado andar para chegar nele (esquerda|direita|frente|tras|cheguei|nao_vejo); senão vazio","papel":"no Mad Murderer: inocente|xerife|assassino|desconhecido (pelo aviso na tela ou pela arma/faca na mão do seu personagem)","faca_visivel":"jogador com faca à vista (nome e direção) ou vazio","alvo_perto":"jogador sozinho bem perto à frente (nome) ou vazio","conselho":"a melhor ação agora (uma de: frente, tras, esquerda, direita, pular_frente, parar, seguir_amigo, girar_camera, atacar, fugir) e por quê, em poucas palavras","resumo":"2 frases sobre o que está acontecendo agora na partida"}. pedido_amigo = o que a ÚLTIMA mensagem do amigo pede para você fazer (ex.: "vem cá", "me segue", "cola em mim" = seguir; "vai pra lá/esquerda" = ir_esquerda; "espera aí" = esperar; "para de me seguir" = parar_de_seguir). '
        f'falaram_comigo = alguém no chat citou Carlos ou o amigo {AMIGO} falou algo que pede resposta. '
        f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 5 MENSAGENS do chat: cada mensagem começa com o nome colorido seguido de dois-pontos '
        '("Nome: texto"); se o texto quebra em mais de uma linha, as linhas de baixo (sem nome) são continuação da MESMA mensagem; '
@@ -167,11 +168,20 @@ ACOES = {
     'seguir_amigo': 'andar na direção do amigo para ficar junto dele',
     'girar_camera': 'girar a câmera para olhar em volta (quando não dá para ver o perigo, o abrigo ou o amigo)',
 }
-ESTRATEGIA = ('Regras do Natural Disaster Survival: no lobby, ficar perto do amigo e conversar. Na rodada, o aviso diz o desastre: '
+if JOGO == 'mm':
+    ACOES.update({'atacar': 'usar a faca ou a arma no jogador bem à frente (só assassino ou xerife com certeza)',
+                  'fugir': 'correr para longe de quem está com faca'})
+ESTRATEGIA_MM = ('Regras do The Mad Murderer X (tipo Murder Mystery): no início da rodada cada um recebe um papel em segredo, '
+                 'mostrado na tela: INOCENTE (sobreviver até o fim: fugir de quem estiver com faca, ficar perto de outras pessoas, '
+                 'pegar moedas), XERIFE (tem uma arma: descobrir o assassino e atirar nele; atirar em inocente é ruim) ou ASSASSINO '
+                 '(tem uma faca: eliminar os outros sem ser visto, chegando perto de quem está sozinho e atacando com clique; disfarçar no chat). '
+                 'No lobby: votar no mapa, andar perto do amigo e conversar. Morto: só conversar.')
+ESTRATEGIA_NDS = ('Regras do Natural Disaster Survival: no lobby, ficar perto do amigo e conversar. Na rodada, o aviso diz o desastre: '
               'enchente/tsunami/vulcão -> subir no lugar mais alto (pular em prédios/escadas); terremoto -> lugar aberto, longe de prédios; '
               'chuva ácida/nevasca/raio/tempestade de areia/meteoro -> ficar embaixo de um teto; tornado -> longe do funil, atrás de paredes; '
               'avalanche -> sair do caminho da neve, ir para os lados ou subir; incêndio -> longe do fogo. Sem perigo imediato: seguir o amigo. '
               'Morto: só conversar com o amigo.')
+ESTRATEGIA = ESTRATEGIA_MM if JOGO == 'mm' else ESTRATEGIA_NDS
 
 
 def jev(estado):
@@ -182,7 +192,8 @@ def jev(estado):
     return r['answers']
 
 
-FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Natural Disaster Survival com o amigo {amigo}. '
+FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando ' + ('The Mad Murderer X' if JOGO == 'mm' else 'Natural Disaster Survival') + ' com o amigo {amigo}. '
+        + ('Se o seu papel for assassino, disfarce no chat (não conte). ' if JOGO == 'mm' else '') +
         'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
         'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
         '(em ordem, a última é a mais nova) para entender do que estão falando antes de responder. '
@@ -268,6 +279,14 @@ def executar(acao):
         tecla(m[acao], 0.8)
     elif acao == 'girar_camera':
         tecla('Right', 0.4)
+    elif acao == 'atacar':
+        e = {**os.environ, 'DISPLAY': DISPLAY}
+        subprocess.run(['xdotool', 'key', '1'], env=e); time.sleep(0.2)  # equipa a faca/arma (slot 1)
+        subprocess.run(['xdotool', 'keydown', 'w'], env=e); time.sleep(0.4)
+        subprocess.run(['xdotool', 'mousemove', '640', '360', 'click', '1'], env=e); time.sleep(0.3)
+        subprocess.run(['xdotool', 'keyup', 'w'], env=e)
+    elif acao == 'fugir':
+        tecla('s', 1.0); tecla('a' if random.random() < 0.5 else 'd', 0.6)
     elif acao in ('girar_camera',):
         pass
     elif acao == 'pular_frente':
@@ -333,6 +352,7 @@ def main():
             estado = (f"Cena: {v.get('cena')}. Desastre: {v.get('desastre') or 'nenhum'}. Perigo: {v.get('perigo') or 'nenhum'}. "
                       f"Vida: {v.get('vida')}. Abrigo visível: {v.get('abrigo_visivel') or 'nenhum'}. "
                       f"PEDIDO DO AMIGO EM VIGOR: {modo} (cumpra, a não ser que um desastre ameace a vida). "
+                      f"Papel: {v.get('papel')}. Faca à vista: {v.get('faca_visivel') or 'nenhuma'}. Alvo perto: {v.get('alvo_perto') or 'ninguém'}. "
                       f"CONSELHO DO SONNET (que vê a tela): {v.get('conselho') or 'nenhum'}. "
                       f"Lugares à vista: {json.dumps(v.get('lugares', []), ensure_ascii=False)}. "
                       f"Lugar mais seguro: {v.get('lugar_seguro')}. Obstáculo à frente: {v.get('obstaculo_frente')}. "
