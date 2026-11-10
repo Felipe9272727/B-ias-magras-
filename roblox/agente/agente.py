@@ -79,7 +79,7 @@ def jev(estado):
 
 
 FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Natural Disaster Survival com o amigo {amigo}. '
-        'Escreva UMA mensagem de chat curta (até 60 caracteres), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
+        'Escreva UMA mensagem de chat curta (até 70 caracteres, sem acentos), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
         'Pode ser zoeiro do seu jeito, mas só fale de fatos que estão na situação e no chat (não invente o que não aconteceu); se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
@@ -93,10 +93,21 @@ def tecla(k, seg):
     subprocess.run(['xdotool', 'keyup', k], env={**os.environ, 'DISPLAY': DISPLAY})
 
 
+def limpar(texto):
+    # o campo de chat do Cordial perde letras acentuadas: escreve sem acento (como muito jogador faz) e corta em fim de palavra
+    import unicodedata
+    t = ''.join(c for c in unicodedata.normalize('NFKD', texto) if not unicodedata.combining(c))
+    t = t.encode('ascii', 'ignore').decode()
+    if len(t) > 100:
+        t = t[:100].rsplit(' ', 1)[0]
+    return t
+
+
 def dizer(texto):
+    texto = limpar(texto)
     e = {**os.environ, 'DISPLAY': DISPLAY}
     subprocess.run(['xdotool', 'key', 'slash'], env=e); time.sleep(0.6)
-    subprocess.run(['xdotool', 'type', '--delay', '60', texto[:80]], env=e)
+    subprocess.run(['xdotool', 'type', '--delay', '70', texto], env=e)
     subprocess.run(['xdotool', 'key', 'Return'], env=e)
 
 
@@ -144,7 +155,7 @@ def main():
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
                     frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False))}], 80).strip().strip('"')
-                    dizer(frase); reg['falou'] = frase; ultima_fala = time.time()
+                    dizer(frase); reg['falou'] = limpar(frase); ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
             else:
