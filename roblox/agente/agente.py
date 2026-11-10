@@ -36,6 +36,14 @@ def tela(n):
     return f
 
 
+import re
+ERRO_RE = re.compile(r"(hit your|limit|resets? |rate.?limit|usage|credit|error|erro:|api|claude|anthropic|openrouter|token|quota|exceeded|unauthori|traceback)", re.I)
+
+
+def parece_erro(t):
+    return bool(ERRO_RE.search(t or ''))
+
+
 class Sonnet:
     # Sonnet pela ASSINATURA do Claude (Claude Code logado no Codespace), numa sessão que fica aberta (stream-json):
     # sem custo de partida a cada pergunta (~1,5-3 s com imagem). Recomeça a cada 12 perguntas para não acumular imagens.
@@ -63,7 +71,11 @@ class Sonnet:
             for linha in self.p.stdout:
                 d = json.loads(linha)
                 if d.get('type') == 'result':
-                    return d.get('result', '') or ''
+                    r = d.get('result', '') or ''
+                    if d.get('is_error') or d.get('subtype') != 'success' or parece_erro(r):
+                        self.p = None  # descarta a sessão; quem chamou cai na reserva
+                        raise RuntimeError('assinatura: ' + r[:80])
+                    return r
             self.p = None
             return ''
 
@@ -130,7 +142,7 @@ VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O j
        '"vida":"cheia|media|baixa","abrigo_visivel":"teto/lugar alto mais próximo e a direção (ou vazio)",'
        '"lugar_seguro":"esquerda|direita|frente|tras|aqui","obstaculo_frente":true/false,'
        '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto",'
-       '"falaram_comigo":true/false,"resumo":"2 frases sobre o que está acontecendo agora na partida"}. '
+       '"falaram_comigo":true/false,"pedido_amigo":"seguir|ir_esquerda|ir_direita|ir_frente|ir_tras|esperar|pular|parar_de_seguir|nenhum","conselho":"a melhor ação agora (uma de: frente, tras, esquerda, direita, pular_frente, parar, seguir_amigo, girar_camera) e por quê, em poucas palavras","resumo":"2 frases sobre o que está acontecendo agora na partida"}. pedido_amigo = o que a ÚLTIMA mensagem do amigo pede para você fazer (ex.: "vem cá", "me segue", "cola em mim" = seguir; "vai pra lá/esquerda" = ir_esquerda; "espera aí" = esperar; "para de me seguir" = parar_de_seguir). '
        f'falaram_comigo = alguém no chat citou Carlos ou o amigo {AMIGO} falou algo que pede resposta. '
        f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 5 MENSAGENS do chat: cada mensagem começa com o nome colorido seguido de dois-pontos '
        '("Nome: texto"); se o texto quebra em mais de uma linha, as linhas de baixo (sem nome) são continuação da MESMA mensagem; '
@@ -229,6 +241,8 @@ def limpar(texto):
 
 def dizer(texto):
     texto = limpar(texto)
+    if not texto.strip() or parece_erro(texto):  # trava final: mensagem de erro/limite NUNCA vai para o chat
+        return False
     e = {**os.environ, 'DISPLAY': DISPLAY}
     subprocess.run(['xdotool', 'key', 'slash'], env=e); time.sleep(0.6)
     subprocess.run(['xdotool', 'type', '--delay', '70', texto], env=e)
@@ -273,7 +287,7 @@ def main():
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
-    historico, minhas, desastre_atual, cena_ant, desastre_log = [], [], '', None, ''  # memória da conversa, para entender o clima
+    historico, minhas, desastre_atual, cena_ant, desastre_log, modo = [], [], '', None, '', 'livre'  # memória da conversa, para entender o clima
     threading.Thread(target=olhador, args=(0,), daemon=True).start()
     time.sleep(1.2)
     threading.Thread(target=olhador, args=(1,), daemon=True).start()
@@ -296,6 +310,8 @@ def main():
             v['desastre'] = v.get('desastre') or desastre_atual
             estado = (f"Cena: {v.get('cena')}. Desastre: {v.get('desastre') or 'nenhum'}. Perigo: {v.get('perigo') or 'nenhum'}. "
                       f"Vida: {v.get('vida')}. Abrigo visível: {v.get('abrigo_visivel') or 'nenhum'}. "
+                      f"PEDIDO DO AMIGO EM VIGOR: {modo} (cumpra, a não ser que um desastre ameace a vida). "
+                      f"CONSELHO DO SONNET (que vê a tela): {v.get('conselho') or 'nenhum'}. "
                       f"Lugar mais seguro: {v.get('lugar_seguro')}. Obstáculo à frente: {v.get('obstaculo_frente')}. "
                       f"Amigo {AMIGO} visível: {v.get('amigo_visivel')} (direção: {v.get('amigo_dir')}). Falaram comigo: {v.get('falaram_comigo')}. Chat: {json.dumps(v.get('chat_novo', []), ensure_ascii=False)}. "
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
@@ -326,10 +342,20 @@ def main():
             elif acao == 'falar':
                 acao = 'seguir_amigo' if v.get('amigo_visivel') else 'parar'
             reg['pra_mim'] = pra_mim
+            if modo == 'seguir' and acao not in ('falar',) and not v.get('perigo'):
+                acao = 'seguir_amigo'  # pedido "vem cá / me segue" em vigor
+            reg['modo'] = modo
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
                     frase = falar_ia(FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=' / '.join(f'{quem(c.get("autor",""))} disse: "{c.get("texto","")}"' for c in pra_mim), historico=conversa(historico), minhas=' | '.join(minhas[-4:]))).strip().strip('"')
-                    dizer(frase); reg['falou'] = limpar(frase); minhas.append(reg['falou']); ultima_fala = time.time()
+                    if dizer(frase) is not False:
+                        reg['falou'] = limpar(frase); minhas.append(reg['falou'])
+                    else:
+                        reg['bloqueado'] = frase[:120]; ultima_fala = time.time()
+            elif modo.startswith('ir_') and not v.get('perigo'):
+                executar(modo[3:]); acao = modo; modo = 'livre'
+            elif modo == 'esperar' and not v.get('perigo'):
+                acao = 'parar'
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
             else:
