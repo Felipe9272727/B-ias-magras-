@@ -17,3 +17,14 @@ Testado no ambiente do Claude (sem GPU, sem UDP):
    o botão pelo navegador do celular. Depois do login, o agente (Jev decide, Haiku conversa) assume.
 6. Aqui a rede bloqueia UDP (o Roblox precisa para entrar na partida): jogar mesmo só no Codespace.
 Ponte para comandar o Codespace: roblox/ponte.sh (branch roblox-cmd -> roblox-status; buscar com `git fetch origin +roblox-status:...`).
+
+## 10/11/2026 — LOGIN FUNCIONOU (via cookie .ROBLOSECURITY)
+- O Felipe logou no navegador dele e passou o cookie .ROBLOSECURITY. Conferido em
+  `https://users.roblox.com/v1/users/authenticated` (conta Carlosalberto1234736).
+- O Cordial guarda cookies em `~/.local/share/cordial/profiles/default/cookies` (linhas `dominio<TAB>nome=valor; ...`).
+  Basta pôr `.ROBLOSECURITY=<valor>` nas linhas .roblox.com/roblox.com/auth.roblox.com/apis.roblox.com com o
+  Cordial fechado e abrir de novo: entra direto na Home, sem senha e sem verificação.
+- O Flicker aparece em PT como "Tremer" (JJ Studios, place 1324061305). Aqui no ambiente do Claude dá erro 279
+  (sem UDP). No Codespace (internet normal) deve conectar.
+- Cookie NUNCA no repositório (é público): no Codespace usar um segredo do Codespaces chamado ROBLOSECURITY
+  (github.com/settings/codespaces -> Codespaces secrets -> repositório B-ias-magras-).
