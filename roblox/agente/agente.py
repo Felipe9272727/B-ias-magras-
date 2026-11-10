@@ -6,7 +6,7 @@ Regras fixas: nunca pedir/compartilhar dados pessoais, nada ofensivo, e se algu�
 não nega (pode brincar, mas admite). Tudo vai para log (JSONL) + prints, para a edição do vídeo.
 Chaves pelo ambiente (segredos do Codespaces): OPENROUTER_API_KEY e JEV_API_KEY. Nunca no repositório.
 Uso:  python3 roblox/agente/agente.py [--minutos 15]"""
-import base64, json, os, subprocess, sys, time, urllib.request
+import base64, json, os, subprocess, sys, threading, time, urllib.request
 from pathlib import Path
 
 DISPLAY = ':110'
@@ -127,14 +127,32 @@ def dizer(texto):
 def executar(acao):
     m = {'frente': 'w', 'tras': 's', 'esquerda': 'a', 'direita': 'd'}
     if acao in m:
-        tecla(m[acao], 1.2)
+        tecla(m[acao], 0.8)
     elif acao == 'girar_camera':
-        tecla('Right', 0.6)
+        tecla('Right', 0.4)
     elif acao == 'pular_frente':
         e = {**os.environ, 'DISPLAY': DISPLAY}
         subprocess.run(['xdotool', 'keydown', 'w'], env=e); time.sleep(0.3)
         subprocess.run(['xdotool', 'key', 'space'], env=e); time.sleep(0.6)
         subprocess.run(['xdotool', 'keyup', 'w'], env=e)
+
+
+VISTA = {'v': None, 'n': 0, 't': 0.0, 'img': None}
+
+
+def olhador():
+    # fica olhando a tela sem parar (cada olhada ~1,5-2 s); o agente age com a mais recente
+    k = 0
+    while True:
+        k += 1
+        try:
+            img = tela(k)
+            t = time.time()
+            v = ver(img)
+            VISTA.update(v=v, n=k, t=t, img=str(img))
+        except Exception as e:
+            VISTA['erro'] = repr(e)[:150]
+            time.sleep(0.5)
 
 
 def main():
@@ -144,13 +162,19 @@ def main():
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
     historico, minhas, desastre_atual = [], [], ''  # memória da conversa, para entender o clima
+    threading.Thread(target=olhador, daemon=True).start()
+    ultima_vista = 0
     while time.time() < fim:
+        if VISTA['n'] == ultima_vista:  # espera uma tela nova (não decide duas vezes a mesma)
+            time.sleep(0.1)
+            continue
+        ultima_vista = VISTA['n']
         n += 1
         t0 = time.time()
-        reg = {'n': n, 't': round(t0, 2)}
+        v = dict(VISTA['v'])
+        reg = {'n': n, 't': round(t0, 2), 'atraso_visao': round(t0 - VISTA['t'], 2), 'tela': VISTA['img']}
         try:
-            img = tela(n)
-            v = ver(img); reg['viu'] = v
+            reg['viu'] = v
             if v.get('cena') == 'lobby':
                 desastre_atual = ''
             elif v.get('desastre'):
