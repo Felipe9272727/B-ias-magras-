@@ -57,7 +57,7 @@ class Sonnet:
             except Exception:
                 pass
         claude = str(Path.home() / '.local/bin/claude')
-        self.p = subprocess.Popen([claude, '-p', '--model', self.modelo, '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'],
+        self.p = subprocess.Popen([claude, '-p', '--model', self.modelo, '--effort', 'low', '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'],
                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, bufsize=1, cwd='/tmp')
         self.usos = 0
 
