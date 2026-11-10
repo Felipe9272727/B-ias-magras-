@@ -114,6 +114,7 @@ def main():
         sys.exit('faltam os segredos OPENROUTER_API_KEY e JEV_API_KEY no Codespace')
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
+    vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
     while time.time() < fim:
         n += 1
         t0 = time.time()
@@ -127,11 +128,20 @@ def main():
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
             a = jev(estado); reg['jev'] = a
             acao = a['acao']['choice']
-            if (v.get('falaram_comigo') or a.get('responder', {}).get('noul', 0) > 0.6) and t0 - ultima_fala > 6:
+            novas = [c for c in v.get('chat_novo', []) if (c.get('autor', ''), c.get('texto', '')) not in vistas
+                     and 'carlosalberto' not in c.get('autor', '').lower()]
+            for c in v.get('chat_novo', []):
+                vistas.add((c.get('autor', ''), c.get('texto', '')))
+            pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
+            # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
+            if pra_mim and t0 - ultima_fala > 12:
                 acao = 'falar'
+            elif acao == 'falar':
+                acao = 'seguir_amigo' if v.get('amigo_visivel') else 'parar'
+            reg['pra_mim'] = pra_mim
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
-                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, resumo=v.get('resumo', ''), chat=json.dumps(v.get('chat_novo', []), ensure_ascii=False))}], 80).strip().strip('"')
+                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False))}], 80).strip().strip('"')
                     dizer(frase); reg['falou'] = frase; ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
