@@ -20,7 +20,9 @@ if _arq.exists():
             os.environ.setdefault(_k.replace('export ', '').strip(), _v.strip().strip('"').strip("'"))
 OR_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 JEV_KEY = os.environ.get('JEV_API_KEY', '')
-MODELO = os.environ.get('MODELO_HAIKU', 'anthropic/claude-haiku-5.5')
+# padrão agora: DeepSeek V4.1 Flash (vê imagem, baratíssimo) pelo OpenRouter, para VER a tela e FALAR no chat
+MODELO = os.environ.get('MODELO_VISAO', 'deepseek/deepseek-v4.1-flash-1017')
+MODELO_FALA_OR = os.environ.get('MODELO_FALA_OR', 'deepseek/deepseek-v4.1-flash-1017')
 AMIGO = os.environ.get('AMIGO', 'Bush')
 JOGO = os.environ.get('JOGO', 'nds')  # nds = Natural Disaster Survival; mm = The Mad Murderer X
 MINUTOS = float(sys.argv[sys.argv.index('--minutos') + 1]) if '--minutos' in sys.argv else 15
@@ -113,21 +115,23 @@ def haiku(msgs, max_tokens=300):
     return haiku_or(msgs, max_tokens)
 
 
-FALADOR = Sonnet(os.environ.get('MODELO_FALA', 'opus'))  # quem conversa: Opus pela assinatura (só roda quando falam com ele)
+USAR_OPUS = os.environ.get('FALA', 'deepseek') == 'opus'
+FALADOR = Sonnet(os.environ.get('MODELO_FALA', 'opus')) if USAR_OPUS else None  # Opus pela assinatura, só se FALA=opus
 
 
 def falar_ia(texto):
-    try:
-        r = FALADOR.perguntar(texto)
-        if r.strip():
-            return r
-    except Exception:
-        pass
-    return haiku([{'role': 'user', 'content': texto}], 80)
+    if FALADOR:
+        try:
+            r = FALADOR.perguntar(texto)
+            if r.strip():
+                return r
+        except Exception:
+            pass
+    return haiku_or([{'role': 'user', 'content': texto}], 80, MODELO_FALA_OR)
 
 
-def haiku_or(msgs, max_tokens=300):
-    r = post('https://openrouter.ai/api/v1/chat/completions', {'model': MODELO, 'max_tokens': max_tokens + 400, 'messages': msgs,
+def haiku_or(msgs, max_tokens=300, modelo=None):
+    r = post('https://openrouter.ai/api/v1/chat/completions', {'model': modelo or MODELO, 'max_tokens': max_tokens + 400, 'messages': msgs,
              'reasoning': {'enabled': False}}, {'Authorization': f'Bearer {OR_KEY}'})
     return r['choices'][0]['message'].get('content') or ''
 
@@ -175,6 +179,7 @@ ESTRATEGIA_MM = ('Regras do The Mad Murderer X (tipo Murder Mystery): no início
                  'mostrado na tela: INOCENTE (sobreviver até o fim: fugir de quem estiver com faca, ficar perto de outras pessoas, '
                  'pegar moedas), XERIFE (tem uma arma: descobrir o assassino e atirar nele; atirar em inocente é ruim) ou ASSASSINO '
                  '(tem uma faca: eliminar os outros sem ser visto, chegando perto de quem está sozinho e atacando com clique; disfarçar no chat). '
+                 'Na rodada NÃO fique parado: ande explorando o mapa, pegue moedas, vá até o amigo; só pare se estiver escondido de quem tem faca. '
                  'No lobby: votar no mapa, andar perto do amigo e conversar. Morto: só conversar.')
 ESTRATEGIA_NDS = ('Regras do Natural Disaster Survival: no lobby, ficar perto do amigo e conversar. Na rodada, o aviso diz o desastre: '
               'enchente/tsunami/vulcão -> subir no lugar mais alto (pular em prédios/escadas); terremoto -> lugar aberto, longe de prédios; '
