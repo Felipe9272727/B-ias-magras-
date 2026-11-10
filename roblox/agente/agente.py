@@ -136,7 +136,7 @@ def haiku_or(msgs, max_tokens=300, modelo=None):
     return r['choices'][0]['message'].get('content') or ''
 
 
-VER = (f'Você está vendo a tela do Roblox, jogo {"The Mad Murderer X (tipo Murder Mystery)" if JOGO == "mm" else "Natural Disaster Survival"}. O jogador é Carlosalberto1234736: o personagem '
+VER = (f'Você está vendo a tela do Roblox, jogo { {"mm": "The Mad Murderer X (tipo Murder Mystery)", "bh": "Brookhaven RP"}.get(JOGO, "Natural Disaster Survival") }. O jogador é Carlosalberto1234736: o personagem '
        'de cabelo castanho e jaqueta preta no CENTRO da tela (câmera atrás dele; "frente" = para onde a câmera olha, fundo da tela). '
        'Guia da tela: faixa vermelha no topo com "AVISO DE DESASTRE" = o desastre da rodada; barra verde no canto superior direito = vida '
        '(vazia/sumindo = levando dano); chat no canto superior esquerdo; o lobby é uma torre/plataforma cinza escura com vidro em volta, '
@@ -186,7 +186,11 @@ ESTRATEGIA_NDS = ('Regras do Natural Disaster Survival: no lobby, ficar perto do
               'chuva ácida/nevasca/raio/tempestade de areia/meteoro -> ficar embaixo de um teto; tornado -> longe do funil, atrás de paredes; '
               'avalanche -> sair do caminho da neve, ir para os lados ou subir; incêndio -> longe do fogo. Sem perigo imediato: seguir o amigo. '
               'Morto: só conversar com o amigo.')
-ESTRATEGIA = ESTRATEGIA_MM if JOGO == 'mm' else ESTRATEGIA_NDS
+ESTRATEGIA_BH = ('Brookhaven RP: cidade de roleplay, sem objetivo nem game over. Ande pela cidade com o amigo, explore ruas, casas, '
+                 'loja, praça; entre em lugares, converse e faça roleplay leve. Siga pedidos do amigo (vem cá, vai pra tal lugar). '
+                 'Não fique parado muito tempo; se travar, vire e ande. Nunca compre nada nem clique em ofertas.')
+NOMES_JOGO = {'mm': 'The Mad Murderer X (tipo Murder Mystery)', 'bh': 'Brookhaven RP', 'nds': 'Natural Disaster Survival'}
+ESTRATEGIA = {'mm': ESTRATEGIA_MM, 'bh': ESTRATEGIA_BH}.get(JOGO, ESTRATEGIA_NDS)
 
 
 def jev(estado):
@@ -197,7 +201,7 @@ def jev(estado):
     return r['answers']
 
 
-FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando ' + ('The Mad Murderer X' if JOGO == 'mm' else 'Natural Disaster Survival') + ' com o amigo {amigo}. '
+FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando ' + {'mm': 'The Mad Murderer X', 'bh': 'Brookhaven RP'}.get(JOGO, 'Natural Disaster Survival') + ' com o amigo {amigo}. '
         + ('Se o seu papel for assassino, disfarce no chat (não conte). ' if JOGO == 'mm' else '') +
         'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
         'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
