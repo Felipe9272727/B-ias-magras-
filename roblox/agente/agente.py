@@ -206,7 +206,8 @@ FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando ' +
         'brasileiro digita no celular: tudo minúsculo, abreviações (vc, pq, q, tb, mn, slk), pontuação quase nenhuma, às vezes um errinho de '
         'digitação, sem emoji, sem frases certinhas de assistente. '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
-        'Pode ser zoeiro do seu jeito, mas só fale de fatos que estão na situação e no chat (não invente o que não aconteceu); se não entender, pergunte. '
+        'Pode ser zoeiro do seu jeito, mas NUNCA invente fatos do jogo: só diga seu papel (inocente/xerife/assassino), quem morreu ou quem você '
+        'matou se isso estiver escrito no AGORA ou no ANTES; se não estiver, não afirme (pode brincar sem afirmar). Se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
         'uma IA ou um bot, não negue (pode brincar, mas admita). Situação do jogo: {resumo}. Só a mensagem, sem aspas.')
@@ -355,7 +356,7 @@ def main():
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
-    historico, minhas, desastre_atual, cena_ant, desastre_log, modo = [], [], '', None, '', 'livre'  # memória da conversa, para entender o clima
+    historico, minhas, desastre_atual, cena_ant, desastre_log, modo, papel_log = [], [], '', None, '', 'livre', ''  # memória da conversa, para entender o clima
     threading.Thread(target=olhador, args=(0,), daemon=True).start()  # um olhador só (economia)
     ultima_vista = 0
     while time.time() < fim:
@@ -395,7 +396,7 @@ def main():
             elif p.startswith('ir_'):
                 modo = p
             if v.get('cena') == 'lobby':
-                desastre_atual = ''
+                desastre_atual = ''; papel_log = ''
             elif v.get('desastre'):
                 desastre_atual = v['desastre']
             v['desastre'] = v.get('desastre') or desastre_atual
@@ -422,16 +423,24 @@ def main():
             if v.get('cena') != cena_ant:
                 ev = {'lobby': 'você está no lobby (entre rodadas)', 'rodada': 'começou uma rodada no mapa', 'morto': 'você morreu na rodada'}.get(v.get('cena'), f"cena: {v.get('cena')}")
                 cena_ant = v.get('cena')
+            if v.get('papel') and v.get('papel') not in ('desconhecido', '') and v.get('papel') != papel_log:
+                papel_log = v['papel']
+                ev = (ev + '; ' if ev else '') + f'seu papel nesta rodada: {papel_log}'
             if v.get('desastre') and v.get('desastre') != desastre_log:
                 desastre_log = v['desastre']
                 ev = (ev + '; ' if ev else '') + f'desastre anunciado: {desastre_log}'
             if ev:
                 historico.append({'tipo': 'jogo', 't': VISTA['t'], 'texto': ev})
             historico = historico[-16:]
+            import difflib
+            def minha(c):  # o OCR às vezes troca o autor: se o texto é igual a algo que EU falei, é meu
+                t = chave('', c.get('texto', ''))[1]
+                return any(difflib.SequenceMatcher(None, t, chave('', m)[1]).ratio() > 0.7 for m in minhas[-8:])
+            novas = [c for c in novas if not minha(c)]
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
             import random
-            if pra_mim and t0 - ultima_fala > 8 and random.random() < 0.9:
+            if pra_mim and t0 - ultima_fala > 6:
                 acao = 'falar'
             elif acao == 'falar':
                 acao = 'seguir_amigo' if v.get('amigo_visivel') else 'parar'
