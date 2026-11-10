@@ -32,7 +32,7 @@ def post(url, body, headers, timeout=40):
 
 def tela(n):
     f = LOG / f'tela_{n:05d}.jpg'
-    subprocess.run(['import', '-display', DISPLAY, '-window', 'root', '-quality', '80', str(f)], check=True)
+    subprocess.run(['import', '-display', DISPLAY, '-window', 'root', '-resize', '800x450', '-quality', '75', str(f)], check=True)
     return f
 
 
@@ -42,7 +42,7 @@ def haiku(msgs, max_tokens=300):
     return r['choices'][0]['message'].get('content') or ''
 
 
-VER = (f'Você está vendo a tela do Roblox (1280x720), jogo Natural Disaster Survival. O jogador é Carlosalberto1234736: o personagem '
+VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O jogador é Carlosalberto1234736: o personagem '
        'de cabelo castanho e jaqueta preta no CENTRO da tela (câmera atrás dele; "frente" = para onde a câmera olha, fundo da tela). '
        'Guia da tela: faixa vermelha no topo com "AVISO DE DESASTRE" = o desastre da rodada; barra verde no canto superior direito = vida '
        '(vazia/sumindo = levando dano); chat no canto superior esquerdo; o lobby é uma torre/plataforma cinza escura com vidro em volta, '
@@ -140,16 +140,17 @@ def executar(acao):
 VISTA = {'v': None, 'n': 0, 't': 0.0, 'img': None}
 
 
-def olhador():
-    # fica olhando a tela sem parar (cada olhada ~1,5-2 s); o agente age com a mais recente
-    k = 0
+def olhador(base):
+    # fica olhando a tela sem parar; 2 olhadores defasados = uma visão nova a cada ~1-1,5 s; o agente age com a mais recente
+    k = base
     while True:
-        k += 1
+        k += 2
         try:
             img = tela(k)
             t = time.time()
             v = ver(img)
-            VISTA.update(v=v, n=k, t=t, img=str(img))
+            if t > VISTA['t']:
+                VISTA.update(v=v, n=k, t=t, img=str(img))
         except Exception as e:
             VISTA['erro'] = repr(e)[:150]
             time.sleep(0.5)
@@ -162,7 +163,9 @@ def main():
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
     historico, minhas, desastre_atual = [], [], ''  # memória da conversa, para entender o clima
-    threading.Thread(target=olhador, daemon=True).start()
+    threading.Thread(target=olhador, args=(0,), daemon=True).start()
+    time.sleep(1.2)
+    threading.Thread(target=olhador, args=(1,), daemon=True).start()
     ultima_vista = 0
     while time.time() < fim:
         if VISTA['n'] == ultima_vista:  # espera uma tela nova (não decide duas vezes a mesma)
