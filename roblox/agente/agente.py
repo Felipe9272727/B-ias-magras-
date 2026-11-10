@@ -55,7 +55,9 @@ VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O j
        '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto",'
        '"falaram_comigo":true/false,"resumo":"2 frases sobre o que está acontecendo agora na partida"}. '
        f'falaram_comigo = alguém no chat citou Carlos ou o amigo {AMIGO} falou algo que pede resposta. '
-       f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 4 linhas do chat.')
+       f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 5 MENSAGENS do chat: cada mensagem começa com o nome colorido seguido de dois-pontos '
+       '("Nome: texto"); se o texto quebra em mais de uma linha, as linhas de baixo (sem nome) são continuação da MESMA mensagem; '
+       'copie o nome exatamente como aparece e não junte mensagens de pessoas diferentes.')
 
 
 def ver(img):
@@ -91,13 +93,29 @@ FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Nat
         'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
         'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
         '(em ordem, a última é a mais nova) para entender do que estão falando antes de responder. '
-        'Conversa recente: {historico}. Suas últimas falas (não repita): {minhas}. Mensagem que você vai responder agora: {chat}. '
+        'O chat mistura mensagens de VÁRIAS pessoas; cada linha abaixo é UMA mensagem separada, com quem mandou. Mensagens de outros '
+        'jogadores entre si não são para você. Conversa recente (1 = mais antiga):\n{historico}\n'
+        'Suas últimas falas (não repita): {minhas}. Responda AGORA só a esta(s) mensagem(ns) feita(s) para você: {chat}. '
         'Escreva UMA mensagem de chat curta (até 70 caracteres, sem acentos), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
         'Pode ser zoeiro do seu jeito, mas só fale de fatos que estão na situação e no chat (não invente o que não aconteceu); se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
         'uma IA ou um bot, não negue (pode brincar, mas admita). Situação do jogo: {resumo}. Só a mensagem, sem aspas.')
+
+
+def quem(autor):
+    a = autor.lower()
+    if 'carlos' in a:
+        return 'VOCÊ (Carlosalberto1234736)'
+    if AMIGO.lower() in a:
+        return f'{AMIGO} (seu amigo, é com ele que você conversa)'
+    return f'{autor} (outro jogador desconhecido; só fale com ele se ele te chamar)'
+
+
+def conversa(hist):
+    # cada mensagem numa linha, numerada, com QUEM mandou: não é tudo uma mensagem só
+    return '\n'.join(f'{i}. {quem(a)} disse: "{t}"' for i, (a, t) in enumerate(hist, 1)) or '(vazia)'
 
 
 def tecla(k, seg):
@@ -195,7 +213,7 @@ def main():
             for c in v.get('chat_novo', []):
                 k = (c.get('autor', ''), c.get('texto', ''))
                 if k not in vistas:
-                    historico.append(f'{k[0]}: {k[1]}')
+                    historico.append(k)
                 vistas.add(k)
             historico = historico[-12:]
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
@@ -207,7 +225,7 @@ def main():
             reg['pra_mim'] = pra_mim
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
-                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False), historico=' | '.join(historico), minhas=' | '.join(minhas[-4:]))}], 80).strip().strip('"')
+                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=' / '.join(f'{quem(c.get("autor",""))} disse: "{c.get("texto","")}"' for c in pra_mim), historico=conversa(historico), minhas=' | '.join(minhas[-4:]))}], 80).strip().strip('"')
                     dizer(frase); reg['falou'] = limpar(frase); minhas.append(reg['falou']); ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
