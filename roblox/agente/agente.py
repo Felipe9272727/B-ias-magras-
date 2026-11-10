@@ -11,6 +11,13 @@ from pathlib import Path
 
 DISPLAY = ':110'
 LOG = Path('/tmp/roblox_status/agente'); LOG.mkdir(parents=True, exist_ok=True)
+# chaves: do ambiente (segredos do Codespaces) ou do arquivo ~/.chaves_roblox (linhas NOME=valor), fora do repositório
+_arq = Path.home() / '.chaves_roblox'
+if _arq.exists():
+    for _l in _arq.read_text().splitlines():
+        if '=' in _l and not _l.strip().startswith('#'):
+            _k, _v = _l.strip().split('=', 1)
+            os.environ.setdefault(_k.replace('export ', '').strip(), _v.strip().strip('"').strip("'"))
 OR_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 JEV_KEY = os.environ.get('JEV_API_KEY', '')
 MODELO = os.environ.get('MODELO_HAIKU', 'anthropic/claude-haiku-5.5')
