@@ -1,17 +1,17 @@
 // chaves-ias: guarda as chaves de API no armazenamento do mod ($.store), nunca no repositório.
-// Uso: /chave openrouter <chave> · /chave deepseek <chave> · /chave elevenlabs <chave> · /chave jev <chave> · /chave github <token> · /chave (lista o que está guardado)
+// Uso: /chave openrouter <chave> · /chave deepseek <chave> · /chave elevenlabs <chave> · /chave jev <chave> · /chave github <token> · /chave roblox <cookie .ROBLOSECURITY> · /chave (lista o que está guardado)
 // Toda linha do histórico que contiver algo com cara de chave é guardada mascarada (só o começo e o fim aparecem).
 // Os scripts dos vídeos (amongus/ia.mjs) leem o arquivo do armazenamento deste mod, como liam o do mod antigo.
 import type { Register } from 'claude-code'
 
-const SERVICOS = ['openrouter', 'deepseek', 'elevenlabs', 'jev', 'github'] as const
-// sk-or-v1- (OpenRouter), sk- (DeepSeek), sk_ (ElevenLabs), apikey_ (Jev), ghp_/github_pat_ (GitHub), sk-ant-, xi-, ek_: com traço OU sublinhado
-const PADRAO = /(sk-or-v1-|sk-ant-|sk[-_]|apikey[-_]|github_pat_|gh[pousr]_|xi[-_]|ek_)[A-Za-z0-9_-]{16,}/gi
+const SERVICOS = ['openrouter', 'deepseek', 'elevenlabs', 'jev', 'github', 'roblox'] as const
+// sk-or-v1- (OpenRouter), sk- (DeepSeek), sk_ (ElevenLabs), apikey_ (Jev), ghp_/github_pat_ (GitHub), _|WARNING...|_ (cookie .ROBLOSECURITY do Roblox), sk-ant-, xi-, ek_: com traço OU sublinhado
+const PADRAO = /(?:(?:sk-or-v1-|sk-ant-|sk[-_]|apikey[-_]|github_pat_|gh[pousr]_|xi[-_]|ek_)[A-Za-z0-9_-]{16,}|_\|WARNING[^|]*\|_[A-Za-z0-9]{16,}|ROBLOSECURITY=[A-Za-z0-9_|:.-]{16,})/gi
 const mascarar = (s: string) => s.replace(PADRAO, k => `${k.slice(0, 8)}***${k.slice(-3)}`)
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
-    await $.command.register({ name: 'chave', description: 'Guarda uma chave de API (openrouter, deepseek, elevenlabs, jev, github) sem expor no chat', argumentHint: '[servico] [chave]' })
+    await $.command.register({ name: 'chave', description: 'Guarda uma chave de API (openrouter, deepseek, elevenlabs, jev, github, roblox) sem expor no chat', argumentHint: '[servico] [chave]' })
     return next(e)
   })
 
