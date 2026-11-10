@@ -37,16 +37,16 @@ def tela(n):
 
 
 def haiku(msgs, max_tokens=300):
-    r = post('https://openrouter.ai/api/v1/chat/completions', {'model': MODELO, 'max_tokens': max_tokens, 'messages': msgs},
-             {'Authorization': f'Bearer {OR_KEY}'})
-    return r['choices'][0]['message']['content']
+    r = post('https://openrouter.ai/api/v1/chat/completions', {'model': MODELO, 'max_tokens': max_tokens + 400, 'messages': msgs,
+             'reasoning': {'enabled': False}}, {'Authorization': f'Bearer {OR_KEY}'})
+    return r['choices'][0]['message'].get('content') or ''
 
 
 VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival, do ponto de vista do jogador Carlosalberto1234736 '
        f'(personagem de cabelo castanho e jaqueta preta, no centro). Responda SÓ um JSON: '
        '{"cena":"lobby|rodada|morto|menu","desastre":"texto do aviso de desastre ou vazio","perigo":"o que ameaça agora (ou vazio)",'
        '"lugar_seguro":"esquerda|direita|frente|tras|aqui","obstaculo_frente":true/false,'
-       '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"resumo":"1 frase"}. '
+       '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto","falaram_comigo":true/false,"resumo":"1 frase"}. falaram_comigo = alguém no chat citou Carlos/Carlosalberto ou o amigo falou algo que pede resposta. '
        f'O amigo do jogador se chama {AMIGO}. Em chat_novo ponha só as últimas 3 linhas do chat no canto superior esquerdo.')
 
 
@@ -61,11 +61,17 @@ ACOES = {
     'frente': 'andar para a frente (W)', 'tras': 'andar para trás (S)', 'esquerda': 'andar para a esquerda (A)',
     'direita': 'andar para a direita (D)', 'pular_frente': 'correr e pular para a frente (subir em algo)',
     'parar': 'ficar parado observando', 'falar': 'mandar uma mensagem curta no chat',
+    'seguir_amigo': 'andar na direção do amigo para ficar junto dele',
 }
+ESTRATEGIA = ('Regras do Natural Disaster Survival: no lobby, ficar perto do amigo e conversar. Na rodada, o aviso diz o desastre: '
+              'enchente/tsunami/vulcão -> subir no lugar mais alto (pular em prédios/escadas); terremoto -> lugar aberto, longe de prédios; '
+              'chuva ácida/nevasca/raio/tempestade de areia/meteoro -> ficar embaixo de um teto; tornado -> longe do funil, atrás de paredes; '
+              'avalanche -> sair do caminho da neve, ir para os lados ou subir; incêndio -> longe do fogo. Sem perigo imediato: seguir o amigo. '
+              'Morto: só conversar com o amigo.')
 
 
 def jev(estado):
-    r = post('https://api.typesafe.ai/v1/systemone', {'model': 'jev-latest', 'state': estado, 'questions': {
+    r = post('https://api.typesafe.ai/v1/systemone', {'model': 'jev-latest', 'state': ESTRATEGIA + ' Situação agora: ' + estado, 'questions': {
         'acao': {'type': 'choice', 'instructions': 'Qual a melhor ação agora para sobreviver ao desastre e ser um bom companheiro do amigo?', 'criteria': ACOES},
         'responder': {'type': 'noul', 'instructions': 'Alguém no chat falou diretamente com o jogador ou com o amigo dele e merece resposta?'},
     }}, {'Authorization': f'Bearer {JEV_KEY}'}, timeout=15)
@@ -74,6 +80,7 @@ def jev(estado):
 
 FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Natural Disaster Survival com o amigo {amigo}. '
         'Escreva UMA mensagem de chat curta (até 60 caracteres), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
+        'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
         'uma IA ou um bot, não negue (pode brincar, mas admita). Situação: {resumo}. Chat recente: {chat}. Só a mensagem, sem aspas.')
 
@@ -116,16 +123,18 @@ def main():
             v = ver(img); reg['viu'] = v
             estado = (f"Cena: {v.get('cena')}. Desastre: {v.get('desastre') or 'nenhum'}. Perigo: {v.get('perigo') or 'nenhum'}. "
                       f"Lugar mais seguro: {v.get('lugar_seguro')}. Obstáculo à frente: {v.get('obstaculo_frente')}. "
-                      f"Amigo {AMIGO} visível: {v.get('amigo_visivel')}. Chat: {json.dumps(v.get('chat_novo', []), ensure_ascii=False)}. "
+                      f"Amigo {AMIGO} visível: {v.get('amigo_visivel')} (direção: {v.get('amigo_dir')}). Falaram comigo: {v.get('falaram_comigo')}. Chat: {json.dumps(v.get('chat_novo', []), ensure_ascii=False)}. "
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
             a = jev(estado); reg['jev'] = a
             acao = a['acao']['choice']
-            if a.get('responder', {}).get('noul', 0) > 0.6 and t0 - ultima_fala > 8:
+            if (v.get('falaram_comigo') or a.get('responder', {}).get('noul', 0) > 0.6) and t0 - ultima_fala > 6:
                 acao = 'falar'
             if acao == 'falar':
-                if t0 - ultima_fala > 8:
+                if t0 - ultima_fala > 6:
                     frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, resumo=v.get('resumo', ''), chat=json.dumps(v.get('chat_novo', []), ensure_ascii=False))}], 80).strip().strip('"')
                     dizer(frase); reg['falou'] = frase; ultima_fala = time.time()
+            elif acao == 'seguir_amigo':
+                executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
             else:
                 executar(acao)
             reg['acao'] = acao
