@@ -79,12 +79,16 @@ def jev(estado):
 
 
 FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Natural Disaster Survival com o amigo {amigo}. '
+        'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
+        'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
+        '(em ordem, a última é a mais nova) para entender do que estão falando antes de responder. '
+        'Conversa recente: {historico}. Suas últimas falas (não repita): {minhas}. Mensagem que você vai responder agora: {chat}. '
         'Escreva UMA mensagem de chat curta (até 70 caracteres, sem acentos), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
         'Pode ser zoeiro do seu jeito, mas só fale de fatos que estão na situação e no chat (não invente o que não aconteceu); se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
-        'uma IA ou um bot, não negue (pode brincar, mas admita). Situação: {resumo}. Chat recente: {chat}. Só a mensagem, sem aspas.')
+        'uma IA ou um bot, não negue (pode brincar, mas admita). Situação do jogo: {resumo}. Só a mensagem, sem aspas.')
 
 
 def tecla(k, seg):
@@ -128,6 +132,7 @@ def main():
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
+    historico, minhas = [], []  # memória da conversa, para entender o clima
     while time.time() < fim:
         n += 1
         t0 = time.time()
@@ -144,7 +149,11 @@ def main():
             novas = [c for c in v.get('chat_novo', []) if (c.get('autor', ''), c.get('texto', '')) not in vistas
                      and 'carlosalberto' not in c.get('autor', '').lower()]
             for c in v.get('chat_novo', []):
-                vistas.add((c.get('autor', ''), c.get('texto', '')))
+                k = (c.get('autor', ''), c.get('texto', ''))
+                if k not in vistas:
+                    historico.append(f'{k[0]}: {k[1]}')
+                vistas.add(k)
+            historico = historico[-12:]
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
             if pra_mim and t0 - ultima_fala > 12:
@@ -154,8 +163,8 @@ def main():
             reg['pra_mim'] = pra_mim
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
-                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False))}], 80).strip().strip('"')
-                    dizer(frase); reg['falou'] = limpar(frase); ultima_fala = time.time()
+                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False), historico=' | '.join(historico), minhas=' | '.join(minhas[-4:]))}], 80).strip().strip('"')
+                    dizer(frase); reg['falou'] = limpar(frase); minhas.append(reg['falou']); ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
             else:
