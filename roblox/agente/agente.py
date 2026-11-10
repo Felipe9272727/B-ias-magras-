@@ -80,6 +80,8 @@ def jev(estado):
 
 FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Natural Disaster Survival com o amigo {amigo}. '
         'Escreva UMA mensagem de chat curta (até 60 caracteres), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
+        'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
+        'Você é parceiro do {amigo}: brinque junto, mas sem xingar nem mandar calar a boca; não repita o que ele escreveu; se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
         'uma IA ou um bot, não negue (pode brincar, mas admita). Situação: {resumo}. Chat recente: {chat}. Só a mensagem, sem aspas.')
@@ -141,7 +143,7 @@ def main():
             reg['pra_mim'] = pra_mim
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
-                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False))}], 80).strip().strip('"')
+                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=json.dumps(pra_mim, ensure_ascii=False))}], 80).strip().strip('"')
                     dizer(frase); reg['falou'] = frase; ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
