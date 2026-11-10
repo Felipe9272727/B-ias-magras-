@@ -36,7 +36,71 @@ def tela(n):
     return f
 
 
+class Sonnet:
+    # Sonnet pela ASSINATURA do Claude (Claude Code logado no Codespace), numa sessão que fica aberta (stream-json):
+    # sem custo de partida a cada pergunta (~1,5-3 s com imagem). Recomeça a cada 12 perguntas para não acumular imagens.
+    def __init__(self):
+        self.p, self.usos, self.trava = None, 0, threading.Lock()
+
+    def _abrir(self):
+        if self.p:
+            try:
+                self.p.kill()
+            except Exception:
+                pass
+        claude = str(Path.home() / '.local/bin/claude')
+        self.p = subprocess.Popen([claude, '-p', '--model', 'sonnet', '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'],
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, bufsize=1, cwd='/tmp')
+        self.usos = 0
+
+    def perguntar(self, conteudo):
+        with self.trava:
+            if not self.p or self.p.poll() is not None or self.usos >= 12:
+                self._abrir()
+            self.usos += 1
+            self.p.stdin.write(json.dumps({'type': 'user', 'message': {'role': 'user', 'content': conteudo}}) + '\n')
+            self.p.stdin.flush()
+            for linha in self.p.stdout:
+                d = json.loads(linha)
+                if d.get('type') == 'result':
+                    return d.get('result', '') or ''
+            self.p = None
+            return ''
+
+
+def para_anthropic(msgs):
+    # converte o formato OpenRouter (image_url data:) para blocos do Claude
+    c = msgs[-1]['content']
+    if isinstance(c, str):
+        return c
+    out = []
+    for b in c:
+        if b.get('type') == 'image_url':
+            url = b['image_url']['url']
+            out.append({'type': 'image', 'source': {'type': 'base64', 'media_type': 'image/jpeg', 'data': url.split(',', 1)[1]}})
+        else:
+            out.append({'type': 'text', 'text': b.get('text', '')})
+    return out
+
+
+USAR_SONNET = os.environ.get('CEREBRO', 'sonnet') == 'sonnet'
+SESSOES = threading.local()
+
+
 def haiku(msgs, max_tokens=300):
+    if USAR_SONNET:  # (nome antigo) agora o cérebro é o Sonnet da assinatura; cai no Haiku do OpenRouter se falhar
+        try:
+            if not hasattr(SESSOES, 's'):
+                SESSOES.s = Sonnet()
+            r = SESSOES.s.perguntar(para_anthropic(msgs))
+            if r.strip():
+                return r
+        except Exception:
+            SESSOES.__dict__.pop('s', None)
+    return haiku_or(msgs, max_tokens)
+
+
+def haiku_or(msgs, max_tokens=300):
     r = post('https://openrouter.ai/api/v1/chat/completions', {'model': MODELO, 'max_tokens': max_tokens + 400, 'messages': msgs,
              'reasoning': {'enabled': False}}, {'Authorization': f'Bearer {OR_KEY}'})
     return r['choices'][0]['message'].get('content') or ''
