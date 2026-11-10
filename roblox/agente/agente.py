@@ -6,7 +6,7 @@ Regras fixas: nunca pedir/compartilhar dados pessoais, nada ofensivo, e se algu�
 não nega (pode brincar, mas admite). Tudo vai para log (JSONL) + prints, para a edição do vídeo.
 Chaves pelo ambiente (segredos do Codespaces): OPENROUTER_API_KEY e JEV_API_KEY. Nunca no repositório.
 Uso:  python3 roblox/agente/agente.py [--minutos 15]"""
-import base64, json, os, subprocess, sys, threading, time, urllib.request
+import base64, json, os, random, subprocess, sys, threading, time, urllib.request
 from pathlib import Path
 
 DISPLAY = ':110'
@@ -142,16 +142,20 @@ VER = (f'Você está vendo a tela do Roblox, jogo Natural Disaster Survival. O j
        '"vida":"cheia|media|baixa","abrigo_visivel":"teto/lugar alto mais próximo e a direção (ou vazio)",'
        '"lugar_seguro":"esquerda|direita|frente|tras|aqui","obstaculo_frente":true/false,'
        '"chat_novo":[{"autor":"","texto":""}],"amigo_visivel":true/false,"amigo_dir":"esquerda|direita|frente|tras|nao_visto",'
-       '"falaram_comigo":true/false,"pedido_amigo":"seguir|ir_esquerda|ir_direita|ir_frente|ir_tras|esperar|pular|parar_de_seguir|nenhum","conselho":"a melhor ação agora (uma de: frente, tras, esquerda, direita, pular_frente, parar, seguir_amigo, girar_camera) e por quê, em poucas palavras","resumo":"2 frases sobre o que está acontecendo agora na partida"}. pedido_amigo = o que a ÚLTIMA mensagem do amigo pede para você fazer (ex.: "vem cá", "me segue", "cola em mim" = seguir; "vai pra lá/esquerda" = ir_esquerda; "espera aí" = esperar; "para de me seguir" = parar_de_seguir). '
+       '"falaram_comigo":true/false,"pedido_amigo":"seguir|ir_esquerda|ir_direita|ir_frente|ir_tras|ir_lugar|esperar|pular|parar_de_seguir|nenhum","alvo_pedido":"se pedido_amigo=ir_lugar, o lugar pedido (ex.: predio azul, torre, casa vermelha); senão vazio","lugares":[{"nome":"nome curto e visual do lugar (cor + tipo: predio azul, torre branca, casa vermelha, escada, telhado...)","dir":"esquerda|direita|frente|tras","dist":"perto|longe"}],"objetivo_dir":"se há OBJETIVO ATUAL: para que lado andar para chegar nele (esquerda|direita|frente|tras|cheguei|nao_vejo); senão vazio","conselho":"a melhor ação agora (uma de: frente, tras, esquerda, direita, pular_frente, parar, seguir_amigo, girar_camera) e por quê, em poucas palavras","resumo":"2 frases sobre o que está acontecendo agora na partida"}. pedido_amigo = o que a ÚLTIMA mensagem do amigo pede para você fazer (ex.: "vem cá", "me segue", "cola em mim" = seguir; "vai pra lá/esquerda" = ir_esquerda; "espera aí" = esperar; "para de me seguir" = parar_de_seguir). '
        f'falaram_comigo = alguém no chat citou Carlos ou o amigo {AMIGO} falou algo que pede resposta. '
        f'O amigo se chama {AMIGO} (nome em cima do personagem). Em chat_novo ponha as últimas 5 MENSAGENS do chat: cada mensagem começa com o nome colorido seguido de dois-pontos '
        '("Nome: texto"); se o texto quebra em mais de uma linha, as linhas de baixo (sem nome) são continuação da MESMA mensagem; '
        'copie o nome exatamente como aparece e não junte mensagens de pessoas diferentes.')
 
 
+OBJETIVO = {'alvo': ''}
+
+
 def ver(img):
     b64 = base64.b64encode(img.read_bytes()).decode()
-    txt = haiku([{'role': 'user', 'content': [{'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{b64}'}}, {'type': 'text', 'text': VER}]}])
+    extra = f" OBJETIVO ATUAL: chegar em '{OBJETIVO['alvo']}' (preencha objetivo_dir)." if OBJETIVO['alvo'] else ''
+    txt = haiku([{'role': 'user', 'content': [{'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{b64}'}}, {'type': 'text', 'text': VER + extra}]}])
     txt = txt[txt.find('{'): txt.rfind('}') + 1]
     return json.loads(txt)
 
@@ -187,7 +191,9 @@ FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Nat
         'partida; as outras linhas são mensagens separadas do chat, cada uma de uma pessoa):\n{historico}\n'
         'Mensagens de outros jogadores entre si não são para você. '
         'Suas últimas falas (não repita): {minhas}. Responda AGORA só a esta(s) mensagem(ns) feita(s) para você: {chat}. '
-        'Escreva UMA mensagem de chat curta (até 70 caracteres, sem acentos), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
+        'Escreva UMA mensagem de chat curta (quase sempre 2 a 8 palavras, no máximo 70 caracteres, sem acentos), do jeito que um jogador '
+        'brasileiro digita no celular: tudo minúsculo, abreviações (vc, pq, q, tb, mn, slk), pontuação quase nenhuma, às vezes um errinho de '
+        'digitação, sem emoji, sem frases certinhas de assistente. '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
         'Pode ser zoeiro do seu jeito, mas só fale de fatos que estão na situação e no chat (não invente o que não aconteceu); se não entender, pergunte. '
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
@@ -240,12 +246,19 @@ def limpar(texto):
 
 
 def dizer(texto):
+    import random
     texto = limpar(texto)
     if not texto.strip() or parece_erro(texto):  # trava final: mensagem de erro/limite NUNCA vai para o chat
         return False
     e = {**os.environ, 'DISPLAY': DISPLAY}
-    subprocess.run(['xdotool', 'key', 'slash'], env=e); time.sleep(0.6)
-    subprocess.run(['xdotool', 'type', '--delay', '70', texto], env=e)
+    time.sleep(random.uniform(0.8, 2.5))  # tempo de ler e pensar, como gente
+    subprocess.run(['xdotool', 'key', 'slash'], env=e); time.sleep(random.uniform(0.4, 0.9))
+    # digita em pedaços com ritmo irregular (mais rápido no meio da palavra, pausa entre palavras)
+    for pal in texto.split(' '):
+        subprocess.run(['xdotool', 'type', '--delay', str(random.randint(60, 120)), pal + ' '], env=e)
+        if random.random() < 0.15:
+            time.sleep(random.uniform(0.2, 0.7))
+    time.sleep(random.uniform(0.2, 0.6))
     subprocess.run(['xdotool', 'key', 'Return'], env=e)
 
 
@@ -255,6 +268,8 @@ def executar(acao):
         tecla(m[acao], 0.8)
     elif acao == 'girar_camera':
         tecla('Right', 0.4)
+    elif acao in ('girar_camera',):
+        pass
     elif acao == 'pular_frente':
         e = {**os.environ, 'DISPLAY': DISPLAY}
         subprocess.run(['xdotool', 'keydown', 'w'], env=e); time.sleep(0.3)
@@ -303,6 +318,15 @@ def main():
         reg = {'n': n, 't': round(t0, 2), 'atraso_visao': round(t0 - VISTA['t'], 2), 'tela': VISTA['img']}
         try:
             reg['viu'] = v
+            p = v.get('pedido_amigo') or 'nenhum'
+            if p == 'seguir':
+                modo = 'seguir'; OBJETIVO['alvo'] = ''
+            elif p in ('parar_de_seguir', 'esperar'):
+                modo = p; OBJETIVO['alvo'] = ''
+            elif p == 'ir_lugar' and v.get('alvo_pedido'):
+                OBJETIVO['alvo'] = v['alvo_pedido']; modo = 'objetivo'
+            elif p.startswith('ir_'):
+                modo = p
             if v.get('cena') == 'lobby':
                 desastre_atual = ''
             elif v.get('desastre'):
@@ -312,6 +336,7 @@ def main():
                       f"Vida: {v.get('vida')}. Abrigo visível: {v.get('abrigo_visivel') or 'nenhum'}. "
                       f"PEDIDO DO AMIGO EM VIGOR: {modo} (cumpra, a não ser que um desastre ameace a vida). "
                       f"CONSELHO DO SONNET (que vê a tela): {v.get('conselho') or 'nenhum'}. "
+                      f"Lugares à vista: {json.dumps(v.get('lugares', []), ensure_ascii=False)}. "
                       f"Lugar mais seguro: {v.get('lugar_seguro')}. Obstáculo à frente: {v.get('obstaculo_frente')}. "
                       f"Amigo {AMIGO} visível: {v.get('amigo_visivel')} (direção: {v.get('amigo_dir')}). Falaram comigo: {v.get('falaram_comigo')}. Chat: {json.dumps(v.get('chat_novo', []), ensure_ascii=False)}. "
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
@@ -337,7 +362,8 @@ def main():
             historico = historico[-16:]
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
-            if pra_mim and t0 - ultima_fala > 12:
+            import random
+            if pra_mim and t0 - ultima_fala > 12 and random.random() < 0.85:
                 acao = 'falar'
             elif acao == 'falar':
                 acao = 'seguir_amigo' if v.get('amigo_visivel') else 'parar'
@@ -352,10 +378,20 @@ def main():
                         reg['falou'] = limpar(frase); minhas.append(reg['falou'])
                     else:
                         reg['bloqueado'] = frase[:120]; ultima_fala = time.time()
+            elif modo == 'objetivo' and OBJETIVO['alvo'] and not v.get('perigo'):
+                d = v.get('objetivo_dir') or 'nao_vejo'
+                if d == 'cheguei':
+                    reg['chegou'] = OBJETIVO['alvo']; OBJETIVO['alvo'] = ''; modo = 'livre'; acao = 'parar'
+                elif d == 'nao_vejo':
+                    executar('girar_camera'); acao = 'procurar:' + OBJETIVO['alvo']
+                else:
+                    executar('pular_frente' if d == 'frente' and v.get('obstaculo_frente') else d); acao = f"indo:{OBJETIVO['alvo']}:{d}"
             elif modo.startswith('ir_') and not v.get('perigo'):
                 executar(modo[3:]); acao = modo; modo = 'livre'
             elif modo == 'esperar' and not v.get('perigo'):
                 acao = 'parar'
+            elif acao == 'parar' and random.random() < 0.35:
+                executar(random.choice(['girar_camera', 'esquerda', 'direita', 'pular_frente'])); acao = 'parar(mexendo)'
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
             else:
