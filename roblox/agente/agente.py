@@ -93,8 +93,10 @@ FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Nat
         'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
         'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
         '(em ordem, a última é a mais nova) para entender do que estão falando antes de responder. '
-        'O chat mistura mensagens de VÁRIAS pessoas; cada linha abaixo é UMA mensagem separada, com quem mandou. Mensagens de outros '
-        'jogadores entre si não são para você. Conversa recente (1 = mais antiga):\n{historico}\n'
+        'AGORA (o presente, o que está na tela neste momento): {resumo} Desastre agora: {desastre}.\n'
+        'ANTES (linha do tempo do passado, do mais antigo ao mais novo; o que já passou NÃO está acontecendo agora; [JOGO] = eventos da '
+        'partida; as outras linhas são mensagens separadas do chat, cada uma de uma pessoa):\n{historico}\n'
+        'Mensagens de outros jogadores entre si não são para você. '
         'Suas últimas falas (não repita): {minhas}. Responda AGORA só a esta(s) mensagem(ns) feita(s) para você: {chat}. '
         'Escreva UMA mensagem de chat curta (até 70 caracteres, sem acentos), jeito de jogador brasileiro (minúscula, gíria leve, sem emoji). '
         'Desastre atual (fale SÓ dele, nunca invente outro como lava/fogo se não estiver aqui): {desastre}. '
@@ -102,6 +104,12 @@ FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando Nat
         'Preste muita atenção no que o {amigo} e os outros disseram por último e responda a isso (pergunta -> resposta direta; brincadeira -> brinque de volta); não repita frases. '
         'Regras: nada ofensivo; nunca peça nem diga dados pessoais (idade, cidade, redes, nome real); se alguém perguntar a sério se você é '
         'uma IA ou um bot, não negue (pode brincar, mas admita). Situação do jogo: {resumo}. Só a mensagem, sem aspas.')
+
+
+def chave(autor, texto):
+    import re, unicodedata
+    n = lambda x: re.sub(r'[^a-z0-9]', '', ''.join(c for c in unicodedata.normalize('NFKD', x.lower()) if not unicodedata.combining(c)))
+    return (n(autor)[:12], n(texto)[:40])
 
 
 def quem(autor):
@@ -114,8 +122,16 @@ def quem(autor):
 
 
 def conversa(hist):
-    # cada mensagem numa linha, numerada, com QUEM mandou: não é tudo uma mensagem só
-    return '\n'.join(f'{i}. {quem(a)} disse: "{t}"' for i, (a, t) in enumerate(hist, 1)) or '(vazia)'
+    # linha do tempo: cada item numa linha, do mais antigo ao mais novo, com há quantos segundos e QUEM mandou
+    agora = time.time()
+    linhas = []
+    for h in hist:
+        ha = int(agora - h['t'])
+        if h['tipo'] == 'chat':
+            linhas.append(f'- há {ha}s: {quem(h["autor"])} disse: "{h["texto"]}"')
+        else:
+            linhas.append(f'- há {ha}s: [JOGO] {h["texto"]}')
+    return '\n'.join(linhas) or '(nada ainda)'
 
 
 def tecla(k, seg):
@@ -180,7 +196,7 @@ def main():
     log = open(LOG / 'log.jsonl', 'a')
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
-    historico, minhas, desastre_atual = [], [], ''  # memória da conversa, para entender o clima
+    historico, minhas, desastre_atual, cena_ant, desastre_log = [], [], '', None, ''  # memória da conversa, para entender o clima
     threading.Thread(target=olhador, args=(0,), daemon=True).start()
     time.sleep(1.2)
     threading.Thread(target=olhador, args=(1,), daemon=True).start()
@@ -208,14 +224,24 @@ def main():
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
             a = jev(estado); reg['jev'] = a
             acao = a['acao']['choice']
-            novas = [c for c in v.get('chat_novo', []) if (c.get('autor', ''), c.get('texto', '')) not in vistas
+            novas = [c for c in v.get('chat_novo', []) if chave(c.get('autor', ''), c.get('texto', '')) not in vistas
                      and 'carlosalberto' not in c.get('autor', '').lower()]
             for c in v.get('chat_novo', []):
-                k = (c.get('autor', ''), c.get('texto', ''))
+                k = chave(c.get('autor', ''), c.get('texto', ''))
                 if k not in vistas:
-                    historico.append(k)
+                    historico.append({'tipo': 'chat', 't': VISTA['t'], 'autor': c.get('autor', ''), 'texto': c.get('texto', '')})
                 vistas.add(k)
-            historico = historico[-12:]
+            # eventos do jogo (mudança de cena / desastre) na mesma linha do tempo
+            ev = None
+            if v.get('cena') != cena_ant:
+                ev = {'lobby': 'você está no lobby (entre rodadas)', 'rodada': 'começou uma rodada no mapa', 'morto': 'você morreu na rodada'}.get(v.get('cena'), f"cena: {v.get('cena')}")
+                cena_ant = v.get('cena')
+            if v.get('desastre') and v.get('desastre') != desastre_log:
+                desastre_log = v['desastre']
+                ev = (ev + '; ' if ev else '') + f'desastre anunciado: {desastre_log}'
+            if ev:
+                historico.append({'tipo': 'jogo', 't': VISTA['t'], 'texto': ev})
+            historico = historico[-16:]
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
             if pra_mim and t0 - ultima_fala > 12:
