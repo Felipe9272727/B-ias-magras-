@@ -95,7 +95,7 @@ def para_anthropic(msgs):
     return out
 
 
-USAR_SONNET = os.environ.get('CEREBRO', 'sonnet') == 'sonnet'
+USAR_SONNET = os.environ.get('CEREBRO', 'haiku') == 'sonnet'  # padrão: visão pelo Haiku (OpenRouter), sem gastar a assinatura
 SESSOES = threading.local()
 
 
@@ -303,9 +303,7 @@ def main():
     ultima_fala, fim, n = 0, time.time() + MINUTOS * 60, 0
     vistas = set()  # linhas de chat já vistas (não responde duas vezes à mesma coisa)
     historico, minhas, desastre_atual, cena_ant, desastre_log, modo = [], [], '', None, '', 'livre'  # memória da conversa, para entender o clima
-    threading.Thread(target=olhador, args=(0,), daemon=True).start()
-    time.sleep(1.2)
-    threading.Thread(target=olhador, args=(1,), daemon=True).start()
+    threading.Thread(target=olhador, args=(0,), daemon=True).start()  # um olhador só (economia)
     ultima_vista = 0
     while time.time() < fim:
         if VISTA['n'] == ultima_vista:  # espera uma tela nova (não decide duas vezes a mesma)
