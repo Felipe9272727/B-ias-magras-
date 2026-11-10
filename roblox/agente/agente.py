@@ -218,6 +218,13 @@ def chave(autor, texto):
     return (n(autor)[:12], n(texto)[:40])
 
 
+def ja_visto(k, vistas):
+    import difflib
+    if k in vistas:
+        return True
+    return any(k[0] == a and difflib.SequenceMatcher(None, k[1], t).ratio() > 0.75 for a, t in vistas)
+
+
 def quem(autor):
     a = autor.lower()
     if 'carlos' in a:
@@ -262,19 +269,24 @@ def dizer(texto):
     if not texto.strip() or parece_erro(texto):  # trava final: mensagem de erro/limite NUNCA vai para o chat
         return False
     e = {**os.environ, 'DISPLAY': DISPLAY}
-    time.sleep(random.uniform(0.8, 2.5))  # tempo de ler e pensar, como gente
+    time.sleep(random.uniform(0.2, 0.7))  # pausa curta (o modelo já demora o tempo de "pensar")
     subprocess.run(['xdotool', 'key', 'slash'], env=e); time.sleep(random.uniform(0.4, 0.9))
     # digita em pedaços com ritmo irregular (mais rápido no meio da palavra, pausa entre palavras)
     for pal in texto.split(' '):
-        subprocess.run(['xdotool', 'type', '--delay', str(random.randint(60, 120)), pal + ' '], env=e)
-        if random.random() < 0.15:
-            time.sleep(random.uniform(0.2, 0.7))
+        subprocess.run(['xdotool', 'type', '--delay', str(random.randint(45, 85)), pal + ' '], env=e)
+        if random.random() < 0.08:
+            time.sleep(random.uniform(0.1, 0.4))
     time.sleep(random.uniform(0.2, 0.6))
     subprocess.run(['xdotool', 'key', 'Return'], env=e)
 
 
+MOV = {'tecla': None, 't': 0.0}  # último movimento: continua andando enquanto a próxima olhada não chega
+
+
 def executar(acao):
     m = {'frente': 'w', 'tras': 's', 'esquerda': 'a', 'direita': 'd'}
+    MOV['tecla'] = m.get(acao)
+    MOV['t'] = time.time()
     if acao in m:
         tecla(m[acao], 0.8)
     elif acao == 'girar_camera':
@@ -326,7 +338,10 @@ def main():
     ultima_vista = 0
     while time.time() < fim:
         if VISTA['n'] == ultima_vista:  # espera uma tela nova (não decide duas vezes a mesma)
-            time.sleep(0.1)
+            if MOV['tecla'] and time.time() - MOV['t'] < 3.5:
+                tecla(MOV['tecla'], 0.35)  # segue andando na mesma direção até a próxima decisão
+            else:
+                time.sleep(0.1)
             continue
         ultima_vista = VISTA['n']
         n += 1
@@ -366,11 +381,11 @@ def main():
                       f"Segundos desde a última fala: {int(t0 - ultima_fala)}.")
             a = jev(estado); reg['jev'] = a
             acao = a['acao']['choice']
-            novas = [c for c in v.get('chat_novo', []) if chave(c.get('autor', ''), c.get('texto', '')) not in vistas
+            novas = [c for c in v.get('chat_novo', []) if not ja_visto(chave(c.get('autor', ''), c.get('texto', '')), vistas)
                      and 'carlosalberto' not in c.get('autor', '').lower()]
             for c in v.get('chat_novo', []):
                 k = chave(c.get('autor', ''), c.get('texto', ''))
-                if k not in vistas:
+                if not ja_visto(k, vistas):
                     historico.append({'tipo': 'chat', 't': VISTA['t'], 'autor': c.get('autor', ''), 'texto': c.get('texto', '')})
                 vistas.add(k)
             # eventos do jogo (mudança de cena / desastre) na mesma linha do tempo
@@ -387,7 +402,7 @@ def main():
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
             import random
-            if pra_mim and t0 - ultima_fala > 12 and random.random() < 0.85:
+            if pra_mim and t0 - ultima_fala > 8 and random.random() < 0.9:
                 acao = 'falar'
             elif acao == 'falar':
                 acao = 'seguir_amigo' if v.get('amigo_visivel') else 'parar'
