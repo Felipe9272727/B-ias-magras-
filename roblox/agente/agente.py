@@ -39,8 +39,8 @@ def tela(n):
 class Sonnet:
     # Sonnet pela ASSINATURA do Claude (Claude Code logado no Codespace), numa sessão que fica aberta (stream-json):
     # sem custo de partida a cada pergunta (~1,5-3 s com imagem). Recomeça a cada 12 perguntas para não acumular imagens.
-    def __init__(self):
-        self.p, self.usos, self.trava = None, 0, threading.Lock()
+    def __init__(self, modelo='sonnet'):
+        self.p, self.usos, self.trava, self.modelo = None, 0, threading.Lock(), modelo
 
     def _abrir(self):
         if self.p:
@@ -49,7 +49,7 @@ class Sonnet:
             except Exception:
                 pass
         claude = str(Path.home() / '.local/bin/claude')
-        self.p = subprocess.Popen([claude, '-p', '--model', 'sonnet', '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'],
+        self.p = subprocess.Popen([claude, '-p', '--model', self.modelo, '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'],
                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, bufsize=1, cwd='/tmp')
         self.usos = 0
 
@@ -98,6 +98,19 @@ def haiku(msgs, max_tokens=300):
         except Exception:
             SESSOES.__dict__.pop('s', None)
     return haiku_or(msgs, max_tokens)
+
+
+FALADOR = Sonnet(os.environ.get('MODELO_FALA', 'opus'))  # quem conversa: Opus pela assinatura (só roda quando falam com ele)
+
+
+def falar_ia(texto):
+    try:
+        r = FALADOR.perguntar(texto)
+        if r.strip():
+            return r
+    except Exception:
+        pass
+    return haiku([{'role': 'user', 'content': texto}], 80)
 
 
 def haiku_or(msgs, max_tokens=300):
@@ -315,7 +328,7 @@ def main():
             reg['pra_mim'] = pra_mim
             if acao == 'falar':
                 if t0 - ultima_fala > 6:
-                    frase = haiku([{'role': 'user', 'content': FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=' / '.join(f'{quem(c.get("autor",""))} disse: "{c.get("texto","")}"' for c in pra_mim), historico=conversa(historico), minhas=' | '.join(minhas[-4:]))}], 80).strip().strip('"')
+                    frase = falar_ia(FALA.format(amigo=AMIGO, desastre=v.get('desastre') or 'nenhum (lobby ou rodada sem aviso)', resumo=v.get('resumo', ''), chat=' / '.join(f'{quem(c.get("autor",""))} disse: "{c.get("texto","")}"' for c in pra_mim), historico=conversa(historico), minhas=' | '.join(minhas[-4:]))).strip().strip('"')
                     dizer(frase); reg['falou'] = limpar(frase); minhas.append(reg['falou']); ultima_fala = time.time()
             elif acao == 'seguir_amigo':
                 executar({'esquerda': 'esquerda', 'direita': 'direita', 'tras': 'tras'}.get(v.get('amigo_dir'), 'frente'))
