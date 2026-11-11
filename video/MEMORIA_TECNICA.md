@@ -95,3 +95,15 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
   renderizar só esses trechos e encaixar com overlay no tempo exato, sem refazer o render inteiro.
 - Cartão de capítulo duplicado: não pôr ["marco"] numa cena que já tem "cap" (dois cartões se sobrepõem).
 - Pop-ups de comentário: nunca número de curtidas inventado.
+
+## Custo do Fable no vídeo do Roblox (11/11) e como dividir o trabalho daqui pra frente
+- O que pesou: 191 turnos num único contexto que cresceu até ~525 mil tokens (retomado 3 vezes, nunca recomeçado).
+  Cada turno relê o contexto inteiro: ~58,5 milhões de tokens lidos do cache + 5,1 mi escritos + 388 mil de saída.
+  121 dos 191 turnos já estavam acima de 300 mil tokens (50 mi dos 58 mi lidos).
+- O que encheu o contexto: 44 imagens lidas (quadros e prints), ~270 mil caracteres de saída de comandos, e trabalho que
+  não era de edição: 23 comandos de render/ffmpeg, 13 de espera/progresso do render, 9 de voz/timeline.
+- Regra nova: EU (agente principal) entrego ao Fable um pacote pronto (trechos utilizáveis com tempos, falas copiadas do
+  log, fatos conferidos, prints escolhidos, lista de memes livres e os componentes que já existem); o Fable só escreve o
+  roteiro e a edição (scripts/composição) e para. Render, vozes, stills de conferência, mix, upload e revisão: eu.
+  Cada rodada de correção = agente NOVO com um resumo curto (não retomar o mesmo contexto gigante). Sem ler imagens
+  além do necessário (pedir no máximo ~10).
