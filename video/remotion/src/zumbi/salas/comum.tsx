@@ -3,6 +3,9 @@
 import React from 'react';
 import type {Sala} from '../mapaMira';
 
+// tema do mapa: o AU6 (zumbi) usa a noite de Halloween; o AU7 (clássico) desliga os enfeites com <TemaMira.Provider value={{halloween: false}}>
+export const TemaMira = React.createContext({halloween: true});
+const semEnfeite = () => !React.useContext(TemaMira).halloween;
 export const L = '#121014'; // contorno
 export type SalaProps = {r: Sala}; // cada sala desenha TUDO dentro do retângulo r (x, y, w, h em px de mundo)
 export const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -20,7 +23,7 @@ export const Piso: React.FC<{id: string; r: Sala; a: string; b: string; tam?: nu
   </>
 );
 
-export const Abobora: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
+export const Abobora: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => semEnfeite() ? null : (
   <g transform={`translate(${x},${y}) scale(${s})`}>
     <ellipse cx={0} cy={26} rx={30} ry={7} fill="#000" opacity={0.35} />
     <circle cx={0} cy={0} r={42} fill="#ff9a2a" opacity={0.18} />
@@ -33,7 +36,7 @@ export const Abobora: React.FC<{x: number; y: number; s?: number}> = ({x, y, s =
   </g>
 );
 
-export const Teia: React.FC<{x: number; y: number; r?: number; rot?: number}> = ({x, y, r = 70, rot = 0}) => (
+export const Teia: React.FC<{x: number; y: number; r?: number; rot?: number}> = ({x, y, r = 70, rot = 0}) => semEnfeite() ? null : (
   <g transform={`translate(${x},${y}) rotate(${rot})`} stroke="#e8e8f0" strokeWidth={2} fill="none" opacity={0.55}>
     {[0, 22, 45, 68, 90].map((a) => <line key={a} x1={0} y1={0} x2={r * Math.cos((a * Math.PI) / 180)} y2={r * Math.sin((a * Math.PI) / 180)} />)}
     {[0.35, 0.6, 0.85].map((k) => (
@@ -42,7 +45,7 @@ export const Teia: React.FC<{x: number; y: number; r?: number; rot?: number}> = 
   </g>
 );
 
-export const Vela: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
+export const Vela: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => semEnfeite() ? null : (
   <g transform={`translate(${x},${y}) scale(${s})`}>
     <circle cx={0} cy={-26} r={22} fill="#ffcf6a" opacity={0.2} />
     <rect x={-6} y={-16} width={12} height={24} rx={3} fill="#f3ead2" stroke={L} strokeWidth={3} />
@@ -50,7 +53,7 @@ export const Vela: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}
   </g>
 );
 
-export const Caveira: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => (
+export const Caveira: React.FC<{x: number; y: number; s?: number}> = ({x, y, s = 1}) => semEnfeite() ? null : (
   <g transform={`translate(${x},${y}) scale(${s})`}>
     <path d="M-16 4 Q-18 -20 0 -20 Q18 -20 16 4 L10 8 L10 14 L-10 14 L-10 8 Z" fill="#efe9da" stroke={L} strokeWidth={4} />
     <circle cx={-7} cy={-4} r={5} fill={L} /><circle cx={7} cy={-4} r={5} fill={L} />
@@ -60,6 +63,7 @@ export const Caveira: React.FC<{x: number; y: number; s?: number}> = ({x, y, s =
 
 // guirlanda de luzinhas laranja/roxas (para pendurar na parede de cima)
 export const Luzinhas: React.FC<{x1: number; x2: number; y: number}> = ({x1, x2, y}) => {
+  if (semEnfeite()) return null;
   const n = Math.max(3, Math.floor((x2 - x1) / 60));
   return (
     <g>

@@ -4,7 +4,7 @@
 // estrelas e nuvens roxas. A parte estática (ArteMira) é memorizada; o que mexe fica em CamadaViva.
 import React from 'react';
 import {CORREDORES, DUTOS, MUNDO, P, SALAS, type Sala, type SalaId} from './mapaMira';
-import {Abobora, L, Luzinhas, rnd, Teia, Vela} from './salas/comum';
+import {Abobora, L, Luzinhas, rnd, Teia, TemaMira, Vela} from './salas/comum';
 import {SalaEstufa} from './salas/Estufa';
 import {SalaReator} from './salas/Reator';
 import {SalaLaboratorio} from './salas/Laboratorio';
@@ -24,7 +24,25 @@ const DESENHO: Record<SalaId, React.FC<{r: Sala}>> = {
   Lancamento: SalaLancamento, Descontaminacao: SalaDescontaminacao, Corredor: SalaCorredor,
 };
 
-const Exterior: React.FC = () => (
+// AU7 (clássico): o Mira HQ de dia, como no jogo (base nas alturas, céu azul e nuvens brancas)
+const ExteriorDia: React.FC = () => (
+  <g>
+    <defs>
+      <linearGradient id="ceuDia" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#3f8fe0" /><stop offset="0.6" stopColor="#7fbdf2" /><stop offset="1" stopColor="#d8ecfb" />
+      </linearGradient>
+    </defs>
+    <rect width={MUNDO.w} height={MUNDO.h} fill="url(#ceuDia)" />
+    {Array.from({length: 26}).map((_, i) => (
+      <g key={i} opacity={0.75 + rnd(i + 5) * 0.25}>
+        <ellipse cx={rnd(i + 40) * MUNDO.w} cy={MUNDO.h * (0.1 + rnd(i + 70) * 0.9)} rx={240 + rnd(i) * 300} ry={60 + rnd(i + 1) * 50} fill="#ffffff" />
+        <ellipse cx={rnd(i + 40) * MUNDO.w + 120} cy={MUNDO.h * (0.1 + rnd(i + 70) * 0.9) - 30} rx={150 + rnd(i + 2) * 120} ry={50 + rnd(i + 3) * 30} fill="#f4f9ff" />
+      </g>
+    ))}
+  </g>
+);
+const Exterior: React.FC = () => (React.useContext(TemaMira).halloween ? <ExteriorNoite /> : <ExteriorDia />);
+const ExteriorNoite: React.FC = () => (
   <g>
     <defs>
       <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
@@ -109,7 +127,9 @@ const ArteBase: React.FC = () => (
 export const ArteMira = React.memo(ArteBase);
 
 // o que mexe: poças de luz que piscam em cada sala, morcegos, neblina rolando
-export const CamadaViva: React.FC<{f: number; apagadas?: SalaId[]}> = ({f, apagadas = []}) => (
+export const CamadaViva: React.FC<{f: number; apagadas?: SalaId[]}> = ({f, apagadas = []}) => {
+  const halloween = React.useContext(TemaMira).halloween;
+  return (
   <svg width={MUNDO.w} height={MUNDO.h} style={{position: 'absolute', left: 0, top: 0, pointerEvents: 'none'}}>
     <defs>
       {(Object.keys(SALAS) as SalaId[]).map((id) => (
@@ -118,10 +138,10 @@ export const CamadaViva: React.FC<{f: number; apagadas?: SalaId[]}> = ({f, apaga
     </defs>
     {(Object.keys(SALAS) as SalaId[]).map((id, i) => {
       const r = SALAS[id];
-      const pisca = 0.75 + 0.25 * Math.sin(f / (5 + (i % 4)) + i) * (Math.sin(f / 37 + i * 3) > 0.92 ? 3 : 1);
+      const pisca = halloween ? 0.75 + 0.25 * Math.sin(f / (5 + (i % 4)) + i) * (Math.sin(f / 37 + i * 3) > 0.92 ? 3 : 1) : 0.55;
       return <ellipse key={id} cx={r.x + r.w / 2} cy={r.y + r.h / 2} rx={r.w * 0.6} ry={r.h * 0.6} fill={`url(#luz_${id})`} opacity={apagadas.includes(id) ? 0 : Math.max(0.2, pisca)} />;
     })}
-    {Array.from({length: 8}).map((_, i) => {
+    {halloween && Array.from({length: 8}).map((_, i) => {
       const x = ((f * (4 + i) + rnd(i) * MUNDO.w * 3) % (MUNDO.w + 400)) - 200;
       const y = 150 + rnd(i + 20) * (MUNDO.h - 300) + Math.sin(f / 12 + i) * 50;
       const a = Math.sin(f / 3 + i) * 22;
@@ -132,8 +152,9 @@ export const CamadaViva: React.FC<{f: number; apagadas?: SalaId[]}> = ({f, apaga
         </g>
       );
     })}
-    {Array.from({length: 12}).map((_, i) => (
+    {halloween && Array.from({length: 12}).map((_, i) => (
       <ellipse key={i} cx={((rnd(i + 3) * MUNDO.w + f * (1 + rnd(i) * 1.5)) % (MUNDO.w + 800)) - 400} cy={rnd(i + 8) * MUNDO.h} rx={520} ry={110} fill="#c9b8ff" opacity={0.05} />
     ))}
   </svg>
-);
+  );
+};

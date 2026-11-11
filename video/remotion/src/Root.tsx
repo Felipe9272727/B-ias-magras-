@@ -299,6 +299,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ZumbiVideo" component={ZumbiVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcZumbi} />
       <Composition id="TesteSala" component={TesteSala} durationInFrames={30} fps={30} width={1920} height={1080} defaultProps={{sala: undefined}} />
       <Composition id="TesteMira" component={TesteMira} durationInFrames={90} fps={30} width={1920} height={1080} />
+      <Composition id="TesteMiraDia" component={TesteMira} durationInFrames={90} fps={30} width={1920} height={1080} defaultProps={{halloween: false}} />
       <Composition id="TesteTransicoesZumbi" component={TesteTransicoes} durationInFrames={582} fps={30} width={1920} height={1080} />
     </>
   );
