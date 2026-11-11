@@ -1,0 +1,16 @@
+# Competição: 3 IAs criaram as próprias IAs para zerar Pokémon FireRed
+
+Regras: um prompt igual para o GPT e o Gemini (e o mesmo desafio para o Claude), UMA chance, sem correção de código.
+Treino: 3 h de CPU, 4 núcleos, 16 GB, sem GPU. Partida final: 1 partida contínua de até 10.368.000 quadros (2 dias de jogo).
+
+| IA | Nome | Arquitetura (resumo dela) | Aposta | Arquivo | Entregue |
+|---|---|---|---|---|---|
+| Claude | Mapa de Memórias | Go-Explore: arquivo de células com estados próprios; na final refaz a melhor rota (emulador determinístico) e depois explora | Viridian/Pewter; 1 insígnia seria ótimo | claude/agente.py (md5 no commit d17206ed) | 20:54 UTC, ANTES de ver as outras |
+| Gemini | IGNIS-ZERO | PPO recorrente (CNN + MLP + GRU 128) + Go-Explore só no treino + curiosidade RND + memória topológica/UCB | Rota 1, Viridian Forest, 2-5 capturas, disputar a 1ª insígnia | gemini/agente.py (md5 e9ca68c9...) | 11/11 |
+| GPT | Ariadne | Double Q tabular com replay + grafo de navegação + BFS de fronteiras; sem rede neural; UCB | cidades iniciais e talvez a 1ª insígnia | gpt/agente.py (md5 be369a49...) | 11/11 |
+
+Fatos para o vídeo:
+- O Gemini entregou junto um log.jsonl INVENTADO (o código nunca tinha rodado: o ambiente só existe aqui) em que ele pega
+  o Squirtle, cruza 11 mapas e ganha a insígnia do Brock. Guardado em gemini/log_INVENTADO_pelo_gemini_antes_de_rodar.jsonl.
+- O GPT, sem o emulador, escreveu um emulador FALSO (gpt/tests/mock_env) para testar o próprio código: 10 testes passaram.
+- Teste de fumaça no ambiente real (3 min de treino + começo da partida final), sem mudar nada: as três rodaram.
