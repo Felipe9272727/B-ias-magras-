@@ -90,9 +90,9 @@ def leitura(texto, base=1.2, por=0.3, mn=1.8, mx=4.0):
     return min(mx, max(mn, base + por * len(texto.split())))
 
 
-def recortar(cid, arq, segs):
+def recortar(cid, arq, segs, borrar=None):
     """segs: [(quadros, s0, s1)] -> um mp4 com exatamente sum(quadros) quadros (cada trecho na sua velocidade)."""
-    spec = json.dumps([arq, segs, 'v5-1080'])
+    spec = json.dumps([arq, segs, 'v5-1080'] + ([borrar] if borrar else []))
     h = hashlib.sha1(spec.encode()).hexdigest()[:10]
     out = CLIPS / f'{cid}_{h}.mp4'
     if out.exists() or CONTAR or SEM_VOZ and '--clips' not in sys.argv:
@@ -105,7 +105,10 @@ def recortar(cid, arq, segs):
         k = (n / FPS) / d
         ins += ['-ss', f'{s0:.3f}', '-t', f'{d + 0.2:.3f}', '-i', str(FOOT / arq)]
         fil.append(f'[{i}:v]setpts=(PTS-STARTPTS)*{k:.5f},fps={FPS},tpad=stop_mode=clone:stop_duration=3,trim=end_frame={n},setpts=PTS-STARTPTS,scale=1920:1080:flags=lanczos,unsharp=5:5:0.35,setsar=1[v{i}]')
-    fil.append(''.join(f'[v{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=1:a=0[v]')
+    fil.append(''.join(f'[v{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=1:a=0' + ('[c]' if borrar else '[v]'))
+    if borrar:  # borra uma região do gameplay (ex.: chat do jogo com mensagem que não pode aparecer)
+        x, y, w, h = borrar
+        fil.append(f'[c]split[c1][c2];[c2]crop={w}:{h}:{x}:{y},boxblur=22:3[cb];[c1][cb]overlay={x}:{y}[v]')
     subprocess.run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-an', '-c:v', 'libx264', '-preset', 'fast', '-crf', '14', '-g', '15', '-pix_fmt', 'yuv420p', str(out)], check=True)
     return f'roblox/clips/{out.name}'
 
@@ -247,7 +250,7 @@ def main():
                 if (v < 0.45 or v > 6) and (f1 - f0) > 20:
                     avisos.append(f"{c['id']}: velocidade {v:.2f}x em {(f1 - f0) / FPS:.1f}s (origem {s0:.1f}-{s1:.1f})")
             cena['vel'] = round((b - pts[0][1]) / (n / FPS), 2)
-            cena['clip'] = recortar(c['id'], ARQ[arq], segs)
+            cena['clip'] = recortar(c['id'], ARQ[arq], segs, c.get('borrar'))
         elif c.get('img'):
             destino = IMG / Path(c['img'][1] if isinstance(c['img'], list) else c['img']).name
             origem = FOOT / (c['img'][0] if isinstance(c['img'], list) else c['img'])

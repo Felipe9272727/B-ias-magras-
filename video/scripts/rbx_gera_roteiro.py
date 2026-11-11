@@ -111,10 +111,10 @@ cena('k2', ['A', 526, 544], [
 cena('s1', ['A', 592, 612], [
     ['n', 'Chuva de meteoros na ilha lá embaixo. Ele assiste de cima, morto.'], ['seta', 0.8, 0.6, 'A PARTIDA É AQUI', 'baixo'],
     ['ia', 'pera, to nessa plataforma alta e cheio de meteoro cai. bush, vc se safou?', 'Pera. Tô nessa plataforma alta, e cheio de meteoro caindo. Bush, você se safou?']], tempo='OUTRA RODADA · METEOROS', cam=[0.7, 0.55, 1.0, 1.2], estado='morto')
-cena('s2', ['A', 639, 658], [
+cena('s2', ['A', 639, 655], borrar=[0, 80, 740, 390], itens=[
     ['ir', 641], ['seta', 0.5, 0.52, 'LISTA: SEM O CARLOS', 'baixo'], ['n', 'Acabou a rodada, ele não tá na lista, e mesmo assim:'], ['ir', 646],
     ['ia', 'kkkkk cala a boca bush, foi sorte o meteoro pegar o outro lado', 'Cala a boca, Bush! Foi sorte o meteoro pegar o outro lado.'], ['meme', 'cala-a-boca', 'left']], cam=[0.5, 0.5, 1.0, 1.15], estado='morto')
-cena('s3', ['A', 660, 688], [
+cena('s3', ['A', 663, 688], borrar=[0, 80, 740, 390], itens=[
     ['ia', 'kkkk calma bush, sorte não, é skill mesmo. bora pro passeio do arco-íris agora', 'Sorte não: é skill mesmo. Bora pro passeio do arco-íris agora.'],
     ['meme', 'roll-safe'],
     ['ir', 666.5], ['n', 'O mapa novo começa...'], ['ir', 670.5], ['n', 'e ele já tá caindo de novo.'], ['ir', 680], ['morte'],
