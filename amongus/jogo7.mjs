@@ -1506,13 +1506,44 @@ function salvarNoGit(msg) {
   } catch (e) { console.log('  (não consegui salvar no git:', String(e.message ?? e).slice(0, 120), ')') }
 }
 
+// 11/11: o contêiner reiniciou no meio da partida 1 e ela se perdeu. Agora o estado inteiro vai para um checkpoint a cada
+// tique (logs7/partidaN.json.ckpt.json); se a partida cair, rodar o mesmo comando de novo RETOMA do último tique salvo.
+const CKPT = SAIDA + '.ckpt.json'
+const USA_CKPT = !MOCK || !!process.env.CKPT_TESTE
+function salvarCheckpoint() {
+  const c = { tique, semente, PAPEIS_DA_PARTIDA, jogadores, corpos, pocas, sabotagem: sabotagem && { ...sabotagem, consertos: [...sabotagem.consertos] }, portas, recargaSabotagem, recargaPortas, totalTarefas, palhacoVenceu, carrascoVenceu, glutaoVenceu, canibalVenceu, reuniaoForcada, dutosTapados: [...dutosTapados], mortosTripulantes, gastoInicio, uso, log }
+  fs.writeFileSync(CKPT + '.tmp', JSON.stringify(c))
+  fs.renameSync(CKPT + '.tmp', CKPT)
+}
+function carregarCheckpoint() {
+  const c = JSON.parse(fs.readFileSync(CKPT, 'utf8'))
+  semente = c.semente; PAPEIS_DA_PARTIDA = c.PAPEIS_DA_PARTIDA
+  jogadores.splice(0, jogadores.length, ...c.jogadores); corpos.splice(0, corpos.length, ...c.corpos); pocas.splice(0, pocas.length, ...c.pocas)
+  sabotagem = c.sabotagem && { ...c.sabotagem, consertos: new Set(c.sabotagem.consertos) }
+  portas = c.portas; recargaSabotagem = c.recargaSabotagem; recargaPortas = c.recargaPortas; totalTarefas = c.totalTarefas
+  palhacoVenceu = c.palhacoVenceu; carrascoVenceu = c.carrascoVenceu; glutaoVenceu = c.glutaoVenceu; canibalVenceu = c.canibalVenceu; reuniaoForcada = c.reuniaoForcada
+  dutosTapados.clear(); for (const d of c.dutosTapados) dutosTapados.add(d)
+  mortosTripulantes = c.mortosTripulantes; gastoInicio = c.gastoInicio
+  Object.assign(uso, c.uso)
+  for (const k of Object.keys(log)) delete log[k]
+  Object.assign(log, c.log)
+  ;(log.retomadas ??= []).push({ tique: c.tique, em: new Date().toISOString() })
+  return c.tique
+}
+
 async function main() {
-  montarPartida()
-  if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
+  let inicio = 1
+  if (USA_CKPT && fs.existsSync(CKPT)) {
+    inicio = carregarCheckpoint() + 1
+    console.log(`♻️  RETOMANDO a partida ${NPARTIDA} do tique ${inicio} (checkpoint)`)
+  } else {
+    montarPartida()
+    if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
+  }
   console.log(`🚀 Among IA 7 (Mira HQ) · partida ${NPARTIDA} · seed=${SEED}${MOCK ? ' (MOCK)' : ''}`)
   for (const j of jogadores) console.log(`  ${j.cor.padEnd(9)} ${j.papel.padEnd(12)} ${j.modelo}${j.casal ? ` 💞 ${j.casal}` : ''}`)
-  snapshot()
-  for (tique = 1; tique <= MAX_TIQUES; tique++) {
+  if (inicio === 1) snapshot()
+  for (tique = inicio; tique <= MAX_TIQUES; tique++) {
     const reuniao = await rodarTique()
     // trava: muitas respostas falhando = IAs "paradas" sem querer; a partida não vale, então para aqui
     if (uso.falhas > 15 && uso.falhas / uso.chamadas > 0.1) throw new Error(`muitas falhas de IA (${uso.falhas} de ${uso.chamadas}): partida interrompida`)
@@ -1524,6 +1555,8 @@ async function main() {
     if (!v && reuniao) { await reuniaoDeEmergencia(reuniao); v = vencedor() }
     salvar()
     if (v) { log.resultado = { ...v, tique }; break }
+    if (USA_CKPT) salvarCheckpoint()
+    if (Number(process.env.CKPT_TESTE_PARAR) === tique) process.exit(3) // só para testar a retomada
     if (!MOCK && tique % 10 === 0) {
       const g = gastoOR()
       log.gastoOR = g == null ? log.gastoOR : g - gastoInicio
@@ -1538,6 +1571,7 @@ async function main() {
   log.resultado.traidor = jogadores.filter((j) => j.papel === 'Traidor' && j.vivo && impostoresVivos().length === 0).map((j) => j.cor) // venceu junto
   evento('fim', log.resultado)
   salvar()
+  if (fs.existsSync(CKPT)) fs.renameSync(CKPT, CKPT.replace('.ckpt.json', '.ckpt_final.json'))
   if (TEMPORADA) await guardarMemoria()
   if (!MOCK) salvarNoGit(`Among IA 7: partida ${NPARTIDA} terminou`)
   console.log(`🏁 ${log.resultado.time.toUpperCase()} venceu — ${log.resultado.motivo} (tique ${log.resultado.tique})${palhacoVenceu ? ` | 🤡 Palhaço ${palhacoVenceu.cor} venceu` : ''}${glutaoVenceu ? ` | 🍖 Glutão ${glutaoVenceu.cor} venceu` : ''}${canibalVenceu ? ` | 🦴 Canibal ${canibalVenceu.cor} venceu` : ''} | chamadas IA: ${uso.chamadas}, falhas: ${uso.falhas}`)
