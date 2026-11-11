@@ -6,7 +6,7 @@ Cena: {id, clip: [arquivo, t0, t1] (segundos no vídeo de origem) | img, cam: [x
        hud?, visual?, props?, escuro?, folga?, itens}.
 Itens: ["n", texto] narrador · ["ia", texto, falado?] fala do Carlos (texto copiado do log; "falado" é só a pronúncia)
 · ["bush", texto, pausa?] / ["jog", texto, pausa?] balão do chat (sem voz) · ["selo", texto, cor?] · ["meme", id, pos?]
-(mesmo tempo do selo da cena) · ["numero", texto, sub?] · ["marco", titulo, sub?] · ["morte"] (placar +1, caveira e som)
+(mesmo tempo do selo da cena) · ["numero", texto, sub?] · ["marco", titulo, sub?] · ["morte"] (placar +1, caveira e som; "morte0" = sem contar)
 · ["hud", "sobrev"|"percebeu"] · ["seta", x, y, rotulo, lado?] aponta um ponto do gameplay · ["tempo", texto] marcador
 de tempo · ["marca"] guarda o quadro para o cartão da cena · ["ir", t] âncora: neste ponto da narração o gameplay está em
 t (entre âncoras a velocidade é ajustada) · ["voz", falado] voz do Carlos sem balão · ["s", sfx, vol?] · ["p", segundos].
@@ -164,6 +164,9 @@ def main():
             elif k == 'marco':
                 over.append(dict(tipo='marco', at=fr, dur=72, titulo=it[1], **({'sub': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/whoosh.mp3', at=fr, vol=0.4))
+            elif k == 'morte0':  # morte mostrada fora da contagem (a cena da abertura volta depois, na ordem certa)
+                over.append(dict(tipo='morte', at=fr, dur=round(2.0 * FPS), n=0))
+                audio.append(dict(src='sfx/death.mp3', at=fr, vol=0.6))
             elif k == 'morte':
                 hud['mortes'] += 1
                 ev.append(dict(at=fr, k='mortes'))

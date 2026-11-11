@@ -200,7 +200,7 @@ const Morte: React.FC<{n: number; dur: number}> = ({n, dur}) => {
       <div style={{position: 'absolute', left: 0, right: 0, top: 70, display: 'flex', justifyContent: 'center', opacity: o}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 18, background: '#16090a', border: '6px solid #ff3b3b', borderRadius: 18, padding: '8px 30px', transform: `scale(${e})`, boxShadow: '0 12px 0 #0008'}}>
           <Caveira s={74} />
-          <div style={{fontFamily: F, fontWeight: 900, fontSize: 70, color: '#ff4a3a', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>MORTE Nº {n}</div>
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: 70, color: '#ff4a3a', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{n ? `MORTE Nº ${n}` : 'MORREU'}</div>
         </div>
       </div>
     </AbsoluteFill>
