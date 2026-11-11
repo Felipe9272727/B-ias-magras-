@@ -38,3 +38,13 @@ Ponte para comandar o Codespace: roblox/ponte.sh (branch roblox-cmd -> roblox-st
   Home logada -> busca "Natural Disaster Survival" -> Jogar -> dentro do jogo, com chat de jogadores reais.
 - Busca da Home: barra em (673,28); botão Jogar do 1º resultado em (380,573) (tela 1280x720).
 - Comandos pela ponte: roblox/ponte.sh no Codespace; aqui `cmd.sh` manda e lê o branch roblox-status.
+
+## 11/11/2026 — PERDEMOS AS GRAVAÇÕES DO MURDER E DO BROOKHAVEN (lição)
+- No Codespace o `/tmp` é um disco TEMPORÁRIO (`/dev/sda1`): quando o Codespace desliga por inatividade, o GitHub
+  troca esse disco por um vazio. Foram embora brookhaven_1/2/3, murderer_1 e color_block (e o Cordial instalado).
+  Sobraram só os logs (branch `backup-roblox-status-1111`) e as gravações do Natural Disaster que já estavam no gofile.
+- REGRA: gravar SEMPRE em `/workspaces/B-ias-magras-/gravacoes_roblox/` (disco persistente, fora do git via
+  `.git/info/exclude`) e subir no gofile assim que cada gravação terminar. Instalar o Cordial em
+  `/workspaces/cordial/` e não em `/tmp`. Logs do agente: copiar para a mesma pasta ao fim de cada sessão.
+- Antes de deixar o Codespace sozinho: aumentar o tempo de inatividade (github.com/settings/codespaces -> Default idle
+  timeout, até 240 min) ou subir tudo antes.
