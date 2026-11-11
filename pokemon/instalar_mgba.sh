@@ -11,4 +11,4 @@ $SU chown -R "$(id -u)" /opt/mgba
 mkdir -p /opt/mgba/build && cd /opt/mgba/build
 cmake .. -DBUILD_PYTHON=ON -DBUILD_QT=OFF -DBUILD_SDL=OFF -DCMAKE_BUILD_TYPE=Release > /dev/null
 make -j"$(nproc)" > /dev/null
-ls -d /opt/mgba/build/python/lib.*
+ls -d /opt/mgba/build/python/lib.linux-*

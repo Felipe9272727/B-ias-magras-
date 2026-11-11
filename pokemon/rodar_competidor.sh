@@ -9,12 +9,12 @@ IA=$1; ETAPA=$2
 RAIZ=$(cd "$(dirname "$0")/.." && pwd)
 DIR=$RAIZ/pokemon/corrida/$IA; mkdir -p "$DIR"
 export POKEMON_ROM=$RAIZ/pokemon/rom/pokemon_firered.gba
-export PYTHONPATH=$(ls -d /opt/mgba/build/python/lib.* 2>/dev/null):$RAIZ/pokemon
+export PYTHONPATH=$(ls -d /opt/mgba/build/python/lib.linux-* 2>/dev/null):$RAIZ/pokemon
 TOTAL=${TREINO_TOTAL_S:-10800}
 case $ETAPA in
 preparar)
   bash "$RAIZ/pokemon/instalar_mgba.sh"
-  export PYTHONPATH=$(ls -d /opt/mgba/build/python/lib.*):$RAIZ/pokemon
+  export PYTHONPATH=$(ls -d /opt/mgba/build/python/lib.linux-*):$RAIZ/pokemon
   [ "$IA" = gemini ] && pip install -q torch --index-url https://download.pytorch.org/whl/cpu
   pip install -q -r "$RAIZ/pokemon/$IA/requirements.txt" 2>/dev/null || true
   mkdir -p "$RAIZ/pokemon/rom"
