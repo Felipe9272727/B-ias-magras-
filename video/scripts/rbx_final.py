@@ -42,7 +42,7 @@ larg = int(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '
 if larg >= 1920:
     fil.append('[0:v]eq=contrast=1.05:saturation=1.14:gamma=0.98,vignette=angle=0.32[v]')
 else:
-    fil.append('[0:v]scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42[v]')
+    fil.append('[0:v]scale=1920:1080:flags=lanczos+accurate_rnd+full_chroma_int:param0=5,format=yuv420p,cas=strength=0.85,eq=contrast=1.06:saturation=1.18:gamma=0.98,vignette=angle=0.42[v]')  # upscale melhor: Lanczos a=5 + CAS (nitidez adaptativa do FSR)
 CRF = '17' if larg >= 1920 else '20'
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', ent, '-i', voz, *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-map', '[a]',
                 '-c:v', 'libx264', '-preset', 'fast' if larg >= 1920 else 'veryfast', '-crf', CRF, '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', sai], check=True)
