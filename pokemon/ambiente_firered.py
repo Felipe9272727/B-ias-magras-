@@ -43,6 +43,7 @@ class FireRed:
         self._c = self.core._core
         self._inicio = INICIO.read_bytes()
         self.quadro = 0
+        gravar = gravar or os.environ.get('GRAVAR')  # o organizador liga a gravação na partida final, sem mexer no código das IAs
         self._gravar = Path(gravar) if gravar else None
         self._passos = 0
         if self._gravar:
