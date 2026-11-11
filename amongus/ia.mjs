@@ -42,7 +42,7 @@ function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio
   const chave = lerChaveOR()
   if (!chave) return Promise.resolve({ ok: false, text: 'openrouter: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
-  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, reasoning: semRaciocinio ? { enabled: false } : { effort: 'low' } })
+  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], reasoning: semRaciocinio ? { enabled: false } : { effort: 'low' } })
   return new Promise((ok) => {
     const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OR_KEY" -H "X-Title: Jogos Vorazes das IAs" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, OR_KEY: chave }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
       const linhas = String(stdout ?? '').trimEnd().split('\n')
@@ -66,7 +66,7 @@ function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) 
   if (chaveDS === undefined) { try { chaveDS = process.env.DEEPSEEK_API_KEY || chaveDoMod('deepseek') || (JSON.parse(fs.readFileSync(ARQ_CHAVE, 'utf8')).apiKey ?? null) } catch { chaveDS = process.env.DEEPSEEK_API_KEY || null } }
   if (!chaveDS) return Promise.resolve({ ok: false, text: 'deepseek: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
-  const corpo = JSON.stringify({ model: 'deepseek-flash', messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], max_tokens: maxTokens + 2500, ...(semRaciocinio ? { thinking: { type: 'disabled' } } : { reasoning_effort: 'low' }) })
+  const corpo = JSON.stringify({ model: 'deepseek-flash', messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], ...(semRaciocinio ? { thinking: { type: 'disabled' } } : { reasoning_effort: 'low' }) })
   return new Promise((ok) => {
     const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://api.deepseek.com/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $DS_KEY" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, DS_KEY: chaveDS }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
       const linhas = String(stdout ?? '').trimEnd().split('\n')
@@ -91,7 +91,7 @@ async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, 
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
   const res = path.join(SPOOL, 'res', `${id}.json`)
-  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: maxTokens, ...(effort ? { effort } : {}) }))
+  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: 32000, ...(effort ? { effort } : {}) }))
   fs.renameSync(req + '.tmp', req) // a ponte só lista .json, então nunca lê um arquivo pela metade
   const t0 = Date.now()
   while (Date.now() - t0 < timeoutMs) {
