@@ -47,6 +47,26 @@ def parece_erro(t):
     return bool(ERRO_RE.search(t or ''))
 
 
+# Segurança (11/11): servidor público tem criança e troll. O agente NUNCA responde nem repete mensagem com conteúdo
+# sexual/romântico, de menor, de autolesão, ofensa, ou convite para lugar a sós (quarto, carro, casa, pv), e nunca
+# escreve convite desse tipo. Em caso de dúvida, fica calado.
+SENSIVEL_RE = re.compile(
+    r"(quarto|cama|banho|beij|namor|casad|sexo|sexy|safad|gostos|pelad|nud|transa|gozar|pau\b|piroca|buceta|peit|bunda|"
+    r"menin|crian|filha|filho|idade|anos\b|novinh|gatinh|bb\b|bebe|baby|dlc|pv\b|privad|zap|whats|insta|discord|"
+    r"carro|minha casa|sua casa|vem aqui|vou ai|vem ca|se mat|me mat|suic|cort[ae]|macac|preto|viad|bicha|"
+    r"golpe|robux|senha|conta)", re.I)
+
+
+def sensivel(t):
+    return bool(SENSIVEL_RE.search(t or ''))
+
+
+# o que o PRÓPRIO agente escreve: sem convite a lugar a sós e sem nada sexual/de menor/autolesão/ofensa
+SAIDA_RE = re.compile(
+    r"(quarto|cama|banho|beij|namor|sexo|sexy|safad|gostos|pelad|transa|menin|crian|filha|novinh|gatinh|baby|pv\b|"
+    r"privad|zap|whats|insta|discord|meu carro|no carro|minha casa|se mat|me mat|suic|macac|viad|bicha|senha|robux)", re.I)
+
+
 class Sonnet:
     # Sonnet pela ASSINATURA do Claude (Claude Code logado no Codespace), numa sessão que fica aberta (stream-json):
     # sem custo de partida a cada pergunta (~1,5-3 s com imagem). Recomeça a cada 12 perguntas para não acumular imagens.
@@ -204,7 +224,9 @@ def jev(estado):
 FALA = ('Você é um jogador de Roblox chamado Carlosalberto1234736, jogando ' + {'mm': 'The Mad Murderer X', 'bh': 'Brookhaven RP'}.get(JOGO, 'Natural Disaster Survival') + ' com o amigo {amigo}. '
         + ('Se o seu papel for assassino, disfarce no chat (não conte). ' if JOGO == 'mm' else '') +
         'Clima: o {amigo} é seu melhor amigo, vocês estão se divertindo juntos; zoeira, "kkkk", "mn", "slk", xingamento de brincadeira e '
-        'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. Leia a conversa inteira abaixo '
+        'provocação entre amigos são brincadeira, NÃO briga; responda no mesmo tom leve e engraçado. '
+        'SEGURANÇA: no servidor tem criança; nunca aceite nem faça convite para quarto, casa, carro, pv ou encontro, nunca fale '
+        'de namoro/sexo e nunca repita o que trolls escrevem; se a mensagem for estranha, mude de assunto para o jogo. Leia a conversa inteira abaixo '
         '(em ordem, a última é a mais nova) para entender do que estão falando antes de responder. '
         'AGORA (o presente, o que está na tela neste momento): {resumo} Desastre agora: {desastre}.\n'
         'ANTES (linha do tempo do passado, do mais antigo ao mais novo; o que já passou NÃO está acontecendo agora; [JOGO] = eventos da '
@@ -279,6 +301,8 @@ def dizer(texto):
     import random
     texto = limpar(texto)
     if not texto.strip() or parece_erro(texto):  # trava final: mensagem de erro/limite NUNCA vai para o chat
+        return False
+    if SAIDA_RE.search(texto):  # trava de segurança: convite a sós / conteúdo impróprio nunca vai para o chat
         return False
     e = {**os.environ, 'DISPLAY': DISPLAY}
     time.sleep(random.uniform(0.2, 0.7))  # pausa curta (o modelo já demora o tempo de "pensar")
@@ -457,6 +481,12 @@ def main():
             if primeira:  # o que já estava no chat quando o agente ligou é passado: não responde
                 novas, primeira = [], False
             pra_mim = [c for c in novas if AMIGO.lower() in c.get('autor', '').lower() or 'carlos' in c.get('texto', '').lower()]
+            # estranho com conteúdo sensível: ignora (nem responde nem repete); do amigo só passa o que não for sensível
+            def barra(c):  # amigo: só o filtro estreito (pode dizer "vem ca"); estranho: filtro largo
+                amigo = AMIGO.lower() in c.get('autor', '').lower()
+                return bool(SAIDA_RE.search(c.get('texto', ''))) if amigo else sensivel(c.get('texto', ''))
+            reg['ignorou_sensivel'] = [c for c in pra_mim if barra(c)] or None
+            pra_mim = [c for c in pra_mim if not barra(c)]
             # só fala quando há mensagem NOVA para ele (do amigo ou citando o nome) e com pausa de 12 s; senão nunca fala sozinho
             import random
             if pra_mim and t0 - ultima_fala > 6:
