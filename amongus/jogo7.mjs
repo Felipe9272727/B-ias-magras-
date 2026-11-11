@@ -7,7 +7,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { SALAS, BOTAO_EMERGENCIA, TAREFAS, vizinhos, dutosDe, caminho } from './mapa_mira.mjs'
-import { perguntar, lerJSON, uso } from './ia.mjs'
+import { perguntar, lerJSON, uso, chaveDoMod } from './ia.mjs'
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a, i, all) => (a.startsWith('--') ? [a.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? true : all[i + 1]] : null)).filter(Boolean),
@@ -1481,8 +1481,34 @@ async function guardarMemoria() {
   console.log(`🧠 memória da partida ${NPARTIDA} guardada em ${MEMORIA_ARQ}`)
 }
 
+import { execFileSync } from 'node:child_process'
+const ORCAMENTO = Number(process.env.ORCAMENTO_USD ?? args.orcamento ?? 1.0) // 5/11: o Felipe liberou US$ 1 por partida
+function gastoOR() {
+  try {
+    let k = process.env.OPENROUTER_API_KEY
+    if (!k) k = chaveDoMod('openrouter')
+    if (!k) k = fs.readFileSync('/root/.claude/plugins/store/deepseek_inline-6aaca6566e14.json', 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0]
+    const r = JSON.parse(execFileSync('curl', ['-s', '--max-time', '20', 'https://openrouter.ai/api/v1/key', '-H', `Authorization: Bearer ${k}`], { encoding: 'utf8' }))
+    return Number(r.data.usage)
+  } catch { return null }
+}
+let gastoInicio = null
+
+// 5/11: um reinício do contêiner apagou a partida 4 no tique 20 (o log só existia no disco). A cada 10 tiques e no fim,
+// o log vai para o git e é enviado (push) para os branches do vídeo.
+function salvarNoGit(msg) {
+  try {
+    const raiz = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
+    const g = (...a) => execFileSync('git', ['-C', raiz, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+    g('add', '-f', path.resolve(SAIDA))
+    g('commit', '-q', '-m', `AU6 zumbi: partida ${NPARTIDA}, ${msg}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01Woq95yLbPN57ZkuGg4Yt9F`)
+    for (const b of ['claude/video-3', 'claude/wizardly-bell-35bp85']) { try { g('push', '-q', 'origin', `HEAD:${b}`) } catch {} }
+  } catch (e) { console.log('  (não consegui salvar no git:', String(e.message ?? e).slice(0, 120), ')') }
+}
+
 async function main() {
   montarPartida()
+  if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
   console.log(`🚀 Among IA 7 (Mira HQ) · partida ${NPARTIDA} · seed=${SEED}${MOCK ? ' (MOCK)' : ''}`)
   for (const j of jogadores) console.log(`  ${j.cor.padEnd(9)} ${j.papel.padEnd(12)} ${j.modelo}${j.casal ? ` 💞 ${j.casal}` : ''}`)
   snapshot()
@@ -1498,6 +1524,13 @@ async function main() {
     if (!v && reuniao) { await reuniaoDeEmergencia(reuniao); v = vencedor() }
     salvar()
     if (v) { log.resultado = { ...v, tique }; break }
+    if (!MOCK && tique % 10 === 0) {
+      const g = gastoOR()
+      log.gastoOR = g == null ? log.gastoOR : g - gastoInicio
+      console.log(`  gasto real no OpenRouter nesta partida: US$ ${(log.gastoOR ?? 0).toFixed(3)} de ${ORCAMENTO}`)
+      salvarNoGit(`Among IA 7: partida ${NPARTIDA} até o tique ${tique}`)
+      if (log.gastoOR > ORCAMENTO) { log.resultado = { time: 'parada', motivo: `teto de gasto (US$ ${ORCAMENTO}) atingido`, tique }; console.log('PARADA: teto de gasto atingido'); break }
+    }
   }
   if (!log.resultado) log.resultado = { time: 'empate', motivo: 'Limite de tiques atingido.', tique: MAX_TIQUES }
   log.resultado.casalVivo = log.casal.every((c) => J(c).vivo) // o Casal também comemora se os dois chegaram vivos ao fim
@@ -1506,6 +1539,7 @@ async function main() {
   evento('fim', log.resultado)
   salvar()
   if (TEMPORADA) await guardarMemoria()
+  if (!MOCK) salvarNoGit(`Among IA 7: partida ${NPARTIDA} terminou`)
   console.log(`🏁 ${log.resultado.time.toUpperCase()} venceu — ${log.resultado.motivo} (tique ${log.resultado.tique})${palhacoVenceu ? ` | 🤡 Palhaço ${palhacoVenceu.cor} venceu` : ''}${glutaoVenceu ? ` | 🍖 Glutão ${glutaoVenceu.cor} venceu` : ''}${canibalVenceu ? ` | 🦴 Canibal ${canibalVenceu.cor} venceu` : ''} | chamadas IA: ${uso.chamadas}, falhas: ${uso.falhas}`)
   console.log(`log: ${SAIDA}`)
 }
