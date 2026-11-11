@@ -21,9 +21,10 @@ type Over =
   | {tipo: 'marco'; at: number; dur: number; titulo: string; sub?: string}
   | {tipo: 'morte'; at: number; dur: number; n: number}
   | {tipo: 'seta'; at: number; dur: number; x: number; y: number; rotulo: string; lado?: string}
-  | {tipo: 'tempo'; at: number; dur: number; texto: string};
+  | {tipo: 'tempo'; at: number; dur: number; texto: string}
+  | {tipo: 'crono'; at: number; dur: number; rotulo: string; de: number; ate: number};
 type Hud = {mostra: boolean; mortes: number; percebeu: number; sobrev: number; ev: {at: number; k: 'mortes' | 'percebeu' | 'sobrev'}[]};
-type Cena = {id: string; dur: number; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
+type Cena = {id: string; dur: number; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; blur?: number; estado?: string; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
 type TL = {cenas: Cena[]};
 
 export const calcRoblox: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -110,13 +111,13 @@ const DiscoQuebrado: React.FC<{s?: number}> = ({s = 120}) => (
 );
 
 // ---------- peças ----------
-const Selo: React.FC<{texto: string; cor?: string}> = ({texto, cor = '#e8371a'}) => {
+const Selo: React.FC<{texto: string; cor?: string; hud?: boolean}> = ({texto, cor = '#e8371a', hud}) => {
   const f = useCurrentFrame();
   const e = interpolate(f, [0, 6], [2.4, 1], cl);
   const fs = texto.length > 34 ? 44 : texto.length > 22 ? 54 : 68;
   return (
-    <div style={{position: 'absolute', left: 0, right: 0, top: 205, display: 'flex', justifyContent: 'center'}}>
-      <div style={{fontFamily: F, fontWeight: 900, fontSize: fs, color: '#fff', background: cor, border: '7px solid #fff', maxWidth: 1500, textAlign: 'center', borderRadius: 16, padding: '4px 34px', transform: `rotate(-4deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: '0 12px 0 #0008', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{texto}</div>
+    <div style={{position: 'absolute', left: hud ? 30 : 0, right: hud ? 470 : 0, top: 190, display: 'flex', justifyContent: 'center'}}>
+      <div style={{fontFamily: F, fontWeight: 900, fontSize: fs, color: '#fff', background: cor, border: '7px solid #fff', maxWidth: hud ? 1380 : 1500, textAlign: 'center', borderRadius: 16, padding: '4px 34px', transform: `rotate(-4deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: '0 12px 0 #0008', WebkitTextStroke: '3px #000', paintOrder: 'stroke fill'}}>{texto}</div>
     </div>
   );
 };
@@ -154,17 +155,17 @@ const Fala: React.FC<{quem: 'ia' | 'bush' | 'jog'; texto: string; dur: number}> 
   const ia = quem === 'ia';
   const cor = ia ? '#39b7ff' : quem === 'bush' ? '#ffd21f' : '#c9d2dc';
   const nome = ia ? 'CARLOS' : quem === 'bush' ? 'BUSH' : 'JOGADOR DO SERVIDOR';
-  const tag = ia ? 'IA' : quem === 'bush' ? 'FELIPE' : 'HUMANO';
-  const fs = ia ? (texto.length > 90 ? 44 : texto.length > 60 ? 50 : 58) : texto.length > 50 ? 44 : 52;
-  const pos: React.CSSProperties = ia ? {left: 250, right: 250, bottom: 54} : {left: 70, top: quem === 'bush' ? 330 : 470, maxWidth: 900};
+  const tag = ia ? 'IA' : quem === 'bush' ? 'EU' : 'HUMANO';
+  const fs = ia ? (texto.length > 90 ? 50 : texto.length > 60 ? 58 : 68) : texto.length > 50 ? 54 : texto.length > 28 ? 62 : 74;
+  const pos: React.CSSProperties = ia ? {left: 110, right: 110, bottom: 44} : {left: 50, top: quem === 'bush' ? 300 : 470, maxWidth: 1180};
   return (
     <div style={{position: 'absolute', ...pos, display: 'flex', justifyContent: ia ? 'center' : 'flex-start', opacity: o}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 18, transform: `translateY(${(1 - e) * (ia ? 90 : 0)}px) translateX(${(1 - e) * (ia ? 0 : -200)}px) scale(${0.85 + 0.15 * e})`}}>
-        <div style={{flex: 'none', filter: 'drop-shadow(0 6px 0 #0007)'}}>{ia ? <CabecaCarlos s={118} /> : quem === 'bush' ? <CabecaBush s={104} /> : <CabecaJog s={104} />}</div>
+        <div style={{flex: 'none', filter: 'drop-shadow(0 6px 0 #0007)'}}>{ia ? <CabecaCarlos s={150} /> : quem === 'bush' ? <CabecaBush s={140} /> : <CabecaJog s={130} />}</div>
         <div style={{background: '#fff', border: `7px solid ${cor}`, borderRadius: 26, padding: '10px 28px 16px', boxShadow: '0 10px 0 #0008'}}>
           <div style={{display: 'flex', gap: 12, alignItems: 'center', marginBottom: 2}}>
-            <span style={{fontFamily: F, fontWeight: 900, fontSize: 28, color: '#111', letterSpacing: 1}}>{nome}</span>
-            <span style={{fontFamily: F, fontWeight: 900, fontSize: 22, color: ia ? '#fff' : '#111', background: ia ? '#e8371a' : cor, borderRadius: 8, padding: '0 10px'}}>{tag}</span>
+            <span style={{fontFamily: F, fontWeight: 900, fontSize: 32, color: '#111', letterSpacing: 1}}>{nome}</span>
+            <span style={{fontFamily: F, fontWeight: 900, fontSize: 26, color: ia ? '#fff' : '#111', background: ia ? '#e8371a' : cor, borderRadius: 8, padding: '0 10px'}}>{tag}</span>
           </div>
           <div style={{fontFamily: F, fontWeight: 800, fontSize: fs, color: '#111', lineHeight: 1.12}}>{texto}</div>
         </div>
@@ -185,7 +186,7 @@ const Seta: React.FC<{x: number; y: number; rotulo: string; lado?: string; dur: 
       <div style={{position: 'absolute', left: -70, top: -70, width: 140, height: 140, borderRadius: '50%', border: '9px solid #ffd400', boxShadow: '0 0 0 4px #000, inset 0 0 0 4px #000', transform: `scale(${2 - e + Math.sin(f / 5) * 0.05})`}} />
       <div style={{position: 'absolute', left: -400, width: 800, top: baixo ? 86 + bal : undefined, bottom: baixo ? undefined : 86 + bal, display: 'flex', flexDirection: baixo ? 'column' : 'column-reverse', alignItems: 'center', transform: `scale(${e})`}}>
         <svg width={70} height={56} viewBox="0 0 70 56" style={{transform: baixo ? undefined : 'rotate(180deg)'}}><path d="M35 2 L66 38 H46 V54 H24 V38 H4 Z" fill="#ffd400" stroke="#000" strokeWidth="5" strokeLinejoin="round" /></svg>
-        <div style={{fontFamily: F, fontWeight: 900, fontSize: 40, color: '#111', background: '#ffd400', border: '5px solid #000', borderRadius: 12, padding: '2px 20px', whiteSpace: 'nowrap', boxShadow: '0 8px 0 #0008'}}>{rotulo}</div>
+        <div style={{fontFamily: F, fontWeight: 900, fontSize: 50, color: '#111', background: '#ffd400', border: '6px solid #000', borderRadius: 12, padding: '2px 20px', whiteSpace: 'nowrap', boxShadow: '0 8px 0 #0008'}}>{rotulo}</div>
       </div>
     </div>
   );
@@ -214,8 +215,22 @@ const Tempo: React.FC<{texto: string; dur: number}> = ({texto, dur}) => {
   );
 };
 
+const Crono: React.FC<{rotulo: string; de: number; ate: number; dur: number}> = ({rotulo, de, ate, dur}) => {
+  const f = useCurrentFrame();
+  const v = Math.floor(de + (ate - de) * Math.min(1, f / Math.max(1, dur - 20)));
+  const o = interpolate(f, [0, 6, dur - 8, dur], [0, 1, 1, 0], cl);
+  return (
+    <div style={{position: 'absolute', left: 0, right: 0, top: 470, display: 'flex', justifyContent: 'center', opacity: o}}>
+      <div style={{background: '#000d', border: '6px solid #ff3b3b', borderRadius: 18, padding: '4px 34px', textAlign: 'center', transform: `scale(${1 + 0.03 * Math.sin(f / 4)})`}}>
+        <div style={{fontFamily: F, fontWeight: 900, fontSize: 36, color: '#fff', letterSpacing: 2}}>{rotulo}</div>
+        <div style={{fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 110, color: '#ff4a3a', lineHeight: 1}}>{Math.floor(v / 60)}:{String(v % 60).padStart(2, '0')}</div>
+      </div>
+    </div>
+  );
+};
+
 // placar fixo: a aposta do vídeo sempre visível (mortes x admitidas, sobrevivências e quem percebeu)
-const Placar: React.FC<{hud: Hud}> = ({hud}) => {
+const Placar: React.FC<{hud: Hud; estado?: string}> = ({hud, estado}) => {
   const f = useCurrentFrame();
   const v = {mortes: hud.mortes, percebeu: hud.percebeu, sobrev: hud.sobrev};
   let pulso: Record<string, number> = {};
@@ -235,7 +250,7 @@ const Placar: React.FC<{hud: Hud}> = ({hud}) => {
     );
   };
   return (
-    <div style={{position: 'absolute', right: 26, top: 62, width: 372, background: 'linear-gradient(#0d1b33ee, #08101fee)', border: `4px solid ${AZUL}`, borderRadius: 16, padding: '8px 12px 10px', boxShadow: '0 10px 0 #0007'}}>
+    <div style={{position: 'absolute', right: 22, top: 58, width: 372, transform: 'scale(1.18)', transformOrigin: '100% 0%', background: 'linear-gradient(#0d1b33ee, #08101fee)', border: `4px solid ${AZUL}`, borderRadius: 16, padding: '8px 12px 10px', boxShadow: '0 10px 0 #0007'}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 10, borderBottom: '2px solid #ffffff33', paddingBottom: 4, marginBottom: 4}}>
         <CabecaCarlos s={46} />
         <span style={{fontFamily: F, fontWeight: 900, fontSize: 30, color: '#fff'}}>CARLOS</span>
@@ -245,6 +260,12 @@ const Placar: React.FC<{hud: Hud}> = ({hud}) => {
       <Linha k="adm" rot="MORTES ADMITIDAS" val={0} cor="#fff" />
       <Linha k="sobrev" rot="SOBREVIVEU" val={v.sobrev} cor="#6fe07a" />
       <Linha k="percebeu" rot="QUEM PERCEBEU" val={v.percebeu} cor="#ffd400" />
+      {estado === 'morto' ? (
+        <div style={{marginTop: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#b01212', borderRadius: 10, padding: '2px 0', opacity: 0.8 + 0.2 * Math.sin(f / 5)}}>
+          <Caveira s={30} />
+          <span style={{fontFamily: F, fontWeight: 900, fontSize: 25, color: '#fff', whiteSpace: 'nowrap'}}>AGORA: MORTO (TORRE)</span>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -260,7 +281,7 @@ const Cerebros: React.FC<{marcas: number[]}> = ({marcas}) => {
   ];
   return (
     <AbsoluteFill style={{background: '#040a18b0', justifyContent: 'center', alignItems: 'center'}}>
-      <div style={{position: 'absolute', top: 150, fontFamily: F, fontWeight: 900, fontSize: 64, color: '#fff', WebkitTextStroke: '8px #000', paintOrder: 'stroke fill'}}>O CARLOS POR DENTRO: 3 IAs</div>
+      <div style={{position: 'absolute', top: 150, fontFamily: F, fontWeight: 900, fontSize: 64, color: '#fff', WebkitTextStroke: '8px #000', paintOrder: 'stroke fill', opacity: interpolate(f, [70, 90], [1, 0], cl)}}>O CARLOS POR DENTRO</div>
       <div style={{display: 'flex', gap: 46, marginTop: 60}}>
         {itens.map(([ic, t, s], i) => {
           const m = marcas[i] ?? i * 40;
@@ -280,12 +301,12 @@ const Cerebros: React.FC<{marcas: number[]}> = ({marcas}) => {
   );
 };
 // a mensagem de limite refeita em tamanho grande (o balão do jogo é pequeno demais para ler)
-const Limite: React.FC<{marcas: number[]; fim: number}> = ({marcas, fim}) => {
+const Limite: React.FC<{marcas: number[]}> = ({marcas}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const m0 = marcas[0] ?? 0;
-  const m1 = marcas[1] ?? 1e9;
-  if (f < m0) return null;
+  const fim = m0 + 100; // a caixa em inglês fica ~3 s; a tradução vem depois em selo
+  if (f < m0 || f > fim) return null;
   const e = spring({frame: f - m0, fps, config: {damping: 10, stiffness: 150}});
   const o = interpolate(f, [fim - 8, fim], [1, 0], cl);
   const tr = Math.max(0, 1 - (f - m0) / 16) * 10;
@@ -299,9 +320,6 @@ const Limite: React.FC<{marcas: number[]; fim: number}> = ({marcas, fim}) => {
             <div style={{fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: 44, color: '#555'}}>resets 8:40pm (UTC)</div>
           </div>
         </div>
-        {f >= m1 ? (
-          <div style={{fontFamily: F, fontWeight: 900, fontSize: 52, color: '#ffd400', WebkitTextStroke: '8px #000', paintOrder: 'stroke fill', transform: `scale(${interpolate(f - m1, [0, 6], [1.8, 1], cl)})`}}>"VOCÊ ATINGIU SEU LIMITE DE 5 HORAS"</div>
-        ) : null}
       </div>
     </AbsoluteFill>
   );
@@ -315,37 +333,39 @@ const SemGravacao: React.FC<{texto: string}> = ({texto}) => {
     </div>
   );
 };
-const Perdido: React.FC<{marcas: number[]}> = ({marcas}) => {
+// carimbo fixo no canto dos prints das partidas perdidas
+const Carimbo: React.FC<{texto: string; jogo: string}> = ({texto, jogo}) => {
+  const f = useCurrentFrame();
+  const e = interpolate(f, [4, 12], [3, 1], cl);
+  return (
+    <div style={{position: 'absolute', left: 46, top: 46, display: 'flex', alignItems: 'center', gap: 18, opacity: interpolate(f, [4, 8], [0, 1], cl), transform: `scale(${e})`, transformOrigin: '0 0'}}>
+      <DiscoQuebrado s={120} />
+      <div style={{transform: 'rotate(-3deg)'}}>
+        <div style={{fontFamily: F, fontWeight: 900, fontSize: 54, color: '#fff', background: '#e8371a', border: '6px solid #fff', borderRadius: 12, padding: '0 20px', WebkitTextStroke: '2px #000', paintOrder: 'stroke fill', boxShadow: '0 10px 0 #0008'}}>{texto}</div>
+        <div style={{fontFamily: F, fontWeight: 900, fontSize: 38, color: '#111', background: '#ffd400', border: '5px solid #000', borderRadius: 10, padding: '0 16px', marginTop: 8, display: 'inline-block'}}>{jogo}</div>
+      </div>
+    </div>
+  );
+};
+// Murder: não sobrou nem print, só o registro do chat (faca desenhada, balançando)
+const MurderCard: React.FC = () => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const jogos: [string, string, React.ReactNode][] = [
-    ['MURDER', 'The Mad Murderer X', <svg key="f" width={300} height={170} viewBox="0 0 300 170"><rect width="300" height="170" fill="#2a1016" /><path d="M60 120 L190 40 Q214 30 226 46 L96 136 Z" fill="#dfe6ee" stroke="#000" strokeWidth="5" /><rect x="40" y="112" width="62" height="26" rx="8" transform="rotate(-32 70 125)" fill="#7a4a22" stroke="#000" strokeWidth="5" /></svg>],
-    ['BROOKHAVEN', 'Brookhaven RP', <Img key="b" src={staticFile('roblox/img/brookhaven.jpg')} style={{width: 300, height: 170, objectFit: 'cover', objectPosition: '50% 30%'}} />],
-  ];
+  const e = spring({frame: f, fps, config: {damping: 12}});
   return (
-    <AbsoluteFill style={{background: '#040a18c8'}}>
-      <div style={{position: 'absolute', top: 70, left: 0, right: 0, textAlign: 'center', fontFamily: F, fontWeight: 900, fontSize: 62, color: '#fff', WebkitTextStroke: '8px #000', paintOrder: 'stroke fill'}}>ELE TAMBÉM JOGOU...</div>
-      <div style={{position: 'absolute', top: 190, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 70}}>
-        {jogos.map(([t, s, arte], i) => {
-          const e = spring({frame: f - 8 - i * 14, fps, config: {damping: 12}});
-          const car = marcas[0] !== undefined && f >= marcas[0] + i * 8;
-          const ce = car ? interpolate(f - (marcas[0] + i * 8), [0, 6], [3, 1], cl) : 0;
-          return (
-            <div key={i} style={{position: 'relative', background: '#eaf5ff', border: `7px solid ${AZUL}`, borderRadius: 22, padding: 16, textAlign: 'center', transform: `translateY(${(1 - e) * -260}px) rotate(${i ? 2 : -2}deg)`, opacity: e, boxShadow: '0 14px 0 #0008'}}>
-              <div style={{borderRadius: 12, overflow: 'hidden', border: '4px solid #000', filter: car ? 'grayscale(1) brightness(0.55)' : undefined, lineHeight: 0}}>{arte}</div>
-              <div style={{fontFamily: F, fontWeight: 900, fontSize: 44, color: '#0e3d73', marginTop: 6}}>{t}</div>
-              <div style={{fontFamily: F, fontWeight: 700, fontSize: 24, color: '#33506e'}}>{s}</div>
-              {car ? (
-                <div style={{position: 'absolute', left: -30, right: -30, top: 62, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, transform: `rotate(-9deg) scale(${ce})`}}>
-                  <div style={{fontFamily: F, fontWeight: 900, fontSize: 38, color: '#fff', background: '#e8371a', border: '6px solid #fff', borderRadius: 12, padding: '0 16px', WebkitTextStroke: '2px #000', paintOrder: 'stroke fill', whiteSpace: 'nowrap'}}>GRAVAÇÃO PERDIDA</div>
-                </div>
-              ) : null}
-            </div>
-          );
-        })}
-        {marcas[0] !== undefined && f >= marcas[0] ? (
-          <div style={{alignSelf: 'center', transform: `scale(${spring({frame: f - marcas[0], fps, config: {damping: 9}})}) rotate(${Math.sin(f / 5) * 4}deg)`}}><DiscoQuebrado s={170} /></div>
-        ) : null}
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #5a1420, #16060a 75%)'}}>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <div key={i} style={{position: 'absolute', left: -200 + ((f * 3 + i * 420) % 2500), top: 60 + i * 170, width: 300, height: 8, background: '#ffffff12', borderRadius: 4}} />
+      ))}
+      <div style={{position: 'absolute', left: 0, right: 0, top: 500, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 40, transform: `scale(${0.6 + 0.4 * e})`}}>
+        <svg width={420} height={240} viewBox="0 0 300 170" style={{transform: `rotate(${Math.sin(f / 9) * 9 - 6}deg)`}}>
+          <path d="M60 120 L190 40 Q214 30 226 46 L96 136 Z" fill="#dfe6ee" stroke="#000" strokeWidth="5" />
+          <rect x="40" y="112" width="62" height="26" rx="8" transform="rotate(-32 70 125)" fill="#7a4a22" stroke="#000" strokeWidth="5" />
+        </svg>
+        <div>
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: 130, color: '#fff', lineHeight: 1, WebkitTextStroke: '12px #000', paintOrder: 'stroke fill'}}>MURDER</div>
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: 40, color: '#111', background: '#ffd400', border: '5px solid #000', borderRadius: 10, padding: '0 16px', display: 'inline-block'}}>GRAVAÇÃO PERDIDA · SÓ O REGISTRO DO CHAT</div>
+        </div>
       </div>
     </AbsoluteFill>
   );
@@ -396,7 +416,7 @@ const Texto: React.FC<{cab: string; linhas: string[]; cor?: string}> = ({cab, li
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 13}});
   return (
-    <AbsoluteFill style={{background: '#040a18cc', justifyContent: 'center', alignItems: 'center'}}>
+    <AbsoluteFill style={{background: '#040a18cc', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 110}}>
       <div style={{textAlign: 'center', transform: `scale(${0.7 + 0.3 * e})`, opacity: e, maxWidth: 1640}}>
         <div style={{display: 'inline-block', fontFamily: F, fontWeight: 900, fontSize: 44, color: '#fff', background: AZUL, borderRadius: 12, padding: '2px 30px', marginBottom: 26, letterSpacing: 3}}>{cab}</div>
         {linhas.map((l, i) => (
@@ -426,36 +446,47 @@ const CenaView: React.FC<{c: Cena}> = ({c}) => {
   const m = c.marcas ?? [];
   return (
     <AbsoluteFill style={{background: '#000'}}>
-      <AbsoluteFill style={{transformOrigin: `${c.cam.x * 100}% ${c.cam.y * 100}%`, transform: `translate(${dx}px, ${dy}px) scale(${z * 1.012})`}}>
+      <AbsoluteFill style={{transformOrigin: `${c.cam.x * 100}% ${c.cam.y * 100}%`, transform: `translate(${dx}px, ${dy}px) scale(${z * 1.012})`, filter: c.blur ? `blur(${c.blur}px)` : undefined}}>
         {c.clip ? <OffthreadVideo src={staticFile(c.clip)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} /> : null}
         {c.img ? <Img src={staticFile(c.img)} style={{width: '100%', height: '100%', objectFit: 'cover'}} /> : null}
         {c.over.map((o, i) => (o.tipo === 'seta' ? <Sequence key={i} from={o.at} durationInFrames={o.dur} layout="none"><Seta x={o.x} y={o.y} rotulo={o.rotulo} lado={o.lado} dur={o.dur} /></Sequence> : null))}
       </AbsoluteFill>
       {c.escuro ? <AbsoluteFill style={{background: `rgba(4,10,24,${c.escuro})`}} /> : null}
       <AbsoluteFill style={{boxShadow: 'inset 0 0 200px 30px #000a', pointerEvents: 'none'}} />
-      {c.vel && c.vel > 1.7 ? (
+      {c.vel && c.vel >= 3 ? (
         <div style={{position: 'absolute', left: 60, top: 78, display: 'flex', alignItems: 'center', gap: 8, fontFamily: F, fontWeight: 900, fontSize: 38, color: '#fff', background: '#000b', borderRadius: 10, padding: '0 16px'}}>
           <svg width={44} height={30} viewBox="0 0 44 30"><path d="M2 2 L20 15 L2 28 Z M22 2 L40 15 L22 28 Z" fill="#fff" opacity={0.6 + 0.4 * Math.sin(f / 3)} /></svg>
           {Math.round(c.vel)}x
         </div>
       ) : null}
       {c.visual === 'cerebros' ? <Cerebros marcas={m} /> : null}
-      {c.visual === 'perdido' ? <Perdido marcas={m} /> : null}
+      {c.visual === 'murder' ? <MurderCard /> : null}
+      {c.visual === 'carimbo' ? <Carimbo texto={String(c.props?.texto ?? 'GRAVAÇÃO PERDIDA')} jogo={String(c.props?.jogo ?? '')} /> : null}
       {c.visual === 'final' ? <Final marcas={m} /> : null}
       {c.visual === 'texto' ? <Texto cab={String(c.props?.cab ?? '')} linhas={(c.props?.linhas as string[]) ?? []} cor={c.props?.cor as string | undefined} /> : null}
       {c.visual === 'semgravacao' ? <SemGravacao texto={String(c.props?.texto ?? 'SEM GRAVAÇÃO')} /> : null}
-      {c.hud.mostra ? <Placar hud={c.hud} /> : null}
-      {c.visual === 'limite' ? <Limite marcas={m} fim={c.dur} /> : null}
       {c.over.map((o, i) =>
-        o.tipo === 'seta' ? null : (
+        o.tipo === 'meme' ? (
+          <Sequence key={`m${i}`} from={o.at} durationInFrames={o.dur}>
+            <AbsoluteFill style={{transform: o.pos === 'left' || o.pos === 'right' ? 'translateY(150px)' : o.pos === 'top' ? 'translateY(-30px) scale(0.8)' : undefined}}>
+              <MemeCard info={o.info} dur={o.dur} pos={o.pos} />
+            </AbsoluteFill>
+          </Sequence>
+        ) : null,
+      )}
+      {c.hud.mostra ? <Placar hud={c.hud} estado={c.estado} /> : null}
+      {c.visual === 'limite' ? <Limite marcas={m} /> : null}
+      {c.over.map((o, i) =>
+        o.tipo === 'seta' || o.tipo === 'meme' ? null : (
           <Sequence key={i} from={o.at} durationInFrames={o.dur}>
             {o.tipo === 'ia' || o.tipo === 'bush' || o.tipo === 'jog' ? <Fala quem={o.tipo} texto={o.texto} dur={o.dur} /> : null}
-            {o.tipo === 'selo' ? <Selo texto={o.texto} cor={o.cor} /> : null}
-            {o.tipo === 'meme' ? <MemeCard info={o.info} dur={o.dur} pos={o.pos} /> : null}
+            {o.tipo === 'selo' ? <Selo texto={o.texto} cor={o.cor} hud={c.hud.mostra} /> : null}
+            
             {o.tipo === 'numero' ? <NumeroG texto={o.texto} sub={o.sub} dur={o.dur} /> : null}
             {o.tipo === 'marco' ? <Marco titulo={o.titulo} sub={o.sub} dur={o.dur} /> : null}
             {o.tipo === 'morte' ? <Morte n={o.n} dur={o.dur} /> : null}
             {o.tipo === 'tempo' ? <Tempo texto={o.texto} dur={o.dur} /> : null}
+            {o.tipo === 'crono' ? <Crono rotulo={o.rotulo} de={o.de} ate={o.ate} dur={o.dur} /> : null}
           </Sequence>
         ),
       )}

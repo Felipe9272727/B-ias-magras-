@@ -10,6 +10,6 @@ const browserExecutable = null; // o Remotion usa o navegador dele (node_modules
 const composition = await selectComposition({serveUrl, id: 'RobloxVideo', browserExecutable, chromiumOptions: {gl: 'angle-egl'}});
 fs.mkdirSync(out, {recursive: true});
 for (const frame of frames) {
-  await renderStill({composition, serveUrl, output: `${out}/f${String(frame).padStart(5, '0')}.jpg`, frame, imageFormat: 'jpeg', jpegQuality: 82, scale: 0.5, browserExecutable, chromiumOptions: {gl: 'angle-egl'}});
+  await renderStill({composition, serveUrl, output: `${out}/f${String(frame).padStart(5, '0')}.jpg`, frame, imageFormat: 'jpeg', jpegQuality: 82, scale: Number(process.argv[4] || 0.5), browserExecutable, chromiumOptions: {gl: 'angle-egl'}});
   console.log(frame);
 }

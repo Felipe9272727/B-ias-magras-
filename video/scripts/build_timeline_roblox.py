@@ -2,6 +2,8 @@
 """IA JOGANDO ROBLOX (IA ou humano?): roteiro (video/roteiro/roteiro_roblox.json) -> public/timeline_roblox.json,
 vozes (public/roblox/voz) e os trechos do gameplay já recortados na duração de cada cena (public/roblox/clips).
 
+v2: trechos recortados já em 1080p (Lanczos, CRF 14) para o render nativo em 1080p; campos estado ('morto' = aviso no
+placar) e blur (desfoque do fundo); item ["crono", rotulo, de, ate, segundos].
 Cena: {id, clip: [arquivo, t0, t1] (segundos no vídeo de origem) | img, cam: [x, y, z0, z1] (foco 0..1 e zoom), cap?,
        hud?, visual?, props?, escuro?, folga?, itens}.
 Itens: ["n", texto] narrador · ["ia", texto, falado?] fala do Carlos (texto copiado do log; "falado" é só a pronúncia)
@@ -90,10 +92,10 @@ def leitura(texto, base=1.2, por=0.3, mn=1.8, mx=4.0):
 
 def recortar(cid, arq, segs):
     """segs: [(quadros, s0, s1)] -> um mp4 com exatamente sum(quadros) quadros (cada trecho na sua velocidade)."""
-    spec = json.dumps([arq, segs, 'v3'])
+    spec = json.dumps([arq, segs, 'v5-1080'])
     h = hashlib.sha1(spec.encode()).hexdigest()[:10]
     out = CLIPS / f'{cid}_{h}.mp4'
-    if out.exists() or SEM_VOZ and '--clips' not in sys.argv:
+    if out.exists() or CONTAR or SEM_VOZ and '--clips' not in sys.argv:
         return f'roblox/clips/{out.name}'
     for velho in CLIPS.glob(f'{cid}_*.mp4'):
         velho.unlink()
@@ -102,9 +104,9 @@ def recortar(cid, arq, segs):
         d = max(s1 - s0, 1 / FPS)
         k = (n / FPS) / d
         ins += ['-ss', f'{s0:.3f}', '-t', f'{d + 0.2:.3f}', '-i', str(FOOT / arq)]
-        fil.append(f'[{i}:v]setpts=(PTS-STARTPTS)*{k:.5f},fps={FPS},tpad=stop_mode=clone:stop_duration=3,trim=end_frame={n},setpts=PTS-STARTPTS,scale=1280:720,setsar=1[v{i}]')
+        fil.append(f'[{i}:v]setpts=(PTS-STARTPTS)*{k:.5f},fps={FPS},tpad=stop_mode=clone:stop_duration=3,trim=end_frame={n},setpts=PTS-STARTPTS,scale=1920:1080:flags=lanczos,unsharp=5:5:0.35,setsar=1[v{i}]')
     fil.append(''.join(f'[v{i}]' for i in range(len(segs))) + f'concat=n={len(segs)}:v=1:a=0[v]')
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '17', '-g', '15', '-pix_fmt', 'yuv420p', str(out)], check=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-an', '-c:v', 'libx264', '-preset', 'fast', '-crf', '14', '-g', '15', '-pix_fmt', 'yuv420p', str(out)], check=True)
     return f'roblox/clips/{out.name}'
 
 
@@ -125,7 +127,7 @@ def main():
         for it in c['itens']:
             k = it[0]
             fr = round(t * FPS)
-            if k not in ('s', 'p', 'ir', 'marca', 'hud', 'meme'):
+            if k not in ('s', 'p', 'ir', 'marca', 'hud', 'meme', 'crono'):
                 ult = k
             if k == 'n':
                 src, d = tts(it[1], NARRADOR)
@@ -182,6 +184,8 @@ def main():
                 audio.append(dict(src='sfx/swoosh-air.mp3', at=fr, vol=0.3))
             elif k == 'tempo':
                 over.append(dict(tipo='tempo', at=fr, dur=round(2.6 * FPS), texto=it[1]))
+            elif k == 'crono':  # ["crono", rotulo, de, ate, segundos]: cronômetro na tela
+                over.append(dict(tipo='crono', at=fr, dur=round(float(it[4]) * FPS), rotulo=it[1], de=it[2], ate=it[3]))
             elif k == 'marca':
                 marcas.append(fr)
             elif k == 'ir':
@@ -201,7 +205,7 @@ def main():
         cam = c.get('cam', [0.5, 0.5, 1.0, 1.08])
         cena = dict(id=c['id'], dur=n, cam=dict(x=cam[0], y=cam[1], z0=cam[2], z1=cam[3]), over=over, audio=audio, marcas=marcas,
                     hud=dict(mostra=hud_on and c.get('placar', True), ev=ev, **base))
-        for kk in ('visual', 'props', 'escuro'):
+        for kk in ('visual', 'props', 'escuro', 'blur', 'estado'):
             if kk in c:
                 cena[kk] = c[kk]
         if c.get('clip'):
@@ -240,11 +244,11 @@ def main():
     # efeito a cada ~15-20 s
     efeitos, ini = [], 0
     for c in cenas:
-        efeitos += [(ini + o['at']) / FPS for o in c['over'] if o['tipo'] in ('selo', 'meme', 'numero', 'morte', 'marco', 'seta')]
+        efeitos += [(ini + o['at']) / FPS for o in c['over'] if o['tipo'] in ('selo', 'meme', 'numero', 'morte', 'marco', 'seta', 'crono')]
         ini += c['dur']
     efeitos = sorted(set(round(e) for e in efeitos))
     for a, b in zip([0] + efeitos, efeitos + [round(tot)]):
-        if b - a > 22:
+        if b - a > 16:
             avisos.append(f'sem efeito entre {a // 60}:{a % 60:02d} e {b // 60}:{b % 60:02d}')
     print('\n'.join(avisos))
     ini = 0

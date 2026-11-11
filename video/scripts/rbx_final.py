@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""IA JOGANDO ROBLOX: render 540p mudo + faixa de vozes -> vídeo final. Upscale 1080p (Lanczos), uma trilha por parte
+"""IA JOGANDO ROBLOX: render mudo + faixa de vozes -> vídeo final. Render 1080p nativo (v2) passa sem reescalar (CRF 17);
+render 540p ganha upscale 1080p (Lanczos). Uma trilha por parte
 (cenas com cartão de parte), volume calibrado do music.json, música abaixando sob a voz (sidechain do padrão do canal),
 loudnorm -14 LUFS e a edição de cor do canal.
 Uso (de video/remotion): python3 ../scripts/rbx_final.py <render_mudo.mkv> <voz.flac> <saida.mp4>
@@ -36,7 +37,13 @@ fil.append(''.join(f'[m{i}]' for i in range(len(blocos))) + f'concat=n={len(bloc
 fil.append('[1:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[voz][chave]')
 fil.append('[mus][chave]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=450:makeup=1[md]')
 fil.append('[voz][md]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[a]')
-fil.append('[0:v]scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42[v]')
+# v2: o render já sai em 1080p nativo (--scale=1); aí não há upscale nem nitidez extra, só a cor do canal (mais leve).
+larg = int(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width', '-of', 'csv=p=0', ent], capture_output=True, text=True).stdout.strip())
+if larg >= 1920:
+    fil.append('[0:v]eq=contrast=1.05:saturation=1.14:gamma=0.98,vignette=angle=0.32[v]')
+else:
+    fil.append('[0:v]scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42[v]')
+CRF = '17' if larg >= 1920 else '20'
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', ent, '-i', voz, *ins, '-filter_complex', ';'.join(fil), '-map', '[v]', '-map', '[a]',
-                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', sai], check=True)
+                '-c:v', 'libx264', '-preset', 'fast' if larg >= 1920 else 'veryfast', '-crf', CRF, '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', sai], check=True)
 print('ok', sai)
