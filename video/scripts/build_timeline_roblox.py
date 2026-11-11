@@ -120,6 +120,9 @@ def main():
         base = dict(hud)
         if 'hud' in c:
             hud_on = bool(c['hud'])
+        if c.get('tempo'):
+            over.append(dict(tipo='tempo', at=0, dur=round(2.6 * FPS), texto=c['tempo']))
+            audio.append(dict(src='sfx/swoosh-air.mp3', at=0, vol=0.35))
         if c.get('cap'):
             over.append(dict(tipo='marco', at=0, dur=72, titulo=c['cap'], **({'sub': c['capsub']} if c.get('capsub') else {})))
             audio.append(dict(src='sfx/whoosh.mp3', at=0, vol=0.4))
@@ -127,7 +130,7 @@ def main():
         for it in c['itens']:
             k = it[0]
             fr = round(t * FPS)
-            if k not in ('s', 'p', 'ir', 'marca', 'hud', 'meme', 'crono'):
+            if k not in ('s', 'p', 'ir', 'marca', 'hud', 'meme', 'crono', 'pensa', 'tempo'):
                 ult = k
             if k == 'n':
                 src, d = tts(it[1], NARRADOR)
@@ -154,12 +157,31 @@ def main():
                 fim_selo = ini + ds
                 over.append(dict(tipo='selo', at=round(ini * FPS), dur=round(ds * FPS), texto=it[1], **({'cor': it[2]} if len(it) > 2 else {})))
                 audio.append(dict(src='sfx/pop.mp3', at=round(ini * FPS), vol=0.5))
-            elif k == 'meme':
+            elif k == 'meme':  # ["meme", id, pos?, legenda?, sfx?]; pos "full" = corte em tela cheia (~1,6 s, para a cena)
                 m = MEMES[it[1]]
-                selos = [o for o in over if o['tipo'] == 'selo']
-                at_m = selos[-1]['at'] if ult == 'selo' and selos else fr  # junto com o selo do evento
-                over.append(dict(tipo='meme', at=at_m, dur=None, id=it[1], pos=it[2] if len(it) > 2 else 'right',
-                                 info=dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])))
+                pos = it[2] if len(it) > 2 else 'right'
+                cap = it[3] if len(it) > 3 else None
+                info = dict(file=Path(m['file_gif']).name, width=m['width'], height=m['height'], duration=m['duration_sec'])
+                if pos == 'full':
+                    df = max(1.5, min(2.4, 0.9 + 0.25 * len((cap or '').split())))
+                    over.append(dict(tipo='meme', at=fr, dur=round(df * FPS), id=it[1], pos='full', info=info, **({'caption': cap} if cap else {})))
+                    audio.append(dict(src=f"sfx/{it[4] if len(it) > 4 else 'record-scratch'}.mp3", at=fr, vol=0.5))
+                    t += df
+                else:
+                    selos = [o for o in over if o['tipo'] == 'selo']
+                    at_m = selos[-1]['at'] if ult == 'selo' and selos else fr  # junto com o selo do evento
+                    over.append(dict(tipo='meme', at=at_m, dur=None, id=it[1], pos=pos, info=info, **({'caption': cap} if cap else {})))
+                    audio.append(dict(src=f"sfx/{it[4] if len(it) > 4 else 'boing'}.mp3", at=at_m, vol=0.32))
+            elif k == 'pensa':  # ["pensa", "olho"|"jev"|"chat", texto copiado do log, extra?]
+                ds = min(6.0, max(2.8, 1.4 + len(it[2]) / 26 + (1.2 if len(it) > 3 else 0)))
+                over.append(dict(tipo='pensa', at=fr, dur=round(ds * FPS), quem=it[1], texto=it[2], **({'extra': it[3]} if len(it) > 3 else {})))
+                audio.append(dict(src='sfx/typing.mp3', at=fr, vol=0.35))
+                t += float(it[4]) if len(it) > 4 else 0.0
+            elif k == 'atualiza':  # ["atualiza", slot, de, para, nota?] cartão de troca no cérebro do Carlos (para a cena)
+                ds = 3.4
+                over.append(dict(tipo='atualiza', at=fr, dur=round(ds * FPS), slot=it[1], de=it[2], para=it[3], **({'nota': it[4]} if len(it) > 4 else {})))
+                audio.append(dict(src='sfx/powerup-8bit.mp3', at=fr, vol=0.45))
+                t += ds
             elif k == 'numero':
                 over.append(dict(tipo='numero', at=fr, dur=round(2.5 * FPS), texto=it[1], sub=it[2] if len(it) > 2 else None))
                 audio.append(dict(src='sfx/impact-epic.mp3', at=fr, vol=0.45))
@@ -198,13 +220,15 @@ def main():
                 raise SystemExit(f"item desconhecido {k} na cena {c['id']}")
         selos = [o['dur'] for o in over if o['tipo'] == 'selo']
         for o in over:
-            if o['tipo'] == 'meme':
+            if o['tipo'] == 'meme' and o['dur'] is None:
                 o['dur'] = max(selos) if selos else round(2.2 * FPS)  # meme fica o mesmo tempo do selo da cena
         n = max(round((t + c.get('folga', 0.4)) * FPS), 45)
         n = max(n, max((o['at'] + o['dur'] + 4 for o in over), default=0))  # nada é cortado pelo fim da cena
         cam = c.get('cam', [0.5, 0.5, 1.0, 1.08])
         cena = dict(id=c['id'], dur=n, cam=dict(x=cam[0], y=cam[1], z0=cam[2], z1=cam[3]), over=over, audio=audio, marcas=marcas,
                     hud=dict(mostra=hud_on and c.get('placar', True), ev=ev, **base))
+        if c.get('cerebro'):
+            cena['cerebro'] = c['cerebro']
         for kk in ('visual', 'props', 'escuro', 'blur', 'estado'):
             if kk in c:
                 cena[kk] = c[kk]
@@ -244,7 +268,7 @@ def main():
     # efeito a cada ~15-20 s
     efeitos, ini = [], 0
     for c in cenas:
-        efeitos += [(ini + o['at']) / FPS for o in c['over'] if o['tipo'] in ('selo', 'meme', 'numero', 'morte', 'marco', 'seta', 'crono')]
+        efeitos += [(ini + o['at']) / FPS for o in c['over'] if o['tipo'] in ('selo', 'meme', 'numero', 'morte', 'marco', 'seta', 'crono', 'pensa', 'atualiza')]
         ini += c['dur']
     efeitos = sorted(set(round(e) for e in efeitos))
     for a, b in zip([0] + efeitos, efeitos + [round(tot)]):
@@ -257,6 +281,11 @@ def main():
             print(f"  {ini / FPS / 60:5.2f} min  {[o['titulo'] for o in c['over'] if o['tipo'] == 'marco'][0]}")
         ini += c['dur']
     print(f'memes: {len(memes)} ({len(memes) / (tot / 60):.1f}/min)')
+    if '--mapa' in sys.argv:
+        ini = 0
+        for c in cenas:
+            print(f"    {int(ini / FPS) // 60}:{int(ini / FPS) % 60:02d} {c['id']} ({c['dur'] / FPS:.1f}s)")
+            ini += c['dur']
     if CONTAR or SEM_VOZ:
         print(f'duração estimada {tot / 60:.2f} min; faltam gerar {falta} caracteres de voz')
         if CONTAR:

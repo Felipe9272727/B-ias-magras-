@@ -16,15 +16,18 @@ const AZUL = '#1b8df2';
 type Over =
   | {tipo: 'ia' | 'bush' | 'jog'; at: number; dur: number; texto: string}
   | {tipo: 'selo'; at: number; dur: number; texto: string; cor?: string}
-  | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: MemeInfo}
+  | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: MemeInfo; caption?: string}
   | {tipo: 'numero'; at: number; dur: number; texto: string; sub?: string}
   | {tipo: 'marco'; at: number; dur: number; titulo: string; sub?: string}
   | {tipo: 'morte'; at: number; dur: number; n: number}
   | {tipo: 'seta'; at: number; dur: number; x: number; y: number; rotulo: string; lado?: string}
   | {tipo: 'tempo'; at: number; dur: number; texto: string}
-  | {tipo: 'crono'; at: number; dur: number; rotulo: string; de: number; ate: number};
+  | {tipo: 'crono'; at: number; dur: number; rotulo: string; de: number; ate: number}
+  | {tipo: 'pensa'; at: number; dur: number; quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: string}
+  | {tipo: 'atualiza'; at: number; dur: number; slot: 'jev' | 'olho' | 'chat' | 'tudo'; de: string; para: string; nota?: string};
+type Cerebro = {jev: string; olho: string; chat: string; muda?: string[]};
 type Hud = {mostra: boolean; mortes: number; percebeu: number; sobrev: number; ev: {at: number; k: 'mortes' | 'percebeu' | 'sobrev'}[]};
-type Cena = {id: string; dur: number; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; blur?: number; estado?: string; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
+type Cena = {id: string; dur: number; cerebro?: Cerebro; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; blur?: number; estado?: string; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
 type TL = {cenas: Cena[]};
 
 export const calcRoblox: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -211,7 +214,9 @@ const Tempo: React.FC<{texto: string; dur: number}> = ({texto, dur}) => {
   const f = useCurrentFrame();
   const o = interpolate(f, [0, 5, dur - 8, dur], [0, 1, 1, 0], cl);
   return (
-    <div style={{position: 'absolute', left: 60, top: 150, opacity: o, fontFamily: F, fontWeight: 900, fontSize: 46, color: '#fff', background: '#000c', borderLeft: `10px solid ${AZUL}`, padding: '4px 22px', borderRadius: 6, transform: `translateX(${interpolate(f, [0, 7], [-120, 0], cl)}px)`}}>{texto}</div>
+    <div style={{position: 'absolute', left: 0, right: 0, top: 34, display: 'flex', justifyContent: 'center', opacity: o}}>
+      <div style={{fontFamily: F, fontWeight: 900, fontSize: 48, color: '#fff', background: '#000d', border: `5px solid ${AZUL}`, padding: '2px 30px', borderRadius: 12, letterSpacing: 2, transform: `translateY(${interpolate(f, [0, 7], [-110, 0], cl)}px)`, boxShadow: '0 8px 0 #0007'}}>{texto}</div>
+    </div>
   );
 };
 
@@ -427,6 +432,81 @@ const Texto: React.FC<{cab: string; linhas: string[]; cor?: string}> = ({cab, li
   );
 };
 
+// ---------- o cérebro do Carlos: quem controla, quem olha, quem escreve (sempre visível, canto de baixo à esquerda) ----------
+const ICONE: Record<string, React.FC> = {jev: Controle, olho: Olho, chat: Balao};
+const ROT: Record<string, string> = {jev: 'CONTROLE', olho: 'OLHOS', chat: 'CHAT'};
+const COR: Record<string, string> = {jev: '#ff5a5a', olho: AZUL, chat: '#3cc84a'};
+const CerebroHud: React.FC<{c: Cerebro}> = ({c}) => {
+  const f = useCurrentFrame();
+  return (
+    <div style={{position: 'absolute', left: 22, top: 22, transform: 'scale(1.18)', transformOrigin: '0 0', background: 'linear-gradient(#0d1b33ee, #08101fee)', border: '4px solid #ffffff55', borderRadius: 14, padding: '6px 12px 8px', boxShadow: '0 8px 0 #0007'}}>
+      <div style={{fontFamily: F, fontWeight: 900, fontSize: 19, color: '#9fb6d6', letterSpacing: 2, marginBottom: 2}}>CÉREBRO DO CARLOS</div>
+      {(['jev', 'olho', 'chat'] as const).map((k) => {
+        const Ic = ICONE[k];
+        const novo = c.muda?.includes(k);
+        const p = novo ? Math.max(0, 1 - f / 60) : 0;
+        return (
+          <div key={k} style={{display: 'flex', alignItems: 'center', gap: 8, height: 38, background: p ? `rgba(255,212,0,${0.45 * p})` : undefined, borderRadius: 8, padding: '0 4px'}}>
+            <div style={{width: 34, height: 34, transform: 'scale(0.31)', transformOrigin: '0 0'}}><Ic /></div>
+            <span style={{fontFamily: F, fontWeight: 800, fontSize: 19, color: COR[k], width: 112}}>{ROT[k]}</span>
+            <span style={{fontFamily: F, fontWeight: 900, fontSize: 25, color: '#fff', transform: `scale(${1 + 0.5 * p})`, transformOrigin: '0 50%', display: 'inline-block'}}>{c[k]}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+// pensamento secreto: o que o "olho" descreveu ou o que o "controle" decidiu, copiado do log (o espectador sabe antes)
+const Pensa: React.FC<{quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: string; dur: number}> = ({quem, texto, extra, dur}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const e = spring({frame: f, fps, config: {damping: 12, stiffness: 170}});
+  const o = interpolate(f, [dur - 7, dur], [1, 0], cl);
+  const n = Math.min(texto.length, Math.floor(f * 2.6));
+  const Ic = ICONE[quem];
+  const cab = quem === 'olho' ? 'O OLHO DO CARLOS VIU:' : quem === 'jev' ? 'O CONTROLE DECIDIU:' : 'O CHAT PENSOU:';
+  return (
+    <div style={{position: 'absolute', left: 40, right: 470, top: 250, display: 'flex', justifyContent: 'center', opacity: o}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 16, maxWidth: 1400, transform: `scale(${0.6 + 0.4 * e}) translateY(${(1 - e) * -60}px)`}}>
+        <div style={{flex: 'none', background: '#fff', borderRadius: '50%', border: `7px solid ${COR[quem]}`, width: 130, height: 130, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 0 #0008'}}><Ic /></div>
+        <div style={{background: '#101828f2', border: `6px dashed ${COR[quem]}`, borderRadius: 28, padding: '10px 30px 14px', boxShadow: '0 10px 0 #0008'}}>
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: 30, color: COR[quem], letterSpacing: 2}}>{cab}</div>
+          <div style={{fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: texto.length > 70 ? 40 : 50, color: '#fff', lineHeight: 1.18}}>
+            "{texto.slice(0, n)}{n < texto.length ? <span style={{opacity: Math.sin(f / 2) > 0 ? 1 : 0}}>|</span> : '"'}
+          </div>
+          {extra && n >= texto.length ? <div style={{fontFamily: F, fontWeight: 900, fontSize: 34, color: '#ffd400', marginTop: 4}}>{extra}</div> : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+// cartão de atualização: o que eu troquei no Carlos (antes -> depois)
+const Atualiza: React.FC<{slot: string; de: string; para: string; nota?: string; dur: number}> = ({slot, de, para, nota, dur}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const e = spring({frame: f, fps, config: {damping: 11, stiffness: 150}});
+  const o = interpolate(f, [dur - 8, dur], [1, 0], cl);
+  const Ic = ICONE[slot] ?? Controle;
+  const troca = interpolate(f, [16, 26], [0, 1], cl);
+  return (
+    <AbsoluteFill style={{background: `rgba(4,10,24,${0.62 * o})`, justifyContent: 'center', alignItems: 'center', opacity: o}}>
+      <div style={{transform: `scale(${0.7 + 0.3 * e}) rotate(${(1 - e) * -6}deg)`, background: '#eaf5ff', border: '8px solid #ffd400', borderRadius: 28, padding: '22px 56px 28px', textAlign: 'center', boxShadow: '0 0 70px #ffd40088, 0 18px 0 #000a', minWidth: 980, maxWidth: 1600}}>
+        <div style={{display: 'inline-flex', alignItems: 'center', gap: 14, background: '#ffd400', border: '5px solid #000', borderRadius: 12, padding: '2px 24px'}}>
+          <svg width={46} height={46} viewBox="0 0 46 46"><path d="M23 3 L27 15 L40 12 L32 22 L42 31 L29 31 L27 44 L20 33 L8 40 L12 27 L2 20 L15 17 Z" fill="#fff" stroke="#000" strokeWidth="3" transform={`rotate(${f * 4} 23 23)`} /></svg>
+          <span style={{fontFamily: F, fontWeight: 900, fontSize: 44, color: '#111', letterSpacing: 2}}>ATUALIZAÇÃO DO CARLOS</span>
+        </div>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, marginTop: 18}}>
+          {slot !== 'tudo' ? <Ic /> : null}
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: de.length > 16 ? 42 : 58, maxWidth: 560, lineHeight: 1.1, color: '#7a8796', textDecoration: 'line-through', textDecorationThickness: 8, textDecorationColor: '#e8371a', opacity: 1 - 0.4 * troca}}>{de}</div>
+          <svg width={90} height={60} viewBox="0 0 90 60" style={{transform: `scaleX(${troca})`}}><path d="M4 22 H58 V6 L86 30 L58 54 V38 H4 Z" fill="#2aa84a" stroke="#000" strokeWidth="5" strokeLinejoin="round" /></svg>
+          <div style={{fontFamily: F, fontWeight: 900, fontSize: para.length > 16 ? 56 : 72, maxWidth: 680, lineHeight: 1.08, color: '#0e3d73', transform: `scale(${troca})`}}>{para}</div>
+        </div>
+        {nota ? <div style={{fontFamily: F, fontWeight: 800, fontSize: 38, color: '#33506e', marginTop: 10, opacity: troca}}>{nota}</div> : null}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // ---------- cena ----------
 const CenaView: React.FC<{c: Cena}> = ({c}) => {
   const f = useCurrentFrame();
@@ -454,7 +534,7 @@ const CenaView: React.FC<{c: Cena}> = ({c}) => {
       {c.escuro ? <AbsoluteFill style={{background: `rgba(4,10,24,${c.escuro})`}} /> : null}
       <AbsoluteFill style={{boxShadow: 'inset 0 0 200px 30px #000a', pointerEvents: 'none'}} />
       {c.vel && c.vel >= 3 ? (
-        <div style={{position: 'absolute', left: 60, top: 78, display: 'flex', alignItems: 'center', gap: 8, fontFamily: F, fontWeight: 900, fontSize: 38, color: '#fff', background: '#000b', borderRadius: 10, padding: '0 16px'}}>
+        <div style={{position: 'absolute', left: 30, top: c.cerebro && c.hud.mostra ? 200 : 78, display: 'flex', alignItems: 'center', gap: 8, fontFamily: F, fontWeight: 900, fontSize: 38, color: '#fff', background: '#000b', borderRadius: 10, padding: '0 16px'}}>
           <svg width={44} height={30} viewBox="0 0 44 30"><path d="M2 2 L20 15 L2 28 Z M22 2 L40 15 L22 28 Z" fill="#fff" opacity={0.6 + 0.4 * Math.sin(f / 3)} /></svg>
           {Math.round(c.vel)}x
         </div>
@@ -466,15 +546,16 @@ const CenaView: React.FC<{c: Cena}> = ({c}) => {
       {c.visual === 'texto' ? <Texto cab={String(c.props?.cab ?? '')} linhas={(c.props?.linhas as string[]) ?? []} cor={c.props?.cor as string | undefined} /> : null}
       {c.visual === 'semgravacao' ? <SemGravacao texto={String(c.props?.texto ?? 'SEM GRAVAÇÃO')} /> : null}
       {c.over.map((o, i) =>
-        o.tipo === 'meme' ? (
+        o.tipo === 'meme' && o.pos !== 'full' ? (
           <Sequence key={`m${i}`} from={o.at} durationInFrames={o.dur}>
             <AbsoluteFill style={{transform: o.pos === 'left' || o.pos === 'right' ? 'translateY(150px)' : o.pos === 'top' ? 'translateY(-30px) scale(0.8)' : undefined}}>
-              <MemeCard info={o.info} dur={o.dur} pos={o.pos} />
+              <MemeCard info={o.info} dur={o.dur} pos={o.pos} caption={o.caption} />
             </AbsoluteFill>
           </Sequence>
         ) : null,
       )}
       {c.hud.mostra ? <Placar hud={c.hud} estado={c.estado} /> : null}
+      {c.cerebro && c.hud.mostra && c.visual !== 'semgravacao' ? <CerebroHud c={c.cerebro} /> : null}
       {c.visual === 'limite' ? <Limite marcas={m} /> : null}
       {c.over.map((o, i) =>
         o.tipo === 'seta' || o.tipo === 'meme' ? null : (
@@ -487,8 +568,17 @@ const CenaView: React.FC<{c: Cena}> = ({c}) => {
             {o.tipo === 'morte' ? <Morte n={o.n} dur={o.dur} /> : null}
             {o.tipo === 'tempo' ? <Tempo texto={o.texto} dur={o.dur} /> : null}
             {o.tipo === 'crono' ? <Crono rotulo={o.rotulo} de={o.de} ate={o.ate} dur={o.dur} /> : null}
+            {o.tipo === 'pensa' ? <Pensa quem={o.quem} texto={o.texto} extra={o.extra} dur={o.dur} /> : null}
+            {o.tipo === 'atualiza' ? <Atualiza slot={o.slot} de={o.de} para={o.para} nota={o.nota} dur={o.dur} /> : null}
           </Sequence>
         ),
+      )}
+      {c.over.map((o, i) =>
+        o.tipo === 'meme' && o.pos === 'full' ? (
+          <Sequence key={`f${i}`} from={o.at} durationInFrames={o.dur}>
+            <MemeCard info={o.info} dur={o.dur} pos="full" caption={o.caption} />
+          </Sequence>
+        ) : null,
       )}
       <AbsoluteFill style={{background: '#fff', opacity: flash, pointerEvents: 'none'}} />
     </AbsoluteFill>
