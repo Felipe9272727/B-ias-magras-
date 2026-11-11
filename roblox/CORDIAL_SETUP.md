@@ -46,5 +46,5 @@ Ponte para comandar o Codespace: roblox/ponte.sh (branch roblox-cmd -> roblox-st
 - REGRA: gravar SEMPRE em `/workspaces/B-ias-magras-/gravacoes_roblox/` (disco persistente, fora do git via
   `.git/info/exclude`) e subir no gofile assim que cada gravação terminar. Instalar o Cordial em
   `/workspaces/cordial/` e não em `/tmp`. Logs do agente: copiar para a mesma pasta ao fim de cada sessão.
-- Antes de deixar o Codespace sozinho: aumentar o tempo de inatividade (github.com/settings/codespaces -> Default idle
-  timeout, até 240 min) ou subir tudo antes.
+- O tempo de inatividade já estava no máximo (4 h) e mesmo assim passou: não confiar nele. Subir para o gofile no
+  fim de CADA gravação, antes de qualquer outra coisa.
