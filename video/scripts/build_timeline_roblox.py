@@ -38,6 +38,7 @@ ARQ = {'A': 'partida_ia.mp4', 'B': 'partida_ia2.mp4', 'T': 'teste_final.mp4', 'N
        'F2': 'testes/repo_flicker-connection-02.mkv', 'D1': 'testes/repo_natural-disasters-connection-01.mkv',
        'D2': 'testes/repo_natural-disasters-network-diagnostic.mkv'}
 CONTAR = '--contar' in sys.argv
+NOME = next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--nome=')), 'roblox')  # --nome=roblox_short -> roteiro_roblox_short.json / timeline_roblox_short.json
 SEM_VOZ = '--sem-voz' in sys.argv
 MEMES = {m['id']: m for m in json.loads((PUB / 'gifs' / 'catalog.json').read_text())}
 gasto, falta = 0, 0
@@ -114,7 +115,7 @@ def recortar(cid, arq, segs, borrar=None):
 
 
 def main():
-    rot = json.loads((ROOT / 'roteiro' / 'roteiro_roblox.json').read_text())
+    rot = json.loads((ROOT / 'roteiro' / f'roteiro_{NOME}.json').read_text())
     cenas, avisos = [], []
     hud = dict(mortes=0, percebeu=0, sobrev=0)
     hud_on = False
@@ -293,7 +294,7 @@ def main():
         print(f'duração estimada {tot / 60:.2f} min; faltam gerar {falta} caracteres de voz')
         if CONTAR:
             return
-    (PUB / 'timeline_roblox.json').write_text(json.dumps(dict(cenas=cenas), ensure_ascii=False))
+    (PUB / f'timeline_{NOME}.json').write_text(json.dumps(dict(cenas=cenas), ensure_ascii=False))
     print(f'total {tot / 60:.2f} min ({sum(c["dur"] for c in cenas)} quadros); caracteres gastos agora: {gasto}')
 
 

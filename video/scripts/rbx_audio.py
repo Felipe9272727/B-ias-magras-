@@ -11,7 +11,8 @@ import numpy as np
 
 SR, FPS = 48000, 30
 PUB = Path('public')
-tl = json.loads((PUB / 'timeline_roblox.json').read_text())
+NOME = sys.argv[2] if len(sys.argv) > 2 else 'roblox'
+tl = json.loads((PUB / f'timeline_{NOME}.json').read_text())
 total = sum(c['dur'] for c in tl['cenas'])
 mix = np.zeros((total * SR // FPS + SR, 2), dtype=np.float32)
 cache = {}

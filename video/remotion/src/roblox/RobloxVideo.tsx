@@ -13,7 +13,7 @@ const F = "'Poppins', sans-serif";
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 const AZUL = '#1b8df2';
 
-type Over =
+export type Over =
   | {tipo: 'ia' | 'bush' | 'jog'; at: number; dur: number; texto: string}
   | {tipo: 'selo'; at: number; dur: number; texto: string; cor?: string}
   | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: MemeInfo; caption?: string}
@@ -25,10 +25,10 @@ type Over =
   | {tipo: 'crono'; at: number; dur: number; rotulo: string; de: number; ate: number}
   | {tipo: 'pensa'; at: number; dur: number; quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: string}
   | {tipo: 'atualiza'; at: number; dur: number; slot: 'jev' | 'olho' | 'chat' | 'tudo'; de: string; para: string; nota?: string};
-type Cerebro = {jev: string; olho: string; chat: string; muda?: string[]};
-type Hud = {mostra: boolean; mortes: number; percebeu: number; sobrev: number; ev: {at: number; k: 'mortes' | 'percebeu' | 'sobrev'}[]};
-type Cena = {id: string; dur: number; cerebro?: Cerebro; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; blur?: number; estado?: string; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
-type TL = {cenas: Cena[]};
+export type Cerebro = {jev: string; olho: string; chat: string; muda?: string[]};
+export type Hud = {mostra: boolean; mortes: number; percebeu: number; sobrev: number; ev: {at: number; k: 'mortes' | 'percebeu' | 'sobrev'}[]};
+export type Cena = {id: string; dur: number; cerebro?: Cerebro; clip?: string; img?: string; cam: {x: number; y: number; z0: number; z1: number}; escuro?: number; blur?: number; estado?: string; vel?: number; visual?: string; props?: Record<string, unknown>; marcas?: number[]; hud: Hud; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
+export type TL = {cenas: Cena[]};
 
 export const calcRoblox: CalculateMetadataFunction<{tl: TL | null}> = async () => {
   const tl = await (await fetch(staticFile('timeline_roblox.json'))).json();
@@ -114,7 +114,7 @@ const DiscoQuebrado: React.FC<{s?: number}> = ({s = 120}) => (
 );
 
 // ---------- peças ----------
-const Selo: React.FC<{texto: string; cor?: string; hud?: boolean}> = ({texto, cor = '#e8371a', hud}) => {
+export const Selo: React.FC<{texto: string; cor?: string; hud?: boolean}> = ({texto, cor = '#e8371a', hud}) => {
   const f = useCurrentFrame();
   const e = interpolate(f, [0, 6], [2.4, 1], cl);
   const fs = texto.length > 34 ? 44 : texto.length > 22 ? 54 : 68;
@@ -124,7 +124,7 @@ const Selo: React.FC<{texto: string; cor?: string; hud?: boolean}> = ({texto, co
     </div>
   );
 };
-const NumeroG: React.FC<{texto: string; sub?: string; dur: number}> = ({texto, sub, dur}) => {
+export const NumeroG: React.FC<{texto: string; sub?: string; dur: number}> = ({texto, sub, dur}) => {
   const f = useCurrentFrame();
   const e = interpolate(f, [0, 7], [2.6, 1], cl);
   const o = interpolate(f, [0, 4, dur - 8, dur], [0, 1, 1, 0], cl);
@@ -150,7 +150,7 @@ const Marco: React.FC<{titulo: string; sub?: string; dur: number}> = ({titulo, s
     </AbsoluteFill>
   );
 };
-const Fala: React.FC<{quem: 'ia' | 'bush' | 'jog'; texto: string; dur: number}> = ({quem, texto, dur}) => {
+export const Fala: React.FC<{quem: 'ia' | 'bush' | 'jog'; texto: string; dur: number; short?: boolean}> = ({quem, texto, dur, short}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 13, stiffness: 190}});
@@ -160,7 +160,7 @@ const Fala: React.FC<{quem: 'ia' | 'bush' | 'jog'; texto: string; dur: number}> 
   const nome = ia ? 'CARLOS' : quem === 'bush' ? 'BUSH' : 'JOGADOR DO SERVIDOR';
   const tag = ia ? 'IA' : quem === 'bush' ? 'EU' : 'HUMANO';
   const fs = ia ? (texto.length > 90 ? 50 : texto.length > 60 ? 58 : 68) : texto.length > 50 ? 54 : texto.length > 28 ? 62 : 74;
-  const pos: React.CSSProperties = ia ? {left: 110, right: 110, bottom: 44} : {left: 50, top: quem === 'bush' ? 300 : 470, maxWidth: 1180};
+  const pos: React.CSSProperties = short ? (ia ? {left: 24, right: 24, bottom: 40} : {left: 24, right: 24, bottom: 260}) : ia ? {left: 110, right: 110, bottom: 44} : {left: 50, top: quem === 'bush' ? 300 : 470, maxWidth: 1180};
   return (
     <div style={{position: 'absolute', ...pos, display: 'flex', justifyContent: ia ? 'center' : 'flex-start', opacity: o}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 18, transform: `translateY(${(1 - e) * (ia ? 90 : 0)}px) translateX(${(1 - e) * (ia ? 0 : -200)}px) scale(${0.85 + 0.15 * e})`}}>
@@ -177,7 +177,7 @@ const Fala: React.FC<{quem: 'ia' | 'bush' | 'jog'; texto: string; dur: number}> 
   );
 };
 // seta que aponta um ponto do gameplay (fica dentro da camada da câmera, então acompanha o zoom)
-const Seta: React.FC<{x: number; y: number; rotulo: string; lado?: string; dur: number}> = ({x, y, rotulo, lado, dur}) => {
+export const Seta: React.FC<{x: number; y: number; rotulo: string; lado?: string; dur: number}> = ({x, y, rotulo, lado, dur}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 11, stiffness: 200}});
@@ -194,7 +194,7 @@ const Seta: React.FC<{x: number; y: number; rotulo: string; lado?: string; dur: 
     </div>
   );
 };
-const Morte: React.FC<{n: number; dur: number}> = ({n, dur}) => {
+export const Morte: React.FC<{n: number; dur: number}> = ({n, dur}) => {
   const f = useCurrentFrame();
   const e = interpolate(f, [0, 7], [3, 1], cl);
   const o = interpolate(f, [0, 3, dur - 8, dur], [0, 1, 1, 0], cl);
@@ -220,7 +220,7 @@ const Tempo: React.FC<{texto: string; dur: number}> = ({texto, dur}) => {
   );
 };
 
-const Crono: React.FC<{rotulo: string; de: number; ate: number; dur: number}> = ({rotulo, de, ate, dur}) => {
+export const Crono: React.FC<{rotulo: string; de: number; ate: number; dur: number}> = ({rotulo, de, ate, dur}) => {
   const f = useCurrentFrame();
   const v = Math.floor(de + (ate - de) * Math.min(1, f / Math.max(1, dur - 20)));
   const o = interpolate(f, [0, 6, dur - 8, dur], [0, 1, 1, 0], cl);
@@ -306,7 +306,7 @@ const Cerebros: React.FC<{marcas: number[]}> = ({marcas}) => {
   );
 };
 // a mensagem de limite refeita em tamanho grande (o balão do jogo é pequeno demais para ler)
-const Limite: React.FC<{marcas: number[]}> = ({marcas}) => {
+export const Limite: React.FC<{marcas: number[]}> = ({marcas}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const m0 = marcas[0] ?? 0;
@@ -436,7 +436,7 @@ const Texto: React.FC<{cab: string; linhas: string[]; cor?: string}> = ({cab, li
 const ICONE: Record<string, React.FC> = {jev: Controle, olho: Olho, chat: Balao};
 const ROT: Record<string, string> = {jev: 'CONTROLE', olho: 'OLHOS', chat: 'CHAT'};
 const COR: Record<string, string> = {jev: '#ff5a5a', olho: AZUL, chat: '#3cc84a'};
-const CerebroHud: React.FC<{c: Cerebro}> = ({c}) => {
+export const CerebroHud: React.FC<{c: Cerebro}> = ({c}) => {
   const f = useCurrentFrame();
   return (
     <div style={{position: 'absolute', left: 22, top: 22, transform: 'scale(1.18)', transformOrigin: '0 0', background: 'linear-gradient(#0d1b33ee, #08101fee)', border: '4px solid #ffffff55', borderRadius: 14, padding: '6px 12px 8px', boxShadow: '0 8px 0 #0007'}}>
@@ -449,7 +449,7 @@ const CerebroHud: React.FC<{c: Cerebro}> = ({c}) => {
           <div key={k} style={{display: 'flex', alignItems: 'center', gap: 8, height: 38, background: p ? `rgba(255,212,0,${0.45 * p})` : undefined, borderRadius: 8, padding: '0 4px'}}>
             <div style={{width: 34, height: 34, transform: 'scale(0.31)', transformOrigin: '0 0'}}><Ic /></div>
             <span style={{fontFamily: F, fontWeight: 800, fontSize: 19, color: COR[k], width: 112}}>{ROT[k]}</span>
-            <span style={{fontFamily: F, fontWeight: 900, fontSize: 25, color: '#fff', transform: `scale(${1 + 0.5 * p})`, transformOrigin: '0 50%', display: 'inline-block'}}>{c[k]}</span>
+            <span style={{fontFamily: F, fontWeight: 900, fontSize: 25, color: '#fff', whiteSpace: 'nowrap', transform: `scale(${1 + 0.5 * p})`, transformOrigin: '0 50%', display: 'inline-block'}}>{c[k]}</span>
           </div>
         );
       })}
@@ -457,7 +457,7 @@ const CerebroHud: React.FC<{c: Cerebro}> = ({c}) => {
   );
 };
 // pensamento secreto: o que o "olho" descreveu ou o que o "controle" decidiu, copiado do log (o espectador sabe antes)
-const Pensa: React.FC<{quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: string; dur: number}> = ({quem, texto, extra, dur}) => {
+export const Pensa: React.FC<{quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: string; dur: number; short?: boolean}> = ({quem, texto, extra, dur, short}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 12, stiffness: 170}});
@@ -466,7 +466,7 @@ const Pensa: React.FC<{quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: str
   const Ic = ICONE[quem];
   const cab = quem === 'olho' ? 'O OLHO DO CARLOS VIU:' : quem === 'jev' ? 'O CONTROLE DECIDIU:' : 'O CHAT PENSOU:';
   return (
-    <div style={{position: 'absolute', left: 40, right: 470, top: 250, display: 'flex', justifyContent: 'center', opacity: o}}>
+    <div style={{position: 'absolute', left: short ? 16 : 40, right: short ? 16 : 470, top: short ? 40 : 250, display: 'flex', justifyContent: 'center', opacity: o}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 16, maxWidth: 1400, transform: `scale(${0.6 + 0.4 * e}) translateY(${(1 - e) * -60}px)`}}>
         <div style={{flex: 'none', background: '#fff', borderRadius: '50%', border: `7px solid ${COR[quem]}`, width: 130, height: 130, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 0 #0008'}}><Ic /></div>
         <div style={{background: '#101828f2', border: `6px dashed ${COR[quem]}`, borderRadius: 28, padding: '10px 30px 14px', boxShadow: '0 10px 0 #0008'}}>
@@ -481,7 +481,7 @@ const Pensa: React.FC<{quem: 'olho' | 'jev' | 'chat'; texto: string; extra?: str
   );
 };
 // cartão de atualização: o que eu troquei no Carlos (antes -> depois)
-const Atualiza: React.FC<{slot: string; de: string; para: string; nota?: string; dur: number}> = ({slot, de, para, nota, dur}) => {
+export const Atualiza: React.FC<{slot: string; de: string; para: string; nota?: string; dur: number}> = ({slot, de, para, nota, dur}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 11, stiffness: 150}});

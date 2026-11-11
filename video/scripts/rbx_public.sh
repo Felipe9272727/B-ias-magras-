@@ -6,6 +6,6 @@ cd "$(dirname "$0")/../remotion"
 rm -rf public_rbx; mkdir -p public_rbx/gifs
 cp -al public/fonts public_rbx/fonts
 cp -al public/roblox public_rbx/roblox
-cp public/timeline_roblox.json public_rbx/
-for g in $(python3 -c "import json;print(' '.join(sorted({o['info']['file'] for c in json.load(open('public/timeline_roblox.json'))['cenas'] for o in c['over'] if o['tipo']=='meme'})))"); do cp -al public/gifs/$g public_rbx/gifs/; done
+cp public/timeline_roblox*.json public_rbx/
+for g in $(python3 -c "import json;print(' '.join(sorted({o['info']['file'] for f in __import__('glob').glob('public/timeline_roblox*.json') for c in json.load(open(f))['cenas'] for o in c['over'] if o['tipo']=='meme'})))"); do cp -al public/gifs/$g public_rbx/gifs/; done
 du -sh public_rbx
