@@ -129,7 +129,7 @@ def main():
                 ult = k
             if k == 'n':
                 src, d = tts(it[1], NARRADOR)
-                if src: audio.append(dict(src=src, at=fr))
+                if src: audio.append(dict(src=src, at=fr, txt=it[1]))
                 t += d + 0.14
             elif k == 'ia':
                 src, d = tts(it[2] if len(it) > 2 else it[1], CARLOS)
