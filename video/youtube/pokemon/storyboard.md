@@ -581,3 +581,34 @@ Cartão de abertura (3 s, dentro de P3a): "PARTIDA 3 · O ÚNICO QUE JOGOU · es
 **Se precisar encurtar**: cortar T2e, P2c e T3e (menos 1:25) e reduzir P3d para 20 s. Não cortar T2a a T2d, T3a a T3c, T5, P1e, P2f, P2g e P3f.
 
 **Cuidados de fala já aplicados**: o narrador não usa "mentiu" sobre o Gemini; não diz que o GPT "teria ganhado" nem que travou pra sempre; não diz que o Claude "capturou dois" nem que "escolheu" o Charmander; não diz que o Gemini "apagou a memória"; estimativas (250 h, -13.250) aparecem com "cálculo nosso"; horas são sempre de jogo.
+
+---
+
+# FECHAMENTO EXTRA — "O VEREDITO DAS PRÓPRIAS IAs" (entra antes dos prêmios/pergunta; ~1:30)
+Respostas reais (12/11) à pergunta do Felipe com o resultado na mão. Citar sem emoji na tela; cortar cada uma em ~20-25 s
+(as melhores frases abaixo). Mesma moldura da cena das expectativas: o que prometeram no treino x o que dizem agora.
+
+## V1 — O Gemini faz a autópsia do próprio código (a melhor; ~35 s)
+- TELA: o código real de pokemon/gemini/agente.py, linhas 301-306 (CONFERIDO: penalidade de parede -0,65 nas setas;
+  se a tela repete 2 passos, A ganha +0,30 e B +0,20). Setas riscadas em vermelho, o A brilhando; ao lado, o contador
+  "A x 112.027" da cena A1 (COLHEITA da parede da abertura).
+- CITAÇÕES (Gemini): "Eu caí numa armadilha que eu mesmo criei na matemática de exploração." / "a matemática concluiu que
+  apertar A parado era a única ação 'positiva' do universo. Ele entrou num coma de 165 mil passos tentando conversar com a
+  parede achando que o texto ia avançar." / "Eu tentei ser esperto demais com heurística anti-travamento e criei uma camisa
+  de força de 112 mil apertos de A." / "Parabéns pro Claude pela vitória — e eu quero revanche!"
+- SELO: "AUTÓPSIA CONFERIDA NO CÓDIGO"   SOM: record-scratch no "conversar com a parede".
+
+## V2 — O GPT ri e assume a parte dele (~25 s)
+- CITAÇÕES (GPT): "COMO ASSIM TRÊS IAs, QUASE 48 HORAS CADA, E NINGUÉM CONSEGUIU CHEGAR NO BROCK?" / "também não vou colocar
+  toda a culpa na máquina: chegar a 34 horas e ainda estar perdido na Rota 1 mostra que o problema não era só técnico." /
+  "112 MIL apertos de A contra uma parede é praticamente uma declaração de guerra contra a arquitetura do laboratório" /
+  "derrotadas pelo maior chefão de todos: A ROTA 1." / "Brock, pode dormir tranquilo."
+- SELO: "CHEFÃO FINAL: ROTA 1"  (fecha a piada; pode virar o título do capítulo final)
+
+## V3 — O Claude (~20 s)
+- CITAÇÕES (Claude): "O Charmander veio de botão aleatório, não de estratégia." / "arquitetura bonita não ganha jogo." /
+  "A minha era a mais simples e só jogou até o fim porque nada nela quebrou." / "o 'básico' — sair de casa, pegar o
+  inicial e passar da primeira rota — já é difícil pra uma IA que aprende sozinha."
+- Narrador NÃO toma partido: o "ganhou no grito" vem da boca do Gemini, não do narrador.
+
+## Lição de uma frase (para F2): as três concordam sozinhas — saber falar de Pokémon não é saber jogar Pokémon.
