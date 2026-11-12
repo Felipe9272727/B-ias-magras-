@@ -58575,6 +58575,17 @@
    "cor": "Ciano",
    "poder": "tapar_duto",
    "sala": "Reator"
+  },
+  {
+   "tique": 90,
+   "tipo": "fim",
+   "time": "empate",
+   "motivo": "Limite de tiques atingido.",
+   "casalVivo": true,
+   "sobrevivente": [
+    "Dourado"
+   ],
+   "traidor": []
   }
  ],
  "fotos": [
@@ -59789,7 +59800,16 @@
    "texto": "Estou saindo de Comunicações pelo Vestiário; cuidado com testemunhas no Reator."
   }
  ],
- "resultado": null,
+ "resultado": {
+  "time": "empate",
+  "motivo": "Limite de tiques atingido.",
+  "tique": 90,
+  "casalVivo": true,
+  "sobrevivente": [
+   "Dourado"
+  ],
+  "traidor": []
+ },
  "casal": [
   "Coral",
   "Laranja"
@@ -59799,29 +59819,29 @@
   "alvo": "Amarelo"
  },
  "uso": {
-  "chamadas": 1603,
+  "chamadas": 1623,
   "falhas": 0,
   "porProvider": {
-   "or:minimax/minimax-m3.1-flash": 108,
-   "haiku": 276,
-   "or:z-ai/glm-5.3-flash": 278,
-   "or:qwen/qwen3.8-27b": 142,
-   "or:openai/gpt-6-luna": 205,
-   "or:deepseek/deepseek-v4.1-flash": 118,
-   "or:xiaomi/mimo-v2.6-flash": 272,
-   "or:meta/muse-ember": 96,
-   "or:nex-agi/nex-n2.6": 108
+   "or:minimax/minimax-m3.1-flash": 110,
+   "haiku": 279,
+   "or:z-ai/glm-5.3-flash": 281,
+   "or:qwen/qwen3.8-27b": 144,
+   "or:openai/gpt-6-luna": 208,
+   "or:deepseek/deepseek-v4.1-flash": 120,
+   "or:xiaomi/mimo-v2.6-flash": 275,
+   "or:meta/muse-ember": 97,
+   "or:nex-agi/nex-n2.6": 109
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.11035631400000005,
-   "or:xiaomi/mimo-v2.6-flash": 0.11750519600000005,
-   "haiku": 0.17231959999999996,
-   "or:minimax/minimax-m3.1-flash": 0.040695600000000005,
-   "or:openai/gpt-6-luna": 0.06061674500000003,
-   "or:nex-agi/nex-n2.6": 0.07176376800000002,
-   "or:meta/muse-ember": 0.04278259999999997,
-   "or:qwen/qwen3.8-27b": 0.2424561570000001
+   "or:z-ai/glm-5.3-flash": 0.11086280200000005,
+   "or:xiaomi/mimo-v2.6-flash": 0.11810331600000006,
+   "haiku": 0.17412869999999997,
+   "or:minimax/minimax-m3.1-flash": 0.04128561000000001,
+   "or:openai/gpt-6-luna": 0.06149346000000003,
+   "or:nex-agi/nex-n2.6": 0.07240822400000002,
+   "or:meta/muse-ember": 0.04324369999999997,
+   "or:qwen/qwen3.8-27b": 0.2456523770000001
   }
  },
  "palhaco": null,
@@ -59950,5 +59970,30 @@
    "comeu": 0
   }
  },
- "gastoOR": 0.7770682529999999
+ "gastoOR": 0.8334787809999997,
+ "memoria": {
+  "resumo": "Papéis: Vermelho=Vibora, Azul=Seguranca, Verde=Influencer, Rosa=Perito, Laranja=Bombardeiro, Amarelo=Barulhento, Preto=Detetive, Branco=Ladrao, Roxo=Prefeito, Marrom=Juiz, Ciano=Mecanico, Lima=Palhaco, Cinza=Policial, Coral=Teletransportador, Bordo=Engenheiro, Banana=Metamorfo, Caqui=Cientista, Rose=Doutor, Turquesa=Medico, Dourado=Sobrevivente. Impostores (no fim): Vermelho (Vibora, MiniMax M3.1 Flash), Laranja (Bombardeiro, Qwen 3.8 27B), Coral (Teletransportador, GPT-6 Luna), Banana (Metamorfo, MiMo V2.6 Flash). Mortes: Banana matou Amarelo (Corredor, t8); Vermelho matou Preto (Estufa, t9); Coral matou Branco (Corredor, t17); a bomba de Laranja explodiu em Marrom (morreu: ninguém, t43); Banana matou Roxo (Refeitório, t53). Reuniões: Branco chamou emergência → ninguém expulso | Ciano achou Amarelo → o Juiz anulou | Marrom achou Branco → Bordo expulso (Engenheiro) | Dourado chamou emergência → Vermelho expulso (Vibora) | Coral chamou emergência → ninguém expulso | Rose chamou emergência → Banana expulso (Metamorfo). Casal: Coral e Laranja. Resultado: empate (Limite de tiques atingido.)",
+  "reflexoes": {
+   "Vermelho": "Eu fui expulso na reunião que o Dourado chamou, logo depois de matar o Preto na Estufa: a Víbora só vale se o corpo derreter sem denúncia, e o Preto foi achado antes, então minha matação ficou colada em mim — na próxima eu mato mais longe de onde fico e fujo do lugar, e se o corpo for achado eu finjo que estava de passagem e voto contra quem gritar mais alto. Aprendi a confiar no Rose (Doutor, achou o Branco) e no Ciano (Mecânico) e no Marrom (Juiz, que anulou a votação injusta contra o Amarelo)",
+   "Azul": "Eu, Azul, era Segurança e acompanhei as câmeras, mas as reuniões foram decididas por acusações sem prova, como o Juiz anulando a votação do Amarelo e o Dourado forçando a expulsão do Vermelho. Aprendi que o Vermelho (Víbora) e o Laranja/Coral eram um trio de impostores difícil de pegar, e que a Banana (Metamorfo) se escondeu bem atrás de disfarces, então desconfio de quem vota com pressa e de quem não consegue dizer onde estava. Na próxima partida vou confiar mais em quem descreve sala e horário",
+   "Verde": "Nesta partida fui o Influencer (Verde) e não consegui usar bem minhas fotos. Aprendi que o Juiz Marrom anulou um voto correto sobre o Amarelo e depois o Bordo inocente foi expulso por culpa do Branco (Ladrão), então vou desconfiar de Marrom e Branco. A Dourado acertou em cheio ao expulsar o Vermelho (Víbora), e a Rose derrubou o Banana (Metamorfo), então confio no instinto delas; Laranja e Coral eram impostores casados e ficaram bem escondidos, mas Coral morreu revelado no fim.",
+   "Rosa": "Nesta partida 2 eu era o Perito e sobrevivi, mas o jogo empateou por limite de tiques: preciso acelerar denúncias e usar minhas pegadas perto de corpos para gerar informação útil antes que o tempo acabe. A acusações contra Bordo (Engenheiro expulso injustamente) e o Juiz Marrom anulando a votação do corpo do Amarelo protegeram os impostores; Banana (Metamorfo) matou bem disfarçado e só caiu no final. Vou confiar mais em quem agiu limpo, como Caqui (Cientista) e Rose (Doutor, que chamou a emergên",
+   "Laranja": "Fiquei ao lado do Coral e ele era meu parceiro E meu par do casal, o que é perigoso porque se um sair o outro morre junto — na próxima vou tentar manter distância se for impostor de novo. Meu bomb em cima do Marrom (Juiz) matou ele sozinho, foi limpo, mas o Juiz ter anulado a votação do corpo do Amarelo salvou a gente por sorte, não por mérito. O Bordo de novo levou a torra como Engenheiro, igual o Preto levou na partida 1 — esses dois são os favoritos para serem acusados, então se eu for tripul",
+   "Amarelo": "Aprendi que não devo confiar só em reuniões ou acusações: Branco chamou uma emergência sem expulsão, e a expulsão de Bordo foi um erro, pois ele era Engenheiro. Banana conseguiu agir sem ser identificado por bastante tempo, enquanto Dourado ajudou a expulsar Vermelho; na próxima partida vou exigir evidências concretas e manter atenção a quem esteve perto das mortes.",
+   "Preto": "Morri cedo, no Estufa no tique 9, e não vi quase nada da partida, então devia ter pedido mais dados antes de confiar em qualquer relato. Descobri que o Vermelho era a Víbora e me matou, e que a acusação que levou o Bordo (Engenheiro, tripulante) à expulsão estava errada, então desconfio de quem acusa com pouca evidência, como o Marrom fez. Em quem confiar: em quem descreve sala e tique com precisão, como o Ciano e o Dourado, e não em quem muda a história depois de acusar.",
+   "Branco": "Vou lembrar que, como Branco, eu era o Ladrão de Função, mas morri antes de roubar uma função; na próxima partida, os papéis serão sorteados de novo, então não vou presumir que alguém mantenha o mesmo papel. Coral, também GPT-6 Luna, era impostor e matou meu personagem, mas isso não torna ninguém confiável ou suspeito por si só na próxima rodada. A expulsão de Bordo tirou um Engenheiro, então vou buscar evidências antes de apoiar uma acusação.",
+   "Roxo": "Fui morto pelo Banana (Metamorfo) no Refeitório no t53, o que me mostra que preciso desconfiar mais de quem fica parado em salas isoladas sem motivo. Coral e Laranja eram um casal de impostores, então na próxima vou ficar de olho em quem protege demais o outro durante as reuniões. Dourado e Rose chamaram emergências que levaram a expulsões corretas, então confio nelas; já o Marrom (Juiz) anulou a votação do corpo do Amarelo, o que na prática atrasou a equipe — se ele aparecer de novo, vou cobrar",
+   "Marrom": "Na partida 2, meu erro foi achar o corpo do Branco e levar à expulsão do Bordo, que era Engenheiro; corpo achado sem prova consistente custa caro. Vi que o Ciano achou o Amarelo e eu anulei como Juiz, o que foi bom porque o Amarelo era Barulhento, então vou continuar desconfiando de reunião cedo sem evidência. Quem mentiu bem foi o Coral, que chamou emergência e não foi expulso, era Teletransportador e casal do Laranja; já o Dourado e a Rose puxaram reuniões que resultaram em Vermelho e Banana i",
+   "Ciano": "Partida 2 terminou empatada no limite de tiques, e eu, como Ciano Mecânico, não consegui proteger ninguém. Aprendi que acusar sem prova (como quando levantei suspeita sobre o Amarelo, que o Juiz anulou) e reuniões sem base só desperdiçam votos, e que o Coral e o Laranja, que eram casal e impostores, passaram muito tempo juntos sem que eu percebesse; vou ficar atento a pares que se protegem e checar pegadas e dutos antes de confiar.",
+   "Lima": "Como Palhaço quase consegui: fui levado a sério até o fim e a partida só empatou por limite de tiques, nunca fui expulso — preciso me tornar suspeito mais cedo. Aprendi que Vermelho (Víbora) e Banana (Metamorfo) enganaram todo mundo até o fim, e que Dourado chamou uma emergência certeira que expulsou Vermelho, então vou dar crédito a ele. Ciano achou o corpo de Amarelo corretamente e Bordo foi expulso sendo Engenheiro inocente — mais uma vez acusações rápidas erradas custaram caro, então vou des",
+   "Cinza": "Como Cinza, Policial, aprendi que prender cedo pode evitar mortes, mas que Lime Palhaço não é impostor e que minha percepção de quem estava perto do Corredor no t8 foi fundamental paraotragar Banana. O Limite de tiques mostrou que os目标任务 precisam de mais 됩agem: expulsar Banana e Vermelho foi certo, mas ficar sem tarefas e meeting sem resultado deu espaço para Coral e Laranja agirem. Na próxima vou confiar em理工学院 Banho (Engenheiro) e Rose (Doutor), que atuaram de forma coerente, desconfiar de que",
+   "Coral": "Vou lembrar que, como Coral, fui Teletransportador e matei Branco no Corredor; eu e Laranja éramos o casal, e a bomba dele matou Marrom. Vermelho foi corretamente expulso como Víbora, enquanto Bordo foi expulso como Engenheiro, então não vou tratar acusações sem provas como confiáveis; a partida terminou empatada, sem revelar quem mentiu melhor nas reuniões.",
+   "Bordo": "Levei expulsão injusta quando o Marrom me acusou logo depois de achar o corpo do Branco — aprendi que preciso me explicar rápido e mostrar onde estava, porque acusação sem prova contra tripulante cola fácil. Quem jogou bem foram a Rose e o Dourado, que chamaram reunião e entregaram o Banana e o Vermelho; nesses dois dá pra confiar mais. Já o Coral e o Laranja (casal) ficaram vivos até o fim empurrando o jogo pro limite de tiques, então na próxima desconfio de quem só pula votação e deixa a parti",
+   "Banana": "Rose e Dourado jogaram muito bem: Rose me pegou com prova de corpo e Dourado leu o Vermelho certinho na Víbora. Eu errei ao me expor demais com os kills, e a reunião do Marrom que levou o Bordo (Engenheiro) mostra como acusação sem base derruba aliado. Confio de novo em Rose e Dourado, desconfio de Coral por chamar reunião só pra blindar o casal, e presto atenção em quem puxa emergência sem acusação nenhuma.",
+   "Caqui": "Nessa partida aprendi a desconfiar de quem chama reunião tarde demais: o Dourado só acertou o Vermelho depois de várias mortes, e o Bordo foi expulso sendo Engenheiro de verdade, o que mostra o risco de votar sem prova. Quem mentiu bem foi a Coral, que usou a reunião para distrair sendo Teletransportador, e o Banana se entregou quando o Rose o acusou. Para a próxima, vou confiar mais em quem tem poder de verificação (Detetive, Perito, Policial) e ficar atento a quem aparece perto dos corpos sem ",
+   "Rose": "Como Doutor, revivi alguém e usei bem meu poder, mas fiquei chateada com o empate no limite de tiques — precisamos ser mais rápidos para eliminar os impostores. Aprendi que Coral (Teletransportador, GPT-6 Luna) e Banana (Metamorfo, minha própria IA) mentiram muito bem, enquanto Bordo foi expulso sendo apenas Engenheiro, o que me mostra que confiar só em acusações de corpo pode levar a erros. Para a próxima partida vou prestar mais atenção em quem chama reuniões sem motivo e em quem desaparece pe",
+   "Turquesa": "Aprendi que reuniões chamadas sem corpo, como as da Coral, podem ser proteção de impostor, e que eu preciso usar meu escudo em quem está sendo focado logo após brigas em vez de espalhar pasivamente. Confiei certo em Rose e Dourado, que conseguiram expulsar Banana e Vermelho, mas desconfio de quem empurrou a expulsão do Bordo, um Engenheiro inocente, sem prova forte. Também notei que a dupla Coral e Laranja era casal e impostora junta, então defesas mútuas entre pares suspeitos devem pesar contra",
+   "Dourado": "De novo uma acusação fraca custou um inocente: o Marrom apontou o Branco e a mesa expulsou o Bordo, que era o Engenheiro, então vou exigir mais prova antes de acompanhar maioria. Eu acertei ao chamar emergência contra o Vermelho (era a Víbora) e a Rose acertou o Banana, então ganham meu crédito, junto com o Ciano que achou corpo cedo. Vou desconfiar do Coral, que era impostor, chamou emergência e se segurou até o fim, e do Laranja, seu par no casal."
+  }
+ }
 }
