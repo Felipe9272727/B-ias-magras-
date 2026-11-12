@@ -321,16 +321,27 @@ const Boneco: React.FC<{p: Pos; f: number; destaque: boolean; papeis: boolean}> 
 // foco: uma cor ou várias separadas por vírgula (ganham brilho e a etiqueta da função mesmo com o mapa aberto)
 export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: string; falas?: (g: number) => AlvoFala[]; zoomDe?: (g: number) => number; papeis?: boolean}> = ({log, R, cam, f, foco, falas, zoomDe, papeis}) => {
   W = 1920; H = 1080;
-  // câmera: média dos alvos em quadros vizinhos (±0,4 s), para não dar trancos
-  let x = 0, y = 0, s = 0;
-  const N = 15;
-  for (let i = 0; i < N; i++) {
-    const g = Math.max(0, f + (i - (N - 1) / 2) * 6); // nunca antes do começo da cena (lá a posição ainda não existe e puxava a câmera pro meio do mapa)
-    const camG = zoomDe ? {...cam, zoom: zoomDe(g)} : cam;
-    const a = alvoCam(log, R, g, camG, falas ? falas(g) : []);
-    x += a.x; y += a.y; s += a.s;
-  }
-  const c = {x: x / N, y: y / N, s: s / N};
+  // câmera: alvos amostrados numa GRADE FIXA (a cada S quadros, ±1,5 s, peso gaussiano) e interpolados quadro a quadro.
+  // Média de amostras que andam junto com o quadro dava degraus (a câmera mudava a cada 6 quadros = ~5 por segundo)
+  // quando o alvo pulava (troca de quem fala, duto, teleporte); na grade fixa o resultado é contínuo e liso.
+  const S = 6, K = 8, SIG = 4.2;
+  const base = Math.floor(f / S) * S, fr = (f - base) / S;
+  const amostra = new Map<number, {x: number; y: number; s: number}>();
+  const alvoEm = (g: number) => {
+    const gg = Math.max(0, g); // nunca antes do começo da cena (lá a posição não existe e puxava a câmera pro meio do mapa)
+    let v = amostra.get(gg);
+    if (!v) { const camG = zoomDe ? {...cam, zoom: zoomDe(gg)} : cam; v = alvoCam(log, R, gg, camG, falas ? falas(gg) : []); amostra.set(gg, v); }
+    return v;
+  };
+  const media = (b: number) => {
+    let x = 0, y = 0, s = 0, W0 = 0;
+    for (let k = -K; k <= K; k++) { const w = Math.exp(-(k * k) / (2 * SIG * SIG)); const a = alvoEm(b + k * S); x += w * a.x; y += w * a.y; s += w * a.s; W0 += w; }
+    return {x: x / W0, y: y / W0, s: s / W0};
+  };
+  // Catmull-Rom entre os pontos da grade: posição E velocidade contínuas (sem mudança de ritmo a cada 6 quadros)
+  const mA = media(base - S), m0 = media(base), m1 = media(base + S), mB = media(base + 2 * S);
+  const cr = (a: number, b: number, c2: number, d: number) => 0.5 * (2 * b + (-a + c2) * fr + (2 * a - 5 * b + 4 * c2 - d) * fr * fr + (-a + 3 * b - 3 * c2 + d) * fr * fr * fr);
+  const c = {x: cr(mA.x, m0.x, m1.x, mB.x), y: cr(mA.y, m0.y, m1.y, mB.y), s: cr(mA.s, m0.s, m1.s, mB.s)};
   const ps = posicoes(log, R, f, true);
   const vis = [...ps].sort((a, b) => (a.morto ? -1e6 : a.p.y) - (b.morto ? -1e6 : b.p.y));
   const tq = log.tiques[Math.max(0, Math.min(log.tiques.length - 1, Math.ceil(R.T(f)) - 1))];
