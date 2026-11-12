@@ -115,3 +115,16 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
   enquanto houver processo longo rodando. Cada ping é um turno e mantém o contêiner vivo.
 - Passo longo sem retomada (ex.: partida final que recomeça do quadro 0) só é aceitável se for determinístico;
   ainda assim custa horas. Em projetos novos: o ORGANIZADOR guarda checkpoint (estado do emulador + log) a cada N min.
+
+## FLUXO DE TRABALHO APROVADO (AU7, nov/2026) — usar em TODOS os vídeos
+1. Dados: as partidas/gameplays rodam e os logs vão para o git (nada de depender de sessão filha frágil: ela cai por
+   inatividade e por limite de uso; o que for longo roda aqui ou salva progresso no git a cada poucos minutos).
+2. SONNET monta o PACOTE (video/youtube/<video>/pacote_roteiro.md): personagens com provas, melhores cenas com falas exatas
+   do log, números-chave, estrutura com minutagem, 3 títulos+miniatura, avisos de dados. Se a cota acabar, salva com
+   "ONDE PAREI" e é RETOMADO (SendMessage) depois.
+3. FABLE escreve o ROTEIRO como STORYBOARD (narração + memes + efeitos sonoros + o que aparece na tela, cena a cena),
+   em cima do pacote. Ele é caro: contexto COMPACTO (só caminhos dos arquivos), nota de progresso (NOTA_FABLE.md) a cada
+   etapa, agente novo com resumo em vez de retomar contexto gigante. Adições e consertos depois: EU faço, não o Fable.
+4. EU edito (timeline/Remotion), renderizo (540p em partes + upscale) e conserto o que o Felipe pedir.
+- Câmera: amostrar o alvo numa GRADE FIXA de quadros e interpolar (Catmull-Rom). Média de amostras que andam com o quadro
+  dá degraus de ~5/s quando o alvo pula (troca de quem fala, duto, teleporte) e parece "2 fps" (erro da v2 do AU7).
