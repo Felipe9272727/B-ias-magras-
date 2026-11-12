@@ -15,3 +15,4 @@ Fatos para o vídeo:
 - O GPT, sem o emulador, escreveu um emulador FALSO (gpt/tests/mock_env) para testar o próprio código: 10 testes passaram.
 - Teste de fumaça no ambiente real (3 min de treino + começo da partida final), sem mudar nada: as três rodaram.
 - Gemini (IGNIS-ZERO): partida final encerrada a pedido do Felipe (travado no laboratório, sem Pokémon). Vídeo: https://gofile.io/d/9hty0DXK (partida_gemini.mp4, md5 3e7c5863f9daa74331217f1b1ec182de). Log e trajeto: branch pokemon-resultado-gemini.
+- Claude (Mapa de Memórias): partida completa (10.368.000 quadros). Charmeleon nv 21, 6 mapas, 2 capturados, 0 insígnias. Vídeo: https://gofile.io/d/pBpwIbuX. Log e trajeto: branch pokemon-resultado-claude.
