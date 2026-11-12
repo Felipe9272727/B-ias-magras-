@@ -71,3 +71,4 @@ O upscale é o `scale=1920:1080:flags=lanczos` dentro do `au7_final.py`. Disco: 
   (a Coral recua sem entregar a Banana), P4 t81 (o Xerife querendo atirar no Bordo), P2 t10 (prisão vira álibi).
 - Render final: https://gofile.io/d/ClbtlJBc (AMONG_IA_7.mp4, 1080p, 20:12, 489 MB)
 - Render v2 (caminhada lenta, câmera suave, POR QUE VOTARAM, mortes, +3 cenas): https://gofile.io/d/3rQHXLOq (22:04, 1080p)
+- Render v3 (câmera contínua, sem degraus): https://gofile.io/d/UV4nKEIB
