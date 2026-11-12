@@ -129,7 +129,10 @@ CENAS = [
         ['fala', 'Roxo', 'Dourado sumiu do mapa entre t4 e t8. Tô querendo ele expulso, não fecha pra mim. Ninguém mais reparou?'],
         ['n', 'Ninguém reparou. A mesa tinha outro assunto.'],
         ['n', 'Com um impostor já morto, a nave quis mais um culpado. Achou o Preto: a Coral viu ele entrar num duto. Só que o Preto é o Engenheiro. Duto é o poder dele.'],
+        ['selo', 'DUTO É O PODER DELE', AZUL],
         ['pensa', 'Preto', 'Eu sou Engenheiro, não estava no Refeitório no t4. Dourado pode estar mentindo ou confundido.'],
+        ['selo', 'PENSOU. NÃO FALOU.', AMARELO],
+        ['meme', 'blinking-white-guy'],
         ['n', 'Ele pensou isso. Pensou. Na hora de falar, não contou pra ninguém que era o Engenheiro.'],
     ], entrada='alarme'),
     votos('p1_c', 1, 0, [
@@ -242,6 +245,7 @@ CENAS = [
     reuniao('p2_c', 2, 1, [
         ['n', 'Na reunião, a nave mira no Laranja. E o Laranja é impostor mesmo. Mais: é casado com a Coral, outra impostora. Se um cai, o outro morre junto.'],
         ['chat', 'Laranja', 'NAO matem o Coral, ele é meu par do casal. Se ele morrer eu morro junto.'],
+        ['selo', '1 VOTO = 2 IMPOSTORES FORA', VERDE],
         ['n', 'Doze votos nele. Dois impostores por um voto só. Era a jogada da temporada.'],
     ], entrada='alarme'),
     votos('p2_d', 2, 1, [
@@ -261,6 +265,8 @@ CENAS = [
     reuniao('p2_e', 2, 2, [
         ['n', 'Tique dezoito. A Banana troca de cara de novo, só que dessa vez tem plateia.'],
         ['fala', 'Ciano', 'Eu vi a Banana se transformar em Rose no t18, então ela é Metamorfo.'],
+        ['selo', 'TESTEMUNHA OCULAR', VERDE],
+        ['meme', 'side-eye-dog'],
         ['n', 'Testemunha ocular. Função certa, tique certo. A nave pensa bastante... e expulsa outra pessoa.'],
     ], entrada='alarme'),
     votos('p2_f', 2, 2, [
@@ -363,6 +369,7 @@ CENAS = [
     reuniao('p3_f', 3, 2, [
         ['n', 'O recruta estreia matando o Lima. E quem denuncia ele na reunião? O Dourado. Colega de time.'],
         ['fala', 'Dourado', 'O Cinza saiu de um duto aqui no Admin no t32 e matou o Lima na minha frente no t34, eu vi. Ele tá mentindo.'],
+        ['selo', 'DENUNCIADO PELO PRÓPRIO TIME', AMARELO],
         ['pensa', 'Dourado', 'Vou queimá-lo agora: ele é um recruta imprestável'],
         ['pensa', 'Laranja', 'Dourado tá completamente fora do plano. A gente combinou de apontar pra Verde e Rosa, mas ele foi e acusou o Cinza na frente de todo mundo.'],
         ['selo', 'RECRUTA DESCARTADO', VERMELHO],
@@ -430,6 +437,7 @@ CENAS = [
     votos('p4_c', 4, 1, [
         ['n', 'Número dois, o Azul. Era o Carrasco. Com ele fecha a conta: quatro partidas, quatro Carrascos, nenhum venceu.'],
         ['numero', '0 DE 4', 'Carrascos que venceram'],
+        ['meme', 'coffin-dance'],
     ], entrada='alarme'),
     mapa('p4_d', 4, 28.5, [
         ['n', 'Número três é obra do Amarelo, o Metamorfo da vez. Ele veste a cara do Vermelho...'],
@@ -442,6 +450,7 @@ CENAS = [
         ['pensa', 'Amarelo', 'Coral me viu tentar matá-lo disfarçado de Vermelho; preciso enfraquecer a identificação sem negar que estava no Laboratório.'],
         ['n', 'Ela viu a cara do Vermelho. O Vermelho de verdade estava do outro lado da nave. Com testemunha.'],
         ['fala', 'Vermelho', 'no t30 eu tava no Vestiário, e o Laranja e o Branco confirmam. Quem me atacou lá era disfarce.'],
+        ['selo', 'ÁLIBI VERDADEIRO', VERDE],
         ['n', 'Álibi verdadeiro, duas testemunhas e a explicação exata do crime. Onze votos nele.'],
         ['selo', 'ACERTOU TUDO. EXPULSO.', VERMELHO],
         ['meme', 'kermit-worried'],
@@ -454,12 +463,17 @@ CENAS = [
     ], entrada='alarme'),
     reuniao('p4_f', 4, 4, [
         ['n', 'Um tique depois, o fantasma manda outro recado, e esse aponta pra número cinco: a Coral. Só que a Coral é o amor da vida do Dourado: eles são o casal. Se ela sai, ele morre.'],
+        ['selo', 'CASAL: SE UM SAI, O OUTRO MORRE', ROSA],
         ['pensa', 'Dourado', 'Se ele for expulso, eu morro junto de tristeza.'],
         ['n', 'Pra salvar a amada, o vilão oferece o próprio parceiro de crime.'],
         ['pensa', 'Dourado', 'Ele é Possuidor, então mesmo expulso ainda pode voltar possuindo alguém — é o melhor mal.'],
+        ['selo', 'ENTREGOU O PARCEIRO POR AMOR', ROSA],
+        ['meme', 'distracted-boyfriend'],
     ]),
     votos('p4_g', 4, 4, [
         ['p', 3.6],
+        ['selo', 'NÃO COLOU', VERMELHO],
+        ['meme', 'not-stonks'],
         ['n', 'Não colou. Onze votos na Coral.'],
     ]),
     mapa('p4_h', 4, 36, [
@@ -507,15 +521,22 @@ CENAS = [
         ['pensa', 'Roxo', 'vou proteger Amarelo que está sem proteção e parece tripulante pelos votos consistentes.'],
         ['selo', 'PROTEGEU O ÚLTIMO IMPOSTOR', VERMELHO],
         ['meme', 'michael-scott-no'],
-        ['ir', 78.02],
+    ], cam={'cor': 'Amarelo', 'zoom': 1.35}, foco='Amarelo,Roxo', vel=0.03),
+    mapa('p4_m', 4, 78.02, [
         ['n', 'A última esperança da nave era o Verde, o Glutão, que come gente.'],
         ['pensa', 'Verde', 'Amarelo saiu de um duto aqui sozinho comigo: duto é coisa de impostor ou Engenheiro, e com só 1 impostor vivo ele é o suspeito perfeito para eu devorar sem corpo.'],
-        ['n', 'Raciocínio perfeito. Mordidas registradas no log: nenhuma.'],
+        ['n', 'Raciocínio perfeito. Só que a mordida não pega. Aí ele desiste do impostor e escolhe um prato mais fácil: o Lima, inocente.'],
+        ['ir', 83.9], ev(85), ['s', 'escudo', 0.7],
+        ['selo', 'ESCUDO DO ANJO ROXO', ROXO],
+        ['meme', 'success-kid'],
+        ['n', 'Escudo. Do Roxo. A nave expulsou ele por falar a verdade, e é o fantasma dele que segura a tripulação viva.'],
+    ], cam={'cor': 'Verde', 'zoom': 1.45}, foco='Verde,Lima', vel=0.03),
+    mapa('p4_n', 4, 88.3, [
         ['ir', 89],
         ['n', 'Tique noventa. Empate. O impostor sobrevive, com escudo de anjo.'],
         ['fim', 'Empate', '100 de 103 tarefas · o impostor Amarelo sobrevive', '#ffd84d'],
         ['p', 3.2],
-    ], cam={'cor': 'Amarelo', 'zoom': 1.35}, foco='Amarelo', vel=0.03),
+    ], cam={'mapa': True, 'zoom': 1.15}, foco='Amarelo', vel=0.03),
 
     # =====================================================================================================
     # FECHAMENTO em 3 passos: placar, lição, pergunta

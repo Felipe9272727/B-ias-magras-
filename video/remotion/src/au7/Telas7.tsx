@@ -6,6 +6,9 @@ import {Crewmate4} from '../amongus/Crewmate4';
 import {Cabeca, Chip, corDe, FONTE, PAINEL} from './Hud7';
 import {corTime, papelNome, type Log} from './Jogo7';
 
+// cores que o narrador trata no feminino (a Rose, a Coral, a Banana, a Turquesa, a Rosa)
+const FEM = new Set(['Rose', 'Coral', 'Banana', 'Turquesa', 'Rosa']);
+
 const cl = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const CONTORNO = (px: number): React.CSSProperties => ({WebkitTextStroke: `${px}px #000`, paintOrder: 'stroke fill'});
 const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -45,11 +48,11 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
   const pulos = eleitores.slice(0, nV).filter((e) => r.votos[e] === 'pular');
   const deriva = 1 + 0.035 * (dur > 1 ? f / dur : 0);
   const titulo = r.tipo === 'corpo' ? `CORPO ENCONTRADO: ${String(r.corpo ?? '').toUpperCase()}` : 'REUNIÃO DE EMERGÊNCIA';
-  const resultado = r.juiz ? 'ANULADO PELO JUIZ' : r.expulso ? `${r.expulso.toUpperCase()} EXPULSO` : 'NINGUÉM EXPULSO';
+  const resultado = r.juiz ? 'ANULADO PELO JUIZ' : r.expulso ? `${r.expulso.toUpperCase()} ${FEM.has(r.expulso) ? 'EXPULSA' : 'EXPULSO'}` : 'NINGUÉM EXPULSO';
   return (
     <AbsoluteFill>
       <Estrelas f={f} vel={1.2} />
-      <AbsoluteFill style={{transform: `scale(${deriva})`}}>
+      <AbsoluteFill style={{transform: `scale(${deriva})`, transformOrigin: '50% 0%'}}>
         <div style={{position: 'absolute', left: 40, right: 40, top: 22, display: 'flex', alignItems: 'baseline', gap: 22}}>
           <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 50, color: r.tipo === 'corpo' ? '#ff5a4a' : '#ffd84d', ...CONTORNO(7)}}>{titulo}</span>
           <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 26, color: '#cfe0ff'}}>partida {log.partida} · tique {r.tique} · {r.chamador} chamou · {SALA[r.sala] ?? r.sala}</span>
@@ -100,7 +103,7 @@ export const Ejecao: React.FC<{log: Log; idx: number; f: number; dur: number}> =
   const r = log.reunioes[idx];
   const cor = r.expulso;
   const j = log.jogadores.find((x) => x.cor === cor);
-  const linha = !cor ? (r.juiz ? `O Juiz ${r.juiz.cor} anulou a votação.` : 'Ninguém foi expulso.') : `${cor} ${r.eraImpostor ? 'era' : 'não era'} Impostor.`;
+  const linha = !cor ? (r.juiz ? `O Juiz ${r.juiz.cor} anulou a votação.` : 'Ninguém foi expulso.') : `${cor} ${r.eraImpostor ? 'era' : 'não era'} ${FEM.has(cor) ? 'Impostora' : 'Impostor'}.`;
   const n = Math.floor(interpolate(f, [16, 16 + linha.length * 1.3], [0, linha.length], cl));
   const fimTxt = 16 + linha.length * 1.3;
   return (
