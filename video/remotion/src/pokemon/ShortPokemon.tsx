@@ -26,7 +26,7 @@ const Legenda: React.FC<{o: Leg}> = ({o}) => {
   const ini = (pesos.slice(0, idx).reduce((a, b) => a + b, 0) / tot) * o.dur;
   const e = interpolate(f - ini, [0, 4], [0.8, 1], cl);
   return (
-    <div style={{position: 'absolute', left: 40, right: 40, top: 1420, textAlign: 'center', fontFamily: POP, fontWeight: 900, fontSize: 78, lineHeight: 1.1, color: '#fff', transform: `scale(${e})`, ...C(12)}}>
+    <div style={{position: 'absolute', left: 40, right: 40, top: 1330, textAlign: 'center', fontFamily: POP, fontWeight: 900, fontSize: 78, lineHeight: 1.1, color: '#fff', transform: `scale(${e})`, ...C(12)}}>
       {blocos[idx].map((w, j) => <span key={j} style={{color: /^(dezessete|112|cento|doze|mil|zero|Gemini|parede|três|vitória)/i.test(w) ? '#FFC83D' : '#fff'}}>{w} </span>)}
     </div>
   );
@@ -43,7 +43,7 @@ export const ShortPokemon: React.FC<{tl: TL | null}> = ({tl}) => {
         const s = ini; ini += c.dur;
         return (
           <Sequence key={c.id} from={s} durationInFrames={c.dur}>
-            <div style={{position: 'absolute', left: 0, top: 560, width: 1920, height: 1080, transform: 'scale(0.5625)', transformOrigin: '0 0', overflow: 'hidden', borderTop: '6px solid #000', borderBottom: '6px solid #000'}}>
+            <div style={{position: 'absolute', left: -132, top: 540, width: 1920, height: 1080, transform: 'scale(0.7)', transformOrigin: '0 0', overflow: 'hidden', borderTop: '8px solid #000', borderBottom: '8px solid #000'}}>
               <CenaView c={c} />
             </div>
             {c.over.map((o, i) => ((o as unknown as Leg).tipo === 'legenda' ? <Sequence key={i} from={o.at} durationInFrames={o.dur}><Legenda o={o as unknown as Leg} /></Sequence> : null))}
