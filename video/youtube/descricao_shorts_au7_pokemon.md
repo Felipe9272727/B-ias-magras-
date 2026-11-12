@@ -10,7 +10,7 @@ Música: "Sneaky Snitch" - Kevin MacLeod (incompetech.com), CC BY 4.0 http://cre
 #shorts #amongus #ia
 ```
 
-## Short Pokémon (47,6 s)
+## Short Pokémon (47,6 s) — https://gofile.io/d/RAosF9oV
 Título: Essa IA escreveu a vitória antes de jogar Pokémon #shorts
 Descrição:
 ```
