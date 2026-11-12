@@ -83,14 +83,31 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
           })}
         </div>
         {fase === 'votos' ? (
-          <div style={{position: 'absolute', left: 40, right: 40, top: 800, display: 'flex', alignItems: 'center', gap: 16}}>
+          <div style={{position: 'absolute', left: 40, right: 40, top: 798, display: 'flex', alignItems: 'center', gap: 16}}>
             <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 34, color: '#fff', ...CONTORNO(5)}}>QUEM VOTOU EM QUEM · {nV}/{eleitores.length} votos</span>
             {pulos.length ? <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 26, color: '#cfe0ff'}}>pularam: {pulos.length}</span> : null}
           </div>
         ) : null}
+        {fase === 'votos' && r.motivos?.length ? (
+          // POR QUE VOTARAM: pensamento de voto copiado do log de quem votou no mais votado
+          <div style={{position: 'absolute', left: 40, right: 40, top: 850, display: 'flex', gap: 18}}>
+            {r.motivos.map((m, i) => {
+              const a = interpolate(f, [ini + 6 + i * 10, ini + 16 + i * 10], [0, 1], cl);
+              return (
+                <div key={m.cor} style={{flex: 1, display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0b1020e8', border: `4px solid ${corDe(m.cor)}`, borderRadius: 16, padding: '10px 16px', opacity: a, transform: `translateY(${(1 - a) * 24}px)`}}>
+                  <Cabeca cor={m.cor} s={58} />
+                  <div style={{minWidth: 0}}>
+                    <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 22, color: '#ffd84d'}}>POR QUE {m.cor.toUpperCase()} VOTOU {FEM.has(m.alvo) ? 'NA' : 'NO'} {m.alvo.toUpperCase()}</div>
+                    <div style={{fontFamily: FONTE, fontWeight: 700, fontSize: 25, lineHeight: 1.2, color: '#fff'}}>"{m.texto}"</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </AbsoluteFill>
       {carimbo >= 0 ? (
-        <div style={{position: 'absolute', left: 0, right: 0, top: 866, display: 'flex', justifyContent: 'center'}}>
+        <div style={{position: 'absolute', left: 0, right: 0, top: r.motivos?.length ? 380 : 866, display: 'flex', justifyContent: 'center'}}>
           <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 110, color: '#fff', background: r.juiz ? '#b8860b' : r.expulso ? '#d81818' : '#3a4a6a', border: '10px solid #fff', borderRadius: 22, padding: '0 50px', transform: `rotate(-4deg) scale(${interpolate(carimbo, [0, 7], [2.6, 1], cl)})`, opacity: interpolate(carimbo, [0, 3], [0, 1], cl), boxShadow: '0 16px 0 #0009', ...CONTORNO(6)}}>{resultado}</div>
         </div>
       ) : null}

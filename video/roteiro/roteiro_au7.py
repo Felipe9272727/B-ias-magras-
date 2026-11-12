@@ -83,7 +83,7 @@ CENAS = [
         ['n', 'A nave ouviu com atenção. E votou.'],
     ], entrada='alarme'),
     votos('a3', 4, 0, [
-        ['p', 5.2],
+        ['p', 7.7],  # +2,5 s para ler o POR QUE VOTARAM
         ['numero', '17 VOTOS', 'em quem falou a verdade'],
         ['meme', 'surprised-pikachu'],
         ['s', 'record-scratch', 0.5],
@@ -136,7 +136,7 @@ CENAS = [
         ['n', 'Ele pensou isso. Pensou. Na hora de falar, não contou pra ninguém que era o Engenheiro.'],
     ], entrada='alarme'),
     votos('p1_c', 1, 0, [
-        ['p', 4.6],
+        ['p', 7.1],  # +2,5 s para ler o POR QUE VOTARAM
         ['selo', 'ENGENHEIRO EXPULSO: 1 DE 3', VERMELHO],
         ['meme', 'picard-facepalm'],
         ['n', 'Dezesseis votos. E guarda esse placar, porque Engenheiro é a profissão mais perigosa dessa nave.'],
@@ -159,7 +159,7 @@ CENAS = [
         ['pensa', 'Amarelo', 'Estou em risco de expulsão. Vou reforçar a suspeita sobre Laranja sem admitir o duto; se morrer, posso possuir alguém confiável.'],
     ]),
     votos('p1_f', 1, 2, [
-        ['p', 4.4],
+        ['p', 6.9],  # +2,5 s para ler o POR QUE VOTARAM
         ['n', 'Quinze votos. Impostor expulso, a nave comemora.'],
         ['selo', 'IMPOSTOR EXPULSO', VERDE],
         ['meme', 'we-did-it'],
@@ -213,7 +213,7 @@ CENAS = [
         ['fala', 'Rose', 'Roxo tentou me matar de verdade no t74, voto nele.'],
     ], entrada='alarme'),
     votos('p1_m', 1, 5, [
-        ['p', 3.6],
+        ['p', 6.1],  # +2,5 s para ler o POR QUE VOTARAM
         ['n', 'Dez votos no Roxo. Três no Médico que salvou a vida dela.'],
     ]),
     ejecao('p1_n', 1, 5, [
@@ -249,7 +249,7 @@ CENAS = [
         ['n', 'Doze votos nele. Dois impostores por um voto só. Era a jogada da temporada.'],
     ], entrada='alarme'),
     votos('p2_d', 2, 1, [
-        ['p', 4.6],
+        ['p', 7.1],  # +2,5 s para ler o POR QUE VOTARAM
         ['pensa', 'Marrom', 'Como Juiz, é melhor anular esta votação do que expulsar um possível inocente sem prova forte.'],
         ['selo', '1 CANETADA: 2 IMPOSTORES SALVOS', AMARELO],
         ['meme', 'faustao-errou'],
@@ -262,6 +262,18 @@ CENAS = [
         ['meme', 'nobody'],
         ['n', 'Seis reuniões, um voto. Numa nave que expulsa qualquer um por engano, ele não conseguiu nem isso.'],
     ]),
+    mapa('p2_d3', 2, 9.4, [
+        ['n', 'Sem expulsão, o Policial Cinza resolve do jeito dele.'],
+        ['pensa', 'Cinza', 'Laranja recebeu a maioria dos votos na reunião anulada e foi apontado como suspeito; vou prendê-lo antes que mate alguém no Corredor.'],
+        ev(10), ['s', 'record-scratch', 0.6],
+        ['selo', 'PRESO ATÉ O TIQUE 15', AMARELO],
+        ['n', 'Impostor preso. Parece vitória. Agora escuta o que o preso pensou.'],
+        ['ir', 12.9], ev(13),
+        ['pensa', 'Laranja', 'Tô preso até o tique 15, sem poder andar nem matar, mas pelo menos tenho álibi - o Policial sabe que tô aqui no Depósito.'],
+        ['selo', 'A CADEIA VIROU ÁLIBI', VERMELHO],
+        ['meme', 'free-real-estate'],
+        ['n', 'O Policial prendeu o impostor e, de brinde, deu pra ele o melhor álibi da partida.'],
+    ], cam={'cor': 'Laranja', 'zoom': 1.6}, foco='Laranja,Cinza', vel=0.08),
     reuniao('p2_e', 2, 2, [
         ['n', 'Tique dezoito. A Banana troca de cara de novo, só que dessa vez tem plateia.'],
         ['fala', 'Ciano', 'Eu vi a Banana se transformar em Rose no t18, então ela é Metamorfo.'],
@@ -270,7 +282,7 @@ CENAS = [
         ['n', 'Testemunha ocular. Função certa, tique certo. A nave pensa bastante... e expulsa outra pessoa.'],
     ], entrada='alarme'),
     votos('p2_f', 2, 2, [
-        ['p', 4.4],
+        ['p', 6.9],  # +2,5 s para ler o POR QUE VOTARAM
         ['selo', 'ENGENHEIRO EXPULSO: 2 DE 3', VERMELHO],
         ['meme', 'hello-darkness'],
         ['s', 'sad-trombone', 0.5],
@@ -283,6 +295,14 @@ CENAS = [
         ['n', 'E com ela mata o Roxo. O de verdade, dessa vez.'],
         ['selo', 'ROXO: ASSASSINADO POR UM CIANO FALSO', ROXO],
     ], cam={'cor': 'Banana', 'zoom': 1.5}, foco='Banana,Roxo', vel=0.1, entrada='duto'),
+    reuniao('p2_g2', 2, 4, [
+        ['n', 'Tique cinquenta e seis. Na reunião, a Coral diz que viu o Ciano matar o Roxo. Só que a Coral é impostora. E ela sabe muito bem quem estava por trás daquela cara.'],
+        ['fala', 'Coral', 'Vi alguém com a aparência do Ciano matar o Roxo no Refeitório; não consigo confirmar quem era por trás do disfarce.'],
+        ['pensa', 'Coral', 'Eu sei que quem matou foi Banana disfarçado de Ciano. Minha acusação literal não se sustenta diante do álibi; vou recuar sem entregar meu parceiro.'],
+        ['selo', 'ELA SABIA QUEM ERA', VERMELHO],
+        ['meme', 'monkey-side-eye'],
+        ['n', 'Recuou sem entregar a parceira. Ninguém foi expulso, e a Banana saiu da mesa com a cara de quem quisesse.'],
+    ], entrada='alarme'),
     mapa('p2_h', 2, 75, [
         ev(76), ['s', 'transformar', 0.6],
         ['n', 'No tique setenta e seis ela exagera: vira a Rose e ataca a própria Rose.'],
@@ -394,7 +414,7 @@ CENAS = [
         ['fala', 'Vermelho', 'Coral e Verde viram ele no duto do Reator. Acho a Rose mentindo — meu voto é nela.'],
     ], entrada='alarme'),
     votos('p3_i', 3, 4, [
-        ['p', 3.4],
+        ['p', 5.9],  # +2,5 s para ler o POR QUE VOTARAM
         ['selo', '3 VERDADES = 1 EXPULSA', VERMELHO],
         ['meme', 'chaves-triste'],
         ['n', 'Seis votos na Rose. Um deles, do próprio Dourado.'],
@@ -471,7 +491,7 @@ CENAS = [
         ['meme', 'distracted-boyfriend'],
     ]),
     votos('p4_g', 4, 4, [
-        ['p', 3.6],
+        ['p', 6.1],  # +2,5 s para ler o POR QUE VOTARAM
         ['selo', 'NÃO COLOU', VERMELHO],
         ['meme', 'not-stonks'],
         ['n', 'Não colou. Onze votos na Coral.'],
@@ -531,6 +551,13 @@ CENAS = [
         ['meme', 'success-kid'],
         ['n', 'Escudo. Do Roxo. A nave expulsou ele por falar a verdade, e é o fantasma dele que segura a tripulação viva.'],
     ], cam={'cor': 'Verde', 'zoom': 1.45}, foco='Verde,Lima', vel=0.03),
+    mapa('p4_m2', 4, 80.02, [
+        ['n', 'E o Xerife Branco ainda tinha bala. No tique oitenta e um, ele escolhe o alvo.'],
+        ['pensa', 'Branco', 'Bordo apareceu várias vezes sem ajudar a estabilizar; com o escudo ativo, vou arriscar o tiro nele.'],
+        ['selo', 'O BORDO. DE NOVO.', AMARELO],
+        ['meme', 'drake-no'],
+        ['n', 'O Bordo, expulso nas três primeiras partidas, finalmente estava inocente e vivo... e virou alvo de novo. O log não registra disparo nenhum. Sobreviveu.'],
+    ], cam={'cor': 'Branco', 'zoom': 1.5}, foco='Branco,Bordo', vel=0.03),
     mapa('p4_n', 4, 88.3, [
         ['ir', 89],
         ['n', 'Tique noventa. Empate. O impostor sobrevive, com escudo de anjo.'],

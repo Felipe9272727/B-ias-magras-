@@ -16,7 +16,7 @@ type Estado = string;
 export type EstadoJ = {cor: string; sala: SalaId; estado: Estado; tipo: string | null; atordoado: boolean; salvo: boolean; vivo: boolean; corpo: boolean; papel: string; time: string; ap?: string; preso?: boolean; salto?: 'duto' | 'tele'};
 export type Tique = {tique: number; tarefas: number; total: number; sab: string | null; estados: EstadoJ[]};
 export type Evento = {tique: number; tipo: string; [k: string]: unknown};
-export type Reuniao = {tique: number; tipo: string; chamador: string; corpo?: string | null; sala: string; votos: Record<string, string>; expulso: string | null; empate: boolean; eraImpostor?: boolean | null; papelExpulso?: string | null; juiz?: {cor: string; teriaSido: string}};
+export type Reuniao = {tique: number; tipo: string; chamador: string; corpo?: string | null; sala: string; votos: Record<string, string>; expulso: string | null; empate: boolean; eraImpostor?: boolean | null; papelExpulso?: string | null; juiz?: {cor: string; teriaSido: string}; motivos?: {cor: string; alvo: string; texto: string}[]};
 export type Log = {partida: number; jogadores: {cor: string; modelo: string; papel: string; time: string; casal: string | null}[]; tiques: Tique[]; eventos: Evento[]; reunioes: Reuniao[]; cfg: {limite: number}; resultado: {time: string; motivo: string; tique: number}};
 export type Cam = {sala?: SalaId; cor?: string; mapa?: boolean; zoom?: number};
 
@@ -88,7 +88,7 @@ function plano(log: Log, n: number): Plano[] {
 }
 
 // velocidade de caminhada (px do mundo por quadro): tripulante ~780 px/s; zumbi mais lento, o Rápido mais rápido
-const velDe = (_e: EstadoJ) => 26;
+const velDe = (_e: EstadoJ) => 11;
 
 // janela de caminhada do jogador i no tique n (em quadros da cena)
 function janela(log: Log, R: Relogio, n: number, i: number) {
@@ -218,7 +218,7 @@ function alvoCam(log: Log, R: Relogio, f: number, cam: Cam, falas: AlvoFala[]): 
     wx += a.peso * p.x; wy += a.peso * (p.y - 60); W0 += a.peso;
   }
   if (W0 > 0) {
-    const k = Math.min(1, W0) * (cam.sala ? 0.55 : 1);
+    const k = Math.min(1, W0) * (cam.sala ? 0.45 : 0.7);
     alvo = {x: alvo.x + (wx / W0 - alvo.x) * k, y: alvo.y + (wy / W0 - alvo.y) * k};
   }
   return {...alvo, s};
@@ -236,7 +236,8 @@ const FX: Record<string, [string, string, string]> = {
 const Fx: React.FC<{log: Log; R: Relogio; f: number; ps: Pos[]}> = ({log, R, f, ps}) => {
   const n = Math.max(1, Math.ceil(R.T(f)));
   const fs = R.fDe(n - 1), D = Math.max(1, R.fDe(n) - fs);
-  const L = clamp(0.7 * D, 10, 36); // ~1,2 s de vídeo (menos se o tique for curto), logo no começo do tique
+  const temMorte = log.eventos.some((e) => e.tique === n && (e.tipo === 'morte' || e.tipo === 'xerife' || e.tipo === 'bomba'));
+  const L = clamp(0.7 * D, 10, temMorte ? 56 : 36); // ~1,2 s (morte ~1,9 s), logo no começo do tique
   const vida = (f - fs - Math.min(0.06 * D, 3)) / L;
   if (vida <= 0 || vida >= 1) return null;
   const a = 1 - vida * vida;
@@ -260,7 +261,14 @@ const Fx: React.FC<{log: Log; R: Relogio; f: number; ps: Pos[]}> = ({log, R, f, 
             <svg width={grande ? 900 : 360} height={grande ? 900 : 360} viewBox="-100 -100 200 200" style={{position: 'absolute', left: p.x - (grande ? 450 : 180), top: p.y - 60 - (grande ? 450 : 180), opacity: a, overflow: 'visible'}}>
               <circle r={20 + vida * 70} fill={cor} opacity={0.22} />
               <circle r={14 + vida * 78} fill="none" stroke={cor} strokeWidth={9 * (1 - vida) + 2} />
-              {e.tipo === 'morte' ? <path d="M-34 -34 L34 34 M34 -34 L-34 34" stroke="#ff2a2a" strokeWidth={13} strokeLinecap="round" /> : null}
+              {e.tipo === 'morte' ? (
+                <g>
+                  {/* facada: o arco corta a vítima na primeira terça parte do efeito */}
+                  <path d="M-70 -50 Q0 -90 70 40" fill="none" stroke="#fff" strokeWidth={14 * Math.max(0, 1 - vida * 3)} strokeLinecap="round" strokeDasharray="260" strokeDashoffset={260 * (1 - Math.min(1, vida * 5))} />
+                  <path d="M-34 -34 L34 34 M34 -34 L-34 34" stroke="#ff2a2a" strokeWidth={13} strokeLinecap="round" transform={`scale(${Math.min(1, vida * 4)})`} />
+                  {Array.from({length: 14}).map((_, j) => { const an = (j / 14) * Math.PI * 2 + 0.3, r = 18 + Math.min(1, vida * 2.2) * (40 + (j % 4) * 14), y0 = vida * vida * 40; return <circle key={j} cx={r * Math.cos(an)} cy={r * Math.sin(an) + y0} r={(7 - (j % 3) * 2) * (1 - vida * 0.6)} fill="#c80000" stroke="#000" strokeWidth={1.5} />; })}
+                </g>
+              ) : null}
               {e.tipo === 'bomba' ? Array.from({length: 12}).map((_, j) => { const an = (j / 12) * Math.PI * 2, r = 20 + vida * 75; return <circle key={j} cx={r * Math.cos(an)} cy={r * Math.sin(an)} r={13 * (1 - vida) + 3} fill={j % 2 ? '#ffd23a' : '#ff5a1a'} />; }) : null}
               {e.tipo === 'escudo' ? <path d="M0 -40 L32 -26 V6 Q32 34 0 46 Q-32 34 -32 6 V-26 Z" fill="#5ad0ff55" stroke="#fff" strokeWidth={5} /> : null}
               {e.tipo === 'casal_morre' ? <path d="M0 30 C-50 -6 -26 -44 0 -18 C26 -44 50 -6 0 30 Z M-4 -16 L8 -2 L-6 8 L4 24" fill="#ff6ab0" stroke="#000" strokeWidth={4} strokeLinejoin="round" /> : null}
@@ -283,6 +291,10 @@ const Boneco: React.FC<{p: Pos; f: number; destaque: boolean; papeis: boolean}> 
   if (p.morto) {
     return e.corpo ? (
       <div style={{position: 'absolute', left: -s / 2, top: -s * 0.9, width: s, height: s * 1.2}}>
+        <svg width={s * 1.6} height={s * 0.7} viewBox="-80 -35 160 70" style={{position: 'absolute', left: -s * 0.3, top: s * 0.62}}>
+          <path d="M-62 0 C-60 -22 -20 -30 6 -24 C40 -30 70 -14 64 4 C60 22 20 28 -6 22 C-36 30 -64 20 -62 0 Z" fill="#a80000" opacity={0.85} />
+          <ellipse cx={-30} cy={-6} rx={14} ry={5} fill="#ff5a5a" opacity={0.5} />
+        </svg>
         <Crewmate4 cor={p.cor} size={s} morto t={f} />
         <div style={{position: 'absolute', left: '50%', top: s * 1.02, transform: 'translateX(-50%)', whiteSpace: 'nowrap', fontFamily: FONTE, fontWeight: 900, fontSize: 19, color: '#ffb0b0', WebkitTextStroke: '4px #000', paintOrder: 'stroke fill'}}>corpo: {p.cor}</div>
       </div>
@@ -311,9 +323,9 @@ export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: 
   W = 1920; H = 1080;
   // câmera: média dos alvos em quadros vizinhos (±0,4 s), para não dar trancos
   let x = 0, y = 0, s = 0;
-  const N = 9;
+  const N = 15;
   for (let i = 0; i < N; i++) {
-    const g = f + (i - (N - 1) / 2) * 3;
+    const g = f + (i - (N - 1) / 2) * 6;
     const camG = zoomDe ? {...cam, zoom: zoomDe(g)} : cam;
     const a = alvoCam(log, R, g, camG, falas ? falas(g) : []);
     x += a.x; y += a.y; s += a.s;
@@ -324,10 +336,15 @@ export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: 
   const tq = log.tiques[Math.max(0, Math.min(log.tiques.length - 1, Math.ceil(R.T(f)) - 1))];
   const focos = (foco ?? '').split(',');
   const verPapeis = papeis ?? !(cam.mapa || (!cam.sala && !cam.cor));
+  const nT = Math.max(1, Math.ceil(R.T(f))), fsT = R.fDe(nT - 1);
+  const morteAgora = log.eventos.some((e) => e.tique === nT && (e.tipo === 'morte' || e.tipo === 'bomba' || e.tipo === 'xerife'));
+  const dM = f - fsT - 2;
+  const flash = morteAgora && dM >= 0 && dM < 14 ? 1 - dM / 14 : 0;
+  const tremor = flash > 0 ? {x: Math.sin(f * 2.7) * 9 * flash, y: Math.cos(f * 3.1) * 7 * flash} : {x: 0, y: 0};
   const alarme = tq.sab && tq.sab !== 'Luzes';
   return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden', background: '#7fbdf2'}}>
-      <div style={{position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0', transform: `translate(${W / 2 - c.x * c.s}px, ${H / 2 - c.y * c.s}px) scale(${c.s})`}}>
+      <div style={{position: 'absolute', left: 0, top: 0, width: MUNDO.w, height: MUNDO.h, transformOrigin: '0 0', transform: `translate(${W / 2 - c.x * c.s + tremor.x}px, ${H / 2 - c.y * c.s + tremor.y}px) scale(${c.s})`}}>
         <TemaMira.Provider value={{halloween: false}}>
           <ArteMira />
           <CamadaViva f={f} />
@@ -343,6 +360,7 @@ export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: 
       {tq.sab === 'Luzes' ? <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, #02041066 20%, #020410d8 100%)', pointerEvents: 'none'}} /> : null}
       {alarme ? <div style={{position: 'absolute', inset: 0, boxShadow: `inset 0 0 ${90 + 50 * Math.sin(f / 4)}px #ff1a1acc`, pointerEvents: 'none'}} /> : null}
       <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 62%, #0a183066 100%)', pointerEvents: 'none'}} />
+      {flash > 0 ? <div style={{position: 'absolute', inset: 0, background: `radial-gradient(ellipse at center, #ff000000 35%, #c00000${Math.round(flash * 170).toString(16).padStart(2, '0')} 100%)`, pointerEvents: 'none'}} /> : null}
     </div>
   );
 };
