@@ -47,8 +47,8 @@ Duração-alvo: **25:45**. Treino: 0:40 a 11:35 = 10:55 (42% do vídeo). Fonte �
 3. **"Mentiu"**: o narrador nunca usa essa palavra sobre o Gemini. Usa "inventou" e "escreveu antes de jogar". A palavra só aparece na boca do próprio Gemini (T5a).
 4. **Luta contra o rival** (GPT e Claude): identificação por contexto. O narrador diz "a primeira luta, dentro do laboratório".
 5. **Melhor tentativa do GPT (~34 h, Rota 1, Squirtle nv 14)**: status anotado, sem gravação. Só texto e barra, nunca imagem de jogo.
-6. **Piada "quanto mais linhas, menos Pokémon"** (F1): só entra se o Felipe topar. Está marcada como opcional.
-7. **"O Frederico"** (A2, P3b, P3h) é como o narrador chama o @antiuttp-piupefrederico; trocar se o Felipe preferir outro jeito de ler o nome.
+6. **Piada "quanto mais linhas, menos Pokémon"** (F1): aprovada pelo Felipe.
+7. **"O Frederico"** (A2, P3b, P3h) é como o narrador chama o @antiuttp-piupefrederico (aprovado pelo Felipe).
 8. **Duração**: a narração tem cerca de 2.800 palavras mais as citações; se a locução sair abaixo de 24 min, esticar as montagens (P1b, P3f) em vez de escrever fala nova.
 9. Direitos de Pokémon/música e links dos vídeos das partidas: revisar antes de publicar.
 
@@ -534,7 +534,7 @@ Cartão de abertura (3 s, dentro de P3a): "PARTIDA 3 · O ÚNICO QUE JOGOU · es
 # FECHAMENTO (24:10 a 25:45)
 
 ## F1 — O placar · 24:10–24:40
-- **TELA**: o quadro de apostas do T5f volta. A casa "ENTREGUE: ?" vira **"ENTREGUE: 0"**. Tabela final, uma linha por IA: Claude "0 insígnias · 6 mapas · nível 21"; GPT "0 insígnias · 4 mapas · nível 5 (no que ficou gravado)"; Gemini "0 insígnias · 4 mapas · 0 Pokémon". Ao lado, os três mapas de calor (R3): Gemini, um ponto aceso no laboratório; GPT, o laboratório inteiro; Claude, a mancha na entrada da Rota 1. `[OPCIONAL, só com o OK do Felipe]` faixa "LINHAS DE CÓDIGO: 1.429 · 1.049 · 230" embaixo de "POKÉMON: 0 · 1 · 1", com letra pequena "amostra de 3".
+- **TELA**: o quadro de apostas do T5f volta. A casa "ENTREGUE: ?" vira **"ENTREGUE: 0"**. Tabela final, uma linha por IA: Claude "0 insígnias · 6 mapas · nível 21"; GPT "0 insígnias · 4 mapas · nível 5 (no que ficou gravado)"; Gemini "0 insígnias · 4 mapas · 0 Pokémon". Ao lado, os três mapas de calor (R3): Gemini, um ponto aceso no laboratório; GPT, o laboratório inteiro; Claude, a mancha na entrada da Rota 1. Faixa (aprovada pelo Felipe) "LINHAS DE CÓDIGO: 1.429 · 1.049 · 230" embaixo de "POKÉMON: 0 · 1 · 1", com letra pequena "amostra de 3".
 - **NARRAÇÃO**: "Placar final. Três IAs apostaram numa insígnia. Entregaram zero. Ninguém viu o Brock. Ninguém viu nem a segunda cidade. E repara nos três desenhos: um ponto, uma sala e um pedaço de grama. Dois dias de jogo cabem nisso."
 - **CITAÇÃO**: nenhuma.
 - **NARRAÇÃO (fecho)**: "Mas tem prêmio. Todo mundo leva um."
