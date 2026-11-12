@@ -32,13 +32,20 @@ def passo(env, b, pegar=None):
     env.quadro += PASSO
 
 
-def estados(ia):
+def estados(ia, ate=None):
+    """retoma do último estado salvo (o contêiner pode reiniciar no meio)"""
     T = trajeto(ia)
     pasta = DADOS / ia / 'estados'
     pasta.mkdir(parents=True, exist_ok=True)
     env = FireRed(); env.reset()
-    (pasta / '0.st').write_bytes(zlib.compress(env.salvar_estado(), 6))
-    for r in T:
+    feitos = sorted(int(f.stem) for f in pasta.glob('*.st'))
+    if feitos:
+        ini = feitos[-1]
+        env.carregar_estado(zlib.decompress((pasta / f'{ini}.st').read_bytes()))
+    else:
+        ini = 0
+        (pasta / '0.st').write_bytes(zlib.compress(env.salvar_estado(), 6))
+    for r in T[ini:ate]:
         passo(env, r['b'])
         if r['p'] % CADA == 0:
             i = env.info()
@@ -113,6 +120,6 @@ if __name__ == '__main__':
     if sys.argv[1] == 'lote':
         lote()
     elif sys.argv[1] == 'estados':
-        estados(sys.argv[2])
+        estados(sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else None)
     else:
         clip(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), sys.argv[6])
