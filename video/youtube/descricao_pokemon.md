@@ -1,6 +1,6 @@
 # Pokémon: 3 IAs criaram as próprias IAs: título, descrição, capítulos e créditos
 
-Duração da v1: 23:42. Capítulos tirados de `video/remotion/public/timeline_pokemon.json` (recalcular se o roteiro mudar).
+Duração da v1: 23:42. Render v1: https://gofile.io/d/spGqA0lL (1080p). Capítulos tirados de `video/remotion/public/timeline_pokemon.json` (recalcular se o roteiro mudar).
 
 ## Título
 1. **Fiz 3 IAs criarem as próprias IAs pra zerar Pokémon (e uma entregou a vitória antes de jogar)** (recomendado: o vídeo abre e fecha nessa cena)
