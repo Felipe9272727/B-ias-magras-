@@ -69,3 +69,4 @@ O upscale é o `scale=1920:1080:flags=lanczos` dentro do `au7_final.py`. Disco: 
 - Na mesa de reunião o terço de baixo fica vazio quando ninguém fala: caberia um painel "o que o log diz" com a prova.
 - O vídeo tem 20 min; o pacote previa ~29. Cenas do pacote que ficaram de fora e dá para acrescentar: P2 t56
   (a Coral recua sem entregar a Banana), P4 t81 (o Xerife querendo atirar no Bordo), P2 t10 (prisão vira álibi).
+- Render final: https://gofile.io/d/ClbtlJBc (AMONG_IA_7.mp4, 1080p, 20:12, 489 MB)
