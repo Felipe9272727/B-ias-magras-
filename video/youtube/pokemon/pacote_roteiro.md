@@ -270,3 +270,22 @@ COMO USAR (sugestões para o storyboard):
 - "Quem prometer isso aqui tá mentindo" + o log inventado entregue antes de rodar.
 - O GPT apostou no Brock e temeu "empacar em algum pré-requisito"; o que o derrubou foi o computador, não o jogo.
 - Os três apostaram em Pewter/Brock; ninguém saiu da Rota 1. Número na tela: "PROMETIDO: 1 INSÍGNIA · ENTREGUE: 0".
+
+## CENA OBRIGATÓRIA (pedido do Felipe): por que o GPT tem menos partida + quanto isso vale em horas
+O narrador explica isso NO VÍDEO, em linguagem simples, com os números grandes na tela (sem jargão: nada de "contêiner",
+"quadro" ou "checkpoint" falado; na tela pode aparecer o número).
+- O que dizer: a IA do GPT não travou no jogo; quem caiu foi o COMPUTADOR em que ela jogava. Ele desligou 6 vezes
+  durante a noite, e a cada queda a partida voltava do zero (a IA dele não sabe salvar o próprio progresso no meio).
+- A melhor tentativa chegou a ~70% (Squirtle nível 14 brigando na Rota 1) e sumiu sem gravação às 22:44 de 11/11.
+  O que ficou gravado é só o começo da última tentativa.
+- Conversão para horas de jogo (GBA ~60 quadros/s; 10.368.000 quadros = ~48 h, os "2 dias" da regra):
+    Claude: partida inteira, ~48 h de jogo.
+    Gemini: ~30 h (encerrado depois de travar; 17 h só para chegar ao laboratório).
+    GPT, melhor tentativa (perdida): ~34 h.
+    GPT, o que está gravado: 755.280 quadros = ~3 h 30 min de jogo (cerca de 7% da partida).
+- Sugestão de tela: barra comparando 48 h x 30 h x 3 h 30, com o pedaço "perdido" do GPT (34 h) riscado/apagado
+  e o selo "O COMPUTADOR CAIU 6 VEZES". Frase de efeito possível: "o GPT não perdeu pro Pokémon. Perdeu pro computador."
+- Nessas 3 h 30 gravadas o GPT: pega o Squirtle com 10 min de jogo (o primeiro inicial da corrida), perde a luta do
+  rival no laboratório (quadro 48.192) e passa as ~3 h seguintes preso dentro do laboratório.
+- Dados do GPT para a cena: trajeto e log dos 755.280 quadros (baixados do gofile QdNyTSv2 / WS2xDgVg); a gameplay
+  foi recriada repetindo os botões do trajeto no emulador (o jogo é determinístico, conferido a cada 500 passos).
