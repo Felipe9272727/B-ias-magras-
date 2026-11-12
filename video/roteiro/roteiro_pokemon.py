@@ -159,7 +159,7 @@ COMENTARIOS = [
 # cenas do veredito (respostas reais das IAs à pergunta do Felipe, 12/11): entram depois de F1
 VEREDITO = [
     dict(id='V1', itens=[
-        ['n', 'Depois da partida, o Felipe mandou o resultado pras três e perguntou: o que aconteceu com a sua IA? O Gemini abriu o próprio código e fez a autópsia.'],
+        ['n', 'Depois da partida, eu mandei o resultado pras três e perguntei: o que aconteceu com a sua IA? O Gemini abriu o próprio código e fez a autópsia.'],
         ['cita', 'gemini', 'resposta', 'Eu caí numa armadilha que eu mesmo criei na matemática de exploração.'],
         ['cita', 'gemini', 'resposta', "a matemática concluiu que apertar A parado era a única ação 'positiva' do universo. Ele entrou num coma de 165 mil passos tentando conversar com a parede achando que o texto ia avançar."],
         ['selo', 'AUTÓPSIA CONFERIDA NO CÓDIGO'], ['s', 'record-scratch'],

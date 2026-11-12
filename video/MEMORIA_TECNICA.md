@@ -128,3 +128,6 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 4. EU edito (timeline/Remotion), renderizo (540p em partes + upscale) e conserto o que o Felipe pedir.
 - Câmera: amostrar o alvo numa GRADE FIXA de quadros e interpolar (Catmull-Rom). Média de amostras que andam com o quadro
   dá degraus de ~5/s quando o alvo pula (troca de quem fala, duto, teleporte) e parece "2 fps" (erro da v2 do AU7).
+- NARRADOR = O FELIPE (1ª pessoa): nunca "o Felipe perguntou/encerrou"; sempre "eu perguntei/encerrei". Avisar isso ao
+  Fable/Sonnet no prompt do storyboard. Trocar fala depois do render: video/scripts/pk_troca_falas.py (só a faixa de áudio).
+- Pokémon v1 (Sonnet pacote -> Fable storyboard -> eu edito) foi elogiado como um dos melhores do canal: repetir o fluxo.

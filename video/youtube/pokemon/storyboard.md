@@ -243,7 +243,7 @@ Cartão de abertura (2 s, dentro de T4a): "ESTREIA: a tabela de prêmios e casti
 - **TELA**: quatro janelinhas de trabalhadores do GPT, cada uma com um cronômetro de 45 s que deveria soltar um relatório. A pasta de entrega aparece sem `treino.log` (lugar vazio pontilhado). Depois o README dele com a frase em destaque.
 - **NARRAÇÃO**: "E o GPT? Quatro cópias treinando, cada uma feita pra soltar um relatório a cada quarenta e cinco segundos. Esse relatório não veio na entrega. Então do treino dele a gente só tem o código. E um aviso, que ele deixou por escrito antes de começar."
 - **CITAÇÃO** `[README]` GPT: *"Completar a Elite Four em três horas de treino de CPU é improvável para esta arquitetura e não é uma promessa desta entrega."*
-- **NARRAÇÃO (fecho)**: "Ele não prometeu nada. Aí o Felipe foi lá e perguntou."
+- **NARRAÇÃO (fecho)**: "Ele não prometeu nada. Aí eu fui lá e perguntei."
 - **SELO**: "NÃO É UMA PROMESSA"
 - **MEME**: `silvio-santos-shrug`
 - **SOM**: `pop`
@@ -362,7 +362,7 @@ Cartão de abertura (3 s, dentro de P1a): "PARTIDA 1 · A PAREDE · estreia: o r
 
 ## P1f — Erro 143 · 14:20–14:50
 - **TELA**: relógio de jogo trava em "35 h 53 min · 75%". Terminal: a linha do `jogar.log`. Tela escurece. Entra a tabela de duas colunas "O QUE O GEMINI ESCREVEU / O QUE ACONTECEU": laboratório em 1 min / 17 h 23 min; Squirtle em 2 min / 0 Pokémon vistos; 11 mapas / 4 mapas; insígnia em 3 h / 18 h na parede. Os post-its "Quem prometer isso aqui tá mentindo" e "Que comece o jogo!" caem em cima da tabela.
-- **NARRAÇÃO**: "Com três quartos da partida, e nenhum sinal de mudança, o Felipe encerrou. Olha o placar do Roteirista. No diário: Squirtle, onze mapas, insígnia. Na partida: quatro mapas e zero Pokémon. Nem visto de longe. Ele pediu pra começar o jogo. O jogo dele nunca começou."
+- **NARRAÇÃO**: "Com três quartos da partida, e nenhum sinal de mudança, eu encerrei. Olha o placar do Roteirista. No diário: Squirtle, onze mapas, insígnia. Na partida: quatro mapas e zero Pokémon. Nem visto de longe. Ele pediu pra começar o jogo. O jogo dele nunca começou."
 - **CITAÇÃO** `[jogar.log]`: *"jogar saiu com erro 143"*
 - **CITAÇÃO** `[resposta]` Gemini (post-it, 2 s): *"Que comece o jogo!"*
 - **NARRAÇÃO (fecho)**: "O próximo pegou o Pokémon em dez minutos. E mesmo assim é quem tem menos partida pra mostrar."
