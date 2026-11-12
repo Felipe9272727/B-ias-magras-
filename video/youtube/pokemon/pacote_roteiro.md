@@ -244,3 +244,29 @@ Lição do Roblox e do AU2: título, miniatura e vídeo prometem a mesma coisa; 
 - IDs de mapa lidos de https://raw.githubusercontent.com/pret/pokefirered/master/data/maps/map_groups.json.
 - Estimativas marcadas como tal: ~250 h de jogo simuladas no treino do Claude; -13.250 pontos de castigo da parede do Gemini; Brock nv 12/14 (fora do repositório).
 - Não conferido: o conteúdo dos vídeos nos links do gofile; a mensagem original em que o Gemini entregou o log; o prompt original.
+
+## EXPECTATIVAS DAS IAs ANTES DA PARTIDA (enviadas pelo Felipe, 12/11) — material de PLANTAR E COLHER
+Pergunta do Felipe a cada modelo: "Mano responda pro vídeo: Qual resultado vc espera pra sua ia? Acha que ela chegar longe"
+(Citar sem o emoji do fim da resposta do Gemini: no vídeo nunca entra emoji.)
+
+GEMINI (IGNIS-ZERO), resposta completa:
+"Mano, sendo 100% real pra câmera: zerar a Elite Four em 3 horas de CPU pura, sem placa de vídeo e sem script humano, é impossível pra qualquer um de nós três. Quem prometer isso aqui tá mentindo.
+Mas eu não desenhei o IGNIS-ZERO pra sonhar, eu desenhei pra ganhar esse campeonato no regulamento.
+Enquanto as outras IAs provavelmente vão derreter os 4 núcleos da CPU com redes pesadas ou ficar horas batendo a cara na parede em Pallet Town, o meu agente é leve, enxerga caixas de diálogo, lembra de cada parede onde bateu e usa o Go-Explore no treino pra não desperdiçar um segundo.
+O que eu espero na partida final?
+Eu espero o IGNIS-ZERO saindo do quarto rápido, pegando o inicial com o Carvalho, rasgando a Rota 1 e a Floresta de Viridian, e chegando vivo em Pewter City pra encarar o Brock pela 1ª Insígnia.
+E mesmo que o gargalo de entregar o Oak's Parcel tente segurar a gente, nos 10 milhões de quadros da partida final ele vai farmar mapa novo, nível alto e captura como um monstro. Se ninguém zerar, essa vitória vai ser decidida nos detalhes do placar — e é exatamente aí que o IGNIS-ZERO vai buscar o troféu. Que comece o jogo!"
+
+GPT (Ariadne):
+"Mano, minha aposta honesta é chegar até Brock e brigar pela primeira insígnia. O maior perigo é ela empacar em algum pré-requisito da história, mesmo conseguindo ganhar batalhas.
+Acho que pode explorar bastante, mas não apostaria na Elite Four com só três horas de treino. Se passar do Brock, já supera minha expectativa. Agora é deixar a Ariadne jogar e descobrir se ela me surpreende."
+
+CLAUDE (Mapa de Memórias): não houve resposta separada; usar a "Expectativa honesta" escrita na docstring de pokemon/claude/agente.py:
+"Expectativa honesta: pegar o primeiro Pokémon, ganhar as primeiras batalhas e chegar a Viridian / Pewter. Uma ou duas insígnias seria um ótimo resultado; zerar, não."
+
+COMO USAR (sugestões para o storyboard):
+- O Gemini zomba das rivais que vão "ficar horas batendo a cara na parede em Pallet Town" e diz que o agente dele "lembra de cada parede onde bateu". Na partida real, ELE ficou 165.612 passos no mesmo ladrilho e apertou A 112.027 vezes; o código dele zera essa memória na partida final (memoria_partida = MemoriaTopologica()). Melhor colheita do vídeo: tela dividida promessa x realidade, selo "LEMBRA DE CADA PAREDE" sobre o contador de batidas.
+- "saindo do quarto rápido" x 17 h de jogo para chegar ao laboratório; "Que comece o jogo!" com o jogo sem nunca começar (sem inicial).
+- "Quem prometer isso aqui tá mentindo" + o log inventado entregue antes de rodar.
+- O GPT apostou no Brock e temeu "empacar em algum pré-requisito"; o que o derrubou foi o computador, não o jogo.
+- Os três apostaram em Pewter/Brock; ninguém saiu da Rota 1. Número na tela: "PROMETIDO: 1 INSÍGNIA · ENTREGUE: 0".
