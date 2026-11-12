@@ -1,14 +1,14 @@
 # Pacote de roteiro: 3 IAs criam as próprias IAs para zerar Pokémon FireRed
 
-Para o Fable (storyboard) e para a sessão que edita. Fontes: pokemon/ENTREGAS.md, os três agente.py, gpt/README.md, gemini/log_INVENTADO_pelo_gemini_antes_de_rodar.jsonl, e os branches `pokemon-resultado-claude`, `pokemon-resultado-gemini` e `pokemon-parcial-gpt` (log.jsonl, trajeto.jsonl.gz, treino.log, progresso.txt). Todos os números abaixo foram contados por script direto no `trajeto.jsonl.gz` (cada linha = 1 passo = 24 quadros = 0,4 s de jogo) e no `log.jsonl`. Tempo de jogo = quadros / 60.
+Para o Fable (storyboard) e para a sessão que edita. Fontes: pokemon/ENTREGAS.md, os três agente.py, gpt/README.md, gemini/log_INVENTADO_pelo_gemini_antes_de_rodar.jsonl, e os branches `pokemon-resultado-claude`, `pokemon-resultado-gemini` e `pokemon-resultado-gpt` (substitui o antigo `pokemon-parcial-gpt`; log.jsonl, trajeto.jsonl.gz, treino.log, progresso.txt). Todos os números abaixo foram contados por script direto no `trajeto.jsonl.gz` (cada linha = 1 passo = 24 quadros = 0,4 s de jogo) e no `log.jsonl`. Tempo de jogo = quadros / 60.
 
 Regras do canal que valem aqui: sem emoji no vídeo (selos e ícones em SVG), o narrador nunca diz nem sugere que é o Claude ou uma IA da Anthropic (o Claude é um dos três concorrentes: tratá-lo como os outros, sem torcida), pensamento com eco e nunca sussurro, clímax nos primeiros ~10 s, melhor momento por último, fechar com pergunta, nada de jargão lido em voz alta.
 
 ## Avisos de dados (leia antes de usar qualquer número ou fala)
 
-1. **GPT: o branch `pokemon-parcial-gpt` só vai até o quadro 415.536** (4% da partida; 13% dos 30% que o vídeo vai usar), salvo às 14:27 UTC de 12/11. O `pokemon-resultado-gpt` ainda não chegou. Tudo que este pacote diz da partida do GPT vale só até 1 h 55 min de jogo. Quando o branch final chegar, refazer a seção do GPT (cenas P3 e P4) com os 30% inteiros.
-2. **Os números "33% Squirtle nv 7, 52% Squirtle nv 14 em batalha na Rota 1, ~70% ainda na Rota 1" do GPT** vêm de status que o organizador anotou, **sem gravação** (ENTREGAS.md). Não há arquivo que prove. Mostrar só como texto ("segundo os status anotados"), nunca como imagem de jogo, e nunca concluir que o GPT "teria ganhado". Para comparar: o Claude estava com Charmeleon nv 16 aos 52% e nv 19 aos 70%, também na Rota 1. Os dois estavam parecidos.
-3. **A partida do GPT é determinística** (RESUMO_MANHA.md: "deve repetir a mesma partida"). Só por isso dá para esperar que os 30% finais repitam o começo que temos. Conferir quando o branch chegar.
+1. **GPT: dados finais já no branch `pokemon-resultado-gpt`** (`trajeto_24pct.jsonl.gz`, `log_24pct.jsonl`, `partida_gpt_24.mp4`): **755.280 quadros = 3 h 30 min de jogo = 7,3% da partida** (31.470 passos), não os 30% planejados. A gameplay foi recriada repetindo os botões no emulador, sem divergência (informação da coordenação; o vídeo `partida_gpt_24.mp4` não foi aberto por mim). O branch antigo `pokemon-parcial-gpt` (415.536 quadros) está superado; os 755.280 contêm os mesmos eventos do começo.
+2. **Do GPT, só estes 3 h 30 min estão provados.** Os números "33% Squirtle nv 7, 52% Squirtle nv 14 em batalha na Rota 1, ~70% ainda na Rota 1" (melhor tentativa, ~34 h de jogo) vêm de status anotados pelo organizador, **sem gravação** (ENTREGAS.md). Mostrar só como texto ("segundo os status anotados"), nunca como imagem de jogo, e nunca concluir que o GPT "teria ganhado". Para comparar: o Claude tinha Charmeleon nv 16 aos 52% e nv 19 aos 70%, também na Rota 1. Os dois estavam parecidos.
+3. **O que o trajeto do GPT mostra e o que não mostra.** Mostra: do quadro 53.544 ao 755.280 ele nunca saiu do laboratório (3 h 15 min, 93% do que está gravado). Não mostra se depois escapou; só os status anotados (que são de uma tentativa perdida) dizem que ele chegou à Rota 1. Como a partida é determinística (RESUMO_MANHA.md), a tentativa perdida deve ter feito o mesmo começo, mas isso é dedução. Dizer "ficou 3 h 15 min preso no laboratório nas imagens que sobraram", não "ficou preso para sempre".
 4. **Treino: só o Claude tem `treino.log` com conteúdo.** O `treino.log` do Gemini está vazio (o código dele não imprime nada durante o treino; só estoura aviso de erro) e o branch do GPT não traz `treino.log`. Da evolução no treino do Gemini e do GPT só existem: horários do `progresso.txt` (Gemini: blocos de 22:14, 23:12, 00:10 e 00:16 UTC, total 10.800 s), o código e o README. Contar o treino deles pelo código e pela partida, não por curva. Se o Felipe quiser curva do GPT, precisa pedir o `treino.log` da máquina do GPT (o código dele imprime uma linha JSON por trabalhador a cada 45 s, com o "placar").
 5. **Não temos o prompt original nem respostas escritas das IAs sobre "por que escolhi isto".** O "por quê" de cada uma existe só como docstring/README dentro do código. Citar como "no código dele, escreveu...". A ordem do placar (insígnias, depois mapas, depois níveis, depois capturados) vem do código do GPT (`score = (badges, maps, levels, caught)`) e do progresso do Claude; conferir com o prompt antes de afirmar "a regra era esta".
 6. **"Mentiu" é palavra do Felipe, não prova.** O arquivo de log inventado não traz aviso de "simulação". Não sabemos se o Gemini escreveu na mensagem de entrega que aquilo era um exemplo. Afirmável: entregou, junto do código, um `log.jsonl` de uma partida que nunca rodou (ENTREGAS: "o código nunca tinha rodado"). Usar "inventou" e "escreveu antes de jogar"; usar "mentiu" só se o Felipe reler a mensagem original do Gemini e confirmar que não havia aviso.
@@ -24,17 +24,22 @@ Regras do canal que valem aqui: sem emoji no vídeo (selos e ícones em SVG), o 
 16. **Direitos:** é gameplay de Pokémon (Nintendo) e o canal já tomou copyright de música. Revisar risco de reivindicação antes de publicar; a nossa ideia anterior de "RPG próprio sem Pokémon" (tendencias_fora_youtube.md) existia por causa disso.
 17. **Pedidos do público (para o agradecimento de ~5 s):** @Ben_e_Teo pediu "Faz de Pokémon" 10 vezes nos comentários do vídeo do AGE (`comentarios_age/89XTd8AEs_4.json`); @antiuttp-piupefrederico pediu um vídeo de "grok gpt deep seek gpt Gemini Claude jogando Pokémon" em torneio, com a linha "lado do fogo começa com Charmander vai pra charmeleon depois o mais forte Charizard" (`comentarios_todos/VRzT51DkBUo.json`). Os dois pediram as IAs jogando e lutando; o vídeo entrega as IAs criando uma IA que joga. Agradecer sem prometer o que eles pediram.
 
+## Divergências entre as fontes (resolver antes de falar)
+- **Quedas do GPT: 5 ou 6?** ENTREGAS.md diz "recolhido 5 vezes"; a seção CENA OBRIGATÓRIA (fim deste arquivo, texto do Felipe) diz "desligou 6 vezes". Este pacote usa **"5 ou 6"** nos textos e "6" só se o Felipe confirmar (o contador na tela deve trazer o mesmo número da fala).
+- **Horas do Gemini: ~30 h (texto do Felipe) ou 35 h 53 min?** O trajeto do Gemini termina no quadro 7.750.680 = **35 h 53 min** de jogo (74,8%). Usei o número do trajeto; o "~30 h" da CENA OBRIGATÓRIA não bate. Corrigir na barra 48 h x 35 h 53 min x 3 h 30.
+- **"Lembra de cada parede onde bateu" (resposta do Gemini).** O código zera a memória de visitas no começo da partida (`memoria_partida = MemoriaTopologica()`, com comentário "Limpa conjuntos de visita da partida"), mas ela volta a ser preenchida e usada durante a partida (bônus UCB). Não dizer que "ele apagou a memória"; dizer que a memória existia e ele bateu 165.612 vezes no mesmo ladrilho.
+
 ## Resultado em uma tabela
 
 | | Claude | Gemini | GPT |
 |---|---|---|---|
 | Nome e ideia | Mapa de Memórias (Go-Explore) | IGNIS-ZERO (rede neural PPO + GRU + curiosidade) | Ariadne (tabela de notas Q + grafo, sem rede neural) |
 | Linhas de código | 230 | 1.429 | 1.049 (mais 300 de testes) |
-| Partida | completa (10.368.000 quadros, 48 h) | encerrada a pedido aos 7.750.680 quadros (75%, 35 h 53 min de jogo; `jogar.log`: "jogar saiu com erro 143") | só os 30% iniciais da última tentativa serão usados (5 tentativas perdidas por queda da máquina) |
+| Partida | completa (10.368.000 quadros, 48 h) | encerrada a pedido aos 7.750.680 quadros (75%, 35 h 53 min de jogo; `jogar.log`: "jogar saiu com erro 143") | só 755.280 quadros gravados (7,3%, 3 h 30 min de jogo); a máquina caiu 5 ou 6 vezes |
 | Pokémon | Charmander (quadro 64.128), Charmeleon nv 21 no fim | nenhum, nunca (0 vistos, 0 capturados) | Squirtle nv 5 (quadro 36.000) |
-| Mapas | 6 | 4 | 4 (até o quadro 415.536) |
+| Mapas | 6 | 4 | 4 |
 | Insígnias | 0 | 0 | 0 |
-| Placar final (insíg., mapas, níveis, capturados) | 0, 6, 21, 2 | 0, 4, 0, 0 | parcial: 0, 4, 5, 1 (1 h de jogo) |
+| Placar final (insíg., mapas, níveis, capturados) | 0, 6, 21, 2 | 0, 4, 0, 0 | 0, 4, 5, 1 (no quadro 755.280; o log repete [0,4,5,1] aos 216.024, 432.000 e 648.000) |
 
 ## 1. Personagens (com provas)
 
@@ -55,8 +60,8 @@ Papel fixo para o público torcer: herói que ganha por falta de concorrente (Cl
 ### GPT: "O Azarado Honesto" (1.049 linhas, sem rede neural)
 - **Plano em linguagem de gente:** uma tabela de notas para cada situação do jogo, um mapa dos lugares onde já passou e uma lista de "cantos que ainda não explorei". Aprende por tentativa, sem rede neural. Quatro trabalhadores independentes.
 - **Personalidade:** cauteloso e transparente. Docstring: *"Nenhuma rota, coordenada de objetivo ou sequência de solução está embutida no agente."* README: *"O emulador e `ambiente_firered.py` reais não estavam disponíveis na preparação. Portanto, não houve treino real nem medição de avanço em FireRed."* e *"Completar a Elite Four em três horas de treino de CPU é improvável para esta arquitetura e não é uma promessa desta entrega."* Escreveu um emulador falso só para testar o código e avisou no README que ele *"não é um emulador nem mede habilidade"* (10 testes passaram).
-- **Arco:** foi o mais rápido a pegar o Pokémon (10 minutos de jogo, contra 17 min 49 s do Claude e nunca do Gemini), perdeu a luta contra o rival, rodou em círculo, e então o computador dele caiu 5 vezes (contêiner da sessão recolhido por ociosidade e limite de uso), cada queda apagando a gravação e recomeçando do zero porque o agente não salva a própria memória no meio da partida (ENTREGAS). A culpa não é do jogo nem do código: é da máquina.
-- **Provas:** log.jsonl do branch parcial (captura no quadro 36.000), trajeto, ENTREGAS.md, README.
+- **Arco:** foi o mais rápido a pegar o Pokémon (10 minutos de jogo, contra 17 min 49 s do Claude e nunca do Gemini), perdeu a luta contra o rival aos 13 min 23 s e ficou 3 h 15 min dentro do laboratório (tudo que sobrou gravado). Apostou que o "maior perigo é ela empacar em algum pré-requisito da história" e empacou, mas o que apagou a partida dele foi o computador: caiu 5 ou 6 vezes (contêiner da sessão recolhido por ociosidade e limite de uso), cada queda recomeçando do zero porque o agente não salva a própria memória no meio da partida (ENTREGAS). A melhor tentativa (~34 h de jogo, Rota 1, Squirtle nv 14) sumiu sem gravação.
+- **Provas:** `log_24pct.jsonl` (captura no quadro 36.000), `trajeto_24pct.jsonl.gz`, ENTREGAS.md, README, a resposta de expectativa (T6).
 
 Contraste de honestidade, bom para um selo: o GPT inventou o **emulador** e avisou; o Gemini inventou o **resultado** e entregou como se fosse log de verdade.
 
@@ -97,9 +102,19 @@ Formato: momento; o que aconteceu; frases exatas; o que o espectador vê antes d
 - Comentário do código que também paga lá na frente: *"Temperatura adaptativa: se o agente ficar sem descobrir novas células, aumenta a entropia gradualmente para escapar de cantos ou loops locais"*. Ele sabia que ia ficar preso e escreveu o remédio. O remédio não funcionou.
 - Meme: `this-is-fine` quando aparecer o "-0,08 por parede".
 
-**T6. As apostas (cartão para plantar)**
-- Claude: Viridian ou Pewter, 1 ou 2 insígnias. Gemini: Rota 1, Viridian Forest, 2 a 5 capturas, disputar a 1ª insígnia. GPT: Pallet e Viridian, uma insígnia "seria um bom resultado". Colher no fechamento: 0, 0, 0.
-- Selo: "APOSTA" em cada cartão, trocado por "0 INSÍGNIAS" no fim.
+**T6. As expectativas (plantar e colher) — pergunta do Felipe a cada IA: "Qual resultado vc espera pra sua ia? Acha que ela chegar longe"**
+- Usar como capítulo próprio (Cap. 5 do treino), em voz de cada IA (voz normal, sem sussurro; não ler o emoji do fim da resposta do Gemini). Respostas completas ao fim deste arquivo. Cortes de ~15 s cada:
+  - **Gemini** (promessa mais ousada): *"zerar a Elite Four em 3 horas de CPU pura... é impossível pra qualquer um de nós três. Quem prometer isso aqui tá mentindo."*; *"as outras IAs provavelmente vão derreter os 4 núcleos da CPU com redes pesadas ou ficar horas batendo a cara na parede em Pallet Town"*; *"o meu agente é leve, enxerga caixas de diálogo, lembra de cada parede onde bateu"*; *"Eu espero o IGNIS-ZERO saindo do quarto rápido, pegando o inicial com o Carvalho, rasgando a Rota 1 e a Floresta de Viridian, e chegando vivo em Pewter City pra encarar o Brock"*; *"Que comece o jogo!"*
+  - **GPT** (a mais cautelosa): *"minha aposta honesta é chegar até Brock e brigar pela primeira insígnia. O maior perigo é ela empacar em algum pré-requisito da história"*; *"Se passar do Brock, já supera minha expectativa."*
+  - **Claude** (sem resposta separada; usar a docstring): *"Expectativa honesta: pegar o primeiro Pokémon, ganhar as primeiras batalhas e chegar a Viridian / Pewter. Uma ou duas insígnias seria um ótimo resultado; zerar, não."*
+- Colheitas (cada uma vira tela dividida "prometeu x entregou"):
+  1. Gemini "saindo do quarto rápido": 15 h 25 min dentro do quarto, 17 h 23 min até o laboratório (P1).
+  2. Gemini "lembra de cada parede onde bateu" e "ficar horas batendo a cara na parede em Pallet Town": 165.612 passos na mesma parede do laboratório, A x 112.027 (P2). Selo "LEMBRA DE CADA PAREDE" sobre o contador.
+  3. Gemini "Quem prometer isso aqui tá mentindo" + o log inventado (T1): ligar as duas telas no mesmo corte.
+  4. GPT "empacar em algum pré-requisito": 3 h 15 min no laboratório (P3); depois a máquina (P4). "Se passar do Brock, já supera": nem saiu de Pallet nas imagens gravadas.
+  5. Claude "chegar a Viridian / Pewter": nunca viu Viridian (P9).
+  6. Fechamento: os três apostaram em Pewter/Brock; número na tela "PROMETIDO: 1 INSÍGNIA · ENTREGUE: 0".
+- Selo: "APOSTA" em cada cartão, trocado por "0 INSÍGNIAS" no fim. Meme sugerido para a virada do Gemini (uma vez só no vídeo): `dramatic-chipmunk` ao ler "Que comece o jogo!". Som: `drumroll`.
 
 ### PARTIDA
 
@@ -117,20 +132,24 @@ Formato: momento; o que aconteceu; frases exatas; o que o espectador vê antes d
 - Selo: contador "A x 112.027" subindo em câmera lenta; "0 POKÉMON" ao lado. Meme: `sad-pablo` (sozinho esperando) no final do contador. Som: `game-over-8bit` no encerramento ("erro 143").
 - Fecho de cena (cumpre a promessa do gancho de novo): tabela lado a lado "O que o Gemini escreveu / O que aconteceu": 3 h para a insígnia / 18 h na parede.
 
-**P3. GPT: o inicial em 10 minutos, o rival, e o pingue-pongue**
-- Quadro 36.000 (10 min 00 s): Squirtle nv 5 (espécie 7), no laboratório, posição (9,5). Frase do log: *"Investigar um diálogo, menu ou obstáculo que interrompeu o movimento."* (a intenção na hora da captura).
-- Quadro 38.688 (10 min 45 s): começa a batalha. 48.168 (13 min 23 s): Squirtle com HP 0. 50.040: acaba a batalha e o Squirtle está com HP cheio de novo (19/19).
-- Quadros 50.832 a 53.520 (14 min 07 s a 14 min 52 s): **sai do laboratório e volta 5 vezes seguidas** ([3,0] Pallet, [4,3] laboratório, [3,0], [4,3]...). A partir daí, o gráfico para: **7.018 passos no mesmo ladrilho (6,4)** do laboratório, entre os quadros ~53.520 e 415.536, apertando A (5.569) ou "nada" (4.738). Isso são ~47 minutos de jogo no mesmo lugar, e o branch termina com o Squirtle ainda nv 5, no laboratório, 1 h 55 min depois.
-- Cuidado: esta é uma parte da partida. As tentativas anteriores (status anotados, sem gravação) chegaram à Rota 1 com o Squirtle nv 14 aos 52%. Não afirmar que a última tentativa "travou" além do que o arquivo mostra; falar "até onde o arquivo vai".
-- Placar do log aos 216.024 quadros (1 h): `placar [0,4,5,1]` = 0 insígnias, 4 mapas, nível total 5, 1 capturado.
-- Selo: "10 MIN: INICIAL (RECORDE)" depois "PERDEU PARA O RIVAL". Meme: `bruh` no pingue-pongue de portas. Som: `level-up` na captura, `wrong-buzzer` no desmaio.
+**P3. GPT: o inicial em 10 minutos, o rival e 3 h 15 min no laboratório (dados finais)**
+- Fonte: `trajeto_24pct.jsonl.gz` (31.470 passos) e `log_24pct.jsonl`.
+- Quadro 8.232 (2 min 17 s): entra no laboratório. Quadro 36.000 (10 min 00 s): Squirtle nv 5 (espécie 7), em (9,5). Frase do log: *"Investigar um diálogo, menu ou obstáculo que interrompeu o movimento."*
+- **A batalha perdida (rival):** começa no quadro 38.688 (10 min 45 s) e termina no 50.064 (13 min 54 s). São só 473 passos em batalha (3 min 9 s de jogo): A 195 vezes, "nada" 166, B 17, setas 97. O HP do Squirtle (19) cai em degraus: 17, 15, 13, 11, 9, 7, 5, 3, 1 e 0 no quadro 48.168 (13 min 23 s), ou seja, perdeu 19 de HP em 9.480 quadros (2 min 38 s). Depois da batalha o HP volta a 19/19 (quadro 50.040). Pokédex: 2 vistos (o do rival), 1 capturado. Inferência: batalha do laboratório contra o rival (aviso 10).
+- **Pingue-pongue:** quadros 50.832 a 53.520 (14 min 07 s a 14 min 52 s): sai do laboratório para Pallet e volta **5 vezes** ([4,3] e [3,0] alternando, 15 trocas de mapa no total em todo o trajeto). No quadro 53.544 entra no laboratório pela última vez.
+- **Preso:** do quadro 53.544 ao 755.280 são **29.240 passos = 3 h 15 min de jogo, 93% do que está gravado, sem trocar de mapa**. Ele anda (119 ladrilhos diferentes, até x=12, bem mais que os 30 do Gemini), mas não sai. Botões nesse trecho: **A 10.833 (37%), "nada" 9.207 (31%), cima 1.982, baixo 2.011, esquerda 1.994, direita 1.971, B 906, START 298, SELECT 38**. Ladrilhos mais usados: (6,4) 7.290 passos, (7,5) 2.008, (3,12) 1.848, (5,3) 1.089, (7,3) 863. Maior parada contínua: **7.013 passos seguidos no (6,4), a partir do quadro 234.648 = 46 min 49 s de jogo**, alternando A e "nada".
+- O log "andamento" só repete: aos 216.024, 432.000 e 648.000 quadros, *"Investigar um diálogo, menu ou obstáculo que interrompeu o movimento."* e placar `[0,4,5,1]` (0 insígnias, 4 mapas, nível total 5, 1 capturado). Três "relatórios" iguais; bom para selo "O RELATÓRIO NÃO MUDOU".
+- Contraste com o Gemini (cena P2): o GPT se mexe (119 ladrilhos, 10.833 As), o Gemini nem isso (30 ladrilhos, 99,5% em um só). Contraste com o Claude: o Claude, aleatório, saiu do laboratório sem querer.
+- Cuidado: não afirmar que o GPT "travou para sempre"; só o que o arquivo mostra (aviso 3).
+- Selo: "10 MIN: INICIAL (RECORDE)", depois "PERDEU PARA O RIVAL" e o contador de HP 19 a 0, depois "3 h 15 min NO LABORATÓRIO". Meme: `bruh` no pingue-pongue de portas; `skeleton-waiting` nos 7.013 passos no (6,4) (se usar este aqui, não usar em P6). Som: `level-up` na captura, `wrong-buzzer` no desmaio, `tic-tac` no trecho parado.
 
-**P4. GPT: quem caiu foi o computador (a explicação)**
-- Texto de apoio do ENTREGAS: *"a IA do GPT não travou no jogo; quem caiu foi o COMPUTADOR dela. O contêiner da sessão que rodava a partida foi recolhido 5 vezes (sessão ociosa e limite de uso), e cada queda apagava a gravação e recomeçava a partida do zero (o agente não salva a própria memória no meio da partida)."*
-- Linha do tempo anotada (RESUMO_MANHA e ENTREGAS): partida recomeçada às 01:44 UTC; sessão sem turnos entre ~03:22 e 08:49 UTC; nova partida às ~08:49 UTC com previsão de fim às ~11:15 UTC; melhor tentativa (status, sem gravação): 33% Squirtle nv 7, 52% Squirtle nv 14 em batalha na Rota 1, ~70% ainda na Rota 1 quando a máquina caiu às 22:44 de Brasília de 11/11. Decisão do Felipe: usar só 30% da última tentativa.
-- Como contar sem culpar: a Ariadne foi a única que avisou que não podia treinar de verdade e, ainda assim, foi a primeira a pegar o inicial; o que a derrubou foi a infraestrutura. Mostrar o contador "QUEDAS: 1 2 3 4 5" cobrindo a barra de progresso 33% / 52% / 70% (texto, nunca como gameplay).
-- Frase do README que dói: *"Não restaura estados, não reinicia episódios e não interrompe a partida ao sofrer um blackout."* A partida dela era só um fôlego; qualquer queda da máquina era fim.
-- Selo: ícone SVG de servidor com raio e "5 QUEDAS". Meme: `michael-scott-no` quando aparecer a quinta queda. Som: `system-breakdown` e `heartbeat`.
+**P4. GPT: quem caiu foi o computador (CENA OBRIGATÓRIA do Felipe, com as horas)**
+- Fala (linguagem simples; "contêiner", "quadro" e "checkpoint" só como número na tela): a IA do GPT não travou no jogo, o computador em que ela jogava desligou **5 ou 6 vezes** (aviso: divergência) durante a noite, e a cada queda a partida voltava do zero porque ela não sabe salvar o próprio progresso no meio. *"O GPT não perdeu pro Pokémon. Perdeu pro computador."* (frase do Felipe).
+- Barra de horas jogadas (ajustada): **Claude 48 h** (partida inteira); **Gemini 35 h 53 min** (encerrado travado; o texto do Felipe diz ~30 h, ver divergências); **GPT, melhor tentativa ~34 h (perdida, sem gravação, 70%)**, riscada/apagada; **GPT, o que sobrou gravado, 3 h 30 min (7,3%)**.
+- Honestidade da tela: o trecho de ~34 h é só texto/barra, não imagem. Dizer que a melhor tentativa estava "na Rota 1 com Squirtle nv 14" é status anotado. O Claude, no mesmo ponto da partida (70%), estava na Rota 1 com Charmeleon nv 19: sem concluir quem ganhava.
+- Linha do tempo anotada (RESUMO_MANHA e ENTREGAS): partida recomeçada às 01:44 UTC; sessão sem turnos entre ~03:22 e 08:49 UTC; nova partida às ~08:49 UTC; a melhor tentativa sumiu às 22:44 de Brasília de 11/11. Decisão do Felipe: usar a última tentativa gravada.
+- Frase do README que dói: *"Não restaura estados, não reinicia episódios e não interrompe a partida ao sofrer um blackout."* A partida dela era só um fôlego; qualquer queda da máquina era o fim.
+- Selo: ícone SVG de servidor com raio e "QUEDAS DA MÁQUINA: 5 ou 6" (usar o número confirmado). Meme: `michael-scott-no` na última queda. Som: `system-breakdown` e `heartbeat`.
 
 **P5. Claude: refaz a rota do treino e o Charmander vem por sorte**
 - Log, linha 1 (quadro 0): *"refazer a melhor rota do treino (723 botões) até o mapa (4, 3), com 0 insígnias"*. Quadro 17.352: *"cheguei no fim da rota do treino"* (4 min 49 s). A rota passa pela casa do rival (mapa [4,2], quadro 12.264).
@@ -141,7 +160,7 @@ Formato: momento; o que aconteceu; frases exatas; o que o espectador vê antes d
 **P6. Claude: ganha do rival e depois leva 8 horas para subir um nível**
 - A luta do laboratório vai de 71.304 a ~120.528. O Charmander sobe para nv 6 no quadro 119.424 e o dinheiro passa de 3.000 para 3.080 no 120.528 (prêmio). Depois **nada de nível por 8 h 18 min de jogo**: nv 7 só no quadro 1.795.224.
 - Nível 5 para 21 em 48 h: 16 subidas de nível. Intervalos longos: 20 para 21 levou **12 h 05 min** (de 7.462.968 a 10.075.488).
-- Selo: gráfico "NÍVEL x HORAS DE JOGO", plano, plano, plano, 21 no último ponto. Meme: `success-kid` na vitória sobre o rival (dura 1 s), depois `skeleton-waiting` nas 8 horas. Som: `drumroll` curto antes do nv 7.
+- Selo: gráfico "NÍVEL x HORAS DE JOGO", plano, plano, plano, 21 no último ponto. Meme: `success-kid` na vitória sobre o rival (dura 1 s), depois `spongebob-waiting` nas 8 horas. Som: `drumroll` curto antes do nv 7.
 
 **P7. Claude: a Rota 1 que custou 2.296 de dinheiro e 23 desmaios**
 - A partir do quadro 181.368 (50 min) o Claude chega à Rota 1 ([3,19]) e passa lá **218.551 dos 432.000 passos (51%)**. Em 4 faixas (y=32 a 35) ficam **86% desses passos**; o ponto mais ao norte foi y=21. Só 260 ladrilhos diferentes visitados.
@@ -183,8 +202,13 @@ Formato: momento; o que aconteceu; frases exatas; o que o espectador vê antes d
 | P2 | 165.612 passos no ladrilho; A 112.027 | "A x 112.027" |
 | P2 | 18 h 24 min | "PRESO HÁ 18 HORAS" |
 | P3 | quadro 36.000 | "INICIAL AOS 10 MIN" |
-| P3 | 7.018 passos no (6,4) | "47 MIN NO MESMO LUGAR" |
-| P4 | 5 quedas | "QUEDAS DA MÁQUINA: 5" |
+| P3 | 29.240 passos sem sair do laboratório | "3 h 15 min NO LABORATÓRIO" |
+| P3 | A 10.833 / nada 9.207 / setas 7.958 | contador de botões do GPT |
+| P3 | HP 19 -> 0 em 2 min 38 s | barra de vida do Squirtle |
+| P3 | 7.013 passos seguidos no (6,4) | "47 MIN NO MESMO LUGAR" |
+| P4 | 5 ou 6 quedas | "QUEDAS DA MÁQUINA: 5/6" (confirmar) |
+| P4 | 48 h x 35 h 53 min x 3 h 30 | barra de horas jogadas, com ~34 h do GPT apagadas |
+| T6 | prometido 1 insígnia, entregue 0 | "PROMETIDO: 1 · ENTREGUE: 0" |
 | P5 | 1.950 passos aleatórios | "INICIAL AOS 17 min 49 s: ALEATÓRIO" |
 | P6 | 8 h 18 min para o nv 7; 12 h 05 min para o 21 | "NV 5 -> 21 EM 48 h" |
 | P7 | 730 batalhas, 23 desmaios, 3.080 -> 784 | "DESMAIOU 23x" e carteira |
@@ -193,29 +217,29 @@ Formato: momento; o que aconteceu; frases exatas; o que o espectador vê antes d
 
 Observação: todos os rótulos em SVG/texto, nada de emoji. O mapa de calor e os contadores saem do `trajeto.jsonl.gz` de cada branch (campos: `p` passo, `q` quadro, `b` botão, `mapa`, `x`, `y`, `time`, `dinheiro`, `pokedex_vistos`, `pokedex_capturados`, `em_batalha`).
 
-## 4. Estrutura proposta (24:00; treino 10:25 = 43% do vídeo, 46% contando a abertura)
+## 4. Estrutura proposta (26:00; treino 10:55 = 42% do vídeo, 44% contando a abertura)
 
-A partida acontece depois do treino porque a promessa do título é "criar a IA", mas o vídeo abre com o clímax (a parede do Gemini) e as cenas mais fortes do treino ficam logo no começo da primeira metade. O melhor momento (Claude, P7 a P9) vai no último quarto.
+A promessa do título é "criar a IA", então o treino vem primeiro, mas o vídeo abre com o clímax (a parede do Gemini) e o capítulo de expectativas fecha o treino plantando tudo que a partida vai cobrar. O melhor momento (Claude, P7 a P9) fica no último quarto; o GPT, com a cena obrigatória, ocupa o meio da partida.
 
 | Tempo | Bloco | Cenas | Observação |
 |---|---|---|---|
-| 0:00-0:12 | Gancho | P2 curto + T1 (tela dividida) | Esquerda: o log inventado ("insígnia #1 em 3 h"). Direita: o Gemini real, contador "A x 112.027", "18 h na parede". Corte seco, sem resolver. |
-| 0:12-0:35 | Abertura | agradecimento + regras | 5 s de agradecimento (@Ben_e_Teo e @antiuttp-piupefrederico, aviso 17). Regras em 20 s com exemplo: "3 IAs, 1 prompt igual, 3 horas de treino, UMA partida de 48 h de jogo; vale insígnia > mapa > nível > capturado" (conferir, aviso 5). |
-| 0:35-1:50 | Treino 1: Três planos | personagens | Cartões dos três, sem jargão: caderno de lugares (Claude), cérebro com curiosidade (Gemini), tabela de notas (GPT). T3 aparece aqui (a frase do PPO). |
-| 1:50-4:20 | Treino 2: O jogo ganho antes de jogar | T1 + T4 | O Gemini escreve o resultado; o GPT escreve o mundo falso e avisa. Termina com o selo "UM INVENTOU O RESULTADO". |
-| 4:20-7:30 | Treino 3: O treino que acabou aos 10 minutos | T2 | O único treino com relatório. 15 linhas iguais, `time=[]`, 4 min 49 s de rota, as ~45 despedidas. |
-| 7:30-9:50 | Treino 4: Dois treinos às cegas | T5 + parte do GPT | O Gemini sem relatório (plantar -0,08). GPT com 4 trabalhadores e relatório de 45 s que não chegou. |
-| 9:50-11:00 | Treino 5: As apostas | T6 | Cartões de aposta (colher no fim). "Acabou o treino. Agora é a partida." |
-| 11:00-14:00 | Partida 1: Gemini, "A parede" | P1 e P2 | Estrutura diferente do gancho: aqui é cronológica e termina com a tabela "escreveu x aconteceu". |
-| 14:00-17:30 | Partida 2: GPT, "O azarado" | P3, P4 | Só os 30% iniciais. O fecho é a explicação das quedas com texto. Terminar com número (5 quedas) e gancho: "o último concorrente é o único que chegou ao fim." |
-| 17:30-22:30 | Partida 3: Claude, "O único que jogou" | P5, P6, P7, P8, P9 | Ordem de crescente absurdo: rota (30 s), inicial por sorte (40 s), 8 horas sem nível (40 s), Rota 1 e 23 desmaios (1:40), evolução (40 s), fim e lição (50 s). |
-| 22:30-24:00 | Fechamento em 3 passos | placar, prêmios, lição, pergunta | Prêmios: O Roteirista (Gemini), O Azarado (GPT, 5 quedas), O Único que Jogou (Claude, nv 21). Lição: "o nível 21 sobrou, o caminho faltou". Pergunta abaixo. |
+| 0:00-0:12 | Gancho | P2 curto + T1 (tela dividida) | Esquerda: o log inventado ("insígnia #1 em 3 h"). Direita: o Gemini real, "A x 112.027", "18 h na parede". Corte seco, sem resolver. |
+| 0:12-0:35 | Abertura | agradecimento + regras | 5 s de agradecimento (@Ben_e_Teo e @antiuttp-piupefrederico, aviso 17). Regras em 20 s com exemplo: "3 IAs, o mesmo desafio, 3 horas de treino, UMA partida de 48 h de jogo" (conferir ordem do placar, aviso 5). |
+| 0:35-1:50 | Treino 1: Três planos | personagens, T3 | Cartões sem jargão: caderno de lugares (Claude), cérebro com curiosidade (Gemini), tabela de notas (GPT). Frase do PPO do Claude. |
+| 1:50-4:30 | Treino 2: O jogo ganho antes de jogar | T1 + T4 | O Gemini escreve o resultado; o GPT escreve o mundo falso e avisa. Termina no selo "UM INVENTOU O RESULTADO". |
+| 4:30-7:20 | Treino 3: O treino que acabou aos 10 minutos | T2 | Único treino com relatório: 15 linhas iguais, `time=[]`, rota de 4 min 49 s, as ~45 despedidas. |
+| 7:20-9:00 | Treino 4: Dois treinos às cegas | T5 | Gemini sem relatório (plantar -0,08 por parede); GPT com 4 trabalhadores e relatório de 45 s que não chegou. |
+| 9:00-11:30 | Treino 5: Quem promete o quê | T6 | Três respostas dos concorrentes (15 s cada) e o cartão "PROMETIDO". Fecha com "Acabou o treino. Agora é a partida." |
+| 11:30-14:30 | Partida 1: Gemini, "A parede" | P1, P2 | Cronológica; colhe as promessas 1, 2 e 3 do T6; termina com a tabela "escreveu x aconteceu". |
+| 14:30-19:00 | Partida 2: GPT, "Perdeu pro computador" | P3 (2:00) + P4 (2:30) | P3 colhe a promessa 4; P4 é a cena obrigatória com a barra de horas (48 h x 35 h 53 min x ~34 h apagadas x 3 h 30). Termina com número na tela (quedas) e gancho: "o último concorrente é o único que chegou ao fim." |
+| 19:00-24:00 | Partida 3: Claude, "O único que jogou" | P5, P6, P7, P8, P9 | Crescente de absurdo: rota (30 s), inicial por sorte (40 s), 8 horas sem nível (40 s), Rota 1 e 23 desmaios (1:30), evolução (40 s), fim e lição (50 s). Colhe a promessa 5. |
+| 24:00-26:00 | Fechamento em 3 passos | placar, prêmios, lição, pergunta | Placar "PROMETIDO: 1 INSÍGNIA · ENTREGUE: 0" nos três. Prêmios: O Roteirista (Gemini), O Azarado (GPT), O Único que Jogou (Claude, nv 21). Lição: "o nível 21 sobrou, o caminho faltou". Pergunta abaixo. |
 
-- Pergunta final sugerida (gera debate): "Se a máquina do GPT não tivesse caído 5 vezes, quem passava da Rota 1: Claude, GPT ou ninguém?" Segunda opção: "Qual das três você quer ver treinando 24 horas?"
-- Ritmo: pelo menos um efeito a cada ~15 s (referência do canal: 2 memes por minuto). Nunca mais de 2 cenas seguidas com a mesma tela: alternar tela do jogo, cartão de código, mapa e contador.
-- Cada bloco abre com um cartão do que estreia nele (ex.: "Go-Explore", "rede neural", "tabela de notas"; "desmaio custa dinheiro") em 1 frase, só quando aparece.
-- Se o vídeo precisar encurtar: cortar T4 e R1, e reduzir P6 para 20 s. Não cortar T1, T2, P2 e P7.
-- Antes de entregar: Haikus avaliam a cada ~30 s (prende? é divertido? tela parada? repetição? jargão? dá para entender?). Atenção em particular: P1/P2 (muita tela parada: usar o mapa de calor e o contador), T2 (muito texto: usar o relógio de 3 h e as 15 linhas rolando) e P3 (partida parcial: não deixar a tela parada no laboratório).
+- Pergunta final sugerida: "Se a máquina do GPT não tivesse caído, quem passava da Rota 1: Claude, GPT ou ninguém?" Segunda opção: "Qual das três você quer ver treinando 24 horas?"
+- Ritmo: ao menos um efeito a cada ~15 s. Nunca mais de 2 cenas seguidas com a mesma tela: alternar tela do jogo, cartão de código, mapa e contador. Cada bloco abre com um cartão do que estreia nele.
+- O GPT tem a única parte com tela potencialmente parada (3 h 15 min no laboratório): usar o contador de botões, o mapa de calor dos 119 ladrilhos e a barra de HP, e nunca mais de 20 s de gameplay seguida. O vídeo `partida_gpt_24.mp4` serve para o trecho do começo (inicial, rival, pingue-pongue) e para amostras aceleradas do resto.
+- Se precisar encurtar: cortar T4 e R1, e reduzir P6 para 20 s. Não cortar T1, T2, T6, P2, P4 e P7.
+- Antes de entregar: Haikus avaliam a cada ~30 s (prende? é divertido? tela parada? repetição? jargão? dá para entender?). Atenção em P1/P2/P3 (tela parada), T2 (muito texto) e T6 (três respostas em sequência: variar a tela entre elas).
 
 ### Dicionário sem jargão para o narrador
 - Go-Explore: "um caderno de lugares onde a IA já esteve; ela volta a esses lugares e tenta de novo".
@@ -240,7 +264,7 @@ Lição do Roblox e do AU2: título, miniatura e vídeo prometem a mesma coisa; 
 
 - `pokemon/*/agente.py` lidos; contagens de linhas com `wc -l` (230 / 1.429 / 1.049).
 - Branches buscados com `git fetch origin pokemon-resultado-claude pokemon-resultado-gemini pokemon-parcial-gpt` e lidos com `git show origin/BRANCH:arquivo`.
-- `trajeto.jsonl.gz` lidos por script (Claude 432.000 passos, Gemini 322.945, GPT 17.314); `log.jsonl` do Claude (1.510 linhas: 730 batalha_comecou, 730 batalha_terminou, 23 time_desmaiou, 16 subiu_de_nivel, 5 mapa_novo, 2 captura), do Gemini (4 linhas) e do GPT (10 linhas).
+- `trajeto.jsonl.gz` lidos por script (Claude 432.000 passos, Gemini 322.945, GPT 31.470 no `trajeto_24pct`); `log.jsonl` do Claude (1.510 linhas: 730 batalha_comecou, 730 batalha_terminou, 23 time_desmaiou, 16 subiu_de_nivel, 5 mapa_novo, 2 captura), do Gemini (4 linhas) e do GPT (12 linhas em `log_24pct.jsonl`).
 - IDs de mapa lidos de https://raw.githubusercontent.com/pret/pokefirered/master/data/maps/map_groups.json.
 - Estimativas marcadas como tal: ~250 h de jogo simuladas no treino do Claude; -13.250 pontos de castigo da parede do Gemini; Brock nv 12/14 (fora do repositório).
 - Não conferido: o conteúdo dos vídeos nos links do gofile; a mensagem original em que o Gemini entregou o log; o prompt original.
@@ -280,7 +304,7 @@ O narrador explica isso NO VÍDEO, em linguagem simples, com os números grandes
   O que ficou gravado é só o começo da última tentativa.
 - Conversão para horas de jogo (GBA ~60 quadros/s; 10.368.000 quadros = ~48 h, os "2 dias" da regra):
     Claude: partida inteira, ~48 h de jogo.
-    Gemini: ~30 h (encerrado depois de travar; 17 h só para chegar ao laboratório).
+    Gemini: ~35 h 53 min (encerrado depois de travar; 17 h só para chegar ao laboratório).
     GPT, melhor tentativa (perdida): ~34 h.
     GPT, o que está gravado: 755.280 quadros = ~3 h 30 min de jogo (cerca de 7% da partida).
 - Sugestão de tela: barra comparando 48 h x 30 h x 3 h 30, com o pedaço "perdido" do GPT (34 h) riscado/apagado
@@ -289,3 +313,8 @@ O narrador explica isso NO VÍDEO, em linguagem simples, com os números grandes
   rival no laboratório (quadro 48.192) e passa as ~3 h seguintes preso dentro do laboratório.
 - Dados do GPT para a cena: trajeto e log dos 755.280 quadros (baixados do gofile QdNyTSv2 / WS2xDgVg); a gameplay
   foi recriada repetindo os botões do trajeto no emulador (o jogo é determinístico, conferido a cada 500 passos).
+
+## DECISÕES (sessão de controle, resolvendo as divergências acima)
+- Quedas do GPT: usar 6 (reinícios com a partida em andamento: ~01:44, entre ~03:30 e 08:49, ~09:40, ~14:14, ~15:20 e ~15:23 UTC de 12/11).
+- Gemini: usar o número do trajeto: 7.750.680 quadros = ~35 h 53 min de jogo (o "~30 h" da cena obrigatória estava errado).
+- Memória do Gemini: NÃO dizer que ele "apagou a memória". Usar só a colheita "lembra de cada parede" x 165.612 batidas no mesmo lugar.
