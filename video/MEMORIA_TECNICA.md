@@ -107,3 +107,11 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
   roteiro e a edição (scripts/composição) e para. Render, vozes, stills de conferência, mix, upload e revisão: eu.
   Cada rodada de correção = agente NOVO com um resumo curto (não retomar o mesmo contexto gigante). Sem ler imagens
   além do necessário (pedir no máximo ~10).
+
+## Sessões filhas longas (corrida Pokémon, nov/2026)
+- O contêiner da sessão do GPT reiniciou no meio da partida final (RAM e disco folgados: não foi OOM nem disco cheio).
+  Processo em segundo plano NÃO segura o contêiner: ele é recolhido por INATIVIDADE da sessão (sem turnos).
+- Medida: a sessão-mãe manda um send_message curto (status + "relance se morreu") para cada sessão filha a cada ~20 min
+  enquanto houver processo longo rodando. Cada ping é um turno e mantém o contêiner vivo.
+- Passo longo sem retomada (ex.: partida final que recomeça do quadro 0) só é aceitável se for determinístico;
+  ainda assim custa horas. Em projetos novos: o ORGANIZADOR guarda checkpoint (estado do emulador + log) a cada N min.
