@@ -319,8 +319,8 @@ const Boneco: React.FC<{p: Pos; f: number; destaque: boolean; papeis: boolean}> 
 
 // R: relógio da cena; f: quadro da cena; falas(g): quem fala/pensa no quadro g (com peso 0..1, para a câmera seguir)
 // foco: uma cor ou várias separadas por vírgula (ganham brilho e a etiqueta da função mesmo com o mapa aberto)
-export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: string; falas?: (g: number) => AlvoFala[]; zoomDe?: (g: number) => number; papeis?: boolean}> = ({log, R, cam, f, foco, falas, zoomDe, papeis}) => {
-  W = 1920; H = 1080;
+export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: string; falas?: (g: number) => AlvoFala[]; zoomDe?: (g: number) => number; papeis?: boolean; w?: number; h?: number}> = ({log, R, cam, f, foco, falas, zoomDe, papeis, w = 1920, h = 1080}) => {
+  W = w; H = h;
   // câmera: alvos amostrados numa GRADE FIXA (a cada S quadros, ±1,5 s, peso gaussiano) e interpolados quadro a quadro.
   // Média de amostras que andam junto com o quadro dava degraus (a câmera mudava a cada 6 quadros = ~5 por segundo)
   // quando o alvo pulava (troca de quem fala, duto, teleporte); na grade fixa o resultado é contínuo e liso.

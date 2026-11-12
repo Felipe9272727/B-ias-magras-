@@ -4,6 +4,8 @@ import {TesteSala} from './zumbi/TesteSala';
 import {ZumbiVideo, calcZumbi} from './zumbi/ZumbiVideo';
 import {AU7Video, calcAU7} from './au7/AU7Video';
 import {PokemonVideo, calcPokemon} from './pokemon/PokemonVideo';
+import {ShortAU7, calcShortAU7} from './au7/ShortAU7';
+import {ShortPokemon, calcShortPokemon} from './pokemon/ShortPokemon';
 import {RobloxVideo, calcRoblox} from './roblox/RobloxVideo';
 import {RobloxShort, calcRobloxShort} from './roblox/RobloxShort';
 import {TesteJogo} from './zumbi/TesteJogo';
@@ -298,6 +300,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortZumbi" component={ShortZumbi} width={1080} height={1920} fps={30} durationInFrames={300} defaultProps={{tl: null}} calculateMetadata={calcShortZumbi} />
       <Composition id="RobloxVideo" component={RobloxVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcRoblox} />
       <Composition id="RobloxShort" component={RobloxShort} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcRobloxShort} />
+      <Composition id="ShortPokemon" component={ShortPokemon} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortPokemon} />
+      <Composition id="ShortAU7" component={ShortAU7} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortAU7} />
       <Composition id="PokemonVideo" component={PokemonVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcPokemon} />
       <Composition id="AU7Video" component={AU7Video} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcAU7} />
       <Composition id="ZumbiVideo" component={ZumbiVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcZumbi} />

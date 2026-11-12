@@ -25,7 +25,7 @@ type Over =
   | {tipo: 'selo'; at: number; dur: number; texto: string; cor?: string}
   | {tipo: 'meme'; at: number; dur: number; id: string; pos: string; info: MemeInfo}
   | {tipo: 'salvando'; at: number; dur: number; titulo: string; falha?: boolean};
-type Cena = {id: string; dur: number; visual: V; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
+export type Cena = {id: string; dur: number; visual: V; over: Over[]; audio: {src: string; at: number; vol?: number}[]};
 type TL = {cenas: Cena[]};
 
 export const calcPokemon: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -346,7 +346,7 @@ const Salvando: React.FC<{titulo: string; falha?: boolean}> = ({titulo, falha}) 
   );
 };
 
-const CenaView: React.FC<{c: Cena}> = ({c}) => {
+export const CenaView: React.FC<{c: Cena}> = ({c}) => {
   const f = useCurrentFrame();
   let soco = 0;
   for (const o of c.over) { const d = f - o.at; if (d >= 0 && d < 12 && (o.tipo === 'selo' || o.tipo === 'meme')) soco = Math.max(soco, 0.05 * (1 - d / 12)); }
