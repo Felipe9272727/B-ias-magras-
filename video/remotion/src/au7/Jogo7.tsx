@@ -325,7 +325,7 @@ export const Jogo7: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: 
   let x = 0, y = 0, s = 0;
   const N = 15;
   for (let i = 0; i < N; i++) {
-    const g = f + (i - (N - 1) / 2) * 6;
+    const g = Math.max(0, f + (i - (N - 1) / 2) * 6); // nunca antes do começo da cena (lá a posição ainda não existe e puxava a câmera pro meio do mapa)
     const camG = zoomDe ? {...cam, zoom: zoomDe(g)} : cam;
     const a = alvoCam(log, R, g, camG, falas ? falas(g) : []);
     x += a.x; y += a.y; s += a.s;
