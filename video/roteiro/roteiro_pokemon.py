@@ -135,7 +135,7 @@ VIS = {
     'V3': mascotes('O VEREDITO DAS PRÓPRIAS IAs', [m('claude', 'derrotado', 'CLAUDE', 'o único que jogou')]),
     'F2': mascotes('OS PRÊMIOS', [m('gemini', 'apertando_a', 'O ROTEIRISTA', 'insígnia em 3 h (no papel) · A x 112.027'), m('gpt', 'derrotado', 'O AZARADO HONESTO', '1º Pokémon: 10 min · quedas: 6'), m('claude', 'comemorando', 'O ÚNICO QUE JOGOU', '48 h · nível 21 · 23 desmaios')]),
     'F3': split(papel('o diário do Gemini', LOG_INV[-1:], destaque=[0], carimbo='MESMA IA'), gba('gem_parede', GEMINI, PAINEL_GEM, contador=['A', 112027])),
-    'F4': mascotes('QUEM PASSAVA DA ROTA 1?', [m('claude', 'normal', 'CLAUDE'), m('gpt', 'normal', 'GPT'), m('gemini', 'derrotado', 'NINGUÉM')], sub='responde nos comentários'),
+    'F4': mascotes('QUEM PASSAVA DA ROTA 1?', [m('claude', 'normal', 'CLAUDE'), m('gpt', 'normal', 'GPT'), m('gemini', 'apertando_a', 'NINGUÉM')], sub='responde nos comentários'),
 }
 VIS['F3'] = dict(VIS['A1'])
 
