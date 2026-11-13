@@ -402,7 +402,7 @@ Elenco de gags (uma frase na tela na primeira vez que agem): **Rosa** (Giz · Mi
   - **Azul** `[chute]` (desenho 16, tique 3): “A dica com A na segunda letra bate com marciano!” → palpite: MARCIANO
   - Verde, Ciano, Roxo MARCIANO; Marrom, Lima MARIPOSA; Amarelo ANDRÓIDE; Laranja BANDEIRA (desenho 16, tique 3) *(lista, só na tela)*
 - **SELO**: "5 MARCIANOS" e "3 TIQUES · 25 CHUTES · 0 ACERTO" (CÁLCULO NOSSO)
-- **MEME**: `wait-who-are-you`
+- **MEME**: `galaxy-brain`
 - **SOM**: `riser` na dica, `pop` ×5, `vento-radioativo` baixo no disco voador.
 
 ## J4 — Termina em L · 13:58–14:32
@@ -471,7 +471,7 @@ Elenco de gags (uma frase na tela na primeira vez que agem): **Rosa** (Giz · Mi
 - **CITAÇÕES**:
   - **Lima** `[chat]` (desenho 20, tique 4): “Essa imagem me deu até fome!”
 - **SELO**: "TINTA 106 · GRAFITE 99" e "LÁPIS +2 (a quinta)"
-- **MEME**: `im-hungry-cat`
+- **MEME**: `success-kid`
 - **SOM**: `powerup-8bit` no Tinta, `sad-party-horn` no +2 do Lápis.
 - **+PONTOS DA CENA**: Borrão +10, Traço +9, Carvão +8, Aquarela +7, Pincel +6, Rabisco +5, Giz +4, Grafite +3, Lápis +2. Tinta +18.
 
@@ -498,14 +498,14 @@ Elenco de gags (uma frase na tela na primeira vez que agem): **Rosa** (Giz · Mi
 - **TELA**: os dois desenhos lado a lado (pesadelo e máscara), cada um com a dica final embaixo. Depois quadro branco vazio com um cartão de palavra em branco e um lápis esperando; a pergunta escrita à mão.
 - **NARRAÇÃO**: "O que eu aprendi: o desenho engana, a dica não. Nas duas vezes em que a sala inteira errou junto, a resposta tava nas letras, e quase ninguém conferiu. Agora é com você: qual palavra eu dou pra elas desenharem na próxima? E qual desses desenhos você teria acertado? Escreve aí."
 - **SELO**: "O DESENHO ENGANA · A DICA NÃO" e "QUAL PALAVRA EU DOU NA PRÓXIMA?"
-- **MEME**: `goodbye-see-ya`
+- **MEME**: `dicaprio-toast`
 - **SOM**: `caneta` na pergunta, `pop` final.
 
 ---
 
 ## Memes usados (31, nenhum repete)
 
-`visible-confusion` (A1), `lets-go` (A3), `silvio-santos-huh` (B1), `picard-facepalm` (B1), `sus-doakes` (B2), `sad-pablo` (C2), `cat-typing` (C3), `this-is-fine` (D3), `spiderman-pointing` (D4), `math-lady` (D4), `big-brain-patrick` (D5), `monkey-side-eye` (D6), `dicaprio-pointing` (D7), `confused-travolta` (E1), `roll-safe` (F2), `faustao-errou` (F2), `drake-no` (G1), `one-eternity-later` (H1), `stonks` (H2), `monkey-puppet-awkward` (I2), `shocked-krabs` (I3), `blinking-white-guy` (I4), `nazare-confusa` (J2), `wait-who-are-you` (J3), `we-did-it` (J5), `kermit-worried` (J6), `side-eye-dog` (K2), `im-hungry-cat` (K3), `mic-drop` (L1), `crying-jordan` (L1), `goodbye-see-ya` (L3).
+`visible-confusion` (A1), `lets-go` (A3), `silvio-santos-huh` (B1), `picard-facepalm` (B1), `sus-doakes` (B2), `sad-pablo` (C2), `cat-typing` (C3), `this-is-fine` (D3), `spiderman-pointing` (D4), `math-lady` (D4), `big-brain-patrick` (D5), `monkey-side-eye` (D6), `dicaprio-pointing` (D7), `confused-travolta` (E1), `roll-safe` (F2), `faustao-errou` (F2), `drake-no` (G1), `one-eternity-later` (H1), `stonks` (H2), `monkey-puppet-awkward` (I2), `shocked-krabs` (I3), `blinking-white-guy` (I4), `nazare-confusa` (J2), `galaxy-brain` (J3), `we-did-it` (J5), `kermit-worried` (J6), `side-eye-dog` (K2), `success-kid` (K3), `mic-drop` (L1), `crying-jordan` (L1), `dicaprio-toast` (L3).
 
 Cenas sem meme de propósito: A2, B3, C1, D1, D2, E2, F1, G2, I1, J1, J4, K1, L2 (todas têm selo, zoom ou contador no lugar).
 
