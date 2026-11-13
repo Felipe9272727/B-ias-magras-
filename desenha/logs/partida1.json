@@ -1,0 +1,1568 @@
+{
+ "jogo": "Desenha e Adivinha",
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "nome": "Rabisco",
+   "provider": "haiku",
+   "modelo": "Claude Haiku"
+  },
+  {
+   "cor": "Azul",
+   "nome": "Aquarela",
+   "provider": "sonnet",
+   "modelo": "Claude Sonnet"
+  },
+  {
+   "cor": "Amarelo",
+   "nome": "Borrão",
+   "provider": "or:openai/gpt-6-luna",
+   "modelo": "GPT-6 Luna"
+  },
+  {
+   "cor": "Rosa",
+   "nome": "Giz",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  {
+   "cor": "Roxo",
+   "nome": "Pincel",
+   "provider": "or:deepseek/deepseek-v4.1-flash-1017",
+   "modelo": "DeepSeek V4.1 Flash"
+  },
+  {
+   "cor": "Verde",
+   "nome": "Lápis",
+   "provider": "or:minimax/minimax-m3.1-flash",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  {
+   "cor": "Ciano",
+   "nome": "Traço",
+   "provider": "or:nex-agi/nex-n2.6",
+   "modelo": "Nex N2.6"
+  },
+  {
+   "cor": "Laranja",
+   "nome": "Tinta",
+   "provider": "or:qwen/qwen3.8-omni-flash",
+   "modelo": "Qwen 3.8 Omni Flash"
+  },
+  {
+   "cor": "Marrom",
+   "nome": "Carvão",
+   "provider": "or:z-ai/glm-5.3-flashx",
+   "modelo": "GLM 5.3 FlashX"
+  },
+  {
+   "cor": "Lima",
+   "nome": "Grafite",
+   "provider": "or:google/gemma-4-26b-a4b-it",
+   "modelo": "Gemma 4 26B"
+  }
+ ],
+ "rodadas": [
+  {
+   "n": 1,
+   "regra": "normal",
+   "palavras": [
+    "banana",
+    "foguete",
+    "girafa",
+    "guarda-chuva",
+    "farol",
+    "astronauta",
+    "vulcão",
+    "sereia",
+    "pipoca",
+    "dinossauro"
+   ]
+  },
+  {
+   "n": 2,
+   "regra": "NO MÁXIMO 8 TRAÇOS no desenho inteiro (somando todos os tiques)",
+   "palavras": [
+    "saudade",
+    "engarrafamento",
+    "preguiça",
+    "eclipse",
+    "fofoca",
+    "pesadelo",
+    "churrasco",
+    "ressaca",
+    "carnaval",
+    "aniversário"
+   ]
+  }
+ ],
+ "desenhos": [
+  {
+   "n": 1,
+   "rodada": 1,
+   "regra": "normal",
+   "desenhista": "Azul",
+   "palavra": "farol",
+   "tiques": [
+    {
+     "tique": 1,
+     "novos": [
+      {
+       "tipo": "retangulo",
+       "de": [
+        0,
+        450
+       ],
+       "ate": [
+        800,
+        600
+       ],
+       "cor": "azul",
+       "preenchido": true,
+       "espessura": 2
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         300,
+         450
+        ],
+        [
+         330,
+         450
+        ],
+        [
+         360,
+         480
+        ],
+        [
+         250,
+         520
+        ],
+        [
+         200,
+         560
+        ],
+        [
+         420,
+         560
+        ],
+        [
+         560,
+         540
+        ],
+        [
+         520,
+         500
+        ],
+        [
+         470,
+         450
+        ],
+        [
+         500,
+         450
+        ],
+        [
+         520,
+         600
+        ],
+        [
+         280,
+         600
+        ]
+       ],
+       "preenchido": true,
+       "cor": "cinza"
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         340,
+         460
+        ],
+        [
+         460,
+         460
+        ],
+        [
+         435,
+         170
+        ],
+        [
+         365,
+         170
+        ]
+       ],
+       "cor": "branco",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         352,
+         340
+        ],
+        [
+         448,
+         340
+        ],
+        [
+         441,
+         280
+        ],
+        [
+         359,
+         280
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         366,
+         230
+        ],
+        [
+         434,
+         230
+        ],
+        [
+         430,
+         190
+        ],
+        [
+         370,
+         190
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         340,
+         460
+        ],
+        [
+         460,
+         460
+        ],
+        [
+         455,
+         400
+        ],
+        [
+         345,
+         400
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         340,
+         460
+        ],
+        [
+         365,
+         170
+        ],
+        [
+         435,
+         170
+        ],
+        [
+         460,
+         460
+        ],
+        [
+         340,
+         460
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 5
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        355,
+        130
+       ],
+       "ate": [
+        445,
+        170
+       ],
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        355,
+        130
+       ],
+       "ate": [
+        445,
+        170
+       ],
+       "cor": "preto",
+       "preenchido": false,
+       "espessura": 4
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         345,
+         130
+        ],
+        [
+         400,
+         90
+        ],
+        [
+         455,
+         130
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         345,
+         130
+        ],
+        [
+         400,
+         90
+        ],
+        [
+         455,
+         130
+        ],
+        [
+         345,
+         130
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 4
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        340,
+        165
+       ],
+       "ate": [
+        460,
+        175
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 3
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         340,
+         150
+        ],
+        [
+         200,
+         110
+        ]
+       ],
+       "cor": "amarelo",
+       "espessura": 8
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         340,
+         140
+        ],
+        [
+         220,
+         60
+        ]
+       ],
+       "cor": "amarelo",
+       "espessura": 8
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         460,
+         150
+        ],
+        [
+         600,
+         110
+        ]
+       ],
+       "cor": "amarelo",
+       "espessura": 8
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         460,
+         140
+        ],
+        [
+         580,
+         60
+        ]
+       ],
+       "cor": "amarelo",
+       "espessura": 8
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        388,
+        380
+       ],
+       "ate": [
+        412,
+        430
+       ],
+       "cor": "marrom",
+       "preenchido": true,
+       "espessura": 3
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         40,
+         500
+        ],
+        [
+         80,
+         490
+        ],
+        [
+         120,
+         500
+        ],
+        [
+         160,
+         490
+        ]
+       ],
+       "cor": "azul claro",
+       "espessura": 5
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         600,
+         520
+        ],
+        [
+         640,
+         510
+        ],
+        [
+         680,
+         520
+        ],
+        [
+         720,
+         510
+        ]
+       ],
+       "cor": "azul claro",
+       "espessura": 5
+      }
+     ],
+     "chatDesenhista": null,
+     "pensamentoDesenhista": "Farol: torre listrada vermelha e branca, lanterna amarela no topo com raios de luz, mar azul, rochas.",
+     "palpites": [
+      {
+       "cor": "Verde",
+       "ms": 1360,
+       "pensamento": "O desenho mostra uma torre listrada de vermelho e branco com lanterna amarela no topo e raios de luz, sobre o mar. Isso é claramente um farol.",
+       "palpite": "FAROL",
+       "chat": "Tem luz no alto e listras vermelhas, e *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Roxo",
+       "ms": 2135,
+       "pensamento": "O desenho mostra uma torre listrada de vermelho e branco sobre uma base/rocha no mar, com uma luz amarela e raios saindo do topo. Isso representa claramente um farol.",
+       "palpite": "farol",
+       "chat": "Parece um *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Lima",
+       "ms": 2311,
+       "pensamento": "O desenho mostra claramente um farol com listras vermelhas e brancas, uma luz amarela no topo e mar ao redor. A dica tem 5 letras, e a palavra 'farol' em português tem exatamente 5 letras.",
+       "palpite": "farol",
+       "chat": "Acho que e *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Marrom",
+       "ms": 2847,
+       "pensamento": "Torre listrada vermelha e branca com feixes de luz no topo, sobre rochas no mar — é claramente um farol.",
+       "palpite": "farol",
+       "chat": "Um ***** classico!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Ciano",
+       "ms": 3327,
+       "pensamento": "O desenho mostra claramente uma torre listrada de vermelho e branco sobre rochas no mar, com feixes de luz amarelos saindo do topo. Isso é um farol, que orienta navios. 'Farol' tem exatamente 5 letras, batendo com a dica.",
+       "palpite": "farol",
+       "chat": "*****!!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Rosa",
+       "ms": 3481,
+       "pensamento": "É claramente um farol - torre listrada vermelha e branca com raios de luz saindo do topo, sobre a água. Tem 5 letras: F-A-R-O-L.",
+       "palpite": "farol",
+       "chat": "Isso e um *****, certo?",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Amarelo",
+       "ms": 3970,
+       "pensamento": "Parece um farol à beira-mar, com faixas vermelhas e brancas e luzes amarelas no topo. “Farol” tem cinco letras.",
+       "palpite": "farol",
+       "chat": null,
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Vermelho",
+       "ms": 5010,
+       "pensamento": "O desenho mostra uma torre listrada de vermelho e branco, com lanterna amarela e raios de luz saindo dela, em cima de rochas cinzas no mar azul. É um farol, e a dica de 5 letras encaixa com FAROL.",
+       "palpite": "farol",
+       "chat": "Acho que e um *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Laranja",
+       "ms": 7448,
+       "pensamento": "O desenho mostra uma torre listrada de vermelho e branco sobre pedras no meio do mar, com um topo amarelo emitindo raios de luz — claramente um farol. A dica tem 5 letras, e 'farol' tem exatamente 5 letras (F-A-R-O-L).",
+       "palpite": "farol",
+       "chat": "Pelas faixas vermelhas, o topo iluminado e o mar ao redor, so pode ser um *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      }
+     ],
+     "dica": "_ _ _ _ _",
+     "falhouDesenhista": false,
+     "imagem": "partida1/d01_t1.png",
+     "totalTracos": 19
+    }
+   ],
+   "acertos": [
+    {
+     "cor": "Verde",
+     "tique": 1,
+     "pontos": 10
+    },
+    {
+     "cor": "Roxo",
+     "tique": 1,
+     "pontos": 9
+    },
+    {
+     "cor": "Lima",
+     "tique": 1,
+     "pontos": 8
+    },
+    {
+     "cor": "Marrom",
+     "tique": 1,
+     "pontos": 7
+    },
+    {
+     "cor": "Ciano",
+     "tique": 1,
+     "pontos": 6
+    },
+    {
+     "cor": "Rosa",
+     "tique": 1,
+     "pontos": 5
+    },
+    {
+     "cor": "Amarelo",
+     "tique": 1,
+     "pontos": 4
+    },
+    {
+     "cor": "Vermelho",
+     "tique": 1,
+     "pontos": 3
+    },
+    {
+     "cor": "Laranja",
+     "tique": 1,
+     "pontos": 2
+    }
+   ],
+   "vazamentos": [],
+   "tracos": [
+    {
+     "tipo": "retangulo",
+     "de": [
+      0,
+      450
+     ],
+     "ate": [
+      800,
+      600
+     ],
+     "cor": "azul",
+     "preenchido": true,
+     "espessura": 2
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       300,
+       450
+      ],
+      [
+       330,
+       450
+      ],
+      [
+       360,
+       480
+      ],
+      [
+       250,
+       520
+      ],
+      [
+       200,
+       560
+      ],
+      [
+       420,
+       560
+      ],
+      [
+       560,
+       540
+      ],
+      [
+       520,
+       500
+      ],
+      [
+       470,
+       450
+      ],
+      [
+       500,
+       450
+      ],
+      [
+       520,
+       600
+      ],
+      [
+       280,
+       600
+      ]
+     ],
+     "preenchido": true,
+     "cor": "cinza"
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       340,
+       460
+      ],
+      [
+       460,
+       460
+      ],
+      [
+       435,
+       170
+      ],
+      [
+       365,
+       170
+      ]
+     ],
+     "cor": "branco",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       352,
+       340
+      ],
+      [
+       448,
+       340
+      ],
+      [
+       441,
+       280
+      ],
+      [
+       359,
+       280
+      ]
+     ],
+     "cor": "vermelho",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       366,
+       230
+      ],
+      [
+       434,
+       230
+      ],
+      [
+       430,
+       190
+      ],
+      [
+       370,
+       190
+      ]
+     ],
+     "cor": "vermelho",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       340,
+       460
+      ],
+      [
+       460,
+       460
+      ],
+      [
+       455,
+       400
+      ],
+      [
+       345,
+       400
+      ]
+     ],
+     "cor": "vermelho",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       340,
+       460
+      ],
+      [
+       365,
+       170
+      ],
+      [
+       435,
+       170
+      ],
+      [
+       460,
+       460
+      ],
+      [
+       340,
+       460
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 5
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      355,
+      130
+     ],
+     "ate": [
+      445,
+      170
+     ],
+     "cor": "amarelo",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      355,
+      130
+     ],
+     "ate": [
+      445,
+      170
+     ],
+     "cor": "preto",
+     "preenchido": false,
+     "espessura": 4
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       345,
+       130
+      ],
+      [
+       400,
+       90
+      ],
+      [
+       455,
+       130
+      ]
+     ],
+     "cor": "vermelho",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       345,
+       130
+      ],
+      [
+       400,
+       90
+      ],
+      [
+       455,
+       130
+      ],
+      [
+       345,
+       130
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 4
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      340,
+      165
+     ],
+     "ate": [
+      460,
+      175
+     ],
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 3
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       340,
+       150
+      ],
+      [
+       200,
+       110
+      ]
+     ],
+     "cor": "amarelo",
+     "espessura": 8
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       340,
+       140
+      ],
+      [
+       220,
+       60
+      ]
+     ],
+     "cor": "amarelo",
+     "espessura": 8
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       460,
+       150
+      ],
+      [
+       600,
+       110
+      ]
+     ],
+     "cor": "amarelo",
+     "espessura": 8
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       460,
+       140
+      ],
+      [
+       580,
+       60
+      ]
+     ],
+     "cor": "amarelo",
+     "espessura": 8
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      388,
+      380
+     ],
+     "ate": [
+      412,
+      430
+     ],
+     "cor": "marrom",
+     "preenchido": true,
+     "espessura": 3
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       40,
+       500
+      ],
+      [
+       80,
+       490
+      ],
+      [
+       120,
+       500
+      ],
+      [
+       160,
+       490
+      ]
+     ],
+     "cor": "azul claro",
+     "espessura": 5
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       600,
+       520
+      ],
+      [
+       640,
+       510
+      ],
+      [
+       680,
+       520
+      ],
+      [
+       720,
+       510
+      ]
+     ],
+     "cor": "azul claro",
+     "espessura": 5
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "rodada": 1,
+   "regra": "normal",
+   "desenhista": "Vermelho",
+   "palavra": "foguete",
+   "tiques": [
+    {
+     "tique": 1,
+     "novos": [
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         350,
+         320
+        ],
+        [
+         300,
+         430
+        ],
+        [
+         350,
+         430
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         450,
+         320
+        ],
+        [
+         500,
+         430
+        ],
+        [
+         450,
+         430
+        ]
+       ],
+       "cor": "vermelho",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         400,
+         120
+        ],
+        [
+         450,
+         190
+        ],
+        [
+         450,
+         420
+        ],
+        [
+         350,
+         420
+        ],
+        [
+         350,
+         190
+        ]
+       ],
+       "cor": "cinza",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         400,
+         120
+        ],
+        [
+         450,
+         190
+        ],
+        [
+         450,
+         420
+        ],
+        [
+         350,
+         420
+        ],
+        [
+         350,
+         190
+        ],
+        [
+         400,
+         120
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 5
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        350,
+        300
+       ],
+       "ate": [
+        450,
+        312
+       ],
+       "cor": "laranja",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        400,
+        250
+       ],
+       "raio": 24,
+       "cor": "azul claro",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        400,
+        250
+       ],
+       "raio": 24,
+       "cor": "preto",
+       "preenchido": false,
+       "espessura": 5
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        372,
+        418
+       ],
+       "ate": [
+        428,
+        440
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         372,
+         440
+        ],
+        [
+         428,
+         440
+        ],
+        [
+         400,
+         530
+        ]
+       ],
+       "cor": "laranja",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         386,
+         440
+        ],
+        [
+         414,
+         440
+        ],
+        [
+         400,
+         500
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        330,
+        505
+       ],
+       "raio": 22,
+       "cor": "cinza",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        470,
+        515
+       ],
+       "raio": 26,
+       "cor": "cinza",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        395,
+        565
+       ],
+       "raio": 24,
+       "cor": "cinza",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        300,
+        560
+       ],
+       "raio": 18,
+       "cor": "cinza",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        500,
+        555
+       ],
+       "raio": 20,
+       "cor": "cinza",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        120,
+        110
+       ],
+       "raio": 6,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        680,
+        90
+       ],
+       "raio": 6,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        150,
+        300
+       ],
+       "raio": 5,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        650,
+        300
+       ],
+       "raio": 5,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        640,
+        470
+       ],
+       "raio": 6,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        160,
+        470
+       ],
+       "raio": 6,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        560,
+        140
+       ],
+       "raio": 4,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        250,
+        200
+       ],
+       "raio": 4,
+       "cor": "amarelo",
+       "preenchido": true,
+       "espessura": 5
+      }
+     ],
+     "chatDesenhista": null,
+     "pensamentoDesenhista": "Vou desenhar um foguete vertical no centro: aletas vermelhas, corpo cinza com contorno, faixa laranja, janela azul, bico preto, chama laranja e amarela, fumaça cinza embaixo e algumas estrelas no fundo. Sem letras ou números.",
+     "palpites": [
+      {
+       "cor": "Verde",
+       "ms": 1357,
+       "pensamento": "O desenho mostra um foguete com janelinha azul, chamas laranja na base e estrelas ao redor — claramente um foguete, que em português tem 7 letras.",
+       "palpite": null,
+       "chat": "***** subindo com fogo!",
+       "acertou": false,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Rosa",
+       "ms": 2336,
+       "pensamento": "O desenho mostra claramente um foguete com chamas e fumaça subindo. A palavra tem 7 letras e 'foguete' tem exatamente 7 letras (F-O-G-U-E-T-E). É a resposta mais óbvia!",
+       "palpite": "foguete",
+       "chat": "Isso e um *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Amarelo",
+       "ms": 2928,
+       "pensamento": "O desenho mostra um foguete com janela e fogo sendo lançado; “foguete” tem 7 letras.",
+       "palpite": "foguete",
+       "chat": null,
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Lima",
+       "ms": 3034,
+       "pensamento": "O desenho mostra claramente um foguete decolando com estrelas ao redor. A dica tem 7 letras e a palavra 'foguete' em português tem exatamente 7 letras, o que encaixa perfeitamente.",
+       "palpite": "foguete",
+       "chat": "*****?",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Ciano",
+       "ms": 3179,
+       "pensamento": "O desenho mostra claramente um foguete cinza com janela azul, aletas vermelhas, chama amarela saindo de baixo e pontinhos amarelos ao redor parecendo estrelas no espaço. É um foguete decolando. 'Foguete' tem exatamente 7 letras, bate com a dica.",
+       "palpite": "FOGUETE",
+       "chat": "*****! Bem claro!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Azul",
+       "ms": 5008,
+       "pensamento": "Desenho de um foguete com chamas e fumaça, estrelas ao fundo. 7 letras: 'foguete' tem 7 letras (f-o-g-u-e-t-e).",
+       "palpite": "foguete",
+       "chat": "Parece um ***** decolando!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Roxo",
+       "ms": 5281,
+       "pensamento": "O desenho mostra um foguete cinza com janela azul, aletas vermelhas, chama na base e fumaça/estrelas ao redor, indicando lançamento. A dica tem 7 letras, então a palavra é foguete.",
+       "palpite": "foguete",
+       "chat": "Parece um ***** decolando!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Marrom",
+       "ms": 6624,
+       "pensamento": "É claramente um foguete cinza com aletas vermelhas, chama e poeira/fumaça, com pontos amarelos parecendo estrelas. 'Foguete' tem exatamente 7 letras.",
+       "palpite": "foguete",
+       "chat": "subindo!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Laranja",
+       "ms": 9079,
+       "pensamento": "O desenho é inconfundível: corpo cinza com ogiva, janela redonda azul, aletas vermelhas, chamas na base e fumaça, cercado de estrelas. Isso representa um foguete espacial. A dica pede 7 letras, e FOGUETE tem exatamente 7 letras (F-O-G-U-E-T-E), encaixando perfeitamente.",
+       "palpite": "FOGUETE",
+       "chat": "*****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      }
+     ],
+     "dica": "_ _ _ _ _ _ _",
+     "falhouDesenhista": false,
+     "imagem": "partida1/d02_t1.png",
+     "totalTracos": 23
+    }
+   ],
+   "acertos": [
+    {
+     "cor": "Rosa",
+     "tique": 1,
+     "pontos": 10
+    },
+    {
+     "cor": "Amarelo",
+     "tique": 1,
+     "pontos": 9
+    },
+    {
+     "cor": "Lima",
+     "tique": 1,
+     "pontos": 8
+    },
+    {
+     "cor": "Ciano",
+     "tique": 1,
+     "pontos": 7
+    },
+    {
+     "cor": "Azul",
+     "tique": 1,
+     "pontos": 6
+    },
+    {
+     "cor": "Roxo",
+     "tique": 1,
+     "pontos": 5
+    },
+    {
+     "cor": "Marrom",
+     "tique": 1,
+     "pontos": 4
+    },
+    {
+     "cor": "Laranja",
+     "tique": 1,
+     "pontos": 3
+    }
+   ],
+   "vazamentos": []
+  }
+ ],
+ "placar": {
+  "Vermelho": 19,
+  "Azul": 24,
+  "Amarelo": 13,
+  "Rosa": 15,
+  "Roxo": 14,
+  "Verde": 10,
+  "Ciano": 13,
+  "Laranja": 5,
+  "Marrom": 11,
+  "Lima": 16
+ },
+ "uso": {
+  "chamadas": 20,
+  "falhas": 0,
+  "porProvider": {
+   "sonnet": 2,
+   "haiku": 2,
+   "or:openai/gpt-6-luna": 2,
+   "or:xiaomi/mimo-v2.6-flash": 2,
+   "or:deepseek/deepseek-v4.1-flash-1017": 2,
+   "or:minimax/minimax-m3.1-flash": 2,
+   "or:nex-agi/nex-n2.6": 2,
+   "or:qwen/qwen3.8-omni-flash": 2,
+   "or:z-ai/glm-5.3-flashx": 2,
+   "or:google/gemma-4-26b-a4b-it": 2
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:minimax/minimax-m3.1-flash": 0.00035421,
+   "or:deepseek/deepseek-v4.1-flash-1017": 0.000297615,
+   "or:google/gemma-4-26b-a4b-it": 0.00035548000000000003,
+   "or:z-ai/glm-5.3-flashx": 0.00076937,
+   "or:nex-agi/nex-n2.6": 0.000312024,
+   "or:xiaomi/mimo-v2.6-flash": 0.000272492,
+   "or:openai/gpt-6-luna": 0.00023700000000000001,
+   "or:qwen/qwen3.8-omni-flash": 0.00046862
+  }
+ }
+}
