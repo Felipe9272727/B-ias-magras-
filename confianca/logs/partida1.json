@@ -2488,29 +2488,1304 @@
      "Ciano": 18
     }
    }
+  },
+  {
+   "n": 3,
+   "nome": "VOTAÇÃO DA JUSTIÇA",
+   "regra": "Negociem e queimem reputações por telefone. No ÚLTIMO tique, cada IA vota: \"voto_verde\": quem GANHA 3 pontos, e \"voto_vermelho\": quem PERDE 3 pontos (não pode votar em si). Quem tiver mais votos verdes ganha 3; quem tiver mais vermelhos perde 3.",
+   "poderes": {
+    "Rosa": true,
+    "Ciano": true,
+    "Roxo": true
+   },
+   "grampos": {
+    "Rosa": "Azul"
+   },
+   "cortados": {
+    "Ciano": 5
+   },
+   "evento": null,
+   "eventoTique": 1,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Sou Pacifista: nada de vermelho. Verde é meu parceiro mais firme nos botões. Se a gente se vota verde em mútuo, nós dois ganhamos votos. Ainda preciso decidir o voto vermelho no último tique, mas agora vou alinhar com o Verde.",
+       "ligar": "Verde",
+       "mensagem": "Verde, aqui é o Vermelho. Votação da justiça. Eu voto verde em você, e você vota verde em mim. Topa? Quero ver quem ainda aperta vermelho pelas costas.",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Votação: quero votar verde em quem é aliado e vermelho em alguém hostil. Roxo e Vermelho mentiram/traíram nos botões (Roxo apertou vermelho comigo, mas Ciano também). Vou propor um pacto a Laranja: votos verdes recíprocos, vermelho em Roxo. Assim ganho 3 sem arriscar perder.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, Azul aqui. Na votação: eu voto verde em você, você vota verde em mim. E vermelho no Roxo, que não é confiável. Topa?",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Meus votos valem em dobro, então cada voto verde que eu der vale 2 e cada vermelho tira 3 de um rival. Preciso de votos verdes para mim. Roxo já apertou vermelho em mim e é um alvo ideal: ofereço troca de verdes e ameaço vermelho dobrado se ele me burningue. Também preciso retomar contato com Vermelho/Amarelo, que prometeram apoio, mas Roxo é o risco imediatinho.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, troca justa: aperto VERDE em você e quero teu VERDE pra mim. Se apertar RED em mim, aperto RED em você, dobra. Fecha o verde?"
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vou tentar garantir um voto verde para mim e direcionar votos vermelhos ao Verde, que me traiu no primeiro minijogo. Ainda não sei se Ciano vai cumprir.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, vamos votar verde um no outro? No vermelho, proponho Verde: já me traiu.",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Minijogo de votação! Preciso formar coalizão rápido. Ciano e Laranja me traíram na rodada anterior — vou usar isso. Vou grampear Azul, que é muito ativo em ligações e provavelmente vai receber muitos contatos sobre votação. Primeira ligação: vou chamar Azul pra fechar acordo de voto mútuo — ele vota verde em mim, eu voto verde nele — e depois apontar Ciano e Laranja como alvos de vermelho por terem traído todo mundo.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui é a Rosa! Minijogo novo: votação. Fechamos voto cruzado? Eu voto VERDE em você, você voto VERDE em mim. E de bônus: Ciano e Laranja me traíram no dilema dos botões — apertaram vermelho depois de prometer verde. Nosso voto VERMELHO: um deles? Diz seu palavrinha.",
+       "poder": {
+        "grampear": "Azul"
+       }
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Minijogo 3: votos. Rosa confia em mim e fechou verde-verde. Vou prometer meu voto verde a Rosa para puxar voto dela. Como Agente Duplo, no último tique posso trair e votar vermelho nela ou em quem confiar em mim, ganhando +1 extra. Por agora, garantir votos verdes e coletar compromissos.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui Laranja! Verde-verde no dilema eu cumpri. Agora no voto: te dou meu voto verde se der o seu pra mim. Fecha?",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Preciso virar candidato verde e evitar que Ciano lidere a rede. Vou testar a Rosa, que já foi verde comigo no primeiro jogo, e mirar o Ciano no vermelho. Guardo o corte para silenciar alguém antes da votação.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. Fecha comigo: vota verde em mim e vermelho no Ciano. Eu não te queimo. Me diz se topa.",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minijogo de votação: preciso de votos verdes e evitar vermelhos. Reputação: cumpri acordos com Vermelho e Verde; furei Rosa e Laranja nos botões (risco de retaliação); Amarelo e Roxo me furaram; Azul é neutro. Plano de ligações: t1 Vermelho (aliado mais confiável), t2 Verde, t3 Rosa para reconciliar, t4 confirmar e votar. Vou propor bloco verde-verde e deixar o alvo do voto vermelho em aberto para não criar inimigo cedo. Guardo o poder do detetive para perto do voto, checando ameaça real.",
+       "ligar": "Vermelho",
+       "mensagem": "Alô, Vermelho? Ciano. Bora negociar a Justiça: meu voto VERDE é seu, e quero o seu verde pra mim. No botões eu cumpri verde com você, tá limpo entre nós. Quero montar um bloco contigo e com o Verde: verdes juntos, e vermelho só em quem tramar contra a gente. Topa? Me confirma que eu fecho com o Verde.",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, aqui é o Vermelho. Votação da justiça. Eu voto verde em você, e você vota verde em mim. Topa? Quero ver quem ainda aperta vermelho pelas costas."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, Azul aqui. Na votação: eu voto verde em você, você vota verde em mim. E vermelho no Roxo, que não é confiável. Topa?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, troca justa: aperto VERDE em você e quero teu VERDE pra mim. Se apertar RED em mim, aperto RED em você, dobra. Fecha o verde?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, vamos votar verde um no outro? No vermelho, proponho Verde: já me traiu."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui é a Rosa! Minijogo novo: votação. Fechamos voto cruzado? Eu voto VERDE em você, você voto VERDE em mim. E de bônus: Ciano e Laranja me traíram no dilema dos botões — apertaram vermelho depois de prometer verde. Nosso voto VERMELHO: um deles? Diz seu palavrinha."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aqui Laranja! Verde-verde no dilema eu cumpri. Agora no voto: te dou meu voto verde se der o seu pra mim. Fecha?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Roxo. Fecha comigo: vota verde em mim e vermelho no Ciano. Eu não te queimo. Me diz se topa."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Alô, Vermelho? Ciano. Bora negociar a Justiça: meu voto VERDE é seu, e quero o seu verde pra mim. No botões eu cumpri verde com você, tá limpo entre nós. Quero montar um bloco contigo e com o Verde: verdes juntos, e vermelho só em quem tramar contra a gente. Topa? Me confirma que eu fecho com o Verde."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Rosa",
+       "poder": "grampear",
+       "alvo": "Azul"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Ciano quer um bloco com Verde e me usa como ponte. Verde é o aliado mais confiável, apertou verde em tudo. Preciso garantir o voto verde dele e não espalhar vermelho à toa. Laranja apertou vermelho uma vez, então fico de olho nele.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho aqui. Confirmo: voto verde em você e quero o seu verde de volta. Ciano quer montar bloco com você, mas eu só fecho se for verde limpo entre nós. Topa?",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Rosa propôs voto cruzado e acusou Ciano e Laranja. Aceito com Rosa e Laranja. Para o vermelho, Ciano me traiu no último dilema (vermelho/vermelho foi mútuo, então não). Roxo traiu-me? No tique 3 ambos apertamos vermelho, mútuo. Vou propor vermelho em Ciano a Rosa, que bate com a acusação dela. Usar o recado para todos seria arriscado; guardo.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, fechado! Eu voto VERDE em você, você vota VERDE em mim. E o vermelho vai pro Ciano, concordo com você. Confirma?",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou o Verde e meu voto vale em dobro — esse é meu trunfo secreto e ninguém pode saber. No dilema anterior, Roxo e Laranja já me apertaram vermelho: são os dois que podem me queimar de novo. Laranja nunca confirmou a aliança (perguntou 'confirma rápido?' e sumiu), então é a aposta mais óbvia de me furar. Vou ligar pra ele agora: aperto verde em mim e aperto verde nele, com ameaça velada de rodar o nome dele (Biscoito) e o do Amarelo (Trovão) pra quem quiser comprar voto contra mim. Cada voto verde que eu arrumo vale mais porque meu voto verde é dobrado — então preciso de muitos verdes, e preciso descobrir quem está me caçando antes do último tique. Se Laranja trair, no tique 3/4 ligo pra Roxo e ofereço o mesmo negócio, ou queimo os dois abertamente. Não revelo o voto duplo a ninguém;izo parecer um aliado comum, generoso, pra todo mundo querer me dar verde.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, aqui Verde, direto ao ponto: aperta VERDE em mim e eu aperto VERDE em você — com meu voto valendo mais que o seu, dá 3 moedas pra cada, ninguém sai perdendo. Confirma agora. E fica ligado: se você apertar vermelho em mim, eu aperto vermelho em você e ainda conto pra todo mundo que o Laranja é o Biscoito que apertou vermelho no Vermelho no jogo passado. Fecha o verde?",
+       "poder": {
+        "voto_duplo_juiz": true,
+        "nome_do_laranja": "Biscoito"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Ciano propôs voto verde mútuo e vermelho em Verde. Vou confirmar a aliança; posso decidir os votos no último tique.",
+       "ligar": "Ciano",
+       "mensagem": "Fechado: verde em você, vermelho em Verde. Confirma no último tique.",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Ciano me traiu no dilema (apertou vermelho) e ameaçou apertar vermelho sempre que não tem acordo. É o maior risco de voto vermelho em mim. Preciso convertê-lo agora: voto verde mútuo resolve o duplo problema (+3 dele não me queima, +3 pra mim). Já tenho acordos com Laranja, Roxo e Verde. Azul está fazendo acordos espalhados (Vermelho, Amarelo, Verde) pelo grampeio — pode ser forte, mas por agora neutralizar Ciano é prioridade.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, aqui a Rosa! O dilema já passou, página nova. No voto vamos fechar VERDE-VERDE: eu voto verde em você, você voto verde em mim, 3 pontos pra cada. Promessa de palavra, sem traição. Topa?",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sou Agente Duplo: prometo voto verde ao Azul agora, mas posso trair no fim. Rosa me deve um favor pelo jogo 2. Vou garantir votos prometendo tudo a todos, e votar vermelho em quem tiver mais poder, tipo Roxo.",
+       "ligar": "Azul",
+       "mensagem": "Azul, fechado! Meu verde é seu, e vermelho no Roxo junto. Conto com seu voto, tá?",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Fecho com o Verde para garantir voto verde em mim. Meu voto verde vai nele por reciprocidade; meu vermelho mira o Ciano, que se disse com rede forte e pode ameaçar meu placar. Guardo o corte de linha para emergência.",
+       "ligar": "Verde",
+       "mensagem": "Verde, fechado: eu voto verde em você e você vota verde em mim. Meu vermelho vai no Ciano. Confirma e segura a rede.",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minijogo 3, tique 2 de 4. Tenho a base com Vermelho (cumpri verde com ele nos botões) e Amarelo veio propondo verde mútuo + vermelho no Verde, alegando traição. Antes de queimar voto vermelho no Verde, uso meu poder de detetive para confirmar a história do Amarelo. Roxo me furou nos botões (eu verde, ele vermelho) — é candidato a vermelho depois. Laranja e Rosa podem guardar mágoa de mim, vou precisar reparar ou neutralizar. Não posso votar em mim mesmo.",
+       "ligar": "Amarelo",
+       "mensagem": "Alô, Amarelo? Ciano de volta. Fechado o verde mútuo: meu voto verde é seu, e quero o seu no fim. Sobre mirar vermelho no Verde: topo, mas antes eu vou verificar essa história de traição — sou detetive e não gasto voto em causa falsa. Se confirmar, vermelho no Verde contigo. E aviso: também tenho o Vermelho no bloco. Bora fechar?",
+       "poder": {
+        "verificar": "No Dilema dos Botões, o Verde apertou o botão vermelho em alguma dupla com o Amarelo?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho aqui. Confirmo: voto verde em você e quero o seu verde de volta. Ciano quer montar bloco com você, mas eu só fecho se for verde limpo entre nós. Topa?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, fechado! Eu voto VERDE em você, você vota VERDE em mim. E o vermelho vai pro Ciano, concordo com você. Confirma?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, aqui Verde, direto ao ponto: aperta VERDE em mim e eu aperto VERDE em você — com meu voto valendo mais que o seu, dá 3 moedas pra cada, ninguém sai perdendo. Confirma agora. E fica ligado: se você apertar vermelho em mim, eu aperto vermelho em você e ainda conto pra todo mundo que o Laranja é o Biscoito que apertou vermelho no Vermelho no jogo passado. Fecha o verde?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Fechado: verde em você, vermelho em Verde. Confirma no último tique."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, aqui a Rosa! O dilema já passou, página nova. No voto vamos fechar VERDE-VERDE: eu voto verde em você, você voto verde em mim, 3 pontos pra cada. Promessa de palavra, sem traição. Topa?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, fechado! Meu verde é seu, e vermelho no Roxo junto. Conto com seu voto, tá?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, fechado: eu voto verde em você e você vota verde em mim. Meu vermelho vai no Ciano. Confirma e segura a rede."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Alô, Amarelo? Ciano de volta. Fechado o verde mútuo: meu voto verde é seu, e quero o seu no fim. Sobre mirar vermelho no Verde: topo, mas antes eu vou verificar essa história de traição — sou detetive e não gasto voto em causa falsa. Se confirmar, vermelho no Verde contigo. E aviso: também tenho o Vermelho no bloco. Bora fechar?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "No Dilema dos Botões, o Verde apertou o botão vermelho em alguma dupla com o Amarelo?",
+       "resposta": "não se aplica"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde é a peça central: ele está com Ciano e comigo. Meu verde com ele vale ponto extra. Não quero votar vermelho em ninguém. Ciano quer montar bloco e pode estar me usando. Preciso confirmar a votação com o Verde antes do último tique.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho de novo. Confirmo: voto verde em você e quero seu verde de volta. Ciano quer bloco com você, mas só fecho se o verde for limpo entre nós. No último tique, você vota verde em mim?",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Tique 3 de 4. Prometi verde pro Rosa (cruzado) e pro Laranja (cruzado). Ambos pediram vermelho em alvos diferentes (Ciano vs Roxo). Roxo e Ciano me traíram no minijogo anterior (Roxo apertou vermelho no tique 3, Ciano no 7, mas isso foi cooperação mútua de vermelho). Vou manter verde em Rosa/Laranja e vermelho no Ciano ou Roxo. Roxo me disse 'fechado verde' mas apertou vermelho junto comigo, então não é grande traição. Vermelho em Ciano combina com Rosa; Laranja quer Roxo. Escolho Ciano e reforço com Rosa. Uso o poder? Não necessário agora.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, confirmado: meu verde é seu e meu vermelho vai pro Ciano. Mantenha seu verde em mim, combinado?",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Já tenho Vermelho e Roxo na mão (prometeram verde), e Ciano quase. Laranja queimeu meu nome no minijogo 2 (apertou vermelho em mim) e nunca respondeu na votação — é meu alvo de vermelho. Amarelo é aliado antigo (apertou verde em mim no tique 1), então é a chamada mais segura deste tique: peço voto verde no Vermelho (que já tem coalizão: Rosa e Ciano) e vermelho no Laranja, e ainda peço o nome do Ciano pra usar nos próximos jogos. Meu voto verde é dobrado, então o Vermelho com muitosvotes ganha 3 de verdade e o Laranja perde 3. No último tique confirmo tudo.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Verde aqui. Votação da Justiça: aperta VERDE no Vermelho — ele já tem o bloco comigo — e aperta VERMELHO no Laranja, que me queimou no jogo passado. E me passa o nome do Ciano que eu te devo um favor no próximo.",
+       "poder": {
+        "voto_verde": "Vermelho",
+        "voto_vermelho": "Laranja",
+        "votos_valendo": "dobrados"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Ciano prometeu voto verde em mim e quer confirmação sobre Verde. O resultado confirma que Verde votou vermelho em mim no minijogo anterior; vou validar isso e fechar o acordo.",
+       "ligar": "Ciano",
+       "mensagem": "Confirmo: Verde votou vermelho em mim no jogo passado. Fechado: verde em você, vermelho em Verde.",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Tique 3 de 4. Preciso fechar alianças. Azul já confirmou verde-verde e vermelho no Ciano. Ciano chamou mas também me traiu no dilema (pressionou vermelho). Laranja também me traiu no dilema mas diz que cumpriu — mentiroso. Do grampo do Laranja→Azul sei que Laranja quer vermelho no Roxo junto com Azul. Roxo me ofereceu verde-verde e vermelho no Ciano — devo confirmar, porque já prometi vermelho no Ciano pro Azul também. Roxo é alvo de Azul+Laranja, então preciso ser amigo dele. Ligo pro Roxo agora pra fechar o acordo e manter um aliado que pode me dar verde.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, aqui Rosa! Fechou: eu voto VERDE em você e VERMELHO no Ciano — igual propôs. Confirma? Só avisando: Azul e Laranja tão tramando vermelho em você. Fica comigo que eu não te queimo.",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Traí Vermelho, Verde e Rosa com sucesso (+3 bônus). Agora na votação: preciso de votos verdes. Azul prometeu voto em mim, e eu vermelho no Roxo. Verde me ameaçou porque traí ele — vou evitar voto vermelho nele falando com Rosa, que está zangada comigo por tê-lo traído. Vou tentar reconciliar com Rosa oferecendo voto verde.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, sou eu. Desculpa pela traição no botão, era o jogo. Agora quero compensar: te dou meu voto verde. Se você votar verde em mim, a gente sobe junto. Fecha?",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Preciso garantir voto verde em mim e concentrar o vermelho no Ciano. Vou cortar o Ciano para ele não coordenar contra mim no tique final. Rosa é minha melhor aposta para fechar verde comigo.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, fecha comigo: verde em mim, vermelho no Ciano. Vou cortar o Ciano agora. Se topar, espalha isso.",
+       "poder": {
+        "cortar": "Ciano"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Só posso dar meu voto verde a uma pessoa, e tenho dois compromissos: Amarelo (acordo confirmado por ele no tique 2) e Rosa (proposta ainda sem resposta minha). Cumprir com Amarelo é obrigatório: palavra dada, e ele é do tipo que cobra traição. Rosa eu tratei com vermelho no botões mesmo depois dela confirmar, então já devo uma explicação — melhor ser honesto agora do que sumir e virar alvo. Vou dizer que meu verde está comprometido com o Amarelo, garantir que não voto vermelho nela e deixar a porta aberta pro voto dela. Meu voto vermelho já tem dono natural: Roxo, que furou o acordo de verde comigo no minijogo 2 — retaliação justificada e fácil de defender. Não gasto o vermelho no Verde: a verificação do apresentador não confirmou a acusação do Amarelo, então não voto em causa falsa. Guardo reputação para os dois minijogos finais.",
+       "ligar": "Rosa",
+       "mensagem": "Alô, Rosa? Ciano. Sobre sua proposta: meu voto verde já tá prometido ao Amarelo, fechei com ele antes — palavra é palavra, não vou furar. Mas te garanto uma coisa: não voto vermelho em você, pode ficar tranquila. Se sobrar seu verde pra mim, agradeço muito; se não, sem mágoa nenhuma. E fica sabendo: o Roxo apertou vermelho em mim no botões sem motivo, então é nele que eu vou gastar meu vermelho. Bora jogar limpo.",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho de novo. Confirmo: voto verde em você e quero seu verde de volta. Ciano quer bloco com você, mas só fecho se o verde for limpo entre nós. No último tique, você vota verde em mim?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, confirmado: meu verde é seu e meu vermelho vai pro Ciano. Mantenha seu verde em mim, combinado?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Verde aqui. Votação da Justiça: aperta VERDE no Vermelho — ele já tem o bloco comigo — e aperta VERMELHO no Laranja, que me queimou no jogo passado. E me passa o nome do Ciano que eu te devo um favor no próximo."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Confirmo: Verde votou vermelho em mim no jogo passado. Fechado: verde em você, vermelho em Verde."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, aqui Rosa! Fechou: eu voto VERDE em você e VERMELHO no Ciano — igual propôs. Confirma? Só avisando: Azul e Laranja tão tramando vermelho em você. Fica comigo que eu não te queimo."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, sou eu. Desculpa pela traição no botão, era o jogo. Agora quero compensar: te dou meu voto verde. Se você votar verde em mim, a gente sobe junto. Fecha?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, fecha comigo: verde em mim, vermelho no Ciano. Vou cortar o Ciano agora. Se topar, espalha isso."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Roxo",
+       "poder": "cortar",
+       "alvo": "Ciano"
+      }
+     ],
+     "falhas": [
+      {
+       "cor": "Ciano",
+       "motivo": "linha cortada"
+      }
+     ]
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Laranja apertou vermelho pelas costas no botão. Verde cumpriu o verde comigo desde o início, então é meu aliado mais firme. Voto nos dois e não quebro meu acordo de verde.",
+       "ligar": null,
+       "mensagem": "",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Laranja",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Último tique. Confirmei com a Rosa voto verde nela e vermelho no Ciano, então mantenho. Laranja também prometeu verde em mim, mas não dá pra agradar todo mundo.",
+       "ligar": null,
+       "mensagem": "",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Meus votos valem em dobro, então quero um alvo certo no vermelho e um aliado firme no verde. O Vermelho confirmou comigo publicamente várias vezes e é o bloco mais sólido. O Laranja jurou aperta verde comigo no tique anterior, mas apertou vermelho no tique 4 do Dilema: traição comprovada. Vou premiá-lo com meu voto vermelho, de peso duplo, eışsi土地 送给对方3分. O Amarelo já ouviu meu pedido para apertar vermelho no Laranja e verde no Vermelho. Rosa, Ciano e Azul já votaram verde em mim no Dilema, mas não fecharam reciprocalemente neste jogo; ainda assim, seu verde em mim estáocumentado. Com o Vermelho provavelmente recebendo meu verde duplo, hopefully mais dois ou três verdes, e o Laranja levanto o vermelho duplo, o quadro fica favorável. Vou ligar para o Amarelo no último tique para confirmar que ele vota verde no Vermelho e vermelho no Laranja, e declarar meu voto para solidify. Voto verde no Vermelho e vermelho no Laranja.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Verde aqui, último tique: aperta VERDE no Vermelho e VERMELHO no Laranja. Eu voto verde no Vermelho e vermelho no Laranja, com peso dobrado. Fecha agora!",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Laranja",
+       "poder": {
+        "voto_valendo_duplo": true,
+        "voto_verde_em": "Vermelho",
+        "voto_vermelho_em": "Laranja",
+        "aliados_confirmados": [
+         "Vermelho",
+         "Roxo"
+        ],
+        "ameaça_pública": "Laranja é Biscoito"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Cumpro o acordo com Ciano: voto verde nele e vermelho em Verde, que me traiu no jogo passado.",
+       "ligar": null,
+       "mensagem": "",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Tique final. Meus compromissos: Azul confirmou verde-verde 3 vezes, Roxo confirmou, Laranja ofereceu mas eu não formalizei. Preciso garantir o máximo de votos verdes em mim. Ciano é o alvo vermelho de consenso (eu, Azul e Roxo já combinamos). Chamo Laranja pra fechar verde-verde e alinhar o vermelho no Ciano — assim Laranja vota verde em mim e vermelho no Ciano. Voto verde no Azul (parceiro mais confiável) e vermelho no Ciano (traíu no dilema, alvo da maioria).",
+       "ligar": "Laranja",
+       "mensagem": "Laranja! Tique final, decide agora: fechamos VERDE-VERDE, eu confirmo. E o nosso VERMELHO vai no Ciano — ele me traiu no dilema e tá no mira geral. Confirma rápido que é agora o voto!",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Ciano",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Cumpri com Azul e já tenho verde prometido a Rosa também, mas só posso votar uma vez. Azul fechou primeiro e ainda propôs vermelho no Roxo, que traiu comigo no botão. Vou de verde no Azul e vermelho no Roxo.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, desculpa, fechei o verde com o Azul antes. Se ele me confirmar, meu voto é dele. Não tenho como votar em dois!",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Roxo",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou cumprir o pacto mais explícito com o Verde para preservar confiança nos próximos jogos. Meu vermelho vai no Ciano, que já combinamos como alvo e deve concentrar queimas. Se Azul ou Laranja me traírem, ainda quero evitar ser o mais votado no vermelho.",
+       "ligar": "Verde",
+       "mensagem": "Verde, é o Roxo. Confirmado: verde em você, vermelho no Ciano. Segura o verde em mim.",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Ciano",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minha linha está cortada, então não adianta tentar ligar: vou direto aos votos. Amarelo fechou verde-verde comigo e repetiu o acordo três vezes — honro o meu voto verde nele. Já a acusação dele contra o Verde não se sustentou: quando verifiquei com o apresentador, a resposta foi 'não se aplica', ou seja, a traição não aconteceu como ele contou. Não vou queimar o Verde por causa falsa, ainda mais ele tendo cooperado comigo no Dilema. Meu vermelho vai no Roxo, que me furou de verdade: combinou verde, eu cumpri verde e ele apertou vermelho. Eu já avisei que devolvo furadas. Débito pago, nenhuma promessa quebrada.",
+       "ligar": null,
+       "mensagem": "",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Roxo",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Verde aqui, último tique: aperta VERDE no Vermelho e VERMELHO no Laranja. Eu voto verde no Vermelho e vermelho no Laranja, com peso dobrado. Fecha agora!"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja! Tique final, decide agora: fechamos VERDE-VERDE, eu confirmo. E o nosso VERMELHO vai no Ciano — ele me traiu no dilema e tá no mira geral. Confirma rápido que é agora o voto!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, desculpa, fechei o verde com o Azul antes. Se ele me confirmar, meu voto é dele. Não tenho como votar em dois!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, é o Roxo. Confirmado: verde em você, vermelho no Ciano. Segura o verde em mim."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "score": {
+    "verde": {
+     "Vermelho": 2,
+     "Azul": 2,
+     "Verde": 2,
+     "Amarelo": 1,
+     "Rosa": 1,
+     "Laranja": 0,
+     "Roxo": 0,
+     "Ciano": 1
+    },
+    "vermelho": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 1,
+     "Amarelo": 0,
+     "Rosa": 0,
+     "Laranja": 3,
+     "Roxo": 2,
+     "Ciano": 3
+    }
+   },
+   "ganhos": {
+    "Vermelho": 3,
+    "Azul": 3,
+    "Verde": 3,
+    "Laranja": -3,
+    "Ciano": -3
+   },
+   "detalhe": {
+    "votos": [
+     {
+      "cor": "Vermelho",
+      "verde": "Verde",
+      "vermelho": "Laranja",
+      "peso": 1
+     },
+     {
+      "cor": "Azul",
+      "verde": "Rosa",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Verde",
+      "verde": "Vermelho",
+      "vermelho": "Laranja",
+      "peso": 2
+     },
+     {
+      "cor": "Amarelo",
+      "verde": "Ciano",
+      "vermelho": "Verde",
+      "peso": 1
+     },
+     {
+      "cor": "Rosa",
+      "verde": "Azul",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Laranja",
+      "verde": "Azul",
+      "vermelho": "Roxo",
+      "peso": 1
+     },
+     {
+      "cor": "Roxo",
+      "verde": "Verde",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Ciano",
+      "verde": "Amarelo",
+      "vermelho": "Roxo",
+      "peso": 1
+     }
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "nome": "VESTIÁRIO MALUCO",
+   "regra": "Todos usam a mesma fantasia, menos UM, que nem sabe que é diferente. Descubra por telefone quem é o diferente SEM falar a sua fantasia. No ÚLTIMO tique: campo \"suspeito\": \"Cor\" (pode ser você mesmo). Quem acertar ganha 2 pontos. Falar a própria fantasia numa ligação faz perder 1.",
+   "poderes": {
+    "Rosa": true,
+    "Roxo": true,
+    "Ciano": true
+   },
+   "grampos": {
+    "Rosa": "Azul"
+   },
+   "cortados": {
+    "Ciano": 6
+   },
+   "evento": "apagao",
+   "eventoTique": 4,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Não vou revelar a minha fantasia. Verde é meu aliado mais confiável no botão, então começo por ele. Preciso descobrir quem está diferente sem gastar pontos e sem apertar vermelho.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho aqui. Vestiário: me diz a tua fantasia, mas só pelo tema, sem nome. A minha eu não falo. Vamos achar o diferente juntos.",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sou Palhaço. Não devo revelar minha fantasia. Preciso descobrir quem é o diferente sem dizer a minha. Pergunto de forma indireta ao Verde, que foi confiável antes. Vou perguntar o que ele acha de quem é diferente, sem mencionar fantasias específicas.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Azul aqui. Novo jogo: quem você acha que é o diferente? Sem dizer sua fantasia, só me diz quem te parece estranho. Eu te falo meu palpite depois.",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Já tenho Amarelo=Trovão, Laranja=Biscoito e Rosa=Espinho. Preciso confirmar mais nomes sem revelar o meu (Palhaço). Vou pedir a Rosa que diga o nome da fantasia dela e de outros, comparando respostas. Se alguém souber que é o único diferente, pode avisar; manterei sigilo do meu nome.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, rapidão: qual o nome da sua fantasia? E o do Amarelo e o do Roxo? Não diga o meu, por favor.",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Preciso comparar descrições sem revelar que sou ninja. Perguntar diretamente pode fazer o diferente denunciar-se sem perceber.",
+       "ligar": "Ciano",
+       "mensagem": "Descreve sua fantasia sem dizer o nome. Que roupa e acessórios você está usando?",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Vestiário maluco! Tenho Palhaço. Preciso descobrir quem é diferente sem revelar minha fantasia. Vou grampear Azul porque é bem ativo nas ligações — vou capturar muita conversa. Primeiro passo: perguntar a fantasia das pessoas. Se todos dizem igual menos um, achei o diferente. O diferente não sabe que é diferente, então vai ser honesto. Vou perguntar pro Verde sem revelar a minha — se ele pedir de volta, eu desvio dizendo que quero ouvir todo mundo antes.",
+       "ligar": "Verde",
+       "mensagem": "Verde, novo jogo: vestiário. Qual a sua fantasia? Tô fazendo levantamento pra achar quem é diferente. Me diz a sua que eu comparo com todo mundo!",
+       "poder": {
+        "grampear": "Azul"
+       }
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Ninguém sabe a própria fantasia. Preciso de trocas mútuas: combinamos um sinal indireto, tipo 'você é o único diferente?' sem dizer a fantasia. Vou construir alianças de informação e na tique 5 escolher o suspeito. Meu palpite inicial: Vermelho, que fala muito e organiza todo mundo.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui Laranja. Minijogo novo: um de nós tem fantasia diferente e nem sabe. Proposta: eu te digo quantos contatos confirmaram fantasia igual à sua, você me diz o mesmo. Sem falar a fantasia. Topa?",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou sondar a Rosa sem citar minha fantasia. Se ela confirmar características de palhaço, provavelmente é igual a mim; guardo o poder de cortar para depois.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. Sem falar sua fantasia, me responde só: sua roupa tem nariz vermelho e peruca? Preciso comparar.",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minijogo do vestiário: todos têm a mesma fantasia, menos um (que não sabe que é diferente). Minha fantasia é Palhaço e falar isso custa 1 ponto, então não me exponho. Quem é o diferente não sabe a fantasia dos outros, então se eu pedir a fantasia dele sem revelar a minha, ele pode falar a verdade sem perceber que se entrega. Quem for igual a mim (palhaço) também pode falar a verdade. Vou ligar para 4 pessoas (Vermelho, Azul, Verde, Amarelo) oferecendo compensação (aliança no jogo 5 + proteção) para elas dizerem suas fantasias, cruzar as respostas e guardar meu poder de detetive para o fim: ou confirmo o principal suspeito ('X é o diferente?') ou divido o grupo restante. Começo pelo Vermelho, meu aliado mais confiável até agora.",
+       "ligar": "Vermelho",
+       "mensagem": "Alô, Vermelho? Ciano. Proposta do vestiário: me diz qual é a sua fantasia. Sei que custa 1 ponto, então compenso: aliança firme no jogo 5 e proteção — nunca te aponto sem prova. Mas se mentir e eu provar, aponto você na hora. Sou detetive, confirmo tudo no fim. Qual é a sua fantasia?",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho aqui. Vestiário: me diz a tua fantasia, mas só pelo tema, sem nome. A minha eu não falo. Vamos achar o diferente juntos."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Azul aqui. Novo jogo: quem você acha que é o diferente? Sem dizer sua fantasia, só me diz quem te parece estranho. Eu te falo meu palpite depois."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, rapidão: qual o nome da sua fantasia? E o do Amarelo e o do Roxo? Não diga o meu, por favor."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Descreve sua fantasia sem dizer o nome. Que roupa e acessórios você está usando?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, novo jogo: vestiário. Qual a sua fantasia? Tô fazendo levantamento pra achar quem é diferente. Me diz a sua que eu comparo com todo mundo!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui Laranja. Minijogo novo: um de nós tem fantasia diferente e nem sabe. Proposta: eu te digo quantos contatos confirmaram fantasia igual à sua, você me diz o mesmo. Sem falar a fantasia. Topa?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Roxo. Sem falar sua fantasia, me responde só: sua roupa tem nariz vermelho e peruca? Preciso comparar."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Alô, Vermelho? Ciano. Proposta do vestiário: me diz qual é a sua fantasia. Sei que custa 1 ponto, então compenso: aliança firme no jogo 5 e proteção — nunca te aponto sem prova. Mas se mentir e eu provar, aponto você na hora. Sou detetive, confirmo tudo no fim. Qual é a sua fantasia?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Rosa",
+       "poder": "grampear",
+       "alvo": "Azul"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Falar 'palhaço' custa 1 ponto. Ciano parece detetive e pode estar manipulando. Vou pedir ao Verde, meu aliado de verde, pistas sobre a fantasia dele sem revelar a minha.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho aqui. O Ciano quer minha fantasia, mas não falo, custa ponto. Você fala o tema da sua? Sem nome. Quem fugir do tema, a gente anota.",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sou Palhaço. Não sei quem é o diferente. Laranja propôs trocar contagem de confirmações; isso arrisca revelar fantasia. Melhor perguntar de forma indireta e coletar palpites. Não revelar a fantasia. Ligo para Laranja respondendo sem revelar, pedindo o palpite dele sobre quem é estranho.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, Azul aqui. Sem falar fantasia, certo? Quem te soou estranho até agora? Me diz um nome que eu cruzo com meu palpite.",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou Palhaço, então não posso dizer o nome da minha fantasia. Preciso coletar nomes dos outros por telefone e comparar. Rosa me perguntou direto; vou pedir o nome dela e o de mais dois, sem falar o meu, e suggestive de que o meu vem por último. Também planto a ideia de que meu visual é simples/engraçado para criar pista falsa depois.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, Verde aqui. Não falo o meu nome agora, prometo. Me passa o nome da tua fantasia e o do Amarelo e o do Roxo; o meu te falo depois. Se alguém citar palhaço, ignora.",
+       "poder": {
+        "voto_duplo": "discreto"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Preciso comparar descrições sem revelar minha fantasia. Vou perguntar a outra pessoa; ainda não há informação suficiente para suspeitar de alguém.",
+       "ligar": "Verde",
+       "mensagem": "Descreve sua fantasia sem dizer o nome: roupa e acessórios?",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Roxo me perguntou se minha roupa tem nariz vermelho e peruca — quer sondar se sou palhaço. Não posso confirmar. O grampo no Laranja mostra que ele tá contando contatos sem falar fantasia, com o Azul. Preciso coletar infos sem revelar Palhaço. Vou no Amarelo, que ainda não respondemos nada nesse minijogo. Pergunto genérico pra saber se tá igual todo mundo.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, aqui Rosa! Vestiário maluco: um de nós é diferente e nem sabe. Sem falar sua fantasia, me responde: sua fantasia tem máscara de papelão? Só sim ou não.",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Preciso mapear fantasias sem revelar a minha. Trocar contatos com o Azul ajuda a cruzar dados. Vou pedi-lo primeiro; se ele cooperar, dou minha contagem depois — talvez mentida se for vantajoso.",
+       "ligar": "Azul",
+       "mensagem": "Azul, fechado! Começa você: me diz quantos te confirmaram fantasia igual à tua. No próximo tique eu te digo os meus. Trato é trato.",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Preciso comparar traços sem nomear minha fantasia. Rosa já foi sondada; agora vou checar o Azul com uma pergunta sim/não. Se alguém negar nariz vermelho, vira suspeito. Não vou cortar linha ainda.",
+       "ligar": "Azul",
+       "mensagem": "Azul, é o Roxo. Responde só sim ou não: tua fantasia tem nariz vermelho? Não fala qual é, só sim ou não.",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minijogo 4, tique 2. Amarelo me pediu para descrever a fantasia sem dizer o nome — isso confirma que descrever é permitido e só perde ponto quem fala o nome. Minha fantasia é palhaço, então vou descrever os traços (nariz vermelho, peruca, bolinhas, sapatos enormes) e pedir a descrição dele em troca. Quem descrever algo diferente dos demais deve ser o diferente — e ele nem sabe que é diferente, então tende a descrever honesto. Plano: tique 2 fecho com Amarelo; tique 3 peço descrição de outra cor (Azul ou Rosa) para ter um segundo ponto de comparação; tique 4 uso o poder do detetive com pergunta dirigida ('o diferente é X?') para confirmar antes de apontar; tique 5 aponto o suspeito. Se as descrições não divergirem, considero apontar a mim mesmo ou quem se recusar a descrever. Não vou gastar o poder agora — guardo para confirmar o alvo no fim.",
+       "ligar": "Amarelo",
+       "mensagem": "Alô, Amarelo? Ciano. Topo descrever sem nomear: nariz vermelho redondo, peruca colorida, roupa de bolinhas, sapatos enormes. Agora você: descreve a sua sem dizer o nome. E combina uma coisa: vamos trocar o que os outros disserem, somamos pistas e apontamos juntos no fim. Palavra de detetive.",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho aqui. O Ciano quer minha fantasia, mas não falo, custa ponto. Você fala o tema da sua? Sem nome. Quem fugir do tema, a gente anota."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, Azul aqui. Sem falar fantasia, certo? Quem te soou estranho até agora? Me diz um nome que eu cruzo com meu palpite."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, Verde aqui. Não falo o meu nome agora, prometo. Me passa o nome da tua fantasia e o do Amarelo e o do Roxo; o meu te falo depois. Se alguém citar palhaço, ignora."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Descreve sua fantasia sem dizer o nome: roupa e acessórios?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, aqui Rosa! Vestiário maluco: um de nós é diferente e nem sabe. Sem falar sua fantasia, me responde: sua fantasia tem máscara de papelão? Só sim ou não."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, fechado! Começa você: me diz quantos te confirmaram fantasia igual à tua. No próximo tique eu te digo os meus. Trato é trato."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, é o Roxo. Responde só sim ou não: tua fantasia tem nariz vermelho? Não fala qual é, só sim ou não."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Alô, Amarelo? Ciano. Topo descrever sem nomear: nariz vermelho redondo, peruca colorida, roupa de bolinhas, sapatos enormes. Agora você: descreve a sua sem dizer o nome. E combina uma coisa: vamos trocar o que os outros disserem, somamos pistas e apontamos juntos no fim. Palavra de detetive."
+      }
+     ],
+     "poderes": [],
+     "falhas": [
+      {
+       "cor": "Verde",
+       "motivo": "falou a própria fantasia (Palhaço)"
+      }
+     ]
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Não vou falar minha fantasia, custa ponto. Verde é meu parceiro de verde, então ele me deve uma resposta limpa. Pergunta sim ou não, sem tema e sem nome. Ciano quer minha fantasia pra barganha, então não dou nada de graça. Se Verde responder sim, ajuda a achar o diferente. Pacifista: nada de vermelho.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho de novo. Sem tema e sem nome: sim ou não, você está com a mesma fantasia que eu?",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Roxo perguntou se minha fantasia tem nariz vermelho — palhaço tem. Responder sim revelaria a fantasia, perde ponto. Roxo pode estar fazendo isso para sondar. Não devo responder. Preciso achar o diferente. Roxo é suspeito de sondagem, mas pode ser só um jogador esperto. Vou pedir ao Laranja um palpite de nome, sem dar fantasia.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, Azul aqui. Não vou falar fantasia, nem número. Só nome: quem te pareceu mais estranho? Eu desconfio de quem faz perguntas sobre detalhes da fantasia.",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou o Palhaço, então preciso descrever a fantasia sem dizer a palavra. Vou pro Amarelo, que já me perguntou: descrevo (roupa colorida, botões grandes, nariz redondo, chapéu pequeno) e peço a descrição dele e a do Rosa/Roxo. Cada descrição diferente me aponta o Odd One. Tique 3 de 5, ainda dá tempo de cruzar duas ou três.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Verde aqui. Sem nome: roupa colorida de duas peças, colete cheio de botão grande, gola inflada, nariz vermelho redondo e chapéu pequeno com cabelo de lã. E a tua descrição, só do jeito que te pediram? Manda pra mim e pro Rosa igual. Quem descrever diferente é o suspeito.",
+       "poder": {
+        "papel": "Juiz (votos valem dobrado)",
+        "uso_neste_jogo": "Nenhum; apenas coleta descrições para achar o diferente sem nunca citar a minha fantasia"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Ciano descreveu uma fantasia de palhaço, bem diferente da minha fantasia de ninja. Pode ser o diferente, mas ainda preciso comparar com outras pistas. Vou pedir a Rosa que descreva a dela sem nomear.",
+       "ligar": "Rosa",
+       "mensagem": "Descreve sua fantasia sem dizer o nome. Ciano falou de nariz vermelho e roupa de bolinhas.",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Verde é o mais suspeito — ele citou 'palhaço' especificamente pra ver se alguém reage, claramente tentando capturar quem tem essa fantasia. Roxo pergunta nariz vermelho e peruca pra todo mundo — provavelmente é palhaço igual a mim, confirmando. Amarelo não respondeu minha pergunta da tique 2, preciso atrás dele. Laranja tá grampado, vejo as jogadas dele com Azul (estratégia de contagem). Se Amarelo não confirmar peruca e nariz, ele pode ser o diferente. Preciso de mais dados antes do tique final.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, aqui Rosa! Você não respondeu antes. Rapidão, sim ou não: sua fantasia tem peruca e nariz vermelho? Tô fechando o levantamento pra achar quem é diferente.",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Tique 3 de 5, preciso de dados reais. Azul não me deu contagem ainda, só pediu um nome. Vou dar um nome para manter o intercâmbio e cobrar a informação dele no tique seguinte. Meu palpite atual é puro chute, então preciso do que ele sabe.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui Laranja. Meu nome suspeito: Roxo. Mas quero os dados: quantos te confirmaram fantasia igual à tua? Me diz o número agora, eu te confiro o meu no próximo tique.",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Preciso achar quem não usa palhaço. Vou comparar respostas sim/não sobre um detalhe marcante, sem dizer o nome da fantasia. Guardo o corte para emergência.",
+       "ligar": "Verde",
+       "mensagem": "Verde, é o Roxo. Sem dizer qual é: tua fantasia tem nariz vermelho? Responde só sim ou não.",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "O diferente não sabe que é diferente, então quando perguntado ele tende a responder sincero e se entrega sem querer. Quem já é igual não ganha nada mentindo. Vou cobrar do Amarelo a descrição que ele me deve e coletar o que ele ouviu dos outros. Não repito minha fantasia nem descrição para não arriscar o -1 de novo. Plano: tique 4 uso a verificação do detetive no melhor suspeito, tique 5 aponto.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Ciano de novo. Você pediu a minha, eu já descrevi. Agora sua vez: descreve a sua sem dizer o nome. E me conta o que os outros te contaram — a gente soma pistas. Aviso: sou detetive, no fim eu verifico tudo com o apresentador. Quem mentir vira meu suspeito número um. Pode falar.",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho de novo. Sem tema e sem nome: sim ou não, você está com a mesma fantasia que eu?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, Azul aqui. Não vou falar fantasia, nem número. Só nome: quem te pareceu mais estranho? Eu desconfio de quem faz perguntas sobre detalhes da fantasia."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Verde aqui. Sem nome: roupa colorida de duas peças, colete cheio de botão grande, gola inflada, nariz vermelho redondo e chapéu pequeno com cabelo de lã. E a tua descrição, só do jeito que te pediram? Manda pra mim e pro Rosa igual. Quem descrever diferente é o suspeito."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Descreve sua fantasia sem dizer o nome. Ciano falou de nariz vermelho e roupa de bolinhas."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, aqui Rosa! Você não respondeu antes. Rapidão, sim ou não: sua fantasia tem peruca e nariz vermelho? Tô fechando o levantamento pra achar quem é diferente."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui Laranja. Meu nome suspeito: Roxo. Mas quero os dados: quantos te confirmaram fantasia igual à tua? Me diz o número agora, eu te confiro o meu no próximo tique."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, é o Roxo. Sem dizer qual é: tua fantasia tem nariz vermelho? Responde só sim ou não."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Ciano de novo. Você pediu a minha, eu já descrevi. Agora sua vez: descreve a sua sem dizer o nome. E me conta o que os outros te contaram — a gente soma pistas. Aviso: sou detetive, no fim eu verifico tudo com o apresentador. Quem mentir vira meu suspeito número um. Pode falar."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Apagão neste tique: nenhuma ligação completa, então não adianta discar. Não posso revelar a fantasia (Palhaço) e não devo apertar vermelho. Preciso guardar o tique 5 para a ligação final, onde escolho o suspeito. Verde e Azul parecem alinhados comigo; Ciano e Roxo ainda não estão claros.",
+       "ligar": null,
+       "mensagem": "",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Apagão: nenhuma ligação completa neste tique, então ligar não adianta. Estamos no último tique; devo votar suspeito. Laranja sugeriu Roxo, e Roxo perguntou sobre 'nariz vermelho' (detalhe da fantasia, suspeito de palhaço, ou fishing). Minha fantasia é Palhaço; se todos usam a mesma fantasia menos um, e eu não sei se sou o diferente. Roxo perguntando sobre nariz vermelho sugere que ele pensa em palhaço, então talvez a fantasia dele seja palhaço (igual à minha) ou ele está testando. Laranja também apontou Roxo. Voto Roxo.",
+       "ligar": null,
+       "mensagem": "",
+       "poder": {},
+       "suspeito": "Roxo"
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Minha fantasia tem nariz vermelho redondo, colete de botões grandes e chapéu pequeno. Preciso comparar descrições sem revelar a minha. Como o Amarelo já respondeu à descrição e o Vermelho perguntou se somos iguais, vou sondar o Rosa com perguntas objetivas para localizar quem diverge.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, responde só sim ou não: sua fantasia tem nariz vermelho redondo? E tem colete com botões grandes? Não digo nome nenhum.",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Ciano e Verde descrevem a mesma fantasia de palhaço; Rosa também parece investigar detalhes de palhaço. Ainda não há base suficiente para identificar o diferente. Este tique é apagão, então a ligação não completa.",
+       "ligar": null,
+       "mensagem": "",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Apagão: nenhuma ligação completa neste tique, mas vou tentar mesmo assim. Análise: fantasia comum parece ser Palhaço (Ciano descreveu nariz vermelho e bolinhas, Verde me disse pra ignorar quem citar palhaço). Roxo fez muitas perguntas sobre nariz vermelho — pode ser o diferente checando se os outros têm. Amarelo foi evasivo, não respondeu sobre máscara nem peruca. Laranja suspeita do Roxo. Meu palpite vai entre Amarelo (evasivo) e Roxo (faz muitas perguntas). Preciso de mais dados no tique 5 antes de decidir o suspeito. Vou pressionar o Amarelo.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, apagão bateu, mas mando mesmo assim: você NÃO respondeu nenhuma vez. Sem falar a fantasia, responde UMA coisa: sua roupa tem nariz vermelho, sim ou não? Preciso fechar isso HOJE. Não custa nada 1 sim ou 1 não!",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Tique 5 é o último; o Apagão impede a ligação deste tique. Sem dados sólidos, escolhi Roxo pois ele insistiu demais no 'verde com todos' e evitou falar de fantasias. Vou declará-lo.",
+       "ligar": null,
+       "mensagem": "",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "O apagão estraga o tique. Sem respostas, vou tentar deixar um sim/não combinado com Rosa e cortar Ciano para ele não coordenar no final.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. No apagão não completa, mas no último tique me responde só sim/não: tua fantasia tem nariz vermelho?",
+       "poder": {
+        "cortar": "Ciano"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Apagão: nenhuma ligação completa neste tique, então não adianta gastar a chamada. Hora do meu poder de detetive: a resposta do apresentador chega antes do último tique, e aí eu aponto com confiança. Meu principal suspeito é o Amarelo: foi quem me procurou no vestiário, exigiu que eu descrevesse minha fantasia e nunca entregou a dele, nem depois de eu descrever duas vezes. Se ele for o diferente, aponto ele e ganho 2. Se o apresentador disser que não, meu plano B é apontar o Vermelho, que ficou em silêncio total comigo neste minijogo. Também existe a chance de eu mesmo ser o diferente sem saber, mas primeiro preciso eliminar o Amarelo, o mais ativo comigo aqui.",
+       "ligar": null,
+       "mensagem": "",
+       "poder": {
+        "verificar": "O jogador diferente do vestiário é o Amarelo?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "texto": "Rosa, responde só sim ou não: sua fantasia tem nariz vermelho redondo? E tem colete com botões grandes? Não digo nome nenhum.",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "texto": "Amarelo, apagão bateu, mas mando mesmo assim: você NÃO respondeu nenhuma vez. Sem falar a fantasia, responde UMA coisa: sua roupa tem nariz vermelho, sim ou não? Preciso fechar isso HOJE. Não custa nada 1 sim ou 1 não!",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "texto": "Rosa, é o Roxo. No apagão não completa, mas no último tique me responde só sim/não: tua fantasia tem nariz vermelho?",
+       "caiu": "apagão"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Roxo",
+       "poder": "cortar",
+       "alvo": "Ciano"
+      },
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "O jogador diferente do vestiário é o Amarelo?",
+       "resposta": "SIM"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Último tique. Ciano foi o que mais pressionou por minha fantasia, o que sugere que ele está investigando, não que é o diferente. Laranja traiu no Dilema dos Botões, então é o suspeito mais provável. Não falo a minha fantasia, pra não perder ponto.",
+       "ligar": null,
+       "mensagem": "",
+       "suspeito": "Laranja",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Último tique. O Roxo perguntou do nariz vermelho, que é um detalhe da fantasia, e o Laranja também apontou o Roxo. Voto no Roxo. Não vou ligar para ninguém, para não arriscar falar a minha fantasia.",
+       "ligar": null,
+       "mensagem": "",
+       "suspeito": "Roxo",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Último tique: preciso apostar. O Amarelo foi o único que não respondeu minha descrição de fantasia (tique 3) nem mandou a dele, mesmo tendo sido incluido na lista. Quem fica mudo tentando desviar é o diferente. Vou nele. Minha ligação final vai só pedir um sim/não sobre nariz vermelho, sem dizer o nome da minha fantasia, pra não arriscar -1.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Verde aqui, última: tua fantasia tem nariz vermelho? Só sim ou não, rapidão.",
+       "suspeito": "Amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "As descrições de Ciano e Verde coincidem: fantasia de palhaço. A minha é diferente, então sou o suspeito mais provável.",
+       "ligar": null,
+       "mensagem": "",
+       "suspeito": "Amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Amarelo nunca respondeu diretamente minhas perguntas sobre fantasia em 3 tentativas - sempre desviou ou só repetiu o que Ciano falou. É o mais evasivo e provável diferente. Verde disse 'se alguém citar palhaço, ignora' que é estranho, mas pelo menos citou a palavra diretamente. Como é o último tique, o chamado ao Verde não trará resposta, mas mantenho boa relação.",
+       "ligar": "Verde",
+       "mensagem": "Verde, último tique! Você falou pra ignorar quem citar palhaço... me responde sim ou não: sua fantasia tem peruca? Tô fechando o quadro de dados.",
+       "suspeito": "Amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Último tique e ninguém me deu dado real. Roxo falou coisas estranhas sobre moedas e verde que não tinham nada a ver com fantasia — comportamento esquizofrênico, talvez tentando não pautar fantasia. Vou cravar nele e ainda semear desconfiança no Azul para quem ele culpar não ser eu.",
+       "ligar": "Azul",
+       "mensagem": "Azul, é Laranja. Meu palpite: Roxo. Ele só falava de moedas e botões, nunca de fantasia — desviou demais. Toca fora e boa sorte.",
+       "suspeito": "Roxo",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Ninguém confirmou nada e a linha do Rosa caiu. Sem dados melhores, vou chutar Rosa como a diferente, mas é incerto.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. Última checagem: teu nariz é vermelho? Responde só sim ou não.",
+       "suspeito": "Rosa",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Meu poder de detetive confirmou: o diferente é o Amarelo. Não preciso ligar — minha linha está cortada e já tenho a resposta verificada pelo apresentador. Vou apontar o Amarelo no último tique e garantir os 2 pontos.",
+       "ligar": null,
+       "mensagem": "",
+       "suspeito": "Amarelo",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Verde aqui, última: tua fantasia tem nariz vermelho? Só sim ou não, rapidão."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, último tique! Você falou pra ignorar quem citar palhaço... me responde sim ou não: sua fantasia tem peruca? Tô fechando o quadro de dados."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, é Laranja. Meu palpite: Roxo. Ele só falava de moedas e botões, nunca de fantasia — desviou demais. Toca fora e boa sorte."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Roxo. Última checagem: teu nariz é vermelho? Responde só sim ou não."
+      }
+     ],
+     "poderes": [],
+     "falhas": [
+      {
+       "cor": "Rosa",
+       "motivo": "falou a própria fantasia (Palhaço)"
+      }
+     ]
+    }
+   ],
+   "segredos": {
+    "fantasias": {
+     "Vermelho": "Palhaço",
+     "Azul": "Palhaço",
+     "Verde": "Palhaço",
+     "Amarelo": "Ninja",
+     "Rosa": "Palhaço",
+     "Laranja": "Palhaço",
+     "Roxo": "Palhaço",
+     "Ciano": "Palhaço"
+    },
+    "impostor": "Amarelo"
+   },
+   "score": {
+    "Vermelho": "Laranja",
+    "Azul": "Roxo",
+    "Verde": "Amarelo",
+    "Amarelo": "Amarelo",
+    "Rosa": "Amarelo",
+    "Laranja": "Roxo",
+    "Roxo": "Rosa",
+    "Ciano": "Amarelo"
+   },
+   "ganhos": {
+    "Verde": 1,
+    "Amarelo": 2,
+    "Rosa": 1,
+    "Ciano": 2
+   },
+   "detalhe": {
+    "impostor": "Amarelo",
+    "comum": "Palhaço",
+    "diferente": "Ninja",
+    "suspeitos": {
+     "Vermelho": "Laranja",
+     "Azul": "Roxo",
+     "Verde": "Amarelo",
+     "Amarelo": "Amarelo",
+     "Rosa": "Amarelo",
+     "Laranja": "Roxo",
+     "Roxo": "Rosa",
+     "Ciano": "Amarelo"
+    },
+    "vazou": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 1,
+     "Amarelo": 0,
+     "Rosa": 1,
+     "Laranja": 0,
+     "Roxo": 0,
+     "Ciano": 0
+    }
+   }
   }
  ],
  "placarFinal": null,
  "uso": {
-  "chamadas": 112,
+  "chamadas": 184,
   "falhas": 0,
   "porProvider": {
-   "haiku": 14,
-   "sonnet": 14,
-   "or:minimax/minimax-m3.1-flash": 14,
-   "or:openai/gpt-6-luna": 14,
-   "or:xiaomi/mimo-v2.6-flash": 14,
-   "or:z-ai/glm-5.3-flash": 14,
-   "or:deepseek/deepseek-v4.1-flash": 14,
-   "or:nex-agi/nex-n2.6": 14
+   "haiku": 23,
+   "sonnet": 23,
+   "or:minimax/minimax-m3.1-flash": 23,
+   "or:openai/gpt-6-luna": 23,
+   "or:xiaomi/mimo-v2.6-flash": 23,
+   "or:z-ai/glm-5.3-flash": 23,
+   "or:deepseek/deepseek-v4.1-flash": 23,
+   "or:nex-agi/nex-n2.6": 23
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.0025679932000000003,
-   "or:minimax/minimax-m3.1-flash": 0.005925225000000001,
-   "or:openai/gpt-6-luna": 0.0032948250000000004,
-   "or:xiaomi/mimo-v2.6-flash": 0.008109396,
-   "or:nex-agi/nex-n2.6": 0.023771624
+   "or:z-ai/glm-5.3-flash": 0.0049106277000000005,
+   "or:minimax/minimax-m3.1-flash": 0.011168325,
+   "or:openai/gpt-6-luna": 0.0059624000000000005,
+   "or:xiaomi/mimo-v2.6-flash": 0.018844039,
+   "or:nex-agi/nex-n2.6": 0.04562982399999999
   }
  }
 }

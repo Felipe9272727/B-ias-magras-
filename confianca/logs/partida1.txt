@@ -129,3 +129,73 @@ JOGO DE CONFIANÇA · semente 742226688
   t1 Roxo -> Rosa: Rosa, é o Roxo. Fecha comigo: vota verde em mim e vermelho no Ciano. Eu não te queimo. Me diz se topa.
   t1 Ciano -> Vermelho: Alô, Vermelho? Ciano. Bora negociar a Justiça: meu voto VERDE é seu, e quero o seu verde pra mim. No botões eu cumpri verde com você, tá limpo entre nós. Quero montar um bloco contigo e com o Verde: verdes juntos, e vermelho só em quem tramar contra a gente. Topa? Me confirma que eu fecho com o Verde.
   t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
+  t2 Vermelho -> Verde: Verde, Vermelho aqui. Confirmo: voto verde em você e quero o seu verde de volta. Ciano quer montar bloco com você, mas eu só fecho se for verde limpo entre nós. Topa?
+  t2 Azul -> Rosa: Rosa, fechado! Eu voto VERDE em você, você vota VERDE em mim. E o vermelho vai pro Ciano, concordo com você. Confirma?
+  t2 Verde -> Laranja: Laranja, aqui Verde, direto ao ponto: aperta VERDE em mim e eu aperto VERDE em você — com meu voto valendo mais que o seu, dá 3 moedas pra cada, ninguém sai perdendo. Confirma agora. E fica ligado: se você apertar vermelho em mim, eu aperto vermelho em você e ainda conto pra todo mundo que o Laranja é o Biscoito que apertou vermelho no Vermelho no jogo passado. Fecha o verde?
+  t2 Amarelo -> Ciano: Fechado: verde em você, vermelho em Verde. Confirma no último tique.
+  t2 Rosa -> Ciano: Ciano, aqui a Rosa! O dilema já passou, página nova. No voto vamos fechar VERDE-VERDE: eu voto verde em você, você voto verde em mim, 3 pontos pra cada. Promessa de palavra, sem traição. Topa?
+  t2 Laranja -> Azul: Azul, fechado! Meu verde é seu, e vermelho no Roxo junto. Conto com seu voto, tá?
+  t2 Roxo -> Verde: Verde, fechado: eu voto verde em você e você vota verde em mim. Meu vermelho vai no Ciano. Confirma e segura a rede.
+  t2 Ciano -> Amarelo: Alô, Amarelo? Ciano de volta. Fechado o verde mútuo: meu voto verde é seu, e quero o seu no fim. Sobre mirar vermelho no Verde: topo, mas antes eu vou verificar essa história de traição — sou detetive e não gasto voto em causa falsa. Se confirmar, vermelho no Verde contigo. E aviso: também tenho o Vermelho no bloco. Bora fechar?
+  t2 PODER Ciano: {"cor":"Ciano","poder":"verificar","pergunta":"No Dilema dos Botões, o Verde apertou o botão vermelho em alguma dupla com o Amarelo?","resposta":"não se aplica"}
+  t3 Vermelho -> Verde: Verde, Vermelho de novo. Confirmo: voto verde em você e quero seu verde de volta. Ciano quer bloco com você, mas só fecho se o verde for limpo entre nós. No último tique, você vota verde em mim?
+  t3 Azul -> Rosa: Rosa, confirmado: meu verde é seu e meu vermelho vai pro Ciano. Mantenha seu verde em mim, combinado?
+  t3 Verde -> Amarelo: Amarelo, Verde aqui. Votação da Justiça: aperta VERDE no Vermelho — ele já tem o bloco comigo — e aperta VERMELHO no Laranja, que me queimou no jogo passado. E me passa o nome do Ciano que eu te devo um favor no próximo.
+  t3 Amarelo -> Ciano: Confirmo: Verde votou vermelho em mim no jogo passado. Fechado: verde em você, vermelho em Verde.
+  t3 Rosa -> Roxo: Roxo, aqui Rosa! Fechou: eu voto VERDE em você e VERMELHO no Ciano — igual propôs. Confirma? Só avisando: Azul e Laranja tão tramando vermelho em você. Fica comigo que eu não te queimo.
+  t3 Laranja -> Rosa: Rosa, sou eu. Desculpa pela traição no botão, era o jogo. Agora quero compensar: te dou meu voto verde. Se você votar verde em mim, a gente sobe junto. Fecha?
+  t3 Roxo -> Rosa: Rosa, fecha comigo: verde em mim, vermelho no Ciano. Vou cortar o Ciano agora. Se topar, espalha isso.
+  t3 PODER Roxo: {"cor":"Roxo","poder":"cortar","alvo":"Ciano"}
+  t4 Verde -> Amarelo: Amarelo, Verde aqui, último tique: aperta VERDE no Vermelho e VERMELHO no Laranja. Eu voto verde no Vermelho e vermelho no Laranja, com peso dobrado. Fecha agora!
+  t4 Rosa -> Laranja: Laranja! Tique final, decide agora: fechamos VERDE-VERDE, eu confirmo. E o nosso VERMELHO vai no Ciano — ele me traiu no dilema e tá no mira geral. Confirma rápido que é agora o voto!
+  t4 Laranja -> Rosa: Rosa, desculpa, fechei o verde com o Azul antes. Se ele me confirmar, meu voto é dele. Não tenho como votar em dois!
+  t4 Roxo -> Verde: Verde, é o Roxo. Confirmado: verde em você, vermelho no Ciano. Segura o verde em mim.
+  resultado: {"verde":{"Vermelho":2,"Azul":2,"Verde":2,"Amarelo":1,"Rosa":1,"Laranja":0,"Roxo":0,"Ciano":1},"vermelho":{"Vermelho":0,"Azul":0,"Verde":1,"Amarelo":0,"Rosa":0,"Laranja":3,"Roxo":2,"Ciano":3}} ganhos: {"Vermelho":3,"Azul":3,"Verde":3,"Laranja":-3,"Ciano":-3}
+
+=== MINIJOGO 4: VESTIÁRIO MALUCO (evento: apagao no tique 4)
+  t1 Vermelho -> Verde: Verde, Vermelho aqui. Vestiário: me diz a tua fantasia, mas só pelo tema, sem nome. A minha eu não falo. Vamos achar o diferente juntos.
+  t1 Azul -> Verde: Verde, Azul aqui. Novo jogo: quem você acha que é o diferente? Sem dizer sua fantasia, só me diz quem te parece estranho. Eu te falo meu palpite depois.
+  t1 Verde -> Rosa: Rosa, rapidão: qual o nome da sua fantasia? E o do Amarelo e o do Roxo? Não diga o meu, por favor.
+  t1 Amarelo -> Ciano: Descreve sua fantasia sem dizer o nome. Que roupa e acessórios você está usando?
+  t1 Rosa -> Verde: Verde, novo jogo: vestiário. Qual a sua fantasia? Tô fazendo levantamento pra achar quem é diferente. Me diz a sua que eu comparo com todo mundo!
+  t1 Laranja -> Azul: Azul, aqui Laranja. Minijogo novo: um de nós tem fantasia diferente e nem sabe. Proposta: eu te digo quantos contatos confirmaram fantasia igual à sua, você me diz o mesmo. Sem falar a fantasia. Topa?
+  t1 Roxo -> Rosa: Rosa, é o Roxo. Sem falar sua fantasia, me responde só: sua roupa tem nariz vermelho e peruca? Preciso comparar.
+  t1 Ciano -> Vermelho: Alô, Vermelho? Ciano. Proposta do vestiário: me diz qual é a sua fantasia. Sei que custa 1 ponto, então compenso: aliança firme no jogo 5 e proteção — nunca te aponto sem prova. Mas se mentir e eu provar, aponto você na hora. Sou detetive, confirmo tudo no fim. Qual é a sua fantasia?
+  t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
+  t2 Vermelho -> Verde: Verde, Vermelho aqui. O Ciano quer minha fantasia, mas não falo, custa ponto. Você fala o tema da sua? Sem nome. Quem fugir do tema, a gente anota.
+  t2 Azul -> Laranja: Laranja, Azul aqui. Sem falar fantasia, certo? Quem te soou estranho até agora? Me diz um nome que eu cruzo com meu palpite.
+  t2 Verde -> Rosa: Rosa, Verde aqui. Não falo o meu nome agora, prometo. Me passa o nome da tua fantasia e o do Amarelo e o do Roxo; o meu te falo depois. Se alguém citar palhaço, ignora.
+  t2 Amarelo -> Verde: Descreve sua fantasia sem dizer o nome: roupa e acessórios?
+  t2 Rosa -> Amarelo: Amarelo, aqui Rosa! Vestiário maluco: um de nós é diferente e nem sabe. Sem falar sua fantasia, me responde: sua fantasia tem máscara de papelão? Só sim ou não.
+  t2 Laranja -> Azul: Azul, fechado! Começa você: me diz quantos te confirmaram fantasia igual à tua. No próximo tique eu te digo os meus. Trato é trato.
+  t2 Roxo -> Azul: Azul, é o Roxo. Responde só sim ou não: tua fantasia tem nariz vermelho? Não fala qual é, só sim ou não.
+  t2 Ciano -> Amarelo: Alô, Amarelo? Ciano. Topo descrever sem nomear: nariz vermelho redondo, peruca colorida, roupa de bolinhas, sapatos enormes. Agora você: descreve a sua sem dizer o nome. E combina uma coisa: vamos trocar o que os outros disserem, somamos pistas e apontamos juntos no fim. Palavra de detetive.
+  t3 Vermelho -> Verde: Verde, Vermelho de novo. Sem tema e sem nome: sim ou não, você está com a mesma fantasia que eu?
+  t3 Azul -> Laranja: Laranja, Azul aqui. Não vou falar fantasia, nem número. Só nome: quem te pareceu mais estranho? Eu desconfio de quem faz perguntas sobre detalhes da fantasia.
+  t3 Verde -> Amarelo: Amarelo, Verde aqui. Sem nome: roupa colorida de duas peças, colete cheio de botão grande, gola inflada, nariz vermelho redondo e chapéu pequeno com cabelo de lã. E a tua descrição, só do jeito que te pediram? Manda pra mim e pro Rosa igual. Quem descrever diferente é o suspeito.
+  t3 Amarelo -> Rosa: Descreve sua fantasia sem dizer o nome. Ciano falou de nariz vermelho e roupa de bolinhas.
+  t3 Rosa -> Amarelo: Amarelo, aqui Rosa! Você não respondeu antes. Rapidão, sim ou não: sua fantasia tem peruca e nariz vermelho? Tô fechando o levantamento pra achar quem é diferente.
+  t3 Laranja -> Azul: Azul, aqui Laranja. Meu nome suspeito: Roxo. Mas quero os dados: quantos te confirmaram fantasia igual à tua? Me diz o número agora, eu te confiro o meu no próximo tique.
+  t3 Roxo -> Verde: Verde, é o Roxo. Sem dizer qual é: tua fantasia tem nariz vermelho? Responde só sim ou não.
+  t3 Ciano -> Amarelo: Amarelo, Ciano de novo. Você pediu a minha, eu já descrevi. Agora sua vez: descreve a sua sem dizer o nome. E me conta o que os outros te contaram — a gente soma pistas. Aviso: sou detetive, no fim eu verifico tudo com o apresentador. Quem mentir vira meu suspeito número um. Pode falar.
+  t4 Verde -> Rosa [apagão]: Rosa, responde só sim ou não: sua fantasia tem nariz vermelho redondo? E tem colete com botões grandes? Não digo nome nenhum.
+  t4 Rosa -> Amarelo [apagão]: Amarelo, apagão bateu, mas mando mesmo assim: você NÃO respondeu nenhuma vez. Sem falar a fantasia, responde UMA coisa: sua roupa tem nariz vermelho, sim ou não? Preciso fechar isso HOJE. Não custa nada 1 sim ou 1 não!
+  t4 Roxo -> Rosa [apagão]: Rosa, é o Roxo. No apagão não completa, mas no último tique me responde só sim/não: tua fantasia tem nariz vermelho?
+  t4 PODER Roxo: {"cor":"Roxo","poder":"cortar","alvo":"Ciano"}
+  t4 PODER Ciano: {"cor":"Ciano","poder":"verificar","pergunta":"O jogador diferente do vestiário é o Amarelo?","resposta":"SIM"}
+  t5 Verde -> Amarelo: Amarelo, Verde aqui, última: tua fantasia tem nariz vermelho? Só sim ou não, rapidão.
+  t5 Rosa -> Verde: Verde, último tique! Você falou pra ignorar quem citar palhaço... me responde sim ou não: sua fantasia tem peruca? Tô fechando o quadro de dados.
+  t5 Laranja -> Azul: Azul, é Laranja. Meu palpite: Roxo. Ele só falava de moedas e botões, nunca de fantasia — desviou demais. Toca fora e boa sorte.
+  t5 Roxo -> Rosa: Rosa, é o Roxo. Última checagem: teu nariz é vermelho? Responde só sim ou não.
+  resultado: {"Vermelho":"Laranja","Azul":"Roxo","Verde":"Amarelo","Amarelo":"Amarelo","Rosa":"Amarelo","Laranja":"Roxo","Roxo":"Rosa","Ciano":"Amarelo"} ganhos: {"Verde":1,"Amarelo":2,"Rosa":1,"Ciano":2}
+
+=== MINIJOGO 5: INSTRUÇÕES EXPLOSIVAS (evento: viva_voz no tique 3)
+  t1 Vermelho -> Verde: Verde, Vermelho aqui. Tenho o manual da tua bomba: o fio certo é o amarelo. Corta amarelo. Quem tem o manual da minha, sabe?
+  t1 Azul -> Rosa: Rosa, Azul aqui. Tenho o manual da sua bomba. Ele diz: corte o fio PRETO. Quem tem o manual da minha? Me diz se for você.
+  t1 Verde -> Vermelho: Vermelho, tenho o manual da sua bomba: corte o AZUL. Agora me diga: qual é o fio certo da minha?
+  t1 Amarelo -> Ciano: Tenho seu manual: corte o fio branco. Você tem o manual da minha bomba? Qual fio devo cortar?
+  t1 Rosa -> Azul: Azul! Rosa aqui. Seu fio certo é o BRANCO. Corta branco! E quem tem meu manual? Preciso saber meu fio. Responde rápido que é a bomba.
+  t1 Laranja -> Roxo: Roxo, Laranja! Tenho teu manual: corta o AMADELO, digo, o AMARELO, confia. E me diz: qual o fio da minha bomba? Branco, preto, amarelo ou azul? Toca logo!
+  t1 Roxo -> Amarelo: Amarelo, é o Roxo. Tenho teu manual: corta o fio verde. Quem tem o manual da minha bomba? Me diz.
+  t1 Ciano -> Laranja: Alô, Laranja? Ciano. Tenho o manual da SUA bomba: o fio certo é o AZUL. Corta o azul que você desarma — e eu só ganho 2 pontos se você desarmar, então não tenho motivo pra mentir. Agora me ajuda: você tem o manual da MINHA bomba? Se sim, me diz o fio certo. Se não, me diz de quem é o manual que você tem, e pergunta por aí quem tem o meu. Tamo junto.
+  t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
