@@ -111,14 +111,14 @@ def main():
             if k not in ('s',):
                 ult = k if k != 'meme' else ult
             if k == 'n':
-                src, d = tts(it[1], B.NARRADOR); audio.append(dict(src=src, at=round(t * FPS))); t += d + 0.15
+                src, d = tts(it[1], B.NARRADOR); audio.append(dict(src=src, at=round(t * FPS), txt=it[1])); t += d + 0.15
             elif k == 'cita':
                 cor, tipo, texto = it[1], it[2], it[3]
                 if opc.get('mudo'):
                     d = min(5.0, max(2.4, len(texto) / 15))
                 else:
                     voz = APRESENTADOR if tipo.startswith('poder') and not cor else B.VOZES.get(cor, APRESENTADOR)
-                    src, d = tts(texto, voz, eco=tipo.startswith('pensamento')); audio.append(dict(src=src, at=round(t * FPS)))
+                    src, d = tts(texto, voz, eco=tipo.startswith('pensamento')); audio.append(dict(src=src, at=round(t * FPS), txt=f'{cor or ""} ({tipo}): {texto}'))
                 over.append(dict(tipo='cita', at=round(t * FPS), dur=round((d + 0.6) * FPS), cor=cor, tipoCita=tipo, texto=texto, mt=opc.get('mt')))
                 t += d + 0.3
             elif k == 'selo':
