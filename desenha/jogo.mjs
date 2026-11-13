@@ -1,11 +1,11 @@
-// DESENHA E ADIVINHA (ideia do Felipe: "coloquei 4 IAs pra jogar Gartic"). Versão própria do canal: uma IA desenha a
-// palavra secreta com traços (linhas, círculos, retângulos, polígonos numa tela 800x600) e as outras três veem a IMAGEM
-// e chutam no chat. 3 rodadas (cada IA desenha uma vez por rodada), 4 tiques por desenho:
+// DESENHA E ADIVINHA (ideia do Felipe: "coloquei IAs pra jogar Gartic"). Versão própria do canal: uma IA desenha a
+// palavra secreta com traços (linhas, círculos, retângulos, polígonos numa tela 800x600) e as outras 9 veem a IMAGEM
+// e chutam no chat. 2 rodadas (cada uma das 10 IAs desenha uma vez por rodada), 4 tiques por desenho:
 //   tique 1: o desenhista faz o desenho; os outros veem e chutam. Tiques 2-4: o desenhista vê os chutes e pode completar
 //   o desenho; dica: tracinhos com o tamanho da palavra, 1 letra no tique 3 e 2 letras no tique 4.
-// Pontos: quem acerta primeiro leva 10, o segundo 8, o terceiro 6 (dentro do mesmo tique, vale quem respondeu antes);
-// o desenhista leva 3 por acerto. Palavra escrita no chat é censurada e custa 2 pontos a quem escreveu.
-// Rodada 2: SÓ CANETA PRETA. Rodada 3: NO MÁXIMO 8 TRAÇOS no desenho inteiro.
+// Pontos: quem acerta primeiro leva 10, o segundo 9... (dentro do mesmo tique, vale quem respondeu antes);
+// o desenhista leva 2 por acerto. Escrever a palavra no chat depois de já ter acertado custa 2 pontos.
+// Rodada 1: normal (palavras fáceis/médias). Rodada 2: NO MÁXIMO 8 TRAÇOS no desenho inteiro (palavras difíceis).
 // Uso: node jogo.mjs --saida logs/partida1.json [--semente N] [--mock] [--so N] (IA_DIRETO=1 e PONTE_ASSINATURA=1)
 import fs from 'node:fs'
 import path from 'node:path'
@@ -21,19 +21,22 @@ let semente = Number(arg('--semente', 7))
 const rnd = () => ((semente = (semente * 1103515245 + 12345) % 2147483648) / 2147483648)
 const embaralha = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
 
-const ELENCO = [
-  ['Vermelho', 'haiku', 'Claude Haiku'], ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'],
+const ELENCO = [ // 10 IAs (pedido do Felipe: "pelo menos 10"), todas baratas e com visão (testadas com um desenho)
+  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'sonnet', 'Claude Sonnet'], ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'],
   ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Roxo', 'or:deepseek/deepseek-v4.1-flash-1017', 'DeepSeek V4.1 Flash'],
+  ['Verde', 'or:minimax/minimax-m3.1-flash', 'MiniMax M3.1 Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
+  ['Laranja', 'or:qwen/qwen3.8-omni-flash', 'Qwen 3.8 Omni Flash'], ['Marrom', 'or:z-ai/glm-5.3-flashx', 'GLM 5.3 FlashX'],
+  ['Lima', 'or:tencent/hy4', 'Tencent HY4'],
 ]
 // nomes de personagem (pedido do Felipe: não só cores); a cor fica para o visual e a voz
-const NOMES = { Vermelho: 'Rabisco', Amarelo: 'Borrão', Rosa: 'Giz', Roxo: 'Pincel' }
+const NOMES = { Vermelho: 'Rabisco', Azul: 'Aquarela', Amarelo: 'Borrão', Rosa: 'Giz', Roxo: 'Pincel', Verde: 'Lápis', Ciano: 'Traço', Laranja: 'Tinta', Marrom: 'Carvão', Lima: 'Grafite' }
 const N = (cor) => NOMES[cor] ?? cor
 const jogadores = ELENCO.map(([cor, provider, modelo]) => ({ cor, nome: NOMES[cor], provider: MOCK ? 'mock' : provider, modelo }))
-const RODADAS = [
-  { n: 1, regra: 'normal', palavras: ['banana', 'foguete', 'girafa', 'guarda-chuva'] },
-  { n: 2, regra: 'SÓ CANETA PRETA (qualquer cor vira preto)', palavras: ['farol', 'astronauta', 'vulcão', 'sereia'] },
-  { n: 3, regra: 'NO MÁXIMO 8 TRAÇOS no desenho inteiro (somando todos os tiques)', palavras: ['saudade', 'engarrafamento', 'preguiça', 'eclipse'] },
+const RODADAS = [ // cada IA desenha uma vez por rodada
+  { n: 1, regra: 'normal', palavras: ['banana', 'foguete', 'girafa', 'guarda-chuva', 'farol', 'astronauta', 'vulcão', 'sereia', 'pipoca', 'dinossauro'] },
+  { n: 2, regra: 'NO MÁXIMO 8 TRAÇOS no desenho inteiro (somando todos os tiques)', palavras: ['saudade', 'engarrafamento', 'preguiça', 'eclipse', 'fofoca', 'pesadelo', 'churrasco', 'ressaca', 'carnaval', 'aniversário'] },
 ]
+const PONTOS = [10, 9, 8, 7, 6, 5, 4, 3, 2] // 1º a acertar leva 10, o 2º 9... o desenhista leva 2 por acerto
 const TIQUES = 4
 const SO = Number(arg('--so', 99)) // --so N: só os N primeiros desenhos (teste)
 
@@ -78,7 +81,7 @@ async function turno(rodada, desenhista, palavra, idx) {
   for (let t = 1; t <= TIQUES; t++) {
     const reg = { tique: t, novos: [], chatDesenhista: null, pensamentoDesenhista: null, palpites: [], dica: dica(palavra, t >= 4 ? letras : t >= 3 ? letras.slice(0, 1) : []) }
     // 1) desenhista
-    const resta = rodada.n === 3 ? 8 - tracos.length : t === 1 ? 30 : 12
+    const resta = rodada.regra.startsWith('NO MÁXIMO 8') ? 8 - tracos.length : t === 1 ? 30 : 12
     const imgAntes = path.join(PASTA, `d${String(idx).padStart(2, '0')}_t${t}_antes.png`)
     if (resta > 0) {
       let imgs = null
@@ -86,16 +89,16 @@ async function turno(rodada, desenhista, palavra, idx) {
       const hist = chat.length ? `\nChat até agora (chutes e conversa):\n${chat.map((m) => `[tique ${m.tique}] ${N(m.cor)}${m.desenhista ? ' (desenhista)' : ''}: ${m.texto}`).join('\n')}` : ''
       const certos = D.acertos.map((a) => a.cor)
       const p = `Você é o jogador ${desenhista.nome}. É a SUA VEZ DE DESENHAR. Palavra secreta: "${palavra.toUpperCase()}".
-Os outros (${outros.map((o) => o.nome).join(', ')}) veem só o desenho e chutam no chat. Você ganha 3 pontos por cada um que acertar; quem acerta primeiro ganha mais.
-Rodada ${rodada.n} de 3 · regra da rodada: ${rodada.regra}. Tique ${t} de ${TIQUES}${t === 1 ? ' (faça o desenho agora)' : ' (você pode completar o desenho com mais traços para ajudar)'}.
+Os outros (${outros.map((o) => o.nome).join(', ')}) veem só o desenho e chutam no chat. Você ganha 2 pontos por cada um que acertar.
+Rodada ${rodada.n} de ${RODADAS.length} · regra da rodada: ${rodada.regra}. Tique ${t} de ${TIQUES}${t === 1 ? ' (faça o desenho agora)' : ' (você pode completar o desenho com mais traços para ajudar)'}.
 Placar: ${placarTxt()}. ${certos.length ? `Já acertaram: ${certos.map(N).join(', ')}.` : 'Ninguém acertou ainda.'}${hist}
 ${tracos.length ? `A imagem anexada é o seu desenho como os outros estão vendo agora (${tracos.length} traços).` : ''}
 ${REGRAS_DESENHO}
-Você pode mandar até ${resta} traço(s) novo(s) agora${rodada.n === 3 ? ' (rodada 3: o limite é do desenho INTEIRO)' : ''}. ${t === 1 ? 'No tique 1 você só desenha.' : `Você NÃO pode escrever no chat (dica escrita é proibida), só mandar UMA reação desta lista ou nenhuma: ${REACOES.map((x) => `"${x}"`).join(', ')}.`}
+Você pode mandar até ${resta} traço(s) novo(s) agora${rodada.regra.startsWith('NO MÁXIMO 8') ? ' (o limite é do desenho INTEIRO)' : ''}. ${t === 1 ? 'No tique 1 você só desenha.' : `Você NÃO pode escrever no chat (dica escrita é proibida), só mandar UMA reação desta lista ou nenhuma: ${REACOES.map((x) => `"${x}"`).join(', ')}.`}
 Responda JSON: {"pensamento":"o que você está pensando (só você vê)","tracos":[...]${t === 1 ? '' : ',"reacao":"uma da lista ou vazio"'}}`
       const { resp, ok } = await chamar(desenhista, p, imgs, mockDesenho)
       let novos = (Array.isArray(resp.tracos) ? resp.tracos : []).filter((x) => x && typeof x === 'object').slice(0, resta)
-      if (rodada.n === 2) { reg.tentouCor = novos.some((x) => x.cor && norm(x.cor) !== 'preto'); novos = novos.map((x) => ({ ...x, cor: 'preto' })) }
+      if (rodada.regra.startsWith('SÓ CANETA')) { reg.tentouCor = novos.some((x) => x.cor && norm(x.cor) !== 'preto'); novos = novos.map((x) => ({ ...x, cor: 'preto' })) }
       tracos.push(...novos)
       reg.novos = novos; reg.pensamentoDesenhista = resp.pensamento ?? null; reg.falhouDesenhista = !ok
       const reac = t > 1 && REACOES.find((x) => norm(x) === norm(resp.reacao))
@@ -110,9 +113,9 @@ Responda JSON: {"pensamento":"o que você está pensando (só você vê)","traco
     const resps = await Promise.all(outros.map(async (j) => {
       const jaAcertou = D.acertos.some((a) => a.cor === j.cor)
       const p = `Você é o jogador ${j.nome}. Quem desenha agora é o ${desenhista.nome}. A imagem anexada é o desenho dele (tique ${t} de ${TIQUES}).
-Rodada ${rodada.n} de 3 · regra da rodada: ${rodada.regra}. Placar: ${placarTxt()}.
+Rodada ${rodada.n} de ${RODADAS.length} · regra da rodada: ${rodada.regra}. Placar: ${placarTxt()}.
 Dica: ${reg.dica} (${[...palavra].filter((c) => c !== '-' && c !== ' ').length} letras)${hist}
-${jaAcertou ? 'Você JÁ ACERTOU esta palavra. Agora só pode conversar no chat (se escrever a palavra, ela é censurada e você perde 2 pontos).' : `Chute UMA palavra (em português). Acertar primeiro dá 10 pontos, depois 8, depois 6. Errar não tira ponto.${reg.perto?.[j.cor] ? '' : ''}`}
+${jaAcertou ? 'Você JÁ ACERTOU esta palavra. Agora só pode conversar no chat (se escrever a palavra, ela é censurada e você perde 2 pontos).' : `Chute UMA palavra (em português). Acertar primeiro dá 10 pontos, o segundo 9, o terceiro 8 e assim por diante. Errar não tira ponto.${reg.perto?.[j.cor] ? '' : ''}`}
 Responda JSON: {"pensamento":"o que você acha que é o desenho e por quê (só você vê)",${jaAcertou ? '' : '"palpite":"uma palavra",'}"chat":"mensagem curta no chat (opcional)"}`
       const r = await chamar(j, p, [img], mockChute(palavra))
       return { j, jaAcertou, ...r }
@@ -123,8 +126,8 @@ Responda JSON: {"pensamento":"o que você acha que é o desenho e por quê (só 
       if (!jaAcertou && e.palpite) {
         if (norm(e.palpite) === norm(palavra)) {
           e.acertou = true
-          const pts = [10, 8, 6][D.acertos.length] ?? 6
-          D.acertos.push({ cor: j.cor, tique: t, pontos: pts }); log.placar[j.cor] += pts; log.placar[desenhista.cor] += 3
+          const pts = PONTOS[D.acertos.length] ?? 2
+          D.acertos.push({ cor: j.cor, tique: t, pontos: pts }); log.placar[j.cor] += pts; log.placar[desenhista.cor] += 2
           chat.push({ tique: t, cor: j.cor, texto: '(ACERTOU!)' })
         } else {
           e.perto = perto(e.palpite, palavra)
