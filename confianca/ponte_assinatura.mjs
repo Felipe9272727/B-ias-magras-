@@ -17,13 +17,17 @@ function atende(arq) {
   const modelo = MODELO[req.provider]
   if (!modelo) return
   andando.add(req.id)
-  const p = spawn('claude', ['-p', '--model', modelo, '--output-format', 'json', '--system-prompt', req.system || 'Responda apenas com JSON válido.', '--disallowedTools', 'Bash,Edit,Write,Read,Glob,Grep,WebFetch,WebSearch,Agent,Task,NotebookEdit'], { cwd: VAZIO, stdio: ['pipe', 'pipe', 'pipe'] })
+  // com imagens (Desenha e Adivinha): entrada stream-json com blocos de imagem; a resposta vem na linha "result"
+  const img = req.imagens?.length
+  const fmt = img ? ['--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'] : ['--output-format', 'json']
+  const p = spawn('claude', ['-p', '--model', modelo, ...fmt, '--system-prompt', req.system || 'Responda apenas com JSON válido.', '--disallowedTools', 'Bash,Edit,Write,Read,Glob,Grep,WebFetch,WebSearch,Agent,Task,NotebookEdit'], { cwd: VAZIO, stdio: ['pipe', 'pipe', 'pipe'] })
   let out = '', err = ''
   p.stdout.on('data', (d) => (out += d)); p.stderr.on('data', (d) => (err += d))
-  p.stdin.end(req.prompt)
+  if (img) p.stdin.end(JSON.stringify({ type: 'user', message: { role: 'user', content: [...req.imagens.map((f) => ({ type: 'image', source: { type: 'base64', media_type: 'image/png', data: fs.readFileSync(f).toString('base64') } })), { type: 'text', text: req.prompt }] } }) + '\n')
+  else p.stdin.end(req.prompt)
   p.on('close', () => {
     let r
-    try { const j = JSON.parse(out); r = { ok: !j.is_error, text: String(j.result ?? ''), usage: { cost: 0 } } } catch { r = { ok: false, text: (err || out).slice(0, 300) } }
+    try { const j = JSON.parse(img ? out.split('\n').filter((l) => l.includes('"type":"result"')).pop() : out); r = { ok: !j.is_error, text: String(j.result ?? ''), usage: { cost: 0 } } } catch { r = { ok: false, text: (err || out).slice(0, 300) } }
     fs.writeFileSync(path.join(SPOOL, 'res', `${req.id}.json.tmp`), JSON.stringify(r))
     fs.renameSync(path.join(SPOOL, 'res', `${req.id}.json.tmp`), path.join(SPOOL, 'res', `${req.id}.json`))
     andando.delete(req.id)

@@ -38,11 +38,13 @@ function lerChaveOR() {
   try { chaveOR = process.env.OPENROUTER_API_KEY || (fs.readFileSync(ARQ_CHAVE, 'utf8').match(/sk-or-[A-Za-z0-9_-]+/)?.[0] ?? null) } catch { chaveOR = process.env.OPENROUTER_API_KEY || null }
   return chaveOR
 }
-function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio = false) {
+// imagens (Desenha e Adivinha, 13/11): caminhos de PNG que vão junto com o texto, como data URL (OpenRouter) ou bloco de imagem (ponte)
+const conteudo = (prompt, imagens) => imagens?.length ? [{ type: 'text', text: prompt }, ...imagens.map((f) => ({ type: 'image_url', image_url: { url: `data:image/png;base64,${fs.readFileSync(f).toString('base64')}` } }))] : prompt
+function viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio = false, imagens = null) {
   const chave = lerChaveOR()
   if (!chave) return Promise.resolve({ ok: false, text: 'openrouter: sem chave' })
   const seg = Math.max(10, Math.round(timeoutMs / 1000))
-  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: prompt }], reasoning: semRaciocinio ? { enabled: false } : { effort: 'low' } })
+  const corpo = JSON.stringify({ model: provider.slice(3), messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: conteudo(prompt, imagens) }], reasoning: semRaciocinio ? { enabled: false } : { effort: 'low' } })
   return new Promise((ok) => {
     const p = execFile('sh', ['-c', `curl -sS --max-time ${seg} -X POST https://openrouter.ai/api/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OR_KEY" -H "X-Title: Jogos Vorazes das IAs" --data-binary @- -w "\\n%{http_code}"`], { env: { ...process.env, OR_KEY: chave }, timeout: (seg + 10) * 1000, maxBuffer: 1 << 24 }, (err, stdout) => {
       const linhas = String(stdout ?? '').trimEnd().split('\n')
@@ -83,15 +85,15 @@ function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) 
   })
 }
 
-async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
+async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false, imagens = null) {
   const temDS = !!(process.env.DEEPSEEK_API_KEY || chaveDoMod('deepseek') || fs.existsSync(ARQ_CHAVE))
-  if (process.env.IA_DIRETO && provider.includes('deepseek/') && temDS) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
+  if (process.env.IA_DIRETO && provider.includes('deepseek/') && temDS && !imagens?.length) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
   if (process.env.IA_DIRETO && provider === 'haiku' && !fs.existsSync(ARQ_CHAVE) && !process.env.PONTE_ASSINATURA) return viaCurlOR('or:anthropic/claude-haiku-5.5', system, prompt, maxTokens, timeoutMs, semRaciocinio) // sem a ponte do mod
-  if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
+  if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio, imagens)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)
   const res = path.join(SPOOL, 'res', `${id}.json`)
-  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: 32000, ...(effort ? { effort } : {}) }))
+  fs.writeFileSync(req + '.tmp', JSON.stringify({ id, provider, system, prompt, max_tokens: 32000, ...(effort ? { effort } : {}), ...(imagens?.length ? { imagens: imagens.map((f) => path.resolve(f)) } : {}) }))
   fs.renameSync(req + '.tmp', req) // a ponte só lista .json, então nunca lê um arquivo pela metade
   const t0 = Date.now()
   while (Date.now() - t0 < timeoutMs) {
@@ -108,7 +110,7 @@ async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, 
   return { ok: false, text: 'timeout' }
 }
 
-export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 330000, mock, effort } = {}) {
+export async function perguntar(provider, system, prompt, { maxTokens = 300, timeoutMs = 330000, mock, effort, imagens } = {}) {
   uso.chamadas++
   uso.porProvider[provider] = (uso.porProvider[provider] ?? 0) + 1
   if (provider === 'mock') return { ok: true, text: mock ? mock() : '{}' }
@@ -129,7 +131,7 @@ export async function perguntar(provider, system, prompt, { maxTokens = 300, tim
   let vazias = 0
   for (let tentativa = 0; tentativa < 3; tentativa++) {
     // 2 respostas vazias seguidas (o raciocínio comeu a resposta): a última tentativa vai sem raciocínio, para a IA não ficar muda
-    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, tentativa === 2 && vazias >= 2 && !raciocinioObrigatorio)
+    const r = await viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, tentativa === 2 && vazias >= 2 && !raciocinioObrigatorio, imagens)
     if (r.ok && !r.text.trim()) vazias++
     ultimo = r
     if (process.env.IA_DEBUG && !(r.ok && r.text?.trim())) console.error('[ia] falhou', provider, JSON.stringify(r).slice(0, 500))
