@@ -2,6 +2,12 @@
 
 Base do post do @Pursuer_M4 na Comunidade, mais acréscimos do canal (profissões secretas e eventos de linha).
 
+## CRÉDITO (pedido do Felipe: dar BASTANTE crédito)
+- O vídeo é IDEIA DO @Pursuer_M4: o jogo, as 6 regras e os 5 minijogos são dele (post "IDEIA DE VÍDEO" na Comunidade).
+  Ele é o fã com mais ideias aceitas no canal (Palhaço/Jester, Carrasco no AU7). No vídeo: abrir agradecendo a ele, selo
+  "ideia de @Pursuer_M4" em cada minijogo, o nome dele no título do capítulo e na descrição, e fechar mencionando de novo.
+- Os tiques já são do canal (o público conhece); não precisa explicar de onde vieram.
+
 ## Base (do post)
 - **8 IAs** (número par), **5 minijogos**, tudo por **TELEFONE COM FIO**: a cada tique cada IA faz no máximo UMA ligação (para
   uma cor) com uma mensagem curta; a resposta só chega no tique seguinte. Todas jogam ao mesmo tempo.
