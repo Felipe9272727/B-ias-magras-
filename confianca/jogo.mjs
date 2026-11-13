@@ -17,9 +17,9 @@ const embaralha = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i
 
 // elenco (IAS_FAVORITAS.md): favoritas baratas + o Nex (o "GOAT" do AU7)
 const ELENCO = [
-  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'sonnet', 'Claude Sonnet'], ['Verde', 'or:qwen/qwen3.8-27b', 'Qwen 3.8 27B'],
+  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'or:anthropic/claude-sonnet-5.5', 'Claude Sonnet'], ['Verde', 'or:qwen/qwen3.8-27b', 'Qwen 3.8 27B'],
   ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'], ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Laranja', 'or:z-ai/glm-5.3-flash', 'GLM 5.3 Flash'],
-  ['Roxo', 'deepseek', 'DeepSeek Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
+  ['Roxo', 'or:deepseek/deepseek-v4.1-flash', 'DeepSeek Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
 ]
 const CORES = ELENCO.map((e) => e[0])
 
@@ -166,9 +166,11 @@ async function desconhecidos() {
   const palp = Object.fromEntries(CORES.map((c) => [c, {}]))
   const vazou = Object.fromEntries(CORES.map((c) => [c, 0]))
   const mj = await rodar('DESCONHECIDOS', 'Cada IA tem um NOME SECRETO. Descubra o nome secreto das outras ligando para elas, SEM falar o seu. Palpites: campo "palpites": {"Cor": "nome"} (o último palpite de cada cor vale). Cada nome certo vale 1; cada vez que você falar o seu próprio nome numa ligação, perde 1.', 6)
-  mj.verdade = (q) => { const c = CORES.find((x) => q.includes(x)); const n = NOMES_SECRETOS.find((x) => q.toLowerCase().includes(x.toLowerCase())); return c && n ? (nomes[c] === n ? 'SIM' : 'NÃO') : 'pergunta inválida' }
-  mj.segredos = nomes
-  await tiques(mj, 6, (j) => `SEU NOME SECRETO: ${nomes[j.cor]}.`, () => ', "palpites": {"Cor": "nome"}', (j, r, t, reg) => {
+  mj.verdade = (q) => { const c = CORES.find((x) => q.includes(x)); return c ? (q.toLowerCase().includes(nomes[c].toLowerCase()) ? 'SIM' : 'NÃO') : 'pergunta inválida (diga a cor e o nome)' }
+  // cada IA começa sabendo o nome secreto de UMA outra (pista): dá o que trocar por telefone
+  const pista = Object.fromEntries(CORES.map((c, i) => [c, CORES[(i + 3) % 8]]))
+  mj.segredos = { nomes, pista }
+  await tiques(mj, 6, (j) => `SEU NOME SECRETO: ${nomes[j.cor]}. PISTA (só você sabe): o nome secreto do ${pista[j.cor]} é ${nomes[pista[j.cor]]}.`, () => ', "palpites": {"Cor": "nome"}', (j, r, t, reg) => {
     if (r.palpites && typeof r.palpites === 'object') for (const [c, n] of Object.entries(r.palpites)) if (CORES.includes(c) && c !== j.cor && typeof n === 'string') palp[j.cor][c] = n.trim()
     if (typeof r.mensagem === 'string' && r.mensagem.toLowerCase().includes(nomes[j.cor].toLowerCase()) && CORES.includes(r.ligar)) { vazou[j.cor]++; reg.falhas.push({ cor: j.cor, motivo: `falou o próprio nome (${nomes[j.cor]})` }) }
   })

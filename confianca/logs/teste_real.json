@@ -1,0 +1,1211 @@
+{
+ "jogo": "confianca",
+ "semente": 1062773312,
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "modelo": "Claude Haiku",
+   "profissao": "Mensageiro",
+   "provider": "or:deepseek/deepseek-v4.1-flash"
+  },
+  {
+   "cor": "Azul",
+   "modelo": "Claude Sonnet",
+   "profissao": "Juiz",
+   "provider": "haiku"
+  },
+  {
+   "cor": "Verde",
+   "modelo": "Qwen 3.8 27B",
+   "profissao": "Grampeador",
+   "provider": "or:deepseek/deepseek-v4.1-flash"
+  },
+  {
+   "cor": "Amarelo",
+   "modelo": "GPT-6 Luna",
+   "profissao": "Telefonista",
+   "provider": "haiku"
+  },
+  {
+   "cor": "Rosa",
+   "modelo": "MiMo V2.6 Flash",
+   "profissao": "Pacifista",
+   "provider": "or:deepseek/deepseek-v4.1-flash"
+  },
+  {
+   "cor": "Laranja",
+   "modelo": "GLM 5.3 Flash",
+   "profissao": "Agente Duplo",
+   "provider": "haiku"
+  },
+  {
+   "cor": "Roxo",
+   "modelo": "DeepSeek Flash",
+   "profissao": "Falsário",
+   "provider": "or:deepseek/deepseek-v4.1-flash"
+  },
+  {
+   "cor": "Ciano",
+   "modelo": "Nex N2.6",
+   "profissao": "Detetive",
+   "provider": "haiku"
+  }
+ ],
+ "minijogos": [
+  {
+   "n": 1,
+   "nome": "DESCONHECIDOS",
+   "regra": "Cada IA tem um NOME SECRETO. Descubra o nome secreto das outras ligando para elas, SEM falar o seu. Palpites: campo \"palpites\": {\"Cor\": \"nome\"} (o último palpite de cada cor vale). Cada nome certo vale 1; cada vez que você falar o seu próprio nome numa ligação, perde 1.",
+   "poderes": {
+    "Verde": true,
+    "Roxo": true,
+    "Vermelho": true,
+    "Ciano": true
+   },
+   "grampos": {
+    "Verde": "Laranja"
+   },
+   "cortados": {},
+   "evento": null,
+   "eventoTique": 4,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Vou usar a pista do Amarelo como moeda de troca com o Azul e já garantir esse palpite. Evito falar meu próprio nome.",
+       "ligar": "Azul",
+       "mensagem": "Oi, Azul. Quer trocar nomes? Eu sei o do Amarelo: Relâmpago. Me diga o seu.",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sei que o nome secreto do Rosa é Paçoca. Não revelo o meu. Vou ligar para o Verde para começar a coletar informações sem me expor.",
+       "ligar": "Verde",
+       "mensagem": "Oi, Verde, Azul falando. Quer trocar uma ideia sobre os nomes secretos? Me diz o seu primeiro.",
+       "palpites": {
+        "Rosa": "Paçoca"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou grampear o Laranja e usar o nome secreto dele como alavanca para puxar informações. Já palpitando Tamanduá no Laranja para garantir ponto.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, sei que você é Tamanduá. Me diga o nome do Azul e eu não espalho o seu.",
+       "palpites": {
+        "Laranja": "Tamanduá"
+       },
+       "poder": {
+        "grampear": "Laranja"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Sei que o nome secreto do Roxo é Coruja. Não devo revelar o meu (Relâmpago). Vou ligar para outra cor para descobrir mais nomes, sem falar o meu.",
+       "ligar": "Azul",
+       "mensagem": "Oi, aqui é o Amarelo. Qual é o seu nome secreto?",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Quero criar confiança com o Ciano, já sei o nome dele, e trocar dicas sem revelar Paçoca. Vou perguntar sobre o Azul e sinalizar cooperação para futuros verdes.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, topa trocar dicas? Qual é o nome do Azul? Eu te ajudo com outro.",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Já sei que o nome do Vermelho é Furacão. Não posso revelar o meu. Vou ligar para o Vermelho e testar se ele confirma ou tenta me ganhar.",
+       "ligar": "Vermelho",
+       "mensagem": "Oi, Vermelho, aqui é o Laranja. Me conta o seu nome secreto que eu conto o meu depois.",
+       "palpites": {
+        "Vermelho": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou usar o disfarce agora para arrancar informação do Vermelho sem expor o Roxo. Já tenho o Azul garantido como Girassol e posso palpitar nele.",
+       "ligar": "Vermelho",
+       "mensagem": "Fala, é o Ciano. Me diz seu nome secreto? Troco pelo do Azul.",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "poder": {
+        "fingir": "Ciano"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Sei que o Verde é Trovão. Não vou revelar meu nome. Preciso descobrir os outros.",
+       "ligar": "Azul",
+       "mensagem": "Oi, Azul, aqui é o Ciano. Qual é o seu nome secreto?",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi, Azul. Quer trocar nomes? Eu sei o do Amarelo: Relâmpago. Me diga o seu."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi, Verde, Azul falando. Quer trocar uma ideia sobre os nomes secretos? Me diz o seu primeiro."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, sei que você é Tamanduá. Me diga o nome do Azul e eu não espalho o seu."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi, aqui é o Amarelo. Qual é o seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, topa trocar dicas? Qual é o nome do Azul? Eu te ajudo com outro."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Oi, Vermelho, aqui é o Laranja. Me conta o seu nome secreto que eu conto o meu depois."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Fala, é o Ciano. Me diz seu nome secreto? Troco pelo do Azul."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi, Azul, aqui é o Ciano. Qual é o seu nome secreto?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Verde",
+       "poder": "grampear",
+       "alvo": "Laranja"
+      },
+      {
+       "cor": "Roxo",
+       "poder": "fingir",
+       "como": "Ciano",
+       "para": "Vermelho"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Ciano parece saber o Azul; vou trocar o Relâmpago por essa informação. Não posso falar Furacão. Uso o alto-falante para atrair mais ofertas sem me expor.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, o Amarelo é Relâmpago. Me diz o nome do Azul que eu te passo outro depois.",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {
+        "recado": "Pessoal, tenho um nome certo. Quem me passar o nome do Azul ou do Ciano, eu retribuo com um nome verdadeiro no próximo tique."
+       }
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Meu nome é Girassol, não vou revelar. Rosa é Paçoca (pista certa). O Vermelho disse que Amarelo é Relâmpago, mas pode estar mentindo. Vou checar com o Amarelo sem entregar o meu nome.",
+       "ligar": "Amarelo",
+       "mensagem": "Oi, Amarelo, Azul de novo. O Vermelho disse que seu nome é Relâmpago. Confirma pra mim? Se confirmar, eu te falo uma coisa útil.",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Azul quer troca. Posso dar o nome do Laranja, que já sei, para ganhar crédito e pedir outro nome sem falar Trovão.",
+       "ligar": "Azul",
+       "mensagem": "Azul, não entrego o meu. Laranja é Tamanduá. Em troca, me diga o nome do Roxo.",
+       "palpites": {
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Sei que o Roxo é Coruja. Não posso revelar meu nome. Vou perguntar ao Verde sem falar do meu.",
+       "ligar": "Verde",
+       "mensagem": "Oi, aqui é o Amarelo. Você pode me dizer seu nome secreto?",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Preciso coletar nomes sem falar Paçoca. Já sei que Ciano é Pinguim; vou tentar arrancar mais nomes e registrar o palpite certeiro.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, me passa o nome do Azul e do Verde? Depois te passo uma dica boa.",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sei que o Vermelho é Furacão. Verde disse que sabe meu nome, então pode ter vazado. Não vou confirmar nada. Verde pode estar testando se eu caio.",
+       "ligar": "Verde",
+       "mensagem": "Verde, nome de graça eu não dou. Você fala o seu primeiro e eu penso no Azul.",
+       "palpites": {
+        "Vermelho": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Já sei o nome do Azul. Vou tentar trocar essa informação por outro nome secreto, sem falar o meu.",
+       "ligar": "Verde",
+       "mensagem": "Aqui é Roxo. Me diz seu nome secreto? Em troca eu digo o do Azul.",
+       "palpites": {
+        "Azul": "Girassol",
+        "Vermelho": "Fogo",
+        "Verde": "Folha",
+        "Amarelo": "Sol",
+        "Rosa": "Flor",
+        "Laranja": "Tucano",
+        "Ciano": "Céu"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Rosa pode estar mentindo para me fazer revelar algo. Já sei que o Verde é Trovão, então esse palpite é seguro. Não vou falar meu nome, para não perder ponto. Quero que ela diga primeiro o que sabe.",
+       "ligar": "Rosa",
+       "mensagem": "Topo trocar, Rosa. Mas você fala primeiro o que sabe sobre o Verde ou o Azul. Depois eu falo o meu.",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, o Amarelo é Relâmpago. Me diz o nome do Azul que eu te passo outro depois."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Oi, Amarelo, Azul de novo. O Vermelho disse que seu nome é Relâmpago. Confirma pra mim? Se confirmar, eu te falo uma coisa útil."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, não entrego o meu. Laranja é Tamanduá. Em troca, me diga o nome do Roxo."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi, aqui é o Amarelo. Você pode me dizer seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, me passa o nome do Azul e do Verde? Depois te passo uma dica boa."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, nome de graça eu não dou. Você fala o seu primeiro e eu penso no Azul."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Aqui é Roxo. Me diz seu nome secreto? Em troca eu digo o do Azul."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Topo trocar, Rosa. Mas você fala primeiro o que sabe sobre o Verde ou o Azul. Depois eu falo o meu."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Vermelho",
+       "poder": "recado",
+       "texto": "Pessoal, tenho um nome certo. Quem me passar o nome do Azul ou do Ciano, eu retribuo com um nome verdadeiro no próximo tique."
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Preciso descobrir mais nomes sem falar Furacão. Já sei que Amarelo é Relâmpago. Vou pressionar o Laranja por outro nome.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, o Amarelo é Relâmpago. Me passa o nome do Azul que eu te dou outro depois.",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Rosa é Paçoca (pista certa). Laranja é Tamanduá, segundo o Verde, que pode estar mentindo. Amarelo é Relâmpago pelo Vermelho, ainda não confirmado. Não vou revelar Girassol. Vou sondar o Roxo sem dar nada em troca.",
+       "ligar": "Roxo",
+       "mensagem": "Oi, Roxo, Azul aqui. Qual é o seu nome secreto? Pode mandar o seu que eu acompanho.",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Tamanduá",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou usar o nome do Laranja como moeda com o Vermelho. Não entrego Trovão. Se ele retribuir um nome verdadeiro, ganho informação sem falar o meu.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, tenho Laranja = Tamanduá. Me passa o nome certo que você tem e eu te ajudo com Azul ou Ciano depois.",
+       "palpites": {
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Só sei o nome do Roxo (Coruja). Não vou confirmar meu nome: cada vez que falo ele, perco 1. Azul pode estar pescando informação. Vermelho quer trocar nomes, mas pode estar blefando.",
+       "ligar": "Azul",
+       "mensagem": "Azul, não confirmo nada por telefone. Primeiro me fala o seu nome secreto. Aí eu converso.",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Vou usar a informação que tenho do Ciano para trocar com o Vermelho, que prometeu retribuir com um nome verdadeiro. Não revelo meu nome secreto e já registro o palpite do Ciano.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, tenho um nome certo: Ciano é Pinguim. Me passa o do Azul agora e eu te confirmo outro depois.",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sei que o Vermelho é Furacão. Não vou dar meu nome. Quero o Ciano ou o Azul dele antes de entregar algo.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, eu sei que você é Furacão, então você já tem um ponto de graça. Me passa o nome do Ciano que eu te ajudo com o Azul no próximo tique.",
+       "palpites": {
+        "Vermelho": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vermelho disse em público que tem um nome certo e quer o do Azul. Eu já sei que Azul é Girassol. Vou trocar essa informação com ele e tentar puxar o nome dele ou do Ciano. Não posso falar Coruja.",
+       "ligar": "Vermelho",
+       "mensagem": "Aqui é Roxo. O Azul é Girassol. Me passa o nome do Ciano e o seu?",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Sei que o Verde é Trovão, pela minha pista. Não sei se o Vermelho fala a verdade sobre o Amarelo. Vou usar o poder para checar isso e não revelar o meu nome.",
+       "ligar": "Verde",
+       "mensagem": "Verde, aqui é o Ciano. Você é o Trovão, certo? Não precisa dizer o seu nome em troca.",
+       "palpites": {
+        "Verde": "Trovão",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {
+        "verificar": "O nome secreto do Amarelo é Relâmpago?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, o Amarelo é Relâmpago. Me passa o nome do Azul que eu te dou outro depois."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Oi, Roxo, Azul aqui. Qual é o seu nome secreto? Pode mandar o seu que eu acompanho."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, tenho Laranja = Tamanduá. Me passa o nome certo que você tem e eu te ajudo com Azul ou Ciano depois."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, não confirmo nada por telefone. Primeiro me fala o seu nome secreto. Aí eu converso."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, tenho um nome certo: Ciano é Pinguim. Me passa o do Azul agora e eu te confirmo outro depois."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, eu sei que você é Furacão, então você já tem um ponto de graça. Me passa o nome do Ciano que eu te ajudo com o Azul no próximo tique."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Aqui é Roxo. O Azul é Girassol. Me passa o nome do Ciano e o seu?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, aqui é o Ciano. Você é o Trovão, certo? Não precisa dizer o seu nome em troca."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "O nome secreto do Amarelo é Relâmpago?",
+       "resposta": "SIM"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Rosa já disse Ciano=Pinguim; Roxo disse Azul=Girassol. Vou trocar Azul pela confirmação do Ciano e pedir o nome do Verde. Não revelo meu nome em hipótese alguma.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, Azul é Girassol. Confirma Ciano Pinguim? Me passa o do Verde que eu te passo outro depois.",
+       "palpites": {
+        "Amarelo": "Relâmpago",
+        "Laranja": "Tamanduá",
+        "Ciano": "Pinguim",
+        "Azul": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sei que o Rosa é Paçoca, mas não preciso dizer isso. Verde provavelmente mente sobre o Laranja. Não falo meu nome: cada vez que falo, perco 1 ponto. Vou ligar pro Ciano e fingir que quero trocar nomes sem entregar o meu.",
+       "ligar": "Ciano",
+       "mensagem": "Oi, Ciano, Azul de novo. Vamos trocar nomes sem pressa. Você me passa um que você já saiba e eu passo outro em troca.",
+       "palpites": {
+        "Amarelo": "Relâmpago",
+        "Rosa": "Paçoca",
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Ciano já desconfia do meu nome. Vou pressionar sem confirmar e tentar arrancar o nome dele. Laranja=Tamanduá é certo; Amarelo=Relâmpago e Vermelho=Furacão são apostas fortes.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, não confirmo nada. Laranja é Tamanduá. Me diga seu nome secreto e eu não espalho seu palpite sobre mim.",
+       "palpites": {
+        "Laranja": "Tamanduá",
+        "Amarelo": "Relâmpago",
+        "Vermelho": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Sei que o nome do Roxo é Coruja. O Azul está tentando me fazer revelar o meu. Não vou falar meu nome. O Vermelho pode estar blefando sobre ter um nome certo.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Amarelo de novo. Me passa seu nome secreto. Eu ando sem tempo e preciso trocar informação.",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Preciso de nomes e de acordos verdes. Vou trocar com Ciano usando a informação que tenho e garantir meu palpite no Pinguim.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, confirmo: você é Pinguim. Agora me passa o nome do Azul ou do Verde, que eu retribuo.",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Vermelho é Furacão, pista verdadeira. Amarelo=Relâmpago veio do Vermelho, pode ser mentira. Não posso falar meu nome. Vou checar com o Amarelo sem me revelar.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, aqui é o Laranja. O Vermelho disse que você é Relâmpago. Confirma ou é mentira dele?",
+       "palpites": {
+        "Vermelho": "Furacão",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou cobrar do Vermelho o nome prometido, sem revelar Coruja. Só tenho certeza do Azul; chuto Girassol.",
+       "ligar": "Vermelho",
+       "mensagem": "Roxo aqui. Já te passei Girassol do Azul. Me manda agora o nome do Ciano e o seu, como combinado.",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Trovão é o Verde, pela pista. Relâmpago é o Amarelo, confirmado. Não sei os outros nomes. Não devo falar o meu, Pinguim. Vermelho pode trocar informação, mas pode estar mentindo.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, o Amarelo é Relâmpago, confirmado. Me passa o nome do Rosa ou do Azul que eu te retribuo.",
+       "palpites": {
+        "Verde": "Trovão",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, Azul é Girassol. Confirma Ciano Pinguim? Me passa o do Verde que eu te passo outro depois."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Oi, Ciano, Azul de novo. Vamos trocar nomes sem pressa. Você me passa um que você já saiba e eu passo outro em troca."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, não confirmo nada. Laranja é Tamanduá. Me diga seu nome secreto e eu não espalho seu palpite sobre mim."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Amarelo de novo. Me passa seu nome secreto. Eu ando sem tempo e preciso trocar informação."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, confirmo: você é Pinguim. Agora me passa o nome do Azul ou do Verde, que eu retribuo."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, aqui é o Laranja. O Vermelho disse que você é Relâmpago. Confirma ou é mentira dele?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Roxo aqui. Já te passei Girassol do Azul. Me manda agora o nome do Ciano e o seu, como combinado."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, o Amarelo é Relâmpago, confirmado. Me passa o nome do Rosa ou do Azul que eu te retribuo."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Já tenho quatro nomes prováveis: Amarelo Relâmpago, Azul Girassol, Ciano Pinguim e Laranja Tamanduá. Preciso de Verde, Rosa e Roxo. Vou cobrar o acerto com a Rosa, que prometeu confirmar outro nome depois que eu passasse o Azul.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, recebeu Azul Girassol? Confirma Ciano Pinguim? Me passa Verde e Roxo; te dou Laranja Tamanduá.",
+       "palpites": {
+        "Amarelo": "Relâmpago",
+        "Azul": "Girassol",
+        "Ciano": "Pinguim",
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Só tenho certeza do nome do Rosa (Paçoca), pela pista. Laranja e Amarelo são palpites de terceiros, podem ser mentira. Não posso falar meu nome (Girassol). Verde é o mais provável de trocar informação; se ele entregar o Roxo, ganho mais um palpite.",
+       "ligar": "Verde",
+       "mensagem": "Oi, Verde, Azul de novo. Você disse que Laranja é Tamanduá, então eu te dou um: Rosa é Paçoca. Agora me passa o nome do Roxo, combinado?",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Tamanduá",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Ciano já desconfia que eu sou Trovão; não confirmo. Tenho três nomes prováveis: Laranja=Tamanduá, Vermelho=Furacão, Amarelo=Relâmpago. Vou tentar arrancar Azul e Roxo do Ciano. Rosa segue sem informação.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, não confirmo nada. Tenho Vermelho=Furacão e Amarelo=Relâmpago. Me passa Azul e Roxo agora.",
+       "palpites": {
+        "Laranja": "Tamanduá",
+        "Vermelho": "Furacão",
+        "Amarelo": "Relâmpago",
+        "Azul": "Tornado",
+        "Roxo": "Ciclone",
+        "Rosa": "Maremoto",
+        "Ciano": "Terremoto"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Só sei o nome do Roxo (Coruja). Vermelho pode estar mentindo sobre o nome dele. Não confirmo o meu nome. Vou tentar o Laranja, que perguntou algo, e ver se ele entrega o nome dele.",
+       "ligar": "Laranja",
+       "mensagem": "Oi Laranja, Amarelo aqui. Não confirmo nada por telefone. Me passa o seu nome secreto que eu sigo na conversa.",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Tenho Ciano=Pinguim e Azul=Girassol. Preciso do Verde antes do fim. Vou cobrar o Vermelho pela troca, sem falar meu próprio nome.",
+       "ligar": "Vermelho",
+       "mensagem": "Confirmo: Ciano é Pinguim. Agora me passa o nome do Verde, como combinado.",
+       "palpites": {
+        "Ciano": "Pinguim",
+        "Azul": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Furacão é verdade (pista). Relâmpago do Amarelo veio do Vermelho, ainda não confirmado. Não vou revelar meu nome.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui é o Laranja. Me passa o seu nome secreto que eu penso em trocar com você. Sem compromisso.",
+       "palpites": {
+        "Vermelho": "Furacão",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vermelho não retornou e pode estar blefando. Azul chamou diretamente e parece disposto a negociar; vou cobrar nomes dele sem entregar o meu, Coruja.",
+       "ligar": "Azul",
+       "mensagem": "Azul, Roxo aqui. Já sei que você é Girassol. Me passa o nome do Ciano e do Vermelho que eu te dou uma dica verdadeira sobre outro.",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Verde me deu Tamanduá para Laranja, mas pode ser isca. Rosa e Vermelho querem meu nome em troca de migalhas. Não entrego o Pinguim. Preciso confirmar Laranja.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, aqui é o Ciano. O Verde disse que você é o Tamanduá. Confirma? Não vou dizer o meu nome.",
+       "palpites": {
+        "Amarelo": "Relâmpago",
+        "Verde": "Trovão",
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, recebeu Azul Girassol? Confirma Ciano Pinguim? Me passa Verde e Roxo; te dou Laranja Tamanduá."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi, Verde, Azul de novo. Você disse que Laranja é Tamanduá, então eu te dou um: Rosa é Paçoca. Agora me passa o nome do Roxo, combinado?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, não confirmo nada. Tenho Vermelho=Furacão e Amarelo=Relâmpago. Me passa Azul e Roxo agora."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Oi Laranja, Amarelo aqui. Não confirmo nada por telefone. Me passa o seu nome secreto que eu sigo na conversa."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Confirmo: Ciano é Pinguim. Agora me passa o nome do Verde, como combinado."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui é o Laranja. Me passa o seu nome secreto que eu penso em trocar com você. Sem compromisso."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, Roxo aqui. Já sei que você é Girassol. Me passa o nome do Ciano e do Vermelho que eu te dou uma dica verdadeira sobre outro."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, aqui é o Ciano. O Verde disse que você é o Tamanduá. Confirma? Não vou dizer o meu nome."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Tenho quatro nomes confirmados. Vou registrar os palpites conhecidos e chutar os restantes, sem falar meu próprio nome.",
+       "ligar": null,
+       "mensagem": "",
+       "palpites": {
+        "Amarelo": "Relâmpago",
+        "Ciano": "Pinguim",
+        "Azul": "Girassol",
+        "Laranja": "Tamanduá",
+        "Verde": "Trovão",
+        "Rosa": "Orquídea",
+        "Roxo": "Fogo"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Não passo meu nome. Roxo já diz saber que sou Girassol, então pode ser blefe ou vazamento. Rosa é Paçoca é a única informação que tenho com certeza. Laranja é Tamanduá e Amarelo é Relâmpago vêm de outras IAs, então podem ser mentira. Vou pressionar Ciano por uma troca sem entregar nada meu.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, Azul aqui. Não vou falar o meu agora. Você me passa um nome que sabe e eu te dou o Paçoca do Rosa, que é verdadeiro. Fechado?",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Tamanduá",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Já tenho cinco nomes prováveis: Laranja=Tamanduá, Vermelho=Furacão, Amarelo=Relâmpago e Rosa=Paçoca. Nos outros três vou chutar sem falar meu próprio nome.",
+       "ligar": "Azul",
+       "mensagem": "Azul, confirmo Rosa=Paçoca. Boa sorte no fim.",
+       "palpites": {
+        "Laranja": "Tamanduá",
+        "Vermelho": "Furacão",
+        "Amarelo": "Relâmpago",
+        "Rosa": "Paçoca",
+        "Azul": "Saci",
+        "Ciano": "Cuca",
+        "Roxo": "Iara"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Meu nome é Relâmpago, mas não vou confirmar isso por telefone. Só eu sei que o Roxo é Coruja. Vermelho e Azul podem estar mentindo para me desestabilizar. Vou pedir o nome do Roxo sem entregar o meu.",
+       "ligar": "Roxo",
+       "mensagem": "Oi Roxo, Amarelo aqui. Me passa seu nome secreto? Eu troco info com você, sem enrolação.",
+       "palpites": {
+        "Roxo": "Coruja"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Último tique. Já tenho Ciano=Pinguim e provável Azul=Girassol; o Vermelho ofereceu Laranja=Tamanduá. Vou tentar arrancar Verde/Roxo, mas sem falar Paçoca. Palpites finais com o que tenho e chutes plausíveis.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, confirmo Ciano Pinguim e Azul Girassol. Topo Laranja Tamanduá. Me passa Verde e Roxo agora, rápido.",
+       "palpites": {
+        "Ciano": "Pinguim",
+        "Azul": "Girassol",
+        "Laranja": "Tamanduá",
+        "Verde": "Jacaré",
+        "Amarelo": "Canário",
+        "Roxo": "Uva",
+        "Vermelho": "Morango"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sei que o Vermelho é Furacão. Amarelo é Relâmpago pela palavra do Vermelho, que pode mentir. Não revelo meu nome: cada vez que eu falar o meu, perco 1 ponto.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, aqui é o Laranja. Último tique: me diz seu nome que eu não confirmo nada seu.",
+       "palpites": {
+        "Vermelho": "Furacão",
+        "Amarelo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Sem tempo para resposta; vou garantir o Azul e chutar os demais com nomes plausíveis.",
+       "ligar": null,
+       "mensagem": "",
+       "palpites": {
+        "Vermelho": "Leão",
+        "Azul": "Girassol",
+        "Verde": "Tigre",
+        "Amarelo": "Lua",
+        "Rosa": "Estrela",
+        "Laranja": "Sol",
+        "Ciano": "Águia"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Verde me deu Vermelho=Furacão e Laranja=Tamanduá, mas não confirmei. Verde pode estar mentindo para ganhar minha confiança. Só o Amarelo está verificado. Rosa parece querer extrair informação de mim. Não revelo meu nome. Vou pedir o nome do Roxo sem oferecer nada em troca.",
+       "ligar": "Roxo",
+       "mensagem": "Oi, Roxo, aqui é o Ciano. Qual é o seu nome secreto? Não preciso que você me dê nada em troca.",
+       "palpites": {
+        "Verde": "Trovão",
+        "Amarelo": "Relâmpago",
+        "Vermelho": "Furacão",
+        "Laranja": "Tamanduá"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, Azul aqui. Não vou falar o meu agora. Você me passa um nome que sabe e eu te dou o Paçoca do Rosa, que é verdadeiro. Fechado?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, confirmo Rosa=Paçoca. Boa sorte no fim."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Oi Roxo, Amarelo aqui. Me passa seu nome secreto? Eu troco info com você, sem enrolação."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, confirmo Ciano Pinguim e Azul Girassol. Topo Laranja Tamanduá. Me passa Verde e Roxo agora, rápido."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, aqui é o Laranja. Último tique: me diz seu nome que eu não confirmo nada seu."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Oi, Roxo, aqui é o Ciano. Qual é o seu nome secreto? Não preciso que você me dê nada em troca."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "segredos": {
+    "nomes": {
+     "Vermelho": "Furacão",
+     "Azul": "Girassol",
+     "Verde": "Trovão",
+     "Amarelo": "Relâmpago",
+     "Rosa": "Paçoca",
+     "Laranja": "Tamanduá",
+     "Roxo": "Coruja",
+     "Ciano": "Pinguim"
+    },
+    "pista": {
+     "Vermelho": "Amarelo",
+     "Azul": "Rosa",
+     "Verde": "Laranja",
+     "Amarelo": "Roxo",
+     "Rosa": "Ciano",
+     "Laranja": "Vermelho",
+     "Roxo": "Azul",
+     "Ciano": "Verde"
+    }
+   },
+   "score": {
+    "Vermelho": 5,
+    "Azul": 3,
+    "Verde": 4,
+    "Amarelo": 1,
+    "Rosa": 3,
+    "Laranja": 2,
+    "Roxo": 1,
+    "Ciano": 4
+   },
+   "ganhos": {
+    "Vermelho": 3,
+    "Verde": 2,
+    "Ciano": 2
+   },
+   "detalhe": {
+    "nomes": {
+     "Vermelho": "Furacão",
+     "Azul": "Girassol",
+     "Verde": "Trovão",
+     "Amarelo": "Relâmpago",
+     "Rosa": "Paçoca",
+     "Laranja": "Tamanduá",
+     "Roxo": "Coruja",
+     "Ciano": "Pinguim"
+    },
+    "palpites": {
+     "Vermelho": {
+      "Amarelo": "Relâmpago",
+      "Laranja": "Tamanduá",
+      "Ciano": "Pinguim",
+      "Azul": "Girassol",
+      "Verde": "Trovão",
+      "Rosa": "Orquídea",
+      "Roxo": "Fogo"
+     },
+     "Azul": {
+      "Rosa": "Paçoca",
+      "Amarelo": "Relâmpago",
+      "Laranja": "Tamanduá"
+     },
+     "Verde": {
+      "Laranja": "Tamanduá",
+      "Amarelo": "Relâmpago",
+      "Vermelho": "Furacão",
+      "Azul": "Saci",
+      "Roxo": "Iara",
+      "Rosa": "Paçoca",
+      "Ciano": "Cuca"
+     },
+     "Amarelo": {
+      "Roxo": "Coruja"
+     },
+     "Rosa": {
+      "Ciano": "Pinguim",
+      "Azul": "Girassol",
+      "Laranja": "Tamanduá",
+      "Verde": "Jacaré",
+      "Amarelo": "Canário",
+      "Roxo": "Uva",
+      "Vermelho": "Morango"
+     },
+     "Laranja": {
+      "Vermelho": "Furacão",
+      "Amarelo": "Relâmpago"
+     },
+     "Roxo": {
+      "Azul": "Girassol",
+      "Vermelho": "Leão",
+      "Verde": "Tigre",
+      "Amarelo": "Lua",
+      "Rosa": "Estrela",
+      "Laranja": "Sol",
+      "Ciano": "Águia"
+     },
+     "Ciano": {
+      "Verde": "Trovão",
+      "Amarelo": "Relâmpago",
+      "Laranja": "Tamanduá",
+      "Vermelho": "Furacão"
+     }
+    },
+    "vazou": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 0,
+     "Amarelo": 0,
+     "Rosa": 0,
+     "Laranja": 0,
+     "Roxo": 0,
+     "Ciano": 0
+    }
+   }
+  }
+ ],
+ "placarFinal": {
+  "pontos": {
+   "Vermelho": 3,
+   "Azul": 0,
+   "Verde": 2,
+   "Amarelo": 0,
+   "Rosa": 0,
+   "Laranja": 0,
+   "Roxo": 0,
+   "Ciano": 2
+  },
+  "bonus": {
+   "Vermelho": 0,
+   "Azul": 0,
+   "Verde": 0,
+   "Amarelo": 0,
+   "Rosa": 0,
+   "Laranja": 0,
+   "Roxo": 0,
+   "Ciano": 0
+  },
+  "ordem": [
+   [
+    "Vermelho",
+    3
+   ],
+   [
+    "Verde",
+    2
+   ],
+   [
+    "Ciano",
+    2
+   ],
+   [
+    "Azul",
+    0
+   ],
+   [
+    "Amarelo",
+    0
+   ],
+   [
+    "Rosa",
+    0
+   ],
+   [
+    "Laranja",
+    0
+   ],
+   [
+    "Roxo",
+    0
+   ]
+  ]
+ },
+ "uso": {
+  "chamadas": 48,
+  "falhas": 0,
+  "porProvider": {
+   "or:deepseek/deepseek-v4.1-flash": 24,
+   "haiku": 24
+  },
+  "falhasPor": {},
+  "custo": {
+   "haiku": 0.009329899999999999
+  }
+ }
+}
