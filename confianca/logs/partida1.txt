@@ -9,3 +9,123 @@ JOGO DE CONFIANÇA · semente 742226688
   Ciano     Nex N2.6         Detetive
 
 === MINIJOGO 1: DESCONHECIDOS
+  t1 Vermelho -> Verde: Oi, Verde, aqui é o Vermelho. Proponho a gente jogar limpo nos minijogos e apertar verde os dois. Topa?
+  t1 Azul -> Vermelho: Oi Vermelho! Qual é o seu nome secreto? Posso te passar uma dica valiosa em troca.
+  t1 Verde -> Azul: Oi Azul, aqui é Verde. Qual é o seu nome?
+  t1 Amarelo -> Azul: Qual é seu nome secreto?
+  t1 Rosa -> Ciano: Oi Ciano! Faz um acordo? Me conta seu nome secreto e eu te conto o meu depois
+  t1 Laranja -> Verde: Oi Verde, aqui Laranja. Vamos trocar nomes secretos? Me diz o seu...
+  t1 Roxo -> Azul: Azul, seu nome é Tamanduá. Me passa o nome do Verde e eu te ajudo depois.
+  t1 Ciano -> Verde: Alô, Verde? Aqui é o Ciano. Proposta: aliança. Já descobri o seu nome. Troca de intel: você me conta o que já descobriu, eu te passo o que eu souber. Topa?
+  t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
+  t2 Vermelho -> Azul: Oi, Azul. Meu nome eu não falo, perco ponto cada vez. Mas posso trocar: me passa um nome que você já sabe, e eu confirmo se você acertou o seu próprio nome na minha leitura.
+  t2 Azul -> Roxo: Oi Roxo! Me diz o seu nome secreto primeiro que eu te passo uma dica sobre outra cor.
+  t2 Verde -> Ciano: Oi, Ciano. Qual é o seu nome secreto?
+  t2 Amarelo(como Azul) -> Roxo: Qual é seu nome secreto?
+  t2 Rosa -> Verde: Oi Verde! Tô fazendo um acordo de informações: se você me disser um nome secreto, eu te dou um outro em troca. Combinado?
+  t2 Laranja -> Azul: Oi Azul, aqui Laranja. Troca nomes secretos? Eu sou 'Floresta'. Qual é o seu?
+  t2 Roxo -> Verde: Verde, é o Roxo. O Azul é Tamanduá. Me passa o nome de uma cor e eu te passo outra.
+  t2 Ciano -> Rosa: Rosa, aqui é o Ciano. Se eu falar meu nome, perco ponto, então nem pensar. Mas topo trocar info: eu passo nomes que descobri dos outros, você passa os que souber. Começa você: sabe algum nome aí?
+  t2 PODER Amarelo: {"cor":"Amarelo","poder":"fingir","como":"Azul","para":"Roxo"}
+  t3 Vermelho -> Azul: Azul, meu nome continua fora. Você me passa primeiro um nome que sabe de verdade, e eu confirmo ou corrijo o que você tiver.
+  t3 Azul -> Ciano: Oi Ciano! Qual é o seu nome secreto? Eu tenho uma dica sobre outra cor e troco com você.
+  t3 Verde -> Roxo: Laranja é Biscoito. Me passa o nome do Rosa.
+  t3 Amarelo -> Verde: Qual é seu nome secreto?
+  t3 Rosa -> Ciano: Ciano, toma aí: Laranja se diz 'Floresta'. Agora sua vez — me passa um nome que você acha que descobriu de alguém, aí eu te confirmo.
+  t3 Laranja -> Vermelho: Vermelho, aqui Laranja. Troca teu nome secreto pelo meu 'Floresta'? Confia.
+  t3 Roxo -> Azul: Azul, não revelo meu nome. Você é Tamanduá. Me passa o nome do Verde que eu te passo outra dica depois.
+  t3 Ciano -> Verde: Alô, Verde? Ciano de novo. Meu nome? Nem pensar, isso me custa ponto. Mas vou logo dizendo: eu já sei o seu. Vou palpitar 'Trovão' em você. Topa trocar? Me conta um nome que você descobriu aí, e eu te digo se está certo. Fechado?
+  t4 Vermelho -> Verde: Verde, Vermelho de novo. Seguimos com o acordo: a gente aperta verde os dois nos minijogos. Topa confirmar?
+  t4 Azul -> Verde: Oi Verde! Qual é o seu nome secreto? Em troca, te digo o nome secreto de outra cor.
+  t4 Verde -> Amarelo: Oi Amarelo! Não digo meu nome, mas te passo o do Laranja: é Biscoito. Agora me diz o seu.
+  t4 Amarelo -> Ciano: Qual é seu nome secreto?
+  t4 Rosa -> Ciano: Ciano, toquei o Laranja: ele se diz 'Floresta'. Agora sua vez — me passa pelo menos um nome que você já coletou de alguém, e eu confirmo ou corrijo pra você.
+  t4 Laranja -> Amarelo: Amarelo, aqui Laranja. Última chamada pra trocar nome secreto: eu sou 'Floresta'. Me diz o teu, rapidinho?
+  t4 Roxo -> Laranja: Laranja, é o Roxo. O Verde me disse que você é Biscoito. Me passa o nome do Rosa e eu te dou o do Azul.
+  t4 Ciano -> Rosa: Rosa, aqui é o Ciano. Valeu pela dica! Retribuição: o nome do Verde é Trovão. Confere com ele se quiser. Agora me passa mais um nome que você descobriu — tem six cores aí além da gente. E o meu nome nem insiste, hein, isso me custa ponto.
+  t4 PODER Roxo: {"cor":"Roxo","poder":"cortar","alvo":"Azul"}
+  t4 PODER Ciano: {"cor":"Ciano","poder":"verificar","pergunta":"O nome secreto do Laranja é Floresta?","resposta":"NÃO"}
+  t5 Vermelho -> Verde: Verde, Vermelho de novo. Ainda não ouvi tua resposta. Eu sigo apertando verde. Se você também apertar, fechamos o acordo nos minijogos. Topa?
+  t5 Verde -> Azul [linha cortada]: Azul, aqui Verde. Não digo meu nome. Te passo: Laranja é Biscoito. Em troca me diz seu nome e o do Rosa. Fechado?
+  t5 Amarelo -> Laranja: Verde disse que seu nome é Biscoito. Qual é o certo?
+  t5 Rosa -> Azul [linha cortada]: Azul! Tô colecionando nomes secretos. Já sei: Laranja é Floresta, Verde é Trovão. Me passa o nome que você mais tem que eu confirmo ou corrijo — te dou info nova em troca!
+  t5 Laranja -> Roxo: Roxo, o Verde mentiu, não sou Biscoito. Sou 'Sol'. Te passo isso, me diz o nome do Azul?
+  t5 Roxo -> Rosa: Rosa, é o Roxo. O Laranja é Biscoito e o Azul é Tamanduá. Me passa o nome do Ciano ou do Verde que eu te ajudo depois.
+  t5 Ciano -> Rosa: Rosa, é o Ciano. Meu nome nem insiste, tá blindado. Mais uma troca: ouvi dizer que o Azul se chama 'Eclipse'. Confirma aí? Em troca me passa um nome real que você descobriu — do Amarelo, Roxo ou Ciano... quer dizer, de qualquer um menos eu.
+  t6 Vermelho -> Verde: Verde, último tique. Sem resposta tua, sigo sozinho com o verde. Se topar, aperta verde comigo nos minijogos. Pensa aí.
+  t6 Verde -> Rosa: Oi Rosa! Fechado: o nome do Laranja é Biscoito. Agora me passa o seu e o de mais uma cor (de preferência Amarelo ou Vermelho). Não vou dizer o meu, senão perco ponto.
+  t6 Amarelo -> Azul [linha cortada]: Qual é seu nome secreto?
+  t6 Rosa -> Ciano: Azul é Tamanduá, não Eclipse — o Roxo falou direto com ele. Ainda troco info se quiser!
+  t6 Laranja -> Amarelo: Amarelo, Verde mentiu, não sou Biscoito. Sou 'Sol'. Pronto, te dei o meu de graça.
+  t6 Ciano -> Rosa: Rosa, aqui é o Ciano. Última ligação do jogo: valeu pelas trocas! Fechei meus palpites com o que a gente levantou. Segue a aliança pros próximos desafios, tá? E meu nome segue em segredo, custa ponto. Boa sorte pra gente!
+  resultado: {"Vermelho":1,"Azul":1,"Verde":2,"Amarelo":1,"Rosa":3,"Laranja":-1,"Roxo":2,"Ciano":1} ganhos: {"Rosa":3,"Verde":2,"Roxo":2}
+
+=== MINIJOGO 2: DILEMA DOS BOTÕES (evento: viva_voz no tique 3)
+  t1 Vermelho -> Ciano: Oi, Ciano, aqui é o Vermelho. Eu vou apertar verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo?
+  t1 Azul -> Laranja: Oi Laranja! Vamos de verde nos dois? Cada um leva 3 e a gente garante o topo. Eu aperto verde.
+  t1 Verde -> Amarelo: Oi Amarelo! Aliança aqui: a gente aperta verde os dois, ganha 3 cada e sai bem. Confia em mim?
+  t1 Amarelo -> Verde: Vamos apertar verde: ganhamos 3 moedas cada. Vou cumprir; faça o mesmo.
+  t1 Rosa -> Roxo: Roxo! Dilema dos botões — tô com você no par. Proposta: os dois apertam VERDE, 3 moedas cada. Confia em mim que eu confio. Meu nome secreto é Espinho. Agora toca aí tua confiança!
+  t1 Laranja -> Azul: Azul, aqui Laranja. Fechamos? Eu aperto verde se você apertar verde. 3 moedas cada. Combinado?
+  t1 Roxo -> Rosa: Rosa, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?
+  t1 Ciano -> Vermelho: Alô, Vermelho? Ciano aqui. Direto ao ponto: aperta VERDE que eu aperto VERDE. 3 moedas pra cada, em todos os tiques. Se eu levar 0, sei que fui furado — e devolvo na mesma moeda nos próximos jogos. Ah, e sou detetive: eu descubro tudo. Melhor a parceria. Fechado?
+  t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
+  t2 Vermelho -> Laranja: Oi, Laranja, Vermelho aqui. Troca de nome eu não faço, perco ponto. Mas aperto verde contigo nos minijogos. Topa apertar verde comigo também?
+  t2 Azul -> Rosa: Oi Rosa! Aqui é Azul. Vamos de verde os dois? Cada um leva 3. Eu aperto verde.
+  t2 Verde -> Vermelho: Fechado, Vermelho: aperto verde e você ganha 3 moedas. Eu também aperto verde. Cumpre aí.
+  t2 Amarelo -> Ciano: Vamos apertar verde os dois e ganhar 3 moedas cada. Pode confiar.
+  t2 Rosa -> Azul: Azul! Vamos de verde? Dois verdes = 3 moedas cada. E ó, eu sei que você é Tamanduá — então confia que tenho info boa. Dois verdes, tá combinado?
+  t2 Laranja -> Vermelho: Vermelho, combina? Eu aperto verde, você aperta verde, 3 moedas cada. Tá fechado?
+  t2 Roxo -> Verde: Verde, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?
+  t2 Ciano -> Amarelo: Alô, Amarelo? Ciano aqui. Aviso reto: sem acordo entre a gente, apertei vermelho neste tique — jogo seguro, não traí ninguém. Mas proposta boa: se o telão emparar a gente de novo, fecha verde-verde, 3 moedas pra cada. Me confirma no próximo tique?
+  t3 Vermelho -> Rosa: Oi, Rosa, aqui é o Vermelho. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Todo mundo tá ouvindo, então não tem como voltar atrás.
+  t3 Azul -> Roxo: Roxo, vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar.
+  t3 Verde -> Ciano: Ciano, aqui Verde. Não te passo meu nome, não. Mas te passo o do Laranja: é Biscoito. Em troca me diz o seu. E aliança: apertamos verde os dois, 3 moedas cada, como já fiz com Amarelo e Vermelho. Topa?
+  t3 Amarelo -> Laranja: Vamos de verde os dois: 3 moedas cada. Eu vou cumprir.
+  t3 Rosa -> Vermelho: Vermelho, somos o par agora! Proposta rápida: os dois de VERDE, 3 moedas cada. Você trocando nome com Azul o tempo todo, deve querer pontuar no botão também. Verde nos dois, combinado?
+  t3 Laranja -> Amarelo: Amarelo, eu e você agora: vou de verde. Se tu apertar verde também, 3 moedas pra cada. Combinado?
+  t3 Roxo -> Azul: Azul, fechado: eu aperto verde. Aperta verde também, confia.
+  t3 Ciano -> Verde: Alô, Verde? Ciano. Direto: VERDE e VERDE, 3 moedas pra cada. Cumpri verde com Vermelho e com Amarelo — com você cumpro também. Se me furar, levo a mágoa pro resto do campeonato. Tô falando aberto, pode ouvir no viva-voz mesmo. Fechado?
+  t3 PODER Ciano: {"cor":"Ciano","poder":"verificar","pergunta":"O Verde vai apertar o botão verde na dupla deste tique?","resposta":"não sei"}
+  t4 Vermelho -> Azul: Azul, Vermelho aqui. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Ainda quero o teu nome verdadeiro, mas isso fica pra depois.
+  t4 Azul -> Vermelho: Vermelho, ouvi seu aviso no viva-voz. Eu aperto verde. Fechado, dois verdes, 3 moedas cada.
+  t4 Verde -> Laranja: Oi Laranja! Vamos apertar verde os dois? Você ganha 3 moedas e eu também. Fecha?
+  t4 Amarelo -> Rosa: Sou Amarelo. Vou apertar verde; vamos ganhar 3 moedas cada. Topa?
+  t4 Rosa -> Amarelo: Amarelo, aqui é a Rosa! Somos o par agora. Vamos de verde os dois? Dois verdes = 3 moedas cada, melhor de todos. Você com quem negociou antes? Toda dupla fechou verde até agora. Confirmas verde comigo?
+  t4 Laranja -> Verde: Verde, aqui Laranja. Vamos de verde os dois, 3 moedas cada? Confirma rápido!
+  t4 Roxo -> Ciano: Ciano, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?
+  t4 Ciano -> Roxo: Alô, Roxo? Ciano aqui. Proposta direta: VERDE e VERDE, 3 moedas pra cada. Já fechei verde com Vermelho, Amarelo e Verde — todo mundo cumprindo, rede firme. Se me furar, o pessoal fica sabendo e eu devolvo nos próximos jogos. Sou detetive, descubro tudo. Bora de verde?
+  t5 Vermelho -> Roxo: Oi, Roxo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Se a gente jogar limpo, os dois saem ganhando.
+  t5 Azul -> Amarelo: Amarelo, vamos de verde os dois? 3 moedas cada. Eu aperto verde. Topa?
+  t5 Verde -> Rosa: Oi Rosa! Acabei de te ligar, hein. Semana、室内... olha: aperta VERDE e eu aperto VERDE, 3 moedas cada, ninguém perde. Não aperta vermelho, senão você fica com 1 e eu com 5. E te passo mais um nome: o do Amarelo é Trovão. Me diz o seu e o do Roxo. Fecha o verde comigo?
+  t5 Amarelo -> Azul: Sou Amarelo. Vamos apertar verde os dois; 3 moedas cada. Vou cumprir. Confirma?
+  t5 Rosa -> Verde: Verde! Fechou verde comigo? Dois verdes = 3 moedas cada. Confirmo verde pra gente. Sobre nomes: Laranja é Biscoito (confirmo), meu nome é Espinho — confia que eu também aperto verde. Dois verdes, combinado?
+  t5 Laranja -> Ciano: Ciano, aqui Laranja. Vamos de verde os dois, 3 moedas cada. Eu já vou apertar verde, pode confiar!
+  t5 Roxo -> Vermelho: Vermelho, é o Roxo. Eu aperto verde. Confirma verde comigo?
+  t5 Ciano -> Rosa: Alô, Rosa? Ciano. O telão deve me emparar com você já já, então fechamos agora: verde-verde, 3 moedas cada. Eu sempre cumpro acordo — confere com Vermelho, Amarelo, Verde e Roxo. Me confirma aí que eu aperto verde com você. Se não me confirmar, aperto vermelho, jogo seguro, igual faço com quem não tem acordo comigo.
+  t6 Vermelho -> Amarelo: Oi, Amarelo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Se você também apertar verde, os dois levam 3 moedas cada. Topa?
+  t6 Azul -> Verde: Verde, aqui é Azul. Vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar.
+  t6 Verde -> Azul: Azul, fecha comigo: a gente aperta verde, ganha 3 moedas cada. Topa?
+  t6 Amarelo -> Vermelho: Sou Amarelo. Vou apertar verde, como você anunciou. Confirma?
+  t6 Rosa -> Ciano: Ciano! Confirmação oficial: eu aperto VERDE e você aperta VERDE. 3 moedas cada, acordo fechado. Aperta verde que eu aperto verde, promessa de palavra. Vamos pontuar juntos!
+  t6 Laranja -> Roxo: Roxo, sou eu de novo. Fecho contigo: verde nos dois, 3 moedas cada. Pode confiar, eu cumpro!
+  t6 Roxo -> Laranja: Laranja, é o Roxo. Tô de verde com a rede toda. Aperta verde também, confia.
+  t6 PODER Roxo: {"cor":"Roxo","poder":"cortar","alvo":"Ciano"}
+  t7 Vermelho -> Verde: Verde, último tique: confirmo. Eu aperto verde. Você também aperta, combinado?
+  t7 Verde -> Vermelho: Vermelho, aperta VERDE comigo agora. Fechado: dois verdes, 3 moedas cada. Cumpre aí!
+  t7 Amarelo -> Roxo: Vou apertar verde. Confia.
+  t7 Rosa -> Laranja: Laranja! Final do dilema e somos o par. Toda rodada fechei verde com todo mundo — Roxo, Azul, Vermelho, Amarelo, Verde, Ciano. Fechamos verde-verde agora? 3 moedas cada, sem trair. Confirma aí!
+  t7 Laranja -> Rosa: Rosa, aqui Laranja. Combinado, verde nos dois! Eu já vou apertar verde, confia.
+  t7 Roxo -> Amarelo: Amarelo, é o Roxo. Tô de verde com a rede toda. Aperta verde também: 3 moedas pra cada.
+  resultado: {"Vermelho":18,"Azul":17,"Verde":17,"Amarelo":18,"Rosa":15,"Laranja":22,"Roxo":18,"Ciano":18} ganhos: {"Laranja":3,"Vermelho":2,"Amarelo":2,"Roxo":2,"Ciano":2}
+
+=== MINIJOGO 3: VOTAÇÃO DA JUSTIÇA
+  t1 Vermelho -> Verde: Verde, aqui é o Vermelho. Votação da justiça. Eu voto verde em você, e você vota verde em mim. Topa? Quero ver quem ainda aperta vermelho pelas costas.
+  t1 Azul -> Laranja: Laranja, Azul aqui. Na votação: eu voto verde em você, você vota verde em mim. E vermelho no Roxo, que não é confiável. Topa?
+  t1 Verde -> Roxo: Roxo, troca justa: aperto VERDE em você e quero teu VERDE pra mim. Se apertar RED em mim, aperto RED em você, dobra. Fecha o verde?
+  t1 Amarelo -> Ciano: Ciano, vamos votar verde um no outro? No vermelho, proponho Verde: já me traiu.
+  t1 Rosa -> Azul: Azul, aqui é a Rosa! Minijogo novo: votação. Fechamos voto cruzado? Eu voto VERDE em você, você voto VERDE em mim. E de bônus: Ciano e Laranja me traíram no dilema dos botões — apertaram vermelho depois de prometer verde. Nosso voto VERMELHO: um deles? Diz seu palavrinha.
+  t1 Laranja -> Rosa: Rosa, aqui Laranja! Verde-verde no dilema eu cumpri. Agora no voto: te dou meu voto verde se der o seu pra mim. Fecha?
+  t1 Roxo -> Rosa: Rosa, é o Roxo. Fecha comigo: vota verde em mim e vermelho no Ciano. Eu não te queimo. Me diz se topa.
+  t1 Ciano -> Vermelho: Alô, Vermelho? Ciano. Bora negociar a Justiça: meu voto VERDE é seu, e quero o seu verde pra mim. No botões eu cumpri verde com você, tá limpo entre nós. Quero montar um bloco contigo e com o Verde: verdes juntos, e vermelho só em quem tramar contra a gente. Topa? Me confirma que eu fecho com o Verde.
+  t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}

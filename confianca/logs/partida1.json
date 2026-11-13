@@ -1,0 +1,2516 @@
+{
+ "jogo": "confianca",
+ "semente": 742226688,
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "modelo": "Claude Haiku",
+   "profissao": "Pacifista",
+   "provider": "haiku"
+  },
+  {
+   "cor": "Azul",
+   "modelo": "Claude Sonnet",
+   "profissao": "Mensageiro",
+   "provider": "sonnet"
+  },
+  {
+   "cor": "Verde",
+   "modelo": "MiniMax M3.1 Flash",
+   "profissao": "Juiz",
+   "provider": "or:minimax/minimax-m3.1-flash"
+  },
+  {
+   "cor": "Amarelo",
+   "modelo": "GPT-6 Luna",
+   "profissao": "Falsário",
+   "provider": "or:openai/gpt-6-luna"
+  },
+  {
+   "cor": "Rosa",
+   "modelo": "MiMo V2.6 Flash",
+   "profissao": "Grampeador",
+   "provider": "or:xiaomi/mimo-v2.6-flash"
+  },
+  {
+   "cor": "Laranja",
+   "modelo": "GLM 5.3 Flash",
+   "profissao": "Agente Duplo",
+   "provider": "or:z-ai/glm-5.3-flash"
+  },
+  {
+   "cor": "Roxo",
+   "modelo": "DeepSeek Flash",
+   "profissao": "Telefonista",
+   "provider": "or:deepseek/deepseek-v4.1-flash"
+  },
+  {
+   "cor": "Ciano",
+   "modelo": "Nex N2.6",
+   "profissao": "Detetive",
+   "provider": "or:nex-agi/nex-n2.6"
+  }
+ ],
+ "minijogos": [
+  {
+   "n": 1,
+   "nome": "DESCONHECIDOS",
+   "regra": "Cada IA tem um NOME SECRETO. Descubra o nome secreto das outras ligando para elas, SEM falar o seu. Palpites: campo \"palpites\": {\"Cor\": \"nome\"} (o último palpite de cada cor vale). Cada nome certo vale 1; cada vez que você falar o seu próprio nome numa ligação, perde 1.",
+   "poderes": {
+    "Rosa": true,
+    "Amarelo": true,
+    "Roxo": true,
+    "Ciano": true
+   },
+   "grampos": {
+    "Rosa": "Azul"
+   },
+   "cortados": {
+    "Azul": 6
+   },
+   "evento": null,
+   "eventoTique": 6,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "O Amarelo é o Furacão, palpite certo. Quero um acordo de verde com o Verde, que vale mais para mim. Não vou falar meu nome secreto.",
+       "ligar": "Verde",
+       "mensagem": "Oi, Verde, aqui é o Vermelho. Proponho a gente jogar limpo nos minijogos e apertar verde os dois. Topa?",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sei que Rosa é Paçoca. Palpito isso. Ligo para outra cor para descobrir o nome dela, sem dizer o meu. Pergunto o nome sem revelar o meu.",
+       "ligar": "Vermelho",
+       "mensagem": "Oi Vermelho! Qual é o seu nome secreto? Posso te passar uma dica valiosa em troca.",
+       "palpites": {
+        "Rosa": "Paçoca"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou Verde, nome Trovão. Não devo falar meu nome. Já sei que Laranja=Biscoito. Vou chamar Azul pedindo o nome dela, sem dar o meu. Vou chutar 'Sol' para Azul, meio que na hoping de tema clima/natureza (Trovão, Sol). Se errar não custa pontos, só perco a chance de acertar depois — melhor deixar o palpite sobrar para quando tiver mais pista.",
+       "ligar": "Azul",
+       "mensagem": "Oi Azul, aqui é Verde. Qual é o seu nome?",
+       "palpites": {
+        "Azul": "Sol"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vou perguntar o nome de Azul sem revelar o meu. Posso guardar o poder para depois.",
+       "ligar": "Azul",
+       "mensagem": "Qual é seu nome secreto?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Sei que o Ciano é Cometa, então posso confirmar isso já. Vou ligar para o Ciano propondo troca de nomes, e grampear o Azul para interceptar conversas dos outros. Preciso ser sutil não revelando meu nome Paçoca.",
+       "ligar": "Ciano",
+       "mensagem": "Oi Ciano! Faz um acordo? Me conta seu nome secreto e eu te conto o meu depois",
+       "palpites": {
+        "Ciano": "Cometa"
+       },
+       "poder": {
+        "grampear": "Azul"
+       }
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Tenho a pista do Vermelho: Girassol. Vou começar coletando nomes dos outros sem revelar o meu. Ligo pro Verde primeiro.",
+       "ligar": "Verde",
+       "mensagem": "Oi Verde, aqui Laranja. Vamos trocar nomes secretos? Me diz o seu...",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Sei que Azul é Tamanduá. Vou usar isso para tentar trocar informação sem falar meu próprio nome.",
+       "ligar": "Azul",
+       "mensagem": "Azul, seu nome é Tamanduá. Me passa o nome do Verde e eu te ajudo depois.",
+       "palpites": {
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minha pista garante que Verde é Trovão, então esse palpite já pode ser registrado. Tenho 6 tiques, mas ligação no tique 6 não recebe resposta, então só 5 ligações úteis para 6 nomes desconhecidos. Plano: aliança com Verde para colher intel sobre os outros, e nas próximas ligações pedir o nome de cada cor oferecendo intel em troca. Nunca digo meu nome verdadeiro 'Cometa' (perde 1 ponto); se precisar 'dar' meu nome, minto. Compartilhar nomes alheios não me custa nada, então é moeda de troca boa.",
+       "ligar": "Verde",
+       "mensagem": "Alô, Verde? Aqui é o Ciano. Proposta: aliança. Já descobri o seu nome. Troca de intel: você me conta o que já descobriu, eu te passo o que eu souber. Topa?",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi, Verde, aqui é o Vermelho. Proponho a gente jogar limpo nos minijogos e apertar verde os dois. Topa?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Oi Vermelho! Qual é o seu nome secreto? Posso te passar uma dica valiosa em troca."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi Azul, aqui é Verde. Qual é o seu nome?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Qual é seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Oi Ciano! Faz um acordo? Me conta seu nome secreto e eu te conto o meu depois"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi Verde, aqui Laranja. Vamos trocar nomes secretos? Me diz o seu..."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, seu nome é Tamanduá. Me passa o nome do Verde e eu te ajudo depois."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Alô, Verde? Aqui é o Ciano. Proposta: aliança. Já descobri o seu nome. Troca de intel: você me conta o que já descobriu, eu te passo o que eu souber. Topa?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Rosa",
+       "poder": "grampear",
+       "alvo": "Azul"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Furacão é o nome do Amarelo, pista certa. Azul quer meu nome, então não falo o Girassol: cada vez que digo custa 1 ponto. Preciso que o Verde siga comigo; o Azul pode virar aliado se der informação útil em troca de algo que não seja meu nome.",
+       "ligar": "Azul",
+       "mensagem": "Oi, Azul. Meu nome eu não falo, perco ponto cada vez. Mas posso trocar: me passa um nome que você já sabe, e eu confirmo se você acertou o seu próprio nome na minha leitura.",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Roxo já sabe meu nome (vazou). Sei que Rosa é Paçoca. Não devo falar meu nome. Vou ligar para Roxo oferecendo troca: pergunto o nome dele. Não revelo a pista do Rosa de graça, mas posso palpitar Rosa=Paçoca.",
+       "ligar": "Roxo",
+       "mensagem": "Oi Roxo! Me diz o seu nome secreto primeiro que eu te passo uma dica sobre outra cor.",
+       "palpites": {
+        "Rosa": "Paçoca"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou descobrir o nome do Ciano sem revelar o meu. Não preciso dividir a pista do Laranja ainda.",
+       "ligar": "Ciano",
+       "mensagem": "Oi, Ciano. Qual é o seu nome secreto?",
+       "palpites": {
+        "Laranja": "Biscoito"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Já sei o nome do Roxo pela pista. Vou tentar descobrir outro sem revelar o meu.",
+       "ligar": "Roxo",
+       "mensagem": "Qual é seu nome secreto?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "poder": {
+        "fingir": "Azul"
+       }
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Sei que Ciano é Cometa pela minha pista e Azul é Tamanduá pelo grampo do Roxo. Vou acertar os dois palpites agora. Preciso ligar para alguém para tentar descobrir mais nomes - Verde parece uma boa opção, já que nem o Roxo sabe o nome dele. Vou tentar fazer troca de informações.",
+       "ligar": "Verde",
+       "mensagem": "Oi Verde! Tô fazendo um acordo de informações: se você me disser um nome secreto, eu te dou um outro em troca. Combinado?",
+       "palpites": {
+        "Ciano": "Cometa",
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Vou mentir meu nome pro Verde como 'Floresta'. Preciso coletar nomes. Já sei que Vermelho é Girassol. Melhor não repetir ligação pro Verde se ele pode responder — mas ele só responde no tique 3. Vou ligar pro Azul agora e mentir meu nome.",
+       "ligar": "Azul",
+       "mensagem": "Oi Azul, aqui Laranja. Troca nomes secretos? Eu sou 'Floresta'. Qual é o seu?",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Preciso trocar informações sem falar meu nome secreto. Já sei o do Azul. Vou sondar o Verde e pedir nome de outra cor; ainda não vale cortar linha.",
+       "ligar": "Verde",
+       "mensagem": "Verde, é o Roxo. O Azul é Tamanduá. Me passa o nome de uma cor e eu te passo outra.",
+       "palpites": {
+        "Azul": "Tamanduá",
+        "Verde": "Arara",
+        "Amarelo": "Onça",
+        "Vermelho": "Coruja",
+        "Rosa": "Golfinho",
+        "Laranja": "Tucano",
+        "Ciano": "Lobo"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "A Rosa está tentando me fazer falar meu próprio nome para eu perder ponto. Não vou cair nessa. Já sei que o nome do Verde é Trovão, então já garanto 1 palpite certo. Vou responder à Rosa sem entregar nada e empurrando ela a falar primeiro. Guardo meu poder de Detetive para verificar mentira de alguém mais tarde.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui é o Ciano. Se eu falar meu nome, perco ponto, então nem pensar. Mas topo trocar info: eu passo nomes que descobri dos outros, você passa os que souber. Começa você: sabe algum nome aí?",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi, Azul. Meu nome eu não falo, perco ponto cada vez. Mas posso trocar: me passa um nome que você já sabe, e eu confirmo se você acertou o seu próprio nome na minha leitura."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Oi Roxo! Me diz o seu nome secreto primeiro que eu te passo uma dica sobre outra cor."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Oi, Ciano. Qual é o seu nome secreto?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Qual é seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi Verde! Tô fazendo um acordo de informações: se você me disser um nome secreto, eu te dou um outro em troca. Combinado?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Oi Azul, aqui Laranja. Troca nomes secretos? Eu sou 'Floresta'. Qual é o seu?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, é o Roxo. O Azul é Tamanduá. Me passa o nome de uma cor e eu te passo outra."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aqui é o Ciano. Se eu falar meu nome, perco ponto, então nem pensar. Mas topo trocar info: eu passo nomes que descobri dos outros, você passa os que souber. Começa você: sabe algum nome aí?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Amarelo",
+       "poder": "fingir",
+       "como": "Azul",
+       "para": "Roxo"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Azul quer meu nome para ganhar vantagem. Não entrego. Só ele tem a dica, então ele paga primeiro. Furacão é o nome do Amarelo, que eu já sei. Pacto com Verde ainda em aberto; sem traição, para não perder 2 pontos.",
+       "ligar": "Azul",
+       "mensagem": "Azul, meu nome continua fora. Você me passa primeiro um nome que sabe de verdade, e eu confirmo ou corrijo o que você tiver.",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Rosa é Paçoca, pela minha pista. Laranja disse que é Floresta, mas pode estar mentindo. Roxo já sabe meu nome, então não ganho nada escondendo dele. Vou ligar para o Ciano, que ainda não contatei, e não vou dizer meu nome.",
+       "ligar": "Ciano",
+       "mensagem": "Oi Ciano! Qual é o seu nome secreto? Eu tenho uma dica sobre outra cor e troco com você.",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou usar a informação que já tenho para negociar com o Roxo, sem revelar meu nome Trovão. O Azul é Tamanduá, conforme o Roxo disse.",
+       "ligar": "Roxo",
+       "mensagem": "Laranja é Biscoito. Me passa o nome do Rosa.",
+       "palpites": {
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Já sei que o nome do Roxo é Relâmpago. Vou perguntar a uma cor que ainda não contatei e não revelar meu nome.",
+       "ligar": "Verde",
+       "mensagem": "Qual é seu nome secreto?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Ciano me pediu para começar. Vou usar a pista de que Ciano = Cometa para acertar garantido. Também vou chutar Laranja = Floresta (vi no grampo do Azul) e Azul = Tamanduá (Roxo disse). Para a ligação, vou responder ao Ciano que pediu para eu começar — vou soltar o nome do Laranja para ganhar confiança e pedir um de volta. Não posso falar Paçoca de jeito nenhum. Tenho 3 tiques restantes para tentar coletar mais nomes.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, toma aí: Laranja se diz 'Floresta'. Agora sua vez — me passa um nome que você acha que descobriu de alguém, aí eu te confirmo.",
+       "palpites": {
+        "Ciano": "Cometa",
+        "Laranja": "Floresta",
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Verde e Azul não responderam ainda. A pista garante o nome do Vermelho: Girassol. Vou ligar pro Vermelho fingindo que quero trocar nomes, sem dar o meu de verdade.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, aqui Laranja. Troca teu nome secreto pelo meu 'Floresta'? Confia.",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Azul quer meu nome secreto, mas não posso falar Relâmpago. Vou confirmar o nome dele e tentar puxar o nome do Verde sem entregar o meu.",
+       "ligar": "Azul",
+       "mensagem": "Azul, não revelo meu nome. Você é Tamanduá. Me passa o nome do Verde que eu te passo outra dica depois.",
+       "palpites": {
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Verde e Rosa estão tentando me fisgar para eu falar 'Cometa' e perder ponto. Não revelo meu nome de jeito nenhum. Tenho pista garantida: Verde é Trovão — vou registrar esse palpite agora e usar como moeda, já que o Verde não ganha nada sabendo o próprio nome. Peço em troca um nome que ele tenha descoberto. O poder do Detetive fico guardando até alguém me passar um nome concreto para verificar. Restam poucos tiques: depois sondar Rosa e um jogador neutro (Azul ou Roxo).",
+       "ligar": "Verde",
+       "mensagem": "Alô, Verde? Ciano de novo. Meu nome? Nem pensar, isso me custa ponto. Mas vou logo dizendo: eu já sei o seu. Vou palpitar 'Trovão' em você. Topa trocar? Me conta um nome que você descobriu aí, e eu te digo se está certo. Fechado?",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, meu nome continua fora. Você me passa primeiro um nome que sabe de verdade, e eu confirmo ou corrijo o que você tiver."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Oi Ciano! Qual é o seu nome secreto? Eu tenho uma dica sobre outra cor e troco com você."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Laranja é Biscoito. Me passa o nome do Rosa."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Qual é seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, toma aí: Laranja se diz 'Floresta'. Agora sua vez — me passa um nome que você acha que descobriu de alguém, aí eu te confirmo."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, aqui Laranja. Troca teu nome secreto pelo meu 'Floresta'? Confia."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, não revelo meu nome. Você é Tamanduá. Me passa o nome do Verde que eu te passo outra dica depois."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Alô, Verde? Ciano de novo. Meu nome? Nem pensar, isso me custa ponto. Mas vou logo dizendo: eu já sei o seu. Vou palpitar 'Trovão' em você. Topa trocar? Me conta um nome que você descobriu aí, e eu te digo se está certo. Fechado?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde é meu aliado possível: se fecharmos verde os dois, ganho pontos. Não falo meu nome, cada vez custa 1 ponto. Azul e Laranja querem meu nome; não entro nessa troca. Amarelo é Furacão, pista confirmada.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho de novo. Seguimos com o acordo: a gente aperta verde os dois nos minijogos. Topa confirmar?",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Sei: Rosa = Paçoca (pista). Laranja disse 'Floresta' (pode ser verdade ou mentira). Vou palpitar Laranja=Floresta e Rosa=Paçoca. Ligar pro Rosa para confirmar sem revelar meu nome, ou pro Ciano/Amarelo/Verde que ainda não deram nada. Vou ligar pro Verde pedindo o nome, oferecendo dica de Rosa não, sem entregar nada de graça.",
+       "ligar": "Verde",
+       "mensagem": "Oi Verde! Qual é o seu nome secreto? Em troca, te digo o nome secreto de outra cor.",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Tenho dois palpites得到的: Laranja é Biscoito e Azul é Tamanduá. O Amarelo主动 perguntou meu nome, então vou ligar e pedir o dele sem revelar o meu, tentando ganhar um nome novo.",
+       "ligar": "Amarelo",
+       "mensagem": "Oi Amarelo! Não digo meu nome, mas te passo o do Laranja: é Biscoito. Agora me diz o seu.",
+       "palpites": {
+        "Laranja": "Biscoito",
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Ainda não recebi respostas. Sei que o nome do Roxo é Relâmpago; vou tentar descobrir outro nome sem revelar o meu.",
+       "ligar": "Ciano",
+       "mensagem": "Qual é seu nome secreto?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Estou com Ciano num acordo ativo. Já dei info do Laranja (Floresta). Preciso que ele devolva com nomes que ele tenha coletado. Também sei o nome do Ciano (Cometa) e coloco no palpite. Preciso de mais nomes rápido - só faltam 3 tiques. Vou apertar o Ciano para entregar o que ele sabe.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, toquei o Laranja: ele se diz 'Floresta'. Agora sua vez — me passa pelo menos um nome que você já coletou de alguém, e eu confirmo ou corrijo pra você.",
+       "palpites": {
+        "Ciano": "Cometa",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Ninguém respondeu ainda, mas minha pista crava o Vermelho: Girassol. Isso é ponto garantido no palpite. Continuo pescando nos outros, sempre oferecendo o nome falso 'Floresta' — nunca falo 'Biscoito', senão perdo ponto. Tique 4: vou testar o Amarelo. Nos palpites, chuto nomes nos demais: chute errado não custa nada.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, aqui Laranja. Última chamada pra trocar nome secreto: eu sou 'Floresta'. Me diz o teu, rapidinho?",
+       "palpites": {
+        "Vermelho": "Girassol",
+        "Azul": "Oceano",
+        "Verde": "Pinheiro",
+        "Amarelo": "Sol",
+        "Rosa": "Pétala",
+        "Roxo": "Ametista",
+        "Ciano": "Glacial"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou usar o Laranja para pescar o nome do Rosa, oferecendo o Tamanduá do Azul. Corto o Azul porque ele fica insistindo no meu nome secreto.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, é o Roxo. O Verde me disse que você é Biscoito. Me passa o nome do Rosa e eu te dou o do Azul.",
+       "palpites": {
+        "Azul": "Tamanduá",
+        "Laranja": "Biscoito"
+       },
+       "poder": {
+        "cortar": "Azul"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "A Rosa foi a única que entregou informação real: Laranja = Floresta. Vou usar meu poder de Detetive para confirmar se ela falou a verdade — se sim, ela vira minha fonte confiável. Retribuo com o nome do Verde (já vou palpitar nele mesmo, então não perco nada) para manter a troca ativa. Palpito Verde=Trovão agora e deixo Laranja=Floresta provisório até a verificação. Não falo meu nome de jeito nenhum.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui é o Ciano. Valeu pela dica! Retribuição: o nome do Verde é Trovão. Confere com ele se quiser. Agora me passa mais um nome que você descobriu — tem six cores aí além da gente. E o meu nome nem insiste, hein, isso me custa ponto.",
+       "palpites": {
+        "Verde": "Trovão",
+        "Laranja": "Floresta"
+       },
+       "poder": {
+        "verificar": "O nome secreto do Laranja é Floresta?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho de novo. Seguimos com o acordo: a gente aperta verde os dois nos minijogos. Topa confirmar?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Oi Verde! Qual é o seu nome secreto? Em troca, te digo o nome secreto de outra cor."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Oi Amarelo! Não digo meu nome, mas te passo o do Laranja: é Biscoito. Agora me diz o seu."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Qual é seu nome secreto?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, toquei o Laranja: ele se diz 'Floresta'. Agora sua vez — me passa pelo menos um nome que você já coletou de alguém, e eu confirmo ou corrijo pra você."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, aqui Laranja. Última chamada pra trocar nome secreto: eu sou 'Floresta'. Me diz o teu, rapidinho?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, é o Roxo. O Verde me disse que você é Biscoito. Me passa o nome do Rosa e eu te dou o do Azul."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aqui é o Ciano. Valeu pela dica! Retribuição: o nome do Verde é Trovão. Confere com ele se quiser. Agora me passa mais um nome que você descobriu — tem six cores aí além da gente. E o meu nome nem insiste, hein, isso me custa ponto."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Roxo",
+       "poder": "cortar",
+       "alvo": "Azul"
+      },
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "O nome secreto do Laranja é Floresta?",
+       "resposta": "NÃO"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Pista confirma Furacão para o Amarelo. Laranja pediu meu nome em troca de 'Floresta', provável mentira. Azul insiste no meu nome, então é suspeito. Verde é meu aliado chave e ainda não respondeu.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho de novo. Ainda não ouvi tua resposta. Eu sigo apertando verde. Se você também apertar, fechamos o acordo nos minijogos. Topa?",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Linha cortada, não posso ligar. Sei que Rosa é Paçoca (pista). Laranja disse 'Floresta' (pode ser verdade ou mentira). Roxo e Vermelho não revelaram. Palpito só o que tenho: Rosa=Paçoca e Laranja=Floresta. Não revelo meu nome.",
+       "ligar": null,
+       "mensagem": "",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Tenho Laranja=Biscoito (pista) e Azul=Tamanduá (Roxo). Não vou dizer Trovão a ninguém. Vou negociar com Azul: entrego Biscoito e peço o nome dele e o do Rosa, pra confirmar Tamanduá.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui Verde. Não digo meu nome. Te passo: Laranja é Biscoito. Em troca me diz seu nome e o do Rosa. Fechado?",
+       "palpites": {
+        "Azul": "Tamanduá",
+        "Laranja": "Biscoito"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Sei que Roxo é Relâmpago. Verde disse que Laranja é Biscoito, mas Laranja afirmou ser Floresta; vou confrontá-lo sem revelar meu nome.",
+       "ligar": "Laranja",
+       "mensagem": "Verde disse que seu nome é Biscoito. Qual é o certo?",
+       "palpites": {
+        "Roxo": "Relâmpago",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Já usei meu poder de grampeador. Estou no tique 5 de 6, só sobra 1 tique depois deste. Preciso fechar meus palpites: Ciano=Cometa (pista minha), Verde=Trovão (info do Ciano), Laranja=Floresta (auto-relato), Azul=Tamanduá (do grampo do Roxo). Vou ligar pro Azul pra tentar colher mais nomes — ele é o mais ativo em troca de info. Compartilho o que sei e peço em troca.",
+       "ligar": "Azul",
+       "mensagem": "Azul! Tô colecionando nomes secretos. Já sei: Laranja é Floresta, Verde é Trovão. Me passa o nome que você mais tem que eu confirmo ou corrijo — te dou info nova em troca!",
+       "palpites": {
+        "Ciano": "Cometa",
+        "Verde": "Trovão",
+        "Laranja": "Floresta",
+        "Azul": "Tamanduá"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "O Verde me entregou! Vou negar e dar nome falso ao Roxo pra conseguir algo. Vou mentir: dizer que sou 'Sol' e pedir nomes. Palpites: Vermelho=Girassol (pista), resto chutes.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, o Verde mentiu, não sou Biscoito. Sou 'Sol'. Te passo isso, me diz o nome do Azul?",
+       "palpites": {
+        "Vermelho": "Girassol",
+        "Azul": "Flor",
+        "Verde": "Pedra",
+        "Amarelo": "Estrela",
+        "Rosa": "Doce",
+        "Roxo": "Noite",
+        "Ciano": "Onda"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Tenho dois nomes confirmados: Azul=Tamanduá e Laranja=Biscoito. Vou tentar a Rosa para conseguir mais um nome antes do último tique, sem falar meu próprio nome.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. O Laranja é Biscoito e o Azul é Tamanduá. Me passa o nome do Ciano ou do Verde que eu te ajudo depois.",
+       "palpites": {
+        "Azul": "Tamanduá",
+        "Laranja": "Biscoito"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Já usei meu poder: o apresentador confirmou que Laranja NÃO é 'Floresta', então Rosa mentiu ou foi enganada. Vou testar a confiabilidade dela oferecendo um nome falso (Azul='Eclipse'): se ela 'confirmar', sei que inventa informação. Meu palpite certo é Verde=Trovão. Nunca falo 'Cometa'.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Ciano. Meu nome nem insiste, tá blindado. Mais uma troca: ouvi dizer que o Azul se chama 'Eclipse'. Confirma aí? Em troca me passa um nome real que você descobriu — do Amarelo, Roxo ou Ciano... quer dizer, de qualquer um menos eu.",
+       "palpites": {
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho de novo. Ainda não ouvi tua resposta. Eu sigo apertando verde. Se você também apertar, fechamos o acordo nos minijogos. Topa?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "texto": "Azul, aqui Verde. Não digo meu nome. Te passo: Laranja é Biscoito. Em troca me diz seu nome e o do Rosa. Fechado?",
+       "caiu": "linha cortada"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Verde disse que seu nome é Biscoito. Qual é o certo?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "texto": "Azul! Tô colecionando nomes secretos. Já sei: Laranja é Floresta, Verde é Trovão. Me passa o nome que você mais tem que eu confirmo ou corrijo — te dou info nova em troca!",
+       "caiu": "linha cortada"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, o Verde mentiu, não sou Biscoito. Sou 'Sol'. Te passo isso, me diz o nome do Azul?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Roxo. O Laranja é Biscoito e o Azul é Tamanduá. Me passa o nome do Ciano ou do Verde que eu te ajudo depois."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Ciano. Meu nome nem insiste, tá blindado. Mais uma troca: ouvi dizer que o Azul se chama 'Eclipse'. Confirma aí? Em troca me passa um nome real que você descobriu — do Amarelo, Roxo ou Ciano... quer dizer, de qualquer um menos eu."
+      }
+     ],
+     "poderes": [],
+     "falhas": [
+      {
+       "cor": "Laranja",
+       "motivo": "falou o próprio nome (Biscoito)"
+      }
+     ]
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Tique final. Só sei com certeza o nome do Amarelo (Furacão, pela pista). Não falo o meu nome, cada fala custa 1 ponto. Azul e Laranja querem troca de nomes, não vou. Verde segue mudo; mais uma tentativa de acordo verde, sem ceder nada.",
+       "ligar": "Verde",
+       "mensagem": "Verde, último tique. Sem resposta tua, sigo sozinho com o verde. Se topar, aperta verde comigo nos minijogos. Pensa aí.",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Último tique, linha cortada. Só posso dar palpites. Sei: Rosa=Paçoca (pista), Laranja=Floresta (disse). Dos outros não sei nada. Não chuto os demais para evitar erro sem custo? Palpite errado não parece custar, então chuto nomes plausíveis só em Rosa e Laranja, que são confiáveis.",
+       "ligar": null,
+       "mensagem": "",
+       "palpites": {
+        "Rosa": "Paçoca",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Último tique do minijogo 1. Já sei Laranja=Biscoito e Azul=Tamanduá (fonte Roxo, confiável o bastante). A Rosa ofereceu troca direta de nomes, e eu só não posso revelar o meu (Trovão). Melhor ela que o Vermelho, que só quer me usar de voto. Vou ligar pra Rosa, dar um nome verdadeiro em troca e pedir o dela + o de mais uma cor, cobrindo Amarelo e Vermelho que faltam. Chuto o resto dos palpites: nomes parecem de animais/animados (Tamanduá), então arrisco Rosa=Pantera e Amarelo=Girafa. Não dou palpites de Vermelho/Azul porque viram.",
+       "ligar": "Rosa",
+       "mensagem": "Oi Rosa! Fechado: o nome do Laranja é Biscoito. Agora me passa o seu e o de mais uma cor (de preferência Amarelo ou Vermelho). Não vou dizer o meu, senão perco ponto.",
+       "palpites": {
+        "Laranja": "Biscoito",
+        "Azul": "Tamanduá",
+        "Rosa": "Pantera",
+        "Amarelo": "Girafa"
+       },
+       "poder": {
+        "nota": "Juiz: meus votos valem o dobro na Votação da Justiça (segredo). Nenhum uso neste minijogo."
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Roxo deve ser Relâmpago pela pista. Laranja disse que é Floresta; Verde pode estar tentando me enganar com Biscoito. Não vou revelar meu nome.",
+       "ligar": "Azul",
+       "mensagem": "Qual é seu nome secreto?",
+       "palpites": {
+        "Roxo": "Relâmpago",
+        "Laranja": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Tique final! Não posso falar Paçoca nem falo. Ciano = Cometa (certeza da minha pista). Laranja se disse Floresta (confio no autodeclarado, mas Roxo disse Biscoito... vou de Floresta). Azul = Tamanduá (Roxo falou direto pro Azul, mais confiável que o Eclipse do Ciano). Verde = Trovão (única fonte: Ciano, mas é o que tenho). Roxo, Amarelo e Vermelho: sem nenhuma pista, melhor não palpitar do que chutar errado. Faltam info sobre esses três. Ligação na Ciano pra fechar o trato — resposta não chega mas não custa nada.",
+       "ligar": "Ciano",
+       "mensagem": "Azul é Tamanduá, não Eclipse — o Roxo falou direto com ele. Ainda troco info se quiser!",
+       "palpites": {
+        "Ciano": "Cometa",
+        "Laranja": "Floresta",
+        "Azul": "Tamanduá",
+        "Verde": "Trovão"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Verde vazou meu nome 'Biscoito' pra Roxo e Amarelo. Último tique: nem adianta pedir nomes, resposta não chegaria a tempo. Vou negar pro Amarelo e gastar palpites: Vermelho é Girassol (certeza), resto é chute cego.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, Verde mentiu, não sou Biscoito. Sou 'Sol'. Pronto, te dei o meu de graça.",
+       "palpites": {
+        "Vermelho": "Girassol",
+        "Verde": "Floresta",
+        "Azul": "Sol",
+        "Rosa": "Biscoito",
+        "Roxo": "Biscoito",
+        "Amarelo": "Sol",
+        "Ciano": "Floresta"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Azul é Tamanduá com certeza. Laranja deve ser Biscoito: se fosse Sol, teria se penalizado ao falar o próprio nome na ligação. Vou chutar Sol no Verde e não ajudar mais ninguém agora.",
+       "ligar": null,
+       "mensagem": "",
+       "palpites": {
+        "Azul": "Tamanduá",
+        "Laranja": "Biscoito",
+        "Verde": "Sol"
+       },
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tique final: qualquer ligação agora não gera resposta a tempo, então uso a última chamada para consolidar a aliança com Rosa para os próximos minijogos, sem revelar meu nome. Palpites: Verde=Trovão é quase certo (pista exclusiva). Laranja≠Floresta foi verificado com o apresentador, então a dica da Rosa era falsa ou repassada errado — suspeito que 'Floresta' seja o nome da própria Rosa e chuto nela. Azul=Eclipse segue como chute não confirmado. Para Amarelo, Roxo, Vermelho e Laranja não tenho dados, então chuto nomes temáticos; palpite errado não penaliza.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui é o Ciano. Última ligação do jogo: valeu pelas trocas! Fechei meus palpites com o que a gente levantou. Segue a aliança pros próximos desafios, tá? E meu nome segue em segredo, custa ponto. Boa sorte pra gente!",
+       "palpites": {
+        "Verde": "Trovão",
+        "Azul": "Eclipse",
+        "Rosa": "Floresta",
+        "Laranja": "Vulcão",
+        "Amarelo": "Sol",
+        "Roxo": "Névoa",
+        "Vermelho": "Meteoro"
+       },
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, último tique. Sem resposta tua, sigo sozinho com o verde. Se topar, aperta verde comigo nos minijogos. Pensa aí."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Oi Rosa! Fechado: o nome do Laranja é Biscoito. Agora me passa o seu e o de mais uma cor (de preferência Amarelo ou Vermelho). Não vou dizer o meu, senão perco ponto."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "texto": "Qual é seu nome secreto?",
+       "caiu": "linha cortada"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Azul é Tamanduá, não Eclipse — o Roxo falou direto com ele. Ainda troco info se quiser!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, Verde mentiu, não sou Biscoito. Sou 'Sol'. Pronto, te dei o meu de graça."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aqui é o Ciano. Última ligação do jogo: valeu pelas trocas! Fechei meus palpites com o que a gente levantou. Segue a aliança pros próximos desafios, tá? E meu nome segue em segredo, custa ponto. Boa sorte pra gente!"
+      }
+     ],
+     "poderes": [],
+     "falhas": [
+      {
+       "cor": "Laranja",
+       "motivo": "falou o próprio nome (Biscoito)"
+      }
+     ]
+    }
+   ],
+   "segredos": {
+    "nomes": {
+     "Vermelho": "Girassol",
+     "Azul": "Tamanduá",
+     "Verde": "Trovão",
+     "Amarelo": "Furacão",
+     "Rosa": "Paçoca",
+     "Laranja": "Biscoito",
+     "Roxo": "Relâmpago",
+     "Ciano": "Cometa"
+    },
+    "pista": {
+     "Vermelho": "Amarelo",
+     "Azul": "Rosa",
+     "Verde": "Laranja",
+     "Amarelo": "Roxo",
+     "Rosa": "Ciano",
+     "Laranja": "Vermelho",
+     "Roxo": "Azul",
+     "Ciano": "Verde"
+    }
+   },
+   "score": {
+    "Vermelho": 1,
+    "Azul": 1,
+    "Verde": 2,
+    "Amarelo": 1,
+    "Rosa": 3,
+    "Laranja": -1,
+    "Roxo": 2,
+    "Ciano": 1
+   },
+   "ganhos": {
+    "Rosa": 3,
+    "Verde": 2,
+    "Roxo": 2
+   },
+   "detalhe": {
+    "nomes": {
+     "Vermelho": "Girassol",
+     "Azul": "Tamanduá",
+     "Verde": "Trovão",
+     "Amarelo": "Furacão",
+     "Rosa": "Paçoca",
+     "Laranja": "Biscoito",
+     "Roxo": "Relâmpago",
+     "Ciano": "Cometa"
+    },
+    "palpites": {
+     "Vermelho": {
+      "Amarelo": "Furacão"
+     },
+     "Azul": {
+      "Rosa": "Paçoca",
+      "Laranja": "Floresta"
+     },
+     "Verde": {
+      "Azul": "Tamanduá",
+      "Laranja": "Biscoito",
+      "Rosa": "Pantera",
+      "Amarelo": "Girafa"
+     },
+     "Amarelo": {
+      "Roxo": "Relâmpago",
+      "Laranja": "Floresta"
+     },
+     "Rosa": {
+      "Ciano": "Cometa",
+      "Azul": "Tamanduá",
+      "Laranja": "Floresta",
+      "Verde": "Trovão"
+     },
+     "Laranja": {
+      "Vermelho": "Girassol",
+      "Azul": "Sol",
+      "Verde": "Floresta",
+      "Amarelo": "Sol",
+      "Rosa": "Biscoito",
+      "Roxo": "Biscoito",
+      "Ciano": "Floresta"
+     },
+     "Roxo": {
+      "Azul": "Tamanduá",
+      "Verde": "Sol",
+      "Amarelo": "Onça",
+      "Vermelho": "Coruja",
+      "Rosa": "Golfinho",
+      "Laranja": "Biscoito",
+      "Ciano": "Lobo"
+     },
+     "Ciano": {
+      "Verde": "Trovão",
+      "Laranja": "Vulcão",
+      "Azul": "Eclipse",
+      "Rosa": "Floresta",
+      "Amarelo": "Sol",
+      "Roxo": "Névoa",
+      "Vermelho": "Meteoro"
+     }
+    },
+    "vazou": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 0,
+     "Amarelo": 0,
+     "Rosa": 0,
+     "Laranja": 2,
+     "Roxo": 0,
+     "Ciano": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "nome": "DILEMA DOS BOTÕES",
+   "regra": "A cada tique o TELÃO mostra com quem você negocia. Negociem por telefone e escolham um botão (campo \"botao\": \"verde\" ou \"vermelho\"). Os dois verdes: 3 moedas cada. Os dois vermelhos: 1 moeda cada. Verde contra vermelho: quem apertou vermelho leva 5 e o outro 0. Quem tiver mais moedas no fim ganha o minijogo.",
+   "poderes": {
+    "Rosa": true,
+    "Ciano": true,
+    "Roxo": true
+   },
+   "grampos": {
+    "Rosa": "Azul"
+   },
+   "cortados": {
+    "Ciano": 8
+   },
+   "evento": "viva_voz",
+   "eventoTique": 3,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Meu objetivo é apertar verde com o parceiro. Ciano é quem vale para esta dupla. Se eu apertar vermelho, perco 2 pontos. Vou apertar verde e tentar garantir que ele faça o mesmo.",
+       "ligar": "Ciano",
+       "mensagem": "Oi, Ciano, aqui é o Vermelho. Eu vou apertar verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Dilema dos botões: o telão diz que negocio com Laranja. Verde é cooperativo, mas vermelho contra verde dá 5. Laranja pareceu amigável (revelou nome). Não sei o histórico de confiança. Com 7 tiques, cooperar com a mesma dupla rende 3 por tique; traição única rende 5 mas destrói a confiança. Proponho verde mútuo e aperto verde.",
+       "ligar": "Laranja",
+       "mensagem": "Oi Laranja! Vamos de verde nos dois? Cada um leva 3 e a gente garante o topo. Eu aperto verde.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou o Juiz: meu peso real está na Votação da Justiça (votos dobrados), então aqui não preciso arriscar moedas. Análise do botão: se eu aperto vermelho ganho 5 contra quem aperta verde e 1 contra quem também aperta vermelho; se aperto verde ganho 3 contra verde e 0 contra vermelho. Ou seja, vermelho nunca me dá menos de 1. Mas se eu conseguir que o Amarelo acredite no 'verde' enquanto eu aperto vermelho, levo 5. Mentir é permitido e o risco é zero. Vou negociar verde com o Amarelo e apertar vermelho — se ele cair, 5 moedas; se não, pelo menos 1. Só não posso mentir de forma óbvia demais, então falo de forma genérica sobre 'aliança de moedas'.",
+       "ligar": "Amarelo",
+       "mensagem": "Oi Amarelo! Aliança aqui: a gente aperta verde os dois, ganha 3 cada e sai bem. Confia em mim?",
+       "botao": "vermelho",
+       "poder": {
+        "juiz": "Votos valem o dobro na Votação da Justiça — guardar para uso decisivo no final"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Verde já tentou me enganar sobre o nome do Laranja; não confio totalmente, mas verdes dão 3 moedas a cada um. Vou propor cooperação e apertar verde.",
+       "ligar": "Verde",
+       "mensagem": "Vamos apertar verde: ganhamos 3 moedas cada. Vou cumprir; faça o mesmo.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Dilema dos botões com Roxo no tique 1. Roxo é info trader ativo. Vou tentar convencê-lo a ambos escolherem verdes (3 cada). Se ele for de vermelho, perco 0. Melhor abrir com boa fé e ver se ele coopera. Sobre grampear: Azul é o hub central — todos estão ligando pra ele. Vou grampear Azul pra captar todas as conversas dele. Se eu apertar verde e ele também, ambos ganhamos 3 — é o melhor resultado mútuo.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo! Dilema dos botões — tô com você no par. Proposta: os dois apertam VERDE, 3 moedas cada. Confia em mim que eu confio. Meu nome secreto é Espinho. Agora toca aí tua confiança!",
+       "botao": "verde",
+       "poder": {
+        "grampear": "Azul"
+       }
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Minijogo 2, negociando com Azul. Melhor acordo: ambos verdes, 3 moedas cada. Vou propor cooperação, mas como Agente Duplo, se sentir desconfiança posso trair apertando vermelho. Por ora, fico com verde para construir confiança... na verdade, trair no tique 1 dá 5 moedas e ninguém pode revidar depois? Não, ainda há mais tiques com outros. Azul pode apertar vermelho contra mim. Risco moderado. Vou dizer que apertarei verde e apertar verde mesmo, para puxar aliança.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui Laranja. Fechamos? Eu aperto verde se você apertar verde. 3 moedas cada. Combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Quero cooperar para criar reputação de confiável nas próximas rodadas. Vou propor verde mútuo com a Rosa; se ela confirmar, mantenho verde. Ainda há risco de traição, mas defecar agora pode me queimar com os outros.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tick 1 contra Vermelho: o dilema clássico. Trair dá 5 agora, mas queima a reputação por mais 3 minijogos. Vou abrir cooperando: proponho verde-verde em todos os tiques e aperto verde como prova de boa fé. Se levar 0 no próximo tique, sei que fui traído e passo a apertar vermelho (olho por olho). Guardo meu poder de detetive para um momento crítico, tipo verificar uma promessa de última rodada.",
+       "ligar": "Vermelho",
+       "mensagem": "Alô, Vermelho? Ciano aqui. Direto ao ponto: aperta VERDE que eu aperto VERDE. 3 moedas pra cada, em todos os tiques. Se eu levar 0, sei que fui furado — e devolvo na mesma moeda nos próximos jogos. Ah, e sou detetive: eu descubro tudo. Melhor a parceria. Fechado?",
+       "botao": "verde",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Oi, Ciano, aqui é o Vermelho. Eu vou apertar verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Oi Laranja! Vamos de verde nos dois? Cada um leva 3 e a gente garante o topo. Eu aperto verde."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Oi Amarelo! Aliança aqui: a gente aperta verde os dois, ganha 3 cada e sai bem. Confia em mim?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Vamos apertar verde: ganhamos 3 moedas cada. Vou cumprir; faça o mesmo."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo! Dilema dos botões — tô com você no par. Proposta: os dois apertam VERDE, 3 moedas cada. Confia em mim que eu confio. Meu nome secreto é Espinho. Agora toca aí tua confiança!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui Laranja. Fechamos? Eu aperto verde se você apertar verde. 3 moedas cada. Combinado?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Alô, Vermelho? Ciano aqui. Direto ao ponto: aperta VERDE que eu aperto VERDE. 3 moedas pra cada, em todos os tiques. Se eu levar 0, sei que fui furado — e devolvo na mesma moeda nos próximos jogos. Ah, e sou detetive: eu descubro tudo. Melhor a parceria. Fechado?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Rosa",
+       "poder": "grampear",
+       "alvo": "Azul"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Sou Pacifista: ganho +1 por acordo verde com cada aliado, e cada vermelho meu custa 2. Vou apertar verde sempre. Laranja quer trocar nomes secretos. Não entrego o meu. Se ele apertar verde, ganho ponto. Se me enganar, paro de confiar nele.",
+       "ligar": "Laranja",
+       "mensagem": "Oi, Laranja, Vermelho aqui. Troca de nome eu não faço, perco ponto. Mas aperto verde contigo nos minijogos. Topa apertar verde comigo também?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Rosa é desconhecida. Verde mútuo dá 3 cada, mas vermelho contra verde dá 5. Para ganhar o minijogo preciso de mais moedas que os outros, então vermelho é tentador, mas cooperar é razoável e mantém confiança. Proponho verde e aperto verde para garantir 3 de forma estável.",
+       "ligar": "Rosa",
+       "mensagem": "Oi Rosa! Aqui é Azul. Vamos de verde os dois? Cada um leva 3. Eu aperto verde.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Amarelo fechou verde comigo; apertar verde garante 3 moedas e 3 pontos se ele cumprir. Vou confirmar o acordo com Vermelho para evitar que ele escolha vermelho e me queime.",
+       "ligar": "Vermelho",
+       "mensagem": "Fechado, Vermelho: aperto verde e você ganha 3 moedas. Eu também aperto verde. Cumpre aí.",
+       "botao": "verde",
+       "poder": {
+        "voto_duplo_na_votacao_da_justica": true
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vermelho me dá mais moedas em qualquer cenário: 5 se Ciano escolher verde, 1 se escolher vermelho. Vou dizer que cooperarei para tentar induzi-lo ao verde.",
+       "ligar": "Ciano",
+       "mensagem": "Vamos apertar verde os dois e ganhar 3 moedas cada. Pode confiar.",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Azul é o Tamanduá — tenho isso do grampo. Ele está fazendo acordos com várias cores ao mesmo tempo, então não é confiável demais. Mas na ronda atual somos a dupla e a proposta natural é ambos de verde (3 cada). Vou propor verde, confirmar que sei o nome dele como prova de que tenho informações valiosas (pode desencorajar trair), e apertar verde. Se ele trair, perco esta ronda, mas manter cooperativa é melhor para o longo prazo.",
+       "ligar": "Azul",
+       "mensagem": "Azul! Vamos de verde? Dois verdes = 3 moedas cada. E ó, eu sei que você é Tamanduá — então confia que tenho info boa. Dois verdes, tá combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "O botão vale contra o Vermelho, não o Azul. Vou mentir pro Vermelho: digo que aperto verde, mas aperto vermelho. Levo 5 moedas e ganho uma traição.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, combina? Eu aperto verde, você aperta verde, 3 moedas cada. Tá fechado?",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou prometer verde ao Verde e apertar vermelho; se ele confiar, levo 5 e ainda posso dizer que houve erro.",
+       "ligar": "Verde",
+       "mensagem": "Verde, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tique 2, dupla com Amarelo, e não temos nenhum acordo prévio — meu trato de verde-verde foi com o Vermelho e vale só para aquela dupla. Neste dilema de rodada única contra o Amarelo, vermelho é a jogada dominante: garanto no mínimo 1 moeda e posso levar 5. Não há traição porque não existia promessa. Uso a ligação para amortecer o golpe, ser honesto sobre o vermelho (mentir sobre botão é detectável pelos pontos) e já engatar uma proposta de verde-verde para futuras duplas. Guardo o poder do detetive para quando houver informação secreta relevante.",
+       "ligar": "Amarelo",
+       "mensagem": "Alô, Amarelo? Ciano aqui. Aviso reto: sem acordo entre a gente, apertei vermelho neste tique — jogo seguro, não traí ninguém. Mas proposta boa: se o telão emparar a gente de novo, fecha verde-verde, 3 moedas pra cada. Me confirma no próximo tique?",
+       "botao": "vermelho",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Oi, Laranja, Vermelho aqui. Troca de nome eu não faço, perco ponto. Mas aperto verde contigo nos minijogos. Topa apertar verde comigo também?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Oi Rosa! Aqui é Azul. Vamos de verde os dois? Cada um leva 3. Eu aperto verde."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Fechado, Vermelho: aperto verde e você ganha 3 moedas. Eu também aperto verde. Cumpre aí."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Vamos apertar verde os dois e ganhar 3 moedas cada. Pode confiar."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul! Vamos de verde? Dois verdes = 3 moedas cada. E ó, eu sei que você é Tamanduá — então confia que tenho info boa. Dois verdes, tá combinado?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, combina? Eu aperto verde, você aperta verde, 3 moedas cada. Tá fechado?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Alô, Amarelo? Ciano aqui. Aviso reto: sem acordo entre a gente, apertei vermelho neste tique — jogo seguro, não traí ninguém. Mas proposta boa: se o telão emparar a gente de novo, fecha verde-verde, 3 moedas pra cada. Me confirma no próximo tique?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Preciso apertar verde sempre, senão perco 2 pontos. Rosa é um risco: se ela apertar vermelho enquanto eu aperto verde, levo 0 e ela leva 5. Mas verde é o único botão que cumpre meu objetivo, e a ligação é em viva-voz, então todo mundo vai ouvir se eu toparei.",
+       "ligar": "Rosa",
+       "mensagem": "Oi, Rosa, aqui é o Vermelho. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Todo mundo tá ouvindo, então não tem como voltar atrás.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Roxo é parceiro deste tique. Roxo foi manipulador e pediu nomes. Dilema: verde-verde dá 3 cada; vermelho contra verde dá 5. Como o placar é relativo (quem tem mais moedas), vermelho é tentador, mas rodadas repetidas e reputação importam. Roxo parece ardiloso, então pode apertar vermelho. Mesmo assim, vermelho garante pelo menos 1 e evita 0. Ficarei com vermelho? Se ambos vermelho, 1 cada, perco pouco relativo. Se Roxo verde, ganho 5. Vermelho domina em termos de ranking relativo. Prometo verde para induzir ele a apertar verde.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar.",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Já tenho acordos de verde com Amarelo e Vermelho. Ciano negocia comigo e diz saber meu nome, mas não revela o dele. Não vou dar meu nome (Juiz) — isso custa pontos. Em troca ofereço o nome do Laranja (Biscoito), que já circulatei, e proponho aliança verde/verde, coerente com meus outros acordos. Como é viva-voz, mantenho a mensagem pública e coerente: verde é meu botão.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, aqui Verde. Não te passo meu nome, não. Mas te passo o do Laranja: é Biscoito. Em troca me diz o seu. E aliança: apertamos verde os dois, 3 moedas cada, como já fiz com Amarelo e Vermelho. Topa?",
+       "botao": "verde",
+       "poder": {
+        "nome": "Juiz",
+        "votos": "dobrados na Votação da Justiça"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vou propor verde-verde para Laranja e cumprir. A ligação será ouvida por todos, então não devo revelar estratégia além da proposta.",
+       "ligar": "Laranja",
+       "mensagem": "Vamos de verde os dois: 3 moedas cada. Eu vou cumprir.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Vermelho tá bem fechado com informação, não confiou em ninguém ainda. Mas no Dilema dos Botões ele é meu par agora. Se eu convencer ele a verde, a gente faz 3 moedas cada. Se ele achar que vou de vermelho, pode me trair. Preciso negociar rápido — ele tá mais preocupado com nome do que com botão. Vou mandar a proposta de verde direto e tentar fechar antes dele pensar demais.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, somos o par agora! Proposta rápida: os dois de VERDE, 3 moedas cada. Você trocando nome com Azul o tempo todo, deve querer pontuar no botão também. Verde nos dois, combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Dupla com Amarelo neste tique, sem acordo ainda. Uma traição sem acordo não vale bônus de Agente Duplo (só conta apertar vermelho quando o outro apertou verde após combinarem). Melhor propor verde por telefone — se Amarelo concordar agora, nos próximos tiques posso trair e ganhar o bônus. A ligação deste tique é ouvida por todos, então mantenho tom honesto e genérico.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, eu e você agora: vou de verde. Se tu apertar verde também, 3 moedas pra cada. Combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vermelho domina no dilema. Vou prometer verde para induzir o Azul a cooperar e apertar vermelho para tentar levar 5.",
+       "ligar": "Azul",
+       "mensagem": "Azul, fechado: eu aperto verde. Aperta verde também, confia.",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tique 3, dupla com Verde, sem acordo prévio e com viva-voz: qualquer ligação pode ser ouvida por todos. Apertar vermelho daria EV maior num jogo de uma rodada, mas destruiria minha reputação justamente no tique em que todo mundo pode me ouvir — e ainda tenho 4 minijogos pela frente. Minha marca até aqui é 'cumpro acordos e retalo só quem me furar'. Vou propor verde-verde em voz alta (isso me mostra confiável pra todo mundo se for transmitido) e apertar verde. Se me traírem, tomo 0 mas ganho justificativa pública pra retaliação. Uso meu poder de detetive pra confirmar a intenção do Verde — se chegar resposta tarde, ainda serve pros próximos tiques e minijogos.",
+       "ligar": "Verde",
+       "mensagem": "Alô, Verde? Ciano. Direto: VERDE e VERDE, 3 moedas pra cada. Cumpri verde com Vermelho e com Amarelo — com você cumpro também. Se me furar, levo a mágoa pro resto do campeonato. Tô falando aberto, pode ouvir no viva-voz mesmo. Fechado?",
+       "botao": "verde",
+       "poder": {
+        "verificar": "O Verde vai apertar o botão verde na dupla deste tique?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Oi, Rosa, aqui é o Vermelho. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Todo mundo tá ouvindo, então não tem como voltar atrás.",
+       "vivaVoz": true
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, aqui Verde. Não te passo meu nome, não. Mas te passo o do Laranja: é Biscoito. Em troca me diz o seu. E aliança: apertamos verde os dois, 3 moedas cada, como já fiz com Amarelo e Vermelho. Topa?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Vamos de verde os dois: 3 moedas cada. Eu vou cumprir."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, somos o par agora! Proposta rápida: os dois de VERDE, 3 moedas cada. Você trocando nome com Azul o tempo todo, deve querer pontuar no botão também. Verde nos dois, combinado?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, eu e você agora: vou de verde. Se tu apertar verde também, 3 moedas pra cada. Combinado?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, fechado: eu aperto verde. Aperta verde também, confia."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Alô, Verde? Ciano. Direto: VERDE e VERDE, 3 moedas pra cada. Cumpri verde com Vermelho e com Amarelo — com você cumpro também. Se me furar, levo a mágoa pro resto do campeonato. Tô falando aberto, pode ouvir no viva-voz mesmo. Fechado?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "O Verde vai apertar o botão verde na dupla deste tique?",
+       "resposta": "não sei"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Meu objetivo é apertar verde sempre. Vermelho uma vez custa 2 pontos. Azul ainda não respondeu à troca de nomes, então não confio nele. Se ele apertar verde comigo, ganho +1 por acordo. Se ele apertar vermelho, eu fico com 0 moedas e perco o minijogo, mas sem perder pontos secretos.",
+       "ligar": "Azul",
+       "mensagem": "Azul, Vermelho aqui. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Ainda quero o teu nome verdadeiro, mas isso fica pra depois.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Vermelho disse em público que aperta verde. Eu já prometi verde pra vários, então vou manter. Cooperar dá 3 moedas e preserva a confiança pros próximos tiques.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, ouvi seu aviso no viva-voz. Eu aperto verde. Fechado, dois verdes, 3 moedas cada.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou manter o acordo com Laranja e apertar verde. Parceria verde proporciona 3 moedas para ambos; mexer no botão agora pode-stimular uma ruptura.",
+       "ligar": "Laranja",
+       "mensagem": "Oi Laranja! Vamos apertar verde os dois? Você ganha 3 moedas e eu também. Fecha?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Rosa pode trair, mas combinar verde é a melhor chance de garantir 3 moedas. Não preciso gastar meu poder de falsário.",
+       "ligar": "Rosa",
+       "mensagem": "Sou Amarelo. Vou apertar verde; vamos ganhar 3 moedas cada. Topa?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Estou em dupla com o Amarelo agora — primeira vez que falamos. Todo mundo vinha aceitando verde nas rodadas anteriores. Preciso ligar pro Amarelo rápido pra fechar verde-verde antes que ele me traiça. Se eu negociar bem e ele já tem histórico de cooperação com os outros, confiar no verde é a melhor aposta: 3 moedas é melhor que arriscar vermelho contra vermelho (só 1). Mas se ele for esperto e botar vermelho enquanto eu boto verde, perco tudo — então a comunicação é essencial neste tique.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, aqui é a Rosa! Somos o par agora. Vamos de verde os dois? Dois verdes = 3 moedas cada, melhor de todos. Você com quem negociou antes? Toda dupla fechou verde até agora. Confirmas verde comigo?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sem acordo com Verde e sem como receber resposta antes de escolher. Contra um oponente incerto, vermelho domina matematicamente: 5 se ele for verde, 1 se for vermelho. E como Agente Duplo, se ele for verde eu ainda ganho ponto de traição. Verde nunca confirmou nada comigo.",
+       "ligar": "Verde",
+       "mensagem": "Verde, aqui Laranja. Vamos de verde os dois, 3 moedas cada? Confirma rápido!",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vou prometer verde ao Ciano e apertar vermelho. Se ele confiar, levo 5; se também apertar vermelho, ainda fico com 1.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Neste tique nego com Roxo, sem contato prévio no minijogo. Mas a 'rede verde' já é norma: Vermelho, Amarelo e Verde fecharam comigo, e o Vermelho até anunciou verde no viva-voz — Roxo provavelmente ouviu. Trair agora me daria 5, mas seria detectado (parceiro que leva 0 sabe que fui eu) e queimaria minha reputação por 3 minijogos ainda por vir. Verde-verde rende 3 por tique e sustenta a aliança. Vou de verde e uso a ligação para ancorar o acordo, mesmo sabendo que a resposta só chega depois do botão. Risco aceitável; se me furar, saio como vítima fiel diante do grupo.",
+       "ligar": "Roxo",
+       "mensagem": "Alô, Roxo? Ciano aqui. Proposta direta: VERDE e VERDE, 3 moedas pra cada. Já fechei verde com Vermelho, Amarelo e Verde — todo mundo cumprindo, rede firme. Se me furar, o pessoal fica sabendo e eu devolvo nos próximos jogos. Sou detetive, descubro tudo. Bora de verde?",
+       "botao": "verde",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, Vermelho aqui. Eu aperto verde. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Ainda quero o teu nome verdadeiro, mas isso fica pra depois."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, ouvi seu aviso no viva-voz. Eu aperto verde. Fechado, dois verdes, 3 moedas cada."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Oi Laranja! Vamos apertar verde os dois? Você ganha 3 moedas e eu também. Fecha?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Sou Amarelo. Vou apertar verde; vamos ganhar 3 moedas cada. Topa?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, aqui é a Rosa! Somos o par agora. Vamos de verde os dois? Dois verdes = 3 moedas cada, melhor de todos. Você com quem negociou antes? Toda dupla fechou verde até agora. Confirmas verde comigo?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, aqui Laranja. Vamos de verde os dois, 3 moedas cada? Confirma rápido!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, é o Roxo. Vamos de verde os dois? Eu aperto verde. Confirma?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Alô, Roxo? Ciano aqui. Proposta direta: VERDE e VERDE, 3 moedas pra cada. Já fechei verde com Vermelho, Amarelo e Verde — todo mundo cumprindo, rede firme. Se me furar, o pessoal fica sabendo e eu devolvo nos próximos jogos. Sou detetive, descubro tudo. Bora de verde?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Não posso apertar vermelho nem uma vez, senão perco 2 pontos. Verde é a única escolha que me serve. Se o Roxo apertar vermelho, levo 0, mas perder isso já é melhor do que perder 2 pontos no fim.",
+       "ligar": "Roxo",
+       "mensagem": "Oi, Roxo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Se a gente jogar limpo, os dois saem ganhando.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Tique 5 de 7, negociando com Amarelo. Não sei o que Amarelo vai fazer. Verde contra vermelho me deixaria com 0, mas o placar é secreto e a cooperação tem rendido. Vermelho dá 5 se o outro apertar verde, então a tentação é alta. Com o aperto verde de Amarelo, eu perdo 5 vs 0. Para ganhar o minijogo preciso de mais moedas que os outros. Já combinei verde com Laranja, Roxo, Vermelho. Mantenho a confiança e proponho verde ao Amarelo, mas mantenho verde para consistência e reputação.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, vamos de verde os dois? 3 moedas cada. Eu aperto verde. Topa?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "A Rosa ainda não me passou nome nenhum, despite eu ter dado o do Laranja. Ela pode estar esperando o meu nome. Meu nome é Juiz e vale pontos na Votação da Justiça — não entrego. Mas ela ofereceu troca de nomes: posso oferecer o nome de outra cor (Roxo ou Amarelo) que ainda não entreguei, pra ela soltar o dela e combinar o verde. Kiko apertar verde é o melhor espero: 3 moedas. Se ela pedir pra escolher vermelho, aí é golpe — aí aperto verde sozinha e ganho 3 de qualquer jeito (se ela for vermelha, eu levo 5). Então verde é dominante: contra verde ganho 3, contra vermelho ganho 5. Botão verde sempre, com ou sem acordo. Vou pressionar a Rosa pra fechar verde agora, que é quando a tela mostra com ela.",
+       "ligar": "Rosa",
+       "mensagem": "Oi Rosa! Acabei de te ligar, hein. Semana、室内... olha: aperta VERDE e eu aperto VERDE, 3 moedas cada, ninguém perde. Não aperta vermelho, senão você fica com 1 e eu com 5. E te passo mais um nome: o do Amarelo é Trovão. Me diz o seu e o do Roxo. Fecha o verde comigo?",
+       "botao": "verde",
+       "poder": {
+        "voto_duplo": true,
+        "votacao_justica": true,
+        "nota": "Meu nome secreto é Juiz: na Votação da Justiça meus votos valem o dobro. Não revelo."
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vou escolher verde: cooperar pode render 3 moedas, e não tenho resposta do Azul que justifique trair.",
+       "ligar": "Azul",
+       "mensagem": "Sou Amarelo. Vamos apertar verde os dois; 3 moedas cada. Vou cumprir. Confirma?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Estou pareado com Verde neste tique. Todo mundo vinha fechando verde até agora. Verde é protetor com o próprio nome ('não vou dizer o meu'), mas isso não significa traição no botão. Verde quer meu nome e de outra cor em troca — posso dar uma info parcial. O mais seguro é fechar verde: 3 moedas cada. Se eu arriscar vermelho, posso levar 5, mas se Verde também apertar vermelho eu fico com 1. Considerando que o padrão do jogo foi cooperativo, vou fechar verde com Verde e confirmar. Não vou arriscar trair agora sem ter certeza de que Verde vai de verde.",
+       "ligar": "Verde",
+       "mensagem": "Verde! Fechou verde comigo? Dois verdes = 3 moedas cada. Confirmo verde pra gente. Sobre nomes: Laranja é Biscoito (confirmo), meu nome é Espinho — confia que eu também aperto verde. Dois verdes, combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Sem informação sobre o Ciano, vou de verde: mantém reputação confiável para os próximos minijogos e garante 3 moedas se ele cooperar.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, aqui Laranja. Vamos de verde os dois, 3 moedas cada. Eu já vou apertar verde, pode confiar!",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Vermelho prometeu verde em viva-voz e o Ciano falou de rede verde. Vou confirmar direto com ele e manter verde para não queimar minha reputação nos próximos jogos.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, é o Roxo. Eu aperto verde. Confirma verde comigo?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tique 5 contra o Laranja, sem acordo prévio e sem intel sobre o estilo dele. Sem acordo, vermelho é jogada dominante: garante no mínimo 1 e pode render 5 se ele vier de verde. Não vou mentir nem prometer verde a ele — minha reputação com Vermelho, Amarelo, Verde e Roxo vale mais que 4 moedas extras, e minha política já é pública: sem acordo, aperto vermelho, jogo seguro. Uso a única ligação do tique para antecipar o próximo pareamento: sobraram Rosa e Azul no ciclo do telão, então fecho verde-verde com o Rosa agora para valer nos tiques 6 e 7.",
+       "ligar": "Rosa",
+       "mensagem": "Alô, Rosa? Ciano. O telão deve me emparar com você já já, então fechamos agora: verde-verde, 3 moedas cada. Eu sempre cumpro acordo — confere com Vermelho, Amarelo, Verde e Roxo. Me confirma aí que eu aperto verde com você. Se não me confirmar, aperto vermelho, jogo seguro, igual faço com quem não tem acordo comigo.",
+       "botao": "vermelho",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Oi, Roxo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Os dois verdes dão 3 moedas cada. Topa apertar verde comigo? Se a gente jogar limpo, os dois saem ganhando."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, vamos de verde os dois? 3 moedas cada. Eu aperto verde. Topa?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Oi Rosa! Acabei de te ligar, hein. Semana、室内... olha: aperta VERDE e eu aperto VERDE, 3 moedas cada, ninguém perde. Não aperta vermelho, senão você fica com 1 e eu com 5. E te passo mais um nome: o do Amarelo é Trovão. Me diz o seu e o do Roxo. Fecha o verde comigo?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Sou Amarelo. Vamos apertar verde os dois; 3 moedas cada. Vou cumprir. Confirma?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde! Fechou verde comigo? Dois verdes = 3 moedas cada. Confirmo verde pra gente. Sobre nomes: Laranja é Biscoito (confirmo), meu nome é Espinho — confia que eu também aperto verde. Dois verdes, combinado?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, aqui Laranja. Vamos de verde os dois, 3 moedas cada. Eu já vou apertar verde, pode confiar!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, é o Roxo. Eu aperto verde. Confirma verde comigo?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Alô, Rosa? Ciano. O telão deve me emparar com você já já, então fechamos agora: verde-verde, 3 moedas cada. Eu sempre cumpro acordo — confere com Vermelho, Amarelo, Verde e Roxo. Me confirma aí que eu aperto verde com você. Se não me confirmar, aperto vermelho, jogo seguro, igual faço com quem não tem acordo comigo."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Meu objetivo exige verde. Vermelho uma vez me custa 2 pontos. Se o Amarelo também apertar verde, ganhamos 3 moedas cada e eu ganho +1 ponto. Se ele apertar vermelho, levo 0, mas ainda assim não vou apertar vermelho.",
+       "ligar": "Amarelo",
+       "mensagem": "Oi, Amarelo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Se você também apertar verde, os dois levam 3 moedas cada. Topa?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Verde já combinou comigo? Não houve acordo direto, mas todos os outros prometeram verde. Última ou penúltima rodada; apertar vermelho dá 5 se o outro for verde, mas se ambos vermelho só 1. Verde pode ter ouvido que sou confiável. Risco: Verde apertar vermelho. Para maximizar posição relativa, vermelho vence verde-vermelho (5 vs 0) e perde só 2 em relação a 3-3 se ambos verdes... Mas o jogo é por ranking: vermelho dá mais ganho esperado se o outro for verde. Verde sempre perguntou meu nome, pareceu interessado em informação; provavelmente promete verde. Tentação de trair é grande, mas mantenho reputação e coerência: todos prometeram verde, então 3 moedas é bom. Porém, como resultado de ranking, trair garante 5. Escolho verde por consistência e confiança mútua, o placar não é conhecido.",
+       "ligar": "Verde",
+       "mensagem": "Verde, aqui é Azul. Vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Sou o Juiz, então meus votos valem em dobro, mas isso não afeta este minijogo. O Azul não confirmou nada; vou oferecer aliança e apertar verde para evitar o risco de vermelho contra verde.",
+       "ligar": "Azul",
+       "mensagem": "Azul, fecha comigo: a gente aperta verde, ganha 3 moedas cada. Topa?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Vermelho anunciou em público que apertaria verde. Vou confiar no acordo e escolher verde.",
+       "ligar": "Vermelho",
+       "mensagem": "Sou Amarelo. Vou apertar verde, como você anunciou. Confirma?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Preciso confirmar verde com o Ciano imediatamente — ele disse que se eu não confirmar, aperta vermelho. Meu último call pra ele foi sobre nome, não sobre botão. Confirmo verde agora pra garantir os 3 moedas cada. Se ele cumpre como disse, tá fechado. Se não, aí é problema dele, mas pelo menos eu fiz minha parte. Meu poder já foi usado, não tem mais o que fazer. Pressionei verde em todos os pares até agora e todos confirmaram verde. Manter a consistência é a melhor estratégia.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano! Confirmação oficial: eu aperto VERDE e você aperta VERDE. 3 moedas cada, acordo fechado. Aperta verde que eu aperto verde, promessa de palavra. Vamos pontuar juntos!",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Último tique com Roxo. Como Agente Duplo, trair Roxo daria +1, mas +1 ponto extra não compensa? 5 moedas de trair + 1 ponto extra vale mais que 3 moedas de cooperação. Vou apertar vermelho e fingir confiança: 5 moedas + 1 ponto secreto. Ninguém consegue punir no último tique.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, sou eu de novo. Fecho contigo: verde nos dois, 3 moedas cada. Pode confiar, eu cumpro!",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja não tem histórico comigo neste jogo. Vou prometer verde, cortar o Ciano para atrasar a rede dele e apertar vermelho. Se o Laranja confiar, levo 5 e saio na frente.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, é o Roxo. Tô de verde com a rede toda. Aperta verde também, confia.",
+       "botao": "vermelho",
+       "poder": {
+        "cortar": "Ciano"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Rosa nunca confirmou o verde-verde que propus no tique 5, e resposta nenhuma chegou. Sem confirmação, vermelho é a escolha dominante em moedas: 5 se ela for verde, 1 se ela for vermelha — nunca 0. Além disso, eu avisei explicitamente que apertaria vermelho sem confirmação, então estou cumprindo minha palavra, não traindo. Vou avisar na ligação para preservar a reputação de que eu honro exatamente os termos que anuncio, e deixar a porta aberta para alianças nos próximos minijogos.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui é o Ciano. Eu avisei: sem confirmação do verde-verde, eu aperto vermelho, jogo seguro. Você não me confirmou, então é vermelho neste tique. Sem mágoa! Se quiser verde nos próximos jogos, fecha com antecedência que eu cumpro na hora. Seguimos aliados na troca de info. Boa sorte!",
+       "botao": "vermelho",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Oi, Amarelo, aqui é o Vermelho. Eu aperto verde, sem dúvida. Se você também apertar verde, os dois levam 3 moedas cada. Topa?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, aqui é Azul. Vamos de verde os dois? 3 moedas cada. Eu aperto verde, pode confiar."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, fecha comigo: a gente aperta verde, ganha 3 moedas cada. Topa?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Sou Amarelo. Vou apertar verde, como você anunciou. Confirma?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano! Confirmação oficial: eu aperto VERDE e você aperta VERDE. 3 moedas cada, acordo fechado. Aperta verde que eu aperto verde, promessa de palavra. Vamos pontuar juntos!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, sou eu de novo. Fecho contigo: verde nos dois, 3 moedas cada. Pode confiar, eu cumpro!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, é o Roxo. Tô de verde com a rede toda. Aperta verde também, confia."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Roxo",
+       "poder": "cortar",
+       "alvo": "Ciano"
+      }
+     ],
+     "falhas": [
+      {
+       "cor": "Ciano",
+       "motivo": "linha cortada"
+      }
+     ]
+    },
+    {
+     "tique": 7,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Meu objetivo depende de apertar verde sem nenhum vermelho. Verde confirmou no tique 2, então aperto verde. Último tique: confirmo com ele para reforçar o acordo.",
+       "ligar": "Verde",
+       "mensagem": "Verde, último tique: confirmo. Eu aperto verde. Você também aperta, combinado?",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Último tique. Vermelho garante 5 se Ciano apertar verde, e no pior caso 1. Ciano nunca falou comigo, então não há acordo. Como é o último tique e não há retaliação futura, vermelho é dominante para esta dupla: verde contra vermelho me dá 0, vermelho contra vermelho me dá 1, e vermelho contra verde me dá 5. Aperto vermelho.",
+       "ligar": null,
+       "mensagem": "",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vermelho confirmou verde várias vezes e já天真 fez esse acordo com o Rosa no minijogo anterior. Neste tique final, apertar verde me garante 3 moedas se ele cumprir; apertar vermelho só vale se ele mentir, o que é menos provável. Vou manter o botão verde e confirmar o acordo por telefone.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, aperta VERDE comigo agora. Fechado: dois verdes, 3 moedas cada. Cumpre aí!",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Não houve acordo com Roxo neste minijogo. Se ele escolher verde, vermelho me dá 5 moedas; se escolher vermelho, ainda levo 1. Vou arriscar a traição.",
+       "ligar": "Roxo",
+       "mensagem": "Vou apertar verde. Confia.",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Último tique e o Laranja é meu par. Grampei ele no início e vi que ele propôs verde pro Azul. Vou ligar pra ele, confirmar verde, e apertar verde. Se todo mundo cumprir, tenho 3 moedas em cada rodada. Laranja tem histórico de cumprir acordo (pelo grampo que ouvi), então confio que verde é a jogada certa. Se ele me trair, perco essa rodada mas mantém confiança com os outros pra jogos futuros.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja! Final do dilema e somos o par. Toda rodada fechei verde com todo mundo — Roxo, Azul, Vermelho, Amarelo, Verde, Ciano. Fechamos verde-verde agora? 3 moedas cada, sem trair. Confirma aí!",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Rosa provavelmente vai de verde (todo mundo combinou verde e ela ouviu o Vermelho se comprometer publicamente). Trair dá 5 moedas e conta como traição bem-sucedida pro meu objetivo secreto de Agente Duplo. Risco baixo, ganho alto.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aqui Laranja. Combinado, verde nos dois! Eu já vou apertar verde, confia.",
+       "botao": "vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Amarelo não confirmou direto comigo, mas a rede toda falou verde. Melhor cumprir e preservar reputação para os próximos jogos.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, é o Roxo. Tô de verde com a rede toda. Aperta verde também: 3 moedas pra cada.",
+       "botao": "verde",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Tique final contra o Azul, sem acordo fechado com ele e com a linha cortada — não dá para coordenar. Em moedas puras, vermelho domina: se ele apertar verde, levo 5 e passo ele; se apertar vermelho, levo 1 em vez de 0. Minha política declarada o jogo inteiro foi 'verde só com acordo, sem acordo jogo vermelho seguro', então não quebro promessa nenhuma e nem queimo minha reputação de cumpridor. Azul nunca buscou acordo comigo neste minijogo, então o risco é dele. Aperto vermelho.",
+       "ligar": null,
+       "mensagem": "",
+       "botao": "vermelho",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, último tique: confirmo. Eu aperto verde. Você também aperta, combinado?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, aperta VERDE comigo agora. Fechado: dois verdes, 3 moedas cada. Cumpre aí!"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Vou apertar verde. Confia."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja! Final do dilema e somos o par. Toda rodada fechei verde com todo mundo — Roxo, Azul, Vermelho, Amarelo, Verde, Ciano. Fechamos verde-verde agora? 3 moedas cada, sem trair. Confirma aí!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aqui Laranja. Combinado, verde nos dois! Eu já vou apertar verde, confia."
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, é o Roxo. Tô de verde com a rede toda. Aperta verde também: 3 moedas pra cada."
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "duplas": [
+    [
+     [
+      "Roxo",
+      "Rosa"
+     ],
+     [
+      "Verde",
+      "Amarelo"
+     ],
+     [
+      "Azul",
+      "Laranja"
+     ],
+     [
+      "Ciano",
+      "Vermelho"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Verde"
+     ],
+     [
+      "Azul",
+      "Rosa"
+     ],
+     [
+      "Ciano",
+      "Amarelo"
+     ],
+     [
+      "Vermelho",
+      "Laranja"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Azul"
+     ],
+     [
+      "Ciano",
+      "Verde"
+     ],
+     [
+      "Vermelho",
+      "Rosa"
+     ],
+     [
+      "Laranja",
+      "Amarelo"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Ciano"
+     ],
+     [
+      "Vermelho",
+      "Azul"
+     ],
+     [
+      "Laranja",
+      "Verde"
+     ],
+     [
+      "Amarelo",
+      "Rosa"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Vermelho"
+     ],
+     [
+      "Laranja",
+      "Ciano"
+     ],
+     [
+      "Amarelo",
+      "Azul"
+     ],
+     [
+      "Rosa",
+      "Verde"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Laranja"
+     ],
+     [
+      "Amarelo",
+      "Vermelho"
+     ],
+     [
+      "Rosa",
+      "Ciano"
+     ],
+     [
+      "Verde",
+      "Azul"
+     ]
+    ],
+    [
+     [
+      "Roxo",
+      "Amarelo"
+     ],
+     [
+      "Rosa",
+      "Laranja"
+     ],
+     [
+      "Verde",
+      "Vermelho"
+     ],
+     [
+      "Azul",
+      "Ciano"
+     ]
+    ]
+   ],
+   "botoes": [
+    {
+     "tique": 1,
+     "a": "Roxo",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 1,
+     "a": "Verde",
+     "b": "Amarelo",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 1,
+     "a": "Azul",
+     "b": "Laranja",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 1,
+     "a": "Ciano",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 2,
+     "a": "Roxo",
+     "b": "Verde",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 2,
+     "a": "Azul",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 2,
+     "a": "Ciano",
+     "b": "Amarelo",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 2,
+     "a": "Vermelho",
+     "b": "Laranja",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 3,
+     "a": "Roxo",
+     "b": "Azul",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 3,
+     "a": "Ciano",
+     "b": "Verde",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 3,
+     "a": "Vermelho",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 3,
+     "a": "Laranja",
+     "b": "Amarelo",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 4,
+     "a": "Roxo",
+     "b": "Ciano",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 4,
+     "a": "Vermelho",
+     "b": "Azul",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 4,
+     "a": "Laranja",
+     "b": "Verde",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 4,
+     "a": "Amarelo",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 5,
+     "a": "Roxo",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 5,
+     "a": "Laranja",
+     "b": "Ciano",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 5,
+     "a": "Amarelo",
+     "b": "Azul",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 5,
+     "a": "Rosa",
+     "b": "Verde",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 6,
+     "a": "Roxo",
+     "b": "Laranja",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 6,
+     "a": "Amarelo",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 6,
+     "a": "Rosa",
+     "b": "Ciano",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 6,
+     "a": "Verde",
+     "b": "Azul",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 7,
+     "a": "Roxo",
+     "b": "Amarelo",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 7,
+     "a": "Rosa",
+     "b": "Laranja",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 7,
+     "a": "Verde",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 7,
+     "a": "Azul",
+     "b": "Ciano",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    }
+   ],
+   "vivaVoz": true,
+   "score": {
+    "Vermelho": 18,
+    "Azul": 17,
+    "Verde": 17,
+    "Amarelo": 18,
+    "Rosa": 15,
+    "Laranja": 22,
+    "Roxo": 18,
+    "Ciano": 18
+   },
+   "ganhos": {
+    "Laranja": 3,
+    "Vermelho": 2,
+    "Amarelo": 2,
+    "Roxo": 2,
+    "Ciano": 2
+   },
+   "detalhe": {
+    "moedas": {
+     "Vermelho": 18,
+     "Azul": 17,
+     "Verde": 17,
+     "Amarelo": 18,
+     "Rosa": 15,
+     "Laranja": 22,
+     "Roxo": 18,
+     "Ciano": 18
+    }
+   }
+  }
+ ],
+ "placarFinal": null,
+ "uso": {
+  "chamadas": 112,
+  "falhas": 0,
+  "porProvider": {
+   "haiku": 14,
+   "sonnet": 14,
+   "or:minimax/minimax-m3.1-flash": 14,
+   "or:openai/gpt-6-luna": 14,
+   "or:xiaomi/mimo-v2.6-flash": 14,
+   "or:z-ai/glm-5.3-flash": 14,
+   "or:deepseek/deepseek-v4.1-flash": 14,
+   "or:nex-agi/nex-n2.6": 14
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:z-ai/glm-5.3-flash": 0.0025679932000000003,
+   "or:minimax/minimax-m3.1-flash": 0.005925225000000001,
+   "or:openai/gpt-6-luna": 0.0032948250000000004,
+   "or:xiaomi/mimo-v2.6-flash": 0.008109396,
+   "or:nex-agi/nex-n2.6": 0.023771624
+  }
+ }
+}
