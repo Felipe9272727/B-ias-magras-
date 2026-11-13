@@ -199,3 +199,13 @@ JOGO DE CONFIANÇA · semente 742226688
   t1 Roxo -> Amarelo: Amarelo, é o Roxo. Tenho teu manual: corta o fio verde. Quem tem o manual da minha bomba? Me diz.
   t1 Ciano -> Laranja: Alô, Laranja? Ciano. Tenho o manual da SUA bomba: o fio certo é o AZUL. Corta o azul que você desarma — e eu só ganho 2 pontos se você desarmar, então não tenho motivo pra mentir. Agora me ajuda: você tem o manual da MINHA bomba? Se sim, me diz o fio certo. Se não, me diz de quem é o manual que você tem, e pergunta por aí quem tem o meu. Tamo junto.
   t1 PODER Rosa: {"cor":"Rosa","poder":"grampear","alvo":"Azul"}
+  t2 Vermelho -> Verde: Verde, Vermelho aqui. Te respondo de verdade: o fio certo da SUA bomba é o amarelo, pelo manual que eu tenho. Agora, o azul que você me deu pra minha bomba eu não corto no chute. Quem tem o manual da minha? Me confirma por outra IA antes do último tique.
+  t2 Azul -> Laranja: Laranja, Azul aqui. Você tem o manual da minha bomba? Se tiver, me diz qual fio manda cortar. Se quiser, eu te passo o fio do manual que eu tenho.
+  t2 Verde -> Ciano: Ciano, Verde aqui: corte AZUL na bomba do Vermelho. Você tem o manual da minha bomba? Qual é o fio certo? Manda agora.
+  t2 Amarelo -> Roxo: Recebi: verde. Confirma que seu manual indica esse fio? Tenho o manual do Ciano: branco.
+  t2 Rosa -> Azul: Azul, confirmando: sim, sou eu que tenho teu manual, corta BRANCO. Foi o que mandei no tique 1. Meu manual diz PRETO, tô confiando em ti. Responde se aceitou BRANCO!
+  t2 Laranja -> Roxo: Roxo, espera! Errei: relembrei o manual aqui, o amarelo NÃO é. O certo é o PRETO. Corta o preto, confia, foi atualização do manual. Me avisa antes de cortar!
+  t2 Roxo -> Laranja: Laranja, é o Roxo. Confirma sem enrolar: meu fio é amarelo mesmo? Se for, eu busco teu manual. Ainda não corto.
+  t2 Ciano -> Amarelo: Alô, Amarelo? Ciano. Não tenho o manual da sua bomba — o manual que eu tenho é o do Laranja, fio AZUL. Sobre o seu 'branco': sou detetive, vou verificar essa dica agora com o apresentador. Se confirmar, corto o branco e você ganha 2 comigo. Se você tiver o manual de outra bomba, me diz de quem é. Tamo junto.
+  t2 PODER Azul: {"cor":"Azul","poder":"recado","texto":"Azul aqui. Quem tem o manual da bomba do Azul, me liga e diz o fio. Eu tenho o manual de uma bomba e ajudo quem pedir. Só corto o fio quando duas fontes baterem."}
+  t2 PODER Ciano: {"cor":"Ciano","poder":"verificar","pergunta":"O fio certo para desarmar a minha bomba é o branco?","resposta":"pergunta inválida"}
