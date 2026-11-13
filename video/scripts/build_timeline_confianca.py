@@ -56,7 +56,7 @@ def ler(mod):
                     continue
                 if mt and not pos:
                     pos = (int(mt.group(1)), int(mt.group(2)))
-                mudo = 'só na tela' in s or tipo.startswith('post') or not cor
+                mudo = tipo.startswith('post') or not cor  # 'só na tela' também ganha voz (o Felipe quer ouvir todas as falas das IAs)
                 (fecho if fecho else itens).append(['cita', cor.group(1) if cor else None, tipo, qs[0], {'mudo': mudo, 'mt': list(map(int, mt.groups())) if mt else None}])
             elif s.startswith('- **SELO**'):
                 selos += [x for x in re.findall(r'"([^"]+)"', s)][:2]

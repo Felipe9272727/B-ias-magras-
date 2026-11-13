@@ -131,3 +131,10 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - NARRADOR = O FELIPE (1ª pessoa): nunca "o Felipe perguntou/encerrou"; sempre "eu perguntei/encerrei". Avisar isso ao
   Fable/Sonnet no prompt do storyboard. Trocar fala depois do render: video/scripts/pk_troca_falas.py (só a faixa de áudio).
 - Pokémon v1 (Sonnet pacote -> Fable storyboard -> eu edito) foi elogiado como um dos melhores do canal: repetir o fluxo.
+
+## Jogo de Confiança v1 (13/11): falas "só na tela" viraram buraco sem áudio
+- O storyboard marcava 14 falas de IA como "só na tela": o balão aparecia sem voz e ficavam 4-10 s de silêncio. O Felipe
+  reclamou ("partes sem áudio"). Regra: TODA fala/pensamento de IA que aparece em balão ganha voz (pensamento com eco).
+  Só fica muda a citação sem cor (post do fã). Não dá para consertar só no áudio: a voz é mais longa que o balão mudo
+  (até 2,5x), então remonta a timeline e renderiza de novo.
+- Antes de entregar, checar buracos: trechos de >2,5 s sem voz na faixa (RMS em janelas de 0,1 s) e balões sem áudio.
