@@ -34,3 +34,7 @@ mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** j
 ## Jogo de Confiança (13/11): elenco BARATO a pedido do Felipe
 - Qwen 3.8 27B FORA deste vídeo (gasta demais, descoberta do Felipe). Trocado pelo MiniMax M3.1 Flash.
 - Teto de gasto por partida: ORCAMENTO_USD (padrão 3; rodado com 2,5).
+
+## Desenha e Adivinha (13/11): 10 IAs com visão
+- Tencent HY4 FORA (pedido do Felipe: caro; gastou ~13x mais que os outros por chute com imagem).
+- Entrou o Bonsai 2 9B (prism-ml/ternary-bonsai-2-9b), modelo pequeno com pesos ternários, barato e com visão.
