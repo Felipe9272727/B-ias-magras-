@@ -86,7 +86,7 @@ function viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio = false) 
 async function viaPonte(provider, system, prompt, maxTokens, timeoutMs, effort, semRaciocinio = false) {
   const temDS = !!(process.env.DEEPSEEK_API_KEY || chaveDoMod('deepseek') || fs.existsSync(ARQ_CHAVE))
   if (process.env.IA_DIRETO && provider.includes('deepseek/') && temDS) return viaCurlDS(system, prompt, maxTokens, timeoutMs, semRaciocinio)
-  if (process.env.IA_DIRETO && provider === 'haiku' && !fs.existsSync(ARQ_CHAVE)) return viaCurlOR('or:anthropic/claude-haiku-5.5', system, prompt, maxTokens, timeoutMs, semRaciocinio) // sem a ponte do mod
+  if (process.env.IA_DIRETO && provider === 'haiku' && !fs.existsSync(ARQ_CHAVE) && !process.env.PONTE_ASSINATURA) return viaCurlOR('or:anthropic/claude-haiku-5.5', system, prompt, maxTokens, timeoutMs, semRaciocinio) // sem a ponte do mod
   if (process.env.IA_DIRETO && provider.startsWith('or:')) return viaCurlOR(provider, system, prompt, maxTokens, timeoutMs, semRaciocinio)
   const id = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`
   const req = path.join(SPOOL, 'req', `${id}.json`)

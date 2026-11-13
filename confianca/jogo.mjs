@@ -17,7 +17,7 @@ const embaralha = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i
 
 // elenco (IAS_FAVORITAS.md): favoritas baratas + o Nex (o "GOAT" do AU7)
 const ELENCO = [
-  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'or:anthropic/claude-sonnet-5.5', 'Claude Sonnet'], ['Verde', 'or:minimax/minimax-m3.1-flash', 'MiniMax M3.1 Flash'],
+  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'sonnet', 'Claude Sonnet'], ['Verde', 'or:minimax/minimax-m3.1-flash', 'MiniMax M3.1 Flash'],
   ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'], ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Laranja', 'or:z-ai/glm-5.3-flash', 'GLM 5.3 Flash'],
   ['Roxo', 'or:deepseek/deepseek-v4.1-flash', 'DeepSeek Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
 ]
