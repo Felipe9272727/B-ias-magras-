@@ -251,7 +251,7 @@ Tela nova deste capítulo: o **telão de duplas** (dois telefones lado a lado, u
   - **Amarelo** `[pensamento]` (M2 t7): “Vou arriscar a traição.”
   - **Laranja** `[ligação]` (M2 t7): “Rosa, aqui Laranja. Combinado, verde nos dois! Eu já vou apertar verde, confia.”
   - **Laranja** `[pensamento]` (M2 t7): “Risco baixo, ganho alto.”
-- **SELO**: "FACA Nº 3"
+- **SELO**: "FACA CONTRA FACA"
 - **MEME**: `spiderman-pointing` (no vermelho x vermelho).
 - **SOM**: `crowd-laugh` no 1 x 1; `crowd-boo` na Rosa.
 
