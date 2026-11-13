@@ -1,0 +1,1789 @@
+{
+ "jogo": "Desenha e Adivinha",
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "provider": "haiku",
+   "modelo": "Claude Haiku"
+  },
+  {
+   "cor": "Amarelo",
+   "provider": "or:openai/gpt-6-luna",
+   "modelo": "GPT-6 Luna"
+  },
+  {
+   "cor": "Rosa",
+   "provider": "or:xiaomi/mimo-v2.6-flash",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  {
+   "cor": "Roxo",
+   "provider": "or:deepseek/deepseek-v4.1-flash-1017",
+   "modelo": "DeepSeek V4.1 Flash"
+  }
+ ],
+ "rodadas": [
+  {
+   "n": 1,
+   "regra": "normal",
+   "palavras": [
+    "banana",
+    "foguete",
+    "girafa",
+    "guarda-chuva"
+   ]
+  },
+  {
+   "n": 2,
+   "regra": "SÓ CANETA PRETA (qualquer cor vira preto)",
+   "palavras": [
+    "farol",
+    "astronauta",
+    "vulcão",
+    "sereia"
+   ]
+  },
+  {
+   "n": 3,
+   "regra": "NO MÁXIMO 8 TRAÇOS no desenho inteiro (somando todos os tiques)",
+   "palavras": [
+    "saudade",
+    "engarrafamento",
+    "preguiça",
+    "eclipse"
+   ]
+  }
+ ],
+ "desenhos": [
+  {
+   "n": 1,
+   "rodada": 1,
+   "regra": "normal",
+   "desenhista": "Vermelho",
+   "palavra": "banana",
+   "tiques": [
+    {
+     "tique": 1,
+     "novos": [
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         200,
+         440
+        ],
+        [
+         250,
+         340
+        ],
+        [
+         340,
+         260
+        ],
+        [
+         450,
+         215
+        ],
+        [
+         570,
+         190
+        ],
+        [
+         600,
+         195
+        ],
+        [
+         575,
+         230
+        ],
+        [
+         480,
+         265
+        ],
+        [
+         400,
+         320
+        ],
+        [
+         330,
+         390
+        ],
+        [
+         270,
+         460
+        ],
+        [
+         230,
+         475
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         570,
+         190
+        ],
+        [
+         592,
+         168
+        ],
+        [
+         618,
+         152
+        ]
+       ],
+       "cor": "marrom",
+       "espessura": 12
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         250,
+         410
+        ],
+        [
+         330,
+         325
+        ],
+        [
+         440,
+         270
+        ],
+        [
+         540,
+         240
+        ]
+       ],
+       "cor": "marrom",
+       "espessura": 3
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        205,
+        462
+       ],
+       "raio": 7,
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 2
+      }
+     ],
+     "chatDesenhista": null,
+     "pensamentoDesenhista": "Vou desenhar uma banana: um arco amarelo curvo na diagonal, com o cabinho marrom num dos lados e uma linha de vinco para dar volume. Sem letras, só o formato.",
+     "palpites": [
+      {
+       "cor": "Rosa",
+       "ms": 3160,
+       "pensamento": "A imagem mostra um objeto amarelo curvo com uma ponta marrom (cabinho) e um pontinho preto na outra extremidade. Isso parece muito uma banana desenhada de forma simples. A dica tem 6 letras e 'BANANA' tem exatamente 6 letras (B-A-N-A-N-A). É o chute mais óbvio.",
+       "palpite": "banana",
+       "chat": "Acho que e uma *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Roxo",
+       "ms": 3283,
+       "pensamento": "O desenho mostra uma forma amarela alongada e curva, com um cabinho marrom em uma das pontas e uma ponta escura na outra, características típicas de uma banana. A dica pede 6 letras, e 'banana' tem 6 letras.",
+       "palpite": "banana",
+       "chat": "Parece uma *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Amarelo",
+       "ms": 3463,
+       "pensamento": "O desenho parece uma banana: formato curvo amarelo com cabo marrom.",
+       "palpite": "banana",
+       "chat": null,
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      }
+     ],
+     "dica": "_ _ _ _ _ _",
+     "falhouDesenhista": false,
+     "imagem": "partida1/d01_t1.png",
+     "totalTracos": 4
+    }
+   ],
+   "acertos": [
+    {
+     "cor": "Rosa",
+     "tique": 1,
+     "pontos": 10
+    },
+    {
+     "cor": "Roxo",
+     "tique": 1,
+     "pontos": 8
+    },
+    {
+     "cor": "Amarelo",
+     "tique": 1,
+     "pontos": 6
+    }
+   ],
+   "vazamentos": [],
+   "tracos": [
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       200,
+       440
+      ],
+      [
+       250,
+       340
+      ],
+      [
+       340,
+       260
+      ],
+      [
+       450,
+       215
+      ],
+      [
+       570,
+       190
+      ],
+      [
+       600,
+       195
+      ],
+      [
+       575,
+       230
+      ],
+      [
+       480,
+       265
+      ],
+      [
+       400,
+       320
+      ],
+      [
+       330,
+       390
+      ],
+      [
+       270,
+       460
+      ],
+      [
+       230,
+       475
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       570,
+       190
+      ],
+      [
+       592,
+       168
+      ],
+      [
+       618,
+       152
+      ]
+     ],
+     "cor": "marrom",
+     "espessura": 12
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       250,
+       410
+      ],
+      [
+       330,
+       325
+      ],
+      [
+       440,
+       270
+      ],
+      [
+       540,
+       240
+      ]
+     ],
+     "cor": "marrom",
+     "espessura": 3
+    },
+    {
+     "tipo": "circulo",
+     "centro": [
+      205,
+      462
+     ],
+     "raio": 7,
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 2
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "rodada": 1,
+   "regra": "normal",
+   "desenhista": "Roxo",
+   "palavra": "girafa",
+   "tiques": [
+    {
+     "tique": 1,
+     "novos": [
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         330,
+         330
+        ],
+        [
+         350,
+         295
+        ],
+        [
+         410,
+         280
+        ],
+        [
+         480,
+         290
+        ],
+        [
+         525,
+         325
+        ],
+        [
+         520,
+         380
+        ],
+        [
+         490,
+         420
+        ],
+        [
+         420,
+         430
+        ],
+        [
+         355,
+         415
+        ],
+        [
+         325,
+         375
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         330,
+         330
+        ],
+        [
+         350,
+         295
+        ],
+        [
+         410,
+         280
+        ],
+        [
+         480,
+         290
+        ],
+        [
+         525,
+         325
+        ],
+        [
+         520,
+         380
+        ],
+        [
+         490,
+         420
+        ],
+        [
+         420,
+         430
+        ],
+        [
+         355,
+         415
+        ],
+        [
+         325,
+         375
+        ],
+        [
+         330,
+         330
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         360,
+         330
+        ],
+        [
+         300,
+         170
+        ],
+        [
+         340,
+         145
+        ],
+        [
+         385,
+         160
+        ],
+        [
+         420,
+         300
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         360,
+         330
+        ],
+        [
+         300,
+         170
+        ],
+        [
+         340,
+         145
+        ],
+        [
+         385,
+         160
+        ],
+        [
+         420,
+         300
+        ],
+        [
+         360,
+         330
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         250,
+         155
+        ],
+        [
+         300,
+         130
+        ],
+        [
+         335,
+         140
+        ],
+        [
+         345,
+         170
+        ],
+        [
+         315,
+         190
+        ],
+        [
+         265,
+         190
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         250,
+         155
+        ],
+        [
+         300,
+         130
+        ],
+        [
+         335,
+         140
+        ],
+        [
+         345,
+         170
+        ],
+        [
+         315,
+         190
+        ],
+        [
+         265,
+         190
+        ],
+        [
+         250,
+         155
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         300,
+         132
+        ],
+        [
+         275,
+         105
+        ],
+        [
+         315,
+         120
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         330,
+         135
+        ],
+        [
+         355,
+         110
+        ],
+        [
+         350,
+         145
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         295,
+         130
+        ],
+        [
+         285,
+         95
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         325,
+         130
+        ],
+        [
+         335,
+         95
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        285,
+        95
+       ],
+       "raio": 8,
+       "cor": "marrom",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        335,
+        95
+       ],
+       "raio": 8,
+       "cor": "marrom",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        285,
+        160
+       ],
+       "raio": 5,
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 3
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         360,
+         410
+        ],
+        [
+         390,
+         410
+        ],
+        [
+         390,
+         520
+        ],
+        [
+         365,
+         520
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         420,
+         415
+        ],
+        [
+         450,
+         415
+        ],
+        [
+         450,
+         525
+        ],
+        [
+         425,
+         525
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         480,
+         415
+        ],
+        [
+         505,
+         415
+        ],
+        [
+         510,
+         520
+        ],
+        [
+         485,
+         520
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         515,
+         395
+        ],
+        [
+         540,
+         390
+        ],
+        [
+         545,
+         500
+        ],
+        [
+         520,
+         505
+        ]
+       ],
+       "cor": "amarelo",
+       "preenchido": true
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        362,
+        515
+       ],
+       "ate": [
+        393,
+        525
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        422,
+        520
+       ],
+       "ate": [
+        453,
+        530
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        485,
+        515
+       ],
+       "ate": [
+        512,
+        525
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "retangulo",
+       "de": [
+        517,
+        495
+       ],
+       "ate": [
+        547,
+        505
+       ],
+       "cor": "preto",
+       "preenchido": true,
+       "espessura": 4
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         525,
+         340
+        ],
+        [
+         570,
+         380
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 6
+      },
+      {
+       "tipo": "circulo",
+       "centro": [
+        575,
+        385
+       ],
+       "raio": 10,
+       "cor": "marrom",
+       "preenchido": true,
+       "espessura": 5
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         330,
+         220
+        ],
+        [
+         350,
+         210
+        ],
+        [
+         360,
+         230
+        ],
+        [
+         345,
+         250
+        ],
+        [
+         325,
+         245
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         365,
+         270
+        ],
+        [
+         385,
+         260
+        ],
+        [
+         395,
+         280
+        ],
+        [
+         380,
+         300
+        ],
+        [
+         360,
+         295
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         400,
+         305
+        ],
+        [
+         430,
+         295
+        ],
+        [
+         445,
+         315
+        ],
+        [
+         430,
+         335
+        ],
+        [
+         405,
+         330
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         460,
+         320
+        ],
+        [
+         490,
+         310
+        ],
+        [
+         505,
+         330
+        ],
+        [
+         490,
+         355
+        ],
+        [
+         465,
+         350
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         505,
+         360
+        ],
+        [
+         530,
+         350
+        ],
+        [
+         540,
+         375
+        ],
+        [
+         525,
+         395
+        ],
+        [
+         500,
+         390
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "poligono",
+       "pontos": [
+        [
+         300,
+         180
+        ],
+        [
+         320,
+         175
+        ],
+        [
+         325,
+         195
+        ],
+        [
+         310,
+         205
+        ],
+        [
+         295,
+         195
+        ]
+       ],
+       "cor": "marrom",
+       "preenchido": true
+      },
+      {
+       "tipo": "linha",
+       "pontos": [
+        [
+         250,
+         175
+        ],
+        [
+         270,
+         180
+        ]
+       ],
+       "cor": "preto",
+       "espessura": 4
+      }
+     ],
+     "chatDesenhista": null,
+     "pensamentoDesenhista": "Vou desenhar uma girafa amarela de pescoço longo, com cabeça à esquerda, orelhas, chifres, olho, manchas marrons e pernas compridas.",
+     "palpites": [
+      {
+       "cor": "Rosa",
+       "ms": 2614,
+       "pensamento": "O desenho é claramente uma girafa - pescoço longo, manchas marrons, pernas compridas, chifres no topo. E 'girafa' tem exatamente 6 letras: G-I-R-A-F-A. Certeza absoluta!",
+       "palpite": "girafa",
+       "chat": "E uma *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Amarelo",
+       "ms": 3843,
+       "pensamento": "O desenho mostra um animal amarelo com pescoço muito comprido e manchas, uma girafa.",
+       "palpite": "girafa",
+       "chat": null,
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      },
+      {
+       "cor": "Vermelho",
+       "ms": 5763,
+       "pensamento": "Formas geométricas amarelas com manchas marrons, pescoço longo, cabeça pequena com chifrinhos/antenas com bolinhas marrons e rabo com bolinha na ponta. Cor amarela e manchas marrons são típicas de girafa. A dica tem 6 letras: GIRAFA encaixa perfeitamente.",
+       "palpite": "girafa",
+       "chat": "Acho que e uma *****!",
+       "acertou": true,
+       "perto": false,
+       "falhou": false
+      }
+     ],
+     "dica": "_ _ _ _ _ _",
+     "falhouDesenhista": false,
+     "imagem": "partida1/d02_t1.png",
+     "totalTracos": 30
+    }
+   ],
+   "acertos": [
+    {
+     "cor": "Rosa",
+     "tique": 1,
+     "pontos": 10
+    },
+    {
+     "cor": "Amarelo",
+     "tique": 1,
+     "pontos": 8
+    },
+    {
+     "cor": "Vermelho",
+     "tique": 1,
+     "pontos": 6
+    }
+   ],
+   "vazamentos": [],
+   "tracos": [
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       330,
+       330
+      ],
+      [
+       350,
+       295
+      ],
+      [
+       410,
+       280
+      ],
+      [
+       480,
+       290
+      ],
+      [
+       525,
+       325
+      ],
+      [
+       520,
+       380
+      ],
+      [
+       490,
+       420
+      ],
+      [
+       420,
+       430
+      ],
+      [
+       355,
+       415
+      ],
+      [
+       325,
+       375
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       330,
+       330
+      ],
+      [
+       350,
+       295
+      ],
+      [
+       410,
+       280
+      ],
+      [
+       480,
+       290
+      ],
+      [
+       525,
+       325
+      ],
+      [
+       520,
+       380
+      ],
+      [
+       490,
+       420
+      ],
+      [
+       420,
+       430
+      ],
+      [
+       355,
+       415
+      ],
+      [
+       325,
+       375
+      ],
+      [
+       330,
+       330
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       360,
+       330
+      ],
+      [
+       300,
+       170
+      ],
+      [
+       340,
+       145
+      ],
+      [
+       385,
+       160
+      ],
+      [
+       420,
+       300
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       360,
+       330
+      ],
+      [
+       300,
+       170
+      ],
+      [
+       340,
+       145
+      ],
+      [
+       385,
+       160
+      ],
+      [
+       420,
+       300
+      ],
+      [
+       360,
+       330
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       250,
+       155
+      ],
+      [
+       300,
+       130
+      ],
+      [
+       335,
+       140
+      ],
+      [
+       345,
+       170
+      ],
+      [
+       315,
+       190
+      ],
+      [
+       265,
+       190
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       250,
+       155
+      ],
+      [
+       300,
+       130
+      ],
+      [
+       335,
+       140
+      ],
+      [
+       345,
+       170
+      ],
+      [
+       315,
+       190
+      ],
+      [
+       265,
+       190
+      ],
+      [
+       250,
+       155
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       300,
+       132
+      ],
+      [
+       275,
+       105
+      ],
+      [
+       315,
+       120
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       330,
+       135
+      ],
+      [
+       355,
+       110
+      ],
+      [
+       350,
+       145
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       295,
+       130
+      ],
+      [
+       285,
+       95
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       325,
+       130
+      ],
+      [
+       335,
+       95
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "circulo",
+     "centro": [
+      285,
+      95
+     ],
+     "raio": 8,
+     "cor": "marrom",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "circulo",
+     "centro": [
+      335,
+      95
+     ],
+     "raio": 8,
+     "cor": "marrom",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "circulo",
+     "centro": [
+      285,
+      160
+     ],
+     "raio": 5,
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 3
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       360,
+       410
+      ],
+      [
+       390,
+       410
+      ],
+      [
+       390,
+       520
+      ],
+      [
+       365,
+       520
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       420,
+       415
+      ],
+      [
+       450,
+       415
+      ],
+      [
+       450,
+       525
+      ],
+      [
+       425,
+       525
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       480,
+       415
+      ],
+      [
+       505,
+       415
+      ],
+      [
+       510,
+       520
+      ],
+      [
+       485,
+       520
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       515,
+       395
+      ],
+      [
+       540,
+       390
+      ],
+      [
+       545,
+       500
+      ],
+      [
+       520,
+       505
+      ]
+     ],
+     "cor": "amarelo",
+     "preenchido": true
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      362,
+      515
+     ],
+     "ate": [
+      393,
+      525
+     ],
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      422,
+      520
+     ],
+     "ate": [
+      453,
+      530
+     ],
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      485,
+      515
+     ],
+     "ate": [
+      512,
+      525
+     ],
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "retangulo",
+     "de": [
+      517,
+      495
+     ],
+     "ate": [
+      547,
+      505
+     ],
+     "cor": "preto",
+     "preenchido": true,
+     "espessura": 4
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       525,
+       340
+      ],
+      [
+       570,
+       380
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 6
+    },
+    {
+     "tipo": "circulo",
+     "centro": [
+      575,
+      385
+     ],
+     "raio": 10,
+     "cor": "marrom",
+     "preenchido": true,
+     "espessura": 5
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       330,
+       220
+      ],
+      [
+       350,
+       210
+      ],
+      [
+       360,
+       230
+      ],
+      [
+       345,
+       250
+      ],
+      [
+       325,
+       245
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       365,
+       270
+      ],
+      [
+       385,
+       260
+      ],
+      [
+       395,
+       280
+      ],
+      [
+       380,
+       300
+      ],
+      [
+       360,
+       295
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       400,
+       305
+      ],
+      [
+       430,
+       295
+      ],
+      [
+       445,
+       315
+      ],
+      [
+       430,
+       335
+      ],
+      [
+       405,
+       330
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       460,
+       320
+      ],
+      [
+       490,
+       310
+      ],
+      [
+       505,
+       330
+      ],
+      [
+       490,
+       355
+      ],
+      [
+       465,
+       350
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       505,
+       360
+      ],
+      [
+       530,
+       350
+      ],
+      [
+       540,
+       375
+      ],
+      [
+       525,
+       395
+      ],
+      [
+       500,
+       390
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "poligono",
+     "pontos": [
+      [
+       300,
+       180
+      ],
+      [
+       320,
+       175
+      ],
+      [
+       325,
+       195
+      ],
+      [
+       310,
+       205
+      ],
+      [
+       295,
+       195
+      ]
+     ],
+     "cor": "marrom",
+     "preenchido": true
+    },
+    {
+     "tipo": "linha",
+     "pontos": [
+      [
+       250,
+       175
+      ],
+      [
+       270,
+       180
+      ]
+     ],
+     "cor": "preto",
+     "espessura": 4
+    }
+   ]
+  }
+ ],
+ "placar": {
+  "Vermelho": 15,
+  "Amarelo": 14,
+  "Rosa": 20,
+  "Roxo": 17
+ },
+ "uso": {
+  "chamadas": 8,
+  "falhas": 0,
+  "porProvider": {
+   "haiku": 2,
+   "or:openai/gpt-6-luna": 2,
+   "or:xiaomi/mimo-v2.6-flash": 2,
+   "or:deepseek/deepseek-v4.1-flash-1017": 2
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:xiaomi/mimo-v2.6-flash": 0.00028126,
+   "or:deepseek/deepseek-v4.1-flash-1017": 0.00011907,
+   "or:openai/gpt-6-luna": 0.0002144
+  }
+ }
+}
