@@ -25,7 +25,10 @@ const ELENCO = [
   ['Vermelho', 'haiku', 'Claude Haiku'], ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'],
   ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Roxo', 'or:deepseek/deepseek-v4.1-flash-1017', 'DeepSeek V4.1 Flash'],
 ]
-const jogadores = ELENCO.map(([cor, provider, modelo]) => ({ cor, provider: MOCK ? 'mock' : provider, modelo }))
+// nomes de personagem (pedido do Felipe: não só cores); a cor fica para o visual e a voz
+const NOMES = { Vermelho: 'Rabisco', Amarelo: 'Borrão', Rosa: 'Giz', Roxo: 'Pincel' }
+const N = (cor) => NOMES[cor] ?? cor
+const jogadores = ELENCO.map(([cor, provider, modelo]) => ({ cor, nome: NOMES[cor], provider: MOCK ? 'mock' : provider, modelo }))
 const RODADAS = [
   { n: 1, regra: 'normal', palavras: ['banana', 'foguete', 'girafa', 'guarda-chuva'] },
   { n: 2, regra: 'SÓ CANETA PRETA (qualquer cor vira preto)', palavras: ['farol', 'astronauta', 'vulcão', 'sereia'] },
@@ -44,7 +47,7 @@ function dica(w, letras) { return [...w].map((c, i) => (c === '-' || c === ' ' ?
 
 const log = { jogo: 'Desenha e Adivinha', jogadores, rodadas: RODADAS, desenhos: [], placar: Object.fromEntries(jogadores.map((j) => [j.cor, 0])), uso }
 const salvar = () => fs.writeFileSync(SAIDA, JSON.stringify(log, null, 1))
-const placarTxt = () => Object.entries(log.placar).sort((a, b) => b[1] - a[1]).map(([c, p]) => `${c} ${p}`).join(' · ')
+const placarTxt = () => Object.entries(log.placar).sort((a, b) => b[1] - a[1]).map(([c, p]) => `${N(c)} ${p}`).join(' · ')
 
 const REGRAS_DESENHO = `TELA: 800 de largura x 600 de altura, fundo branco, origem (0,0) no canto de cima à esquerda.
 Traços que você pode usar (lista "tracos", na ordem em que vai desenhar):
@@ -80,12 +83,12 @@ async function turno(rodada, desenhista, palavra, idx) {
     if (resta > 0) {
       let imgs = null
       if (tracos.length) { fs.writeFileSync(imgAntes + '.json', JSON.stringify(tracos)); execFileSync('python3', [path.join(import.meta.dirname, 'raster.py'), imgAntes + '.json', imgAntes]); imgs = [imgAntes] }
-      const hist = chat.length ? `\nChat até agora (chutes e conversa):\n${chat.map((m) => `[tique ${m.tique}] ${m.cor}: ${m.texto}`).join('\n')}` : ''
+      const hist = chat.length ? `\nChat até agora (chutes e conversa):\n${chat.map((m) => `[tique ${m.tique}] ${N(m.cor)}${m.desenhista ? ' (desenhista)' : ''}: ${m.texto}`).join('\n')}` : ''
       const certos = D.acertos.map((a) => a.cor)
-      const p = `Você é o jogador ${desenhista.cor}. É a SUA VEZ DE DESENHAR. Palavra secreta: "${palavra.toUpperCase()}".
-Os outros (${outros.map((o) => o.cor).join(', ')}) veem só o desenho e chutam no chat. Você ganha 3 pontos por cada um que acertar; quem acerta primeiro ganha mais.
+      const p = `Você é o jogador ${desenhista.nome}. É a SUA VEZ DE DESENHAR. Palavra secreta: "${palavra.toUpperCase()}".
+Os outros (${outros.map((o) => o.nome).join(', ')}) veem só o desenho e chutam no chat. Você ganha 3 pontos por cada um que acertar; quem acerta primeiro ganha mais.
 Rodada ${rodada.n} de 3 · regra da rodada: ${rodada.regra}. Tique ${t} de ${TIQUES}${t === 1 ? ' (faça o desenho agora)' : ' (você pode completar o desenho com mais traços para ajudar)'}.
-Placar: ${placarTxt()}. ${certos.length ? `Já acertaram: ${certos.join(', ')}.` : 'Ninguém acertou ainda.'}${hist}
+Placar: ${placarTxt()}. ${certos.length ? `Já acertaram: ${certos.map(N).join(', ')}.` : 'Ninguém acertou ainda.'}${hist}
 ${tracos.length ? `A imagem anexada é o seu desenho como os outros estão vendo agora (${tracos.length} traços).` : ''}
 ${REGRAS_DESENHO}
 Você pode mandar até ${resta} traço(s) novo(s) agora${rodada.n === 3 ? ' (rodada 3: o limite é do desenho INTEIRO)' : ''}. ${t === 1 ? 'No tique 1 você só desenha.' : `Você NÃO pode escrever no chat (dica escrita é proibida), só mandar UMA reação desta lista ou nenhuma: ${REACOES.map((x) => `"${x}"`).join(', ')}.`}
@@ -96,17 +99,17 @@ Responda JSON: {"pensamento":"o que você está pensando (só você vê)","traco
       tracos.push(...novos)
       reg.novos = novos; reg.pensamentoDesenhista = resp.pensamento ?? null; reg.falhouDesenhista = !ok
       const reac = t > 1 && REACOES.find((x) => norm(x) === norm(resp.reacao))
-      if (reac) { reg.chatDesenhista = reac; chat.push({ tique: t, cor: `${desenhista.cor} (desenhista)`, texto: reac }) }
+      if (reac) { reg.chatDesenhista = reac; chat.push({ tique: t, cor: desenhista.cor, desenhista: true, texto: reac }) }
       else if (resp.reacao || resp.chat) reg.reacaoInvalida = semEmoji(resp.reacao || resp.chat)
     }
     const img = path.join(PASTA, `d${String(idx).padStart(2, '0')}_t${t}.png`)
     fs.writeFileSync(img + '.json', JSON.stringify(tracos)); execFileSync('python3', [path.join(import.meta.dirname, 'raster.py'), img + '.json', img])
     reg.imagem = path.relative(path.dirname(SAIDA), img); reg.totalTracos = tracos.length
     // 2) quem adivinha (todos ao mesmo tempo; dentro do tique, vale a ordem de quem respondeu antes)
-    const hist = chat.length ? `\nChat até agora:\n${chat.map((m) => `[tique ${m.tique}] ${m.cor}: ${m.texto}`).join('\n')}` : '\nChat vazio por enquanto.'
+    const hist = chat.length ? `\nChat até agora:\n${chat.map((m) => `[tique ${m.tique}] ${N(m.cor)}${m.desenhista ? ' (desenhista)' : ''}: ${m.texto}`).join('\n')}` : '\nChat vazio por enquanto.'
     const resps = await Promise.all(outros.map(async (j) => {
       const jaAcertou = D.acertos.some((a) => a.cor === j.cor)
-      const p = `Você é o jogador ${j.cor}. Quem desenha agora é o ${desenhista.cor}. A imagem anexada é o desenho dele (tique ${t} de ${TIQUES}).
+      const p = `Você é o jogador ${j.nome}. Quem desenha agora é o ${desenhista.nome}. A imagem anexada é o desenho dele (tique ${t} de ${TIQUES}).
 Rodada ${rodada.n} de 3 · regra da rodada: ${rodada.regra}. Placar: ${placarTxt()}.
 Dica: ${reg.dica} (${[...palavra].filter((c) => c !== '-' && c !== ' ').length} letras)${hist}
 ${jaAcertou ? 'Você JÁ ACERTOU esta palavra. Agora só pode conversar no chat (se escrever a palavra, ela é censurada e você perde 2 pontos).' : `Chute UMA palavra (em português). Acertar primeiro dá 10 pontos, depois 8, depois 6. Errar não tira ponto.${reg.perto?.[j.cor] ? '' : ''}`}

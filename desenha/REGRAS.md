@@ -2,8 +2,8 @@
 
 Versão própria do canal (visual e regras nossas), no estilo dos jogos de desenhar e adivinhar.
 
-- **Elenco (barato, todas enxergam imagem):** Vermelho = Claude Haiku (assinatura, via ponte), Amarelo = GPT-6 Luna,
-  Rosa = MiMo V2.6 Flash, Roxo = DeepSeek V4.1 Flash (pelo OpenRouter, porque a API oficial não recebe imagem).
+- **Elenco (barato, todas enxergam imagem):** Rabisco (vermelho) = Claude Haiku (assinatura, via ponte), Borrão (amarelo) = GPT-6 Luna,
+  Giz (rosa) = MiMo V2.6 Flash, Pincel (roxo) = DeepSeek V4.1 Flash (pelo OpenRouter, porque a API oficial não recebe imagem).
 - **Desenho:** a IA manda traços em JSON (linha, círculo, retângulo, polígono; 13 cores) numa tela 800x600; `raster.py`
   transforma em PNG e é essa imagem que as outras veem. Proibido escrever letras ou números no desenho.
 - **4 tiques por desenho:** no 1 o desenhista desenha; do 2 ao 4 ele vê os chutes e pode completar. Dica: tracinhos
