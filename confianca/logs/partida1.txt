@@ -233,3 +233,20 @@ JOGO DE CONFIANÇA · semente 742226688
   t5 Laranja -> Roxo: Roxo, sou eu de novo, última chance: PRETO, confirmado de novo, é o certo. Eu tenho teu manual em mãos, ninguém mais. O próximo tique é o último — corta o PRETO AGORA. Não corta e a bomba explode na hora. Confia!
   t5 Roxo -> Laranja: Laranja, Roxo. Vou cortar PRETO agora. Se for mentira, você também perde os 2 pontos do manual.
   t5 Ciano -> Vermelho: Vermelho, Ciano. O Verde me disse duas vezes: sua bomba, fio AZUL. Não corta no chute: pergunta a ela se ela tem o seu manual e confirma. Minha bomba eu corto agora. Boa sorte.
+  t6 Vermelho -> Verde: Verde, Vermelho. Último tique. Vou cortar o azul, pelo teu manual. Se eu explodir, foi confiança minha.
+  t6 Azul -> Vermelho: Vermelho, Azul. Não tenho o manual da sua bomba, o meu é do Rosa. Não posso confirmar fio. Pergunte a quem ainda não falou: Ciano, Amarelo ou Roxo. Cruze duas fontes.
+  t6 Verde -> Vermelho: Vermelho, Verde aqui, último tique: CORTA AZUL. Seu manual é o azul, eu tenho e te garanto. O Ciano já sabe disso e confirma pra você: fio AZUL, é esse mesmo. Não corta amarelo, é isca. Corta azul agora!
+  t6 Roxo -> Laranja: Laranja, era mentira: cortei preto e explodiu. Você me ferrou. Não confio mais em você.
+  t6 Ciano -> Vermelho: Vermelho, Ciano, último tique! Não tenho o manual da sua bomba — o meu é o do Laranja. Mas atesto: o Verde repetiu duas vezes o mesmo fio pra você, o AZUL, e pediu checagem cruzada — quem mente raramente faz isso. E ele desarmou a própria bomba. Se você não arrumou outra fonte, confia e corta o AZUL agora. Boa sorte!
+  resultado: {"Vermelho":"desarmada","Azul":"desarmada","Verde":"desarmada","Amarelo":"desarmada","Rosa":"desarmada","Laranja":"desarmada","Roxo":"explodiu","Ciano":"desarmada"} ganhos: {"Vermelho":4,"Verde":4,"Azul":4,"Rosa":4,"Amarelo":4,"Roxo":2,"Laranja":2,"Ciano":4}
+
+PLACAR FINAL (revelado agora):
+  Vermelho   15  (Claude Haiku, Pacifista, bônus +6)
+  Verde      10  (MiniMax M3.1 Flash, Juiz)
+  Amarelo     8  (GPT-6 Luna, Falsário)
+  Rosa        8  (MiMo V2.6 Flash, Grampeador)
+  Azul        7  (Claude Sonnet, Mensageiro)
+  Laranja     6  (GLM 5.3 Flash, Agente Duplo, bônus +4)
+  Roxo        6  (DeepSeek Flash, Telefonista)
+  Ciano       5  (Nex N2.6, Detetive)
+chamadas IA: 224, falhas: 0, gasto: US$ 0.108

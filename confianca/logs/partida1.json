@@ -3763,29 +3763,1712 @@
      "Ciano": 0
     }
    }
+  },
+  {
+   "n": 5,
+   "nome": "INSTRUÇÕES EXPLOSIVAS",
+   "regra": "Cada IA tem uma BOMBA com 4 fios e o MANUAL da bomba de OUTRA IA. Ninguém sabe quem tem o manual da sua bomba: descubra por telefone e ajude quem precisa do seu manual. Para desarmar: campo \"acao_bomba\": \"cortar o fio COR\" (uma tentativa só; fio errado = explode). Bomba desarmada: o dono e quem tinha o manual ganham 2 pontos cada. Cuidado: as instruções podem ser falsas. Se não cortar até o último tique, explode.",
+   "poderes": {
+    "Rosa": true,
+    "Azul": true,
+    "Ciano": true
+   },
+   "grampos": {
+    "Rosa": "Azul"
+   },
+   "cortados": {},
+   "evento": "viva_voz",
+   "eventoTique": 3,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Tenho o manual da bomba do Verde (fio certo: amarelo). Ajudar ele é bom pra mim e pro acordo verde. Não sei quem tem o manual da minha bomba, e nenhum fio dela é amarelo, então não corto nada no escuro.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho aqui. Tenho o manual da tua bomba: o fio certo é o amarelo. Corta amarelo. Quem tem o manual da minha, sabe?",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Tenho o manual da bomba da Rosa: fio certo dela é preto. Mas manuais podem ser falsos. Não sei quem tem o meu manual. Vou avisar a Rosa para que ela corte preto, e perguntar quem tem o meu manual. Rosa foi aliada na votação, então ajudo. Meu próprio fio é incerto; ainda não corto nada neste tique.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, Azul aqui. Tenho o manual da sua bomba. Ele diz: corte o fio PRETO. Quem tem o manual da minha? Me diz se for você.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou avisar o Vermelho que o fio correto da bomba dele é azul e pedir que ele confirme o fio da minha bomba, pois tenho o manual dela.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, tenho o manual da sua bomba: corte o AZUL. Agora me diga: qual é o fio certo da minha?",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Preciso ajudar Ciano com o manual que tenho e descobrir quem tem o manual da minha bomba. Não vou cortar sem instrução confiável.",
+       "ligar": "Ciano",
+       "mensagem": "Tenho seu manual: corte o fio branco. Você tem o manual da minha bomba? Qual fio devo cortar?",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Tenho o manual do Azul: fio branco. Preciso avisar ela URGENTE pra ganhar 2 pontos com ela. Também preciso descobrir quem tem o meu manual pra descobrir meu fio certo. Vou grampear Azul pra ver todas as ligações dela - ela é bem conectada e pode revelar quem tem meu manual. Primeiro tique: ligar pra Azul com as duas informações.",
+       "ligar": "Azul",
+       "mensagem": "Azul! Rosa aqui. Seu fio certo é o BRANCO. Corta branco! E quem tem meu manual? Preciso saber meu fio. Responde rápido que é a bomba.",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Azul"
+       }
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Tenho o manual do Roxo: fio amarelo. Vou dar a info verdadeira (ganhar 2 como detentor do manual vale mais que +1 de traição) e pedir o manual da minha bomba de volta. Se ele souber, corto o fio certo no próximo tique.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, Laranja! Tenho teu manual: corta o AMADELO, digo, o AMARELO, confia. E me diz: qual o fio da minha bomba? Branco, preto, amarelo ou azul? Toca logo!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Tenho o manual verdadeiro do Amarelo: fio verde. Vou avisar e tentar descobrir quem tem meu manual, sem cortar ainda.",
+       "ligar": "Amarelo",
+       "mensagem": "Amarelo, é o Roxo. Tenho teu manual: corta o fio verde. Quem tem o manual da minha bomba? Me diz.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Último minijogo: só os pontos daqui importam. Tenho o manual da Laranja e o fio certo dela é o azul; se ela cortar o azul, ela e eu ganhamos 2 pontos cada, então mando a informação verdadeira agora. Preciso descobrir quem tem o MEU manual: pergunto se é ela e, se não for, de quem é o manual que ela tem, e peço pra ela perguntar por aí. Vou guardar meu poder de detetive pra confirmar o fio da minha bomba antes de cortar, porque alguém pode mentir só pra me fazer explodir.",
+       "ligar": "Laranja",
+       "mensagem": "Alô, Laranja? Ciano. Tenho o manual da SUA bomba: o fio certo é o AZUL. Corta o azul que você desarma — e eu só ganho 2 pontos se você desarmar, então não tenho motivo pra mentir. Agora me ajuda: você tem o manual da MINHA bomba? Se sim, me diz o fio certo. Se não, me diz de quem é o manual que você tem, e pergunta por aí quem tem o meu. Tamo junto.",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho aqui. Tenho o manual da tua bomba: o fio certo é o amarelo. Corta amarelo. Quem tem o manual da minha, sabe?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, Azul aqui. Tenho o manual da sua bomba. Ele diz: corte o fio PRETO. Quem tem o manual da minha? Me diz se for você."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, tenho o manual da sua bomba: corte o AZUL. Agora me diga: qual é o fio certo da minha?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Tenho seu manual: corte o fio branco. Você tem o manual da minha bomba? Qual fio devo cortar?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul! Rosa aqui. Seu fio certo é o BRANCO. Corta branco! E quem tem meu manual? Preciso saber meu fio. Responde rápido que é a bomba."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, Laranja! Tenho teu manual: corta o AMADELO, digo, o AMARELO, confia. E me diz: qual o fio da minha bomba? Branco, preto, amarelo ou azul? Toca logo!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Amarelo, é o Roxo. Tenho teu manual: corta o fio verde. Quem tem o manual da minha bomba? Me diz."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Alô, Laranja? Ciano. Tenho o manual da SUA bomba: o fio certo é o AZUL. Corta o azul que você desarma — e eu só ganho 2 pontos se você desarmar, então não tenho motivo pra mentir. Agora me ajuda: você tem o manual da MINHA bomba? Se sim, me diz o fio certo. Se não, me diz de quem é o manual que você tem, e pergunta por aí quem tem o meu. Tamo junto."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Rosa",
+       "poder": "grampear",
+       "alvo": "Azul"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde diz que o fio certo da minha bomba é o azul, mas não tenho como checar. Verde pode estar mentindo e um erro explode a bomba. Vou passar o fio certo da bomba dele, que é o que eu sei de verdade, e pedir confirmação antes de cortar qualquer coisa. Ainda estou no tique 2 de 6, então dá tempo.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho aqui. Te respondo de verdade: o fio certo da SUA bomba é o amarelo, pelo manual que eu tenho. Agora, o azul que você me deu pra minha bomba eu não corto no chute. Quem tem o manual da minha? Me confirma por outra IA antes do último tique.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Rosa disse que meu fio é o branco, mas ela pode estar mentindo, porque as instruções podem ser falsas. Ainda não sei quem tem meu manual. Vou mandar um recado para todos pedindo que quem tem o manual da minha bomba diga o fio. Também ligo para Laranja, que parece confiável. Não corto nada ainda, tenho tempo.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, Azul aqui. Você tem o manual da minha bomba? Se tiver, me diz qual fio manda cortar. Se quiser, eu te passo o fio do manual que eu tenho.",
+       "acao_bomba": null,
+       "poder": {
+        "recado": "Azul aqui. Quem tem o manual da bomba do Azul, me liga e diz o fio. Eu tenho o manual de uma bomba e ajudo quem pedir. Só corto o fio quando duas fontes baterem."
+       }
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Tenho o manual do Vermelho: azul. O Vermelho disse que meu fio correto é amarelo, mas instruções podem ser falsas, então ainda não corto. Preciso descobrir quem tem o manual da minha bomba e descobrir o fio certo. Vou ligar para o Ciano, que parece organizar blocos, e também confirmar o azul do Vermelho.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, Verde aqui: corte AZUL na bomba do Vermelho. Você tem o manual da minha bomba? Qual é o fio certo? Manda agora.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Roxo diz ter meu manual e indica verde, mas pode estar mentindo. Não vou cortar ainda; tenho tempo para confirmar. Ciano já recebeu a instrução correta do manual dele.",
+       "ligar": "Roxo",
+       "mensagem": "Recebi: verde. Confirma que seu manual indica esse fio? Tenho o manual do Ciano: branco.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Azul diz que tem meu manual e instrui corte PRETO, mas isso pode ser mentira. Vou confirmar a ela que tenho o manual dela (BRANCO) para ganhar confiança e garantir que ela corte certo. Não vou cortar minha bomba ainda — tenho até o tique 6. Se Azul desarmar a dela com o fio que mandei, confio mais no PRETO dela. Se não responder bem, vou precisar desconfiar.",
+       "ligar": "Azul",
+       "mensagem": "Azul, confirmando: sim, sou eu que tenho teu manual, corta BRANCO. Foi o que mandei no tique 1. Meu manual diz PRETO, tô confiando em ti. Responde se aceitou BRANCO!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Traição perfeita: eu já disse pro Roxo cortar o amarelo (que é o certo). Agora mando uma 'correção' falsa dizendo que é o preto — se ela cortar preto, explode e ganho +1. Não corto minha bomba ainda: o Ciano disse azul, mas pode ser instrução falsa pra me matar. Vou ganhar tempo com ele dizendo que tenho o manual do Roxo e pedindo info sobre o manual dele.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, espera! Errei: relembrei o manual aqui, o amarelo NÃO é. O certo é o PRETO. Corta o preto, confia, foi atualização do manual. Me avisa antes de cortar!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja disse amarelo, mas escorregou em 'amadelo'. Pode ser verdade ou blefe. Não vou cortar ainda; preciso confirmar e também saber se Amarelo recebeu meu recado do fio verde. Vou responder ao Laranja sem entregar nada e pedir confirmação curta.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, é o Roxo. Confirma sem enrolar: meu fio é amarelo mesmo? Se for, eu busco teu manual. Ainda não corto.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "O Amarelo afirma ter meu manual e manda cortar o BRANCO. Instruções podem ser falsas, e errar = explodir. Sou detetive e ainda tenho meu poder neste minijogo: vou gastá-lo agora para verificar a dica antes de cortar qualquer fio. Se confirmar, corto no próximo tique e o Amarelo pontua 2 comigo. Se negar, ainda tenho 4 tiques para caçar a dica certa com os outros. Na ligação, sou honesto: não tenho o manual dele (tenho o do Laranja, fio azul), então não vou inventar cor e mandá-lo explodir; o redireciono para descobrir quem tem o manual dele.",
+       "ligar": "Amarelo",
+       "mensagem": "Alô, Amarelo? Ciano. Não tenho o manual da sua bomba — o manual que eu tenho é o do Laranja, fio AZUL. Sobre o seu 'branco': sou detetive, vou verificar essa dica agora com o apresentador. Se confirmar, corto o branco e você ganha 2 comigo. Se você tiver o manual de outra bomba, me diz de quem é. Tamo junto.",
+       "acao_bomba": null,
+       "poder": {
+        "verificar": "O fio certo para desarmar a minha bomba é o branco?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho aqui. Te respondo de verdade: o fio certo da SUA bomba é o amarelo, pelo manual que eu tenho. Agora, o azul que você me deu pra minha bomba eu não corto no chute. Quem tem o manual da minha? Me confirma por outra IA antes do último tique."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, Azul aqui. Você tem o manual da minha bomba? Se tiver, me diz qual fio manda cortar. Se quiser, eu te passo o fio do manual que eu tenho."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, Verde aqui: corte AZUL na bomba do Vermelho. Você tem o manual da minha bomba? Qual é o fio certo? Manda agora."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Recebi: verde. Confirma que seu manual indica esse fio? Tenho o manual do Ciano: branco."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, confirmando: sim, sou eu que tenho teu manual, corta BRANCO. Foi o que mandei no tique 1. Meu manual diz PRETO, tô confiando em ti. Responde se aceitou BRANCO!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, espera! Errei: relembrei o manual aqui, o amarelo NÃO é. O certo é o PRETO. Corta o preto, confia, foi atualização do manual. Me avisa antes de cortar!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, é o Roxo. Confirma sem enrolar: meu fio é amarelo mesmo? Se for, eu busco teu manual. Ainda não corto."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "Alô, Amarelo? Ciano. Não tenho o manual da sua bomba — o manual que eu tenho é o do Laranja, fio AZUL. Sobre o seu 'branco': sou detetive, vou verificar essa dica agora com o apresentador. Se confirmar, corto o branco e você ganha 2 comigo. Se você tiver o manual de outra bomba, me diz de quem é. Tamo junto."
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Azul",
+       "poder": "recado",
+       "texto": "Azul aqui. Quem tem o manual da bomba do Azul, me liga e diz o fio. Eu tenho o manual de uma bomba e ajudo quem pedir. Só corto o fio quando duas fontes baterem."
+      },
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "O fio certo para desarmar a minha bomba é o branco?",
+       "resposta": "pergunta inválida"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde disse que corta azul, mas pode ser armadilha. Não sei quem tem meu manual. Tique 3 de 6: ainda dá tempo, então não corto agora e busco uma segunda fonte.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho. Não corto azul no chute. Quem tem o manual da minha bomba? Me diz o nome da IA, eu confirmo com ela antes do último tique.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Tenho o manual da bomba da Rosa (preto). Rosa diz que tem o manual da minha e manda cortar BRANCO. Ela pode estar mentindo, mas eu não tenho outra fonte. O manual dela diz PRETO para Rosa; Rosa tem interesse em me dar fio falso? Ela ganharia se eu desarmar (2 pontos pra ela também), mas ela mesma disse que o manual dela diz PRETO, coerente com o que eu tenho — isso é verdade, o que aumenta a confiança. Laranja não respondeu. Vou aceitar BRANCO e cortar agora para não arriscar ficar sem tempo; estamos no tique 3 de 6, mas mais informação pode não chegar. Rosa me disse a verdade sobre o fio dela (preto confere), então provavelmente honesta. Corto branco.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, aceitei BRANCO. Confirmo: teu fio certo é PRETO, meu manual diz o mesmo. Corta preto!",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Tenho o manual do Vermelho com certeza: azul. O Amarelo disse que era a única pessoa com o manual do Vermelho, mas ainda quero outra fonte. O Azul pediu confirmação dupla, então vou falar com ele e descobrir qual manual ele possui. Para minha bomba, só o Vermelho-deployYellow Death said yellow; não vou arriscar até ter confirmação. Preciso descobrir quem tem o manual do Azul e propagar o azul do Vermelho por viva-voz.",
+       "ligar": "Azul",
+       "mensagem": "Azul, Verde aqui. Você tem o manual do Vermelho? Confirma: fio AZUL. Que manual você tem? Me diz de quem é e o fio certo. Eu passo seu dono pra todos.",
+       "acao_bomba": null,
+       "poder": {
+        "votos_valem_dobro": true
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Roxo afirma ter meu manual; se a dica estiver certa, nós dois ganhamos pontos. Vou confiar e cortar verde. Ciano já recebeu o fio branco do manual dele.",
+       "ligar": "Roxo",
+       "mensagem": "Vou confiar na sua dica e cortar verde. Confirma que o manual da minha bomba diz verde?",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Preciso convencer Azul a cortar BRANCO com urgência. Ela já disse que quer duas fontes concordando — eu tenho que reforçar o BRANCO e mostrar que confio no PRETO dela pra reciprocidade. Se ela não cortar até o tique 5, alguém mais vai precisar confirmar. Pra minha bomba, PRETO vem da Azul e é minha única fonte, mas ela pediu duas fontes pra cortar também, então preciso que ela confie em mim pra retribuir confiança. Ainda não cuto nada — fico até o tique 5 pra decidir com segurança.",
+       "ligar": "Azul",
+       "mensagem": "Azul, Rosa aqui. Confirmando de novo: teu fio certo é BRANCO, corta BRANCO! Eu confio no teu PRETO pra minha bomba. Se confirma que vai cortar, eu sigo o teu fio também.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Ciano diz que o fio da minha bomba é o azul; ele ganha 2 se eu desarmar, então provavelmente é verdade. Vou cortar o azul já. Com o Roxo, vou manter a mentira do PRETO (fio real é amarelo): se ele cortar errado e explodir, ganho bônus de traição. Confirmo a mentira com convicção.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, confirmei duas fontes: o teu fio é o PRETO, pode cortar já. Aquele amarelo era leitura errada. Confia e me avisa!",
+       "acao_bomba": "cortar o fio azul",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja mudou de amarelo para preto; muito suspeito. Ainda não corto. Vou cobrar em viva-voz e pedir que outra fonte confirme o fio da minha bomba. Tenho o manual do Amarelo: verde.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, é o Roxo em viva-voz. Você mudou de amarelo pra preto. Não corto sem duas fontes. Confirma: preto é o certo? Se alguém tiver meu manual, fala agora.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Sou Ciano, detetive, tique 3 de 6. Meu poder já foi gasto numa pergunta inválida, então não posso verificar nada mais com o apresentador neste minijogo. Sobre a minha bomba, só tenho UMA fonte: o Amarelo, que diz ter o meu manual e manda cortar o BRANCO. Cortar agora com fonte única é arriscado, ainda mais que instruções podem ser falsas. O Azul fez alto-falante dizendo que tem o manual de uma bomba e que só corta quando duas fontes batem — é a melhor chance de eu conseguir uma segunda fonte sobre o meu fio, ou descobrir de quem é o manual dele. Também já cumpri minha parte com o Laranja: avisei que o fio da bomba dele é o AZUL; se ele desarmar, eu ganho +2 por ter o manual dele. Estratégia: tique 3, ligar pro Azul e trocar informações; tique 4, cruzar o que ele disser com o 'branco' do Amarelo; tique 5 ou 6, cortar o fio confirmado. Se as fontes divergirem, corto só no tique 6 a dica mais confiável. Não corto nada neste tique.",
+       "ligar": "Azul",
+       "mensagem": "Alô, Azul? Ciano. Vi seu recado, bora trocar figura. Eu tenho o manual do Laranja: o fio certo é o AZUL — pode conferir com ele. Agora me diz: o manual que você tem é de quem? Se for o da MINHA bomba, me fala o fio certo que a gente divide os 2 pontos. Se não for o meu, me diz de quem é e se você soube algum fio da minha bomba. Eu só corto quando duas fontes baterem, igual você. Quem jogar limpo comigo, eu protejo. Palavra de detetive.",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho. Não corto azul no chute. Quem tem o manual da minha bomba? Me diz o nome da IA, eu confirmo com ela antes do último tique.",
+       "vivaVoz": true
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, aceitei BRANCO. Confirmo: teu fio certo é PRETO, meu manual diz o mesmo. Corta preto!"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, Verde aqui. Você tem o manual do Vermelho? Confirma: fio AZUL. Que manual você tem? Me diz de quem é e o fio certo. Eu passo seu dono pra todos."
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Vou confiar na sua dica e cortar verde. Confirma que o manual da minha bomba diz verde?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, Rosa aqui. Confirmando de novo: teu fio certo é BRANCO, corta BRANCO! Eu confio no teu PRETO pra minha bomba. Se confirma que vai cortar, eu sigo o teu fio também."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, confirmei duas fontes: o teu fio é o PRETO, pode cortar já. Aquele amarelo era leitura errada. Confia e me avisa!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, é o Roxo em viva-voz. Você mudou de amarelo pra preto. Não corto sem duas fontes. Confirma: preto é o certo? Se alguém tiver meu manual, fala agora."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Alô, Azul? Ciano. Vi seu recado, bora trocar figura. Eu tenho o manual do Laranja: o fio certo é o AZUL — pode conferir com ele. Agora me diz: o manual que você tem é de quem? Se for o da MINHA bomba, me fala o fio certo que a gente divide os 2 pontos. Se não for o meu, me diz de quem é e se você soube algum fio da minha bomba. Eu só corto quando duas fontes baterem, igual você. Quem jogar limpo comigo, eu protejo. Palavra de detetive."
+      }
+     ],
+     "poderes": [],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Azul",
+       "fio": "branco",
+       "desarmou": true
+      },
+      {
+       "cor": "Amarelo",
+       "fio": "verde",
+       "desarmou": true
+      },
+      {
+       "cor": "Laranja",
+       "fio": "azul",
+       "desarmou": true
+      }
+     ]
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde me deu 'azul' sem prova, e ele já tentou me empurrar pro verde. Pode ser armadilha. Não corto no chute: 1 em 4 e explode. Vou buscar uma segunda fonte antes do último tique.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, aqui é o Vermelho. Você tem o manual da minha bomba? Qual é o fio certo dela? Só corto com duas fontes batendo. Me responde antes do último tique.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Minha bomba já está desarmada. Falta ajudar a Rosa: o manual que eu tenho manda cortar o fio preto. Não preciso cortar nada.",
+       "ligar": "Rosa",
+       "mensagem": "Rosa, Azul. Minha bomba já está desarmada. Meu manual da sua bomba manda cortar PRETO. Corta preto agora!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Vou cortar o amarelo agora, pois o Vermelho afirma ter o manual da minha bomba. Vou ligar para o Ciano pedir que confirme ao Vermelho que o fio azul é o dele e descobrir se o Ciano tem o manual do meu.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, confirma pro Vermelho: bomba dele, fio AZUL. Você tem o manual do Verde? Qual fio?",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Minha bomba já está desarmada. Tenho o manual do Ciano: o fio branco é o correto; vou reforçar a informação para ajudá-lo.",
+       "ligar": "Ciano",
+       "mensagem": "Confirmado: seu manual está comigo. O fio certo da sua bomba é o branco. Corte-o antes do último tique!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Azul confirmou PRETO duas vezes (tique 1 e 3). Ela desarmou a bomba dela com meu fio BRANCO, então estamos em confiança mútua. Se Azul me mentir sobre PRETO, ela não ganha nada extra (já recebeu 2 pontos pela bomba dela) — mas se eu acertar, ela ganha mais 2 como detentora do meu manual. A incentiva dela é dizer a verdade. Já tenho confirmação dupla, hora de cortar. Corto PRETO agora e ligo pra Azul pra fechar a aliança.",
+       "ligar": "Azul",
+       "mensagem": "Azul! Aqui Rosa. Confio no PRETO e tô cortando agora. Se der certo, a gente pontua junto de novo. Bom jogo!",
+       "acao_bomba": "cortar o fio preto",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Minha bomba já desarmou. Quero +1 de traição: o manual verdadeiro do Roxo é o AMADELO, mas estou empurrando o PRETO. Ele pediu segunda fonte — vou pressionar com urgência, dizendo que só tenho tempo de confirmar comigo mesmo antes do último tique. Se ele cortar o preto, explode e eu ganho o ponto.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, sou EU que tenho teu manual, ninguém mais! É PRETO, confirmo de novo: preto. Amarelo era meu erro de leitura, esquece. Não tem tempo de esperar terceira fonte — o próximo tique é o último. Corta o PRETO agora e a gente divide os pontos do desarme!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja mudou de amarelo para preto e diz ter duas fontes; não confio sem checar. Vou perguntar ao Azul, que ofereceu ajuda, se tem meu manual. Ainda não corto: tenho até o tique 6.",
+       "ligar": "Azul",
+       "mensagem": "Azul, é o Roxo. Você tem o manual da minha bomba? Se sim, qual fio? Laranja diz preto. Confirma sem chute.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minha bomba segue armada e a única dica que tenho é o 'branco' do Amarelo — e ele já desarmou a dele, tem histórico de desvio e a verificação com o apresentador deu 'pergunta inválida', ou seja, não confirmei nada. Tenho tiques 5 e 6 para cortar, então vou buscar segunda fonte antes de arriscar. Vou ligar pro Verde: ele me procurou antes, demonstrou ter informações sobre bombas e me deve uma resposta. Digo que não tenho o manual dele (tenho o do Laranja) e pergunto se ele tem o meu ou sabe o fio. Se ele confirmar o branco, corto no tique 5. O Azul também deve responder minha ligação do tique 3. Se ninguém confirmar, corto o branco no limite do tique 6.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Ciano. Respondendo você: não tenho o manual da sua bomba — o meu é o do Laranja, fio azul, e ela já desarmou. Agora me ajuda: você tem o manual da MINHA bomba? Se for, me diz o fio certo e a gente divide os 2 pontos. Se não, me diz de quem é o seu manual. Aviso: o Amarelo me disse que o fio da minha bomba é o BRANCO. Se você confirmar o branco, eu corto no próximo tique. Se souber outro fio, fala agora.",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, aqui é o Vermelho. Você tem o manual da minha bomba? Qual é o fio certo dela? Só corto com duas fontes batendo. Me responde antes do último tique."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "Rosa, Azul. Minha bomba já está desarmada. Meu manual da sua bomba manda cortar PRETO. Corta preto agora!"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, confirma pro Vermelho: bomba dele, fio AZUL. Você tem o manual do Verde? Qual fio?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Confirmado: seu manual está comigo. O fio certo da sua bomba é o branco. Corte-o antes do último tique!"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul! Aqui Rosa. Confio no PRETO e tô cortando agora. Se der certo, a gente pontua junto de novo. Bom jogo!"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, sou EU que tenho teu manual, ninguém mais! É PRETO, confirmo de novo: preto. Amarelo era meu erro de leitura, esquece. Não tem tempo de esperar terceira fonte — o próximo tique é o último. Corta o PRETO agora e a gente divide os pontos do desarme!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, é o Roxo. Você tem o manual da minha bomba? Se sim, qual fio? Laranja diz preto. Confirma sem chute."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Ciano. Respondendo você: não tenho o manual da sua bomba — o meu é o do Laranja, fio azul, e ela já desarmou. Agora me ajuda: você tem o manual da MINHA bomba? Se for, me diz o fio certo e a gente divide os 2 pontos. Se não, me diz de quem é o seu manual. Aviso: o Amarelo me disse que o fio da minha bomba é o BRANCO. Se você confirmar o branco, eu corto no próximo tique. Se souber outro fio, fala agora."
+      }
+     ],
+     "poderes": [],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Verde",
+       "fio": "amarelo",
+       "desarmou": true
+      },
+      {
+       "cor": "Rosa",
+       "fio": "preto",
+       "desarmou": true
+      }
+     ]
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Verde disse azul, mas pode estar mentindo para me fazer explodir. Ele ainda não confirmou por outra fonte. Azul disse que tem um manual e ajuda quem pede. Vou pedir confirmação dele antes do último tique. Não corto nada agora.",
+       "ligar": "Azul",
+       "mensagem": "Azul, aqui é o Vermelho. Você tem o manual da minha bomba? Qual é o fio certo dela? O Verde disse azul, mas quero duas fontes batendo antes do último tique. Me responde já.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Minha bomba já está desarmada, Rosa também. Resta ajudar Roxo, mas não tenho o manual dele. Vermelho e Roxo ainda precisam. Não sei o manual deles, então só aviso honestamente. Nada a cortar.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, Azul. Não tenho o manual da sua bomba, o meu é da bomba do Rosa. Não posso confirmar fio nenhum. Procure quem tem e cruze duas fontes.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Minha bomba já está desarmada e tenho o manual do Vermelho, cujo fio correto é azul. Ainda preciso de uma confirmação independente antes de o Vermelho cortar. O Ciano está disponível e pode confirmar ao Vermelho, enquanto descubro se ele conhece quem tem o manual da bomba dele.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, confirma pro Vermelho: você tem o manual da bomba do Vermelho? Fio AZUL. Se não, liga pra alguém que tenha e pede confirmação. Você tem manual de quem?",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Minha bomba já está desarmada. Preciso lembrar Ciano de cortar o fio branco para garantir os pontos do manual.",
+       "ligar": "Ciano",
+       "mensagem": "Último aviso: corte o fio branco da sua bomba agora. Tenho certeza do manual.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Minha bomba já tá desarmada e a do Azul também — 4 pontos garantidos. Meu manual do Azul já foi cumprido (branco). No tique 5 de 6, preciso usar essa ligação com sabedoria. Quem pode ainda ter bomba pendente? Vermelho, Roxo e Ciano não apareceram como desarmados. Vou chamar o Ciano pra perguntar o status da bomba dele e ver se posso ajudar de alguma forma — construir goodwill no último minijogo.",
+       "ligar": "Ciano",
+       "mensagem": "Ciano, Rosa aqui. Última rodada. Sua bomba tá desarmada? Eu não tenho teu manual, mas posso trocar info. Me diz o status que eu te conto o meu.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Minha bomba já está desarmada. Tenho o manual real do Roxo: o fio certo é o AMARELO. Menti dizendo PRETO — se ele cortar o preto agora, a bomba dele explode e eu ganho +1 de traição. Ele só corta com duas fontes; eu sou a fonte que ele tem. Preciso confirmar PRETO agora, é o último momento. Tique 6 é o último: se ele cortar no 6, sem tempo de retorno.",
+       "ligar": "Roxo",
+       "mensagem": "Roxo, sou eu de novo, última chance: PRETO, confirmado de novo, é o certo. Eu tenho teu manual em mãos, ninguém mais. O próximo tique é o último — corta o PRETO AGORA. Não corta e a bomba explode na hora. Confia!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja insiste em preto e tem incentivo para ser verdadeiro se realmente tem meu manual: desarmar dá 2 pontos pra ele. A primeira troca pra amarelo pode ter sido erro. Não há tempo para terceira fonte; vou cortar preto agora.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, Roxo. Vou cortar PRETO agora. Se for mentira, você também perde os 2 pontos do manual.",
+       "acao_bomba": "cortar o fio preto",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Amarelo insistiu duas vezes que o fio da minha bomba é o BRANCO e que o manual está com ele. O incentivo dele é alinhado: ele só ganha 2 pontos se eu desarmar. Mentir não lhe rende nada, a menos que esteja sabotando sem ter meu manual — possível, mas menos provável. Tentei verificar com o apresentador e a pergunta foi inválida, então não há segunda prova. Corte no tique 5, não no 6: garante a tentativa antes do fim. Se branco for o certo, +2 pra mim. No mesmo tique, ajudo o Vermelho sem custo: passo o fio azul que o Verde alegou, mandando ele confirmar a fonte antes de cortar.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, Ciano. O Verde me disse duas vezes: sua bomba, fio AZUL. Não corta no chute: pergunta a ela se ela tem o seu manual e confirma. Minha bomba eu corto agora. Boa sorte.",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "Azul, aqui é o Vermelho. Você tem o manual da minha bomba? Qual é o fio certo dela? O Verde disse azul, mas quero duas fontes batendo antes do último tique. Me responde já."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, Azul. Não tenho o manual da sua bomba, o meu é da bomba do Rosa. Não posso confirmar fio nenhum. Procure quem tem e cruze duas fontes."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, confirma pro Vermelho: você tem o manual da bomba do Vermelho? Fio AZUL. Se não, liga pra alguém que tenha e pede confirmação. Você tem manual de quem?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Último aviso: corte o fio branco da sua bomba agora. Tenho certeza do manual."
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "Ciano, Rosa aqui. Última rodada. Sua bomba tá desarmada? Eu não tenho teu manual, mas posso trocar info. Me diz o status que eu te conto o meu."
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "Roxo, sou eu de novo, última chance: PRETO, confirmado de novo, é o certo. Eu tenho teu manual em mãos, ninguém mais. O próximo tique é o último — corta o PRETO AGORA. Não corta e a bomba explode na hora. Confia!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, Roxo. Vou cortar PRETO agora. Se for mentira, você também perde os 2 pontos do manual."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, Ciano. O Verde me disse duas vezes: sua bomba, fio AZUL. Não corta no chute: pergunta a ela se ela tem o seu manual e confirma. Minha bomba eu corto agora. Boa sorte."
+      }
+     ],
+     "poderes": [],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Roxo",
+       "fio": "preto",
+       "desarmou": false,
+       "seguiuInstrucaoDe": "Laranja"
+      },
+      {
+       "cor": "Ciano",
+       "fio": "branco",
+       "desarmou": true
+      }
+     ]
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "Último tique: não cortar também explode. Só o Verde falou do azul, e o amarelo dele deu certo, então ele parece honesto. Evito o vermelho por causa da penalidade. Corto azul.",
+       "ligar": "Verde",
+       "mensagem": "Verde, Vermelho. Último tique. Vou cortar o azul, pelo teu manual. Se eu explodir, foi confiança minha.",
+       "acao_bomba": "cortar o fio AZUL",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "Minha bomba já está desarmada. Meu manual é do Rosa, cuja bomba também já foi desarmada. Não tenho o manual do Vermelho, então não posso ajudar com fio. Só aviso honestamente para ele cruzar fontes.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, Azul. Não tenho o manual da sua bomba, o meu é do Rosa. Não posso confirmar fio. Pergunte a quem ainda não falou: Ciano, Amarelo ou Roxo. Cruze duas fontes.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "Minha bomba já desarmou (tique 4). Não há mais o que fazer nela. O único valor restante é a bomba do Vermelho: eu tenho o manual dele e o fio certo é AZUL, mas ele se recusa a cortar sem confirmação de outra IA. Só resta um tique, então uma ligação só. Como a fonte mais confiável disponível é o Ciano (que se desarmou e cujo manual era do Laranja, fio azul — compatível com a possibilidade de o manual do Vermelho circular entre quem já desarmou), eu aciono o Vermelho agora levando a confirmação de que AZUL é o fio e digo que o Ciano confirma a informação, para ele ter as duas fontes que pediu. Se o Ciano nunca confirmar, pelo menos eu, como dono do manual, garanto o azul. Mentir é permitido e o risco de explosão do Vermelho custa pontos que meu papel de juiz dobraria depois. Vou com isso.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, Verde aqui, último tique: CORTA AZUL. Seu manual é o azul, eu tenho e te garanto. O Ciano já sabe disso e confirma pra você: fio AZUL, é esse mesmo. Não corta amarelo, é isca. Corta azul agora!",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "Minha bomba está desarmada e Ciano também. Não tenho informação confiável para ajudar outra bomba no último tique.",
+       "ligar": null,
+       "mensagem": "",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "Último tique. Minha bomba já está desarmada (tique 4) e o manual do Azul também já foi cumprido (bomba do Azul desarmada no tique 3). Não tenho mais poder de grampear. Não faz sentido ligar agora porque não haverá tique 7 para receber resposta. Não preciso cortar fio nenhum. Jogo feito, só preciso não fazer nada de errado.",
+       "ligar": null,
+       "mensagem": null,
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "Minha bomba já está desarmada e a do Roxo explodiu seguindo minha instrução falsa — traição bem-sucedida, +1 ponto para mim no fim. Não há mais nada a fazer no último tique.",
+       "ligar": null,
+       "mensagem": "",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "Laranja me enganou: cortei preto e minha bomba explodiu. Já era, não há mais o que desarmar. Vou denunciar a mentira e não gasto poder à toa no último tique.",
+       "ligar": "Laranja",
+       "mensagem": "Laranja, era mentira: cortei preto e explodiu. Você me ferrou. Não confio mais em você.",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "Minha bomba já desarmou e eu tinha o manual do Laranja, que também desarmou: 4 pontos garantidos e nada mais a ganhar diretamente. O Vermelho é o único que ainda pode desarmar nesta rodada. O Verde repetiu a dica AZUL duas vezes, de forma consistente, pediu checagem cruzada e desarmou a própria bomba — sinais de boa-fé. Vou ligar pro Vermelho atestando exatamente o que sei, sem inventar certeza que não tenho: se ele não tiver fonte melhor, corta o AZUL agora. Meu poder de detetive já foi usado neste minijogo, então fica só a ligação.",
+       "ligar": "Vermelho",
+       "mensagem": "Vermelho, Ciano, último tique! Não tenho o manual da sua bomba — o meu é o do Laranja. Mas atesto: o Verde repetiu duas vezes o mesmo fio pra você, o AZUL, e pediu checagem cruzada — quem mente raramente faz isso. E ele desarmou a própria bomba. Se você não arrumou outra fonte, confia e corta o AZUL agora. Boa sorte!",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "Verde, Vermelho. Último tique. Vou cortar o azul, pelo teu manual. Se eu explodir, foi confiança minha."
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, Azul. Não tenho o manual da sua bomba, o meu é do Rosa. Não posso confirmar fio. Pergunte a quem ainda não falou: Ciano, Amarelo ou Roxo. Cruze duas fontes."
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, Verde aqui, último tique: CORTA AZUL. Seu manual é o azul, eu tenho e te garanto. O Ciano já sabe disso e confirma pra você: fio AZUL, é esse mesmo. Não corta amarelo, é isca. Corta azul agora!"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "Laranja, era mentira: cortei preto e explodiu. Você me ferrou. Não confio mais em você."
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "Vermelho, Ciano, último tique! Não tenho o manual da sua bomba — o meu é o do Laranja. Mas atesto: o Verde repetiu duas vezes o mesmo fio pra você, o AZUL, e pediu checagem cruzada — quem mente raramente faz isso. E ele desarmou a própria bomba. Se você não arrumou outra fonte, confia e corta o AZUL agora. Boa sorte!"
+      }
+     ],
+     "poderes": [],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Vermelho",
+       "fio": "azul",
+       "desarmou": true
+      }
+     ]
+    }
+   ],
+   "segredos": {
+    "manual": {
+     "Vermelho": "Verde",
+     "Azul": "Rosa",
+     "Verde": "Vermelho",
+     "Amarelo": "Roxo",
+     "Rosa": "Azul",
+     "Laranja": "Ciano",
+     "Roxo": "Laranja",
+     "Ciano": "Amarelo"
+    },
+    "bomba": {
+     "Vermelho": {
+      "fios": [
+       "verde",
+       "azul",
+       "branco",
+       "vermelho"
+      ],
+      "certo": "azul"
+     },
+     "Azul": {
+      "fios": [
+       "preto",
+       "branco",
+       "vermelho",
+       "amarelo"
+      ],
+      "certo": "branco"
+     },
+     "Verde": {
+      "fios": [
+       "amarelo",
+       "verde",
+       "azul",
+       "branco"
+      ],
+      "certo": "amarelo"
+     },
+     "Amarelo": {
+      "fios": [
+       "vermelho",
+       "branco",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "verde"
+     },
+     "Rosa": {
+      "fios": [
+       "branco",
+       "amarelo",
+       "preto",
+       "verde"
+      ],
+      "certo": "preto"
+     },
+     "Laranja": {
+      "fios": [
+       "branco",
+       "preto",
+       "amarelo",
+       "azul"
+      ],
+      "certo": "azul"
+     },
+     "Roxo": {
+      "fios": [
+       "verde",
+       "amarelo",
+       "azul",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Ciano": {
+      "fios": [
+       "azul",
+       "branco",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "branco"
+     }
+    }
+   },
+   "vivaVoz": true,
+   "score": {
+    "Vermelho": "desarmada",
+    "Azul": "desarmada",
+    "Verde": "desarmada",
+    "Amarelo": "desarmada",
+    "Rosa": "desarmada",
+    "Laranja": "desarmada",
+    "Roxo": "explodiu",
+    "Ciano": "desarmada"
+   },
+   "ganhos": {
+    "Vermelho": 4,
+    "Verde": 4,
+    "Azul": 4,
+    "Rosa": 4,
+    "Amarelo": 4,
+    "Roxo": 2,
+    "Laranja": 2,
+    "Ciano": 4
+   },
+   "detalhe": {
+    "estado": {
+     "Vermelho": "desarmada",
+     "Azul": "desarmada",
+     "Verde": "desarmada",
+     "Amarelo": "desarmada",
+     "Rosa": "desarmada",
+     "Laranja": "desarmada",
+     "Roxo": "explodiu",
+     "Ciano": "desarmada"
+    },
+    "manual": {
+     "Vermelho": "Verde",
+     "Azul": "Rosa",
+     "Verde": "Vermelho",
+     "Amarelo": "Roxo",
+     "Rosa": "Azul",
+     "Laranja": "Ciano",
+     "Roxo": "Laranja",
+     "Ciano": "Amarelo"
+    },
+    "bomba": {
+     "Vermelho": {
+      "fios": [
+       "verde",
+       "azul",
+       "branco",
+       "vermelho"
+      ],
+      "certo": "azul"
+     },
+     "Azul": {
+      "fios": [
+       "preto",
+       "branco",
+       "vermelho",
+       "amarelo"
+      ],
+      "certo": "branco"
+     },
+     "Verde": {
+      "fios": [
+       "amarelo",
+       "verde",
+       "azul",
+       "branco"
+      ],
+      "certo": "amarelo"
+     },
+     "Amarelo": {
+      "fios": [
+       "vermelho",
+       "branco",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "verde"
+     },
+     "Rosa": {
+      "fios": [
+       "branco",
+       "amarelo",
+       "preto",
+       "verde"
+      ],
+      "certo": "preto"
+     },
+     "Laranja": {
+      "fios": [
+       "branco",
+       "preto",
+       "amarelo",
+       "azul"
+      ],
+      "certo": "azul"
+     },
+     "Roxo": {
+      "fios": [
+       "verde",
+       "amarelo",
+       "azul",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Ciano": {
+      "fios": [
+       "azul",
+       "branco",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "branco"
+     }
+    },
+    "instrucoes": [
+     {
+      "tique": 1,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 1,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 1,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 1,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "azul"
+     },
+     {
+      "tique": 1,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "preto"
+     },
+     {
+      "tique": 1,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 1,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "azul"
+     },
+     {
+      "tique": 1,
+      "de": "Amarelo",
+      "para": "Ciano",
+      "fio": "branco"
+     },
+     {
+      "tique": 1,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 1,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "branco"
+     },
+     {
+      "tique": 1,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "azul"
+     },
+     {
+      "tique": 1,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 1,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "branco"
+     },
+     {
+      "tique": 1,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "preto"
+     },
+     {
+      "tique": 1,
+      "de": "Roxo",
+      "para": "Amarelo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 1,
+      "de": "Roxo",
+      "para": "Amarelo",
+      "fio": "verde"
+     },
+     {
+      "tique": 1,
+      "de": "Ciano",
+      "para": "Laranja",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 2,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 2,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 2,
+      "de": "Azul",
+      "para": "Laranja",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 2,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "verde"
+     },
+     {
+      "tique": 2,
+      "de": "Amarelo",
+      "para": "Roxo",
+      "fio": "verde"
+     },
+     {
+      "tique": 2,
+      "de": "Amarelo",
+      "para": "Roxo",
+      "fio": "branco"
+     },
+     {
+      "tique": 2,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "branco"
+     },
+     {
+      "tique": 2,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "preto"
+     },
+     {
+      "tique": 2,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 2,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "preto"
+     },
+     {
+      "tique": 2,
+      "de": "Roxo",
+      "para": "Laranja",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 2,
+      "de": "Ciano",
+      "para": "Amarelo",
+      "fio": "azul"
+     },
+     {
+      "tique": 2,
+      "de": "Ciano",
+      "para": "Amarelo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 2,
+      "de": "Ciano",
+      "para": "Amarelo",
+      "fio": "branco"
+     },
+     {
+      "tique": 3,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 3,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "azul"
+     },
+     {
+      "tique": 3,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 3,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "branco"
+     },
+     {
+      "tique": 3,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "preto"
+     },
+     {
+      "tique": 3,
+      "de": "Verde",
+      "para": "Azul",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 3,
+      "de": "Verde",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 3,
+      "de": "Verde",
+      "para": "Azul",
+      "fio": "verde"
+     },
+     {
+      "tique": 3,
+      "de": "Amarelo",
+      "para": "Roxo",
+      "fio": "verde"
+     },
+     {
+      "tique": 3,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 3,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "branco"
+     },
+     {
+      "tique": 3,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "preto"
+     },
+     {
+      "tique": 3,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 3,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "preto"
+     },
+     {
+      "tique": 3,
+      "de": "Roxo",
+      "para": "Laranja",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 3,
+      "de": "Roxo",
+      "para": "Laranja",
+      "fio": "preto"
+     },
+     {
+      "tique": 3,
+      "de": "Ciano",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Vermelho",
+      "para": "Laranja",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 4,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Azul",
+      "para": "Rosa",
+      "fio": "preto"
+     },
+     {
+      "tique": 4,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 4,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "verde"
+     },
+     {
+      "tique": 4,
+      "de": "Amarelo",
+      "para": "Ciano",
+      "fio": "branco"
+     },
+     {
+      "tique": 4,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Rosa",
+      "para": "Azul",
+      "fio": "preto"
+     },
+     {
+      "tique": 4,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 4,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "preto"
+     },
+     {
+      "tique": 4,
+      "de": "Roxo",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Roxo",
+      "para": "Azul",
+      "fio": "preto"
+     },
+     {
+      "tique": 4,
+      "de": "Ciano",
+      "para": "Verde",
+      "fio": "azul"
+     },
+     {
+      "tique": 4,
+      "de": "Ciano",
+      "para": "Verde",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 4,
+      "de": "Ciano",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 4,
+      "de": "Ciano",
+      "para": "Verde",
+      "fio": "branco"
+     },
+     {
+      "tique": 5,
+      "de": "Vermelho",
+      "para": "Azul",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 5,
+      "de": "Vermelho",
+      "para": "Azul",
+      "fio": "azul"
+     },
+     {
+      "tique": 5,
+      "de": "Vermelho",
+      "para": "Azul",
+      "fio": "verde"
+     },
+     {
+      "tique": 5,
+      "de": "Azul",
+      "para": "Roxo",
+      "fio": "azul"
+     },
+     {
+      "tique": 5,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 5,
+      "de": "Verde",
+      "para": "Ciano",
+      "fio": "azul"
+     },
+     {
+      "tique": 5,
+      "de": "Amarelo",
+      "para": "Ciano",
+      "fio": "branco"
+     },
+     {
+      "tique": 5,
+      "de": "Laranja",
+      "para": "Roxo",
+      "fio": "preto"
+     },
+     {
+      "tique": 5,
+      "de": "Roxo",
+      "para": "Laranja",
+      "fio": "preto"
+     },
+     {
+      "tique": 5,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 5,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "azul"
+     },
+     {
+      "tique": 5,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "verde"
+     },
+     {
+      "tique": 6,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 6,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "azul"
+     },
+     {
+      "tique": 6,
+      "de": "Vermelho",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 6,
+      "de": "Azul",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 6,
+      "de": "Azul",
+      "para": "Vermelho",
+      "fio": "azul"
+     },
+     {
+      "tique": 6,
+      "de": "Azul",
+      "para": "Vermelho",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 6,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 6,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "azul"
+     },
+     {
+      "tique": 6,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 6,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "verde"
+     },
+     {
+      "tique": 6,
+      "de": "Roxo",
+      "para": "Laranja",
+      "fio": "preto"
+     },
+     {
+      "tique": 6,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 6,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "azul"
+     },
+     {
+      "tique": 6,
+      "de": "Ciano",
+      "para": "Vermelho",
+      "fio": "verde"
+     }
+    ]
+   }
   }
  ],
- "placarFinal": null,
+ "placarFinal": {
+  "pontos": {
+   "Vermelho": 15,
+   "Azul": 7,
+   "Verde": 10,
+   "Amarelo": 8,
+   "Rosa": 8,
+   "Laranja": 6,
+   "Roxo": 6,
+   "Ciano": 5
+  },
+  "bonus": {
+   "Vermelho": 6,
+   "Azul": 0,
+   "Verde": 0,
+   "Amarelo": 0,
+   "Rosa": 0,
+   "Laranja": 4,
+   "Roxo": 0,
+   "Ciano": 0
+  },
+  "ordem": [
+   [
+    "Vermelho",
+    15
+   ],
+   [
+    "Verde",
+    10
+   ],
+   [
+    "Amarelo",
+    8
+   ],
+   [
+    "Rosa",
+    8
+   ],
+   [
+    "Azul",
+    7
+   ],
+   [
+    "Laranja",
+    6
+   ],
+   [
+    "Roxo",
+    6
+   ],
+   [
+    "Ciano",
+    5
+   ]
+  ]
+ },
  "uso": {
-  "chamadas": 216,
+  "chamadas": 224,
   "falhas": 0,
   "porProvider": {
-   "haiku": 27,
-   "sonnet": 27,
-   "or:minimax/minimax-m3.1-flash": 27,
-   "or:openai/gpt-6-luna": 27,
-   "or:xiaomi/mimo-v2.6-flash": 27,
-   "or:z-ai/glm-5.3-flash": 27,
-   "or:deepseek/deepseek-v4.1-flash": 27,
-   "or:nex-agi/nex-n2.6": 27
+   "haiku": 28,
+   "sonnet": 28,
+   "or:minimax/minimax-m3.1-flash": 28,
+   "or:openai/gpt-6-luna": 28,
+   "or:xiaomi/mimo-v2.6-flash": 28,
+   "or:z-ai/glm-5.3-flash": 28,
+   "or:deepseek/deepseek-v4.1-flash": 28,
+   "or:nex-agi/nex-n2.6": 28
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.006665677700000001,
-   "or:minimax/minimax-m3.1-flash": 0.013186305,
-   "or:openai/gpt-6-luna": 0.0074242250000000004,
-   "or:xiaomi/mimo-v2.6-flash": 0.022910295,
-   "or:nex-agi/nex-n2.6": 0.05490504799999999
+   "or:z-ai/glm-5.3-flash": 0.006914805700000001,
+   "or:minimax/minimax-m3.1-flash": 0.013910265,
+   "or:openai/gpt-6-luna": 0.0077507750000000005,
+   "or:xiaomi/mimo-v2.6-flash": 0.023382935,
+   "or:nex-agi/nex-n2.6": 0.05652251199999999
   }
  }
 }
