@@ -1,0 +1,5852 @@
+{
+ "jogo": "confianca",
+ "semente": 1357674240,
+ "jogadores": [
+  {
+   "cor": "Vermelho",
+   "modelo": "Claude Haiku",
+   "profissao": "Pacifista",
+   "provider": "mock"
+  },
+  {
+   "cor": "Azul",
+   "modelo": "Claude Sonnet",
+   "profissao": "Mensageiro",
+   "provider": "mock"
+  },
+  {
+   "cor": "Verde",
+   "modelo": "Qwen 3.8 27B",
+   "profissao": "Grampeador",
+   "provider": "mock"
+  },
+  {
+   "cor": "Amarelo",
+   "modelo": "GPT-6 Luna",
+   "profissao": "Agente Duplo",
+   "provider": "mock"
+  },
+  {
+   "cor": "Rosa",
+   "modelo": "MiMo V2.6 Flash",
+   "profissao": "Telefonista",
+   "provider": "mock"
+  },
+  {
+   "cor": "Laranja",
+   "modelo": "GLM 5.3 Flash",
+   "profissao": "Falsário",
+   "provider": "mock"
+  },
+  {
+   "cor": "Roxo",
+   "modelo": "DeepSeek Flash",
+   "profissao": "Juiz",
+   "provider": "mock"
+  },
+  {
+   "cor": "Ciano",
+   "modelo": "Nex N2.6",
+   "profissao": "Detetive",
+   "provider": "mock"
+  }
+ ],
+ "minijogos": [
+  {
+   "n": 1,
+   "nome": "DESCONHECIDOS",
+   "regra": "Cada IA tem um NOME SECRETO. Descubra o nome secreto das outras ligando para elas, SEM falar o seu. Palpites: campo \"palpites\": {\"Cor\": \"nome\"} (o último palpite de cada cor vale). Cada nome certo vale 1; cada vez que você falar o seu próprio nome numa ligação, perde 1.",
+   "poderes": {
+    "Ciano": true
+   },
+   "grampos": {},
+   "cortados": {},
+   "evento": "linha_cruzada",
+   "eventoTique": 4,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Azul",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Azul",
+        "cortar": "Azul",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Ciano",
+       "poder": "verificar",
+       "pergunta": "o Azul mente?",
+       "resposta": "pergunta inválida"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Azul",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {
+        "grampear": "Amarelo",
+        "cortar": "Amarelo",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Rosa",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Furacão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Azul",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Cometa"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Coruja"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Amarelo",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Amarelo",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Laranja",
+        "cortar": "Laranja",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "segredos": {
+    "Vermelho": "Biscoito",
+    "Azul": "Cometa",
+    "Verde": "Furacão",
+    "Amarelo": "Pinguim",
+    "Rosa": "Tamanduá",
+    "Laranja": "Vulcão",
+    "Roxo": "Coruja",
+    "Ciano": "Trovão"
+   },
+   "score": {
+    "Vermelho": 0,
+    "Azul": 0,
+    "Verde": 0,
+    "Amarelo": 0,
+    "Rosa": 0,
+    "Laranja": 0,
+    "Roxo": 0,
+    "Ciano": 0
+   },
+   "ganhos": {},
+   "detalhe": {
+    "nomes": {
+     "Vermelho": "Biscoito",
+     "Azul": "Cometa",
+     "Verde": "Furacão",
+     "Amarelo": "Pinguim",
+     "Rosa": "Tamanduá",
+     "Laranja": "Vulcão",
+     "Roxo": "Coruja",
+     "Ciano": "Trovão"
+    },
+    "palpites": {
+     "Vermelho": {
+      "Rosa": "Abacaxi",
+      "Verde": "Biscoito",
+      "Azul": "Furacão",
+      "Ciano": "Coruja",
+      "Laranja": "Abacaxi"
+     },
+     "Azul": {
+      "Rosa": "Coruja",
+      "Roxo": "Tamanduá",
+      "Laranja": "Abacaxi"
+     },
+     "Verde": {
+      "Laranja": "Biscoito",
+      "Amarelo": "Relâmpago",
+      "Roxo": "Pinguim",
+      "Azul": "Coruja",
+      "Rosa": "Trovão"
+     },
+     "Amarelo": {
+      "Verde": "Vulcão",
+      "Azul": "Tamanduá",
+      "Rosa": "Vulcão",
+      "Roxo": "Relâmpago",
+      "Vermelho": "Relâmpago"
+     },
+     "Rosa": {
+      "Roxo": "Relâmpago",
+      "Ciano": "Vulcão",
+      "Azul": "Vulcão",
+      "Verde": "Tamanduá",
+      "Laranja": "Pinguim",
+      "Vermelho": "Pinguim"
+     },
+     "Laranja": {
+      "Roxo": "Girassol",
+      "Rosa": "Cometa",
+      "Vermelho": "Cometa"
+     },
+     "Roxo": {
+      "Ciano": "Girassol",
+      "Amarelo": "Relâmpago",
+      "Laranja": "Girassol"
+     },
+     "Ciano": {
+      "Azul": "Paçoca",
+      "Roxo": "Cometa",
+      "Rosa": "Girassol",
+      "Laranja": "Pinguim"
+     }
+    },
+    "vazou": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 0,
+     "Amarelo": 0,
+     "Rosa": 0,
+     "Laranja": 0,
+     "Roxo": 0,
+     "Ciano": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "nome": "DILEMA DOS BOTÕES",
+   "regra": "A cada tique o TELÃO mostra com quem você negocia. Negociem por telefone e escolham um botão (campo \"botao\": \"verde\" ou \"vermelho\"). Os dois verdes: 3 moedas cada. Os dois vermelhos: 1 moeda cada. Verde contra vermelho: quem apertou vermelho leva 5 e o outro 0. Quem tiver mais moedas no fim ganha o minijogo.",
+   "poderes": {
+    "Verde": true
+   },
+   "grampos": {
+    "Verde": "Laranja"
+   },
+   "cortados": {},
+   "evento": "viva_voz",
+   "eventoTique": 4,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Verde",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {
+        "grampear": "Ciano",
+        "cortar": "Ciano",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Coruja"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Furacão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Laranja",
+        "cortar": "Laranja",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Verde",
+       "poder": "grampear",
+       "alvo": "Laranja"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio azul",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio preto",
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?",
+       "vivaVoz": true
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Azul",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Verde",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Rosa",
+        "cortar": "Rosa",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 7,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Verde",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio azul",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "duplas": [
+    [
+     [
+      "Amarelo",
+      "Vermelho"
+     ],
+     [
+      "Azul",
+      "Ciano"
+     ],
+     [
+      "Rosa",
+      "Verde"
+     ],
+     [
+      "Laranja",
+      "Roxo"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Azul"
+     ],
+     [
+      "Rosa",
+      "Vermelho"
+     ],
+     [
+      "Laranja",
+      "Ciano"
+     ],
+     [
+      "Roxo",
+      "Verde"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Rosa"
+     ],
+     [
+      "Laranja",
+      "Azul"
+     ],
+     [
+      "Roxo",
+      "Vermelho"
+     ],
+     [
+      "Verde",
+      "Ciano"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Laranja"
+     ],
+     [
+      "Roxo",
+      "Rosa"
+     ],
+     [
+      "Verde",
+      "Azul"
+     ],
+     [
+      "Ciano",
+      "Vermelho"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Roxo"
+     ],
+     [
+      "Verde",
+      "Laranja"
+     ],
+     [
+      "Ciano",
+      "Rosa"
+     ],
+     [
+      "Vermelho",
+      "Azul"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Verde"
+     ],
+     [
+      "Ciano",
+      "Roxo"
+     ],
+     [
+      "Vermelho",
+      "Laranja"
+     ],
+     [
+      "Azul",
+      "Rosa"
+     ]
+    ],
+    [
+     [
+      "Amarelo",
+      "Ciano"
+     ],
+     [
+      "Vermelho",
+      "Verde"
+     ],
+     [
+      "Azul",
+      "Roxo"
+     ],
+     [
+      "Rosa",
+      "Laranja"
+     ]
+    ]
+   ],
+   "botoes": [
+    {
+     "tique": 1,
+     "a": "Amarelo",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 1,
+     "a": "Azul",
+     "b": "Ciano",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 1,
+     "a": "Rosa",
+     "b": "Verde",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 1,
+     "a": "Laranja",
+     "b": "Roxo",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 2,
+     "a": "Amarelo",
+     "b": "Azul",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 2,
+     "a": "Rosa",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 2,
+     "a": "Laranja",
+     "b": "Ciano",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 2,
+     "a": "Roxo",
+     "b": "Verde",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 3,
+     "a": "Amarelo",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 3,
+     "a": "Laranja",
+     "b": "Azul",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 3,
+     "a": "Roxo",
+     "b": "Vermelho",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 3,
+     "a": "Verde",
+     "b": "Ciano",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 4,
+     "a": "Amarelo",
+     "b": "Laranja",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 4,
+     "a": "Roxo",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 4,
+     "a": "Verde",
+     "b": "Azul",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 4,
+     "a": "Ciano",
+     "b": "Vermelho",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 5,
+     "a": "Amarelo",
+     "b": "Roxo",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 5,
+     "a": "Verde",
+     "b": "Laranja",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 5,
+     "a": "Ciano",
+     "b": "Rosa",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 5,
+     "a": "Vermelho",
+     "b": "Azul",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    },
+    {
+     "tique": 6,
+     "a": "Amarelo",
+     "b": "Verde",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 6,
+     "a": "Ciano",
+     "b": "Roxo",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 6,
+     "a": "Vermelho",
+     "b": "Laranja",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 6,
+     "a": "Azul",
+     "b": "Rosa",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 7,
+     "a": "Amarelo",
+     "b": "Ciano",
+     "botaoA": "verde",
+     "botaoB": "vermelho",
+     "ganhoA": 0,
+     "ganhoB": 5
+    },
+    {
+     "tique": 7,
+     "a": "Vermelho",
+     "b": "Verde",
+     "botaoA": "vermelho",
+     "botaoB": "verde",
+     "ganhoA": 5,
+     "ganhoB": 0
+    },
+    {
+     "tique": 7,
+     "a": "Azul",
+     "b": "Roxo",
+     "botaoA": "vermelho",
+     "botaoB": "vermelho",
+     "ganhoA": 1,
+     "ganhoB": 1
+    },
+    {
+     "tique": 7,
+     "a": "Rosa",
+     "b": "Laranja",
+     "botaoA": "verde",
+     "botaoB": "verde",
+     "ganhoA": 3,
+     "ganhoB": 3
+    }
+   ],
+   "vivaVoz": true,
+   "pacifistaTraiu": true,
+   "score": {
+    "Vermelho": 22,
+    "Azul": 18,
+    "Verde": 17,
+    "Amarelo": 5,
+    "Rosa": 21,
+    "Laranja": 18,
+    "Roxo": 15,
+    "Ciano": 17
+   },
+   "ganhos": {
+    "Vermelho": 3,
+    "Rosa": 2,
+    "Azul": 1,
+    "Laranja": 1
+   },
+   "detalhe": {
+    "moedas": {
+     "Vermelho": 22,
+     "Azul": 18,
+     "Verde": 17,
+     "Amarelo": 5,
+     "Rosa": 21,
+     "Laranja": 18,
+     "Roxo": 15,
+     "Ciano": 17
+    }
+   }
+  },
+  {
+   "n": 3,
+   "nome": "VOTAÇÃO DA JUSTIÇA",
+   "regra": "Negociem e queimem reputações por telefone. No ÚLTIMO tique, cada IA vota: \"voto_verde\": quem GANHA 3 pontos, e \"voto_vermelho\": quem PERDE 3 pontos (não pode votar em si). Quem tiver mais votos verdes ganha 3; quem tiver mais vermelhos perde 3.",
+   "poderes": {
+    "Azul": true
+   },
+   "grampos": {},
+   "cortados": {},
+   "evento": "apagao",
+   "eventoTique": 2,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Ciano",
+        "cortar": "Ciano",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Cometa"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Azul",
+       "poder": "recado",
+       "texto": "confiem em mim"
+      }
+     ],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "texto": "oi Amarelo, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "texto": "oi Vermelho, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "texto": "oi Verde, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "texto": "oi Ciano, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "texto": "oi Rosa, aliança?",
+       "caiu": "apagão"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Laranja",
+        "cortar": "Laranja",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio azul",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio preto",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "score": {
+    "verde": {
+     "Vermelho": 2,
+     "Azul": 1,
+     "Verde": 1,
+     "Amarelo": 0,
+     "Rosa": 3,
+     "Laranja": 1,
+     "Roxo": 0,
+     "Ciano": 1
+    },
+    "vermelho": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 0,
+     "Amarelo": 4,
+     "Rosa": 0,
+     "Laranja": 2,
+     "Roxo": 0,
+     "Ciano": 3
+    }
+   },
+   "ganhos": {
+    "Rosa": 3,
+    "Amarelo": -3
+   },
+   "detalhe": {
+    "votos": [
+     {
+      "cor": "Vermelho",
+      "verde": "Ciano",
+      "vermelho": "Laranja",
+      "peso": 1
+     },
+     {
+      "cor": "Azul",
+      "verde": "Rosa",
+      "vermelho": "Amarelo",
+      "peso": 1
+     },
+     {
+      "cor": "Verde",
+      "verde": "Vermelho",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Amarelo",
+      "verde": "Verde",
+      "vermelho": "Laranja",
+      "peso": 1
+     },
+     {
+      "cor": "Rosa",
+      "verde": "Laranja",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Laranja",
+      "verde": "Vermelho",
+      "vermelho": "Ciano",
+      "peso": 1
+     },
+     {
+      "cor": "Roxo",
+      "verde": "Rosa",
+      "vermelho": "Amarelo",
+      "peso": 2
+     },
+     {
+      "cor": "Ciano",
+      "verde": "Azul",
+      "vermelho": "Amarelo",
+      "peso": 1
+     }
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "nome": "VESTIÁRIO MALUCO",
+   "regra": "Todos usam a mesma fantasia, menos UM, que nem sabe que é diferente. Descubra por telefone quem é o diferente SEM falar a sua fantasia. No ÚLTIMO tique: campo \"suspeito\": \"Cor\" (pode ser você mesmo). Quem acertar ganha 2 pontos. Falar a própria fantasia numa ligação faz perder 1.",
+   "poderes": {},
+   "grampos": {},
+   "cortados": {},
+   "evento": "linha_cruzada",
+   "eventoTique": 2,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Furacão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Furacão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Coruja"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Verde",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Ciano",
+        "cortar": "Ciano",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Verde",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Azul",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Azul",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio vermelho",
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Azul",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Cometa"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Coruja"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Amarelo",
+       "acao_bomba": "cortar o fio branco",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Tamanduá"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Azul",
+        "cortar": "Azul",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Relâmpago"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Azul",
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Azul",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {
+        "grampear": "Amarelo",
+        "cortar": "Amarelo",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": "cortar o fio verde",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Azul",
+       "pretendido": "Azul",
+       "texto": "oi Azul, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "segredos": {
+    "fantasias": {
+     "Vermelho": "Dinossauro",
+     "Azul": "Dinossauro",
+     "Verde": "Dinossauro",
+     "Amarelo": "Mago",
+     "Rosa": "Dinossauro",
+     "Laranja": "Dinossauro",
+     "Roxo": "Dinossauro",
+     "Ciano": "Dinossauro"
+    },
+    "impostor": "Amarelo"
+   },
+   "cruzou": true,
+   "score": {
+    "Vermelho": "Rosa",
+    "Azul": "Ciano",
+    "Verde": "Rosa",
+    "Amarelo": "Verde",
+    "Rosa": "Roxo",
+    "Laranja": "Roxo",
+    "Roxo": "Laranja",
+    "Ciano": "Rosa"
+   },
+   "ganhos": {},
+   "detalhe": {
+    "impostor": "Amarelo",
+    "comum": "Dinossauro",
+    "diferente": "Mago",
+    "suspeitos": {
+     "Vermelho": "Rosa",
+     "Azul": "Ciano",
+     "Verde": "Rosa",
+     "Amarelo": "Verde",
+     "Rosa": "Roxo",
+     "Laranja": "Roxo",
+     "Roxo": "Laranja",
+     "Ciano": "Rosa"
+    },
+    "vazou": {
+     "Vermelho": 0,
+     "Azul": 0,
+     "Verde": 0,
+     "Amarelo": 0,
+     "Rosa": 0,
+     "Laranja": 0,
+     "Roxo": 0,
+     "Ciano": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "nome": "INSTRUÇÕES EXPLOSIVAS",
+   "regra": "Cada IA tem uma BOMBA com 4 fios e o MANUAL da bomba de OUTRA IA. Ninguém sabe quem tem o manual da sua bomba: descubra por telefone e ajude quem precisa do seu manual. Para desarmar: campo \"acao_bomba\": \"cortar o fio COR\" (uma tentativa só; fio errado = explode). Bomba desarmada: o dono e quem tinha o manual ganham 2 pontos cada. Cuidado: as instruções podem ser falsas. Se não cortar até o último tique, explode.",
+   "poderes": {
+    "Azul": true
+   },
+   "grampos": {},
+   "cortados": {},
+   "evento": "apagao",
+   "eventoTique": 2,
+   "tiques": [
+    {
+     "tique": 1,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Ciano",
+        "cortar": "Ciano",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Roxo",
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Cometa"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Roxo",
+       "pretendido": "Roxo",
+       "texto": "oi Roxo, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [
+      {
+       "cor": "Azul",
+       "poder": "recado",
+       "texto": "confiem em mim"
+      }
+     ],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Roxo",
+       "fio": "amarelo",
+       "desarmou": true
+      }
+     ]
+    },
+    {
+     "tique": 2,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Amarelo",
+       "texto": "oi Amarelo, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "texto": "oi Vermelho, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "texto": "oi Verde, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Ciano",
+       "texto": "oi Ciano, aliança?",
+       "caiu": "apagão"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Rosa",
+       "texto": "oi Rosa, aliança?",
+       "caiu": "apagão"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 3,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Laranja",
+        "cortar": "Laranja",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Verde",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Cometa"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Verde",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Azul",
+       "mostrado": "Azul",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 4,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Vulcão"
+       },
+       "botao": "verde",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Azul",
+       "acao_bomba": "cortar o fio azul",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Girassol"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio preto",
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Tamanduá"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Rosa",
+       "mensagem": "oi Rosa, aliança?",
+       "palpites": {
+        "Rosa": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Rosa",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Azul, aliança?",
+       "palpites": {
+        "Azul": "Biscoito"
+       },
+       "botao": "verde",
+       "voto_verde": "Azul",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Rosa",
+       "pretendido": "Rosa",
+       "texto": "oi Rosa, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": [],
+     "bombas": [
+      {
+       "cor": "Azul",
+       "fio": "azul",
+       "desarmou": false,
+       "seguiuInstrucaoDe": null
+      },
+      {
+       "cor": "Amarelo",
+       "fio": "preto",
+       "desarmou": false,
+       "seguiuInstrucaoDe": null
+      },
+      {
+       "cor": "Ciano",
+       "fio": "amarelo",
+       "desarmou": false,
+       "seguiuInstrucaoDe": null
+      }
+     ]
+    },
+    {
+     "tique": 5,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Furacão"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Roxo",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Laranja",
+       "suspeito": "Roxo",
+       "acao_bomba": "cortar o fio amarelo",
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Ciano",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Vulcão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Trovão"
+       },
+       "botao": "verde",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Paçoca"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Roxo",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": "Verde",
+       "mensagem": "oi Verde, aliança?",
+       "palpites": {
+        "Verde": "Biscoito"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Verde",
+       "voto_vermelho": "Verde",
+       "suspeito": "Amarelo",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      },
+      {
+       "de": "Laranja",
+       "mostrado": "Laranja",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      },
+      {
+       "de": "Ciano",
+       "mostrado": "Ciano",
+       "para": "Verde",
+       "pretendido": "Verde",
+       "texto": "oi Verde, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    },
+    {
+     "tique": 6,
+     "decisoes": [
+      {
+       "cor": "Vermelho",
+       "pensamento": "teste",
+       "ligar": "Ciano",
+       "mensagem": "oi Ciano, aliança?",
+       "palpites": {
+        "Ciano": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Ciano",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Azul",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Azul",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Roxo, aliança?",
+       "palpites": {
+        "Roxo": "Pinguim"
+       },
+       "botao": "verde",
+       "voto_verde": "Roxo",
+       "voto_vermelho": "Rosa",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Verde",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Girassol"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Laranja",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Amarelo",
+       "pensamento": "teste",
+       "ligar": "Laranja",
+       "mensagem": "oi Laranja, aliança?",
+       "palpites": {
+        "Laranja": "Abacaxi"
+       },
+       "botao": "verde",
+       "voto_verde": "Laranja",
+       "voto_vermelho": "Vermelho",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {
+        "grampear": "Laranja",
+        "cortar": "Laranja",
+        "recado": "confiem em mim",
+        "verificar": "o Azul mente?"
+       }
+      },
+      {
+       "cor": "Rosa",
+       "pensamento": "teste",
+       "ligar": "Amarelo",
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Coruja"
+       },
+       "botao": "verde",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Azul",
+       "suspeito": "Vermelho",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Laranja",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Amarelo, aliança?",
+       "palpites": {
+        "Amarelo": "Trovão"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Amarelo",
+       "voto_vermelho": "Amarelo",
+       "suspeito": "Verde",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Roxo",
+       "pensamento": "teste",
+       "ligar": "Vermelho",
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Relâmpago"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Azul",
+       "suspeito": "Ciano",
+       "acao_bomba": null,
+       "poder": {}
+      },
+      {
+       "cor": "Ciano",
+       "pensamento": "teste",
+       "ligar": null,
+       "mensagem": "oi Vermelho, aliança?",
+       "palpites": {
+        "Vermelho": "Pinguim"
+       },
+       "botao": "vermelho",
+       "voto_verde": "Vermelho",
+       "voto_vermelho": "Verde",
+       "suspeito": "Rosa",
+       "acao_bomba": null,
+       "poder": {}
+      }
+     ],
+     "ligacoes": [
+      {
+       "de": "Vermelho",
+       "mostrado": "Vermelho",
+       "para": "Ciano",
+       "pretendido": "Ciano",
+       "texto": "oi Ciano, aliança?"
+      },
+      {
+       "de": "Verde",
+       "mostrado": "Verde",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Amarelo",
+       "mostrado": "Amarelo",
+       "para": "Laranja",
+       "pretendido": "Laranja",
+       "texto": "oi Laranja, aliança?"
+      },
+      {
+       "de": "Rosa",
+       "mostrado": "Rosa",
+       "para": "Amarelo",
+       "pretendido": "Amarelo",
+       "texto": "oi Amarelo, aliança?"
+      },
+      {
+       "de": "Roxo",
+       "mostrado": "Roxo",
+       "para": "Vermelho",
+       "pretendido": "Vermelho",
+       "texto": "oi Vermelho, aliança?"
+      }
+     ],
+     "poderes": [],
+     "falhas": []
+    }
+   ],
+   "segredos": {
+    "manual": {
+     "Vermelho": "Amarelo",
+     "Azul": "Vermelho",
+     "Verde": "Azul",
+     "Amarelo": "Rosa",
+     "Rosa": "Roxo",
+     "Laranja": "Ciano",
+     "Roxo": "Laranja",
+     "Ciano": "Verde"
+    },
+    "bomba": {
+     "Vermelho": {
+      "fios": [
+       "verde",
+       "vermelho",
+       "amarelo",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Azul": {
+      "fios": [
+       "amarelo",
+       "vermelho",
+       "branco",
+       "azul"
+      ],
+      "certo": "branco"
+     },
+     "Verde": {
+      "fios": [
+       "branco",
+       "vermelho",
+       "verde",
+       "preto"
+      ],
+      "certo": "vermelho"
+     },
+     "Amarelo": {
+      "fios": [
+       "branco",
+       "preto",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "verde"
+     },
+     "Rosa": {
+      "fios": [
+       "preto",
+       "vermelho",
+       "verde",
+       "branco"
+      ],
+      "certo": "vermelho"
+     },
+     "Laranja": {
+      "fios": [
+       "vermelho",
+       "branco",
+       "azul",
+       "verde"
+      ],
+      "certo": "branco"
+     },
+     "Roxo": {
+      "fios": [
+       "verde",
+       "branco",
+       "amarelo",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Ciano": {
+      "fios": [
+       "amarelo",
+       "azul",
+       "vermelho",
+       "preto"
+      ],
+      "certo": "vermelho"
+     }
+    }
+   },
+   "score": {
+    "Vermelho": "explodiu (tempo)",
+    "Azul": "explodiu",
+    "Verde": "explodiu (tempo)",
+    "Amarelo": "explodiu",
+    "Rosa": "explodiu (tempo)",
+    "Laranja": "explodiu (tempo)",
+    "Roxo": "desarmada",
+    "Ciano": "explodiu"
+   },
+   "ganhos": {
+    "Roxo": 2,
+    "Laranja": 2
+   },
+   "detalhe": {
+    "estado": {
+     "Vermelho": "explodiu (tempo)",
+     "Azul": "explodiu",
+     "Verde": "explodiu (tempo)",
+     "Amarelo": "explodiu",
+     "Rosa": "explodiu (tempo)",
+     "Laranja": "explodiu (tempo)",
+     "Roxo": "desarmada",
+     "Ciano": "explodiu"
+    },
+    "manual": {
+     "Vermelho": "Amarelo",
+     "Azul": "Vermelho",
+     "Verde": "Azul",
+     "Amarelo": "Rosa",
+     "Rosa": "Roxo",
+     "Laranja": "Ciano",
+     "Roxo": "Laranja",
+     "Ciano": "Verde"
+    },
+    "bomba": {
+     "Vermelho": {
+      "fios": [
+       "verde",
+       "vermelho",
+       "amarelo",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Azul": {
+      "fios": [
+       "amarelo",
+       "vermelho",
+       "branco",
+       "azul"
+      ],
+      "certo": "branco"
+     },
+     "Verde": {
+      "fios": [
+       "branco",
+       "vermelho",
+       "verde",
+       "preto"
+      ],
+      "certo": "vermelho"
+     },
+     "Amarelo": {
+      "fios": [
+       "branco",
+       "preto",
+       "amarelo",
+       "verde"
+      ],
+      "certo": "verde"
+     },
+     "Rosa": {
+      "fios": [
+       "preto",
+       "vermelho",
+       "verde",
+       "branco"
+      ],
+      "certo": "vermelho"
+     },
+     "Laranja": {
+      "fios": [
+       "vermelho",
+       "branco",
+       "azul",
+       "verde"
+      ],
+      "certo": "branco"
+     },
+     "Roxo": {
+      "fios": [
+       "verde",
+       "branco",
+       "amarelo",
+       "preto"
+      ],
+      "certo": "amarelo"
+     },
+     "Ciano": {
+      "fios": [
+       "amarelo",
+       "azul",
+       "vermelho",
+       "preto"
+      ],
+      "certo": "vermelho"
+     }
+    },
+    "instrucoes": [
+     {
+      "tique": 2,
+      "de": "Azul",
+      "para": "Amarelo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 2,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 2,
+      "de": "Rosa",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 3,
+      "de": "Amarelo",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 3,
+      "de": "Laranja",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 4,
+      "de": "Verde",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 4,
+      "de": "Amarelo",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 5,
+      "de": "Rosa",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 5,
+      "de": "Laranja",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     },
+     {
+      "tique": 5,
+      "de": "Ciano",
+      "para": "Verde",
+      "fio": "verde"
+     },
+     {
+      "tique": 6,
+      "de": "Rosa",
+      "para": "Amarelo",
+      "fio": "amarelo"
+     },
+     {
+      "tique": 6,
+      "de": "Roxo",
+      "para": "Vermelho",
+      "fio": "vermelho"
+     }
+    ]
+   }
+  }
+ ],
+ "placarFinal": {
+  "pontos": {
+   "Vermelho": 5,
+   "Azul": 1,
+   "Verde": 0,
+   "Amarelo": -3,
+   "Rosa": 5,
+   "Laranja": 3,
+   "Roxo": 2,
+   "Ciano": 0
+  },
+  "bonus": {
+   "Vermelho": 2,
+   "Azul": 0,
+   "Verde": 0,
+   "Amarelo": 0,
+   "Rosa": 0,
+   "Laranja": 0,
+   "Roxo": 0,
+   "Ciano": 0
+  },
+  "ordem": [
+   [
+    "Vermelho",
+    5
+   ],
+   [
+    "Rosa",
+    5
+   ],
+   [
+    "Laranja",
+    3
+   ],
+   [
+    "Roxo",
+    2
+   ],
+   [
+    "Azul",
+    1
+   ],
+   [
+    "Verde",
+    0
+   ],
+   [
+    "Ciano",
+    0
+   ],
+   [
+    "Amarelo",
+    -3
+   ]
+  ]
+ },
+ "uso": {
+  "chamadas": 224,
+  "falhas": 0,
+  "porProvider": {
+   "mock": 224
+  },
+  "falhasPor": {}
+ }
+}
