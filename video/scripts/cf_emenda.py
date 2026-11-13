@@ -37,7 +37,7 @@ for i, s in enumerate(segs):
         cmd = ['ffmpeg', '-v', 'error', '-y', '-i', f'out/cf_cena_{s[1]}.mp4', '-frames:v', str(n),
                '-vf', 'scale=1920:1080:flags=lanczos,eq=contrast=1.03:saturation=1.08,unsharp=5:5:0.4', *COD, str(f)]
     subprocess.run(cmd, check=True)
-    q = int(subprocess.run(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames', '-of', 'csv=p=0', str(f)], capture_output=True, text=True).stdout.strip())
+    q = int(subprocess.run(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames', '-of', 'csv=p=0', str(f)], capture_output=True, text=True).stdout.strip().strip(','))
     print(s, '->', q, 'quadros', '' if q == n else 'ERRO')
     assert q == n, (s, q)
     lista.append(f"file '{f.name}'")

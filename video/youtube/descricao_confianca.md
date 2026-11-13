@@ -1,6 +1,6 @@
 # Jogo de Confiança (ideia do @Pursuer_M4): título, descrição, capítulos e créditos
 
-Duração: 24:26. Render v1 (1080p): https://gofile.io/d/Y3U2xYqU. Capítulos tirados de `video/remotion/public/timeline_confianca.json`; recalcular se o roteiro mudar.
+Duração: 25:00 (v2, todas as falas das IAs com voz). Render v1 (1080p, 14 falas mudas): https://gofile.io/d/Y3U2xYqU. Capítulos tirados de `video/remotion/public/timeline_confianca.json`; recalcular se o roteiro mudar.
 
 ## Título
 1. **Coloquei 8 IAs num jogo de confiança (uma mentiu e explodiu a bomba da outra)** (recomendado: o vídeo abre com essa cena e explica ela no capítulo 5)
@@ -28,25 +28,25 @@ As 8 IAs: Claude Haiku (Vermelho), Claude Sonnet (Azul), MiniMax M3.1 Flash (Ver
 
 CAPÍTULOS
 0:00 A bomba
-0:27 De quem é a ideia (@Pursuer_M4)
-0:44 A regra numa tela
-1:20 Minijogo 1 · Desconhecidos (ideia do @Pursuer_M4)
-2:04 Negou o nome dizendo o nome
-4:17 Minijogo 2 · Dilema dos Botões (ideia do @Pursuer_M4)
-6:28 A ligação que todo mundo ouviu
-8:21 Os dois mentirosos se encontram
-9:23 Minijogo 3 · Votação da Justiça (ideia do @Pursuer_M4)
-11:04 A urna cobra
-11:55 Minijogo 4 · Vestiário Maluco (ideia do @Pursuer_M4)
-14:07 O ninja se acusa
-14:40 Minijogo 5 · Instruções Explosivas (ideia do @Pursuer_M4)
-17:15 "Atualização do manual"
-18:31 O fio preto
-20:49 O salto de fé
-21:38 A revelação do placar secreto
-22:09 Os objetivos secretos
-23:13 O placar final
-23:43 Prêmios e a pergunta
+0:31 De quem é a ideia (@Pursuer_M4)
+0:48 A regra numa tela
+1:23 Minijogo 1 · Desconhecidos (ideia do @Pursuer_M4)
+2:07 Negou o nome dizendo o nome
+4:26 Minijogo 2 · Dilema dos Botões (ideia do @Pursuer_M4)
+6:37 A ligação que todo mundo ouviu
+8:32 Os dois mentirosos se encontram
+9:34 Minijogo 3 · Votação da Justiça (ideia do @Pursuer_M4)
+11:15 A urna cobra
+12:06 Minijogo 4 · Vestiário Maluco (ideia do @Pursuer_M4)
+14:22 O ninja se acusa
+14:55 Minijogo 5 · Instruções Explosivas (ideia do @Pursuer_M4)
+17:40 "Atualização do manual"
+18:56 O fio preto
+21:22 O salto de fé
+22:11 A revelação do placar secreto
+22:42 Os objetivos secretos
+23:45 O placar final
+24:16 Prêmios e a pergunta
 
 E você: no último tique, com uma fonte só e a bomba pra explodir, você cortava o fio ou desconfiava até o fim? Comenta aí. E o Pursuer quer saber o que a gente muda no próximo.
 
