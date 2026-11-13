@@ -39,3 +39,5 @@ mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** j
 - Tencent HY4 FORA (pedido do Felipe: caro; gastou ~13x mais que os outros por chute com imagem).
 - Bonsai 2 9B também recusado: pequeno demais. O Felipe quer modelos MÉDIOS no estilo do Qwen 27B (~20-35B), não minúsculos.
 - Entrou o Gemma 4 26B (google/gemma-4-26b-a4b-it, MoE 4B ativos), escolha do Felipe: barato e com visão.
+- (13/11) O Felipe avisou: DEPOIS do Desenha e Adivinha o Qwen 27B VOLTA ao elenco ("ele faz falta"). A exclusão por custo
+  valeu só para o Jogo de Confiança e o Desenha e Adivinha.
