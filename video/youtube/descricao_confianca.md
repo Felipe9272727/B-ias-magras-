@@ -1,6 +1,6 @@
 # Jogo de Confiança (ideia do @Pursuer_M4): título, descrição, capítulos e créditos
 
-Duração: 25:00 (v2, todas as falas das IAs com voz). Render v1 (1080p, 14 falas mudas): https://gofile.io/d/Y3U2xYqU. Capítulos tirados de `video/remotion/public/timeline_confianca.json`; recalcular se o roteiro mudar.
+Duração: 25:00. Render v2 (1080p, todas as falas das IAs com voz): https://gofile.io/d/lzDFRKBP. Render v1 (1080p, 14 falas mudas): https://gofile.io/d/Y3U2xYqU. Capítulos tirados de `video/remotion/public/timeline_confianca.json`; recalcular se o roteiro mudar.
 
 ## Título
 1. **Coloquei 8 IAs num jogo de confiança (uma mentiu e explodiu a bomba da outra)** (recomendado: o vídeo abre com essa cena e explica ela no capítulo 5)
