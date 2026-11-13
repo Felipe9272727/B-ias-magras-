@@ -30,3 +30,7 @@ e propor para ele.
 
 (5/11) O Felipe esclareceu: não precisa ser só modelo pequeno; ele quer os **mais eficientes e inteligentes** (para ter
 mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** junto com o elenco do AU5.
+
+## Jogo de Confiança (13/11): elenco BARATO a pedido do Felipe
+- Qwen 3.8 27B FORA deste vídeo (gasta demais, descoberta do Felipe). Trocado pelo MiniMax M3.1 Flash.
+- Teto de gasto por partida: ORCAMENTO_USD (padrão 3; rodado com 2,5).

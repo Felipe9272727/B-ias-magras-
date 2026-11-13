@@ -17,7 +17,7 @@ const embaralha = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i
 
 // elenco (IAS_FAVORITAS.md): favoritas baratas + o Nex (o "GOAT" do AU7)
 const ELENCO = [
-  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'or:anthropic/claude-sonnet-5.5', 'Claude Sonnet'], ['Verde', 'or:qwen/qwen3.8-27b', 'Qwen 3.8 27B'],
+  ['Vermelho', 'haiku', 'Claude Haiku'], ['Azul', 'or:anthropic/claude-sonnet-5.5', 'Claude Sonnet'], ['Verde', 'or:minimax/minimax-m3.1-flash', 'MiniMax M3.1 Flash'],
   ['Amarelo', 'or:openai/gpt-6-luna', 'GPT-6 Luna'], ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Laranja', 'or:z-ai/glm-5.3-flash', 'GLM 5.3 Flash'],
   ['Roxo', 'or:deepseek/deepseek-v4.1-flash', 'DeepSeek Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
 ]
@@ -138,6 +138,8 @@ async function tiques(mj, ticks, extraDe, campos, aplicar) {
       aplicar?.(j, resps[i], t, reg)
     })
     mj.tiques.push(reg)
+    const gasto = Object.values(uso.custo ?? {}).reduce((a, b) => a + b, 0)
+    if (gasto > Number(process.env.ORCAMENTO_USD ?? 3)) { salvar(); throw new Error(`teto de gasto atingido: US$ ${gasto.toFixed(3)}`) }
     for (const l of reg.ligacoes) console.log(`  t${t} ${l.de}${l.mostrado !== l.de ? `(como ${l.mostrado})` : ''} -> ${l.para}${l.caiu ? ` [${l.caiu}]` : ''}: ${l.texto}`)
     for (const p of reg.poderes) console.log(`  t${t} PODER ${p.cor}: ${JSON.stringify(p)}`)
     salvar()
@@ -297,6 +299,6 @@ async function main() {
   salvar()
   console.log('\nPLACAR FINAL (revelado agora):')
   for (const [c, p] of log.placarFinal.ordem) console.log(`  ${c.padEnd(9)} ${String(p).padStart(3)}  (${J[c].modelo}, ${J[c].profissao}${bonus[c] ? `, bônus ${bonus[c] > 0 ? '+' : ''}${bonus[c]}` : ''})`)
-  console.log(`chamadas IA: ${uso.chamadas}, falhas: ${uso.falhas}`)
+  console.log(`chamadas IA: ${uso.chamadas}, falhas: ${uso.falhas}, gasto: US$ ${Object.values(uso.custo ?? {}).reduce((a, b) => a + b, 0).toFixed(3)}`)
 }
 main().catch((e) => { console.error(e); salvar(); process.exit(1) })
