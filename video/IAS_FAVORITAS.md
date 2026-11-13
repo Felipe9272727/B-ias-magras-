@@ -37,4 +37,5 @@ mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** j
 
 ## Desenha e Adivinha (13/11): 10 IAs com visão
 - Tencent HY4 FORA (pedido do Felipe: caro; gastou ~13x mais que os outros por chute com imagem).
-- Entrou o Bonsai 2 9B (prism-ml/ternary-bonsai-2-9b), modelo pequeno com pesos ternários, barato e com visão.
+- Bonsai 2 9B também recusado: pequeno demais. O Felipe quer modelos MÉDIOS no estilo do Qwen 27B (~20-35B), não minúsculos.
+- Entrou o Gemma 4 26B (google/gemma-4-26b-a4b-it, MoE 4B ativos), escolha do Felipe: barato e com visão.

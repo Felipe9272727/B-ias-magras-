@@ -26,7 +26,7 @@ const ELENCO = [ // 10 IAs (pedido do Felipe: "pelo menos 10"), todas baratas e 
   ['Rosa', 'or:xiaomi/mimo-v2.6-flash', 'MiMo V2.6 Flash'], ['Roxo', 'or:deepseek/deepseek-v4.1-flash-1017', 'DeepSeek V4.1 Flash'],
   ['Verde', 'or:minimax/minimax-m3.1-flash', 'MiniMax M3.1 Flash'], ['Ciano', 'or:nex-agi/nex-n2.6', 'Nex N2.6'],
   ['Laranja', 'or:qwen/qwen3.8-omni-flash', 'Qwen 3.8 Omni Flash'], ['Marrom', 'or:z-ai/glm-5.3-flashx', 'GLM 5.3 FlashX'],
-  ['Lima', 'or:prism-ml/ternary-bonsai-2-9b', 'Bonsai 2 9B'] // o HY4 saiu: caro demais (pedido do Felipe),
+  ['Lima', 'or:google/gemma-4-26b-a4b-it', 'Gemma 4 26B'], // o HY4 saiu (caro) e o Bonsai 9B também (pequeno demais): pedido do Felipe
 ]
 // nomes de personagem (pedido do Felipe: não só cores); a cor fica para o visual e a voz
 const NOMES = { Vermelho: 'Rabisco', Azul: 'Aquarela', Amarelo: 'Borrão', Rosa: 'Giz', Roxo: 'Pincel', Verde: 'Lápis', Ciano: 'Traço', Laranja: 'Tinta', Marrom: 'Carvão', Lima: 'Grafite' }

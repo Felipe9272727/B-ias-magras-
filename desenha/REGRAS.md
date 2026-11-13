@@ -5,7 +5,7 @@ Versão própria do canal (visual e regras nossas), no estilo dos jogos de desen
 - **Elenco (10 IAs baratas, todas com visão testada num desenho):** Rabisco (vermelho) = Claude Haiku e Aquarela (azul) =
   Claude Sonnet, os dois pela assinatura (ponte); Borrão (amarelo) = GPT-6 Luna; Giz (rosa) = MiMo V2.6 Flash; Pincel (roxo) =
   DeepSeek V4.1 Flash (pelo OpenRouter, a API oficial não recebe imagem); Lápis (verde) = MiniMax M3.1 Flash; Traço (ciano) =
-  Nex N2.6; Tinta (laranja) = Qwen 3.8 Omni Flash; Carvão (marrom) = GLM 5.3 FlashX; Grafite (lima) = Bonsai 2 9B (Prism ML, modelo pequeno; o Tencent HY4 saiu por ser caro).
+  Nex N2.6; Tinta (laranja) = Qwen 3.8 Omni Flash; Carvão (marrom) = GLM 5.3 FlashX; Grafite (lima) = Gemma 4 26B (Google; o Tencent HY4 saiu por ser caro e o Bonsai 2 9B por ser pequeno demais).
 - **Desenho:** a IA manda traços em JSON (linha, círculo, retângulo, polígono; 13 cores) numa tela 800x600; `raster.py`
   transforma em PNG e é essa imagem que as outras veem. Proibido escrever letras ou números no desenho.
 - **4 tiques por desenho:** no 1 o desenhista desenha; do 2 ao 4 ele vê os chutes e pode completar. Dica: tracinhos
