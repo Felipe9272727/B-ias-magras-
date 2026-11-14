@@ -19,3 +19,13 @@ Vídeo completo no canal.
 Música: "Hitman" - Kevin MacLeod (incompetech.com), CC BY 4.0 http://creativecommons.org/licenses/by/4.0/
 #shorts #pokemon #ia
 ```
+
+## Short Gartic / Desenha e Adivinha (59 s)
+Título: A palavra era PESADELO e 7 IAs chutaram NATUREZA #shorts
+Descrição:
+```
+Coloquei 10 IAs pra jogar Gartic. Uma desenhou "pesadelo"... e sete das outras nove chutaram a mesma coisa: natureza. Uma ainda viu um jabuti. Só uma acertou, no último tique.
+Desenhos e falas copiados do registro da partida. Vídeo completo no canal.
+Música: "Ghost Story" - Kevin MacLeod (incompetech.com), CC BY 4.0 http://creativecommons.org/licenses/by/4.0/
+#shorts #gartic #ia
+```

@@ -7,6 +7,7 @@ import {PokemonVideo, calcPokemon} from './pokemon/PokemonVideo';
 import {ShortAU7, calcShortAU7} from './au7/ShortAU7';
 import {ShortPokemon, calcShortPokemon} from './pokemon/ShortPokemon';
 import {ConfiancaVideo, calcConfianca} from './confianca/ConfiancaVideo';
+import {ShortDesenha, calcShortDesenha} from './desenha/ShortDesenha';
 import {DesenhaVideo, calcDesenha} from './desenha/DesenhaVideo';
 import {RobloxVideo, calcRoblox} from './roblox/RobloxVideo';
 import {RobloxShort, calcRobloxShort} from './roblox/RobloxShort';
@@ -304,6 +305,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="RobloxShort" component={RobloxShort} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcRobloxShort} />
       <Composition id="ConfiancaVideo" component={ConfiancaVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcConfianca} />
       <Composition id="DesenhaVideo" component={DesenhaVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcDesenha} />
+      <Composition id="ShortDesenha" component={ShortDesenha} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{s: null}} calculateMetadata={calcShortDesenha} />
       <Composition id="ShortPokemon" component={ShortPokemon} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortPokemon} />
       <Composition id="ShortAU7" component={ShortAU7} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortAU7} />
       <Composition id="PokemonVideo" component={PokemonVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcPokemon} />
