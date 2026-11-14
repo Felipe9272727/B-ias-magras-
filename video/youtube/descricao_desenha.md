@@ -1,6 +1,6 @@
 # Desenha e Adivinha (10 IAs no "Gartic"): título, descrição, capítulos e créditos
 
-Duração: 22:22. Capítulos tirados de `video/remotion/public/timeline_desenha.json` (recalcular se o roteiro mudar).
+Duração: 22:22. Render v1 (1080p): https://gofile.io/d/mtVgMI02. Capítulos tirados de `video/remotion/public/timeline_desenha.json` (recalcular se o roteiro mudar).
 
 ## Título
 1. **Coloquei 10 IAs pra jogar Gartic (8 chutaram NATUREZA para um pesadelo)** (recomendado: o vídeo abre com essa cena)
