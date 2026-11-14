@@ -31,7 +31,7 @@ export const Placar: React.FC<{p: P; f: number; A: Record<string, number>; B: Re
         const dest = top != null && r < top;
         return (
           <div key={cor} style={{position: 'absolute', left: 60, top: y(cor), width: 1800, height: RH - 10, display: 'flex', alignItems: 'center', transform: `translateX(${(1 - e) * -500}px)`, zIndex: 20 - r}}>
-            <div style={{width: 70, fontFamily: BANG, fontSize: 56, color: '#fff', ...C(8), textAlign: 'right', marginRight: 10}}>{Math.round(oa.indexOf(cor) + (r - oa.indexOf(cor)) * k) + 1}º</div>
+            <div style={{width: 76, fontFamily: POP, fontWeight: 800, fontSize: 42, color: '#fff', ...C(7), textAlign: 'right', marginRight: 8}}>{Math.round(oa.indexOf(cor) + (r - oa.indexOf(cor)) * k) + 1}º</div>
             <Boneco cor={cor} s={62} f={f} bracos={false} coroa={r === 0 && k > 0.9 && !un} humor={r === 0 ? 'feliz' : 'normal'} />
             <div style={{width: 250, marginLeft: 8}}>
               <div style={{fontFamily: POP, fontWeight: 800, fontSize: 40, lineHeight: 1, color: '#fff', ...C(7)}}>{NOME(p, cor)}</div>
@@ -185,7 +185,7 @@ export const erros = (p: P): Record<string, number> => {
 };
 export const Corrida: React.FC<{p: P; f: number; t0: number}> = ({p, f, t0}) => {
   const med = medianas(p), cs = Object.keys(med).sort((a, b) => med[a] - med[b]);
-  const X0 = 400, X1 = 1640;
+  const X0 = 400, X1 = 1560;
   return (
     <AbsoluteFill>
       <Cabecalho t="TEMPO PRA RESPONDER" sub="MEDIANA POR RESPOSTA" f={f} />
