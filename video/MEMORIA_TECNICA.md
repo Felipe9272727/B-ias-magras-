@@ -157,3 +157,8 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - Desenho traço a traço com os traços reais do log, chat com as fichas na ordem real (ms), cartão "SÓ VOCÊ VÊ".
 - Antes do render final: conferir se TODAS as músicas do roteiro existem em public/music (6 faltavam; baixar pelo
   media_url do music.json).
+
+## Storyboarder substituto (14/11, pedido do Felipe)
+- O limite do Fable acabou. Até o Felipe assinar o plano Ultra, storyboard + direção + composição visual ficam com um
+  sub-agente **Opus** (Agent com model "opus" e effort "xhigh" ou "max"), seguindo `video/GUIA_ESTILO_FABLE.md`.
+- Mesmo fluxo: Sonnet faz o pacote -> Opus (no estilo do Fable) faz storyboard/visual -> eu monto, renderizo e mixo.
