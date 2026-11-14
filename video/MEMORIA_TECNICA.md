@@ -149,3 +149,11 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
   views); concluir que 16-20 IAs derrubam views (os vídeos grandes são os mais recentes: confunde com a queda do canal
   depois do viral de 265 mil); medianas puxadas por um único viral. Elenco sugerido com Grok/Gemini: ignorar
   (ver IAS_FAVORITAS.md). Rever os números quando os vídeos novos tiverem ~2 semanas.
+
+## Desenha e Adivinha v1 (14/11): "absolute cinema, muito bom msm" (Felipe)
+- Receita que funcionou: partida rápida e barata (US$ 0,28, 10 IAs com visão, nomes de personagem) -> Sonnet faz o
+  pacote (citações conferidas por script) -> Fable faz storyboard + direção E a composição Remotion (visual dele) ->
+  eu monto vozes/timeline (build_timeline_desenha.py lê narração entremeada "..." (Nome) "..."), renderizo e mixo.
+- Desenho traço a traço com os traços reais do log, chat com as fichas na ordem real (ms), cartão "SÓ VOCÊ VÊ".
+- Antes do render final: conferir se TODAS as músicas do roteiro existem em public/music (6 faltavam; baixar pelo
+  media_url do music.json).
