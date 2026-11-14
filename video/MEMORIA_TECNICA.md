@@ -138,3 +138,14 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
   Só fica muda a citação sem cor (post do fã). Não dá para consertar só no áudio: a voz é mais longa que o balão mudo
   (até 2,5x), então remonta a timeline e renderiza de novo.
 - Antes de entregar, checar buracos: trechos de >2,5 s sem voz na faixa (RMS em janelas de 0,1 s) e balões sem áudio.
+
+## Relatório do Gemini sobre o canal (14/11): o que vale e o que não vale
+- VALE: elenco de 8 a 12 IAs com NOME de personagem (dá pra torcer); vídeos de 18 a 24 min; ação nos primeiros 90 s
+  (nada de introdução longa); alternar formatos (não emendar vários Among Us: fadiga da mesma série); Shorts com 1
+  micro-conflito e tela limpa (pensamento x fala pública), nunca 20 bonecos na tela.
+- Ideias do relatório que já estão no deck do Felipe: "1 humano infiltrado entre 9 IAs" (Among Us com o Felipe) e
+  "10 IAs numa ilha com comida para 3" (Utopia).
+- NÃO VALE: comparar likes/1k ou views de vídeo com menos de uma semana (Pokémon tinha < 1 dia: 63,8 likes/1k e 1.223
+  views); concluir que 16-20 IAs derrubam views (os vídeos grandes são os mais recentes: confunde com a queda do canal
+  depois do viral de 265 mil); medianas puxadas por um único viral. Elenco sugerido com Grok/Gemini: ignorar
+  (ver IAS_FAVORITAS.md). Rever os números quando os vídeos novos tiverem ~2 semanas.
