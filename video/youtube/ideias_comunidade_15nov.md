@@ -65,3 +65,12 @@ Observação sobre o canal: o vídeo de Confiança saiu hoje (118 views, 5 comen
 | @pepinoVIC / @PintoNelsoOFC / @Davinichetti | Monopoly (Dia 14), Copista (Dia 3), Cianofóbico (Dia 4) | contadores "Dia N" nos cartões do AU8 |
 
 Respostas do dono nesta rodada (para não repetir promessa): vai fazer tutorial "em breve" (@ovo_decodorna), vai fazer Among "de volta às origens", considera Uno e One Block, achou "boa ideia" o corpo estranho do Gartic e o xadrez (@Kakaseime), respondeu no Roblox que o Pokémon "já está sendo feito" (esse é o vídeo 1, já publicado).
+
+## DECISÃO (15/11): próximo vídeo grande = TRIBUNAL DAS IAs, no estilo de jogo de tribunal (tipo Phoenix Wright)
+- Escolha do Felipe, com crédito ao @SwordMan333 (comentário mais curtido do Gartic) e aos outros que pediram.
+- Fica para quando a cota voltar; tem que sair em alta qualidade (de preferência com o Fable no storyboard/visual).
+- Estilo do gênero, com identidade NOSSA: julgamento com investigação + interrogatório de testemunhas, provas
+  apresentadas na hora certa, contradições em destaque, gritos de "OBJEÇÃO!" e "PEGUEI VOCÊ!" em SVG, réu, promotor,
+  advogado, juiz e júri feitos por IAs com nome de personagem (8 a 12). Sem copiar personagens, nomes, arte ou
+  músicas da série original: personagens, cenários e casos todos próprios do canal.
+- O público sabe quem é o culpado desde o começo (cartão "SÓ VOCÊ VÊ"); motor reaproveitando `interrogatorio/`.
