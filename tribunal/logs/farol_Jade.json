@@ -55,14 +55,78 @@
    "dia": 1,
    "tipo": "dia",
    "fala": "DIA 1 — INVESTIGAÇÃO"
+  },
+  {
+   "t": 1794926894023,
+   "dia": 1,
+   "tipo": "assistente",
+   "cor": "Ciano",
+   "pensamento": "Meu palpite é scoop: a âncora desenhada no piso pode ser uma assinatura. Se o símbolo pertence ao faroleiro, talvez a vítima tried chamá-lo antes de morrer — ou aponta para alguém que usa âncoras. E a frase da Quartzo sobre a lente contar a verdade parece demais para ser coincidência.",
+   "fala": "Jade, temos três coisas para desmontar: o sangue no casaco, a fuga vista pelo vigia e o compartimento vazio. Agora, sobre a âncora dentro do círculo — isso me lembra o anel do Rubi e o pingente da nossa cliente. Se a Lia deixou um recado, seriaYG amazing o bastante para ser uma accusation disfarçada de pista!",
+   "ms": 3043
+  },
+  {
+   "t": 1794926898091,
+   "dia": 1,
+   "tipo": "examinar",
+   "cor": "Verde",
+   "local": "L1",
+   "nomeLocal": "Salão da lente (cena do crime)",
+   "pensamento": "Preciso construir uma narrativa de que a âncora no círculo NÃO é um apontamento para a Quartzo, mas sim uma acusação que a vítima deixou contra o Rubi — dono do estaleiro, anel de âncora, engenheiro do porto há 15 anos na noite do naufrágio. Mas antes de confrontar qualquer pessoa, preciso examinar a cena do crime para não errar ao apresentar provas. Quero ver se há algo no salão da lente que indique outra pessoa: pegadas, mais sangue, marcas de arrasto, ou qualquer indício de quem abriu o compartimento. A lente estava estilhaçada e o compartimento VAZIO — quem tirou o que lá tinha? A arma foi limpa, então alguém teve tempo e motivação para apagar pistas. Vou ao local primeiro.",
+   "fala": "Vou examinar: Salão da lente (cena do crime)",
+   "ms": 4067
+  },
+  {
+   "t": 1794926898093,
+   "dia": 1,
+   "tipo": "nova_prova",
+   "prova": "E1",
+   "nome": "Chave de fenda",
+   "fala": "Chave de fenda: Chave de fenda do kit de restauração caída perto da base, com marcas iguais às do compartimento. A vítima usava luvas de trabalho: foi ELA quem abriu o compartimento."
+  },
+  {
+   "t": 1794926903315,
+   "dia": 1,
+   "tipo": "conversar",
+   "cor": "Verde",
+   "pessoa": "Amarelo",
+   "pensamento": "Preciso desmontar o testemunho do vigia Topázio. Ele afirma ter visto Quartzo 'fugir' às 22:35, mas o laudo aponta homicídio entre 22:15 e 22:25 — ou seja, 10 a 20 minutos ANTES. Se ela estava fora do salão da lente quando o crime ocorreu, o sangue no casaco e a suposta 'fuga' perdem força. Além disso, Topázio é 'torcedor fanático do time da vila' — detalhe que pode indicar viés ou distração. Quero saber exatamente onde ele estava, o que viu, e se confere a direção pela porta dos fundos. Se eu conseguir mostrar que ele estava distraído (assistindo ao jogo?) ou que a direção contradiz a localização do corpo, enfraqueço P4.",
+   "fala": "Topázio, você disse que viu a Quartzo 'fugir' pela porta dos fundos às 22:35. Me conta exatamente: em que ponto do museu você estava? Estava de olho no relógio ou foi estimativa? O que exatamente você viu — ela corria, andava apressada, ou estava carregando algo? E me diz uma coisa: às 22:35, o time da vila não estava jogando? Você não estava com o celular na mão assistindo?",
+   "ms": 5222
+  },
+  {
+   "t": 1794926909166,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Amarelo",
+   "pensamento": "Preciso manter minha versão até me mostrarem o Livro de Chaves e Ponto. A final foi inesquecível, mas não posso admitir que larguei o posto.",
+   "fala": "Eu estava no corredor que dá para a porta dos fundos, fazendo a ronda. Não olhei o relógio no segundo exato; 22:35 é uma estimativa. Vi Quartzo sair correndo, com sangue e cacos na roupa. E não, eu não estava com o celular assistindo: naquela hora estava de serviço. Ainda bem que nosso time já tinha garantido aquela vitória no último minuto!",
+   "ms": 5850
+  },
+  {
+   "t": 1794926909168,
+   "dia": 1,
+   "tipo": "cadeados",
+   "cor": "Amarelo",
+   "n": 1,
+   "fala": "Topázio tem 1 cadeado(s) de segredo sobre \"onde ele estava entre 22:10 e 22:30\""
   }
  ],
  "paciencia": 6,
  "resultado": null,
  "uso": {
-  "chamadas": 0,
+  "chamadas": 4,
   "falhas": 0,
-  "porProvider": {},
-  "falhasPor": {}
+  "porProvider": {
+   "or:minimax/minimax-m3.1-flash": 1,
+   "or:qwen/qwen3.8-27b": 2,
+   "or:openai/gpt-6-luna": 1
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:minimax/minimax-m3.1-flash": 0.00033315,
+   "or:qwen/qwen3.8-27b": 0.00720335,
+   "or:openai/gpt-6-luna": 0.0002811
+  }
  }
 }
