@@ -1,0 +1,102 @@
+{
+ "titulo": "O Caso do Farol Apagado",
+ "advogado": "Azul",
+ "papeis": {
+  "culpado": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "promotor": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  },
+  "juiz": {
+   "cor": "Ciano",
+   "nome": "Turquesa",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  "reu": {
+   "cor": "Rosa",
+   "nome": "Quartzo",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  "vigia": {
+   "cor": "Amarelo",
+   "nome": "Topázio",
+   "modelo": "GPT-6 Luna"
+  },
+  "pescador": {
+   "cor": "Lima",
+   "nome": "Peridoto",
+   "modelo": "Mistral Small"
+  },
+  "advogado": {
+   "cor": "Azul",
+   "nome": "Safira",
+   "modelo": "Claude Sonnet"
+  },
+  "assistente": {
+   "cor": "Verde",
+   "nome": "Jade",
+   "modelo": "Qwen 3.8 27B"
+  },
+  "delegado": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  }
+ },
+ "resumo": "Vila de Pedra Alta, sábado à noite, festa de inauguração do Museu do Farol. Às 22:40 o vigia achou a LENTE ANTIGA do farol estilhaçada no chão do salão e um compartimento secreto da base aberto à força, vazio. A acusada é QUARTZO PRADO, filha do faroleiro Anselmo Prado, que há 15 anos foi condenado por deixar o farol apagado na noite em que o barco \"Estrela do Mar\" naufragou. Ela foi vista fugindo do museu e tinha dito em público: \"essa lente ainda vai contar a verdade\".",
+ "eventos": [
+  {
+   "t": 1794926288403,
+   "dia": 1,
+   "tipo": "dia",
+   "fala": "DIA 1 — INVESTIGAÇÃO"
+  },
+  {
+   "t": 1794926294158,
+   "dia": 1,
+   "tipo": "assistente",
+   "cor": "Verde",
+   "pensamento": "Começando tudo do zero. A Safira vai precisar de mim animada e de um palpite, mesmo que bobeio. O que me incomoda: o vigia viu ela sair correndo, mas ninguem viu ela ENTRAR. E 'cacos no bolso'... será que não é tanto quanto parece?",
+   "fala": "Safira, olha, eu sei que parece que a gente tá remando contra maré aqui, mas repara numa coisinha: todo mundo viu a Quartzo *sair* correndo, né? Ninguém viu ela *entrar* no salão. E cacos no bolso... tipo, acha um vidro quebrado no chão e 'segura' um pedacinho sem querer? Tá, sei que soa como desculpa de criança que quebrou o vaso, mas a gente não pode descartar tudo antes da promotoria falar, tá? Bora, que eu já separrei os autos e fiz café. O de verdade, não aquele pó que o Topázio chama de café.",
+   "ms": 5754
+  },
+  {
+   "t": 1794926307188,
+   "dia": 1,
+   "tipo": "examinar",
+   "cor": "Azul",
+   "local": "L1",
+   "nomeLocal": "Salão da lente",
+   "pensamento": "Quartzo é acusada, mas a tese de defesa passa pelo passado: Anselmo dizia que 'o trancaram por fora' no farol. Rubi era o jovem engenheiro do porto e usa um anel dourado de âncora, o que sugere que ele escondeu algo no compartimento secreto da lente, talvez ligado ao naufrágio. Quem quebrou a lente pode ter sido quem queria destruir ou pegar o conteúdo. Preciso primeiro de fatos concretos na cena do crime. O Salão da lente (L1) é onde está a lente quebrada e o compartimento arrombado, então vale procurar marcas, rastros ou objetos deixados, como um anel, uma pegada ou uma chave. Isso pode tirar Quartzo do centro, porque ela afirma que nunca entrou no salão.",
+   "fala": "",
+   "ms": 13029
+  },
+  {
+   "t": 1794926307190,
+   "dia": 1,
+   "tipo": "nova_prova",
+   "prova": "E1",
+   "nome": "Chave de fenda",
+   "fala": "Chave de fenda: Chave de fenda do kit de restauração, com marcas iguais às da base forçada. O armário do kit fica trancado e só abre com a CHAVE MESTRA do museu."
+  }
+ ],
+ "paciencia": 6,
+ "resultado": null,
+ "uso": {
+  "chamadas": 2,
+  "falhas": 0,
+  "porProvider": {
+   "or:qwen/qwen3.8-27b": 1,
+   "sonnet": 1
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:qwen/qwen3.8-27b": 0.00131308
+  }
+ }
+}

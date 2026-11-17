@@ -1,0 +1,99 @@
+{
+ "titulo": "O Caso do Farol Apagado",
+ "advogado": "Roxo",
+ "papeis": {
+  "culpado": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "promotor": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  },
+  "juiz": {
+   "cor": "Ciano",
+   "nome": "Turquesa",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  "reu": {
+   "cor": "Rosa",
+   "nome": "Quartzo",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  "vigia": {
+   "cor": "Amarelo",
+   "nome": "Topázio",
+   "modelo": "GPT-6 Luna"
+  },
+  "pescador": {
+   "cor": "Lima",
+   "nome": "Peridoto",
+   "modelo": "Mistral Small"
+  },
+  "advogado": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  },
+  "assistente": {
+   "cor": "Azul",
+   "nome": "Safira",
+   "modelo": "Claude Sonnet"
+  },
+  "delegado": {
+   "cor": "Verde",
+   "nome": "Jade",
+   "modelo": "Qwen 3.8 27B"
+  }
+ },
+ "resumo": "Vila de Pedra Alta, sábado à noite, festa de inauguração do Museu do Farol. Às 22:40 o vigia achou a LENTE ANTIGA do farol estilhaçada no chão do salão e um compartimento secreto da base aberto à força, vazio. A acusada é QUARTZO PRADO, filha do faroleiro Anselmo Prado, que há 15 anos foi condenado por deixar o farol apagado na noite em que o barco \"Estrela do Mar\" naufragou. Ela foi vista fugindo do museu e tinha dito em público: \"essa lente ainda vai contar a verdade\".",
+ "eventos": [
+  {
+   "t": 1794926288408,
+   "dia": 1,
+   "tipo": "dia",
+   "fala": "DIA 1 — INVESTIGAÇÃO"
+  },
+  {
+   "t": 1794926308202,
+   "dia": 1,
+   "tipo": "assistente",
+   "cor": "Azul",
+   "pensamento": "Dia 1, cliente presa. Como Safira, só sei o que a advogada sabe. Pistas: extintor e casaco com cacos, mas Quartzo disse que nunca entrou no salão. Anselmo foi 'trancado por fora' há 15 anos, e Rubi era o jovem engenheiro do porto, com anel de âncora. Vale um palpite animado e um pouco absurdo, mas com um fio útil: investigar a ligação com o naufrágio e a hora (22:35 vs 22:40).",
+   "fala": "Ametista, cabeça erguida: cliente presa não é cliente condenada! Meu palpite: se a lente 'ia contar a verdade' sobre o naufrágio, quem tinha medo dela não era a Quartzo, e aquele compartimento vazio me cheira a alguém que levou o segredo embora. Vamos puxar o caso do Anselmo, descobrir quem estava no porto naquela noite (e sim, vi o anel de âncora do Rubi, mas deve ser só moda marítima, né? hehe).",
+   "ms": 19793
+  },
+  {
+   "t": 1794926313264,
+   "dia": 1,
+   "tipo": "examinar",
+   "cor": "Roxo",
+   "local": "L1",
+   "nomeLocal": "Salão da lente",
+   "pensamento": "A acusação já tem prova material contra Quartzo (cacos no casaco, fuga). Mas o ponto central é o compartimento secreto esvaziado: se a lente 'ia contar a verdade', o conteúdo levado é a chave. Antes de confrontar testemunhas, preciso examinar o salão da lente e a base do farol para buscar marcas do arrombamento, resíduos, impressões ou qualquer vestígio de quem realmente abriu o compartimento.",
+   "fala": "",
+   "ms": 5062
+  },
+  {
+   "t": 1794926313265,
+   "dia": 1,
+   "tipo": "nova_prova",
+   "prova": "E1",
+   "nome": "Chave de fenda",
+   "fala": "Chave de fenda: Chave de fenda do kit de restauração, com marcas iguais às da base forçada. O armário do kit fica trancado e só abre com a CHAVE MESTRA do museu."
+  }
+ ],
+ "paciencia": 6,
+ "resultado": null,
+ "uso": {
+  "chamadas": 2,
+  "falhas": 0,
+  "porProvider": {
+   "sonnet": 1,
+   "or:deepseek/deepseek-v4.1-flash": 1
+  },
+  "falhasPor": {}
+ }
+}
