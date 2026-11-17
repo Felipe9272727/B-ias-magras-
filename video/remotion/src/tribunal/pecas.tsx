@@ -24,7 +24,7 @@ export const FarolPac: React.FC<{rod: string; n: number; antes?: number; t?: num
         {n > 0 ? <g opacity={0.5}><path d={`M80 75 L${80 + 240 * Math.cos(f / 19)} ${75 + 70 * Math.sin(f / 19) - 30} L${80 + 240 * Math.cos(f / 19 + 0.35)} ${75 + 70 * Math.sin(f / 19 + 0.35) + 30}Z`} fill={luz} opacity={0.35} /></g> : null}
         <g stroke="#111" strokeWidth={4} strokeLinejoin="round">
           <path d="M44 252 L60 112 H100 L116 252Z" fill={PERG} />
-          {[0, 1, 2].map((k) => <path key={k} d={`M${52 - k * 1 + k * 0} ${222 - k * 46} L${54 + k * 2} ${204 - k * 46} H${106 - k * 2} L${108 + k * 1} ${222 - k * 46}Z`} fill={rod === 'S' ? '#2F6BD8' : '#1E9E6A'} />)}
+          {[0, 1, 2].map((k) => <path key={k} d={`M${52 - k * 1 + k * 0} ${222 - k * 46} L${54 + k * 2} ${204 - k * 46} H${106 - k * 2} L${108 + k * 1} ${222 - k * 46}Z`} fill={rod === 'S' ? '#2F6BD8' : rod === 'J' ? '#1E9E6A' : '#8a6d14'} />)}
           <rect x={40} y={104} width={80} height={10} rx={3} fill={LATAO} />
           <rect x={48} y={42} width={64} height={64} rx={6} fill="#141c2a" />
           <path d="M44 44 L80 14 L116 44Z" fill={MAD_E} /><circle cx={80} cy={12} r={6} fill={LATAO} />

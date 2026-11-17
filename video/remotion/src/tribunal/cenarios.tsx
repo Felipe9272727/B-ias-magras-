@@ -198,24 +198,24 @@ export const Planta: React.FC<{f: number; visitados?: {loc: string; at: number}[
 export const MARCOS = ['22:10', '22:12', '22:14', '22:16', '22:18', '22:22', '22:26', '22:27', '22:28', '22:35'];
 const min = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
 export const xHora = (h: string) => 150 + ((min(h) - min('22:10')) / 25) * 1620;
-const SALA_C: [string, number, number, string][] = [['SALA DE SEGURANÇA', 90, 330, 'L3'], ['SALÃO DA FESTA', 430, 380, 'L6'], ['SALÃO DA LENTE', 820, 400, 'L1'], ['CORREDOR', 1230, 300, 'L5'], ['FUNDOS', 1540, 250, 'FUNDOS']];
+export const SALA_C: [string, number, number, string][] = [['SEGURANÇA', 60, 270, 'L3'], ['SALÃO DA FESTA', 340, 360, 'L6'], ['CORREDOR', 710, 170, 'ESC'], ['SALÃO DA LENTE', 890, 360, 'L1'], ['CORREDOR DO TERRAÇO', 1260, 270, 'L5'], ['FUNDOS', 1540, 260, 'FUNDOS']];
 export const Corte: React.FC<{f: number; aceso: (h: string) => number; escuro?: number; janela?: [string, string, number]; children?: React.ReactNode; sobre?: React.ReactNode; atores?: React.ReactNode}> = ({f, aceso, escuro = 0, janela, children, sobre, atores}) => (
   <AbsoluteFill style={{background: NOITE}}>
     <Chuva f={f} n={50} op={0.25} />
     <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
       <path d="M60 300 L960 150 L1860 300Z" fill="#2a1a10" stroke={TINTA} strokeWidth={6} />
-      <rect x={1230} y={200} width={300} height={100} fill="#3a2a1a" stroke={TINTA} strokeWidth={5} />
-      <path d="M1230 200 h300" stroke={LATAO} strokeWidth={6} strokeDasharray="6 14" />
-      <text x={1380} y={190} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={26} fill={PERG}>TERRAÇO</text>
+      <rect x={1260} y={200} width={270} height={100} fill="#3a2a1a" stroke={TINTA} strokeWidth={5} />
+      <path d="M1260 200 h270" stroke={LATAO} strokeWidth={6} strokeDasharray="6 14" />
+      <text x={1395} y={190} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={26} fill={PERG}>TERRAÇO</text>
       <path d="M40 700 H1880" stroke={TINTA} strokeWidth={10} />
     </svg>
-    {SALA_C.map(([n, x, w]) => <div key={n} style={{position: 'absolute', left: x, top: 330, width: w, height: 370, background: 'linear-gradient(#5b3a24, #3b2516)', border: `6px solid ${TINTA}`, boxSizing: 'border-box'}}><div style={{position: 'absolute', left: 10, top: 8, fontFamily: POP, fontWeight: 800, fontSize: 24, color: PERG}}>{n}</div></div>)}
+    {SALA_C.map(([n, x, w, id]) => <div key={n} style={{position: 'absolute', left: x, top: 330, width: w, height: 370, background: id === 'ESC' ? 'linear-gradient(#20140c, #120a05)' : 'linear-gradient(#5b3a24, #3b2516)', border: `6px solid ${TINTA}`, boxSizing: 'border-box'}}><div style={{position: 'absolute', left: 8, top: 8, fontFamily: POP, fontWeight: 800, fontSize: w < 200 ? 19 : 23, lineHeight: 1.05, color: PERG}}>{n}</div></div>)}
     <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
-      <circle cx={1020} cy={560} r={70} fill="#cfe9ff55" stroke={TINTA} strokeWidth={5} /><rect x={980} y={630} width={80} height={60} fill={MAD_E} stroke={TINTA} strokeWidth={4} />
-      <rect x={560} y={620} width={110} height={70} fill="#2a1408" stroke={TINTA} strokeWidth={4} /><path d={`M590 690 q12 -${30 + 6 * Math.sin(f * 0.5)} 26 -34 q16 8 26 34Z`} fill={AMBAR} />
-      <rect x={150} y={520} width={120} height={80} fill="#2c7a3a" stroke="#222" strokeWidth={6} opacity={0.6 + 0.4 * Math.sin(f * 0.4)} />
-      <rect x={1320} y={560} width={70} height={50} fill="#EDE6D6" stroke={TINTA} strokeWidth={4} /><path d="M1355 566 v38 M1336 585 h38" stroke={LATAO} strokeWidth={6} />
-      <rect x={1640} y={480} width={80} height={220} fill="#1a0f08" stroke={TINTA} strokeWidth={5} />
+      <circle cx={1070} cy={560} r={70} fill="#cfe9ff55" stroke={TINTA} strokeWidth={5} /><rect x={1030} y={630} width={80} height={60} fill={MAD_E} stroke={TINTA} strokeWidth={4} />
+      <rect x={470} y={620} width={110} height={70} fill="#2a1408" stroke={TINTA} strokeWidth={4} /><path d={`M500 690 q12 -${30 + 6 * Math.sin(f * 0.5)} 26 -34 q16 8 26 34Z`} fill={AMBAR} />
+      <rect x={110} y={520} width={120} height={80} fill="#2c7a3a" stroke="#222" strokeWidth={6} opacity={0.6 + 0.4 * Math.sin(f * 0.4)} />
+      <rect x={1440} y={560} width={70} height={50} fill="#EDE6D6" stroke={TINTA} strokeWidth={4} /><path d="M1475 566 v38 M1456 585 h38" stroke={LATAO} strokeWidth={6} />
+      <rect x={1680} y={480} width={80} height={220} fill="#1a0f08" stroke={TINTA} strokeWidth={5} />
     </svg>
     {atores}
     {escuro > 0 ? <AbsoluteFill style={{background: '#000', opacity: escuro * 0.82}} /> : null}
