@@ -20,7 +20,9 @@ function atende(arq) {
   // com imagens (Desenha e Adivinha): entrada stream-json com blocos de imagem; a resposta vem na linha "result"
   const img = req.imagens?.length
   const fmt = img ? ['--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose'] : ['--output-format', 'json']
-  const p = spawn('claude', ['-p', '--model', modelo, ...fmt, '--system-prompt', req.system || 'Responda apenas com JSON válido.', '--disallowedTools', 'Bash,Edit,Write,Read,Glob,Grep,WebFetch,WebSearch,Agent,Task,NotebookEdit'], { cwd: VAZIO, stdio: ['pipe', 'pipe', 'pipe'] })
+  // esforço de raciocínio pedido pelo jogo (Tribunal: alto para advogada, culpado e juiz)
+  const ef = ['low', 'medium', 'high', 'xhigh', 'max'].includes(req.effort) ? ['--effort', req.effort] : []
+  const p = spawn('claude', ['-p', '--model', modelo, ...ef, ...fmt, '--system-prompt', req.system || 'Responda apenas com JSON válido.', '--disallowedTools', 'Bash,Edit,Write,Read,Glob,Grep,WebFetch,WebSearch,Agent,Task,NotebookEdit'], { cwd: VAZIO, stdio: ['pipe', 'pipe', 'pipe'] })
   let out = '', err = ''
   p.stdout.on('data', (d) => (out += d)); p.stderr.on('data', (d) => (err += d))
   if (img) p.stdin.end(JSON.stringify({ type: 'user', message: { role: 'user', content: [...req.imagens.map((f) => ({ type: 'image', source: { type: 'base64', media_type: 'image/png', data: fs.readFileSync(f).toString('base64') } })), { type: 'text', text: req.prompt }] } }) + '\n')

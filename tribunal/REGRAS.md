@@ -38,3 +38,16 @@ Os 3 casos acima viraram PILOTO (o GLM confessou na primeira pergunta; o Haiku e
 - Elenco fixo: Rubi (Haiku) culpado, Âmbar (GLM) promotor, Turquesa (MiniMax) juiz, Quartzo (MiMo) ré,
   Topázio (Luna) vigia, Peridoto (Mistral) pescador; advogada/assistente/delegado giram entre Safira, Ametista, Jade.
 - Rodar: `node farol.mjs --advogado Azul|Roxo|Verde` (mesmas variáveis do jogo.mjs). Caso: `farol_caso.mjs`.
+
+## VERSÃO 3 (17/11): ASSASSINATO NO MUSEU DO FAROL (caso sério, com humor nos personagens)
+- O crime agora é um assassinato: a restauradora Lia Moraes, que tinha achado o compartimento secreto, é morta no
+  salão da lente; a ré é a filha do faroleiro. A vítima deixa uma mensagem riscada no chão (âncora dentro de um
+  círculo): a promotoria diz que é o pingente de âncora da ré; na verdade é o ANEL de âncora do patrocinador.
+- Humor nos personagens: delegado comilão de teorias absurdas, vigia torcedor fanático, pescador contador de causos,
+  assistente palpiteira, juiz teatral, promotor vaidoso. A investigação e o julgamento seguem sérios.
+- Regras como no jogo: acusação aceita no DIA 2 só vira SUSPEITA e o julgamento é adiado; condenação só no dia 4. O
+  juiz é rigoroso: só aceita prova MATERIAL ligando a pessoa ao crime (ou confissão).
+- Juiz = Ametista (DeepSeek, pela API própria do DeepSeek). O MiniMax saiu do papel de juiz (aceitou acusação
+  fraca e embaralhou a fala no teste). Esforço de raciocínio ALTO também para Haiku e Sonnet (a ponte agora repassa
+  `--effort` ao `claude -p`).
+- 2 rodadas (pedido do Felipe): advogada Safira (Sonnet) e advogada Jade (Qwen 27B).
