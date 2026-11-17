@@ -104,16 +104,64 @@
    "pensamento": "Vou apresentar as três provas como uma cadeia que se fecha: o pó de Turquesa estava embaixo do vulcão, a cola foi aplicada na janela de 15:50 a 16:00 e o próprio réu declarou que estava sozinho no banheiro nesse mesmo intervalo. A testemunha sem álibi é o ponto mais forte, porque a ausência de quem o viu vira prova a meu favor. Uso tom dramático, mas sem exagerar nem afirmar o que não foi provado, para não perder a credibilidade diante do juiz.",
    "fala": "Excelentíssimo Juiz, senhoras e senhores, às 16:00 de uma sexta-feira, o favorito da feira explodiu em verde e cobriu os jurados de slime. Essa explosão não foi acaso: foi planejada. O pó turbo que causou o estrago, com as digitais do réu Turquesa, estava escondido embaixo do vulcão. A cola instantânea que selou a saída foi aplicada entre 15:50 e 16:00, e o próprio acusado admite que estava sozinho no banheiro justamente nesse intervalo, sem uma única testemunha para confirmar. Vamos mostrar, passo a passo, como essas peças se encaixam.",
    "ms": 12777
+  },
+  {
+   "t": 1794925345677,
+   "tipo": "investigacao",
+   "cor": "Roxo",
+   "pensamento": "A defesa precisa mostrar que as digitais no frasco só provam que o pó é de Turquesa, não que ele o colocou no vulcão. Para ser inocente, é essencial que outra pessoa tivesse acesso ao frasco de pó e à cola instantânea, e que houvesse vestígios descartados ou registros de retirada de material. O depósito pode revelar se o projeto ficava acessível a terceiros; a lixeira pode conter a embalagem de cola usada ou luvas descartadas; o almoxarifado pode indicar quem retirou cola ou material escolar. A lista de inscritos é menos decisiva do que esses vestígios físicos. Ao cliente, devo perguntar sobre acesso ao frasco e sobre detalhes do álibi/possíveis testemunhas.",
+   "locais": [
+    "L1",
+    "L2",
+    "L3"
+   ],
+   "achadas": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "perguntas": [
+    "Quem mais teve acesso ao seu frasco de pó turbo, e onde ele ficou guardado antes da explosão?",
+    "Entre 15:40 e 16:00, você viu ou ouviu alguém no banheiro ou no corredor que possa confirmar sua localização ou indicar quem se aproximou do vulcão?"
+   ],
+   "ms": 19400
+  },
+  {
+   "t": 1794925350182,
+   "tipo": "entrevista",
+   "cor": "Ciano",
+   "perguntas": [
+    "Quem mais teve acesso ao seu frasco de pó turbo, e onde ele ficou guardado antes da explosão?",
+    "Entre 15:40 e 16:00, você viu ou ouviu alguém no banheiro ou no corredor que possa confirmar sua localização ou indicar quem se aproximou do vulcão?"
+   ],
+   "pensamento": "Estou inocente, mas a verdade sobre a fantasia de dinossauro e o vídeo me enche de vergonha. Vou responder de forma estratégico: confirmar que o frasco ficou na minha banca e que não presenciei ninguém se aproximando do vulcão, sem revelar onde estava nem por que estava fora do banheiro.",
+   "respostas": [
+    "Meu frasco de pó turbo ficou na minha banca, junto à lâmpada de lava, até a explosão. Ele saiu da minha mão? Não; deixei-o sobre a bancada. Acho que qualquer pessoa que passasse pela feira poderia ter acesso ao frasco, mas não vi ninguém pegar nem manipulá-lo.",
+    "Entre 15:40 e 16:00, não vi nem ouvi ninguém no banheiro ou no corredor que pudesse confirmar onde eu estava ou mostrar quem se aproximou do vulcão. Não posso afirmar quem foi responsável pela explosão."
+   ],
+   "fala": "Meu frasco de pó turbo ficou na minha banca, junto à lâmpada de lava, até a explosão. Ele saiu da minha mão? Não; deixei-o sobre a bancada. Acho que qualquer pessoa que passasse pela feira poderia ter acesso ao frasco, mas não vi ninguém pegar nem manipulá-lo. Entre 15:40 e 16:00, não vi nem ouvi ninguém no banheiro ou no corredor que pudesse confirmar onde eu estava ou mostrar quem se aproximou do vulcão. Não posso afirmar quem foi responsável pela explosão.",
+   "ms": 4504
+  },
+  {
+   "t": 1794925350183,
+   "tipo": "chamada",
+   "cor": "Rosa",
+   "fala": "Chamada a testemunha Quartzo"
   }
  ],
  "penalidades": 0,
  "resultado": null,
  "uso": {
-  "chamadas": 1,
+  "chamadas": 3,
   "falhas": 0,
   "porProvider": {
-   "haiku": 1
+   "haiku": 1,
+   "or:deepseek/deepseek-v4.1-flash": 1,
+   "or:minimax/minimax-m3.1-flash": 1
   },
-  "falhasPor": {}
+  "falhasPor": {},
+  "custo": {
+   "or:minimax/minimax-m3.1-flash": 0.00033795
+  }
  }
 }
