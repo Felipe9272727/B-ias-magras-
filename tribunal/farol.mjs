@@ -71,13 +71,18 @@ async function assistente(momento) {
   ev({ tipo: 'assistente', cor: P.assistente, pensamento: r.pensamento, fala: r.fala, ms: r._ms })
 }
 
-async function investigacao(n) {
+async function investigacao(n, s0 = 0) {
+  const E = n === 1 ? 0 : 2
   const lugares = n === 1 ? LOCAIS[1] : [...LOCAIS[1], ...LOCAIS[3]]
   const examinados = new Set(log.eventos.filter((e) => e.tipo === 'examinar').map((e) => e.local))
+  if (s0 === 0) {
+  checkpoint({ e: E, s: 0 })
   ev({ tipo: 'dia', fala: n === 1 ? 'DIA 1 — INVESTIGAÇÃO' : 'DIA 3 — INVESTIGAÇÃO (a perícia liberou resultados novos)' })
-  if (n === 3) { const pf = registro.find((p) => p.id === 'PF3'); pf.desc += ' Hoje apareceu com a mão direita enfaixada.' }
+  if (n === 3) { const pf = registro.find((p) => p.id === 'PF4'); pf.desc += ' Hoje apareceu com a mão direita enfaixada.' }
   await assistente(n === 1 ? 'Começo da investigação. A cliente foi presa hoje de manhã, acusada de assassinato.' : `O julgamento foi adiado. Mais um dia de investigação antes do veredito.${suspeito ? ` O juiz suspeita de ${nome(suspeito)}, mas quer uma PROVA DECISIVA.` : ''}`)
-  for (let a = 1; a <= ACOES_INVEST; a++) {
+  }
+  for (let a = Math.max(1, s0); a <= ACOES_INVEST; a++) {
+    checkpoint({ e: E, s: a })
     const r = await chamar(P.advogado, `${cab()}\nVocê é ${nomeP('advogado')}, ADVOGADA DE DEFESA de Quartzo. DIA ${n} — INVESTIGAÇÃO. Ação ${a} de ${ACOES_INVEST}. Paciência do juiz: ${log.paciencia} de ${PACIENCIA}.\nREGISTRO DA DEFESA (provas e perfis):\n${regTxt()}\nLUGARES: ${lugares.map((l) => `${l.id}: ${l.nome}${examinados.has(l.id) ? ' (já examinado)' : ''}`).join('; ')}\nPESSOAS para conversar: ${['reu', 'vigia', 'pescador', 'delegado', 'culpado'].map((k) => `${nomeP(k)} (${FUNC[k]})`).join('; ')}.\nCADEADOS DE SEGREDO: ${statusLocks()}. (Quem esconde algo tem cadeados; cada prova CERTA apresentada a essa pessoa quebra um; prova errada custa 1 de paciência.)\nO QUE JÁ ACONTECEU:\n${trans(14, (e) => e.dia === n || e.tipo === 'nova_prova')}\nEscolha UMA ação:\n- "examinar" um lugar (campo "local");\n- "conversar" com uma pessoa (campos "pessoa" e "pergunta");\n- "apresentar" uma prova/perfil a uma pessoa (campos "pessoa", "prova" e "fala");\n- "encerrar" o dia.\nPense: o que precisa ser verdade para Quartzo ser inocente? Quem mente? O que a mensagem da vítima quer dizer? O que aconteceu há 15 anos?\nJSON: {"pensamento":"seu raciocínio","acao":"examinar|conversar|apresentar|encerrar","local":"L?","pessoa":"nome","prova":"id","pergunta":"...","fala":"..."}`, { effort: 'high', mock: mockJ({ acao: ['examinar', 'conversar', 'apresentar'][a % 3], local: lugares[a % lugares.length].id, pessoa: nomeP(['reu', 'vigia', 'pescador'][a % 3]), prova: ['E4', 'P3', 'E3', 'E7', 'E6'][a % 5], pergunta: 'O que você viu?', fala: 'Explique isso!' }) })
     const acao = String(r.acao ?? '').toLowerCase()
     if (acao.startsWith('encerr')) { ev({ tipo: 'encerrar', cor: P.advogado, pensamento: r.pensamento, fala: r.fala ?? 'Encerro o dia.' }); break }
@@ -135,6 +140,7 @@ async function promotor(dados) {
 }
 
 let fim = null, passado = null, suspeito = null, adiar = false
+function checkpoint(ponto) { log._snap = { ponto, nEventos: log.eventos.length, paciencia: log.paciencia, dia, registro: JSON.parse(JSON.stringify(registro)), locks: JSON.parse(JSON.stringify(locks)), suspeito, adiar, passado }; salvar() }
 async function interrogatorio(cor) {
   ev({ tipo: 'chamada', cor, fala: `Testemunha: ${nome(cor)} (${FUNC[papelDe(cor)]})` })
   let { r, decl } = await testemunho(cor, 'Dê seu DEPOIMENTO em 4 a 5 declarações curtas (cada uma um fato).')
@@ -186,12 +192,17 @@ async function interrogatorio(cor) {
   }
 }
 
-async function julgamento(n) {
-  dia = n
+async function julgamento(n, s0 = 0) {
+  dia = n; adiar = false
+  const E = n === 2 ? 1 : 3
+  if (s0 === 0) {
+  checkpoint({ e: E, s: 0 })
   ev({ tipo: 'dia', fala: n === 2 ? 'DIA 2 — JULGAMENTO' : 'DIA 4 — JULGAMENTO FINAL' })
   const ab = await chamar(P.promotor, `${cab()}\n${SABE.promotor}\nREGISTRO DO TRIBUNAL:\n${regTxt(false)}\n${n === 2 ? 'Faça a ABERTURA do julgamento: acuse a ré, com teatro.' : `Retome o julgamento no dia final, confiante.${suspeito ? ` (No dia 2 o tribunal passou a suspeitar de ${nome(suspeito)}, mas faltou prova decisiva.)` : ''}`}\nJSON: {"pensamento":"...","fala":"..."}`, { mock: mockJ({ fala: 'A ré é culpada!' }) })
   ev({ tipo: 'abertura', cor: P.promotor, pensamento: ab.pensamento, fala: ab.fala, ms: ab._ms })
-  for (const k of n === 2 ? ['vigia', 'culpado'] : ['culpado', 'pescador']) { if (fim || adiar) break; await interrogatorio(P[k]) }
+  }
+  const ts = n === 2 ? ['vigia', 'culpado'] : ['culpado', 'pescador']
+  for (let i = Math.max(0, s0 - 1); i < ts.length; i++) { if (fim || adiar) break; checkpoint({ e: E, s: i + 1 }); await interrogatorio(P[ts[i]]) }
   if (!fim && n === 2) { ev({ tipo: 'adiado', cor: P.juiz, fala: 'O tribunal precisa de mais provas. Julgamento adiado: nova investigação.' }); await assistente('O julgamento foi adiado para mais investigação.') }
 }
 
@@ -204,11 +215,30 @@ async function veredito() {
 }
 
 console.log(`== ${TITULO} | defesa ${nomeP('advogado')} (${IAS[P.advogado].modelo}) x culpado ${nomeP('culpado')} | juiz ${nomeP('juiz')}`)
-await investigacao(1)
-await julgamento(2)
-if (!fim) { dia = 3; await investigacao(3) }
-if (!fim) await julgamento(4)
-if (!fim) await veredito()
+// RETOMADA (--retomar): volta ao último ponto salvo (antes da ação de investigação ou da testemunha em andamento),
+// descartando o que veio depois dele. Sobrevive a reinícios da sessão (o processo morre, o log fica).
+let inicio = { e: 0, s: 0 }
+if (process.argv.includes('--retomar') && fs.existsSync(SAIDA)) {
+  const old = JSON.parse(fs.readFileSync(SAIDA, 'utf8'))
+  const sn = old._snap
+  if (sn) {
+    log.eventos = old.eventos.slice(0, sn.nEventos); log.paciencia = sn.paciencia; dia = sn.dia
+    registro.splice(0, registro.length, ...sn.registro)
+    for (const k of Object.keys(locks)) Object.assign(locks[k], sn.locks[k])
+    suspeito = sn.suspeito; adiar = sn.adiar; passado = sn.passado
+    uso.custo = { ...(old.uso?.custo ?? {}) }; uso.chamadas = old.uso?.chamadas ?? 0
+    inicio = sn.ponto
+    console.log(`RETOMANDO em etapa ${inicio.e}, passo ${inicio.s} (${log.eventos.length} eventos mantidos)`)
+  }
+}
+for (let e = inicio.e; e < 5 && !fim; e++) {
+  const s = e === inicio.e ? inicio.s : 0
+  if (e === 0) await investigacao(1, s)
+  else if (e === 1) await julgamento(2, s)
+  else if (e === 2) { dia = 3; await investigacao(3, s) }
+  else if (e === 3) await julgamento(4, s)
+  else { checkpoint({ e: 4, s: 0 }); await veredito() }
+}
 if (fim.veredito === 're_inocente' && fim.acusado === P.culpado) {
   const c = await chamar(P.culpado, `${cab()}\n${sub(SABE.culpado)}\nO tribunal considerou provado que VOCÊ é o culpado de HOJE${passado?.acertou ? ', e também do que você fez há 15 anos' : ' (o caso de 15 anos atrás NÃO foi provado: não fale dele)'}. Última fala de personagem desmascarado (curta e dramática).\nJSON: {"pensamento":"...","fala":"..."}`, { mock: mockJ({ fala: 'Nããão!' }) })
   ev({ tipo: 'desmascarado', cor: P.culpado, pensamento: c.pensamento, fala: c.fala, ms: c._ms })
