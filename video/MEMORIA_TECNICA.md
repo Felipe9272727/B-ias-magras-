@@ -162,3 +162,20 @@ Render rápido (22 min de vídeo: quadros em ~3 min, total ~25 min com mix e upl
 - O limite do Fable acabou. Até o Felipe assinar o plano Ultra, storyboard + direção + composição visual ficam com um
   sub-agente **Opus** (Agent com model "opus" e effort "xhigh" ou "max"), seguindo `video/GUIA_ESTILO_FABLE.md`.
 - Mesmo fluxo: Sonnet faz o pacote -> Opus (no estilo do Fable) faz storyboard/visual -> eu monto, renderizo e mixo.
+
+## Feedback do público nos posts (17/11) — vale para TODOS os vídeos
+Fonte: comentários dos posts de feedback (`video/youtube/feedback/comentarios_posts_17nov.txt`; ler com
+`node video/scripts/posts_comunidade_pw.js <postId>...`, porque a API do YouTube dá 403 e o yt-dlp não lê posts).
+- AMONG IA VAI TER RESET (decisão do Felipe no post): poucas funções por episódio, regras simples como nos primeiros,
+  frequência menor, funções novas escolhidas por ENQUETE. Mostrar melhor o raciocínio das IAs e como cada decisão
+  muda o jogo, sem inventar nada. "Funções demais, não parece mais Among Us, confuso" (@Pursuer_M4 5 likes, @Lucss144,
+  @ademirwilson2677, @gabrieltorres2227). Máximo ~12 IAs ("difícil memorizar o que cada IA fez", @cltnoob).
+- Rotacionar funções: cada episódio com um conjunto pequeno diferente (@PablixgJw, @gabrieltorres2227).
+- HUMOR e linha de raciocínio: "falta um roteiro, parece brainrot às vezes" (@Imperio269); "coloque humor" (@FAMILIAGMS).
+- Thumbnail feita com IA está GENÉRICA (@Pursuer_M4): thumb precisa mostrar o momento real do vídeo, com elementos
+  específicos da partida, não robôs genéricos.
+- Não repetir sempre as mesmas IAs (@chaoimovelradicaI); 30 min é demais (@FAMILIAGMS).
+- PEDIDO FORTE: parte 2 do Interrogatório (6 IAs, pensamentos à mostra, "a IA treinando k-pop") — casa com o Tribunal.
+- Elogios: Gartic "MT daora"; quem comenta gosta dos experimentos novos (Gartic, Pokémon, Confiança).
+- Ideias soltas: Among com IAs + 1 humano (@eloiseboatto), Undertale, Roblox, funções (Feiticeiro da morte, Curioso,
+  Escalador) para a enquete.
