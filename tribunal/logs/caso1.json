@@ -1,0 +1,119 @@
+{
+ "caso": 1,
+ "id": "bolo",
+ "titulo": "O Bolo Apimentado",
+ "papeis": {
+  "advogado": {
+   "cor": "Verde",
+   "nome": "Jade",
+   "modelo": "Qwen 3.8 27B"
+  },
+  "promotor": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  },
+  "juiz": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "reu": {
+   "cor": "Amarelo",
+   "nome": "Topázio",
+   "modelo": "GPT-6 Luna"
+  },
+  "culpado": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  },
+  "ta": {
+   "cor": "Rosa",
+   "nome": "Quartzo",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  "tb": {
+   "cor": "Lima",
+   "nome": "Peridoto",
+   "modelo": "Mistral Small"
+  }
+ },
+ "resumo": "No Concurso de Bolos da Vila, o bolo de brigadeiro da Dona Cotinha (o favorito) estava cheio de pimenta-fantasma. O jurado provou às 14:30, ficou vermelho e chorou, e a Dona Cotinha foi desclassificada. O acusado é Topázio, confeiteiro rival.",
+ "provas": [
+  {
+   "id": "P1",
+   "nome": "Frasco de pimenta",
+   "desc": "Frasco vazio de pimenta-fantasma em pó, achado na lixeira ao lado da bancada de Topázio."
+  },
+  {
+   "id": "P2",
+   "nome": "Foto das 14:10",
+   "desc": "Foto tirada por Quartzo: Topázio debruçado sobre a bancada da Dona Cotinha, horário 14:10."
+  },
+  {
+   "id": "P3",
+   "nome": "Laudo da perícia",
+   "desc": "A pimenta estava só na cobertura, espalhada por cima. A cobertura foi terminada às 14:15."
+  }
+ ],
+ "locais": [
+  {
+   "id": "L1",
+   "nome": "Vestiário dos ajudantes",
+   "prova": {
+    "id": "E1",
+    "nome": "Avental branco",
+    "desc": "Avental branco de ajudante com pó vermelho no bolso e cheiro forte de pimenta. Crachá preso nele: \"Âmbar\"."
+   }
+  },
+  {
+   "id": "L2",
+   "nome": "Portaria do salão",
+   "prova": {
+    "id": "E2",
+    "nome": "Registro da catraca",
+    "desc": "Catraca da portaria: Topázio saiu do salão às 14:12 e só voltou às 14:40."
+   }
+  },
+  {
+   "id": "L3",
+   "nome": "Bar do concurso",
+   "prova": {
+    "id": "E3",
+    "nome": "Caderno de apostas",
+    "desc": "Caderno do bar: \"Âmbar apostou R$ 50 que o bolo de morango do Seu Biu ganha\"."
+   }
+  },
+  {
+   "id": "L4",
+   "nome": "Mercadinho Bom Preço",
+   "prova": {
+    "id": "E4",
+    "nome": "Nota fiscal",
+    "desc": "Nota fiscal de sábado, 9:02: 1 pimenta-fantasma em pó, paga com cartão em nome de Âmbar."
+   }
+  }
+ ],
+ "verdade": "Você (Âmbar, ajudante do concurso, usa avental BRANCO como todos os ajudantes) apostou R$ 50 no bar que o bolo de morango do Seu Biu ia ganhar. Às 9:02 comprou pimenta-fantasma em pó no Mercadinho Bom Preço com o seu cartão. A Dona Cotinha terminou a cobertura às 14:15 e foi ao banheiro das 14:20 às 14:25. Às 14:22 você espalhou a pimenta na cobertura do bolo dela, guardou um pouco de pó no bolso do avental e depois jogou o frasco vazio na lixeira ao lado da bancada de Topázio, para incriminar ele. Seu avental ficou no vestiário dos ajudantes. Topázio (que usa avental VERDE) passou pela bancada às 14:10 só para espiar e saiu do salão às 14:12.",
+ "eventos": [
+  {
+   "t": 1794925317758,
+   "tipo": "abertura",
+   "cor": "Roxo",
+   "pensamento": "Abrir com a rivalidade como móvel, fixar a oportunidade pela foto das 14:10 e conectar o frasco na lixeira ao laudo que mostra pimenta só na cobertura finalizada às 14:15. Estratégia: plantar desde já a sequência lógica e a imagem teatral do jurado em chamas, sem antecipar todos os detalhes probatórios.",
+   "fala": "Senhoras e senhores do júri, no sábado, às 14h30, o Concurso de Bolos da Vila virou cena de tragédia: o favorito bolo de brigadeiro da Dona Cotinha incendiou a boca do jurado, e a desclassificação veio como fumaça. A acusação demonstrará que não foi acidente, mas sabotagem — e que o rival Topázio tinha motivo, oportunidade e os meios. Às 14h10, ele foi fotografado debruçado sobre a bancada da Dona Cotinha; o frasco vazio de pimenta-fantasma apareceu na lixeira ao lado da bancada dele; e a perícia revela que a pimenta foi espalhada apenas por cima, na cobertura terminada às 14h15. A sequência é tão clara quanto ardida: Topázio não apenas competiu — ele temperou a derrota alheia. A acusação provará que o bolo apimentado foi obra de uma mão rival, e que essa mão tem nome.",
+   "ms": 4262
+  }
+ ],
+ "penalidades": 0,
+ "resultado": null,
+ "uso": {
+  "chamadas": 1,
+  "falhas": 0,
+  "porProvider": {
+   "or:deepseek/deepseek-v4.1-flash": 1
+  },
+  "falhasPor": {}
+ }
+}

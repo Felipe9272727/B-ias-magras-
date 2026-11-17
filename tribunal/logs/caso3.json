@@ -1,0 +1,119 @@
+{
+ "caso": 3,
+ "id": "slime",
+ "titulo": "O Vulcão de Slime",
+ "papeis": {
+  "advogado": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  },
+  "promotor": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "juiz": {
+   "cor": "Lima",
+   "nome": "Peridoto",
+   "modelo": "Mistral Small"
+  },
+  "reu": {
+   "cor": "Ciano",
+   "nome": "Turquesa",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  "culpado": {
+   "cor": "Azul",
+   "nome": "Safira",
+   "modelo": "Claude Sonnet"
+  },
+  "ta": {
+   "cor": "Rosa",
+   "nome": "Quartzo",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  "tb": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  }
+ },
+ "resumo": "Na final da Feira de Ciências, às 16:00, o vulcão do time da Lara (o favorito) explodiu e cobriu os jurados de slime verde. O time do foguete ganhou. O acusado é Turquesa, aluno de outro time.",
+ "provas": [
+  {
+   "id": "P1",
+   "nome": "Frasco de pó turbo",
+   "desc": "Frasco de pó efervescente turbo achado embaixo do vulcão, com as digitais de Turquesa. O pó é do projeto dele (lâmpada de lava)."
+  },
+  {
+   "id": "P2",
+   "nome": "Laudo da cola",
+   "desc": "A saída do vulcão foi colada com cola instantânea entre 15:50 e 16:00 (às 16:05 a cola ainda estava mole)."
+  },
+  {
+   "id": "P3",
+   "nome": "Depoimento do réu",
+   "desc": "Depoimento escrito de Turquesa: \"Das 15:40 às 16:00 eu estava no banheiro.\" Ninguém o viu lá."
+  }
+ ],
+ "locais": [
+  {
+   "id": "L1",
+   "nome": "Depósito de materiais",
+   "prova": {
+    "id": "E1",
+    "nome": "Fantasia e vídeo",
+    "desc": "Uma fantasia de dinossauro suada e um tripé de celular. No celular de Turquesa: vídeo das 15:41 às 15:58, ele dançando fantasiado de dinossauro; pela janela, ao fundo, às 15:52, alguém de colete de MONITOR despeja algo no vulcão."
+   }
+  },
+  {
+   "id": "L2",
+   "nome": "Lixeira do pátio",
+   "prova": {
+    "id": "E2",
+    "nome": "Luvas de borracha",
+    "desc": "Luvas de borracha sujas de pó efervescente e cola, com o nome \"Safira\" escrito à caneta (luvas da equipe de monitores)."
+   }
+  },
+  {
+   "id": "L3",
+   "nome": "Almoxarifado",
+   "prova": {
+    "id": "E3",
+    "nome": "Registro da extensão",
+    "desc": "Registro do almoxarifado: a extensão foi retirada por Safira às 16:05."
+   }
+  },
+  {
+   "id": "L4",
+   "nome": "Lista de inscritos",
+   "prova": {
+    "id": "E4",
+    "nome": "Lista do time vencedor",
+    "desc": "Time do foguete (o vencedor): integrante \"Pedrinho, sobrinho do monitor Safira\"."
+   }
+  }
+ ],
+ "verdade": "Você (Safira, monitor da feira, usa colete de monitor) queria que o time do foguete do seu sobrinho Pedrinho ganhasse. Às 15:45 disse ao zelador que ia \"buscar uma extensão no almoxarifado\", mas foi até a banca vazia de Turquesa (lâmpada de lava), pegou o frasco de pó efervescente turbo dele e às 15:52 encheu o vulcão da Lara com o pó e colou a saída com cola instantânea, usando luvas de borracha. Às 15:55 jogou as luvas na lixeira do pátio e deixou o frasco embaixo do vulcão. Só às 16:05 pegou a extensão no almoxarifado. Às 16:00 o vulcão explodiu. Você também ajudou a julgar a feira e votou no foguete.",
+ "eventos": [
+  {
+   "t": 1794925326276,
+   "tipo": "abertura",
+   "cor": "Vermelho",
+   "pensamento": "Vou apresentar as três provas como uma cadeia que se fecha: o pó de Turquesa estava embaixo do vulcão, a cola foi aplicada na janela de 15:50 a 16:00 e o próprio réu declarou que estava sozinho no banheiro nesse mesmo intervalo. A testemunha sem álibi é o ponto mais forte, porque a ausência de quem o viu vira prova a meu favor. Uso tom dramático, mas sem exagerar nem afirmar o que não foi provado, para não perder a credibilidade diante do juiz.",
+   "fala": "Excelentíssimo Juiz, senhoras e senhores, às 16:00 de uma sexta-feira, o favorito da feira explodiu em verde e cobriu os jurados de slime. Essa explosão não foi acaso: foi planejada. O pó turbo que causou o estrago, com as digitais do réu Turquesa, estava escondido embaixo do vulcão. A cola instantânea que selou a saída foi aplicada entre 15:50 e 16:00, e o próprio acusado admite que estava sozinho no banheiro justamente nesse intervalo, sem uma única testemunha para confirmar. Vamos mostrar, passo a passo, como essas peças se encaixam.",
+   "ms": 12777
+  }
+ ],
+ "penalidades": 0,
+ "resultado": null,
+ "uso": {
+  "chamadas": 1,
+  "falhas": 0,
+  "porProvider": {
+   "haiku": 1
+  },
+  "falhasPor": {}
+ }
+}

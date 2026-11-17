@@ -1,0 +1,122 @@
+{
+ "caso": 2,
+ "id": "quadro",
+ "titulo": "O Quadro Trocado",
+ "papeis": {
+  "advogado": {
+   "cor": "Azul",
+   "nome": "Safira",
+   "modelo": "Claude Sonnet"
+  },
+  "promotor": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  },
+  "juiz": {
+   "cor": "Ciano",
+   "nome": "Turquesa",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  "reu": {
+   "cor": "Verde",
+   "nome": "Jade",
+   "modelo": "Qwen 3.8 27B"
+  },
+  "culpado": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "ta": {
+   "cor": "Amarelo",
+   "nome": "Topázio",
+   "modelo": "GPT-6 Luna"
+  },
+  "tb": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  }
+ },
+ "resumo": "O quadro mais valioso do Museu da Cidade, \"O Gato de Botas Azuis\", amanheceu trocado por uma cópia. O acusado é Jade, o vigia noturno, o único de plantão com a chave do salão.",
+ "provas": [
+  {
+   "id": "P1",
+   "nome": "Livro de ponto",
+   "desc": "Jade era o único vigia de plantão naquela noite e tinha a chave do salão."
+  },
+  {
+   "id": "P2",
+   "nome": "Foto do corredor",
+   "desc": "Câmera do corredor, 02:00: um vulto de capa de chuva amarela carregando um quadro."
+  },
+  {
+   "id": "P3",
+   "nome": "Laudo da cópia",
+   "desc": "A tinta da cópia ainda está fresca: ela foi pintada há menos de 3 dias."
+  }
+ ],
+ "locais": [
+  {
+   "id": "L1",
+   "nome": "Ateliê de restauração",
+   "prova": {
+    "id": "E1",
+    "nome": "Pincéis e tinta",
+    "desc": "Pincéis sujos com a mesma tinta azul da cópia e um tubo vazio de tinta de secagem rápida."
+   }
+  },
+  {
+   "id": "L2",
+   "nome": "Sala de segurança",
+   "prova": {
+    "id": "E2",
+    "nome": "Registro das câmeras",
+    "desc": "A câmera do SALÃO foi desligada às 01:50 e religada às 02:10 com a senha de administrador."
+   }
+  },
+  {
+   "id": "L3",
+   "nome": "Central de rádio",
+   "prova": {
+    "id": "E3",
+    "nome": "Gravação do rádio",
+    "desc": "Rádio dos vigias: Jade fala do TELHADO às 01:55 (\"a antena tá torta\") e às 02:05 (\"consertei, tô descendo\"). O boletim da central diz: noite seca, zero chuva."
+   }
+  },
+  {
+   "id": "L4",
+   "nome": "Guarda-volumes dos funcionários",
+   "prova": {
+    "id": "E4",
+    "nome": "Capa amarela",
+    "desc": "Capa de chuva amarela tamanho GG com o nome \"Rubi\" bordado. O uniforme de Jade é tamanho P."
+   }
+  }
+ ],
+ "verdade": "Você (Rubi, restaurador) pintou a cópia nos últimos 2 dias no ateliê, com tinta de secagem rápida. Na semana passada pediu a senha de administrador das câmeras à diretora, dizendo que era \"para atualizar o sistema\". Às 01:40 voltou ao museu dizendo à faxineira que tinha esquecido o celular. Às 01:50 desligou a câmera do salão com a senha, vestiu a SUA capa de chuva amarela tamanho GG (para esconder a roupa), trocou os quadros e às 02:00 passou pelo corredor (a câmera do corredor te pegou de costas). Religou a câmera às 02:10 e levou o original para casa. Guardou a capa no guarda-volumes. NÃO choveu naquela noite. O vigia Jade estava no telhado consertando a antena das 01:45 às 02:15.",
+ "eventos": [
+  {
+   "t": 1794925317230,
+   "tipo": "abertura",
+   "cor": "Laranja",
+   "pensamento": "Abertura teatral conectando as três provas: oportunidade (chave exclusiva), presença (vulto com capa amarela) e preparação pré-meditada (cópia fresca). Peço a pena máxima de dramaticidade.",
+   "fala": "Senhoras e senhores do júri, a madrugada de terça contou uma história de traição! O quadro mais valioso do Museu da Cidade não sumiu — ele foi TROCADO, por uma cópia pintada há menos de três dias. Quem tinha a única chave do salão? Jade. Quem apareceu às 02:00 carregando um quadro pelo corredor? Um vulto de capa amarela. A prova é fria, senhores, mas a ambição do réu era quente! Jade, o vigia que devia guardar as obras, guardava apenas o seu próprio interesse. Peço que este tribunal veja a verdade: o gato de botas azuis saiu por uma porta que só o réu podia abrir!",
+   "ms": 3733
+  }
+ ],
+ "penalidades": 0,
+ "resultado": null,
+ "uso": {
+  "chamadas": 1,
+  "falhas": 0,
+  "porProvider": {
+   "or:z-ai/glm-5.3-flash": 1
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:z-ai/glm-5.3-flash": 0.00018175
+  }
+ }
+}
