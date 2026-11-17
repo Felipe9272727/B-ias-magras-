@@ -143,13 +143,18 @@ async function promotor(dados) {
   return chamar(P.promotor, `${cab()}\n${SABE.promotor}\nREGISTRO:\n${regTxt(false)}\nO QUE JÁ FOI DITO:\n${trans(14, (e) => e.dia === 2 || e.dia === 4)}\n${dados}\nRebata em 1 ou 2 frases (pode gritar "Objeção!").\nJSON: {"pensamento":"...","fala":"..."}`, { mock: mockJ({ fala: 'Objeção! Isso é ridículo!' }) })
 }
 
-let fim = null, passado = null, suspeito = null, adiar = false
+let fim = null, passado = null, suspeito = null, adiar = false, retomoInterrog = null
 function checkpoint(ponto) { log._snap = { ponto, nEventos: log.eventos.length, paciencia: log.paciencia, dia, registro: JSON.parse(JSON.stringify(registro)), locks: JSON.parse(JSON.stringify(locks)), suspeito, adiar, passado }; salvar() }
-async function interrogatorio(cor) {
-  ev({ tipo: 'chamada', cor, fala: `Testemunha: ${nome(cor)} (${FUNC[papelDe(cor)]})` })
-  let { r, decl } = await testemunho(cor, 'Dê seu DEPOIMENTO em 4 a 5 declarações curtas (cada uma um fato).')
-  ev({ tipo: 'depoimento', cor, pensamento: r.pensamento, declaracoes: decl, ms: r._ms })
-  for (let i = 0; i < MAX_POR_TESTEMUNHA && !fim && !adiar; i++) {
+async function interrogatorio(cor, E, S, ret = null) {
+  let decl, i0 = 0
+  if (ret) { decl = ret.decl; i0 = ret.i } // retomada no meio do interrogatório (checkpoint a cada pergunta)
+  else {
+    ev({ tipo: 'chamada', cor, fala: `Testemunha: ${nome(cor)} (${FUNC[papelDe(cor)]})` })
+    const t = await testemunho(cor, 'Dê seu DEPOIMENTO em 4 a 5 declarações curtas (cada uma um fato).'); decl = t.decl
+    ev({ tipo: 'depoimento', cor, pensamento: t.r.pensamento, declaracoes: decl, ms: t.r._ms })
+  }
+  for (let i = i0; i < MAX_POR_TESTEMUNHA && !fim && !adiar; i++) {
+    checkpoint({ e: E, s: S, i, decl })
     const a = await chamar(P.advogado, `${cab()}\nVocê é ${nomeP('advogado')}, ADVOGADA DE DEFESA de Quartzo. DIA ${dia} — JULGAMENTO. Paciência do juiz: ${log.paciencia} de ${PACIENCIA} (zerou = cliente condenada).\nSEU REGISTRO (provas e perfis; as marcadas "só a defesa" o tribunal ainda não viu):\n${regTxt()}\nO QUE JÁ FOI DITO:\n${trans(18, (e) => e.dia === dia || e.tipo === 'nova_prova')}\nINTERROGATÓRIO de ${nome(cor)}. Depoimento atual:\n${decl.map((d, k) => `(${k + 1}) ${d}`).join('\n')}\nUMA ação:\n- "pressionar" uma declaração (Alto lá!): pergunta para tirar detalhes;\n- "objecao" (Objeção!): declaração que CONTRADIZ uma prova; errada = -1 de paciência;\n- "acusar" (Toma essa!): acusar alguém do crime de hoje com a prova decisiva; errada = -2;${dia === 4 ? '\n- "passado": provar quem trancou Anselmo e apagou o farol há 15 anos (campos "acusado" e "prova"); errado = -2;' : ''}\n- "proxima": dispensar a testemunha.\nPense com calma: onde está a contradição?\nJSON: {"pensamento":"seu raciocínio","acao":"pressionar|objecao|acusar${dia === 4 ? '|passado' : ''}|proxima","declaracao":numero,"prova":"id","acusado":"nome","fala":"o que você diz no tribunal"}`, { effort: 'high', mock: mockJ({ acao: ['pressionar', 'objecao', 'acusar', 'passado', 'proxima'][Math.floor(Math.random() * 5)], declaracao: 1, prova: 'E8', acusado: nomeP('culpado'), fala: 'Objeção!' }) })
     const acao = String(a.acao ?? '').toLowerCase()
     const prova = acharProva(a.prova)
@@ -206,7 +211,7 @@ async function julgamento(n, s0 = 0) {
   ev({ tipo: 'abertura', cor: P.promotor, pensamento: ab.pensamento, fala: ab.fala, ms: ab._ms })
   }
   const ts = n === 2 ? ['vigia', 'culpado'] : ['culpado', 'pescador']
-  for (let i = Math.max(0, s0 - 1); i < ts.length; i++) { if (fim || adiar) break; checkpoint({ e: E, s: i + 1 }); await interrogatorio(P[ts[i]]) }
+  for (let i = Math.max(0, s0 - 1); i < ts.length; i++) { if (fim || adiar) break; const ret = retomoInterrog && i === s0 - 1 ? retomoInterrog : null; retomoInterrog = null; if (!ret) checkpoint({ e: E, s: i + 1 }); await interrogatorio(P[ts[i]], E, i + 1, ret) }
   if (!fim && n === 2) { ev({ tipo: 'adiado', cor: P.juiz, fala: 'O tribunal precisa de mais provas. Julgamento adiado: nova investigação.' }); await assistente('O julgamento foi adiado para mais investigação.') }
 }
 
@@ -232,6 +237,7 @@ if (process.argv.includes('--retomar') && fs.existsSync(SAIDA)) {
     suspeito = sn.suspeito; adiar = sn.adiar; passado = sn.passado
     uso.custo = { ...(old.uso?.custo ?? {}) }; uso.chamadas = old.uso?.chamadas ?? 0
     inicio = sn.ponto
+    if (sn.ponto.i !== undefined && sn.ponto.decl) retomoInterrog = { i: sn.ponto.i, decl: sn.ponto.decl }
     console.log(`RETOMANDO em etapa ${inicio.e}, passo ${inicio.s} (${log.eventos.length} eventos mantidos)`)
   }
 }

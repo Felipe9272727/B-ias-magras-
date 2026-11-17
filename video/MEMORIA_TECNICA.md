@@ -184,4 +184,4 @@ Fonte: comentários dos posts de feedback (`video/youtube/feedback/comentarios_p
 - O reinício do worker da sessão matou os julgamentos e a ponte (filhos do shell). Regra: todo jogo longo precisa de
   CHECKPOINT e RETOMADA (`--retomar`), e roda destacado: `setsid nohup bash tribunal/rodar.sh <cor> &` (o rodar.sh
   relança o node com --retomar até sair o resultado e religa a ponte se ela cair). Ver `tribunal/farol.mjs`
-  (checkpoint antes de cada ação de investigação e de cada testemunha) e `tribunal/reconstruir_snap.mjs`.
+  (checkpoint antes de cada ação de investigação, de cada testemunha e de cada pergunta do interrogatório) e `tribunal/reconstruir_snap.mjs`.
