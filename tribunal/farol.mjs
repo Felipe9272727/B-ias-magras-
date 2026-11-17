@@ -127,13 +127,17 @@ async function testemunho(cor, pedido) {
   const r = await chamar(cor, `${cab()}\n${personagem(cor)}\nVocê está no BANCO DAS TESTEMUNHAS (dia ${dia}). REGISTRO DO TRIBUNAL (provas apresentadas):\n${regTxt(false)}\nO QUE JÁ FOI DITO NO TRIBUNAL:\n${trans(16, (e) => e.dia === 2 || e.dia === 4)}\n${pedido}\nJSON: {"pensamento":"o que você pensa (só você vê)","declaracoes":["...","...","...","..."]}`, { effort: papelDe(cor) === 'culpado' ? 'high' : 'medium', mock: mockJ({ declaracoes: ['Eu vi a ré.', 'Ela fugiu.', 'Tinha cacos.', 'Tenho certeza.'] }) })
   return { r, decl: (Array.isArray(r.declaracoes) ? r.declaracoes : []).map(String).filter(Boolean).slice(0, 6) }
 }
-async function juiz(dados, tipo) {
+async function juiz(dados, tipo, alvoNome = '') {
   const q = { objecao: 'A objeção PROCEDE se a prova realmente contradiz a declaração.\nJSON: {"pensamento":"...","decisao":"procede" ou "nao_procede","fala":"curta, em voz alta"}',
-    acusacao: `Seja RIGOROSO: a acusação só está PROVADA se uma prova MATERIAL liga diretamente essa pessoa a ${CRIME} (sangue, objeto pessoal, mensagem, documento) ou se ela confessar. Acesso, oportunidade, motivo ou uma mentira, sozinhos, NÃO bastam.\nJSON: {"pensamento":"...","decisao":"provado" ou "nao_provado","fala":"curta, em voz alta"}`,
-    passado: 'Está PROVADO que, há 15 anos, Anselmo foi trancado do lado de fora e que essa pessoa apagou o farol? Decida pelas provas.\nJSON: {"pensamento":"...","decisao":"provado" ou "nao_provado","fala":"curta, em voz alta"}' }[tipo]
-  const r = await chamar(P.juiz, `${cab()}\n${SABE.juiz}\nREGISTRO DO TRIBUNAL:\n${regTxt(false)}\nO QUE JÁ FOI DITO:\n${trans(16, (e) => e.dia === 2 || e.dia === 4)}\n${dados}\n${q}`, { effort: 'high', mock: mockJ({ decisao: Math.random() < 0.5 ? 'procede' : 'provado', fala: 'Decidido!' }) })
+    acusacao: `Seja RIGOROSO: a acusação só está PROVADA se uma prova MATERIAL liga diretamente essa pessoa a ${CRIME} (sangue, objeto pessoal, mensagem, documento) ou se ela confessar. Acesso, oportunidade, motivo ou uma mentira, sozinhos, NÃO bastam.\nJSON: {"pensamento":"...","sobre":"nome de quem você julgou","decisao":"provado" ou "nao_provado","fala":"curta, em voz alta"}`,
+    passado: 'Está PROVADO que, há 15 anos, Anselmo foi trancado do lado de fora e que essa pessoa apagou o farol? Decida pelas provas.\nJSON: {"pensamento":"...","sobre":"nome de quem você julgou","decisao":"provado" ou "nao_provado","fala":"curta, em voz alta"}' }[tipo]
+  // 17/11: o juiz confundiu a acusação da defesa contra o Rubi com a acusação contra a ré e disse "provado" (sobre a ré).
+  // Agora a pergunta nomeia o acusado e o juiz devolve "sobre": só vale se for a mesma pessoa.
+  const foco = tipo === 'objecao' ? '' : `\nATENÇÃO: você decide SOMENTE a tese da DEFESA contra ${alvoNome}. NÃO é sobre a ré Quartzo. "provado" quer dizer: está provado que ${alvoNome} ${tipo === 'passado' ? 'trancou Anselmo e apagou o farol há 15 anos' : `cometeu ${CRIME}`}. Inclua no JSON o campo "sobre" com o nome de quem você julgou.`
+  const r = await chamar(P.juiz, `${cab()}\n${SABE.juiz}\nREGISTRO DO TRIBUNAL:\n${regTxt(false)}\nO QUE JÁ FOI DITO:\n${trans(16, (e) => e.dia === 2 || e.dia === 4)}\n${dados}${foco}\n${q}`, { effort: 'high', mock: mockJ({ decisao: Math.random() < 0.5 ? 'procede' : 'provado', fala: 'Decidido!' }) })
   const d = String(r.decisao ?? '').toLowerCase()
-  return { ...r, ok: tipo === 'objecao' ? d.startsWith('proced') : d.startsWith('provad') }
+  const sobreOk = !alvoNome || !r.sobre || String(r.sobre).toLowerCase().includes(alvoNome.toLowerCase())
+  return { ...r, ok: tipo === 'objecao' ? d.startsWith('proced') : d.startsWith('provad') && sobreOk }
 }
 async function promotor(dados) {
   return chamar(P.promotor, `${cab()}\n${SABE.promotor}\nREGISTRO:\n${regTxt(false)}\nO QUE JÁ FOI DITO:\n${trans(14, (e) => e.dia === 2 || e.dia === 4)}\n${dados}\nRebata em 1 ou 2 frases (pode gritar "Objeção!").\nJSON: {"pensamento":"...","fala":"..."}`, { mock: mockJ({ fala: 'Objeção! Isso é ridículo!' }) })
@@ -176,7 +180,7 @@ async function interrogatorio(cor) {
         const def = await chamar(alvo, `${cab()}\n${personagem(alvo)}\nREGISTRO:\n${regTxt(false)}\nO QUE JÁ FOI DITO:\n${trans(16, (e) => e.dia === dia)}\n${dados}\nVocê foi acusado(a). Responda ao tribunal.${papelDe(alvo) === 'culpado' ? ' Se estiver totalmente encurralado, pode confessar.' : ''}\nJSON: {"pensamento":"...","fala":"...","confessa":false}`, { effort: papelDe(alvo) === 'culpado' ? 'high' : 'medium', mock: mockJ({ fala: 'Absurdo!', confessa: false }) })
         ev({ tipo: 'acusado_responde', cor: alvo, pensamento: def.pensamento, fala: def.fala, confessa: !!def.confessa, ms: def._ms })
         const pr = await promotor(`${dados}\n${a.acusado}: "${def.fala}"`); ev({ tipo: 'promotor', cor: P.promotor, pensamento: pr.pensamento, fala: pr.fala, ms: pr._ms })
-        const j = await juiz(`${dados}\n${a.acusado}: "${def.fala}"${def.confessa ? ' (CONFESSA)' : ''}.\nO promotor: "${pr.fala}".`, tipo)
+        const j = await juiz(`${dados}\n${a.acusado}: "${def.fala}"${def.confessa ? ' (CONFESSA)' : ''}.\nO promotor: "${pr.fala}".`, tipo, nome(alvo))
         ev({ tipo: 'juiz', cor: P.juiz, decisao: j.ok ? 'provado' : 'nao_provado', pensamento: j.pensamento, fala: j.fala, ms: j._ms, sobre: tipo })
         if (j.ok) {
           if (tipo === 'passado') { passado = { acusado: alvo, acertou: alvo === P.culpado }; continue }
