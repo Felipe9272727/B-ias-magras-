@@ -1,0 +1,365 @@
+{
+ "titulo": "O Caso do Farol Apagado",
+ "advogado": "Roxo",
+ "papeis": {
+  "culpado": {
+   "cor": "Vermelho",
+   "nome": "Rubi",
+   "modelo": "Claude Haiku"
+  },
+  "promotor": {
+   "cor": "Laranja",
+   "nome": "Âmbar",
+   "modelo": "GLM 5.3 Flash"
+  },
+  "juiz": {
+   "cor": "Ciano",
+   "nome": "Turquesa",
+   "modelo": "MiniMax M3.1 Flash"
+  },
+  "reu": {
+   "cor": "Rosa",
+   "nome": "Quartzo",
+   "modelo": "MiMo V2.6 Flash"
+  },
+  "vigia": {
+   "cor": "Amarelo",
+   "nome": "Topázio",
+   "modelo": "GPT-6 Luna"
+  },
+  "pescador": {
+   "cor": "Lima",
+   "nome": "Peridoto",
+   "modelo": "Mistral Small"
+  },
+  "advogado": {
+   "cor": "Roxo",
+   "nome": "Ametista",
+   "modelo": "DeepSeek V4.1 Flash"
+  },
+  "assistente": {
+   "cor": "Azul",
+   "nome": "Safira",
+   "modelo": "Claude Sonnet"
+  },
+  "delegado": {
+   "cor": "Verde",
+   "nome": "Jade",
+   "modelo": "Qwen 3.8 27B"
+  }
+ },
+ "resumo": "Vila de Pedra Alta, sábado à noite, festa de inauguração do Museu do Farol. Às 22:40 o vigia achou a LENTE ANTIGA do farol estilhaçada no chão do salão e um compartimento secreto da base aberto à força, vazio. A acusada é QUARTZO PRADO, filha do faroleiro Anselmo Prado, que há 15 anos foi condenado por deixar o farol apagado na noite em que o barco \"Estrela do Mar\" naufragou. Ela foi vista fugindo do museu e tinha dito em público: \"essa lente ainda vai contar a verdade\".",
+ "eventos": [
+  {
+   "t": 1794926288408,
+   "dia": 1,
+   "tipo": "dia",
+   "fala": "DIA 1 — INVESTIGAÇÃO"
+  },
+  {
+   "t": 1794926308202,
+   "dia": 1,
+   "tipo": "assistente",
+   "cor": "Azul",
+   "pensamento": "Dia 1, cliente presa. Como Safira, só sei o que a advogada sabe. Pistas: extintor e casaco com cacos, mas Quartzo disse que nunca entrou no salão. Anselmo foi 'trancado por fora' há 15 anos, e Rubi era o jovem engenheiro do porto, com anel de âncora. Vale um palpite animado e um pouco absurdo, mas com um fio útil: investigar a ligação com o naufrágio e a hora (22:35 vs 22:40).",
+   "fala": "Ametista, cabeça erguida: cliente presa não é cliente condenada! Meu palpite: se a lente 'ia contar a verdade' sobre o naufrágio, quem tinha medo dela não era a Quartzo, e aquele compartimento vazio me cheira a alguém que levou o segredo embora. Vamos puxar o caso do Anselmo, descobrir quem estava no porto naquela noite (e sim, vi o anel de âncora do Rubi, mas deve ser só moda marítima, né? hehe).",
+   "ms": 19793
+  },
+  {
+   "t": 1794926313264,
+   "dia": 1,
+   "tipo": "examinar",
+   "cor": "Roxo",
+   "local": "L1",
+   "nomeLocal": "Salão da lente",
+   "pensamento": "A acusação já tem prova material contra Quartzo (cacos no casaco, fuga). Mas o ponto central é o compartimento secreto esvaziado: se a lente 'ia contar a verdade', o conteúdo levado é a chave. Antes de confrontar testemunhas, preciso examinar o salão da lente e a base do farol para buscar marcas do arrombamento, resíduos, impressões ou qualquer vestígio de quem realmente abriu o compartimento.",
+   "fala": "",
+   "ms": 5062
+  },
+  {
+   "t": 1794926313265,
+   "dia": 1,
+   "tipo": "nova_prova",
+   "prova": "E1",
+   "nome": "Chave de fenda",
+   "fala": "Chave de fenda: Chave de fenda do kit de restauração, com marcas iguais às da base forçada. O armário do kit fica trancado e só abre com a CHAVE MESTRA do museu."
+  },
+  {
+   "t": 1794926338848,
+   "dia": 1,
+   "tipo": "examinar",
+   "cor": "Roxo",
+   "local": "L3",
+   "nomeLocal": "Sala de segurança",
+   "pensamento": "A chave de fenda só podia sair do armário do kit com a chave mestra, então preciso saber quem tinha acesso a ela e se o vigia estava mesmo no posto às 22:35. A sala de segurança pode conter registros, câmeras ou o quadro de chaves. Antes de confrontar alguém com a E1, vou examinar L3.",
+   "fala": "Vou examinar: Sala de segurança",
+   "ms": 25583
+  },
+  {
+   "t": 1794926338849,
+   "dia": 1,
+   "tipo": "nova_prova",
+   "prova": "E3",
+   "nome": "Livro de chaves e ponto",
+   "fala": "Livro de chaves e ponto: Só duas pessoas têm a CHAVE MESTRA: a diretora (viajando, fora da cidade) e o patrocinador Rubi. A ré não tem chave. A TV da sala ficou ligada na final do campeonato e o vigia só bateu o ponto de volta à ronda às 22:30."
+  },
+  {
+   "t": 1794926349702,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Vermelho",
+   "prova": "E3",
+   "pensamento": "A chave de fenda que forçou o compartimento só podia ser retirada do armário com a chave mestra. O livro de chaves mostra que a diretora está viajando e que Rubi é o único presente com a chave mestra. Rubi tinha o meio e a oportunidade; seu passado como engenheiro do porto e seu interesse em esconder a verdade da lente o tornam o suspeito central. Vou confrontá-lo com E3 para quebrar seu segredo antes que ele controle a narrativa.",
+   "fala": "Rubi, o livro de chaves e ponto é claro: só a diretora — que está fora da cidade — e você têm a chave mestra. A chave de fenda que forçou o compartimento secreto fica trancada num armário que só abre com essa chave. Como você explica que a ferramenta usada no crime só podia ter saído do armário com a sua chave?",
+   "ms": 10853
+  },
+  {
+   "t": 1794926367742,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Vermelho",
+   "pensamento": "A Ametista encontrou o livro de chaves, que eu não consigo apagar. Não posso negar que a chave mestra é minha, então tenho de dizer que ela estava acessível a outros. O livro registra quem devia ter a chave, não quem a usou. Meu chaveiro ficou no paletó, pendurado no cabideiro da entrada durante a festa. Ninguém vai sustentar que a chave de fenda só podia ter saído daquele armário pelas minhas mãos. Vou empurrar a suspeita para a Quartzo, que andou rondando a lente e anunciando que ela ia contar a verdade. Não posso mencionar o terraço nem a mão enfaixada.",
+   "fala": "Doutora Ametista, agradeço a atenção com que leu o livro. Mas um livro de chaves registra quem deveria ter a chave, não quem a pegou. Eu sou dono da minha chave mestra, sim, e ela estava no chaveiro do meu paletó, pendurado no cabideiro da entrada desde as oito da noite, junto com dezenas de convidados. Qualquer pessoa que passasse por ali poderia tirá-la, abrir o armário e devolvê-la antes que eu percebesse. E chave de fenda existe em qualquer caixa de ferramentas da vila, não é prova de nada. Se a senhora quer saber quem tinha motivo para abrir aquele compartimento, pergunte à senhorita Quartzo, que passou a semana inteira rondando a lente e dizendo em público que ela ia contar a verdade. Eu só quero que a verdade seja contada, e não por quem perdeu o pai por causa daquele farol.",
+   "ms": 18038
+  },
+  {
+   "t": 1794926377893,
+   "dia": 1,
+   "tipo": "conversar",
+   "cor": "Roxo",
+   "pessoa": "Lima",
+   "pensamento": "Preciso atacar o motivo de 15 anos. Rubi está usando a condenação do pai de Quartzo para incriminá-la e desviar de sua própria responsabilidade. A lente 'ia contar a verdade' sobre o naufrágio, e o compartimento secreto foi esvaziado — alguém tinha medo do que ali estava. Peridoto é um dos sobreviventes e pode revelar o que viu na noite do 'Estrela do Mar', quem estava no porto e qual era o papel de Rubi, que era engenheiro do porto e hoje patrocina o museu. Antes de pressionar Rubi de novo com a chave mestra, vou buscar o elo histórico que explica por que a lente foi destruída e o compartimento esvaziado.",
+   "fala": "Peridoto, o senhor sobreviveu ao naufrágio do 'Estrela do Mar'. O que realmente aconteceu naquela noite? O senhor viu se o farol foi apagado de propósito e quem estava no porto? E qual era a participação de Rubi, que na época era o jovem engenheiro do porto e hoje é patrocinador do museu?",
+   "ms": 10148
+  },
+  {
+   "t": 1794926382345,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Lima",
+   "pensamento": "...Essa pergunta mexe com tudo que enterrei há anos... Os cadeados ainda estão trancados... Não posso soltar nada agora... Melhor repetir o que sempre disse...",
+   "fala": "Não vi nada, só a tempestade naquela noite. Só o mar bravo e o medo.",
+   "ms": 4451
+  },
+  {
+   "t": 1794926382347,
+   "dia": 1,
+   "tipo": "cadeados",
+   "cor": "Lima",
+   "n": 2,
+   "fala": "Peridoto tem 2 cadeado(s) de segredo sobre \"o que ele viu na noite do naufrágio\""
+  },
+  {
+   "t": 1794926395288,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Lima",
+   "prova": "PF1",
+   "pensamento": "Preciso quebrar o segredo de Peridoto. O ponto central da defesa é que Anselmo foi trancado por fora e o farol apagado por outra pessoa. Apresentar o perfil de Anselmo a Peridoto pode fazê-lo revelar o que viu na noite do naufrágio, pois ele foi testemunha sobrevivente e pode confirmar a versão do faroleiro.",
+   "fala": "Peridoto, o senhor sobreviveu ao naufrágio do 'Estrela do Mar'. Anselmo Prado, pai da minha cliente, sempre disse que o trancaram por fora naquela noite. O senhor viu algo? Viu quem trancou a porta do farol ou quem mexeu na luz? Se o senhor sabe a verdade sobre o que aconteceu, agora é a hora de contar. Quem estava no porto e que viu Anselmo ser impedido de acender o farol?",
+   "ms": 12941
+  },
+  {
+   "t": 1794926395288,
+   "dia": 1,
+   "tipo": "penalidade",
+   "fala": "Prova errada no cadeado: paciência do juiz 5 de 6"
+  },
+  {
+   "t": 1794926402072,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Lima",
+   "pensamento": "...Aqueles olhos... aquele anel dourado... mas não posso contar, não agora. A culpa me sufoca há quinze anos, mas ainda não é hora. Os cadeados estão firmes... só falta o jornal e a página queimada...",
+   "fala": "Não vi nada naquela noite, só a tempestade que levou meu barco e meus companheiros. Não vi homem nenhum, não vi anel dourado, não vi ninguém trancando porta alguma. Só a escuridão e as ondas batendo nas pedras. Não posso ajudar nessa investigação, não tenho o que dizer.",
+   "ms": 6783
+  },
+  {
+   "t": 1794926407820,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Lima",
+   "prova": "PF3",
+   "pensamento": "Peridoto negou espontaneamente ter visto um 'anel dourado' que ninguém havia mencionado. Isso é indício de que ele viu Rubi no porto na noite do naufrágio. Apresentar o perfil de Rubi, com o anel de âncora, é a prova certa para pressionar Peridoto e quebrar um dos cadeados do segredo.",
+   "fala": "Peridoto, o senhor acabou de dizer que não viu anel dourado algum — mas eu não mencionei anel. Esse anel existe e é conhecido na vila: Rubi, o jovem engenheiro do porto na época e hoje patrocinador do museu, usa até hoje um anel dourado de âncora. Se o senhor estava no porto naquela noite e viu Rubi, precisa contar agora. O que Rubi fazia perto do farol quando o 'Estrela do Mar' naufragou?",
+   "ms": 5746
+  },
+  {
+   "t": 1794926407821,
+   "dia": 1,
+   "tipo": "penalidade",
+   "fala": "Prova errada no cadeado: paciência do juiz 4 de 6"
+  },
+  {
+   "t": 1794926410378,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Lima",
+   "pensamento": "Ametista está tentando me fazer cair em contradição, mas ela mesma admitiu que não mencionei anel algum antes. Meu segredo ainda está trancado pelos dois cadeados - não posso revelar nada até ver aquele jornal e a página queimada. Preciso negar com firmeza e manter minha história de que só vi a tempestade naquela noite.",
+   "fala": "Senhora advogada, com todo respeito, o senhor não mencionou anel nenhum quando eu dei meu depoimento. Eu disse claramente que só vi a tempestade naquela noite negra. Não vi homem nenhum, não vi anel nenhum, não vi barco nenhum entrando na enseada. Só tempestade, só ondas, só escuridão. Não tenho mais nada a declarar além disso.",
+   "ms": 2557
+  },
+  {
+   "t": 1794926420783,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Lima",
+   "prova": "PF3",
+   "pensamento": "Peridoto já se contradisse ao negar espontaneamente ter visto 'anel dourado', algo que ninguém havia mencionado antes. Isso indica que ele viu Rubi — reconhecível pelo anel de âncora — na noite do naufrágio. A apresentação anterior foi apenas argumentação oral, sem vincular formalmente a prova PF3; agora devo apresentar o perfil de Rubi como prova para quebrar o cadeado de segredo de Peridoto e extrair o que ele realmente viu.",
+   "fala": "Peridoto, o senhor negou ter visto um 'anel dourado' antes mesmo de eu mencionar qualquer anel. Esse anel existe: é o anel dourado de âncora que Rubi usa até hoje, e que ele já usava quando era o jovem engenheiro do porto na noite do naufrágio. O senhor não viu 'nada', mas citou justamente o anel e alguém trancando uma porta. Agora eu lhe apresento formalmente quem é Rubi: o homem do anel de âncora, o mesmo que hoje patrocina o museu e que tinha a chave mestra. O senhor viu Rubi perto do farol naquela noite? O que ele fez? É hora de contar a verdade que o senhor guardou por quinze anos.",
+   "ms": 10404
+  },
+  {
+   "t": 1794926420784,
+   "dia": 1,
+   "tipo": "penalidade",
+   "fala": "Prova errada no cadeado: paciência do juiz 3 de 6"
+  },
+  {
+   "t": 1794926426661,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Lima",
+   "pensamento": "Eles estão chegando perto demais... aquele anel dourado... lembro bem daquele maldito anel... mas ainda não posso contar... os cadeados ainda estão fechados... preciso manter a história de que só vi a tempestade... não posso deixar que descubram... não agora...",
+   "fala": "Senhora advogada, lamento, mas continuo dizendo o mesmo que disse desde o início: naquela noite, só vi a tempestade. Não vi ninguém, não vi anel nenhum, não vi porta trancando. Só escuridão e ondas. Se o senhor Rubi usa um anel hoje, não sei dizer. Naquele dia, só havia o mar bravo e meu barco se despedaçando. Não vi nada além disso.",
+   "ms": 5877
+  },
+  {
+   "t": 1794926436638,
+   "dia": 1,
+   "tipo": "conversar",
+   "cor": "Roxo",
+   "pessoa": "Rosa",
+   "pensamento": "A paciência do juiz está baixa; insistir com Peridoto sem prova certeira pode custar caro. Preciso ouvir minha cliente sobre a contradição central: ela negou ter entrado no salão, mas havia cacos no casaco, e fugiu às 22:35 antes de a lente ser encontrada às 22:40. A explicação dela pode revelar quem plantou os cacos ou por que ela estava no museu.",
+   "fala": "Quartzo, preciso que me explique com calma: você declarou à polícia que nunca entrou no salão da lente, mas seu casaco foi encontrado com cacos nos bolsos e na barra, e o vigia diz que você saiu correndo pela porta dos fundos às 22:35 — cinco minutos antes de a lente ser encontrada quebrada às 22:40. Onde você estava exatamente entre 22:20 e 22:35? Você entrou no salão, chegou a tocar na lente ou passar perto dela? Quem mais teve acesso ao seu casaco naquela noite? E por que fugiu em vez de chamar alguém?",
+   "ms": 9976
+  },
+  {
+   "t": 1794926440522,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Rosa",
+   "pensamento": "A advogada ainda não me mostrou nem a carta do meu pai nem o meu casaco com os cacos — os dois cadeados ainda estão firmes. Não posso admitir nada. Tenho que negar ter entrado no salão e desviar o assunto, como sempre fiz. Respira, Quartzo. Você prometeu ao pai que só contaria quando estivesse seguro.",
+   "fala": "Doutora Ametista, eu já disse à polícia e repito a você: eu não entrei no salão da lente. Nunca estive lá dentro. Aquele casaco... aquele casaco eu usei a noite inteira na festa, dançando, circulando pela multidão — é óbvio que pega sujeira, poeira, pedaculos de vidro, o chão da festa estava cheio de cacos de taça quebrada, ninguém tinha cuidado de varrer. Quanto ao vigia, Topázio, ele mal enxerga no escuro, está cego da metade para lá, deve ter visto qualquer um correndo e já jogueu a culpa em mim por causa do meu pai. E sobre fugir: eu não fugi, saí pela porta dos fundos porque estava com medo daquela multidão bêbada, já era tarde e eu não queria mais festa nenhuma. Onde eu estava entre 22:20 e 22:35? Caminhando no jardim, respirando ar fresco, pensando na minha vida. Diga-me uma coisa, doutora: quem mais teve acesso à chave daquele museu naquela noite? Porque essa pergunta me parece bem mais importante do que as minhas caminhadas.",
+   "ms": 3882
+  },
+  {
+   "t": 1794926440523,
+   "dia": 1,
+   "tipo": "cadeados",
+   "cor": "Rosa",
+   "n": 2,
+   "fala": "Quartzo tem 2 cadeado(s) de segredo sobre \"o que ela fez no salão da lente\""
+  },
+  {
+   "t": 1794926464016,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Lima",
+   "prova": "PF3",
+   "pensamento": "Peridoto se contradisse ao negar espontaneamente um anel dourado que ninguém havia mencionado; o perfil de Rubi (PF3) formaliza exatamente essa conexão e é a prova mais específica para quebrar o cadeado dele. Com a paciência do juiz baixa, evito perguntas genéricas e apresento a prova certa, sem arriscar novo gasto desnecessário.",
+   "fala": "Peridoto, o senhor negou ter visto um anel dourado antes mesmo de eu mencionar qualquer anel. Este é o perfil de Rubi: ele era o jovem engenheiro do porto na época do naufrágio e usa até hoje um anel dourado de âncora. O senhor não precisa proteger ninguém. O que viu naquela noite perto do farol? Rubi estava lá? Quem trancou Anselmo por fora e apagou a luz?",
+   "ms": 23493
+  },
+  {
+   "t": 1794926464018,
+   "dia": 1,
+   "tipo": "penalidade",
+   "fala": "Prova errada no cadeado: paciência do juiz 2 de 6"
+  },
+  {
+   "t": 1794926466942,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Lima",
+   "pensamento": "Eles estão tentando me fazer confessar... aquele anel dourado... mas não posso contar agora, ainda tenho os cadeados... se eu falar, tudo vai vir à tona e a culpa vai me engolir de vez... preciso manter a história de que só vi a tempestade...",
+   "fala": "Não vi nada naquela noite além da tempestade! Só a tempestade e as ondas batendo forte. Não vi anel nenhum, não vi homem nenhum, não vi nada! Apenas o farol apagou e o barco bateu nas pedras. Isso é tudo o que sei, senão!",
+   "ms": 2924
+  },
+  {
+   "t": 1794926485436,
+   "dia": 1,
+   "tipo": "apresentar",
+   "cor": "Roxo",
+   "pessoa": "Verde",
+   "prova": "E3",
+   "pensamento": "A defesa precisa registrar oficialmente que apenas Rubi e a diretora (ausente) têm a chave mestra. A chave de fenda que forçou o compartimento veio do armário trancado do kit de restauração, que só abre com essa chave. Quartzo não tem chave. Apresentar E3 ao delegado Jade é seguro, não envolve cadeado de segredo, e cria base para investigar Rubi em vez de concentrar a acusação na ré.",
+   "fala": "Delegado Jade, este é o livro de chaves e ponto do museu. Ele mostra que somente duas pessoas tinham a chave mestra naquela noite: a diretora — que está viajando, fora da cidade — e o patrocinador Rubi. A chave de fenda usada para forçar o compartimento secreto veio do armário trancado do kit de restauração, e esse armário só abre com a chave mestra. Quartzo não tem chave alguma. Peço que o senhor registre isso e apure por que Rubi, o único com acesso à chave, não está sendo investigado. Isso muda o rumo do caso.",
+   "ms": 18493
+  },
+  {
+   "t": 1794926490043,
+   "dia": 1,
+   "tipo": "responde",
+   "cor": "Verde",
+   "pensamento": "Ai, ai, ai... essa Ametista tem uma boca... Eu TAVA com a certeza de que era a Quartzo, viu? Vi vi o caco no casaco dela, vi ela correndo... mas essa chave mestra... se ela não tem chave, como abriu aquele armário do kit de restauração? A chave de fenda veio DE LÁ DENTRO. A câmera em manutenção é uma merda, mas o livro de ponto não mente. Só a diretora (fora da cidade) e o Rubi. O Rubi. Dono do estaleiro. Patrocinador. E ninguém investigou ele. Eu... eu preciso registrar. E preciso um sanduíche. De frango. Com maionese. Esse caso tá me dando dor de cabeça e a boca tá seca. A Ametista perguntou certinho, com documento, com carimbo... eu tenho que anotar. Mas eu NÃO vou mudar de opinião, né. A Quartzo tava ali, tava fugindo, tava com caco... Talvez ela tenha entrado por outra porta e só arrebentou a lente, e o compartimento foi aberto ANTES, pelo Rubi, e ela só... não, para, para, para. Eu não sei. Eu SÓ sei que o vigia bateu o ponto às 22:30 e a lente apareceu às 22:40. Dez minutos. Rubi tinha tempo. Tem que apurar. A Ametista pediu direito, com prova, com registro. Tô devendo.",
+   "fala": "Ah, ah... Ametista, minha querida, senta aí, senta, que eu tô com a caneta tremendo aqui... *tenta segurar o bloco com a mão errada, derruba o capim*... Aí, gente, cadê um biscoito nessa sala? A Ametista me veio com um livro de chaves, um ponto de vigia, um armário trancado, uma chave de fenda... e eu com a barruca ronqueando. Mas olha... *folheia o documento com os dedos cheios de maionese de um sanduíche esquecido*... olha, eu vou te ser sincero: a Quartzo fugiu, tinha caco no casaco, a câmera caiu na pior hora... eu TAVA com ela. Mas esse registro... *toca a página do livro de chaves*... esse registro mostra que a chave mestra era da diretora e do Rubi. Só. E o armário do kit só abre com ela. Se a chave de fenda veio de DENTRO daquele armário... *coça a nuca*... eu não sei quem abriu, não. A perícia só sai no dia três. Mas eu te devesso isso, Ametista: vou registrar a prova E3, vou abrir inquérito sobre a presença do Rubi no museu naquela noite, e vou pedir ao Topázio o relatório completo da ronda dele entre as vinte e trinta e as vinte e quarenta. E, enquanto eu escrevo isso aqui... *passa a caneta para a mão certa, finalmente*... a senhora não teria um biscoitinho? De chocolate, se for. Tô pedindo de bom grado.",
+   "ms": 4605
+  },
+  {
+   "t": 1794926490044,
+   "dia": 2,
+   "tipo": "dia",
+   "fala": "DIA 2 — JULGAMENTO"
+  },
+  {
+   "t": 1794926492723,
+   "dia": 2,
+   "tipo": "abertura",
+   "cor": "Laranja",
+   "pensamento": "O salão do museu grita culpa: cacos, extintor, casaco da ré cheio de vidro, e ela fugindo às 22:35. A frase 'essa lente ainda vai contar a verdade' era um aviso do crime, não um motivo nobre. Vou abrir com drama e firmar as provas P1-P5.",
+   "fala": "Vossa Excelência, senhores do júri! Há quinze anos, meu saudoso mestre Dr. Valdomiro cravou na Pedra Alta a verdade sobre o farol apagado. E o que vê hoje o Tribunal? A lente estilhaçada no salão (prova 1), partida a golpes de extintor (prova 2), cujos cacos — oh, ironia cruel! — enchem os bolsos e a barra do casaco de QUARTZO PRADO (prova 3)! O vigia Topázio a viu fugir à porta dos fundos às 22:35 (prova 4), e diante da polícia, a ré mentiu: 'nunca entrei no salão' (prova 5)! Ela mesma proclamou ao povo: 'essa lente ainda vai contar a verdade' — mas o único que quebrou a lente foi ela, em um ato de vingança suja contra a memória de um processo justo! Acuso Quartzo Prado de destruição do patrimônio do museu e violação do compartimento da base! A acusação está pronta, e a verdade, senhoras e senhores, brilha mais forte que qualquer farol!",
+   "ms": 2679
+  },
+  {
+   "t": 1794926492724,
+   "dia": 2,
+   "tipo": "chamada",
+   "cor": "Amarelo",
+   "fala": "Testemunha: Topázio (vigia do museu)"
+  },
+  {
+   "t": 1794926496721,
+   "dia": 2,
+   "tipo": "depoimento",
+   "cor": "Amarelo",
+   "pensamento": "Tenho vergonha de ter abandonado o posto para assistir à final. Não sei quem quebrou a lente, então preciso me ater ao que vi e manter meu segredo protegido.",
+   "declaracoes": [
+    "Às 22:10, vi Rubi seguir para o corredor do terraço, dizendo que ia fazer uma ligação.",
+    "Eu estava fazendo a ronda normalmente naquela noite.",
+    "Às 22:35, vi Quartzo sair correndo pela porta dos fundos, com cacos de vidro na roupa.",
+    "Às 22:40, encontrei a lente estilhaçada no chão e o compartimento secreto da base aberto e vazio."
+   ],
+   "ms": 3997
+  }
+ ],
+ "paciencia": 2,
+ "resultado": null,
+ "uso": {
+  "chamadas": 21,
+  "falhas": 0,
+  "porProvider": {
+   "sonnet": 1,
+   "or:deepseek/deepseek-v4.1-flash": 10,
+   "haiku": 1,
+   "or:mistralai/mistral-small-2603": 5,
+   "or:xiaomi/mimo-v2.6-flash": 1,
+   "or:qwen/qwen3.8-27b": 1,
+   "or:z-ai/glm-5.3-flash": 1,
+   "or:openai/gpt-6-luna": 1
+  },
+  "falhasPor": {},
+  "custo": {
+   "or:mistralai/mistral-small-2603": 0.002024211,
+   "or:xiaomi/mimo-v2.6-flash": 0.00029358,
+   "or:qwen/qwen3.8-27b": 0.0043602,
+   "or:z-ai/glm-5.3-flash": 0.0003169,
+   "or:openai/gpt-6-luna": 0.00032855
+  }
+ }
+}
