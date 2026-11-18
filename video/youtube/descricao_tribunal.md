@@ -1,6 +1,6 @@
 # Tribunal das IAs: Assassinato no Museu do Farol (título, descrição, capítulos e créditos)
 
-Duração: 24:44. Render v3 (1080p): https://gofile.io/d/ekDTMeLk. Capítulos tirados de `video/remotion/public/timeline_tribunal.json` (recalcular se o roteiro mudar).
+Duração: 23:45. Render v4 (1080p): https://gofile.io/d/XwJUoLaf. Capítulos tirados de `video/remotion/public/timeline_tribunal.json` (recalcular se o roteiro mudar).
 Ideia do caso: @SwordMan333 (comentário nos posts da comunidade).
 
 ## Título
