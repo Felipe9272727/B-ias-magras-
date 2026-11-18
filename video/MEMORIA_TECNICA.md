@@ -211,3 +211,14 @@ Fonte: comentários dos posts de feedback (`video/youtube/feedback/comentarios_p
   4. Câmera presa à borda do palco (`Cam` em util.tsx) para nunca mostrar a beira da imagem.
 - Sprites das folhas do ChatGPT: `scratchpad/sprites.py` (rembg isnet-anime + RealESRGAN anime 16x -> 1000 px).
 - Render do Tribunal: ~11 quadros/s em 540p com 4 núcleos (`tb_render.sh`, `tb_audio.py`, `tb_final.py`).
+
+## O grande reset do Among IA (posts de 17–18/11) — vale para o próximo Among
+Fonte: `video/youtube/feedback/comentarios_posts_reset_among_18nov.txt` (texto do post + comentários; lido com Playwright, `posts_comunidade_pw.js`).
+- O Felipe anunciou: menos funções, regras simples, menos frequência, enquetes para escolher funções, mostrar melhor o raciocínio das IAs.
+- O público pede: simplicidade dos primeiros episódios; poucas funções por episódio e rodízio entre episódios; até ~12 IAs
+  (com muitas fica impossível lembrar quem fez o quê); que pareça Among Us de novo; humor; roteiro com linha de raciocínio
+  ("parece brainrot", referência citada: Universo Programado); vídeo de 30 min é demais; não repetir situações já vistas.
+- Pedidos recorrentes: parte 2 do Interrogatório (2 pessoas), Among com IAs + um humano, Roblox, Coup, Undertale, Stick War.
+- Thumb: 4 pessoas chamaram de genérica/repetitiva/feita com IA. Prioridade alta para a próxima.
+- Funções sugeridas para enquete: Feiticeiro da morte/Espectador (sai do corpo como fantasma), Escalador (atravessa parede),
+  Curioso (vê a função de alguém).
