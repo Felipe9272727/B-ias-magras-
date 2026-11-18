@@ -138,10 +138,13 @@ def main():
                 audio.append(dict(src=src, at=round(t * FPS), txt=f"{x['cor']} ({x['tipo']}): {x['texto']}"))
                 if '*****' in x['texto']:
                     audio.append(dict(src=B.sfx('censor-beep'), at=round((t + 0.3) * FPS), vol=0.35))
-                over.append(dict(tipo='cita', at=round(t * FPS), dur=round((d + 0.6) * FPS), cor=x['cor'], tipoCita=x['tipo'], texto=x['texto'], dt=x['dt'], ref=x['palpite']))
+                over.append(dict(tipo='cita', at=round(t * FPS), dur=round((d + 0.35) * FPS), cor=x['cor'], tipoCita=x['tipo'], texto=x['texto'], dt=x['dt'], ref=x['palpite']))
                 t += d + 0.3
+        # selos durante a última fala (não depois): o último selo termina ~0,6 s depois da voz e a cena acaba logo em seguida
+        dss = [min(3.0, max(2.5, 0.9 + 0.3 * len(x.split()))) for x in c['selos']]
+        ini0 = max(0.5, t + 0.6 - sum(dss))
         for i, s in enumerate(c['selos']):
-            ds = min(3.0, max(2.5, 0.9 + 0.3 * len(s.split()))); ini = max(t - 1.5 if i == 0 else t, fim_selo); fim_selo = ini + ds
+            ds = dss[i]; ini = max(ini0 if i == 0 else 0, fim_selo); fim_selo = ini + ds
             over.append(dict(tipo='selo', at=round(ini * FPS), dur=round(ds * FPS), texto=s)); audio.append(dict(src=B.sfx('pop'), at=round(ini * FPS), vol=0.45))
             if i == 0 and c['memes']:
                 m = B.MEMES[c['memes'][0]]
@@ -149,7 +152,7 @@ def main():
             if i < len(c['sons']):
                 try: audio.append(dict(src=B.sfx(c['sons'][i]), at=round(ini * FPS), vol=0.5))
                 except SystemExit: pass
-        n = max(round((max(t, fim_selo) + 0.6) * FPS), 75, max((o['at'] + o['dur'] + 4 for o in over), default=0))
+        n = max(round((max(t, fim_selo) + 0.3) * FPS), 75, max((o['at'] + o['dur'] + 4 for o in over), default=0))
         vis = dict(tela=c['tela'], titulo=c['titulo'], **({'rodada': c['dt'][0], 'dia': c['dt'][1]} if c['dt'] else {}))
         cenas.append(dict(id=sid, dur=n, visual=vis, over=over, audio=audio, **({'musica': MUSICA[sid]} if sid in MUSICA else {})))
     tot = sum(c['dur'] for c in cenas) / FPS

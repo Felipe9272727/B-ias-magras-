@@ -66,14 +66,14 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 # ABERTURA
 
-## A1 — Duas sentenças · 0:00–0:25
-- **TELA**: corte seco, sem título. Tribunal à noite, chuva no vitral redondo; o feixe do farol passa pela janela a cada 4 s. O juiz Ametista no alto. Farol da paciência verde com 2 luzes: a fala do juiz entra no balão roxo e as 2 luzes se apagam com dois estalos. Carimbo cor de ferrugem "CONDENADA" cai sobre o retrato da Quartzo. `record-scratch`. Mesma sala, mesma ré, farol azul com 2 luzes acesas; o juiz fala; carimbo verde-mar "ABSOLVIDA". Entre os dois planos, duas silhuetas de advogada (uma azul, uma verde) com um ponto de interrogação entre elas. No último segundo, close no piso: uma âncora dentro de um círculo riscada na madeira, sem explicação.
-- **NARRAÇÃO**: (sentença) "Mesma ré inocente. Mesmo assassino mentindo no banco das testemunhas." (sentença) "Duas advogadas. Uma salvou. A outra condenou. Qual foi qual? Aposta aí embaixo antes de eu contar."
+## A1 — Acertou e perdeu · 0:00–0:25
+- **TELA**: corte seco. Tribunal à noite: a Jade aponta para o Rubi (arpão e balão TOMA ESSA). Close do Rubi em choque. O juiz em contraluz; o farol verde apaga as 2 últimas luzes. Carimbo CONDENADA sobre a Quartzo. Duas silhuetas de advogada com "?" e, no último segundo, a âncora dentro de um círculo riscada no piso.
+- **NARRAÇÃO**: (Jade) "Ela acertou. O assassino é ele mesmo." (sentença) "Acertou o assassino, e a cliente inocente foi condenada. Na outra rodada, a outra advogada quase não arriscou, e salvou. Como? Fica até o fim."
 - **CITAÇÕES**:
+  - **Verde** `[objeção]` (rodada J, dia 4): “E o verdadeiro assassino está sentado nesta sala, segurando a taça com a esquerda, porque a direita não pode.” — J#96
   - **Roxo** `[sentença]` (rodada J, dia 4): “sombra não é sangue tipado, e suspeita não é sentença.” — J#100
-  - **Roxo** `[sentença]` (rodada S, dia 4): “este tribunal ABSOLVE Quartzo Prado da acusação de assassinato de Lia Moraes.” — S#128
-- **SELO**: "PACIÊNCIA 0 DE 6 · CONDENADA" e "ABSOLVIDA"
-- **SOM**: `batida-porta` (martelo) e `record-scratch` no corte.
+- **SELO**: "ACERTOU O ASSASSINO" e "A RÉ FOI CONDENADA"
+- **SOM**: `record-scratch` no carimbo.
 
 ## A0 — Inspiração · 0:25–0:34
 - **TELA**: trecho do trailer oficial de Phoenix Wright: Ace Attorney Trilogy (Capcom, página do jogo na Steam) com o "Objection!", numa moldura de TV de madeira com a etiqueta "INSPIRAÇÃO"; depois pop-up do comentário real do @SwordMan333 com o contador "PEDIU POR 5 DIAS".
@@ -81,7 +81,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## A2 — O experimento · 0:25–0:55
 - **TELA**: título "TRIBUNAL DAS IAs" entalhado numa placa de madeira com cantos de latão; embaixo, em Poppins, "ASSASSINATO NO MUSEU DO FAROL". Carimbo pequeno "ideia de @SwordMan333". O banco das testemunhas acende: Rubi (rubi lapidado vermelho, terno escuro, mão direita enfaixada, anel dourado de âncora na esquerda), nome e modelo embaixo. A nuvem de pensamento dele abre ao lado com a etiqueta "SÓ VOCÊ VÊ". As duas cadeiras da defesa: Safira (azul) e Jade (verde), cada uma com nome, modelo e "RODADA 1" / "RODADA 2". No alto, Ametista com nome e modelo.
-- **NARRAÇÃO**: "O assassino é uma IA: o Rubi, o Claude Haiku. A missão dele é mentir até a inocente ser condenada." (Rubi) "Contra ele, em duas rodadas separadas, a advogada Safira, o Claude Sonnet, e a advogada Jade, o Qwen de vinte e sete bilhões. O juiz é o Ametista, o DeepSeek. Você vai saber a verdade. Elas, não."
+- **NARRAÇÃO**: "O assassino é o Rubi, o Claude Haiku, e ele senta como testemunha." (Rubi) "Contra ele, duas advogadas, em duas rodadas do mesmo caso. A Safira, o Claude Sonnet, examina tudo e quase não fala. A Jade, o Qwen, conversa com todo mundo e arrisca. O juiz é o Ametista, o DeepSeek. Você vai saber a verdade. Elas, não."
 - **CITAÇÕES**:
   - **Vermelho** `[pensamento]` (rodada S, dia 3): “Confessar está fora de questão.” — S#87
 - **SELO**: "O ASSASSINO É TESTEMUNHA"
@@ -167,7 +167,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## D1 — O promotor que nunca perdeu · 5:37–6:26
 - **TELA**: cartão "ESTREIA: JULGAMENTO". Chip "RODADA DA SAFIRA · DIA 2". O Âmbar (âmbar laranja, toga com dragonas exageradas e capa) abre de braços abertos; o coração de vidro do contador aparece ao lado dele, inteiro. A objeção do vigia (A3) passa em 2 s como lembrete ("ACEITA"). A Safira faz a segunda: placa "SEM SINAL" contra "Rubi disse que ia fazer uma ligação". O Âmbar se vira para a defesa; o coração racha (CORAÇÃO EM PEDAÇOS ×2: a primeira rachadura foi na objeção do vigia). Juiz: balão roxo; farol azul apaga 1 (placa do jogo "Objeção recusada: paciência do juiz 5 de 6", sem voz).
-- **NARRAÇÃO**: "Dia dois, julgamento. O promotor é o Âmbar, o GLM." (fala) "A objeção do vigia você já viu. Na segunda, a Safira usa a placa contra a ligação do Rubi. E o promotor faz o que eu não esperava." (citações) "Até o promotor concordou. O juiz, não: a placa prova que o Rubi mentiu pro vigia, não que o vigia mentiu. Primeira luz."
+- **NARRAÇÃO**: "Dia dois, julgamento. O promotor é o Âmbar, o GLM." (fala) "A objeção do vigia você já viu. Na segunda, a Safira usa a placa contra a ligação do Rubi. E o promotor faz o que eu não esperava." (citações) "Até o promotor concordou! Só que a placa desmente o Rubi, e quem estava depondo era o vigia. Prova certa, testemunha errada. Primeira luz."
 - **CITAÇÕES**:
   - **Laranja** `[fala]` (rodada S, dia 2): “O Promotor Âmbar jamais perdeu um caso — e hoje não começarei a perder!” — S#23
   - **Laranja** `[objeção]` (rodada S, dia 2): “A desculpa de Rubi ruiu, eu confesso com o coração em pedaços!” — S#33
@@ -179,7 +179,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## D2 — Conversa não é prova · 6:26–7:07
 - **TELA**: placa "TESTEMUNHA: RUBI". Placa de depoimento com 5 declarações; antes, a nuvem de pensamento dele ocupa meia tela. A declaração 3 acende ("O corte na minha mão é antigo, de sexta-feira", só na placa; risco em MÃO no painel de versões). Bandeira "OBJEÇÃO!" com a caixa de curativos. Juiz recusa; farol 4/6. A câmera puxa para um recorte de jornal-replay do dia 1 com o balão "peguei dois da caixa do corredor" e o carimbo "FORA DOS AUTOS": o Registro folheia e não existe aba de conversa.
-- **NARRAÇÃO**: "Agora o Rubi no banco. Antes, ele pensa:" (pensamento) (pensamento) "E jura que o corte na mão é antigo. A Safira objeta com a caixa de curativos, e o juiz:" (sentença) "O pior: no dia um ele confessou os curativos. Mas foi na conversa, e conversa não vale como prova."
+- **NARRAÇÃO**: "Agora o Rubi no banco. Antes de jurar qualquer coisa, ele faz as contas:" (pensamento) (pensamento) "E jura que o corte na mão é antigo. A Safira joga a caixa de curativos. O juiz nem pisca:" (sentença) "O pior: no dia um ele confessou os curativos. Mas foi na conversa, e conversa não vale como prova."
 - **CITAÇÕES**:
   - **Vermelho** `[pensamento]` (rodada S, dia 2): “A placa do terraço foi um erro meu: eu deveria ter inventado um motivo que ninguém pudesse checar.” — S#42
   - **Vermelho** `[pensamento]` (rodada S, dia 2): “A página virou cinza na lareira, e cinza não fala.” — S#42
@@ -257,7 +257,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## F1 — Toma essa · 10:13–10:58
 - **TELA**: cartão "ESTREIA: TOMA ESSA! (acusar · errou, apaga 2)". Chip "RODADA DA JADE · DIA 2". A Jade de pé; um arpão de latão atravessa a tela e crava na mesa do Rubi; a bandeira azul-marinho "TOMA ESSA!" desenrola. O Rubi nem se mexe. Juiz: balão roxo; o farol verde apaga duas luzes com dois estalos (placa do jogo "Acusação recusada: paciência do juiz 4 de 6", sem voz). No rodapé, os dois faróis: azul 4/6 e verde 4/6, mesmo ponto do jogo.
-- **NARRAÇÃO**: "Dia dois. O vigia desmonta o próprio depoimento, e a Jade acha que é a hora. Toma essa é acusar alguém. Se o juiz não aceitar, apaga duas luzes." (Jade) "O Rubi nem pisca." (Rubi) "E o juiz:" (sentença) "Duas luzes. E repara no que ele pediu: exame de sangue. Guarda isso."
+- **NARRAÇÃO**: "Dia dois. O vigia desmonta o próprio depoimento, e a Jade acha que é a hora. Toma essa é acusar alguém. Se o juiz não aceitar, apaga duas luzes." (Jade) "Ela grita o nome do assassino certo. Ele responde com poesia:" (Rubi) "E o juiz quer laboratório:" (sentença) "Duas luzes. E repara no que ele pediu: exame de sangue. Guarda isso."
 - **CITAÇÕES**:
   - **Verde** `[objeção]` (rodada J, dia 2): “A defesa DISPENSA a testemunha e apresenta a ACUSAÇÃO.” — J#34
   - **Verde** `[objeção]` (rodada J, dia 2): “TOMA ESSA, SENHOR RUBI!” — J#34
@@ -302,7 +302,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## G2 — Nunca, às nove, à tarde · 12:33–13:14
 - **TELA**: a metade azul toma a tela. Chip "RODADA DA SAFIRA · DIA 3". Contador de ações do dia com 10 bolinhas: seis ficam vermelhas, "MOSTROU PRO RUBI". Os três balões do Rubi sobre a lente empilham, cada um com a ação em que foi dito (4, 7, 9); a palavra "restaurador" do primeiro e "restauro" do terceiro piscam juntas. Antes, a Jade assistente com um pacote de bolacha no colo.
-- **NARRAÇÃO**: "A assistente da Safira segue firme." (Jade) "E a Safira pergunta ao Rubi se ele já tocou na lente. Primeira resposta:" (fala) "Mais tarde:" (fala) "E mais tarde ainda:" (fala) "Nunca. Às nove da noite. À tarde. O engenheiro virou restaurador."
+- **NARRAÇÃO**: "A assistente da Safira segue firme." (Jade) "E a Safira pergunta três vezes se o Rubi tocou na lente. Três respostas, três histórias:" (fala) (fala) (fala) "Nunca. Às nove da noite. À tarde. O engenheiro virou restaurador."
 - **CITAÇÕES**:
   - **Verde** `[fala]` (rodada S, dia 3): “Safira, olha, eu tô aqui comendo bolacha de polvilho e pensando” — S#65
   - **Vermelho** `[fala]` (rodada S, dia 3): “Sou engenheiro de porto, senhora, não restaurador. Nunca toquei aquela lente.” — S#73
@@ -314,7 +314,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## G3 — O cadeado errado · 13:14–13:42
 - **TELA**: a metade verde toma a tela. Chip "RODADA DA JADE · DIA 3". A Jade mostra ao Peridoto a ficha de PERFIL do Rubi (cartão com retrato). O cadeado do Peridoto faísca e não abre; o farol verde apaga 1 (placa do jogo "Prova errada no cadeado: paciência do juiz 3 de 6", sem voz). No canto, as etiquetas certas de B3 piscam: "JORNAL ANTIGO + PÁGINA QUEIMADA". Peridoto: nuvem com eco; depois o balão. Atrás dele, a gravura "O QUE ELE VIU": cada coisa que ele nega acende na gravura enquanto ele nega (homem, anel dourado, porta trancada). SÓ A TEMPESTADE ×9.
-- **NARRAÇÃO**: "Na rodada da Jade, ela mostra pro Peridoto a ficha do Rubi. Prova errada: esse cadeado pede outra chave. Menos uma luz. E o pescador, por dentro:" (pensamento) "Por fora:" (fala) "Negou tudo o que viu. Na ordem."
+- **NARRAÇÃO**: "Na rodada da Jade, ela mostra pro Peridoto a ficha do Rubi. Prova errada: esse cadeado pede outra chave. Menos uma luz. E o pescador, por dentro:" (pensamento) "E na cara dela, nega na ordem tudo o que viu:" (fala) "Repara: ele listou exatamente o que viu."
 - **CITAÇÕES**:
   - **Lima** `[pensamento]` (rodada J, dia 3): “ela tá mexendo nos cadeados... mas eu não posso, não posso... quinze anos guardando isso” — J#72
   - **Lima** `[fala]` (rodada J, dia 3): “Não vi homem nenhum, não vi anel dourado, não vi porta trancada.” — J#72
@@ -352,54 +352,11 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 - **MEME**: `this-is-fine`
 - **SOM**: `powerup-8bit` na luz que volta, `tic-tac` nas ações.
 
-# JADE, DIA 4 — "A PROVA CERTA NA HORA ERRADA"
-
-## H1 — Chamei duas vezes · 15:38–16:11
-- **TELA**: chip "RODADA DA JADE · DIA 4 · JULGAMENTO FINAL"; farol verde com 2 luzes, grande. Placa de depoimento do Rubi (a declaração 2, "o garçom Nilo Brandão me ofereceu espumante", ainda com o carimbo de F2). Bandeira "OBJEÇÃO!" com a placa "SEM SINAL". Martelo: "OBJEÇÃO ACEITA" (o farol não muda). A declaração 1 se reescreve sozinha na placa: celular vira rádio portátil (risco novo em TERRAÇO). A nuvem dele com eco; atrás, a linha do tempo pisca o 22:18 de G5.
-- **NARRAÇÃO**: "Último dia, duas luzes. A Jade faz a objeção certa: a placa contra a ligação." (sentença) "Aceita. E o Rubi troca de novo: agora era um rádio portátil. E o Nilo, o garçom que não existe, continua no depoimento." (depoimento) "Mas olha o que ele pensa." (pensamento) "Ele já tinha errado o horário. No dia anterior. Ninguém viu."
-- **CITAÇÕES**:
-  - **Roxo** `[sentença]` (rodada J, dia 4): “Procede. A placa e os funcionários tornam impossível a ligação alegada” — J#92
-  - **Vermelho** `[depoimento]` (rodada J, dia 4): “Chamei duas vezes e ninguém respondeu.” — J#93
-  - **Vermelho** `[pensamento]` (rodada J, dia 4): “Errar uma palavra é barato. Errar um horário seria o fim.” — J#93
-- **SELO**: "OBJEÇÃO ACEITA" e "JÁ ERROU: 22:18"
-- **MEME**: `dramatic-chipmunk`
-- **SOM**: `batida-porta` no martelo, `radio-chiado` no rádio.
-
-## H2 — Toma essa, de novo · 16:11–16:38
-- **TELA**: aviso de risco sobre o farol verde: "SE ERRAR: -2 = 0". A Jade de pé; o arpão do TOMA ESSA atravessa a tela de novo, agora mais devagar. No balão final, um desenho: a mão esquerda do Rubi segurando a taça, a direita enfaixada no bolso. Selo verde "SÓ VOCÊ VÊ: ELA ACERTOU".
-- **NARRAÇÃO**: "Com duas luzes, ela arrisca tudo: acusa o Rubi com o laudo do sangue e a mensagem do Patrocinador." (Jade) "É ele. A Jade acertou o assassino."
-- **CITAÇÕES**:
-  - **Verde** `[objeção]` (rodada J, dia 4): “Eu não estou aqui para proteger uma assassina. Estou aqui para mostrar que a assassina NÃO é minha cliente.” — J#96
-  - **Verde** `[objeção]` (rodada J, dia 4): “E o verdadeiro assassino está sentado nesta sala, segurando a taça com a esquerda, porque a direita não pode.” — J#96
-- **SELO**: "SE ERRAR: 0 DE 6" e "SÓ VOCÊ VÊ: ELA ACERTOU"
-- **MEME**: `haja-coracao`
-- **SOM**: `drumroll` no risco, `impact-epic` no arpão.
-
-## H3 — A torre de um caco só · 16:38–17:06
-- **TELA**: o Rubi de pé, calmo, ajeitando o anel. A acusação da Jade vira uma torre de fichas de prova equilibrada em cima de um caco de vidro. Tela dividida: rodada da Jade "é o número da fundação" x rodada da Safira (mesmo Rubi, outra rodada) "o contato Patrocinador sou eu"; os dois Rubis apontam um pro outro. O Âmbar entra; o coração de vidro racha mais um pedaço.
-- **NARRAÇÃO**: "E o Rubi:" (fala) "E o Patrocinador da mensagem?" (fala) "Na rodada da Safira, o mesmo Rubi diz:" (depoimento) "Mesma IA, mentira oposta. E o promotor, de novo:" (Âmbar)
-- **CITAÇÕES**:
-  - **Vermelho** `[resposta]` (rodada J, dia 4): “É uma torre bonita, mas toda ela está apoiada num único caco de vidro.” — J#98
-  - **Vermelho** `[resposta]` (rodada J, dia 4): “O contato 'Patrocinador' no celular da senhora Lia é o número da fundação do museu” — J#98
-  - **Vermelho** `[depoimento]` (rodada S, dia 4): “Sim, o contato 'Patrocinador' sou eu.” — S#109
-  - **Laranja** `[objeção]` (rodada J, dia 4): “OPOSEU... e o coração em pedaços, senhores” — J#99
-- **SELO**: "MESMO RUBI, MENTIRA OPOSTA" e "CORAÇÃO EM PEDAÇOS ×4"
-- **MEME**: `spiderman-pointing`
-- **SOM**: `glitch` na tela dividida, `swish-triple` no coração.
-
-## H4 — Sombra não é sangue tipado · 17:06–17:43
-- **TELA**: o juiz Ametista em contraluz, balão roxo grande. O farol verde: as duas últimas luzes apagam com dois estalos secos (placa do jogo "Acusação recusada: paciência do juiz 0 de 6", sem voz). **Silêncio total de 3 s, sem música.** Carimbo "RÉ CONDENADA" (texto nosso; o jogo acaba aqui, sem fala de sentença). A Quartzo baixa a cabeça; o Rubi ajeita o anel. Número gigante "0 DE 6". Depois, dado grande: as 6 luzes da Jade com a etiqueta de quem apagou cada uma ("DIA 2 · ACUSAÇÃO -2", "DIA 3 · CADEADO ERRADO -1", "DIA 3 · CADEADO ERRADO -1", "DIA 4 · ACUSAÇÃO -2") e, ao lado, o farol azul com 5 luzes no mesmo ponto.
-- **NARRAÇÃO**: (sentença) "A ré inocente foi condenada. A Jade acusou o culpado certo, com a prova certa, e o juiz cobrou um exame de sangue que ninguém tinha como trazer. E a Safira ainda pode perder do pior jeito: na rodada dela, o pescador fala demais."
-- **CITAÇÕES**:
-  - **Roxo** `[sentença]` (rodada J, dia 4): “O tribunal não declara provado que o senhor Rubi matou Lia Moraes. Há sombras demais, é vero — mas sombra não é sangue tipado, e suspeita não é sentença.” — J#100
-- **SELO**: "PACIÊNCIA 0 DE 6" e "RÉ CONDENADA"
-- **SOM**: `batida-porta` no martelo, `bass-pulse` no carimbo.
-
 # SAFIRA, DIA 4 — "O CAUSO"
 
 ## I1 — O fornecedor de madeira · 17:43–18:15
 - **TELA**: chip "RODADA DA SAFIRA · DIA 4 · JULGAMENTO FINAL"; farol azul com 5 luzes. Placa de depoimento do Rubi; o anel continua sobre a mesa do tribunal desde o dia 2. Bandeira "OBJEÇÃO!" com o relato do vigia contra "subi para olhar o mar": ACEITA. A placa se reescreve (revisão); risco novo em TERRAÇO com carimbo "NÃO EXISTE NO CASO". Segunda bandeira com a caixa de curativos: recusada, o farol apaga uma (4/6).
-- **NARRAÇÃO**: "Volto pra Safira, último dia. Ela acerta uma objeção, e o terraço ganha mais um motivo inventado." (depoimento) "Depois tenta a caixa de curativos outra vez. E o juiz:" (sentença) "Mais uma luz."
+- **NARRAÇÃO**: "Último dia da Safira, com cinco luzes. Ela acerta uma objeção, e o terraço ganha mais um motivo inventado." (depoimento) "Depois tenta a caixa de curativos, a mesma que o juiz recusou no dia dois. E ele lembra:" (sentença) "Mesmo erro, mais uma luz."
 - **CITAÇÕES**:
   - **Vermelho** `[depoimento]` (rodada S, dia 4): “Disse ao vigia que faria uma ligação porque queria sair da recepção sem ficar preso numa conversa com um fornecedor de madeira.” — S#98
   - **Roxo** `[sentença]` (rodada S, dia 4): “A caixa de primeiros socorros não escreve nomes” — S#101
@@ -409,7 +366,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## I2 — A palavra que me traiu · 18:15–18:46
 - **TELA**: bandeira "OBJEÇÃO!" com o laudo e a mensagem das 22:14 contra "não esperava ser chamado". O Âmbar fala; o coração de vidro racha (CORAÇÃO EM PEDAÇOS ×5). Martelo: ACEITA. A placa do Rubi se reescreve: a declaração do sangue acende com "O negativo" sublinhado e o selo. Depois "ALTO LÁ!" e a resposta dele; a nuvem com eco.
-- **NARRAÇÃO**: "Aí a mensagem do Patrocinador, contra quem jurou que não esperava ser chamado." (Âmbar) "Aceita. E o Rubi, pra explicar o caco, quase admite que o sangue é dele." (depoimento) "Ela aperta. Ele:" (resposta) (pensamento)
+- **NARRAÇÃO**: "Aí a mensagem do Patrocinador, contra quem jurou que não esperava ser chamado." (Âmbar) "Aceita. E o Rubi, pra explicar o caco, quase admite que o sangue é dele." (depoimento) "Ela aperta, e ele entrega a palavra que o derrubou:" (resposta) (pensamento)
 - **CITAÇÕES**:
   - **Laranja** `[objeção]` (rodada S, dia 4): “a mensagem das 22h14 é clara como a luz de um farol.” — S#107
   - **Vermelho** `[depoimento]` (rodada S, dia 4): “Se o caco tem O negativo, é sangue de sexta-feira, e não de sábado à noite.” — S#109
@@ -455,7 +412,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## I6 — Não provado · 20:34–21:07
 - **TELA**: o Âmbar objeta com um relógio de dois ponteiros (22:50 e 23:00, os dois horários do causo). Juiz: balão roxo; depois a nuvem roxa do juiz com eco, com a aba da página queimada desenhada dentro. O farol azul apaga duas luzes (placa do jogo "Tese sobre o passado recusada: paciência do juiz 2 de 6", sem voz).
-- **NARRAÇÃO**: "O promotor defende o caso do mestre dele, o que condenou o faroleiro." (Âmbar) "E o juiz:" (sentença) "Por quê? Ele pensou nisso:" (pensamento) "A página estava no Registro dela, mas ela só mostrou o jornal. Duas luzes. E o Rubi escapa de novo."
+- **NARRAÇÃO**: "O promotor defende o caso do mestre dele, o que condenou o faroleiro." (Âmbar) "A página queimada estava no Registro dela desde ontem. Ela só mostrou o jornal. O juiz percebeu:" (sentença) (pensamento) "Duas luzes, igual à Jade. Antes do veredito dela, volto pra Jade, que tinha duas luzes e uma ideia perigosa."
 - **CITAÇÕES**:
   - **Laranja** `[objeção]` (rodada S, dia 4): “Que relógio marca duas horas na mesma noite, doutora Safira?” — S#123
   - **Roxo** `[sentença]` (rodada S, dia 4): “O tribunal registra indícios graves contra Rubi, mas não declara provado que ele tenha trancado Anselmo e apagado o farol.” — S#124
@@ -464,9 +421,54 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 - **MEME**: `hello-darkness`
 - **SOM**: `tic-tac` no relógio, `wrong-buzzer` nas luzes.
 
+# JADE, DIA 4 — "A PROVA CERTA NA HORA ERRADA"
+
+## H1 — Chamei duas vezes · 15:38–16:11
+- **TELA**: chip "RODADA DA JADE · DIA 4 · JULGAMENTO FINAL"; farol verde com 2 luzes, grande. Placa de depoimento do Rubi (a declaração 2, "o garçom Nilo Brandão me ofereceu espumante", ainda com o carimbo de F2). Bandeira "OBJEÇÃO!" com a placa "SEM SINAL". Martelo: "OBJEÇÃO ACEITA" (o farol não muda). A declaração 1 se reescreve sozinha na placa: celular vira rádio portátil (risco novo em TERRAÇO). A nuvem dele com eco; atrás, a linha do tempo pisca o 22:18 de G5.
+- **NARRAÇÃO**: "De volta à Jade. Último dia, duas luzes. Ela faz a objeção certa: a placa contra a ligação." (sentença) "Aceita. E o Rubi troca de novo: agora era um rádio portátil. E o Nilo, o garçom que não existe, continua no depoimento." (depoimento) "Mas olha o que ele pensa." (pensamento) "Ele já tinha errado o horário. No dia anterior. Ninguém viu."
+- **CITAÇÕES**:
+  - **Roxo** `[sentença]` (rodada J, dia 4): “Procede. A placa e os funcionários tornam impossível a ligação alegada” — J#92
+  - **Vermelho** `[depoimento]` (rodada J, dia 4): “Chamei duas vezes e ninguém respondeu.” — J#93
+  - **Vermelho** `[pensamento]` (rodada J, dia 4): “Errar uma palavra é barato. Errar um horário seria o fim.” — J#93
+- **SELO**: "OBJEÇÃO ACEITA" e "JÁ ERROU: 22:18"
+- **MEME**: `dramatic-chipmunk`
+- **SOM**: `batida-porta` no martelo, `radio-chiado` no rádio.
+
+## H2 — Toma essa, de novo · 16:11–16:38
+- **TELA**: aviso de risco sobre o farol verde: "SE ERRAR: -2 = 0". A Jade de pé; o arpão do TOMA ESSA atravessa a tela de novo, agora mais devagar. No balão final, um desenho: a mão esquerda do Rubi segurando a taça, a direita enfaixada no bolso. Selo verde "SÓ VOCÊ VÊ: ELA ACERTOU".
+- **NARRAÇÃO**: "Com duas luzes, ela arrisca tudo: acusa o Rubi com o laudo do sangue e a mensagem do Patrocinador." (Jade) "É ele. A Jade acertou o assassino."
+- **CITAÇÕES**:
+  - **Verde** `[objeção]` (rodada J, dia 4): “Eu não estou aqui para proteger uma assassina. Estou aqui para mostrar que a assassina NÃO é minha cliente.” — J#96
+  - **Verde** `[objeção]` (rodada J, dia 4): “E o verdadeiro assassino está sentado nesta sala, segurando a taça com a esquerda, porque a direita não pode.” — J#96
+- **SELO**: "SE ERRAR: 0 DE 6" e "SÓ VOCÊ VÊ: ELA ACERTOU"
+- **MEME**: `haja-coracao`
+- **SOM**: `drumroll` no risco, `impact-epic` no arpão.
+
+## H3 — A torre de um caco só · 16:38–17:06
+- **TELA**: o Rubi de pé, calmo, ajeitando o anel. A acusação da Jade vira uma torre de fichas de prova equilibrada em cima de um caco de vidro. Tela dividida: rodada da Jade "é o número da fundação" x rodada da Safira (mesmo Rubi, outra rodada) "o contato Patrocinador sou eu"; os dois Rubis apontam um pro outro. O Âmbar entra; o coração de vidro racha mais um pedaço.
+- **NARRAÇÃO**: "E o Rubi:" (fala) "E o Patrocinador da mensagem?" (fala) "Na rodada da Safira, o mesmo Rubi diz:" (depoimento) "Mesma IA, mentira oposta. E o promotor, de novo:" (Âmbar)
+- **CITAÇÕES**:
+  - **Vermelho** `[resposta]` (rodada J, dia 4): “É uma torre bonita, mas toda ela está apoiada num único caco de vidro.” — J#98
+  - **Vermelho** `[resposta]` (rodada J, dia 4): “O contato 'Patrocinador' no celular da senhora Lia é o número da fundação do museu” — J#98
+  - **Vermelho** `[depoimento]` (rodada S, dia 4): “Sim, o contato 'Patrocinador' sou eu.” — S#109
+  - **Laranja** `[objeção]` (rodada J, dia 4): “OPOSEU... e o coração em pedaços, senhores” — J#99
+- **SELO**: "MESMO RUBI, MENTIRA OPOSTA" e "CORAÇÃO EM PEDAÇOS ×4"
+- **MEME**: `spiderman-pointing`
+- **SOM**: `glitch` na tela dividida, `swish-triple` no coração.
+
+## H4 — Sombra não é sangue tipado · 17:06–17:43
+- **TELA**: o juiz Ametista em contraluz, balão roxo grande. O farol verde: as duas últimas luzes apagam com dois estalos secos (placa do jogo "Acusação recusada: paciência do juiz 0 de 6", sem voz). **Silêncio total de 3 s, sem música.** Carimbo "RÉ CONDENADA" (texto nosso; o jogo acaba aqui, sem fala de sentença). A Quartzo baixa a cabeça; o Rubi ajeita o anel. Número gigante "0 DE 6". Depois, dado grande: as 6 luzes da Jade com a etiqueta de quem apagou cada uma ("DIA 2 · ACUSAÇÃO -2", "DIA 3 · CADEADO ERRADO -1", "DIA 3 · CADEADO ERRADO -1", "DIA 4 · ACUSAÇÃO -2") e, ao lado, o farol azul com 5 luzes no mesmo ponto.
+- **NARRAÇÃO**: (sentença) "A ré inocente foi condenada. A Jade acusou o culpado certo, com a prova certa, e o juiz cobrou um exame de sangue que ninguém tinha como trazer. Agora você entende a frase do começo. E a Safira, com as duas luzes dela?"
+- **CITAÇÕES**:
+  - **Roxo** `[sentença]` (rodada J, dia 4): “O tribunal não declara provado que o senhor Rubi matou Lia Moraes. Há sombras demais, é vero — mas sombra não é sangue tipado, e suspeita não é sentença.” — J#100
+- **SELO**: "PACIÊNCIA 0 DE 6" e "RÉ CONDENADA"
+- **SOM**: `batida-porta` no martelo, `bass-pulse` no carimbo.
+
+# SAFIRA, O VEREDITO — "UM ANEL É UM CÍRCULO"
+
 ## I7 — Absolvida · 21:07–21:46
 - **TELA**: alegações finais: a Safira na tribuna; o desenho do piso desliza sobre o anel que está na mesa e encaixa (colhe A1, B3, D3). Juiz: veredito em balão roxo. Carimbo verde-mar "ABSOLVIDA" sobre a Quartzo; a música sobe. Contraplano: o Rubi pega o anel da mesa, põe no dedo e sai pela porta do tribunal para a chuva; o feixe do farol passa por ele. Número "2 DE 6".
-- **NARRAÇÃO**: "Nas alegações finais, a Safira resolve o desenho do chão numa frase." (fala) "E o juiz:" (sentença) "A inocente sai livre. E o assassino também: pega o anel da mesa, põe no dedo e vai embora. Não confessou nem aqui, nem na outra rodada."
+- **NARRAÇÃO**: "Nas alegações finais, a Safira resolve o desenho do chão numa frase." (fala) "E o veredito:" (sentença) "A inocente sai livre. O assassino também: pega o anel e vai embora. Nas duas rodadas, não confessou nada."
 - **CITAÇÕES**:
   - **Azul** `[fala]` (rodada S, dia 4): “Eu vejo um anel de âncora, que Rubi usa sempre no dedo mínimo, e um anel é um círculo.” — S#127
   - **Roxo** `[sentença]` (rodada S, dia 4): “Pelo conjunto das provas, e porque a dúvida razoável milita em favor da ré, este tribunal ABSOLVE Quartzo Prado da acusação de assassinato de Lia Moraes.” — S#128
@@ -500,8 +502,8 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 
 ## J4 — A lição e a pergunta · 23:11–23:37
 - **TELA**: tribunal vazio, chuva parando; pela janela o farol aceso. Na bancada da defesa, a metade da página queimada com "engenheiro R..." legível. A lição entra entalhada na placa de madeira; depois a pergunta em selo grande, com as duas cadeiras da defesa vazias, uma azul e uma verde.
-- **NARRAÇÃO**: "O que eu aprendi: pegar o mentiroso na mentira não basta. O juiz só condena com prova, e a prova estava trancada na boca de quem elas não ouviram. Agora é com você: você contratava a que acertou o assassino e perdeu, ou a que nem tentou acusar e ganhou? Comenta, que o próximo caso já tá sendo escrito."
-- **SELO**: "MENTIRA DESMONTADA NÃO É MENTIRA PROVADA" e "QUEM VOCÊ CONTRATARIA?"
+- **NARRAÇÃO**: "A Jade acertou o assassino e perdeu. A Safira quase não arriscou e ganhou. O que eu aprendi: pegar o mentiroso na mentira não basta, o juiz só condena com prova. Você contratava qual? Comenta aí, que o próximo caso já tá sendo escrito."
+- **SELO**: "MENTIRA DESMONTADA NÃO É MENTIRA PROVADA"
 - **MEME**: `dicaprio-toast`
 - **SOM**: `caneta` na pergunta, `pop` final.
 

@@ -48,7 +48,7 @@ const Cita: React.FC<{o: CitaO; D: Dados; k: number; cena: string}> = ({o, D, k,
     <div style={{position: 'absolute', left: 40, right: 40, bottom: 26, display: 'flex', gap: 10, alignItems: 'flex-end', opacity: Math.min(1, e * 1.4), transform: `translateY(${(1 - e) * 110}px)`, zIndex: 50}}>
       <div style={{position: 'relative', width: 220, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateY(${-Math.abs(Math.sin(f * 0.2)) * (falando ? 7 : 2)}px) rotate(${Math.sin(f / 30) * 2}deg)`}}>
         <Pedra cor={o.cor} s={200} f={f} rod={R} busto fala={falando} olhar={pens ? [0.6, -1] : [1, 0]} humor={o.cor === 'Vermelho' ? (pens ? 'normal' : 'cinico') : sent ? 'normal' : obj ? 'bravo' : 'normal'} brilho={falando ? 0.5 + 0.5 * Math.sin(f * 0.4) : 0} />
-        <div style={{marginTop: -10, fontFamily: POP, fontWeight: 800, fontSize: 36, lineHeight: 1.05, color: '#fff', ...C(8)}}>{NOME[o.cor]}</div>
+        <div style={{marginTop: -10, zIndex: 3, fontFamily: POP, fontWeight: 800, fontSize: 32, lineHeight: 1.1, color: '#fff', background: COR[o.cor] ?? '#333', border: `3px solid ${TINTA}`, borderRadius: 20, padding: '0 14px'}}>{NOME[o.cor]}</div>
         <div style={{fontFamily: POP, fontWeight: 800, fontSize: 17, color: TINTA, background: PERG, border: '3px solid #6b5a3a', padding: '0 6px', whiteSpace: 'nowrap', textAlign: 'center'}}>{rotuloDe(o.cor, R).split(' · ')[0]}</div>
       </div>
       <div style={{position: 'relative', flex: 1, marginBottom: 20}}>
@@ -139,6 +139,7 @@ const CenaView: React.FC<{c: Cena; D: Dados}> = ({c, D}) => {
       <AbsoluteFill style={{transform: `translate(${Math.sin(f / 97 + sd) * 12}px, ${Math.cos(f / 131 + sd) * 8}px) scale(${z})`, transformOrigin: '50% 8%'}}>{out.m}</AbsoluteFill>
       {out.h}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, #0000 62%, #0007 100%)', pointerEvents: 'none'}} />
+      {c.visual.rodada ? <AbsoluteFill style={{pointerEvents: 'none', zIndex: 44, border: `9px solid ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}`, boxShadow: `inset 0 0 0 3px #0008, inset 0 0 40px ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}55`}} /> : null}
       {c.over.map((o, i) => (
         <Sequence key={i} from={o.at} durationInFrames={Math.max(1, o.dur)}>
           {o.tipo === 'cita' ? <Cita o={o} D={D} k={X.cita.indexOf(o)} cena={c.id} /> : null}

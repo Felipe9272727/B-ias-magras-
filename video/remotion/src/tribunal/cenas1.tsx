@@ -2,36 +2,32 @@
 // X.s = selos, X.t0 = fim do cartão de capítulo) e reparte o resto por proporção: nada preso a quadro fixo.
 import React from 'react';
 import {AbsoluteFill, interpolate} from 'remotion';
-import {AMBAR, BANG, C, cl, COR, ease, janela, LATAO, LUZ, MAD_C, MONO, NOME, PERG, Pedra, POP, quique, rnd, sombra, TINTA, VINHO} from './base';
-import {Anel, Bandeira, Cadeado, Carimbo, Colar, Estreia, Ficha, Lacre, Numero, Piso, Placa, Registro, Retrato, TagSo, Versoes, FarolPac, estado} from './pecas';
+import {AMBAR, BANG, C, cl, COR, ease, janela, LATAO, LUZ, MAD_C, MONO, NOME, PERG, Pedra, POP, quique, rnd, RubiGrande, sombra, TINTA, VINHO} from './base';
+import {Anel, Arpao, Bandeira, Cadeado, Carimbo, Colar, Estreia, Ficha, Lacre, Numero, Piso, Placa, Registro, Retrato, TagSo, Versoes, FarolPac, estado} from './pecas';
 import {Corte, Gravura, Liso, MARCOS, Mesa, mxC, Papel, Planta, Sala, xHora} from './cenarios';
 import {palT, sk, type X} from './dados';
 import {Cam, CartaoSo, Hud, marcasPara, passos, pop, Rot, type CenaFn} from './util';
 
 const g = (a: number, b: number, x: number) => a + (b - a) * x;
 
-// ---------- A1: duas sentenças (sem revelar qual advogada condenou: farol neutro) ----------
+// ---------- A1: acertou e perdeu (abre com o clímax da Jade: acusa o assassino certo e a ré é condenada) ----------
 const A1: CenaFn = (X) => {
-  const {f, dur} = X, c0 = sk(X, X.c, 0, 0), c1 = sk(X, X.c, 1, 0.35), s1 = sk(X, X.s, 1, 0.88);
-  const p2 = c0.end + 8, corte = c1.at - 14, sil = c1.end + 26, piso = Math.max(s1.at + 6, dur - 48);
-  const off = c0.end - 22;
-  const fase = f < p2 ? 1 : f < corte ? 2 : f < sil ? 3 : f < piso ? 4 : 5;
-  const flash = Math.max(janela(f, corte - 3, corte + 9, 4), janela(f, p2 - 3, p2 + 6, 3) * 0.6);
-  const quem = (cab: number) => ({juiz: {cor: 'Roxo', fala: fase === 1 || fase === 3, gesto: fase === 1 ? ease(f, off - 30, off) : 0.3}, testemunha: {cor: 'Vermelho', humor: 'cinico' as const}, re: {cor: 'Rosa', cadeados: 2, cabecaBaixa: cab}, promotor: {cor: 'Laranja'}});
-  const m = fase === 1 ? <Cam f={f} k={[[0, 960, 420, 1.05], [c0.end, 960, 470, 1.15]]}><Sala plano="juiz" f={f} clima="noite" quem={{juiz: quem(0).juiz}} /></Cam>
-    : fase === 2 || fase === 3 ? <Cam f={f} k={fase === 2 ? [[p2, 1300, 560, 1.05], [corte, 1560, 600, 1.35]] : [[corte, 960, 520, 1.0], [c1.end, 1500, 600, 1.3]]}>
-      <Sala plano="geral" f={f} clima="noite" quem={quem(fase === 2 ? ease(f, p2 + 14, p2 + 40) : 0)}>
-        <div style={{position: 'absolute', left: 1490, top: 610, zIndex: 20}}>{fase === 2 ? <Carimbo txt="CONDENADA" tipo="condenada" t={f - (p2 + 12)} fs={96} /> : <Carimbo txt="ABSOLVIDA" tipo="absolvida" t={f - (c1.end - 8)} fs={96} />}</div>
-      </Sala>
-    </Cam>
-    : fase === 4 ? <Liso f={f}>
-      {['Azul', 'Verde'].map((cor, i) => <div key={cor} style={{position: 'absolute', left: i ? 1180 : 240, top: 200 + Math.sin(f / 20 + i) * 8}}><Pedra cor={cor} s={420} f={f} rod={cor === 'Azul' ? 'S' : 'J'} silh /><div style={{textAlign: 'center', fontFamily: POP, fontWeight: 800, fontSize: 40, color: COR[cor], ...C(6)}}>ADVOGADA {i + 1}</div></div>)}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center', fontFamily: BANG, fontSize: 360, color: LUZ, ...C(16), transform: `scale(${pop(f, sil, 14)}) rotate(${Math.sin(f / 9) * 4}deg)`}}>?</div>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 800, display: 'flex', justifyContent: 'center', gap: 60, opacity: ease(f, sil + 20, sil + 30)}}><Carimbo txt="SALVOU" tipo="absolvida" t={f - sil - 20} fs={70} /><Carimbo txt="CONDENOU" tipo="condenada" t={f - sil - 34} fs={70} /></div>
-    </Liso>
-    : <AbsoluteFill style={{background: `repeating-linear-gradient(90deg, ${MAD_C} 0 150px, #6a4126 150px 156px)`}}><Cam f={f} k={[[piso, 960, 540, 1.6], [dur, 960, 540, 1.9]]}><div style={{position: 'absolute', left: 660, top: 240, filter: `drop-shadow(0 0 ${30 * ease(f, piso + 10, piso + 30)}px ${LUZ})`}}><Piso s={600} k={ease(f, piso, piso + 30)} w={7} /></div></Cam><AbsoluteFill style={{background: 'radial-gradient(#0000 30%, #000c)'}} /></AbsoluteFill>;
-  const farolPs = fase <= 2 ? passos(2, [off, 0]) : passos(2);
-  return {m: <>{m}<AbsoluteFill style={{background: '#fff', opacity: flash}} /></>, h: fase <= 3 ? <Hud f={f} farol={{rod: 'X', passos: farolPs, s: 130}} /> : null};
+  const {f, dur, D} = X, c0 = sk(X, X.c, 0, 0.05), c1 = sk(X, X.c, 1, 0.45);
+  const close = c0.end, juiz = c1.at - 6, apaga = c1.end - 8, geral = c1.end + 10;
+  const rest = dur - geral, sil = geral + rest * 0.42, piso = Math.max(sil + 40, dur - 48);
+  const hud = f < geral ? <Hud f={f} rod="J" dia={4} farol={{rod: 'J', passos: passos(2, [apaga, 0])}} /> : null;
+  let m: React.ReactNode;
+  if (f < close) m = <Cam f={f} k={[[0, 700, 520, 1.1], [c0.at + 40, 960, 540, 1], [close, 1350, 520, 1.12]]}><Sala plano="tribuna" f={f} clima="noite" rod="J" quem={{advogada: {cor: 'Verde', gesto: ease(f, c0.at - 4, c0.at + 8), fala: true, humor: 'bravo'}, re: {cor: 'Rosa', cadeados: 2}, assistente: {cor: 'Ciano'}, acusado: {cor: 'Vermelho', humor: 'cinico'}}}><Arpao t={f - (c0.at - 10)} alvoX={1400} y={860} lento /><div style={{position: 'absolute', left: 120, top: 120}}><Bandeira t={f - c0.at} txt="TOMA ESSA!" /></div></Sala></Cam>;
+  else if (f < juiz) m = <Liso f={f}><div style={{position: 'absolute', left: 520, top: 40, transform: `scale(${1 + 0.04 * ease(f, close, juiz)})`}}><RubiGrande exp="choque" h={1040} f={f} /></div><div style={{position: 'absolute', left: 120, top: 760, transform: `scale(${pop(f, close + 10)}) rotate(-3deg)`}}><TagSo txt="SÓ VOCÊ VÊ: É ELE MESMO" fs={40} /></div></Liso>;
+  else if (f < geral) m = <Cam f={f} k={[[juiz, 960, 470, 1.04], [c1.end, 960, 420, 1.14]]}><Sala plano="juiz" f={f} clima="noite" contraluz rod="J" quem={{juiz: {cor: 'Roxo', fala: f >= c1.at && f < c1.end, exp: 'decisao'}}} /></Cam>;
+  else if (f < sil) m = <Cam f={f} k={[[geral, 1100, 560, 1.05], [sil, 1350, 600, 1.2]]}><Sala plano="geral" f={f} clima="noite" rod="J" quem={{juiz: {cor: 'Roxo', exp: 'decisao'}, testemunha: {cor: 'Vermelho', humor: 'cinico'}, advogada: {cor: 'Verde', humor: 'triste'}, re: {cor: 'Rosa', cadeados: 2, humor: 'triste', cabecaBaixa: ease(f, geral + 10, geral + 40)}}}><div style={{position: 'absolute', left: 1180, top: 560, zIndex: 20}}><Carimbo txt="CONDENADA" tipo="condenada" t={f - geral - 8} fs={96} /></div></Sala></Cam>;
+  else if (f < piso) m = <Liso f={f}>
+    {['Azul', 'Verde'].map((cor, i) => <div key={cor} style={{position: 'absolute', left: i ? 1180 : 240, top: 200 + Math.sin(f / 20 + i) * 8}}><Pedra cor={cor} s={420} f={f} rod={cor === 'Azul' ? 'S' : 'J'} silh /><div style={{textAlign: 'center', marginTop: 10}}><Rot fs={34} bg={COR[cor]} cor="#fff">{i ? 'ACERTOU E PERDEU' : 'QUASE NÃO ARRISCOU E SALVOU'}</Rot></div></div>)}
+    <div style={{position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center', fontFamily: BANG, fontSize: 360, color: LUZ, ...C(16), transform: `scale(${pop(f, sil, 14)}) rotate(${Math.sin(f / 9) * 4}deg)`}}>?</div>
+  </Liso>;
+  else m = <AbsoluteFill style={{background: `repeating-linear-gradient(90deg, ${MAD_C} 0 150px, #6a4126 150px 156px)`}}><Cam f={f} k={[[piso, 960, 540, 1.6], [dur, 960, 540, 1.9]]}><div style={{position: 'absolute', left: 660, top: 240, filter: `drop-shadow(0 0 ${30 * ease(f, piso + 10, piso + 30)}px ${LUZ})`}}><Piso s={600} k={ease(f, piso, piso + 30)} w={7} /></div></Cam><AbsoluteFill style={{background: 'radial-gradient(#0000 30%, #000c)'}} /></AbsoluteFill>;
+  const flash = janela(f, geral - 3, geral + 8, 4);
+  return {m: <>{m}<AbsoluteFill style={{background: '#fff', opacity: flash}} /></>, h: hud};
 };
 
 // ---------- A2: o experimento (título entalhado + elenco) ----------

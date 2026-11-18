@@ -196,7 +196,7 @@ const G4: CenaFn = (X) => {
   const fant = janela(f, tHom - 6, tEsp + 10, 12);
   const hum: Humor = f >= c2.at ? 'triste' : f >= c1.at ? (f > tEsp ? 'susto' : 'bravo') : f >= c0.at ? 'triste' : 'normal';
   return {m: <Cam f={f} k={[[0, 960, 540, 1], [c0.at, 1350, 480, 1.14], [c1.at, 1200, 500, 1.06], [tHom, 1000, 500, 1.02], [c1.end, 960, 540, 1], [c2.at, 1380, 480, 1.16], [X.dur, 1420, 470, 1.2]]}>
-    <Mesa f={f} rod="J" esq={{cor: 'Verde', gesto: janela(f, ap2 - 6, ap2 + 30, 6), fala: false}} dir={{cor: 'Rosa', cadeados: 2, fala: fala(X, 1), humor: hum}}>
+    <Mesa f={f} rod="J" esq={{cor: 'Verde', gesto: janela(f, ap2 - 6, ap2 + 30, 6), fala: false, humor: f > menos ? 'triste' : f > c1.at ? 'susto' : 'normal'}} dir={{cor: 'Rosa', cadeados: 2, fala: fala(X, 1), humor: hum}}>
       <div style={{position: 'absolute', left: 1290, top: 130, zIndex: 9, opacity: janela(f, 20, c0.at + 20, 10), transform: `scale(${pop(f, 20)})`}}><Rot fs={34} bg={COR.Rosa}>QUARTZO · {D.modelo('Rosa')} · 1ª FALA</Rot></div>
       {f >= c0.at - 10 && f < c2.at ? <div style={{position: 'absolute', left: 1180, top: 60, zIndex: 9, transform: 'scale(0.85)'}}><Cadeado s={130} f={f} chaves={['CARTA DO PAI', 'CASACO']} chK={ease(f, c0.at, c0.at + 16)} /></div> : null}
       {fant > 0 ? <div style={{position: 'absolute', left: 980, top: 150, zIndex: 2, opacity: fant * 0.85, transform: `translateX(${(1 - fant) * 60}px)`}}><Pedra cor="Vermelho" s={300} f={f} silh /><div style={{textAlign: 'center', marginTop: -20}}><TagSo txt="O HOMEM DO CORREDOR" fs={24} /></div></div> : null}
@@ -403,7 +403,7 @@ const I3: CenaFn = (X) => {
   </Liso>, h: hud};
   const k = ease(f, min, min + 18);
   return {m: <Liso f={f}>
-    <div style={{position: 'absolute', left: 90, top: 210}}><Retrato cor="Vermelho" rod="S" s={320} f={f} humor="cinico" fala={fala(X, 1)} /></div>
+    <div style={{position: 'absolute', left: 90, top: 210}}><Retrato cor="Vermelho" rod="S" s={320} f={f} humor="triste" fala={fala(X, 1)} /></div>
     <div style={{position: 'absolute', left: 660, top: 70}}><Mao s={560} f={f} dedo={k} tag={k < 0.5 ? 'DIA 2: ANELAR' : 'DIA 4: MÍNIMO'} tagT={f - (k < 0.5 ? c1.at - 20 : min)} /></div>
     {f > c1.end + 30 ? <div style={{position: 'absolute', left: 1200, top: 820, transform: `scale(${pop(f, c1.end + 30)}) rotate(-3deg)`}}><TagSo txt="GUARDA ESSE DEDO" fs={36} /></div> : null}
   </Liso>, h: hud};
@@ -569,21 +569,17 @@ const J3: CenaFn = (X) => {
   </Liso>, h: null};
 };
 
-// ================= J4: a lição e a pergunta =================
+// ================= J4: a pergunta (as duas advogadas lado a lado desde o começo; a lição fica no selo) =================
 const J4: CenaFn = (X) => {
-  const {f, D} = X, s0 = sk(X, X.s, 0, 0.75), s1 = sk(X, X.s, 1, 0.86);
-  const lic = s0.at * 0.12, pag = s0.at * 0.4;
-  return {m: <Cam f={f} k={[[0, 960, 540, 1.1], [s0.at, 960, 560, 1], [X.dur, 960, 560, 1.04]]}>
+  const {f, D} = X, s0 = sk(X, X.s, 0, 0.7);
+  return {m: <Cam f={f} k={[[0, 960, 540, 1.04], [X.dur, 960, 560, 1]]}>
     <Sala plano="geral" f={f} clima="noite" quem={{}} vazio />
     <Chuva f={f} n={70} op={0.5 * (1 - ease(f, s0.at * 0.5, s0.at))} />
-    <div style={{position: 'absolute', left: 1330, top: 640, zIndex: 10, transform: `scale(${pop(f, pag)}) rotate(-5deg)`}}><Ficha id="E6" nome={D.ficha('E6').nome} w={260} f={f} tag="“ENGENHEIRO R...”" /></div>
-    <div style={{position: 'absolute', left: 300, top: 200, width: 1100, zIndex: 61, opacity: 1 - ease(f, s0.at - 16, s0.at), transform: `translateY(${(1 - quique(f, lic, 16)) * -700}px) rotate(-1deg)`}}>
-      <div style={{background: `repeating-linear-gradient(1deg, ${MAD_C} 0 44px, #7b4e2e 44px 48px)`, border: `7px solid ${TINTA}`, borderRadius: 18, boxShadow: sombra, padding: '24px 36px'}}>
-        <div style={{fontFamily: MONO, fontWeight: 700, fontSize: 26, color: LUZ}}>O QUE EU APRENDI</div>
-        <div style={{fontFamily: POP, fontWeight: 800, fontSize: 52, lineHeight: 1.15, color: PERG, ...C(5)}}>Pegar o mentiroso na mentira não basta: o juiz só condena com prova.</div>
-      </div>
+    <div style={{position: 'absolute', left: 0, right: 0, top: 120, zIndex: 62, display: 'flex', justifyContent: 'center', gap: 220}}>
+      {['Verde', 'Azul'].map((cor, i) => <div key={cor} style={{transform: `scale(${pop(f, 8 + i * 30)})`}}><Retrato cor={cor} rod={cor === 'Azul' ? 'S' : 'J'} s={330} f={f} humor={cor === 'Azul' ? 'feliz' : 'triste'} exp={cor === 'Verde' ? 'objecao' : undefined} rot={cor === 'Azul' ? 'QUASE NÃO ARRISCOU · SALVOU' : 'ACERTOU O ASSASSINO · PERDEU'} /></div>)}
     </div>
-    {f > s0.end ? <div style={{position: 'absolute', left: 150, width: 1000, top: 40, zIndex: 62, display: 'flex', justifyContent: 'center', gap: 90}}>{['Azul', 'Verde'].map((cor, i) => <div key={cor} style={{transform: `scale(${pop(f, s0.end + i * 12)})`}}><Retrato cor={cor} rod={i ? 'J' : 'S'} s={230} f={f} humor={i ? 'triste' : 'feliz'} rot={i ? 'ACERTOU E PERDEU' : 'SALVOU A RÉ'} /></div>)}</div> : null}
+    <div style={{position: 'absolute', left: 0, right: 0, top: 70, zIndex: 63, textAlign: 'center', transform: `scale(${pop(f, 70)})`}}><Rot fs={58} bg={LUZ}>VOCÊ CONTRATAVA QUAL?</Rot></div>
+    <div style={{position: 'absolute', left: 1330, top: 760, zIndex: 10, transform: `scale(${pop(f, 100)}) rotate(-5deg)`}}><Ficha id="E6" nome={D.ficha('E6').nome} w={240} f={f} tag="“ENGENHEIRO R...”" /></div>
   </Cam>, h: null};
 };
 

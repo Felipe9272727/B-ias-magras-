@@ -77,8 +77,7 @@ const D3: CenaFn = (X) => {
   if (f >= c2.at - 8 && f < c3.at) return {m: <Liso f={f}><div style={{position: 'absolute', left: 620, top: 90}}><Mao s={620} f={f} dedo={0} tag="GUARDA ESSE DEDO: ANELAR" tagT={f - dedo} /></div><div style={{position: 'absolute', left: 120, top: 200}}><Retrato cor="Vermelho" rod="S" s={300} f={f} humor="cinico" fala={fala(X, 2)} /></div></Liso>, h: hud};
   const ring = f >= anelMesa, sob = ease(f, anelMesa + 50, anelMesa + 80);
   return {m: <Cam f={f} k={[[0, 960, 540, 1], [c0.at, 1300, 500, 1.08], [c1.end, 900, 520, 1.02], [c3.at, 1500, 520, 1.1], [anelMesa + 10, 1520, 880, 2.1], [X.dur, 1520, 880, 2.25]]}>
-    <Sala plano="tribuna" f={f} quem={{advogada: {cor: 'Azul', gesto: janela(f, fa, fb, 10)}, re: {cor: 'Rosa', cadeados: 2}, acusado: {cor: 'Vermelho', humor: 'cinico', fala: fala(X, 0, 1, 3), semAnel: ring}}} rod="S">
-      <div style={{position: 'absolute', left: 860, top: 380, zIndex: 1, opacity: ease(f, c1.end, c1.end + 14)}}><Pedra cor="Ciano" s={220} f={f} rod="S" /><div style={{textAlign: 'center', marginTop: -6}}><Rot fs={24} bg={LUZ}>DELEGADO TURQUESA · NÃO FALA</Rot></div></div>
+    <Sala plano="tribuna" f={f} quem={{advogada: {cor: 'Azul', gesto: janela(f, fa, fb, 10)}, re: {cor: 'Rosa', cadeados: 2}, acusado: {cor: 'Vermelho', humor: f >= c2.at ? 'triste' : 'cinico', fala: fala(X, 0, 1, 3), semAnel: ring}}} rod="S">
       {ring ? <div style={{position: 'absolute', left: 1440, top: 800, zIndex: 20, transform: `scale(${quique(f, anelMesa, 14) * 0.9})`}}><Anel s={170} f={f} />{sob > 0 ? <div style={{position: 'absolute', left: -24, top: -24, opacity: sob, filter: `drop-shadow(0 0 12px ${LUZ})`}}><Piso s={218} cor={LUZ} w={5} /></div> : null}</div> : null}
       {sob > 0.8 ? <div style={{position: 'absolute', left: 1390, top: 990, zIndex: 21, transform: `scale(${pop(f, anelMesa + 76) * 0.5})`, transformOrigin: '0 0'}}><Rot fs={40} bg={LUZ}>O ARO É O CÍRCULO</Rot></div> : null}
     </Sala>

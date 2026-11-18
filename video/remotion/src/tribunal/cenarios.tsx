@@ -138,7 +138,7 @@ export const Palco: React.FC<{nome: string; f: number; zoom?: number; ox?: numbe
   </>;
 };
 // plaquinha de latão com o nome (fica sobre o móvel do cenário)
-const Plaq: React.FC<{x: number; y: number; txt?: string; cor?: string; z?: number}> = ({x, y, txt, cor, z = 45}) => txt ? (
+const Plaq: React.FC<{x: number; y: number; txt?: string; cor?: string; z?: number}> = ({x, y, txt, cor, z = 45}) => txt && useContext(CamCtx)[2] < 1.6 ? (
   <div style={{position: 'absolute', left: x, top: y, zIndex: z, transform: 'translateX(-50%)', fontFamily: POP, fontWeight: 800, fontSize: 28, color: TINTA, background: `linear-gradient(${LUZ}, ${LATAO})`, border: `4px solid ${TINTA}`, borderLeft: cor ? `16px solid ${COR[cor]}` : undefined, borderRadius: 8, padding: '0 14px', whiteSpace: 'nowrap', boxShadow: '0 6px 0 #0007'}}>{txt}</div>
 ) : null;
 

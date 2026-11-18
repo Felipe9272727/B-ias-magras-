@@ -16,7 +16,12 @@ export const FAROL_COR: Record<string, string> = {S: '#5AA8FF', J: '#3FE0A0'};
 export const ROD_NOME: Record<string, string> = {S: 'RODADA DA SAFIRA', J: 'RODADA DA JADE'};
 export const POP = "'Poppins', sans-serif", MONO = "'JetBrains Mono', monospace", BANG = "'Bangers', 'Poppins', sans-serif";
 export const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
-export const C = (px: number, cor = '#000'): React.CSSProperties => ({WebkitTextStroke: `${px}px ${cor}`, paintOrder: 'stroke fill'});
+// contorno de texto: anel de sombras por fora + traço fino (o traço grosso do Chromium "come" as letras: KUDI no lugar de RUBI)
+export const C = (px: number, cor = '#000'): React.CSSProperties => {
+  const r = Math.max(1, px * 0.55), n = 12;
+  const sh = Array.from({length: n}).map((_, i) => `${(Math.cos((i / n) * Math.PI * 2) * r).toFixed(1)}px ${(Math.sin((i / n) * Math.PI * 2) * r).toFixed(1)}px 0 ${cor}`).join(', ');
+  return {WebkitTextStroke: `${Math.min(px * 0.3, 3)}px ${cor}`, textShadow: sh};
+};
 export const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 export const hash = (s: string) => { let h = 7; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 9973; return h; };
 export const claro = (cor: string) => ['Amarelo', 'Lima', 'Ciano', 'Rosa'].includes(cor);
@@ -65,7 +70,7 @@ type PedraP = {cor: string; s: number; f?: number; rod?: string | null; humor?: 
 // pre = prefixo do arquivo em public/tribunal/sprites; ex = humor -> expressão; g = expressão do gesto (apontar/martelo)
 type Fam = {pre: string; ex: Record<Humor, string>; g: string; k?: number; dx?: number};
 export const FAM: Record<string, Fam> = {
-  Vermelho: {pre: 'rubi_t', ex: {normal: 'normal', feliz: 'ajeita_anel', triste: 'suando', susto: 'choque', cinico: 'frio', bravo: 'frio'}, g: 'ajeita_anel'},
+  Vermelho: {pre: 'rubi_t', ex: {normal: 'normal', feliz: 'ajeita_anel', triste: 'suando', susto: 'choque', cinico: 'ajeita_anel', bravo: 'suando'}, g: 'ajeita_anel'},
   Azul: {pre: 'safira', ex: {normal: 'normal', feliz: 'alivio', triste: 'abalada', susto: 'abalada', cinico: 'pensando', bravo: 'objecao'}, g: 'objecao'},
   Verde: {pre: 'jade', ex: {normal: 'normal', feliz: 'normal', triste: 'derrota', susto: 'confusa', cinico: 'confusa', bravo: 'objecao'}, g: 'toma_essa'},
   Rosa: {pre: 'quartzo', ex: {normal: 'normal', feliz: 'determinada', triste: 'choro', susto: 'assustada', cinico: 'determinada', bravo: 'defesa'}, g: 'defesa'},

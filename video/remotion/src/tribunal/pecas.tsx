@@ -154,7 +154,7 @@ export const Carimbo: React.FC<{txt: string; tipo: 'condenada' | 'absolvida' | '
 };
 
 // ---------- retrato: pedra + plaquinha com nome, modelo e etiqueta do papel ----------
-export const Retrato: React.FC<{cor: string; rod?: string | null; s: number; f: number; modelo?: string; rot?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; gesto?: number; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; silh?: boolean; busto?: boolean; papel?: Papel; nome?: boolean}> = ({cor, rod, s, f, modelo, rot, nome = true, ...p}) => (
+export const Retrato: React.FC<{cor: string; rod?: string | null; s: number; f: number; modelo?: string; rot?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; gesto?: number; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; silh?: boolean; busto?: boolean; papel?: Papel; nome?: boolean; exp?: string}> = ({cor, rod, s, f, modelo, rot, nome = true, ...p}) => (
   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: s}}>
     <Pedra cor={cor} s={s} f={f} rod={rod} {...p} />
     {nome ? <div style={{marginTop: -s * 0.08, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, zIndex: 2}}>

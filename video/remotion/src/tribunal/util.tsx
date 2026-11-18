@@ -59,7 +59,7 @@ export const VERSOES_VIDEO = [
   V('H1', 0, 'rádio portátil', 'J', 'J#93'),
   V('I1', 0, 'fornecedor de madeira', 'S', 'S#98'),
 ];
-const ORDEM = 'A1 A0 A2 A3 B1 B2 B3 C1 C2 C3 C4 D1 D2 D3 D4 E1 E2 E3 E4 F1 F2 F3 G1 G2 G3 G4 G5 G6 H1 H2 H3 H4 I1 I2 I3 I4 I5 I6 I7 J1 J2 J3 J4'.split(' ');
+const ORDEM = 'A1 A0 A2 A3 B1 B2 B3 C1 C2 C3 C4 D1 D2 D3 D4 E1 E2 E3 E4 F1 F2 F3 G1 G2 G3 G4 G5 G6 I1 I2 I3 I4 I5 I6 H1 H2 H3 H4 I7 J1 J2 J3 J4'.split(' ');
 export const marcasPara = (cena: string, tempos: number[]): Marca[] => {
   const io = ORDEM.indexOf(cena); let k = 0;
   return VERSOES_VIDEO.filter((v) => ORDEM.indexOf(v.cena) <= io).map((v) => ({col: v.col, txt: v.txt, rod: v.rod, ref: v.ref, at: v.cena === cena ? tempos[k++] ?? 0 : -1}));
