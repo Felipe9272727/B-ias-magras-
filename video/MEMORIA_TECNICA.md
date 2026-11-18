@@ -185,3 +185,12 @@ Fonte: comentários dos posts de feedback (`video/youtube/feedback/comentarios_p
   CHECKPOINT e RETOMADA (`--retomar`), e roda destacado: `setsid nohup bash tribunal/rodar.sh <cor> &` (o rodar.sh
   relança o node com --retomar até sair o resultado e religa a ponte se ela cair). Ver `tribunal/farol.mjs`
   (checkpoint antes de cada ação de investigação, de cada testemunha e de cada pergunta do interrogatório) e `tribunal/reconstruir_snap.mjs`.
+
+## Conta nova do ElevenLabs (18/11)
+- A conta antiga ficou bloqueada (fatura de US$ 99 que o Felipe não pediu; suporte acionado). Conta nova: guardar a
+  chave com `/chave elevenlabs2 <chave>` (tem prioridade sobre `elevenlabs`) e rodar `python3 video/scripts/eleven_conta_nova.py`:
+  ele adiciona à conta nova as vozes da biblioteca pública que o canal usa (lista em `video/scripts/vozes_elevenlabs.json`)
+  e grava `vozes_mapa.json` (id antigo -> id novo). O cache das vozes continua valendo (hash pelo id antigo).
+- Vozes "generated" da conta antiga (Marrom, Banana, Caqui) não passam de conta: escolher outra voz se precisar.
+- Teste de vozes grátis (18/11): Chatterbox mediano; ZONOS3-Mini e Qwen3-TTS testados; o Qwen foi o melhor, mas
+  "nem chega perto do ElevenLabs" (Felipe). Ficar no ElevenLabs.

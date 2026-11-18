@@ -49,15 +49,22 @@ sys.path.insert(0, str(Path(__file__).parent))
 import au7_conferir  # noqa: E402
 
 
+# vozes da conta nova: id antigo -> id na conta nova (eleven_conta_nova.py). O cache continua pelo id antigo.
+_MAPA = Path(__file__).parent / 'vozes_mapa.json'
+MAPA_VOZES = json.loads(_MAPA.read_text()) if _MAPA.exists() else {}
+
+
 def chave():
     k = os.environ.get('ELEVENLABS_API_KEY')
     if k:
         return k
-    for f in glob.glob('/root/.claude/plugins/store/chaves-ias*.json'):
-        v = json.loads(Path(f).read_text())
-        for d in (v, v.get('data', {}), v.get('values', {})):
-            if isinstance(d, dict) and d.get('elevenlabs'):
-                return d['elevenlabs']
+    # conta nova do ElevenLabs (18/11): '/chave elevenlabs2 ...' tem prioridade sobre a antiga
+    for nome in ('elevenlabs2', 'elevenlabs'):
+        for f in glob.glob('/root/.claude/plugins/store/chaves-ias*.json'):
+            v = json.loads(Path(f).read_text())
+            for d in (v, v.get('data', {}), v.get('values', {})):
+                if isinstance(d, dict) and d.get(nome):
+                    return d[nome]
     raise SystemExit('SEM CHAVE do ElevenLabs (use /chave elevenlabs ... ou ELEVENLABS_API_KEY)')
 
 
@@ -83,7 +90,7 @@ def tts(texto, voz, eco=False):
             falta += len(texto)
             return f'au7/voz/{h}.mp3', max(0.8, len(texto) / 14)
         body = json.dumps({'text': falado(texto), 'model_id': MODELO, 'voice_settings': AJUSTES}).encode()
-        req = urllib.request.Request(f'https://api.elevenlabs.io/v1/text-to-speech/{voz}?output_format=mp3_44100_128', data=body, headers={'xi-api-key': chave(), 'Content-Type': 'application/json'})
+        req = urllib.request.Request(f'https://api.elevenlabs.io/v1/text-to-speech/{MAPA_VOZES.get(voz, voz)}?output_format=mp3_44100_128', data=body, headers={'xi-api-key': chave(), 'Content-Type': 'application/json'})
         cru = VOZ / f'{h}_cru.mp3' if eco else mp3
         for tentativa in range(4):
             try:
