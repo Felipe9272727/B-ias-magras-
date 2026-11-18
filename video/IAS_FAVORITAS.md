@@ -41,3 +41,8 @@ mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** j
 - Entrou o Gemma 4 26B (google/gemma-4-26b-a4b-it, MoE 4B ativos), escolha do Felipe: barato e com visão.
 - (13/11) O Felipe avisou: DEPOIS do Desenha e Adivinha o Qwen 27B VOLTA ao elenco ("ele faz falta"). A exclusão por custo
   valeu só para o Jogo de Confiança e o Desenha e Adivinha.
+
+## AU8 (19/11): 11 IAs
+- O Felipe pediu mais uma IA pequena no estilo Gemma/Qwen: entrou a **Meta Muse Ember** (or:meta/muse-ember, o menor e mais
+  eficiente da Meta; US$ 0,10/0,50 por milhão; no teste respondeu em 1,4 s e pegou a mentira certa). Cor Marrom no motor.
+- DeepSeek SEMPRE pela API oficial (api.deepseek.com, chave do mod), nunca pelo OpenRouter (pedido do Felipe, de novo no AU8).

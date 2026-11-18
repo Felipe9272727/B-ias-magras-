@@ -41,7 +41,7 @@ function embaralhar(arr) {
 }
 
 // ---------- configuração ----------
-export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano']
+export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano', 'Marrom'] // 19/11: Marrom = 11ª IA (Meta Muse Ember, pedido do Felipe)
 const MODELOS = {
   deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:xiaomi/mimo-v2.6-flash': 'MiMo V2.6 Flash', 'or:minimax/minimax-m3.1-flash': 'MiniMax M3.1 Flash', 'or:openai/gpt-6-luna': 'GPT-6 Luna', 'or:meta/muse-ember': 'Meta Muse Ember', 'or:nex-agi/nex-n2.6': 'Nex N2.6', sonnet: 'Claude Sonnet', 'or:mistralai/mistral-small-2603': 'Mistral Small', 'or:google/gemma-4-26b-a4b-it': 'Gemma 4 26B', mock: 'Mock',
 }

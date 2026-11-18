@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Sorteio da temporada do AMONG IA 8 ("a volta às origens", último Among por um tempo) com aleatoriedade de verdade.
 
-10 IAs (as favoritas do canal) no The Skeld, só funções OFICIAIS + Palhaço, com RODÍZIO: cada partida usa 2 impostores
+11 IAs (as favoritas do canal + a Meta Muse Ember) no The Skeld, só funções OFICIAIS + Palhaço, com RODÍZIO: cada partida usa 2 impostores
 com função, 3 tripulantes com função e o Palhaço; o resto é tripulante comum. As 9 funções oficiais aparecem ao longo das
 3 partidas. Os 2 impostores são sempre de empresas diferentes. Grava logs8/temporada.json; o motor (jogo8.mjs) só lê.
 Uso: python3 sorteio8.py
@@ -12,9 +12,10 @@ from pathlib import Path
 
 R = secrets.SystemRandom()
 AQUI = Path(__file__).parent
-CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano']
+CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano', 'Marrom']
 IAS = ['haiku', 'sonnet', 'or:qwen/qwen3.8-27b', 'or:openai/gpt-6-luna', 'or:xiaomi/mimo-v2.6-flash', 'or:z-ai/glm-5.3-flash',
-       'or:deepseek/deepseek-v4.1-flash', 'or:minimax/minimax-m3.1-flash', 'or:mistralai/mistral-small-2603', 'or:google/gemma-4-26b-a4b-it']
+       'or:deepseek/deepseek-v4.1-flash', 'or:minimax/minimax-m3.1-flash', 'or:mistralai/mistral-small-2603', 'or:google/gemma-4-26b-a4b-it',
+       'or:meta/muse-ember']  # 19/11: 11ª IA pedida pelo Felipe (pequena, estilo Gemma/Qwen); DeepSeek vai pela API oficial (ia.mjs)
 EMPRESA = lambda p: 'anthropic' if p in ('haiku', 'sonnet') else p.split('/')[0]
 RODIZIO = [
     (['Metamorfo', 'Espectro'], ['Engenheiro', 'Cientista', 'Anjo']),
