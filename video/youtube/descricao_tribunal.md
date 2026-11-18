@@ -28,19 +28,19 @@ Inspirado em Phoenix Wright: Ace Attorney (Capcom). Trecho do trailer oficial us
 
 CAPÍTULOS
 0:00 Acertou o assassino e perdeu
-0:26 A inspiração (e o pedido do @SwordMan333)
-0:46 O experimento
-1:14 A regra numa objeção
-1:45 Só você vê: o farol apagou duas vezes
-2:50 Safira, dia 1: ele não tocou em nada
-4:58 Safira, dia 2: até o promotor concordou
-7:16 Jade, dia 1: só a tempestade
-9:12 Jade, dia 2: toma essa... cedo demais
-10:58 Dia 3: as chaves no bolso
-14:18 Safira, dia 4: o causo
-17:47 Jade, dia 4: a prova certa na hora errada
-19:48 Safira: o veredito
-20:22 O placar, os prêmios e a pergunta
+0:31 A inspiração (e o pedido do @SwordMan333)
+0:53 O experimento
+1:25 A regra numa objeção
+1:58 Só você vê: o farol apagou duas vezes
+3:10 Safira, dia 1: ele não tocou em nada
+5:29 Safira, dia 2: até o promotor concordou
+8:01 Jade, dia 1: só a tempestade
+10:08 Jade, dia 2: toma essa... cedo demais
+12:04 Dia 3: as chaves no bolso
+15:47 Safira, dia 4: o causo
+19:32 Jade, dia 4: a prova certa na hora errada
+21:40 Safira: o veredito
+22:16 O placar, os prêmios e a pergunta
 
 E você: contratava a que acertou o assassino e perdeu, ou a que nem tentou acusar e ganhou? Comenta aí, que o próximo caso já está sendo escrito.
 
