@@ -86,9 +86,6 @@ export const spriteSrc = (cor: string, humor: Humor = 'normal', gesto = 0, exp?:
 // embaixo e a cabeça acompanha o tronco. Nas poses de apontar/martelo o braço é uma 3ª peça que estoca a partir do ombro
 // (só cresce, então cobre o original e não abre buraco).
 const BRACO: Record<string, {p: string; o: [number, number]; k: 'estoca' | 'bate'}> = {
-  safira_objecao: {p: '28,58 55,47 84,33 100,35 100,86 64,90 34,86', o: [30, 70], k: 'estoca'},
-  jade_objecao: {p: '30,68 52,45 76,41 98,47 98,83 60,89 28,97', o: [32, 86], k: 'estoca'},
-  ambar_acusacao: {p: '16,60 58,54 100,57 100,95 60,100 16,93', o: [20, 76], k: 'estoca'},
   ametista_martelo: {p: '45,60 100,57 100,100 45,100', o: [52, 100], k: 'bate'},
 };
 const poliMask = (p: string) => `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='1.3'/></filter><polygon points='${p}' fill='white' filter='url(%23b)'/></svg>")`;
@@ -137,12 +134,16 @@ const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, ge
   const k = spriteKey(cor, humor, gesto, exp)!;
   const h = hash(cor);
   const H = s * (busto ? 1.15 : 1.5);
-  const dh = s * (busto ? 1.32 : 1.46) * (F.k ?? 1);
+  // tamanho pela cabeça (py = linha do pescoço): as artes têm cortes diferentes (até a coxa, até o peito);
+  // a cabeça fica do mesmo tamanho e o corte de baixo sempre passa da borda do móvel
+  const [w0, h0, px, py] = RIG[k] ?? [800, 1000, 0.5, 0.58];
+  const dh = (busto ? (0.78 * s) / py : Math.max((0.55 * s) / py, 1.42 * s)) * (F.k ?? 1);
+  const dw = (dh * w0) / h0;
   const glow = silh ? (cor === 'Azul' ? '#5AA8FF' : cor === 'Verde' ? '#3FE0A0' : COR[cor]) : null;
   return (
     <div style={{position: 'relative', width: s, height: H, flexShrink: 0, overflow: busto ? 'hidden' : 'visible', borderRadius: busto ? s * 0.08 : 0, ...style}}>
       {busto ? null : <div style={{position: 'absolute', left: s * 0.12, right: s * 0.12, bottom: -s * 0.02, height: s * 0.06, borderRadius: '50%', background: '#0005', filter: 'blur(6px)'}} />}
-      <div style={{position: 'absolute', left: -s, right: -s, top: busto ? s * 0.04 : H - dh, display: 'flex', justifyContent: 'center', transform: `translateX(${(F.dx ?? 0) * s}px) scaleX(${espelho && cor === 'Vermelho' ? -1 : 1})`, filter: glow ? `brightness(0) drop-shadow(0 0 ${s * 0.03}px ${glow}) drop-shadow(0 0 ${s * 0.015}px ${glow})` : busto ? undefined : `drop-shadow(0 ${s * 0.03}px ${s * 0.03}px #0009)`}}>
+      <div style={{position: 'absolute', left: s / 2 - px * dw + (F.dx ?? 0) * s, top: s * 0.04, width: dw, height: dh, transformOrigin: `${px * 100}% 50%`, transform: `scaleX(${espelho && cor === 'Vermelho' ? -1 : 1})`, filter: glow ? `brightness(0) drop-shadow(0 0 ${s * 0.03}px ${glow}) drop-shadow(0 0 ${s * 0.015}px ${glow})` : busto ? undefined : `drop-shadow(0 ${s * 0.03}px ${s * 0.03}px #0009)`}}>
         <Boneco k={k} dh={dh} f={f} fala={fala} seed={h} cabecaBaixa={cabecaBaixa} energia={busto ? 0.8 : 1} />
       </div>
       {cadeados > 0 ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
