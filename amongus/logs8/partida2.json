@@ -149,6 +149,49 @@
    "Ciano": "Refeitorio",
    "Marrom": "Refeitorio",
    "Lima": "Refeitorio"
+  },
+  "11": {
+   "Vermelho": "Enfermaria",
+   "Rosa": "Armas",
+   "Laranja": "Deposito",
+   "Amarelo": "Admin",
+   "Preto": "Armas",
+   "Roxo": "Refeitorio",
+   "Ciano": "Refeitorio",
+   "Marrom": "Deposito",
+   "Lima": "MotorSuperior"
+  },
+  "12": {
+   "Vermelho": "Enfermaria",
+   "Rosa": "O2",
+   "Laranja": "Deposito",
+   "Amarelo": "Admin",
+   "Preto": "O2",
+   "Roxo": "Armas",
+   "Ciano": "Armas",
+   "Marrom": "Deposito",
+   "Lima": "MotorSuperior"
+  },
+  "13": {
+   "Vermelho": "Enfermaria",
+   "Rosa": "O2",
+   "Laranja": "Deposito",
+   "Amarelo": "Refeitorio",
+   "Preto": "O2",
+   "Roxo": "Refeitorio",
+   "Ciano": "Armas",
+   "Marrom": "Deposito",
+   "Lima": "MotorSuperior"
+  },
+  "14": {
+   "Vermelho": "Refeitorio",
+   "Rosa": "Refeitorio",
+   "Laranja": "Refeitorio",
+   "Preto": "Refeitorio",
+   "Roxo": "Refeitorio",
+   "Ciano": "Refeitorio",
+   "Marrom": "Refeitorio",
+   "Lima": "Refeitorio"
   }
  },
  "seed": 500279955,
@@ -4683,6 +4726,1374 @@
     "tarefas": 15,
     "totalTarefas": 49
    }
+  },
+  {
+   "tique": 11,
+   "decisoes": [
+    {
+     "cor": "Preto",
+     "acao": "ir para O2",
+     "pensamento": "Branco era impostor, falta o parceiro dele; vou fazer minha tarefa visual no O2, que é perto.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Vou terminar a etapa no Motor Superior e ver quem aparece comigo.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Deposito",
+     "pensamento": "Vou pro Depósito finalizar o lixo que é visual, assim provo que sou tripulante pra galera toda.",
+     "de": "Refeitorio",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2376,
+      "y": 1896
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "interrogar Amarelo",
+     "pensamento": "O Amarelo achou o corpo no Reator; vou interrogar ele primeiro pra saber se estava lá na hora da morte.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2805,
+      "y": 818
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Enfermaria",
+     "pensamento": "Vou à Enfermaria para fazer o escaneamento visual, mas fico atento ao impostor que ainda resta.",
+     "de": "Refeitorio",
+     "para": "Enfermaria",
+     "ponto": {
+      "x": 1752,
+      "y": 504
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "ir para O2",
+     "pensamento": "Vou fazer minha tarefa de O2 para contribuir com a equipe e reduzir a porcentagem de tarefas restantes.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ficar parado observando",
+     "pensamento": "Sou o Palhaço e preciso parecer suspeito; fico no Refeitório, onde todo mundo está, para puxar conversa e levantar suspeitas contra mim.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2619,
+      "y": 818
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "ir para Deposito",
+     "pensamento": "Sou tripulante agora, preciso cumprir a etapa 3 do Abastecer no Depósito e vigiar quem me seguir para achar o outro impostor.",
+     "de": "Refeitorio",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2376,
+      "y": 1896
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Admin",
+     "pensamento": "Branco caiu e estou sozinho, preciso sair do Refeitório cheio e isolar alguém antes do meu disfarce acabar.",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Enfermaria",
+      "ponto": {
+       "x": 1752,
+       "y": 504
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2376,
+       "y": 1896
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2619,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2376,
+       "y": 1896
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 15,
+    "totalTarefas": 49
+   }
+  },
+  {
+   "tique": 12,
+   "decisoes": [
+    {
+     "cor": "Ciano",
+     "acao": "ir para Armas",
+     "pensamento": "Amarelo estava em Reator na hora da morte mas denunciou o corpo — suspeito demais, pode ser Palhaço; vou terminar minha tarefa em Armas e depois interrogar mais gente.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Estou no Depósito com o lixo pronto pra esvaziar e é visual, vou fazer pra provar que sou tripulante pro Marrom.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2520,
+      "y": 1848
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Branco caiu e estou sozinho, preciso ver no Admin onde há alguém isolado para matar sem testemunha.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Abastecer os motores",
+     "pensamento": "Estou em Depósito com o Laranja por perto; vou adiantar a etapa 3 do abastecimento aqui, onde ele pode me ver trabalhando e me confirmar como tripulante.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2856,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Abastecer os motores",
+     "pensamento": "Estou sozinho no Motor Superior, vou avançar a tarefa.",
+     "de": "MotorSuperior",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 840,
+      "y": 744
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "continuar até O2",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "O2",
+     "ponto": {
+      "x": 4200,
+      "y": 1080
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "continuar até O2",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "O2",
+     "ponto": {
+      "x": 4200,
+      "y": 1080
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Armas",
+     "pensamento": "Sou o Palhaço e preciso parecer suspeito; vou ficar por perto do Ciano e ir a Armas, onde posso ser visto rondando sem álibi.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Vou fazer o escaneamento visual para avançar uma tarefa e provar que sou tripulante.",
+     "de": "Enfermaria",
+     "para": "Enfermaria",
+     "ponto": {
+      "x": 1800,
+      "y": 696
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Enfermaria",
+      "ponto": {
+       "x": 1800,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2520,
+       "y": 1848
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2856,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 840,
+       "y": 744
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 16,
+    "totalTarefas": 49
+   }
+  },
+  {
+   "tique": 13,
+   "decisoes": [
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Abastecer os motores",
+     "pensamento": "Vou terminar esta etapa aqui e empurrar a barra de tarefas.",
+     "de": "MotorSuperior",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 840,
+      "y": 744
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Preciso parecer suspeito pra ser expulso, então vou rondar o Refeitório onde as reuniões acontecem e ficar perto de gente.",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fazer tarefa: Abastecer os motores",
+     "pensamento": "Vou continuar abastecendo os motores para completar minhas tarefas e ajudar a tripulação.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2856,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "interrogar Roxo",
+     "pensamento": "Amarelo estava em Reator na hora da morte, mas denunciou o corpo; vou interrogar o Roxo agora que ele está perto pra cruzar informações.",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Limpar o filtro de O2",
+     "pensamento": "Estou no O2 e posso completar uma tarefa importante aqui mesmo, então vou fazer isso.",
+     "de": "O2",
+     "para": "O2",
+     "ponto": {
+      "x": 3864,
+      "y": 1032
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Estou sozinho no Admin e sem testemunhas, vou avançar para o Refeitório vazio para procurar uma vítima isolada e usar meu disfarce.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "A tarefa de esvaziar o lixo é visual, vou fazer agora para confirmar que sou tripulante para quem estiver vendo.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2520,
+      "y": 1848
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Escanear no MedBay",
+     "pensamento": "Como o MedBay está livre, vou fazer meu escaneamento visual para confirmar minha inocência a quem estiver por perto.",
+     "de": "Enfermaria",
+     "para": "Enfermaria",
+     "ponto": {
+      "x": 1800,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Rosa está me vendo aqui, vou fazer a tarefa visual de lixo pra provar que sou tripulante.",
+     "de": "O2",
+     "para": "O2",
+     "ponto": {
+      "x": 3864,
+      "y": 1032
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Enfermaria",
+      "ponto": {
+       "x": 1800,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "O2",
+      "ponto": {
+       "x": 3864,
+       "y": 1032
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2520,
+       "y": 1848
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "O2",
+      "ponto": {
+       "x": 3864,
+       "y": 1032
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2856,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 840,
+       "y": 744
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 22,
+    "totalTarefas": 49
+   }
+  },
+  {
+   "tique": 14,
+   "decisoes": [
+    {
+     "cor": "Roxo",
+     "acao": "apertar botão de emergência",
+     "pensamento": "Preciso parecer suspeito para ser expulso, então vou apertar o botão de emergência sem motivo e dar álibis estranhos na reunião.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Desviar energia",
+     "pensamento": "Ninguém por perto pra interrogar; melhor terminar a etapa 2 de Desviar energia aqui em Armas e depois caçar suspeitos.",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4776,
+      "y": 648
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para O2",
+     "pensamento": "Branco era impostor, então resta um — vou seguir com minhas tarefas, começando pelo O2.",
+     "de": "Deposito",
+     "para": "Escudos",
+     "ponto": {
+      "x": 4680,
+      "y": 2280
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Admin",
+     "pensamento": "Roxo está me vendo, então não posso matar nem me transformar aqui; vou sair para o Admin vazio para criar uma oportunidade isolada.",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "ir para MotorInferior",
+     "pensamento": "Preciso fechar a etapa 4 do abastecimento no Motor Inferior e observar quem estiver por perto, já que fuiRelationship voteado na última reunião.",
+     "de": "Deposito",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 360,
+      "y": 2568
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "ir para Deposito",
+     "pensamento": "Branco confirmado impostor, ainda há um por aí; vou seguir minhas tarefas, indo ao Depósito terminar o lixo.",
+     "de": "O2",
+     "para": "Escudos",
+     "ponto": {
+      "x": 4824,
+      "y": 1992
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "ir para MotorInferior",
+     "pensamento": "Vou dar o próximo passo rumo ao Depósito para continuar os motores.",
+     "de": "MotorSuperior",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 360,
+      "y": 2568
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Branco foi confirmado impostor; vou avançar em direção a Armas para fazer a tarefa visual de asteroides.",
+     "de": "Enfermaria",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2088,
+      "y": 504
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Limpar o filtro de O2",
+     "pensamento": "Estou no O2 e posso fazer a tarefa 'Limpar o filtro de O2' agora.",
+     "de": "O2",
+     "para": "O2",
+     "ponto": {
+      "x": 3864,
+      "y": 1032
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2249,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2990,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2249,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2619,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2990,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3175,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 22,
+    "totalTarefas": 49
+   }
   }
  ],
  "reunioes": [
@@ -4843,6 +6254,149 @@
    },
    "eraImpostor": true,
    "papelExpulso": "Vibora"
+  },
+  {
+   "tique": 14,
+   "tipo": "emergencia",
+   "chamador": "Roxo",
+   "sala": "Refeitorio",
+   "falas": [
+    {
+     "cor": "Rosa",
+     "rodada": 1,
+     "texto": "Vi Lima em Depósito recentemente e fiz tarefas em Comunicações e Admin. Alguém mais tem álibi?",
+     "pensamento": "Preciso compartilhar minhas observações para ajudar a identificar os impostores. Vi Lima em Depósito (t6) e Roxo em Admin (t8). Também fiz tarefas visíveis (Comunicações e Admin), o que prova que sou tripulante. Não tenho certeza de quem é o Palhaço, mas devo evitar suspeitar dele diretamente. Branc"
+    },
+    {
+     "cor": "Lima",
+     "rodada": 1,
+     "texto": "Rosa, confirmo: te vi no Depósito no t6. Meu álibi agora é t13 Motor Superior e t14 Motor Inferior com Marrom; quem viu Azul?",
+     "pensamento": "Rosa bate com meu t6. Marrom aparece de novo, mas não vou empurrar voto ainda por causa do Palhaço."
+    },
+    {
+     "cor": "Amarelo",
+     "rodada": 1,
+     "texto": "Estava no Refeitório com o Roxo agora e antes no Admin. Não vi o Azul, eu reportei o Verde no Reator.",
+     "pensamento": "Branco caiu, sobrou só eu de impostor. Preciso parecer inocente, defender meu álibi no Refeitório com Roxo e não deixar suspeita sobre mim por ter reportado o Verde."
+    },
+    {
+     "cor": "Preto",
+     "rodada": 1,
+     "texto": "Eu tive o Laranja do meu lado em Escudos no t8 e no t14, e fiz lixo no O2 no t13, então me limpo. Alguém viu o corpo do Azul ou onde ele morreu?",
+     "pensamento": "Branco era impostor, então falta um impostor vivo e o Palhaço solto. Ninguém explicou onde/morte do Azul. Meu álibi é sólido: Laranja me viu em Escudos t8 e t14, e passei pelo O2 no t13."
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 1,
+     "texto": "Eu fiz a etapa 3 dos motores no Depósito no t13 e agora estou no Motor Inferior com o Lima. Ninguém falou onde o Azul morreu?",
+     "pensamento": "Preciso manter meu álibi claro: fiz a etapa 3 dos motores no Depósito no t13 e agora estou no Motor Inferior com o Lima. Não vi o Azul nem sei onde morreu; vou perguntar e focar nos vivos que não、壁 têm álibi."
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 1,
+     "texto": "Vi Branco entrar no duto da Enfermaria no t9 e o corpo do Azul estava lá; Branco era impostor. Marrom também estava na sala no t6.",
+     "pensamento": "Branco era impostor e eu o vi entrar no duto da Enfermaria no t9, onde estava o corpo do Azul. Marrom também estava perto de Azul e Branco no t6, mas isso sozinho não prova envolvimento."
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 1,
+     "texto": "Sou detetive: interroguei o Amarelo e ele estava no Reator quando o Verde morreu. Amarelo, você disse que estava no Admin — como explica isso?",
+     "pensamento": "Amarelo foi pego no Reator na hora da morte do Verde e agora diz que estava no Admin — contradição direta. Vou revelar meu interrogatório pra pressionar, mas sem exagerar na acusação, porque se ele for Palhaço a gente perde. O Vermelho falar do duto do Branco na Enfermaria é bom sinal pra ele. Marro"
+    },
+    {
+     "cor": "Roxo",
+     "rodada": 1,
+     "texto": "Apertei o botão no palpite, não vi corpo nenhum. Amarelo estava comigo no t13, mas Marrom na Enfermaria no t6 me cheira mal.",
+     "pensamento": "Sou o Palhaço e preciso ser expulso. Vou parecer suspeito sem confessar: admito que apertei o botão sem ter visto nada e jogo desconfiança em Marrom, em quem já votei antes."
+    },
+    {
+     "cor": "Laranja",
+     "rodada": 1,
+     "texto": "Confirmo o Preto, estava com ele em Escudos no t8 e t14. Amarelo, você disse Admin mas reportou no Reator — não fecha.",
+     "pensamento": "Ciano se diz detetive e pegou Amarelo numa mentira sobre o Admin vs Reator. Isso é consistente com o que sei: Amarelo reportou Verde no Reator no t10. Preto me viu em Escudos e eu vi Marrom no Depósito no t9. Vou confirmar meu álibi e apontar a inconsistência do Amarelo."
+    },
+    {
+     "cor": "Amarelo",
+     "rodada": 2,
+     "texto": "Passei pelo Reator e achei o Verde lá, por isso reportei. Não matei; o Branco já foi expulso como impostor.",
+     "pensamento": "O Ciano só provou que eu estive no Reator, não que matei. Vou assumir que passei e achei o corpo, mantendo a história do reporte e o foco no Branco já expulso."
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 2,
+     "texto": "O corpo do Azul estava na Enfermaria no t9; no t6 vi Marrom, Branco e Azul lá. Isso não prova que Marrom participou.",
+     "pensamento": "Branco era impostor e o vi entrar no duto perto do corpo. Marrom estava na Enfermaria antes, mas isso sozinho não prova que participou; não quero acusar sem mais evidências."
+    },
+    {
+     "cor": "Preto",
+     "rodada": 2,
+     "texto": "O álibi do Amarelo fechou, o Ciano confirmou. Meu foco é o Marrom: Vermelho o viu na Enfermaria com o Azul no t6, e o Azul morreu lá. Marrom, explica isso.",
+     "pensamento": "Ciano confirmou o Amarelo no Reator na hora da morte do Verde, então o álibi dele fecha. Vermelho viu Marrom com Branco e Azul na Enfermaria no t6, e o Azul morreu lá. Marrom é o principal suspeito, mas cuidado: pode ter Palhaço por perto. Vou apontar Marrom sem empurrar voto sozinho."
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 2,
+     "texto": "No t6 eu estava na Enfermaria atrás do Branco, não matei o Azul; ele era o impostor e matou ali mesmo. Agora estou com o Lima. Olhem o Amarelo.",
+     "pensamento": "Vermelho me viu com o Azul e o Branco na Enfermaria no t6, e o Azul morreu lá. Preciso explicar sem inventar: o Branco era impostor confirmado, então o mais provável é que ele tenha matado o Azul enquanto eu passava. O Lime está comigo no Motor Inferior agora, então tenho testemunha e tique limpo. V"
+    },
+    {
+     "cor": "Lima",
+     "rodada": 2,
+     "texto": "Marrom: te vi em Depósito no t9 e agora comigo, não vi o t6. Amarelo, Ciano te colocou no Reator na morte do Verde.",
+     "pensamento": "Branco confirmado; ainda há um impostor e um palhaço. Marrom foi visto por mim no t9 e agora, mas Amarelo foi ligado ao Reator por Ciano. Não vou fechar voto ainda."
+    },
+    {
+     "cor": "Rosa",
+     "rodada": 2,
+     "texto": "Marrom, por que você estava na Enfermaria no t6 com o Azul? Isso não fecha com sua versão.",
+     "pensamento": "Marrom é o principal suspeito: Vermelho o viu na Enfermaria com Azul no t6 (local da morte de Azul). Ele não tem álibi sólido para esse momento crítico. Amarelo é Palhaço, então não podemos votar nele a menos que tenhamos certeza absoluta. Preciso levantar suspeita sobre Marrom sem revelar que sou t"
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 2,
+     "texto": "Amarelo estava no Reator na hora exata da morte, meu achado mais forte. Viu mais alguém lá ou só achou o corpo?",
+     "pensamento": "Amarelo estava no Reator na hora exata da morte do Verde — é minha pista mais forte. Mas ele foi quem reportou, então pode ser só um tripulante azarado. E tem o risco do Palhaço: se ele for palhaço e a gente expulsar, todos perdem. Vou pressionar para ele dar detalhes (quem mais viu) em vez de acusa"
+    },
+    {
+     "cor": "Laranja",
+     "rodada": 2,
+     "texto": "Marrom, você estava na Enfermaria no t6 com Azul e Branco, e o Azul morreu lá. Voto Marrom.",
+     "pensamento": "Amarelo foi confirmado pelo detetive Ciano, então está limpo. Marrom é o suspeito principal: estava na Enfermaria no t6 com Azul e Branco, e o Azul morreu lá. Branco já era impostor, então Marrom pode ser o segundo. Preciso apontar para Marrom."
+    },
+    {
+     "cor": "Roxo",
+     "rodada": 2,
+     "texto": "Apertei o botão porque senti algo estranho. Ciano, detetive convenientemente apareceu agora? Voto em quem mentiu: Amarelo ou Ciano, ainda decido.",
+     "pensamento": "Sou o Palhaço, quero ser expulso. Preciso parecer suspeito sem confessar. Vou acusar alguém de forma meio estranha, contradizer, e me colocar em evidência. Eu apertei o botão sem motivo, o que já é suspeito. Posso dizer algo vago e incoerente sobre Amarelo/Ciano, ou me colocar perto de corpos."
+    }
+   ],
+   "votos": {
+    "Vermelho": "pular",
+    "Rosa": "Amarelo",
+    "Laranja": "Amarelo",
+    "Amarelo": "Marrom",
+    "Preto": "pular",
+    "Roxo": "Ciano",
+    "Ciano": "Amarelo",
+    "Marrom": "Amarelo",
+    "Lima": "Marrom"
+   },
+   "expulso": "Amarelo",
+   "empate": false,
+   "apostas": [],
+   "pensamentosVoto": {
+    "Vermelho": "Branco foi confirmado impostor, mas não há prova direta contra outra pessoa. Marrom estar na Enfermaria no t6 é suspeito, porém não prova que matou Azul; e a divergência sobre Amarelo também não é conclusiva. Para não arriscar expulsar o Palhaço, vou pular.",
+    "Rosa": "Amarelo tem álibi furado e a prova mais forte contra ele: o detetive Ciano confirmou que ele estava no Reator na hora exata da morte do Verde. Além disso, ele disse que estava no Admin mas reportou no Reator, o que não fecha. Marrom é suspeito por presença na Enfermaria onde Azul morreu, mas não há ",
+    "Laranja": "Ciano é detetive e colocou Amarelo no Reator na hora da morte do Verde, e Amarelo mentiu dizendo que estava no Admin. Presença no local + mentira de álibi é a prova mais concreta que temos. Marrom estava na Enfermaria no t6 mas o Azul morreu no t9, então Branco (já confirmado impostor) provavelmente",
+    "Amarelo": "O Ciano me ligou ao Reator porque eu passei por lá e achei o Verde, mas a maioria já está focada no Marrom na Enfermaria no t6 com o Azul e o Branco. Votar no Marrom reforça essa suspeita coletiva e me tira do centro. Não vou insistir no Ciano, senão pareço defensivo.",
+    "Preto": "O Amarelo teve o álibi confirmado pelo Detetive Ciano. Contra o Marrom só há circunstância: ele estava na Enfermaria no t6, mas na mesma sala estava o Branco, impostor confirmado, que explica a morte do Azul. Sem prova direta contra ninguém, e com o Palhaço ainda podendo estar vivo, pular é o mais s",
+    "Roxo": "Sou o Palhaço e preciso ser expulso. Quero parecer o mais suspeito possível sem confessar. O Amarelo já está sob suspeita (Ciano o pegou numa inconsistência) e o Marrom também está sendo acusado por vários. Para me expulsarem, preciso atrair votos para mim. Votar no Ciano, o suposto detetive que apa",
+    "Ciano": "A intuição mais forte é minha própria perícia: o Amarelo estava em Reator exatamente no tique da morte do Verde, e o Verde foi morto por Metamorfo. Como o Branco (já expulso, impostor) estava na Enfermaria fugindo pelo duto no t9, ele não matou o Verde — o Metamorfo é o outro impostor, e o Amarelo e",
+    "Marrom": "Sou tripulante. O Ciano (detetive) confirmou que o Amarelo estava no Reator na hora exata da morte do Verde — ele achou/reportou o corpo ali, o que é típico de quem matou e voltou. Detetive é papel real de tripulante, então a informação é confiável: o Amarelo é o impostor restante (o outro era o Bra",
+    "Lima": "Amarelo perto do corpo e com álibi furado tem cheiro de Palhaço, não vou arriscar nele. Ciano só colocou ele no Reator, não provou o kill. Marrom admitiu estar na Enfermaria com Azul e Branco e ainda tenta desviar; é o alvo mais sólido."
+   },
+   "eraImpostor": true,
+   "papelExpulso": "Metamorfo"
   }
  ],
  "eventos": [
@@ -5082,6 +6636,101 @@
    "empate": false,
    "anulada": null,
    "papel": "Vibora"
+  },
+  {
+   "tique": 11,
+   "tipo": "poder",
+   "cor": "Ciano",
+   "poder": "interrogar",
+   "alvo": "Amarelo",
+   "caso": "Verde",
+   "onde": "Reator",
+   "salaMorte": "Reator"
+  },
+  {
+   "tique": 12,
+   "tipo": "tarefa",
+   "cor": "Verde",
+   "fantasma": true,
+   "nome": "Destravar os coletores"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa_etapa",
+   "cor": "Lima",
+   "sala": "MotorSuperior",
+   "nome": "Abastecer os motores",
+   "etapa": 2,
+   "de": 4,
+   "proxima": "Deposito"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa_etapa",
+   "cor": "Marrom",
+   "sala": "Deposito",
+   "nome": "Abastecer os motores",
+   "etapa": 3,
+   "de": 4,
+   "proxima": "MotorInferior"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa",
+   "cor": "Laranja",
+   "sala": "Deposito",
+   "nome": "Esvaziar o lixo",
+   "visual": true
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa",
+   "cor": "Vermelho",
+   "sala": "Enfermaria",
+   "nome": "Escanear no MedBay",
+   "visual": true
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa_etapa",
+   "cor": "Preto",
+   "sala": "O2",
+   "nome": "Esvaziar o lixo",
+   "etapa": 1,
+   "de": 2,
+   "proxima": "Deposito"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa",
+   "cor": "Azul",
+   "fantasma": true,
+   "nome": "Destravar os coletores"
+  },
+  {
+   "tique": 14,
+   "tipo": "reuniao",
+   "chamador": "Roxo",
+   "sala": "Refeitorio",
+   "subtipo": "emergencia"
+  },
+  {
+   "tique": 14,
+   "tipo": "fim_reuniao",
+   "expulso": "Amarelo",
+   "eraImpostor": true,
+   "empate": false,
+   "anulada": null,
+   "papel": "Metamorfo"
+  },
+  {
+   "tique": 14,
+   "tipo": "fim",
+   "time": "tripulante",
+   "motivo": "Os impostores foram eliminados.",
+   "casalVivo": true,
+   "sobrevivente": [],
+   "traidor": []
   }
  ],
  "fotos": [],
@@ -5183,36 +6832,43 @@
    "texto": "Reportei corpo do Verde no Reator disfarçado de Marrom, tamo tranquilo, espalha que me viu longe daí."
   }
  ],
- "resultado": null,
+ "resultado": {
+  "time": "tripulante",
+  "motivo": "Os impostores foram eliminados.",
+  "tique": 14,
+  "casalVivo": true,
+  "sobrevivente": [],
+  "traidor": []
+ },
  "casal": [],
  "uso": {
-  "chamadas": 136,
+  "chamadas": 209,
   "falhas": 0,
   "porProvider": {
-   "or:openai/gpt-6-luna": 13,
-   "haiku": 8,
-   "or:google/gemma-4-26b-a4b-it": 9,
-   "or:mistralai/mistral-small-2603": 11,
-   "or:xiaomi/mimo-v2.6-flash": 11,
-   "or:meta/muse-ember": 13,
-   "or:z-ai/glm-5.3-flash": 11,
-   "or:qwen/qwen3.8-27b": 12,
-   "sonnet": 13,
-   "or:deepseek/deepseek-v4.1-flash": 12,
-   "or:minimax/minimax-m3.1-flash": 10,
-   "or:tencent/hy4-flash": 13
+   "or:openai/gpt-6-luna": 21,
+   "haiku": 9,
+   "or:google/gemma-4-26b-a4b-it": 10,
+   "or:mistralai/mistral-small-2603": 18,
+   "or:xiaomi/mimo-v2.6-flash": 19,
+   "or:meta/muse-ember": 21,
+   "or:z-ai/glm-5.3-flash": 18,
+   "or:qwen/qwen3.8-27b": 13,
+   "sonnet": 21,
+   "or:deepseek/deepseek-v4.1-flash": 20,
+   "or:minimax/minimax-m3.1-flash": 18,
+   "or:tencent/hy4-flash": 21
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.0031654949000000003,
-   "or:minimax/minimax-m3.1-flash": 0.004342869,
-   "or:meta/muse-ember": 0.005458068,
-   "or:google/gemma-4-26b-a4b-it": 0.00236101,
-   "or:openai/gpt-6-luna": 0.0021495100000000003,
-   "or:qwen/qwen3.8-27b": 0.02436456,
-   "or:mistralai/mistral-small-2603": 0.006363354,
-   "or:tencent/hy4-flash": 0.0035248075,
-   "or:xiaomi/mimo-v2.6-flash": 0.005034196
+   "or:z-ai/glm-5.3-flash": 0.0053066139,
+   "or:minimax/minimax-m3.1-flash": 0.007650655499999999,
+   "or:meta/muse-ember": 0.008742488,
+   "or:google/gemma-4-26b-a4b-it": 0.00270795,
+   "or:openai/gpt-6-luna": 0.0036481150000000004,
+   "or:qwen/qwen3.8-27b": 0.025107690000000002,
+   "or:mistralai/mistral-small-2603": 0.011818799999999999,
+   "or:tencent/hy4-flash": 0.0072548545,
+   "or:xiaomi/mimo-v2.6-flash": 0.008087444800000001
   }
  },
  "palhaco": null,
@@ -5276,7 +6932,7 @@
   },
   "Ciano": {
    "papel": "Detetive",
-   "usos": 0,
+   "usos": 2,
    "fantasma": null,
    "comeu": 0
   },
@@ -5298,5 +6954,23 @@
    "tique": 9,
    "em": "2026-11-18T21:16:33.602Z"
   }
- ]
+ ],
+ "gastoOR": 0.0517887469999998,
+ "memoria": {
+  "resumo": "Papéis: Vermelho=Tripulante, Azul=Tripulante, Verde=Localizador, Rosa=Tripulante, Laranja=Barulhento, Amarelo=Metamorfo, Preto=Tripulante, Branco=Vibora, Roxo=Palhaco, Ciano=Detetive, Marrom=Tripulante, Lima=Tripulante. Impostores (no fim): Amarelo (Metamorfo, Meta Muse Ember), Branco (Vibora, Qwen 3.8 27B). Mortes: Branco matou Azul (Enfermaria, t8); Amarelo matou Verde (Reator, t9). Reuniões: Amarelo achou Verde → Branco expulso (Vibora) | Roxo chamou emergência → Amarelo expulso (Metamorfo). Casal: . Resultado: tripulantes venceram (Os impostores foram eliminados.)",
+  "reflexoes": {
+   "Vermelho": "Vou lembrar que Branco (Qwen 3.8 27B) era a Vibora e Amarelo (Meta Muse Ember) o Metamorfo; os dois foram expulsos e os tripulantes venceram. Amarelo encontrou o corpo de Verde, mas isso não o inocentava; Roxo chamou a emergência que levou à expulsão de Amarelo. Não há registro de falas ou acusações específicas, então não vou concluir quem mentiu bem ou acusou errado nem confiar ou desconfiar de alguém só por esta partida.",
+   "Azul": "Aprendi que a Enfermaria é perigosa: o Branco me pegou lá no tique 8, então vou evitar ficar sozinho em salas pequenas. O Amarelo matou o Verde no Reator e se escondeu bem até a emergência do Roxo, por isso desconfio de quem fala muito sem apontar provas. Na próxima, vou andar em grupo e confiar mais em quem tem trajeto que bate com os corpos.",
+   "Verde": "Aprendi que o Amarelo (Meta Muse Ember) é um mestre da manipulação, pois matou e reportou o corpo para tentar desviar a culpa para o Branco. O Roxo (Palhaço) acabou sendo decisivo com a emergência, mas devo ter muito cuidado com jogadores que reportam mortes de forma conveniente para controlar a narrativa.",
+   "Rosa": "Aprendi que o Metamorfo (Amarelo) e a Víbora (Branco) foram muito convincentes, enganando até o fim. O Palhaço (Roxo) teve um papel crucial ao chamar a emergência no momento certo. Confio mais em quem realizou tarefas visíveis ou usou habilidades de forma transparente, como o Detetive (Ciano) e o Localizador (Verde), enquanto desconfio de jogadores que se movem de forma errática entre salas críticas.",
+   "Laranja": "Na partida 2 aprendi que quem reporta o corpo pode estar cobrindo as próprias pegadas: o Amarelo (Metamorfo) achou o Verde que ele mesmo matou e conseguiu expulsar o Branco, que era de fato impostor, mas ainda assim estava se livrando de um comparsa. O Branco (Víbora) se disfarçou bem e só caiu porque o Amarelo precisava de um bode expiatório; vou prestar atenção em quem acusa rápido demais após um corpo aparecer. O Roxo (Palhaço) chamou a emergência certeira no fim, então quem chama botão sem m",
+   "Amarelo": "Aprendi que matar no Reator e reportar o próprio corpo me colocou no centro das atenções e sobrou para o Branco ser expulso primeiro, então da próxima vez vou matar disfarçado e sair de perto antes de qualquer relato. Roxo, o Palhaço, chamou emergência sem corpo e conseguiu me expulsar, então vou desconfiar de quem força votação rápida e parece suspeito de propósito. Vou confiar mais em quem mostra tarefa visual e nas informações do Ciano, Detetive, mas vigiar o Branco, que como Víbora apagou ve",
+   "Preto": "Nesta partida fiquei quieto e a tripulação levou: o Detetive Ciano foi essencial no caso do corpo do Verde, e o Roxo (Palhaço!) quase virou bode expiatório, sobrevivendo sem ser votado. Aprendi que denúncias rápidas após morte confirmada valem mais que acusações vagas, e que vou evitar votar em quem está suspeito demais sem prova, pelo risco do Palhaço. Nas próximas partidas, Branco e Amarelo são históricos de impostor — mas isso pode se repetir, então fico de olho neles sem descartar os outros.",
+   "Branco": "Perdi cedo demais: matei no t8 e o Ciano (Detetive) deve ter interrogado e ligado a poça à Víbora, me entregando na primeira reunião. Meu parceiro Amarelo também matou no t9, e com dois corpos em sequência a desconfiança explodiu — na próxima preciso coordenar melhor com ele e esperar um momento com mais confusão antes de agir. Também vou ficar mais em sala movimentada pra ter alibi quando chamarem reunião.",
+   "Roxo": "Como Palhaço, apertar o botão de emergência e agir de forma suspeita não bastou: a turma expulsou o Amarelo (Metamorfo) e o Branco (Víbora), que eram os impostores de verdade. Aprendi que acusações vagas não pegam, e que o grupo vota em quem tem fatos concretos (corpo achado, sala, horário). Na próxima, se for Palhaço de novo, vou dar álibis estranhos e contraditórios, mas com detalhes específicos que pareçam mentira e não tenham como ser checados, e vou me colocar perto de corpos. Se for tripul",
+   "Ciano": "Nesta partida os dois impostores foram justamente quem denunciou corpos: o Amarelo (Meta Muse Ember, Metamorfo) entregou o Verde e quase se salvou, igual o Marrom fez na partida 1, então vou tratar quem acha corpo e denuncia rápido como suspeito até ter prova. O Branco (Qwen 3.8 27B) foi impostor nas duas partidas (Espectro e depois Víbora) e o Amarelo também já foi Palhaço e Metamorfo, então vou desconfiar dos dois de saída e cobrar o tipo de morte e a sala onde cada um estava. Como Detetive, v",
+   "Marrom": "Eu era Marrom e continuei sendo neutra: meu aprendizado é denunciar corpos rápido, porque o Branco matou o Azul na Enfermaria e o Amarelo matou o Verde no Reator, e foi justamente o Amarelo quem achou o corpo do Verde. O Branco mentiu bem até ser expulso, mas votá-lo primeiro salvou a partida; desconfio de jogadores que ficam muito articulados sobre版本 de mortes. Confio em quem chama emergência sem forçar骨架 deDecoder — o Roxo chamou a reunião que expulsou o Amarelo — mas desconfio de quem inventa",
+   "Lima": "Vou lembrar que Amarelo (Meta Muse Ember) teve uma boa partida como Metamorfo: matou Verde no Reator, apareceu como quem achou o corpo e ainda terminou com Branco expulso, que era o Víbora que matou Azul na Enfermaria. Não tenho falas registradas para dizer quem mentiu bem ou quem acusou errado; só sei que Roxo chamou a emergência e a sala acertou ao expulsar Amarelo, mesmo Roxo sendo o Palhaço. Para a próxima, vou ficar de olho em Amarelo/Meta e Branco/Qwen, mas sem confiar ou desconfiar só por"
+  }
+ }
 }
