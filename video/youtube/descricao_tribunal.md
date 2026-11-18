@@ -1,6 +1,6 @@
 # Tribunal das IAs: Assassinato no Museu do Farol (título, descrição, capítulos e créditos)
 
-Duração: 23:45. Render final (1080p, áudio com pico corrigido): https://gofile.io/d/G90rqRjS. Capítulos tirados de `video/remotion/public/timeline_tribunal.json` (recalcular se o roteiro mudar).
+Duração: 21:47. Render v5 (1080p): https://gofile.io/d/QtYXfz8w. Capítulos tirados de `video/remotion/public/timeline_tribunal.json` (recalcular se o roteiro mudar).
 Ideia do caso: @SwordMan333 (comentário nos posts da comunidade).
 
 ## Título
@@ -27,19 +27,20 @@ Ideia do caso: @SwordMan333 (pediu por 5 dias)
 Inspirado em Phoenix Wright: Ace Attorney (Capcom). Trecho do trailer oficial usado como referência.
 
 CAPÍTULOS
-0:00 Duas sentenças
-0:27 A inspiração (e o pedido do @SwordMan333)
-0:41 O experimento
-1:10 A regra numa objeção
-1:44 Só você vê: o farol apagou duas vezes
-2:59 Safira, dia 1: ele não tocou em nada
-5:21 Safira, dia 2: até o promotor concordou
-7:50 Jade, dia 1: só a tempestade
-9:59 Jade, dia 2: toma essa... cedo demais
-11:52 Dia 3: as chaves no bolso
-15:33 Jade, dia 4: a prova certa na hora errada
-17:47 Safira, dia 4: o causo
-22:02 O placar, os prêmios e a pergunta
+0:00 Acertou o assassino e perdeu
+0:26 A inspiração (e o pedido do @SwordMan333)
+0:46 O experimento
+1:14 A regra numa objeção
+1:45 Só você vê: o farol apagou duas vezes
+2:50 Safira, dia 1: ele não tocou em nada
+4:58 Safira, dia 2: até o promotor concordou
+7:16 Jade, dia 1: só a tempestade
+9:12 Jade, dia 2: toma essa... cedo demais
+10:58 Dia 3: as chaves no bolso
+14:18 Safira, dia 4: o causo
+17:47 Jade, dia 4: a prova certa na hora errada
+19:48 Safira: o veredito
+20:22 O placar, os prêmios e a pergunta
 
 E você: contratava a que acertou o assassino e perdeu, ou a que nem tentou acusar e ganhou? Comenta aí, que o próximo caso já está sendo escrito.
 
