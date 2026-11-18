@@ -46,3 +46,5 @@ mais caos). No AU6 zumbi entraram o **Tencent HY4** e o **Liquid LFM 2.5 24B** j
 - O Felipe pediu mais uma IA pequena no estilo Gemma/Qwen: entrou a **Meta Muse Ember** (or:meta/muse-ember, o menor e mais
   eficiente da Meta; US$ 0,10/0,50 por milhão; no teste respondeu em 1,4 s e pegou a mentira certa). Cor Marrom no motor.
 - DeepSeek SEMPRE pela API oficial (api.deepseek.com, chave do mod), nunca pelo OpenRouter (pedido do Felipe, de novo no AU8).
+- (19/11) Da partida 2 em diante entra também o **Tencent HY4 Flash** (or:tencent/hy4-flash, cor Lima), pedido do Felipe:
+  barato (US$ 0,04/0,14) mas lento (~16 s por resposta). O HY4 normal continua fora (caro).

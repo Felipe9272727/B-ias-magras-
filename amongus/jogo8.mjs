@@ -41,9 +41,12 @@ function embaralhar(arr) {
 }
 
 // ---------- configuração ----------
-export const CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano', 'Marrom'] // 19/11: Marrom = 11ª IA (Meta Muse Ember, pedido do Felipe)
+// 19/11: Marrom = 11ª IA (Meta Muse Ember) e Lima = 12ª (Tencent HY4 Flash, só a partir da partida 2), pedidos do Felipe.
+// Cada partida joga só com as cores que têm papel no sorteio dela (a partida 1 continua com 11).
+const TODAS_CORES = ['Vermelho', 'Azul', 'Verde', 'Rosa', 'Laranja', 'Amarelo', 'Preto', 'Branco', 'Roxo', 'Ciano', 'Marrom', 'Lima']
+export const CORES = DA_TEMPORADA ? TODAS_CORES.filter((c) => DA_TEMPORADA.papeis?.[c] !== undefined) : TODAS_CORES.slice(0, 11)
 const MODELOS = {
-  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:xiaomi/mimo-v2.6-flash': 'MiMo V2.6 Flash', 'or:minimax/minimax-m3.1-flash': 'MiniMax M3.1 Flash', 'or:openai/gpt-6-luna': 'GPT-6 Luna', 'or:meta/muse-ember': 'Meta Muse Ember', 'or:nex-agi/nex-n2.6': 'Nex N2.6', sonnet: 'Claude Sonnet', 'or:mistralai/mistral-small-2603': 'Mistral Small', 'or:google/gemma-4-26b-a4b-it': 'Gemma 4 26B', mock: 'Mock',
+  deepseek: 'DeepSeek Flash', haiku: 'Claude Haiku', 'or:openai/gpt-5.6-luna': 'GPT-5.6 Luna', 'or:google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'or:x-ai/grok-4.3': 'Grok 4.3', 'or:mistralai/mistral-large-4-0': 'Mistral Large 4', 'or:z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'or:deepseek/deepseek-v4.1-flash': 'DeepSeek Flash', 'or:minimax/minimax-m3': 'MiniMax M3', 'or:qwen/qwen3.8-flash': 'Qwen 3.8 Flash', 'or:minimax/minimax-m3.1-flash:free': 'MiniMax M3.1 Flash', 'or:mistralai/ministral-14b-2512': 'Ministral 14B', 'or:qwen/qwen3.8-27b': 'Qwen 3.8 27B', 'or:openai/gpt-6.1-terra': 'GPT-6.1 Terra', 'or:xiaomi/mimo-v2.6-flash': 'MiMo V2.6 Flash', 'or:minimax/minimax-m3.1-flash': 'MiniMax M3.1 Flash', 'or:openai/gpt-6-luna': 'GPT-6 Luna', 'or:meta/muse-ember': 'Meta Muse Ember', 'or:tencent/hy4-flash': 'Tencent HY4 Flash', 'or:nex-agi/nex-n2.6': 'Nex N2.6', sonnet: 'Claude Sonnet', 'or:mistralai/mistral-small-2603': 'Mistral Small', 'or:google/gemma-4-26b-a4b-it': 'Gemma 4 26B', mock: 'Mock',
 }
 const CFG = {
   recargaMorte: 5, // tiques entre mortes
@@ -1573,7 +1576,7 @@ async function main() {
     montarPartida()
     if (!MOCK) { gastoInicio = gastoOR(); if (gastoInicio == null) throw new Error('não consegui ler o gasto do OpenRouter: não começo sem o teto de gasto') }
   }
-  console.log(`🚀 Among IA 7 (Mira HQ) · partida ${NPARTIDA} · seed=${SEED}${MOCK ? ' (MOCK)' : ''}`)
+  console.log(`🚀 Among IA 8 (The Skeld) · partida ${NPARTIDA} · seed=${SEED}${MOCK ? ' (MOCK)' : ''}`)
   for (const j of jogadores) console.log(`  ${j.cor.padEnd(9)} ${j.papel.padEnd(12)} ${j.modelo}${j.casal ? ` 💞 ${j.casal}` : ''}`)
   if (inicio === 1) snapshot()
   for (tique = inicio; tique <= MAX_TIQUES; tique++) {
