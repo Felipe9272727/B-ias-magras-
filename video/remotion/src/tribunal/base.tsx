@@ -86,7 +86,6 @@ export const spriteSrc = (cor: string, humor: Humor = 'normal', gesto = 0, exp?:
 // embaixo e a cabeça acompanha o tronco. Nas poses de apontar/martelo o braço é uma 3ª peça que estoca a partir do ombro
 // (só cresce, então cobre o original e não abre buraco).
 const BRACO: Record<string, {p: string; o: [number, number]; k: 'estoca' | 'bate'}> = {
-  ametista_martelo: {p: '45,60 100,57 100,100 45,100', o: [52, 100], k: 'bate'},
 };
 const poliMask = (p: string) => `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='1.3'/></filter><polygon points='${p}' fill='white' filter='url(%23b)'/></svg>")`;
 const msk = (m: string): React.CSSProperties => ({WebkitMaskImage: m, maskImage: m, WebkitMaskSize: '100% 100%', maskSize: '100% 100%', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat'});
