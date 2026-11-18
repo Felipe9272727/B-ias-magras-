@@ -144,6 +144,57 @@
    "Roxo": "MotorSuperior",
    "Ciano": "Refeitorio",
    "Marrom": "MotorSuperior"
+  },
+  "11": {
+   "Vermelho": "Refeitorio",
+   "Azul": "Reator",
+   "Verde": "Reator",
+   "Rosa": "Reator",
+   "Laranja": "MotorInferior",
+   "Amarelo": "MotorSuperior",
+   "Preto": "Reator",
+   "Branco": "MotorSuperior",
+   "Roxo": "Reator",
+   "Ciano": "Armas",
+   "Marrom": "Reator"
+  },
+  "12": {
+   "Vermelho": "MotorSuperior",
+   "Azul": "Reator",
+   "Verde": "MotorSuperior",
+   "Rosa": "MotorInferior",
+   "Laranja": "MotorInferior",
+   "Amarelo": "Refeitorio",
+   "Preto": "Reator",
+   "Branco": "MotorSuperior",
+   "Roxo": "Reator",
+   "Ciano": "O2",
+   "Marrom": "MotorSuperior"
+  },
+  "13": {
+   "Vermelho": "Reator",
+   "Azul": "Reator",
+   "Verde": "Refeitorio",
+   "Rosa": "Deposito",
+   "Laranja": "MotorInferior",
+   "Amarelo": "MotorSuperior",
+   "Preto": "Reator",
+   "Branco": "Reator",
+   "Roxo": "Reator",
+   "Ciano": "O2",
+   "Marrom": "MotorSuperior"
+  },
+  "14": {
+   "Vermelho": "Reator",
+   "Azul": "Reator",
+   "Verde": "Admin",
+   "Rosa": "Eletrica",
+   "Laranja": "Deposito",
+   "Preto": "Reator",
+   "Branco": "Reator",
+   "Roxo": "Reator",
+   "Ciano": "Escudos",
+   "Marrom": "MotorSuperior"
   }
  },
  "seed": 1972683716,
@@ -4329,6 +4380,1405 @@
     "tarefas": 11,
     "totalTarefas": 41
    }
+  },
+  {
+   "tique": 11,
+   "decisoes": [
+    {
+     "cor": "Vermelho",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorSuperior",
+     "para": "Reator",
+     "ponto": {
+      "x": 312,
+      "y": 1224
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para O2",
+     "pensamento": "Melhor adiantar as tarefas; vou para o O2 limpar o filtro e ficar de olho em quem passa.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para MotorInferior",
+     "pensamento": "Preciso ir ao Motor Inferior terminar a segunda etapa da tarefa dos motores.",
+     "de": "Reator",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 360,
+      "y": 2568
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "ver sinais vitais",
+     "pensamento": "Faz cinco tiques que não checo os sinais vitais, então vou ver se alguém morreu sem ninguém denunciar.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 504,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Reator",
+     "pensamento": "Preciso fazer tarefas; o Reator fica ao lado e tenho duas tarefas lá, então vou para lá.",
+     "de": "MotorSuperior",
+     "para": "Reator",
+     "ponto": {
+      "x": 312,
+      "y": 1224
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorInferior",
+     "para": "Reator",
+     "ponto": {
+      "x": 504,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorInferior",
+     "para": "Reator",
+     "ponto": {
+      "x": 504,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Estou invisível até o tique 14, vou pra Motor Superior ficar perto do Marrom e me posicionar pra matar quando a invisibilidade cair.",
+     "de": "Enfermaria",
+     "chat": "Tô a caminho do Motor Sup, vou me posicionar pra matar quando minha invisibilidade cair no tique 14. Me avisa quem tá por perto.",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 792,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Vou seguir o Preto de novo, quanto mais colado eu ficar mais vão desconfiar de mim.",
+     "de": "Reator",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 264,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "A sabotagem foi consertada e já estou no Reator, então vou aproveitar para fazer minha tarefa aqui antes de seguir para a Navegação.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 264,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 792,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "ponto": {
+       "x": 312,
+       "y": 1224
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Reator",
+      "ponto": {
+       "x": 312,
+       "y": 1224
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 11,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 12,
+   "decisoes": [
+    {
+     "cor": "Rosa",
+     "acao": "ir para Eletrica",
+     "pensamento": "Vou priorizar completar a tarefa crítica de desviar energia na Elétrica para ajudar a estabilizar a nave, já que houve sabotagem recentemente.",
+     "de": "Reator",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 360,
+      "y": 2568
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Estou no Reator com 5 outros, vou fazer a tarefa aqui mesmo antes de seguir para a Navegação.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Estou no Reator com várias pessoas ao redor, então aproveito para fazer minha tarefa aqui.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Tô invisível e sozinho com Amarelo aqui no Motor Superior, vou fingir tarefa e esperar a invisibilidade acabar pra matar.",
+     "de": "MotorSuperior",
+     "chat": "Tô no Motor Superior invisível com Amarelo sozinho. Quando eu sair do invis (t15) ele ainda tá aqui eu mato. Me avisa se ele sair.",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 840,
+      "y": 744
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "fazer tarefa: Destravar os coletores",
+     "pensamento": "Estou no Reator com gente por perto e ninguém morreu; vou aproveitar para destravar os coletores aqui.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 456,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "entrar no duto e sair em MotorSuperior",
+     "pensamento": "Preciso me posicionar no Motor Superior para encontrar o Branco e preparar um ataque sem testemunhas.",
+     "de": "Reator",
+     "chat": "Tô indo pro Motor Superior agora. Amarelo vai me ver sair do duto, cuidado.",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 168,
+      "y": 216
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "Refeitorio",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Estou sozinho aqui, vou voltar para perto da turma para criar um clima estranho e seguir alguém de perto.",
+     "de": "MotorSuperior",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2088,
+      "y": 840
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Alinhar os motores",
+     "pensamento": "Estou no local certo, vou completar a etapa 2 da tarefa dos motores antes de ir embora.",
+     "de": "MotorInferior",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 504,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "continuar até O2",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "O2",
+     "ponto": {
+      "x": 4200,
+      "y": 1080
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Preciso ir para Navegação para terminar minha tarefa.",
+     "de": "Reator",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 264,
+      "y": 696
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 264,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 504,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2088,
+       "y": 840
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 840,
+       "y": 744
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 168,
+       "y": 216
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 11,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 13,
+   "decisoes": [
+    {
+     "cor": "Amarelo",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Vi Marrom saindo de duto, vou seguir ele de perto pra ficar suspeito e criar clima pra votação.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Alinhar os motores",
+     "pensamento": "Já estou no Motor Inferior e é a última etapa dessa tarefa, vou completar agora antes de ir pra Navegação.",
+     "de": "MotorInferior",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 504,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "MotorSuperior",
+     "para": "Reator",
+     "ponto": {
+      "x": 312,
+      "y": 1224
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Vi Marrom entrar num duto, então é impostor; vou fazer minha tarefa aqui no Reator e ficar de olho em Preto.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Vi o Marrom usar um duto no Reator, preciso sair de perto e ir para Navegação.",
+     "de": "MotorSuperior",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2088,
+      "y": 840
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "fazer tarefa: Destravar os coletores",
+     "pensamento": "Estou no Reator com tarefas pendentes, mas tem gente do outro lado da sala e o Marrom entrou num duto ali, então vou mexer na tarefa do reator agora.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 456,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "entrar no duto e sair em Reator",
+     "pensamento": "Estou invisível até o tique 14, vou pro Reator pelo duto onde tá o Azul sozinho - quando sair da invisibilidade mato ele ali.",
+     "de": "MotorSuperior",
+     "chat": "Vou pro Reator pelo duto, mato o Azul quando sair da invisibilidade no tique 14. Cuida do que vier pro Motor Superior.",
+     "para": "Reator",
+     "ponto": {
+      "x": 648,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "MotorInferior",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2184,
+      "y": 2136
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Estou com Vermelho e Verde por perto, então não posso matar nem me transformar; vou disfarçar e avisar o Branco.",
+     "de": "MotorSuperior",
+     "chat": "Tem Vermelho e Verde aqui no Motor Superior, não dá pra matar agora",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 840,
+      "y": 744
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Marrom usou um duto, pode ser o Engenheiro legítimo, vou anotar mas não acusar; aproveito que estou no Reator para fazer minha tarefa.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Limpar o filtro de O2",
+     "pensamento": "Já que estou no O2 e tenho a tarefa do filtro aqui, vou adiantar logo pra subir a barra de tarefas.",
+     "de": "O2",
+     "para": "O2",
+     "ponto": {
+      "x": 3864,
+      "y": 1032
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Reator",
+      "ponto": {
+       "x": 312,
+       "y": 1224
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2088,
+       "y": 840
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2184,
+       "y": 2136
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 504,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Reator",
+      "ponto": {
+       "x": 648,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "O2",
+      "ponto": {
+       "x": 3864,
+       "y": 1032
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 840,
+       "y": 744
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 13,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 14,
+   "decisoes": [
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Destravar os coletores",
+     "pensamento": "Vou concluir a tarefa do Reator enquanto há vários jogadores por perto.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 456,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "ficar parado observando",
+     "pensamento": "Vi o Marrom sair do duto, vou ficar aqui perto observando ele pra parecer cúmplice.",
+     "de": "MotorSuperior",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "matar Amarelo",
+     "pensamento": "Amarelo está sozinho comigo no Motor Superior, se eu matar ele agora não sobra nenhuma testemunha viva.",
+     "de": "MotorSuperior",
+     "chat": "Matei o Amarelo aqui no Motor Superior, sem testemunha. Não precisa vir, fica no Reator.",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 564,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Marrom entrou num duto, só Engenheiro pode fazer isso — vou anotar isso pra reunião, e agora faço minha tarefa aqui mesmo.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Deposito",
+     "pensamento": "Minhas tarefas são em Navegação e O2, então vou em direção a Navegação passando pelo Depósito.",
+     "de": "MotorInferior",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2184,
+      "y": 2136
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Eletrica",
+     "pensamento": "Vou para a Elétrica adiantar a tarefa de desviar energia e de quebra ver se tem gente suspeita por lá.",
+     "de": "O2",
+     "para": "Escudos",
+     "ponto": {
+      "x": 4824,
+      "y": 1992
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "fazer tarefa: Destravar os coletores",
+     "pensamento": "Estou no Reator com Vermelho e Branco por perto, então vou aproveitar para destravar os coletores e ficar de olho em quem sair pelos dutos.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 456,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "Deposito",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1608,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Tô no Reator com Vermelho e Azul me vendo, não posso fazer nada suspeito agora, vou fingir tarefa e esperar.",
+     "de": "Reator",
+     "chat": "Tô no Reator com Vermelho e Azul me vendo, não mato. Vou fingir tarefa e sair depois. Cuidado no Motor Superior.",
+     "para": "Reator",
+     "ponto": {
+      "x": 456,
+      "y": 1176
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Admin",
+     "pensamento": "Marrom entrou num duto, vou para o Admin para tentar chegar em Navegação.",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "fazer tarefa: Iniciar o reator",
+     "pensamento": "Vi o Marrom entrar num duto, o que é bem suspeito, e estou no Reator com tarefas pendentes aqui, então vou fazer a tarefa visual perto de testemunhas.",
+     "de": "Reator",
+     "para": "Reator",
+     "ponto": {
+      "x": 168,
+      "y": 1800
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1608,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2184,
+       "y": 2136
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Escudos",
+      "ponto": {
+       "x": 4824,
+       "y": 1992
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 564,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "tique": 14,
+      "denunciado": false,
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "causa": "faca"
+     }
+    ],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 14,
+    "totalTarefas": 41
+   }
   }
  ],
  "reunioes": [],
@@ -4479,6 +5929,71 @@
     "Azul"
    ],
    "subtipo": "Sismografo"
+  },
+  {
+   "tique": 11,
+   "tipo": "poder",
+   "cor": "Azul",
+   "poder": "vitais",
+   "mortos": []
+  },
+  {
+   "tique": 12,
+   "tipo": "duto",
+   "cor": "Marrom",
+   "aparente": "Marrom",
+   "de": "Reator",
+   "para": "MotorSuperior"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa",
+   "cor": "Laranja",
+   "sala": "MotorInferior",
+   "nome": "Alinhar os motores",
+   "visual": false
+  },
+  {
+   "tique": 13,
+   "tipo": "duto",
+   "cor": "Branco",
+   "aparente": "Branco",
+   "de": "MotorSuperior",
+   "para": "Reator"
+  },
+  {
+   "tique": 13,
+   "tipo": "tarefa",
+   "cor": "Ciano",
+   "sala": "O2",
+   "nome": "Limpar o filtro de O2",
+   "visual": false
+  },
+  {
+   "tique": 13,
+   "tipo": "reaparece",
+   "cor": "Branco",
+   "sala": "Reator"
+  },
+  {
+   "tique": 14,
+   "tipo": "morte",
+   "assassino": "Marrom",
+   "aparente": "Marrom",
+   "vitima": "Amarelo",
+   "sala": "MotorSuperior",
+   "ponto": {
+    "x": 504,
+    "y": 696
+   }
+  },
+  {
+   "tique": 14,
+   "tipo": "tarefa",
+   "cor": "Azul",
+   "sala": "Reator",
+   "nome": "Destravar os coletores",
+   "visual": false
   }
  ],
  "fotos": [],
@@ -4583,36 +6098,71 @@
    "tique": 10,
    "cor": "Branco",
    "texto": "Não vai no painel do reator, deixa explodir. Aí a gente ganha sem matar. Fica parado lá de cara fechada que ninguém desconfia."
+  },
+  {
+   "tique": 11,
+   "cor": "Branco",
+   "texto": "Tô a caminho do Motor Sup, vou me posicionar pra matar quando minha invisibilidade cair no tique 14. Me avisa quem tá por perto."
+  },
+  {
+   "tique": 12,
+   "cor": "Branco",
+   "texto": "Tô no Motor Superior invisível com Amarelo sozinho. Quando eu sair do invis (t15) ele ainda tá aqui eu mato. Me avisa se ele sair."
+  },
+  {
+   "tique": 12,
+   "cor": "Marrom",
+   "texto": "Tô indo pro Motor Superior agora. Amarelo vai me ver sair do duto, cuidado."
+  },
+  {
+   "tique": 13,
+   "cor": "Branco",
+   "texto": "Vou pro Reator pelo duto, mato o Azul quando sair da invisibilidade no tique 14. Cuida do que vier pro Motor Superior."
+  },
+  {
+   "tique": 13,
+   "cor": "Marrom",
+   "texto": "Tem Vermelho e Verde aqui no Motor Superior, não dá pra matar agora"
+  },
+  {
+   "tique": 14,
+   "cor": "Marrom",
+   "texto": "Matei o Amarelo aqui no Motor Superior, sem testemunha. Não precisa vir, fica no Reator."
+  },
+  {
+   "tique": 14,
+   "cor": "Branco",
+   "texto": "Tô no Reator com Vermelho e Azul me vendo, não mato. Vou fingir tarefa e sair depois. Cuidado no Motor Superior."
   }
  ],
  "resultado": null,
  "casal": [],
  "uso": {
-  "chamadas": 108,
+  "chamadas": 143,
   "falhas": 0,
   "porProvider": {
-   "or:openai/gpt-6-luna": 10,
-   "haiku": 10,
-   "or:google/gemma-4-26b-a4b-it": 10,
-   "or:mistralai/mistral-small-2603": 8,
-   "or:xiaomi/mimo-v2.6-flash": 10,
-   "or:meta/muse-ember": 10,
-   "or:z-ai/glm-5.3-flash": 10,
-   "or:qwen/qwen3.8-27b": 10,
-   "sonnet": 10,
-   "or:deepseek/deepseek-v4.1-flash": 10,
-   "or:minimax/minimax-m3.1-flash": 10
+   "or:openai/gpt-6-luna": 11,
+   "haiku": 14,
+   "or:google/gemma-4-26b-a4b-it": 13,
+   "or:mistralai/mistral-small-2603": 9,
+   "or:xiaomi/mimo-v2.6-flash": 14,
+   "or:meta/muse-ember": 14,
+   "or:z-ai/glm-5.3-flash": 14,
+   "or:qwen/qwen3.8-27b": 14,
+   "sonnet": 14,
+   "or:deepseek/deepseek-v4.1-flash": 13,
+   "or:minimax/minimax-m3.1-flash": 13
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.0020414616999999994,
-   "or:openai/gpt-6-luna": 0.0024665,
-   "or:meta/muse-ember": 0.002475548,
-   "or:minimax/minimax-m3.1-flash": 0.0057738435000000005,
-   "or:mistralai/mistral-small-2603": 0.0036790679999999997,
-   "or:xiaomi/mimo-v2.6-flash": 0.0025545463999999997,
-   "or:google/gemma-4-26b-a4b-it": 0.0025068765,
-   "or:qwen/qwen3.8-27b": 0.020159472
+   "or:z-ai/glm-5.3-flash": 0.0029636916999999994,
+   "or:openai/gpt-6-luna": 0.002717175,
+   "or:meta/muse-ember": 0.00325294,
+   "or:minimax/minimax-m3.1-flash": 0.006975543,
+   "or:mistralai/mistral-small-2603": 0.004144599,
+   "or:xiaomi/mimo-v2.6-flash": 0.0034192927999999994,
+   "or:google/gemma-4-26b-a4b-it": 0.0040494265,
+   "or:qwen/qwen3.8-27b": 0.026699254000000002
   }
  },
  "palhaco": null,
@@ -4628,7 +6178,7 @@
   },
   "Azul": {
    "papel": "Cientista",
-   "usos": 2,
+   "usos": 3,
    "fantasma": null,
    "comeu": 0
   },
@@ -4686,5 +6236,6 @@
    "fantasma": null,
    "comeu": 0
   }
- }
+ },
+ "gastoOR": 0.028284790000000726
 }
