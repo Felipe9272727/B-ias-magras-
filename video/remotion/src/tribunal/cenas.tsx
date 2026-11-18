@@ -1,9 +1,11 @@
 // TRIBUNAL: junta as cenas, os grifos das citações e o trecho parado de propósito (H4).
 import {CENAS1} from './cenas1';
+import {CENAS2} from './cenas2';
+import {CENAS3} from './cenas3';
 import type {X} from './dados';
 import type {CenaFn} from './util';
 
-export const CENAS: Record<string, CenaFn> = {...CENAS1};
+export const CENAS: Record<string, CenaFn> = {...CENAS1, ...CENAS2, ...CENAS3};
 
 // palavras grifadas nas citações (chave = "CENA#índice da citação"); rot = etiqueta de máquina de escrever
 export const GRIFO: Record<string, {w: string[]; rot?: string; encolhe?: boolean}> = {
@@ -40,6 +42,5 @@ export const GRIFO: Record<string, {w: string[]; rot?: string; encolhe?: boolean
 };
 
 // H4: depois das duas lentes apagarem e do carimbo, 3 s sem nada se mexer (a única cena parada do vídeo)
-export const PARADO: Record<string, (X: X) => [number, number]> = {
-  H4: (X) => { const c0 = X.c[0] ?? {end: X.dur * 0.33}; return [c0.end + 34, c0.end + 34 + 90]; },
-};
+// (o H4 tinha 3 s parados; a narração entra logo após a sentença, então a cena segue em movimento lento)
+export const PARADO: Record<string, (X: X) => [number, number]> = {};

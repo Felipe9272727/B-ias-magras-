@@ -1,8 +1,8 @@
 // TRIBUNAL: os cenários. Tribunal de madeira de navio (5 planos), mesa de investigação, cais, planta do museu (maquete),
 // corte do museu com a régua de latão da noite do crime, gravura "SÓ VOCÊ VÊ" de 15 anos atrás, dado grande e tela dividida.
-import React from 'react';
-import {AbsoluteFill, interpolate} from 'remotion';
-import {AMBAR, BANG, C, CHUMBO, cl, COR, ease, hash, LATAO, LUZ, MAD_C, MAD_E, MARINHO, MONO, NOITE, NOME, PERG, Pedra, POP, quique, rnd, sombra, TINTA, type Humor} from './base';
+import React, {useContext} from 'react';
+import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
+import {AMBAR, BANG, C, CamCtx, CHUMBO, cl, COR, ease, hash, LATAO, LUZ, MAD_C, MAD_E, MARINHO, MONO, NOITE, NOME, PERG, Pedra, POP, quique, rnd, sombra, TINTA, type Humor} from './base';
 import {Chip, Piso} from './pecas';
 
 export type Clima = 'noite' | 'dia' | 'tarde';
@@ -51,6 +51,32 @@ export const Parede: React.FC<{f: number; clima?: Clima; tom?: number; feixe?: b
   );
 };
 
+
+// ---------- fundo ilustrado (cenários do Felipe, ampliados): anda mais devagar que a câmera (paralaxe 2.5D) e fica
+// levemente desfocado; bancadas e personagens na frente ficam nítidos ----------
+const NOVO: Record<string, string> = {tribunal_geral: 'geral', tribunal_noite: 'geral', bancada_juiz: 'juiz', mesa_defesa: 'tribuna', mesa_acusacao: 'promotor', estrado: 'banco', escritorio: 'escritorio', investigacao: 'lab', corredor: 'corredor', farol_tarde: 'cais', farol_noite: 'farol_noite', ...Object.fromEntries(['juiz', 'banco', 'tribuna', 'promotor', 'geral', 'lab', 'cais'].map((k) => [k, k]))};
+export const Fundo: React.FC<{nome: string; f: number; k?: number; blur?: number; luz?: number; pos?: string; zoom?: number}> = ({nome, f, k = 0.45, blur = 1.2, luz = 0.9, pos = '50% 50%', zoom = 1}) => {
+  const [x, y, z] = useContext(CamCtx);
+  const xb = 960 + (x - 960) * k, yb = 540 + (y - 540) * k, zb = 1 + (z - 1) * k;
+  const sc = zb / z, tx = (960 - xb * zb - (960 - x * z)) / z, ty = (540 - yb * zb - (540 - y * z)) / z;
+  const dr = Math.sin(f / 150 + nome.length) * 16, W = 2112 * zoom, H = 1188 * zoom;
+  const novo = NOVO[nome];
+  return (
+    <AbsoluteFill style={{transform: `translate(${tx}px, ${ty}px) scale(${sc})`, transformOrigin: '0 0'}}>
+      <Img src={staticFile(novo ? `tribunal/palco/${novo}.jpg` : `tribunal/cenarios/${nome}.jpg`)} style={{position: 'absolute', left: 960 - W / 2 + dr, top: 540 - H / 2 + Math.cos(f / 190) * 6, width: W, height: H, objectFit: 'cover', objectPosition: pos, filter: `blur(${blur}px) brightness(${luz}) saturate(1.06)`}} />
+    </AbsoluteFill>
+  );
+};
+const FUNDO_PLANO: Record<string, [string, string]> = {geral: ['tribunal_geral', '50% 40%'], banco: ['estrado', '50% 30%'], tribuna: ['mesa_defesa', '40% 50%'], juiz: ['bancada_juiz', '50% 35%'], promotor: ['mesa_acusacao', '60% 50%']};
+// luz da sala: o feixe do farol varre a parede + vinheta
+const LuzSala: React.FC<{f: number; clima: Clima}> = ({f, clima}) => {
+  const ph = (f % 120) / 120;
+  return <>
+    <AbsoluteFill style={{zIndex: 50, background: `linear-gradient(100deg, #0000 ${ph * 160 - 40}%, ${LUZ}2a ${ph * 160 - 22}%, #0000 ${ph * 160 - 4}%)`, mixBlendMode: 'screen'}} />
+    <AbsoluteFill style={{zIndex: 50, background: clima === 'noite' ? 'radial-gradient(ellipse at 50% 40%, #0000 30%, #000b 100%)' : 'radial-gradient(ellipse at 50% 40%, #0000 55%, #0007 100%)'}} />
+  </>;
+};
+
 // móveis: frente de bancada de madeira com moldura de latão e plaquinha de nome
 export const Bancada: React.FC<{x: number; y: number; w: number; h: number; nome?: string; cor?: string; children?: React.ReactNode; z?: number}> = ({x, y, w, h, nome, cor, children, z = 5}) => (
   <div style={{position: 'absolute', left: x, top: y, width: w, height: h, zIndex: z}}>
@@ -63,10 +89,10 @@ export const Bancada: React.FC<{x: number; y: number; w: number; h: number; nome
   </div>
 );
 
-export type Gente = {cor: string; humor?: Humor; fala?: boolean; gesto?: number; cadeados?: number; maoBolso?: boolean; semAnel?: boolean; cabecaBaixa?: number; silh?: boolean; olhar?: [number, number]; brilho?: number; dx?: number; dy?: number; papel?: any};
+export type Gente = {cor: string; exp?: string; humor?: Humor; fala?: boolean; gesto?: number; cadeados?: number; maoBolso?: boolean; semAnel?: boolean; cabecaBaixa?: number; silh?: boolean; olhar?: [number, number]; brilho?: number; dx?: number; dy?: number; papel?: any};
 const P: React.FC<{g?: Gente; x: number; y: number; s: number; f: number; rod?: string | null; z?: number; flip?: boolean}> = ({g, x, y, s, f, rod, z = 3, flip}) => g ? (
   <div style={{position: 'absolute', left: x + (g.dx ?? 0), top: y + (g.dy ?? 0), zIndex: z, transform: flip ? 'scaleX(-1)' : undefined}}>
-    <Pedra cor={g.cor} s={s} f={f} rod={rod} humor={g.humor} fala={g.fala} gesto={g.gesto} cadeados={g.cadeados} maoBolso={g.maoBolso} semAnel={g.semAnel} cabecaBaixa={g.cabecaBaixa} silh={g.silh} olhar={flip && g.olhar ? [-g.olhar[0], g.olhar[1]] : g.olhar} brilho={g.brilho} papel={g.papel} />
+    <Pedra cor={g.cor} s={s} f={f} rod={rod} humor={g.humor} fala={g.fala} gesto={g.gesto} cadeados={g.cadeados} maoBolso={g.maoBolso} semAnel={g.semAnel} cabecaBaixa={g.cabecaBaixa} silh={g.silh} olhar={flip && g.olhar ? [-g.olhar[0], g.olhar[1]] : g.olhar} brilho={g.brilho} papel={g.papel} exp={g.exp} espelho={flip} />
   </div>
 ) : null;
 const tag = (g: Gente | undefined, rod: string | null | undefined, papel: string) => (g ? `${NOME[g.cor].toUpperCase()} · ${papel}` : undefined);
@@ -74,54 +100,94 @@ const tag = (g: Gente | undefined, rod: string | null | undefined, papel: string
 // ---------- o tribunal, em 5 planos ----------
 export type Plano = 'geral' | 'banco' | 'tribuna' | 'juiz' | 'promotor';
 export type Quem = {juiz?: Gente; testemunha?: Gente; advogada?: Gente; re?: Gente; promotor?: Gente; acusado?: Gente; assistente?: Gente; delegado?: Gente};
-export const Sala: React.FC<{plano: Plano; f: number; clima?: Clima; rod?: string | null; quem: Quem; children?: React.ReactNode; contraluz?: boolean; vazio?: boolean}> = ({plano, f, clima = 'dia', rod, quem: q, children, contraluz, vazio}) => {
-  const tom = hash(plano) % 60;
+// ---------- PALCO 2.5D/3D: cenário gerado (OpenRouter) fatiado por profundidade (Depth Anything) ----------
+// Cada camada anda numa velocidade conforme a profundidade: com a câmera da cena e com uma órbita lenta própria
+// (o fundo vai para um lado, o móvel da frente para o outro, o personagem fica no meio). A parede do fundo ainda
+// ganha um deslocamento por pixel pelo mapa de profundidade (feDisplacementMap) = sensação 3D.
+export const PALCO: Record<string, {prof: number[]}> = {
+  fb_tranca: {prof: [0.11, 0.78]}, fb_apagado: {prof: [0.17, 0.75]}, fb_naufragio: {prof: [0.18, 0.75]}, fb_anselmo: {prof: [0.16, 0.8]}, fb_envelope: {prof: [0.18, 0.75]},
+  juiz: {prof: [0.33, 0.87]}, banco: {prof: [0.41, 0.87]}, tribuna: {prof: [0.26, 0.94]}, promotor: {prof: [0.36, 0.83]}, geral: {prof: [0.06, 0.26, 0.69]},
+  escritorio: {prof: [0.28, 0.9]}, corredor: {prof: [0.41, 0.88]}, lab: {prof: [0.33, 0.89]}, cais: {prof: [0.28, 0.85]}, farol_noite: {prof: [0.2, 0.91]},
+};
+const P_ATOR = 0.62;
+ // profundidade "do personagem" (logo atrás do móvel)
+export const orbita = (f: number, amp = 1): [number, number] => [Math.sin(f / 95) * 34 * amp + Math.sin(f / 41) * 6 * amp, Math.cos(f / 130) * 12 * amp];
+const Camada: React.FC<{src: string; prof: number; f: number; z: number; zoom: number; ox: number; oy: number; desl?: string; filtro?: string; amp?: number}> = ({src, prof, f, z, zoom, ox, oy, desl, filtro, amp = 1}) => {
+  const [x, y, zc] = useContext(CamCtx);
+  const k = Math.max(0.35, 1 + (prof - P_ATOR) * 1.1);
+  const xb = 960 + (x - 960) * k, yb = 540 + (y - 540) * k, zb = 1 + (zc - 1) * k;
+  const sc = zb / zc, tx = (960 - xb * zb - (960 - x * zc)) / zc, ty = (540 - yb * zb - (540 - y * zc)) / zc;
+  const [obx, oby] = orbita(f, amp), d = prof - P_ATOR;
+  const W = 1920 * zoom, H = 1080 * zoom;
+  const id = `d${src.replace(/[^a-z0-9]/gi, '')}`;
+  const esc = desl ? (Math.sin(f / 95) * 26 + Math.sin(f / 41) * 5) * amp : 0;
   return (
-    <AbsoluteFill>
-      <Parede f={f} clima={clima} tom={tom} />
+    <AbsoluteFill style={{zIndex: z, transform: `translate(${tx}px, ${ty}px) scale(${sc})`, transformOrigin: '0 0', pointerEvents: 'none'}}>
+      {desl ? <svg width={0} height={0} style={{position: 'absolute'}}><filter id={id} x={0} y={0} width={W} height={H} filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"><feImage href={desl} x={0} y={0} width={W} height={H} preserveAspectRatio="none" result="m" /><feDisplacementMap in="SourceGraphic" in2="m" scale={esc} xChannelSelector="R" yChannelSelector="G" /></filter></svg> : null}
+      <Img src={src} style={{position: 'absolute', left: 960 - W / 2 + ox + obx * d, top: 540 - H / 2 + oy + oby * d, width: W, height: H, objectFit: 'cover', filter: [desl ? `url(#${id})` : '', filtro ?? ''].join(' ') || undefined}} />
+    </AbsoluteFill>
+  );
+};
+// z das camadas: c0 = 0, c1 = 20, c2 = 40 (quem fica atrás do móvel usa z menor que o dele)
+export const Palco: React.FC<{nome: string; f: number; zoom?: number; ox?: number; oy?: number; luz?: number; noite?: boolean; amp?: number; frente?: boolean; atras?: boolean}> = ({nome, f, zoom = 1.06, ox = 0, oy = 0, luz = 1, noite, amp = 1, frente = true, atras}) => {
+  const P = PALCO[nome];
+  const filtro = `brightness(${luz * (noite ? 0.62 : 1)}) saturate(${noite ? 0.85 : 1.05})${noite ? ' hue-rotate(-8deg)' : ''}`;
+  return <>
+    <Camada src={staticFile(`tribunal/palco/${nome}_c0.jpg`)} prof={P.prof[0]} f={f} z={0} zoom={zoom} ox={ox} oy={oy} desl={staticFile(`tribunal/palco/${nome}_desl.png`)} filtro={filtro} amp={amp} />
+    {P.prof.slice(1).map((pr, i) => (frente || i < P.prof.length - 2) ? <Camada key={i} src={staticFile(`tribunal/palco/${nome}_c${i + 1}.png`)} prof={pr} f={f} z={atras ? i + 1 : 20 * (i + 1)} zoom={zoom} ox={ox} oy={oy} filtro={filtro} amp={amp} /> : null)}
+  </>;
+};
+// plaquinha de latão com o nome (fica sobre o móvel do cenário)
+const Plaq: React.FC<{x: number; y: number; txt?: string; cor?: string; z?: number}> = ({x, y, txt, cor, z = 45}) => txt ? (
+  <div style={{position: 'absolute', left: x, top: y, zIndex: z, transform: 'translateX(-50%)', fontFamily: POP, fontWeight: 800, fontSize: 28, color: TINTA, background: `linear-gradient(${LUZ}, ${LATAO})`, border: `4px solid ${TINTA}`, borderLeft: cor ? `16px solid ${COR[cor]}` : undefined, borderRadius: 8, padding: '0 14px', whiteSpace: 'nowrap', boxShadow: '0 6px 0 #0007'}}>{txt}</div>
+) : null;
+
+export const Sala: React.FC<{plano: Plano; f: number; clima?: Clima; rod?: string | null; quem: Quem; children?: React.ReactNode; contraluz?: boolean; vazio?: boolean}> = ({plano, f, clima = 'dia', rod, quem: q, children, contraluz, vazio}) => {
+  const noite = clima === 'noite';
+  return (
+    <AbsoluteFill style={{background: '#120b06'}}>
       {plano === 'geral' ? <>
-        <Vitral f={f} x={960} y={210} r={120} clima={clima} />
-        <P g={q.juiz} x={835} y={250} s={250} f={f} rod={rod} />
-        <Bancada x={600} y={520} w={720} h={170} nome={vazio ? undefined : 'JUIZ'} />
-        <P g={q.testemunha} x={150} y={420} s={210} f={f} rod={rod} />
-        <Bancada x={90} y={640} w={380} h={150} nome={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
-        <P g={q.delegado} x={520} y={600} s={150} f={f} rod={rod} z={2} />
-        <P g={q.advogada} x={1290} y={480} s={230} f={f} rod={rod} />
-        <P g={q.re} x={1560} y={560} s={190} f={f} rod={rod} />
-        <P g={q.assistente} x={1110} y={600} s={160} f={f} rod={rod} z={2} />
-        <Bancada x={1200} y={770} w={640} h={150} nome={q.advogada ? `DEFESA · ${NOME[q.advogada.cor].toUpperCase()}` : undefined} cor={q.advogada?.cor} />
-        <P g={q.promotor} x={130} y={700} s={190} f={f} rod={rod} />
-        <Bancada x={60} y={900} w={500} h={140} nome={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} />
-        {Array.from({length: 2}).map((_, i) => <div key={i} style={{position: 'absolute', left: 560 + i * 40, right: 560 - i * 40 + (i ? 0 : 0), top: 960 + i * 50, height: 40, background: '#1a0f08', border: '3px solid #000', borderRadius: 6, zIndex: 6}} />)}
+        <Palco nome="geral" f={f} noite={noite} />
+        <P g={q.juiz} x={835} y={150} s={250} f={f} rod={rod} z={10} />
+        <P g={q.testemunha} x={183} y={325} s={210} f={f} rod={rod} z={30} />
+        <P g={q.delegado} x={400} y={470} s={150} f={f} rod={rod} z={30} />
+        <P g={q.assistente} x={1260} y={470} s={160} f={f} rod={rod} z={30} />
+        <P g={q.advogada} x={1380} y={365} s={230} f={f} rod={rod} z={31} />
+        <P g={q.re} x={1590} y={425} s={190} f={f} rod={rod} z={32} />
+        <Plaq x={960} y={560} txt={vazio ? undefined : 'JUIZ'} cor="Roxo" z={25} />
+        <Plaq x={290} y={650} txt={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
+        <Plaq x={1570} y={720} txt={q.advogada ? `DEFESA · ${NOME[q.advogada.cor].toUpperCase()}` : undefined} cor={q.advogada?.cor} />
+        <P g={q.promotor} x={110} y={700} s={190} f={f} rod={rod} z={50} />
+        {q.promotor ? <Bancada x={40} y={900} w={520} h={180} nome={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} z={55} /> : null}
       </> : null}
       {plano === 'banco' ? <>
-        <Vitral f={f} x={720} y={170} r={100} clima={clima} />
-        <P g={q.testemunha} x={170} y={250} s={420} f={f} rod={rod} />
-        <Bancada x={60} y={700} w={760} h={380} nome={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
-        <P g={q.delegado} x={640} y={420} s={200} f={f} rod={rod} z={1} />
+        <Palco nome="banco" f={f} zoom={1.35} ox={-10} oy={177} noite={noite} />
+        <P g={q.delegado} x={640} y={330} s={200} f={f} rod={rod} z={5} />
+        <P g={q.testemunha} x={170} y={30} s={420} f={f} rod={rod} z={10} />
+        <Plaq x={390} y={700} txt={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
       </> : null}
       {plano === 'tribuna' ? <>
-        <Vitral f={f} x={960} y={190} r={105} clima={clima} />
-        <P g={q.advogada} x={120} y={260} s={380} f={f} rod={rod} />
-        <P g={q.re} x={560} y={470} s={270} f={f} rod={rod} />
-        <P g={q.assistente} x={760} y={540} s={200} f={f} rod={rod} z={2} />
-        <Bancada x={40} y={790} w={900} h={300} nome={q.advogada ? `DEFESA · ${NOME[q.advogada.cor].toUpperCase()}` : undefined} cor={q.advogada?.cor} />
-        <P g={q.acusado} x={1400} y={350} s={340} f={f} rod={rod} flip />
-        <Bancada x={1220} y={810} w={660} h={280} nome={tag(q.acusado, rod, 'TESTEMUNHA')} cor={q.acusado?.cor} />
+        <Palco nome="tribuna" f={f} noite={noite} />
+        <P g={q.advogada} x={120} y={190} s={380} f={f} rod={rod} z={12} />
+        <P g={q.re} x={560} y={355} s={270} f={f} rod={rod} z={11} />
+        <P g={q.assistente} x={790} y={460} s={200} f={f} rod={rod} z={10} />
+        <P g={q.acusado} x={1400} y={250} s={340} f={f} rod={rod} flip z={12} />
+        <Plaq x={420} y={790} txt={q.advogada ? `DEFESA · ${NOME[q.advogada.cor].toUpperCase()}` : undefined} cor={q.advogada?.cor} />
+        <Plaq x={1560} y={790} txt={tag(q.acusado, rod, 'TESTEMUNHA')} cor={q.acusado?.cor} />
       </> : null}
       {plano === 'juiz' ? <>
-        <Vitral f={f} x={960} y={330} r={250} clima={clima} contraluz={contraluz} />
-        <div style={{position: 'absolute', left: 960 - 270, top: 40, filter: contraluz ? 'brightness(0.25) contrast(1.2)' : undefined}}><P g={q.juiz} x={0} y={0} s={540} f={f} rod={rod} /></div>
-        <Bancada x={-20} y={640} w={1960} h={460} nome={vazio ? undefined : 'JUIZ · AMETISTA'} cor="Roxo">
-          <svg width={200} height={200} style={{position: 'absolute', left: 880, top: 140}}><g stroke={TINTA} strokeWidth={6} fill={LATAO}><path d="M80 180 L90 60 H110 L120 180Z" /><rect x={82} y={30} width={36} height={30} /><path d="M70 30 L100 6 L130 30Z" /></g></svg>
-        </Bancada>
+        <Palco nome="juiz" f={f} noite={noite || contraluz} luz={contraluz ? 0.8 : 1} />
+        {contraluz ? <AbsoluteFill style={{zIndex: 5, background: `radial-gradient(circle at 50% 22%, ${LUZ}cc, #f0b86055 18%, #0000 40%)`}} /> : null}
+        <div style={{position: 'absolute', left: 745, top: 45, zIndex: 10, filter: contraluz ? 'brightness(0.25) contrast(1.2)' : undefined}}><P g={q.juiz} x={0} y={0} s={430} f={f} rod={rod} /></div>
+        <Plaq x={960} y={700} txt={vazio ? undefined : 'JUIZ · AMETISTA'} cor="Roxo" />
       </> : null}
       {plano === 'promotor' ? <>
-        <Vitral f={f} x={1560} y={200} r={110} clima={clima} />
-        <P g={q.promotor} x={620} y={190} s={480} f={f} rod={rod} />
-        <Bancada x={260} y={800} w={1300} h={290} nome={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} />
+        <Palco nome="promotor" f={f} noite={noite} />
+        <P g={q.promotor} x={620} y={140} s={480} f={f} rod={rod} z={10} />
+        <Plaq x={960} y={880} txt={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} />
       </> : null}
-      {children}
+      <LuzSala f={f} clima={clima} />
+      {children ? <AbsoluteFill style={{zIndex: 60}}>{children}</AbsoluteFill> : null}
     </AbsoluteFill>
   );
 };
@@ -129,32 +195,18 @@ export const Sala: React.FC<{plano: Plano; f: number; clima?: Clima; rod?: strin
 // ---------- mesa de investigação: duas cadeiras de frente, o Registro na mesa ----------
 export const Mesa: React.FC<{f: number; esq: Gente; dir: Gente; rod: string; lugar?: 'sala' | 'cais' | 'corredor' | 'lab'; children?: React.ReactNode; tv?: boolean}> = ({f, esq, dir, rod, lugar = 'sala', children, tv}) => (
   <AbsoluteFill>
-    {lugar === 'cais' ? <AbsoluteFill style={{background: CEU.tarde}}>
-      <div style={{position: 'absolute', left: 1380, top: 200, width: 120, height: 120, borderRadius: 60, background: '#ffd27a', boxShadow: '0 0 90px #ffb04d'}} />
-      <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
-        <path d="M0 520 H1920 V1080 H0Z" fill="#3a2d4f" />
-        {Array.from({length: 9}).map((_, i) => <path key={i} d={`M${-100 + ((f * (0.6 + i * 0.05)) % 200)} ${540 + i * 26} q60 -10 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0`} fill="none" stroke="#ffb04d" strokeWidth={3} opacity={0.35 - i * 0.03} />)}
-        <path d="M200 520 L230 300 H262 L292 520Z" fill="#20182e" /><rect x={226} y={270} width={40} height={30} fill="#20182e" /><circle cx={246} cy={285} r={9} fill={LUZ} opacity={0.7 + 0.3 * Math.sin(f * 0.2)} />
-      </svg>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 760, bottom: 0, background: `repeating-linear-gradient(90deg, ${MAD_C} 0 130px, #6a4126 130px 136px)`, borderTop: `6px solid ${TINTA}`}} />
-    </AbsoluteFill> : <>
-      <Parede f={f} clima={lugar === 'lab' ? 'dia' : 'tarde'} tom={lugar === 'corredor' ? 40 : 10} />
-      <div style={{position: 'absolute', left: 760, top: 120, width: 400, height: 300, background: lugar === 'lab' ? CEU.dia : CEU.tarde, border: `14px solid ${MAD_E}`, outline: `4px solid ${TINTA}`, overflow: 'hidden'}}>
-        <svg width={400} height={300}><path d="M300 300 L312 150 H332 L344 300Z" fill="#20182e" /><circle cx={322} cy={142} r={8} fill={LUZ} /><path d={`M322 142 L${322 + 260 * Math.cos(f / 19)} ${120} L${322 + 260 * Math.cos(f / 19)} ${170}Z`} fill={LUZ} opacity={0.3} /><path d="M0 250 Q100 236 200 250 T400 250 V300 H0Z" fill="#3a2d4f" /></svg>
-        <div style={{position: 'absolute', left: 196, top: 0, bottom: 0, width: 8, background: MAD_E}} />
-      </div>
-      <AbsoluteFill style={{background: 'linear-gradient(120deg, #0000 40%, #ffcf8a1a 50%, #0000 62%)'}} />
-    </>}
+    <Palco nome={lugar === 'cais' ? 'cais' : lugar === 'corredor' ? 'corredor' : lugar === 'lab' ? 'lab' : 'escritorio'} f={f} atras />
+    <LuzSala f={f} clima="dia" />
     {tv ? <div style={{position: 'absolute', left: 1500, top: 250, width: 300, height: 210, background: '#1b1b1b', border: `8px solid #333`, outline: `4px solid ${TINTA}`, borderRadius: 12, overflow: 'hidden'}}>
       <div style={{position: 'absolute', inset: 0, background: '#2c7a3a'}}><div style={{position: 'absolute', left: '50%', top: 0, bottom: 0, width: 3, background: '#fff8'}} /><div style={{position: 'absolute', left: '42%', top: '38%', width: '16%', height: '24%', border: '3px solid #fff8', borderRadius: '50%'}} /></div>
       <div style={{position: 'absolute', left: 10, top: 10, fontFamily: MONO, fontWeight: 700, fontSize: 30, color: '#fff', background: '#000c', padding: '0 8px', opacity: Math.floor(f / 12) % 2 ? 1 : 0.6}}>FINAL 1 x 0</div>
       <div style={{position: 'absolute', left: 10, bottom: 8, fontFamily: POP, fontWeight: 800, fontSize: 20, color: LUZ}}>ÚLTIMO MINUTO</div>
     </div> : null}
-    <div style={{position: 'absolute', left: 80, top: 300, zIndex: 3}}><Pedra cor={esq.cor} s={380} f={f} rod={rod} humor={esq.humor} fala={esq.fala} gesto={esq.gesto} cadeados={esq.cadeados} olhar={esq.olhar ?? [1, 0]} brilho={esq.brilho} /></div>
-    <div style={{position: 'absolute', left: 1440 + (lugar === 'cais' ? -40 : 0), top: lugar === 'cais' ? 360 : 300, zIndex: 3, transform: 'scaleX(-1)'}}><Pedra cor={dir.cor} s={380} f={f} rod={rod} humor={dir.humor} fala={dir.fala} gesto={dir.gesto} cadeados={dir.cadeados} maoBolso={dir.maoBolso} semAnel={dir.semAnel} cabecaBaixa={dir.cabecaBaixa} olhar={dir.olhar ? [-dir.olhar[0], dir.olhar[1]] : [-1, 0]} brilho={dir.brilho} /></div>
+    <div style={{position: 'absolute', left: 80, top: lugar === 'cais' ? 230 : 175, zIndex: 3}}><Pedra cor={esq.cor} s={380} f={f} rod={rod} humor={esq.humor} fala={esq.fala} gesto={esq.gesto} cadeados={esq.cadeados} olhar={esq.olhar ?? [1, 0]} brilho={esq.brilho} exp={esq.exp} /></div>
+    <div style={{position: 'absolute', left: 1440 + (lugar === 'cais' ? -40 : 0), top: lugar === 'cais' ? 250 : 175, zIndex: 3, transform: 'scaleX(-1)'}}><Pedra cor={dir.cor} s={380} f={f} rod={rod} humor={dir.humor} fala={dir.fala} gesto={dir.gesto} cadeados={dir.cadeados} maoBolso={dir.maoBolso} semAnel={dir.semAnel} cabecaBaixa={dir.cabecaBaixa} olhar={dir.olhar ? [-dir.olhar[0], dir.olhar[1]] : [-1, 0]} brilho={dir.brilho} exp={dir.exp} espelho /></div>
     {lugar === 'cais' ? <div style={{position: 'absolute', left: 1380, top: 860, width: 400, height: 200, background: `repeating-linear-gradient(0deg, #8a6a3a 0 40px, #6a4e26 40px 44px)`, border: `5px solid ${TINTA}`, zIndex: 4}}><div style={{position: 'absolute', left: 20, top: 60, fontFamily: MONO, fontWeight: 700, fontSize: 26, color: '#3a2a10'}}>PEIXE · PEDRA ALTA</div></div> : null}
     <div style={{position: 'absolute', left: 360, top: 720, width: 1200, height: 380, zIndex: 5}}>
-      <svg width={1200} height={380} style={{position: 'absolute', inset: 0}}><path d="M80 0 H1120 L1200 120 H0Z" fill={lugar === 'cais' ? '#7a5530' : MAD_C} stroke={TINTA} strokeWidth={6} /><path d="M0 120 H1200 V160 H0Z" fill={MAD_E} stroke={TINTA} strokeWidth={6} /><path d="M70 160 V380 M1130 160 V380" stroke={MAD_E} strokeWidth={30} /></svg>
+      <Img src={staticFile('tribunal/palco/tribuna_c1.png')} style={{position: 'absolute', left: -360, top: -692, width: 1920, height: 1080, filter: lugar === 'cais' ? 'brightness(0.85) sepia(0.2)' : undefined}} />
       <div style={{position: 'absolute', left: 430, top: 6, width: 340, height: 100, background: PERG, border: '3px solid #6b5a3a', transform: 'perspective(500px) rotateX(48deg)', boxShadow: '0 8px 0 #3b1d10'}}><div style={{position: 'absolute', left: 168, top: 0, bottom: 0, width: 4, background: '#6b5a3a'}} /></div>
       <div style={{position: 'absolute', left: 0, right: 0, top: 30, display: 'flex', justifyContent: 'center'}}><Chip rod={rod} f={f} fs={22} extra={lugar === 'cais' ? 'CAIS' : lugar === 'corredor' ? 'CORREDOR DOS FUNDOS' : lugar === 'lab' ? 'LABORATÓRIO' : 'INVESTIGAÇÃO'} /></div>
     </div>
@@ -236,7 +288,30 @@ export const Corte: React.FC<{f: number; aceso: (h: string) => number; escuro?: 
 
 // ---------- gravura "SÓ VOCÊ VÊ": 15 anos atrás, noite de tempestade (azul-noite e âmbar) ----------
 export type GravK = {luz?: number; rubi?: number; tranca?: number; anel?: number; barco?: number; naufragio?: number; anselmo?: number; janela?: number; cores?: boolean; relogio?: string; envelope?: number; peridoto?: number};
+// ---------- o passado (15 anos atrás): ilustrações geradas, em camadas 2.5D, trocando conforme a cena pede ----------
 export const Gravura: React.FC<{f: number; k: GravK; apagada?: number}> = ({f, k, apagada = 0}) => {
+  const env = k.envelope ?? 0, ans = Math.max(k.anselmo ?? 0, k.janela ?? 0), nau = Math.max(k.naufragio ?? 0, k.peridoto ?? 0), bar = k.barco ?? 0;
+  const tr = Math.max(k.rubi ?? 0, k.tranca ?? 0, k.anel ?? 0);
+  const base = tr > 0.01 || (!bar && !nau && !ans && !env) ? 'fb_tranca' : 'fb_apagado';
+  const cam: [string, number][] = [['fb_apagado', base === 'fb_tranca' ? bar : 0], ['fb_naufragio', nau], ['fb_anselmo', ans], ['fb_envelope', env]];
+  const aceso = Math.max(tr, bar, nau, ans, env, k.luz ?? 0);
+  const cor = k.cores ? 'saturate(1.08)' : 'saturate(0.7) sepia(0.15)';
+  const brilho = (0.38 + 0.62 * aceso) * (1 - apagada * 0.6);
+  return (
+    <AbsoluteFill style={{background: '#070b14', overflow: 'hidden'}}>
+      <AbsoluteFill style={{filter: `${cor} brightness(${brilho})`, transform: `scale(${1.02 + 0.05 * Math.sin(f / 200)})`}}>
+        <Palco nome={base} f={f} atras amp={1.4} />
+        {cam.map(([n, w]) => w > 0.01 ? <AbsoluteFill key={n} style={{opacity: Math.min(1, w / 0.3) ** 2 * (3 - 2 * Math.min(1, w / 0.3))}}><Palco nome={n} f={f} atras amp={1.4} /></AbsoluteFill> : null)}
+      </AbsoluteFill>
+      {base === 'fb_tranca' && (k.anel ?? 0) > 0 ? <div style={{position: 'absolute', left: 0.56 * 1920 - 90, top: 0.57 * 1080 - 90, width: 180, height: 180, borderRadius: 90, background: `radial-gradient(${LUZ}ee, ${LATAO}66 40%, #0000 70%)`, opacity: (k.anel ?? 0) * (0.6 + 0.4 * Math.sin(f * 0.3)), mixBlendMode: 'screen'}} /> : null}
+      <Chuva f={f} n={70} op={0.35} />
+      <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, #0000 45%, #000c 100%)'}} />
+      {k.relogio ? <div style={{position: 'absolute', right: 200, top: 200, fontFamily: MONO, fontWeight: 700, fontSize: 64, color: LUZ, background: '#0009', border: `4px solid ${LATAO}`, borderRadius: 12, padding: '0 18px', ...C(4)}}>{k.relogio}</div> : null}
+    </AbsoluteFill>
+  );
+};
+
+export const GravuraSvg: React.FC<{f: number; k: GravK; apagada?: number}> = ({f, k, apagada = 0}) => {
   const cores = !!k.cores, AZ = cores ? '#1d3a66' : '#0d1a33', TR = cores ? '#2a4a7a' : '#1c3156', AM = '#E8A33A';
   const raio = Math.max(0, Math.sin(f * 0.13) ** 40) * (cores ? 0.6 : 0.4);
   return (
@@ -290,6 +365,8 @@ export const Gravura: React.FC<{f: number; k: GravK; apagada?: number}> = ({f, k
 // ---------- dado grande: fundo liso de noite com moldura de latão ----------
 export const Liso: React.FC<{f: number; tom?: string; children?: React.ReactNode}> = ({f, tom = NOITE, children}) => (
   <AbsoluteFill style={{background: tom}}>
+    <Img src={staticFile('tribunal/palco/geral.jpg')} style={{position: 'absolute', left: -120 + Math.sin(f / 95) * 30, top: -70 + Math.cos(f / 130) * 12, width: 2160, height: 1220, objectFit: 'cover', filter: 'blur(14px) brightness(0.42) saturate(0.9)'}} />
+    <AbsoluteFill style={{background: tom, opacity: 0.55}} />
     <AbsoluteFill style={{backgroundImage: 'repeating-linear-gradient(35deg, #ffffff06 0 2px, #0000 2px 9px)', backgroundPosition: `${f * 0.3}px 0`}} />
     <AbsoluteFill style={{background: `linear-gradient(100deg, #0000 ${((f % 120) / 120) * 160 - 40}%, ${LUZ}14 ${((f % 120) / 120) * 160 - 22}%, #0000 ${((f % 120) / 120) * 160 - 4}%)`}} />
     <div style={{position: 'absolute', inset: 26, border: `5px solid ${LATAO}88`, borderRadius: 18}} />

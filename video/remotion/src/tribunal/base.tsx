@@ -2,8 +2,11 @@
 // Vila de pescadores: madeira de navio, latão, pergaminho. Personagens = pedras lapidadas com rosto e roupa de recorte de papel.
 // Tudo SVG (sem emoji). Pergaminho + luz âmbar + lacre = o que só o público vê; madeira e latão = o que está no jogo.
 import React from 'react';
-import {interpolate} from 'remotion';
+import {Img, interpolate, staticFile} from 'remotion';
+import {RIG} from './rig';
 
+// câmera atual [x, y, zoom] (o fundo ilustrado usa para andar mais devagar: paralaxe 2.5D)
+export const CamCtx = React.createContext<[number, number, number]>([960, 540, 1]);
 export const NOITE = '#0F1B2D', MAD_E = '#5B3A24', MAD_C = '#8A5A36', LATAO = '#C9A227', PERG = '#F1E6CF', LUZ = '#FFE29A', CHUMBO = '#3A3F47';
 export const TINTA = '#1E150D', AMBAR = '#D98A1E', VINHO = '#6E1F2A', MARINHO = '#1B2A4E', LACRE = '#8E2A1C', CHUVA = '#5E6B7A';
 export const COR: Record<string, string> = {Vermelho: '#D7263D', Azul: '#2F6BD8', Amarelo: '#F2B705', Rosa: '#F49AC2', Roxo: '#8E44AD', Laranja: '#E8871E', Verde: '#1E9E6A', Ciano: '#1FB5C9', Lima: '#A7C93A'};
@@ -55,8 +58,106 @@ const LISA = ['Verde', 'Ciano', 'Laranja'];
 const pts = (p: [number, number][]) => p.map((q) => q.map((v) => v.toFixed(1)).join(',')).join(' ');
 
 export type Humor = 'normal' | 'feliz' | 'triste' | 'susto' | 'cinico' | 'bravo';
-type PedraP = {cor: string; s: number; f?: number; rod?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; silh?: boolean; gesto?: number; busto?: boolean; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; style?: React.CSSProperties; papel?: Papel};
-export const Pedra: React.FC<PedraP> = ({cor, s, f = 0, rod, humor = 'normal', fala, olhar = [0, 0], silh, gesto = 0, busto, maoBolso, semAnel, cadeados = 0, cabecaBaixa = 0, brilho = 0, style, papel}) => {
+type PedraP = {cor: string; s: number; f?: number; rod?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; silh?: boolean; gesto?: number; busto?: boolean; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; style?: React.CSSProperties; papel?: Papel; exp?: string; espelho?: boolean; svg?: boolean};
+
+// ---------- sprites 2D (folhas do Felipe, recortadas e ampliadas): substituem as pedras em todo o vídeo ----------
+// pre = prefixo do arquivo em public/tribunal/sprites; ex = humor -> expressão; g = expressão do gesto (apontar/martelo)
+type Fam = {pre: string; ex: Record<Humor, string>; g: string; k?: number; dx?: number};
+export const FAM: Record<string, Fam> = {
+  Vermelho: {pre: 'rubi_t', ex: {normal: 'normal', feliz: 'ajeita_anel', triste: 'suando', susto: 'choque', cinico: 'frio', bravo: 'frio'}, g: 'ajeita_anel'},
+  Azul: {pre: 'safira', ex: {normal: 'normal', feliz: 'alivio', triste: 'abalada', susto: 'abalada', cinico: 'pensando', bravo: 'objecao'}, g: 'objecao'},
+  Verde: {pre: 'jade', ex: {normal: 'normal', feliz: 'normal', triste: 'derrota', susto: 'confusa', cinico: 'confusa', bravo: 'objecao'}, g: 'toma_essa'},
+  Rosa: {pre: 'quartzo', ex: {normal: 'normal', feliz: 'determinada', triste: 'choro', susto: 'assustada', cinico: 'determinada', bravo: 'defesa'}, g: 'defesa'},
+  Roxo: {pre: 'ametista', ex: {normal: 'normal', feliz: 'decisao', triste: 'pensando', susto: 'irritado', cinico: 'pensando', bravo: 'irritado'}, g: 'martelo', k: 1.06},
+  Laranja: {pre: 'ambar', ex: {normal: 'normal', feliz: 'triunfo', triste: 'irritado', susto: 'irritado', cinico: 'triunfo', bravo: 'irritado'}, g: 'acusacao'},
+  Amarelo: {pre: 'topazio', ex: {normal: 'normal', feliz: 'certo', triste: 'duvida', susto: 'duvida', cinico: 'relato', bravo: 'irritado'}, g: 'relato'},
+  Ciano: {pre: 'turquesa', ex: {normal: 'normal', feliz: 'seguro', triste: 'analisa', susto: 'descoberta', cinico: 'analisa', bravo: 'explica'}, g: 'explica'},
+  Lima: {pre: 'peridoto', ex: {normal: 'normal', feliz: 'apresentando', triste: 'pensando', susto: 'percebeu', cinico: 'apresentando', bravo: 'decisao'}, g: 'apresentando', k: 1.04},
+};
+export const spriteKey = (cor: string, humor: Humor = 'normal', gesto = 0, exp?: string) => {
+  const F = FAM[cor];
+  if (!F) return null;
+  return `${F.pre}_${exp ?? (gesto > 0.5 ? F.g : F.ex[humor] ?? 'normal')}`;
+};
+export const spriteSrc = (cor: string, humor: Humor = 'normal', gesto = 0, exp?: string) => { const k = spriteKey(cor, humor, gesto, exp); return k ? staticFile(`tribunal/sprites/${k}.png`) : null; };
+
+// ---------- boneco recortado: o sprite vira 3 peças (tronco, cabeça, braço) religadas com emenda suave ----------
+// A cabeça gira no pescoço (pivô = linha do corte, então a emenda quase não se mexe), o tronco respira e balança preso
+// embaixo e a cabeça acompanha o tronco. Nas poses de apontar/martelo o braço é uma 3ª peça que estoca a partir do ombro
+// (só cresce, então cobre o original e não abre buraco).
+const BRACO: Record<string, {p: string; o: [number, number]; k: 'estoca' | 'bate'}> = {
+  safira_objecao: {p: '28,58 55,47 84,33 100,35 100,86 64,90 34,86', o: [30, 70], k: 'estoca'},
+  jade_objecao: {p: '30,68 52,45 76,41 98,47 98,83 60,89 28,97', o: [32, 86], k: 'estoca'},
+  ambar_acusacao: {p: '16,60 58,54 100,57 100,95 60,100 16,93', o: [20, 76], k: 'estoca'},
+  ametista_martelo: {p: '45,60 100,57 100,100 45,100', o: [52, 100], k: 'bate'},
+};
+const poliMask = (p: string) => `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><filter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='1.3'/></filter><polygon points='${p}' fill='white' filter='url(%23b)'/></svg>")`;
+const msk = (m: string): React.CSSProperties => ({WebkitMaskImage: m, maskImage: m, WebkitMaskSize: '100% 100%', maskSize: '100% 100%', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat'});
+const sm = (x: number) => x * x * (3 - 2 * x);
+export const Boneco: React.FC<{k: string; dh: number; f: number; fala?: boolean; seed?: number; cabecaBaixa?: number; energia?: number}> = ({k, dh, f, fala, seed = 0, cabecaBaixa = 0, energia = 1}) => {
+  const [w0, h0, px, py] = RIG[k] ?? [800, 1000, 0.5, 0.58];
+  const dw = (dh * w0) / h0;
+  const src = staticFile(`tribunal/sprites/${k}.png`);
+  const t = f + seed * 37;
+  const resp = 0.0075 * (0.5 + 0.5 * Math.sin(t * 0.085));
+  const bal = (0.6 * Math.sin(t * 0.037) + (fala ? 0.7 * Math.sin(t * 0.19 + 0.4) : 0)) * energia;
+  const th = (1.3 * Math.sin(t * 0.047) + 0.5 * Math.sin(t * 0.131 + 1.7) + (fala ? 2.9 * Math.sin(t * 0.29 + 0.6) + 0.9 * Math.sin(t * 0.61) : 0)) * energia + cabecaBaixa * 7;
+  const nod = (fala ? Math.abs(Math.sin(t * 0.36)) * 0.009 * energia : 0) * dh + cabecaBaixa * 0.018 * dh;
+  const alt = dh * (1 - py);
+  const hx = ((bal * Math.PI) / 180) * alt, hy = -resp * alt + nod;
+  const cut = py * 100;
+  const corpo = `rotate(${bal}deg) scaleY(${1 + resp})`;
+  const br = BRACO[k];
+  let est = 1, rot = 0;
+  if (br?.k === 'estoca') { est = 1 + (0.016 + 0.024 * sm(0.5 + 0.5 * Math.sin(t * 0.21))) * energia; rot = 0.8 * Math.sin(t * 0.13); }
+  if (br?.k === 'bate') { const ph = (t % 46) / 46; est = 1 + 0.055 * (ph < 0.12 ? sm(ph / 0.12) : Math.max(0, 1 - (ph - 0.12) / 0.3) ** 2); }
+  const img: React.CSSProperties = {position: 'absolute', left: 0, top: 0, width: dw, height: dh, display: 'block'};
+  return (
+    <div style={{position: 'relative', width: dw, height: dh}}>
+      <div style={{position: 'absolute', inset: 0, transform: corpo, transformOrigin: '50% 100%'}}>
+        <Img src={src} style={{...img, ...msk(`linear-gradient(to bottom, transparent ${cut - 7}%, #000 ${cut - 3.5}%)`)}} />
+      </div>
+      <div style={{position: 'absolute', inset: 0, transform: `translate(${hx}px, ${hy}px) rotate(${th}deg)`, transformOrigin: `${px * 100}% ${cut}%`}}>
+        <Img src={src} style={{...img, ...msk(`linear-gradient(to bottom, #000 ${cut - 3.5}%, transparent ${cut + 3}%)`)}} />
+      </div>
+      {br ? <div style={{position: 'absolute', inset: 0, transform: corpo, transformOrigin: '50% 100%'}}>
+        <div style={{position: 'absolute', inset: 0, transform: `rotate(${rot}deg) scale(${est})`, transformOrigin: `${br.o[0]}% ${br.o[1]}%`}}>
+          <Img src={src} style={{...img, ...msk(poliMask(br.p))}} />
+        </div>
+      </div> : null}
+    </div>
+  );
+};
+// close grande do Rubi (as artes grandes do Felipe): normal, ajeita_anel, suando, choque, frio
+export const RubiGrande: React.FC<{exp?: string; h: number; f?: number; silh?: boolean; fala?: boolean; style?: React.CSSProperties}> = ({exp = 'normal', h, f = 0, silh, fala, style}) => (
+  <div style={{display: 'inline-block', filter: silh ? 'brightness(0) drop-shadow(0 0 10px #D7263D)' : 'drop-shadow(0 14px 18px #0008)', ...style}}><Boneco k={`rubi_${exp}`} dh={h} f={f} fala={fala} seed={3} /></div>
+);
+const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, gesto = 0, busto, cadeados = 0, cabecaBaixa = 0, brilho = 0, style, exp, espelho}) => {
+  const F = FAM[cor];
+  const k = spriteKey(cor, humor, gesto, exp)!;
+  const h = hash(cor);
+  const H = s * (busto ? 1.15 : 1.5);
+  const dh = s * (busto ? 1.32 : 1.46) * (F.k ?? 1);
+  const glow = silh ? (cor === 'Azul' ? '#5AA8FF' : cor === 'Verde' ? '#3FE0A0' : COR[cor]) : null;
+  return (
+    <div style={{position: 'relative', width: s, height: H, flexShrink: 0, overflow: busto ? 'hidden' : 'visible', borderRadius: busto ? s * 0.08 : 0, ...style}}>
+      {busto ? null : <div style={{position: 'absolute', left: s * 0.12, right: s * 0.12, bottom: -s * 0.02, height: s * 0.06, borderRadius: '50%', background: '#0005', filter: 'blur(6px)'}} />}
+      <div style={{position: 'absolute', left: -s, right: -s, top: busto ? s * 0.04 : H - dh, display: 'flex', justifyContent: 'center', transform: `translateX(${(F.dx ?? 0) * s}px) scaleX(${espelho && cor === 'Vermelho' ? -1 : 1})`, filter: glow ? `brightness(0) drop-shadow(0 0 ${s * 0.03}px ${glow}) drop-shadow(0 0 ${s * 0.015}px ${glow})` : busto ? undefined : `drop-shadow(0 ${s * 0.03}px ${s * 0.03}px #0009)`}}>
+        <Boneco k={k} dh={dh} f={f} fala={fala} seed={h} cabecaBaixa={cabecaBaixa} energia={busto ? 0.8 : 1} />
+      </div>
+      {cadeados > 0 ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: busto ? -s * 0.2 : 0, overflow: 'visible', pointerEvents: 'none'}}>
+        {Array.from({length: cadeados}).map((_, k2) => <g key={k2} transform={`translate(${100 + (k2 - (cadeados - 1) / 2) * 44} ${236 + Math.sin(f * 0.12 + k2) * 2}) rotate(${Math.sin(f * 0.09 + k2 * 2) * 6}) scale(1.5)`}><Cadeado0 /></g>)}
+      </svg> : null}
+      {brilho > 0 && !silh ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}><path d="M150 40 l6 -16 l6 16 l16 6 l-16 6 l-6 16 l-6 -16 l-16 -6Z" fill="#fff" opacity={brilho} transform={`rotate(${f * 3} 156 46)`} /></svg> : null}
+    </div>
+  );
+};
+
+export const Pedra: React.FC<PedraP> = (props) => {
+  if (!props.svg && FAM[props.cor]) return <Ator {...props} />;
+  return <PedraSvg {...props} />;
+};
+const PedraSvg: React.FC<PedraP> = ({cor, s, f = 0, rod, humor = 'normal', fala, olhar = [0, 0], silh, gesto = 0, busto, maoBolso, semAnel, cadeados = 0, cabecaBaixa = 0, brilho = 0, style, papel}) => {
   const pp = papel ?? papelDe(cor, rod);
   const c = COR[cor] ?? '#999', h = hash(cor);
   const F = (x: string) => (silh ? '#080c14' : x);

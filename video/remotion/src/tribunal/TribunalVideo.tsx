@@ -131,7 +131,7 @@ const CenaView: React.FC<{c: Cena; D: Dados}> = ({c, D}) => {
   for (const o of c.over) { const d = f0 - o.at; if (d >= 0 && d < 12 && (o.tipo === 'selo' || o.tipo === 'meme')) soco = Math.max(soco, 0.045 * (1 - d / 12)); }
   const wk = Math.min(1, X.cita.reduce((a, o) => a + ease(f0, o.at, o.at + 16) * (1 - ease(f0, o.at + o.dur - 12, o.at + o.dur)), 0));
   const sd = hash(c.id);
-  const z = (1.0 + 0.04 * (f / Math.max(1, c.dur)) + (parado ? 0 : soco)) * (1 - 0.13 * wk);
+  const z = (1.02 + 0.04 * (f / Math.max(1, c.dur)) + (parado ? 0 : soco)) * (1 - 0.0 * wk);
   return (
     <AbsoluteFill style={{overflow: 'hidden', background: NOITE}}>
       <AbsoluteFill style={{transform: `translate(${Math.sin(f / 97 + sd) * 12}px, ${Math.cos(f / 131 + sd) * 8}px) scale(${z})`, transformOrigin: '50% 8%'}}>{out.m}</AbsoluteFill>

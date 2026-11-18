@@ -1,7 +1,7 @@
 // TRIBUNAL: utilidades das cenas (câmera por quadros-chave, HUD fixo com chip e farol, painel de versões, recortes).
 import React from 'react';
 import {AbsoluteFill, interpolate} from 'remotion';
-import {BANG, C, cl, COR, ease, LATAO, LUZ, MONO, NOME, PERG, Pedra, POP, quique, sombra, TINTA} from './base';
+import {BANG, C, CamCtx, cl, COR, ease, LATAO, LUZ, MONO, NOME, PERG, Pedra, POP, quique, sombra, TINTA} from './base';
 import {Chip, estado, FarolPac, TagSo, type Marca, type Passo} from './pecas';
 import type {X} from './dados';
 
@@ -19,8 +19,11 @@ export const camEm = (f: number, k: [number, number, number, number][]) => {
   return k[k.length - 1].slice(1);
 };
 export const Cam: React.FC<{f: number; k: [number, number, number, number][]; children: React.ReactNode}> = ({f, k, children}) => {
-  const [x, y, z] = camEm(f, k);
-  return <AbsoluteFill style={{transform: `translate(${960 - x * z}px, ${540 - y * z}px) scale(${z})`, transformOrigin: '0 0'}}>{children}</AbsoluteFill>;
+  const [x0, y0, z] = camEm(f, k);
+  // não deixa a câmera passar da borda do cenário (o palco tem ~60 px de sobra em volta)
+  const mx = Math.max(0, 1017 - 960 / z), my = Math.max(0, 572 - 540 / z);
+  const x = Math.min(960 + mx, Math.max(960 - mx, x0)), y = Math.min(540 + my, Math.max(540 - my, y0));
+  return <CamCtx.Provider value={[x, y, z]}><AbsoluteFill style={{transform: `translate(${960 - x * z}px, ${540 - y * z}px) scale(${z})`, transformOrigin: '0 0'}}>{children}</AbsoluteFill></CamCtx.Provider>;
 };
 
 // HUD fixo: chip da rodada (canto superior esquerdo) e farol da paciência (canto superior direito)
