@@ -2,7 +2,7 @@
 import React from 'react';
 import {AbsoluteFill, interpolate} from 'remotion';
 import {BANG, C, CamCtx, cl, COR, ease, LATAO, LUZ, MONO, NOME, PERG, Pedra, POP, quique, sombra, TINTA} from './base';
-import {Chip, estado, FarolPac, TagSo, type Marca, type Passo} from './pecas';
+import {Chip, estado, FarolPac, PlacaJogo, TagSo, type Marca, type Passo} from './pecas';
 import type {X} from './dados';
 
 export type Out = {m: React.ReactNode; h?: React.ReactNode};
@@ -34,9 +34,10 @@ export const Hud: React.FC<{f: number; rod?: string | null; dia?: number | strin
   return (
     <AbsoluteFill style={{pointerEvents: 'none', zIndex: 45}}>
       {rod ? <div style={{position: 'absolute', left: 36, top: 26, opacity: a, transform: `translateY(${(1 - a) * -40}px)`}}><Chip rod={rod} dia={dia ?? undefined} acao={acao} extra={extra} f={f} /></div> : null}
-      {farol && fe ? <div style={{position: 'absolute', right: 34, top: 18, opacity: a}}><FarolPac rod={farol.rod} n={fe.n} antes={fe.antes} t={fe.t} s={farol.s ?? 118} f={f} aviso={farol.aviso} risco={farol.risco} rot={farol.rot} placa={farol.placa?.txt} placaT={farol.placa ? f - farol.placa.at : 999} /></div> : null}
+      {farol && fe ? <div style={{position: 'absolute', right: 34, top: 18, opacity: a}}><FarolPac rod={farol.rod} n={fe.n} antes={fe.antes} t={fe.t} s={farol.s ?? 100} f={f} aviso={farol.aviso} risco={farol.risco} rot={farol.rot} /></div> : null}
+      {farol?.placa && f - farol.placa.at >= 0 && f - farol.placa.at < 150 ? <div style={{position: 'absolute', left: 0, right: 0, top: 22, display: 'flex', justifyContent: 'center', transform: `scale(${quique(f - farol.placa.at, 0, 12)})`, opacity: 1 - ease(f, farol.placa.at + 138, farol.placa.at + 150)}}><PlacaJogo txt={farol.placa.txt} fs={28} /></div> : null}
       {dois && f >= (dois.de ?? 0) ? (() => { const k = ease(f, dois.de ?? 0, (dois.de ?? 0) + 12); const S = estado(f, dois.S), J = estado(f, dois.J); return (
-        <div style={{position: 'absolute', left: 0, right: 0, top: 96, display: 'flex', justifyContent: 'center', gap: 40, opacity: k, transform: `translateY(${(1 - k) * -60}px)`}}>
+        <div style={{position: 'absolute', left: 36, top: 92, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8, opacity: k, transform: `translateX(${(1 - k) * -300}px) scale(0.8)`, transformOrigin: '0 0'}}>
           {(['S', 'J'] as const).map((r) => { const e = r === 'S' ? S : J; return <div key={r} style={{display: 'flex', alignItems: 'center', gap: 10, background: '#1a0f08dd', border: `4px solid ${LATAO}`, borderRadius: 14, padding: '6px 16px 6px 10px', boxShadow: sombra}}><FarolPac rod={r} n={e.n} antes={e.antes} t={e.t} s={78} f={f} /><div style={{fontFamily: POP, fontWeight: 800, fontSize: 30, color: COR[r === 'S' ? 'Azul' : 'Verde'], ...C(5)}}>{r === 'S' ? 'SAFIRA' : 'JADE'}</div></div>; })}
           {dois.rot ? <div style={{alignSelf: 'center', fontFamily: BANG, fontSize: 56, letterSpacing: 2, color: '#fff', ...C(8)}}>{dois.rot}</div> : null}
         </div>

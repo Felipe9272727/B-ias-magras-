@@ -51,7 +51,7 @@ export const FarolPac: React.FC<{rod: string; n: number; antes?: number; t?: num
       </svg>
       <div style={{marginTop: -6, fontFamily: BANG, fontSize: s * 0.3, lineHeight: 1, letterSpacing: 2, color: '#fff', ...C(s * 0.05)}}>{n} DE 6</div>
       {rot ? <div style={{fontFamily: MONO, fontWeight: 700, fontSize: Math.max(18, s * 0.12), color: '#fff', background: '#000a', borderRadius: 6, padding: '0 8px', whiteSpace: 'nowrap'}}>{rot}</div> : null}
-      {aviso ? <div style={{marginTop: 6, fontFamily: BANG, fontSize: Math.max(30, s * 0.2), letterSpacing: 2, color: '#fff', background: '#7a1a12', border: `4px solid ${LATAO}`, borderRadius: 10, padding: '0 12px', whiteSpace: 'nowrap', opacity: pisca ? 1 : 0.75}}>{aviso}</div> : null}
+      {aviso ? <div style={{marginTop: 6, alignSelf: 'flex-end', fontFamily: BANG, fontSize: Math.max(30, s * 0.2), letterSpacing: 2, color: '#fff', background: '#7a1a12', border: `4px solid ${LATAO}`, borderRadius: 10, padding: '0 12px', whiteSpace: 'nowrap', opacity: pisca ? 1 : 0.75}}>{aviso}</div> : null}
       {placa && placaT >= 0 && placaT < 150 ? <div style={{position: 'absolute', top: s * 1.62 + (rot ? 70 : 40), right: 0, transform: `scale(${quique(placaT, 0, 12) * interpolate(placaT, [140, 150], [1, 0], cl)})`, transformOrigin: '100% 0%'}}><PlacaJogo txt={placa} /></div> : null}
     </div>
   );
@@ -279,7 +279,7 @@ export const Bandeira: React.FC<{t: number; ficha?: {id: string; nome: string}; 
   const k = ease(t, 0, 8), b = quique(t, 0, 16);
   const c1 = promotor ? '#E8871E' : VINHO, c2 = promotor ? '#7a3c08' : LATAO;
   return (
-    <div style={{position: 'relative', width: 700 * s, height: 460 * s, transform: `translateX(${(1 - k) * -1100}px) rotate(${(1 - b) * -12 - 3}deg)`, transformOrigin: '6% 100%'}}>
+    <div style={{position: 'relative', width: 700 * s, height: 460 * s, transform: `translateX(${(1 - k) * -1100}px) scale(${1 + ease(t, 40, 56) * 0.15}) rotate(${(1 - b) * -12 - 3}deg)`, transformOrigin: '6% 100%', opacity: 1 - ease(t, 40, 56)}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: 22 * s, height: 460 * s, background: MAD_E, border: '5px solid #111', borderRadius: 8}} />
       <div style={{position: 'absolute', left: 22 * s, top: 14 * s, width: 640 * s, height: 340 * s, background: `linear-gradient(135deg, ${c1} 0 58%, ${c2} 58% 100%)`, border: '7px solid #111', boxShadow: sombra, transform: `skewY(${Math.sin(t * 0.4) * 1.5}deg)`}}>
         {[[14, 14], [596, 14], [14, 296], [596, 296]].map(([x, y], i) => <div key={i} style={{position: 'absolute', left: x * s, top: y * s, width: 18 * s, height: 18 * s, borderRadius: 9, background: '#ddd', border: '3px solid #111'}} />)}

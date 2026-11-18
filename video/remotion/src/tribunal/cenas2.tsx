@@ -15,7 +15,7 @@ const Flamulas: React.FC<{f: number; a: number; b: number; n: number}> = ({f, a,
   if (f < a || f > b + 20) return null;
   const passo = (b - a) / n, k = Math.min(n, Math.floor((f - a) / passo) + 1);
   return <AbsoluteFill style={{zIndex: 35, opacity: 1 - ease(f, b + 4, b + 20)}}>
-    {Array.from({length: k}).map((_, i) => <div key={i} style={{position: 'absolute', left: 140 + (i % 3) * 60, top: 120 + (i % 4) * 70, transform: `rotate(${(i % 2 ? 4 : -3)}deg)`}}><Flamula t={f - a - i * passo} s={0.95} n={i === k - 1 ? i + 1 : undefined} /></div>)}
+    {Array.from({length: k}).map((_, i) => <div key={i} style={{position: 'absolute', left: 1120 + (i % 3) * 36, top: 520 + (i % 4) * 34, transform: `rotate(${(i % 2 ? 4 : -3)}deg)`}}><Flamula t={f - a - i * passo} s={0.7} n={i === k - 1 ? i + 1 : undefined} /></div>)}
   </AbsoluteFill>;
 };
 
@@ -136,7 +136,7 @@ const E2: CenaFn = (X) => {
   return {m: <Cam f={f} k={[[0, 960, 540, 1], [a1, 1200, 500, 1.1], [c0.at, 1250, 520, 1.12], [c0.end, 960, 540, 1]]}>
     <Mesa f={f} rod="J" lugar="corredor" esq={{cor: 'Verde', gesto: janela(f, a1 - 10, a1 + 30, 8), humor: f > ab ? 'feliz' : 'normal'}} dir={{cor: 'Amarelo', cadeados: f < ab ? 1 : 0, fala: fala(X, 0), humor: 'triste'}}>
       <div style={{position: 'absolute', left: 760, top: 560, zIndex: 8, opacity: ease(f, a1, a1 + 10)}}><Ficha id="E3" nome={D.ficha('E3').nome} w={290} brilho f={f} /></div>
-      <div style={{position: 'absolute', left: 1500, top: 120, zIndex: 9}}><Cadeado s={150} f={f} estado={f < ab ? 'fechado' : 'aberto'} t={f - ab} /></div>
+      <div style={{position: 'absolute', left: 1150, top: 90, zIndex: 9}}><Cadeado s={130} f={f} estado={f < ab ? 'fechado' : 'aberto'} t={f - ab} /></div>
       {f >= ab ? <div style={{position: 'absolute', left: 1210, top: 120, zIndex: 10, transform: `scale(${pop(f, ab + 4)})`}}><PlacaJogo txt={cq?.fala ?? ''} /></div> : null}
       {f >= r2 ? <div style={{position: 'absolute', left: 700, top: 200, zIndex: 10, transform: `scale(${pop(f, r2)}) rotate(-3deg)`}}><Ficha id={rel.id} nome={rel.nome} w={300} brilho f={f} tag="NOVA PROVA" /></div> : null}
       {f >= cmp ? <div style={{position: 'absolute', left: 360, top: 120, zIndex: 12, display: 'flex', flexDirection: 'column', gap: 16, transform: `scale(${pop(f, cmp)})`}}>
@@ -169,7 +169,7 @@ const E4: CenaFn = (X) => {
   const acao = cv.length ? D.acao('J', (f < c1.end + (c2.at - c1.end) * 0.4 ? cv[0] : cv[cv.length - 1]).i) : null;
   return {m: <Cam f={f} k={[[0, 1300, 520, 1.12], [c0.at, 1200, 520, 1.06], [c2.at, 1300, 500, 1.12], [X.dur, 960, 480, 1.02]]}>
     <Mesa f={f} rod="J" lugar="cais" esq={{cor: 'Verde', gesto: 0.3}} dir={{cor: 'Lima', cadeados: 2, fala: fala(X, 0, 1, 2), humor: 'triste', olhar: [0.4, -0.6]}}>
-      <div style={{position: 'absolute', left: 560, top: 50, width: 820, height: 440, overflow: 'hidden', border: `6px solid ${TINTA}`, borderRadius: 12, opacity: 0.25 + 0.55 * ease(f, c2.end, c2.end + 20), zIndex: 2}}><div style={{transform: 'scale(0.43)', transformOrigin: '0 0', width: 1920, height: 1080, position: 'relative'}}><Gravura f={f} k={{luz: 0, rubi: 1, tranca: 1, anel: 0.6 + 0.4 * Math.sin(f * 0.3), relogio: '22:50'}} /></div><div style={{position: 'absolute', left: 14, top: 12}}><TagSo txt="O QUE ELE VIU" fs={28} /></div></div>
+      <div style={{position: 'absolute', left: 560, top: 50, width: 820, height: 440, overflow: 'hidden', border: `6px solid ${TINTA}`, borderRadius: 12, opacity: ease(f, c2.end, c2.end + 20), zIndex: 2}}><div style={{transform: 'scale(0.43)', transformOrigin: '0 0', width: 1920, height: 1080, position: 'relative'}}><Gravura f={f} k={{luz: 0, rubi: 1, tranca: 1, anel: 0.6 + 0.4 * Math.sin(f * 0.3), relogio: '22:50'}} /></div><div style={{position: 'absolute', left: 14, top: 12}}><TagSo txt="O QUE ELE VIU" fs={28} /></div></div>
       <div style={{position: 'absolute', left: 1500, top: 30, zIndex: 9, opacity: n ? 1 : 0}}><AncoraConta n={n} t={tn} s={170} f={f} /></div>
       <div style={{position: 'absolute', left: 1360, top: 820, zIndex: 9, opacity: janela(f, c0.at * 0.3, c0.at + 10, 10)}}><Rot fs={30} bg={LUZ}>PERIDOTO · {D.modelo('Lima')} · VIU TUDO</Rot></div>
     </Mesa>
@@ -185,7 +185,7 @@ const F1: CenaFn = (X) => {
   const hud = <><Hud f={f} rod="J" dia={2} aparece={t0} farol={farol} dois={f > c3.end + 40 ? {S: passos(D.pac('S', 61)), J: passos(D.pac('J', pen?.i ?? 39)), rot: 'MESMO PONTO', de: c3.end + 40} : null} /><Estreia titulo="TOMA ESSA!" sub="ACUSAR ALGUÉM · SE ERRAR, APAGA 2" t={f - t0} dur={est - t0} /></>;
   if (f < c0.at - 20) return {m: <Cam f={f} k={[[est, 1200, 520, 1.02], [c0.at, 1300, 500, 1.08]]}><Sala plano="banco" f={f} rod="J" quem={{testemunha: {cor: 'Amarelo', humor: 'triste', fala: true}}}><div style={{position: 'absolute', left: 880, top: 120, zIndex: 10}}><Placa cor="Amarelo" decl={dep?.declaracoes ?? []} f={f} w={1000} max={110} entra={est} /></div></Sala></Cam>, h: hud};
   if (f < c3.at - 6) return {m: <Cam f={f} k={[[c0.at - 20, 700, 520, 1.05], [c1.at, 960, 540, 1], [c2.at, 1500, 520, 1.12]]}><Sala plano="tribuna" f={f} rod="J" quem={{advogada: {cor: 'Verde', gesto: ease(f, c0.at, c0.at + 20), fala: fala(X, 0, 1), humor: 'bravo'}, re: {cor: 'Rosa', cadeados: 2}, assistente: {cor: 'Ciano'}, acusado: {cor: 'Vermelho', fala: fala(X, 2), humor: 'normal'}}}><Arpao t={f - (c1.at - 22)} alvoX={1400} y={860} /></Sala></Cam>, h: hud};
-  return {m: <Cam f={f} k={[[c3.at, 960, 430, 1], [c3.end, 960, 400, 1.12], [X.dur, 960, 420, 1.06]]}><Sala plano="juiz" f={f} rod="J" quem={{juiz: {cor: 'Roxo', fala: fala(X, 3), gesto: ease(f, c3.end - 20, c3.end)}}}>{f > c3.end + 40 ? <div style={{position: 'absolute', left: 120, top: 620, zIndex: 10, transform: `scale(${pop(f, c3.end + 40)}) rotate(-3deg)`}}><Rot fs={40} bg={LUZ}>O JUIZ PEDIU: EXAME DE SANGUE · GUARDA ISSO</Rot></div> : null}</Sala></Cam>, h: hud};
+  return {m: <Cam f={f} k={[[c3.at, 960, 430, 1], [c3.end, 960, 400, 1.12], [X.dur, 960, 420, 1.06]]}><Sala plano="juiz" f={f} rod="J" quem={{juiz: {cor: 'Roxo', fala: fala(X, 3), gesto: ease(f, c3.end - 20, c3.end)}}}>{f > c3.end + 40 ? <div style={{position: 'absolute', left: 330, top: 620, zIndex: 10, transform: `scale(${pop(f, c3.end + 40)}) rotate(-3deg)`}}><Rot fs={40} bg={LUZ}>O JUIZ PEDIU: EXAME DE SANGUE · GUARDA ISSO</Rot></div> : null}</Sala></Cam>, h: hud};
 };
 
 // ---------- F2: o garçom que não existia ----------

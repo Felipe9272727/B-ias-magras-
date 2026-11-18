@@ -101,7 +101,7 @@ export const Boneco: React.FC<{k: string; dh: number; f: number; fala?: boolean;
   const t = f + seed * 37;
   const resp = 0.0075 * (0.5 + 0.5 * Math.sin(t * 0.085));
   const bal = (0.6 * Math.sin(t * 0.037) + (fala ? 0.7 * Math.sin(t * 0.19 + 0.4) : 0)) * energia;
-  const th = (1.3 * Math.sin(t * 0.047) + 0.5 * Math.sin(t * 0.131 + 1.7) + (fala ? 2.9 * Math.sin(t * 0.29 + 0.6) + 0.9 * Math.sin(t * 0.61) : 0)) * energia + cabecaBaixa * 7;
+  const th = (0.7 * Math.sin(t * 0.047) + 0.25 * Math.sin(t * 0.131 + 1.7) + (fala ? 1.0 * Math.sin(t * 0.29 + 0.6) : 0)) * energia + cabecaBaixa * 7;
   const nod = (fala ? Math.abs(Math.sin(t * 0.36)) * 0.009 * energia : 0) * dh + cabecaBaixa * 0.018 * dh;
   const alt = dh * (1 - py);
   const hx = ((bal * Math.PI) / 180) * alt, hy = -resp * alt + nod;
@@ -145,8 +145,8 @@ const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, ge
       <div style={{position: 'absolute', left: -s, right: -s, top: busto ? s * 0.04 : H - dh, display: 'flex', justifyContent: 'center', transform: `translateX(${(F.dx ?? 0) * s}px) scaleX(${espelho && cor === 'Vermelho' ? -1 : 1})`, filter: glow ? `brightness(0) drop-shadow(0 0 ${s * 0.03}px ${glow}) drop-shadow(0 0 ${s * 0.015}px ${glow})` : busto ? undefined : `drop-shadow(0 ${s * 0.03}px ${s * 0.03}px #0009)`}}>
         <Boneco k={k} dh={dh} f={f} fala={fala} seed={h} cabecaBaixa={cabecaBaixa} energia={busto ? 0.8 : 1} />
       </div>
-      {cadeados > 0 ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: busto ? -s * 0.2 : 0, overflow: 'visible', pointerEvents: 'none'}}>
-        {Array.from({length: cadeados}).map((_, k2) => <g key={k2} transform={`translate(${100 + (k2 - (cadeados - 1) / 2) * 44} ${236 + Math.sin(f * 0.12 + k2) * 2}) rotate(${Math.sin(f * 0.09 + k2 * 2) * 6}) scale(1.5)`}><Cadeado0 /></g>)}
+      {cadeados > 0 ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
+        {Array.from({length: cadeados}).map((_, k2) => <g key={k2} transform={`translate(${busto ? 150 + k2 * 30 : 100 + (k2 - (cadeados - 1) / 2) * 44} ${(busto ? 205 : 268) + Math.sin(f * 0.12 + k2) * 2}) rotate(${Math.sin(f * 0.09 + k2 * 2) * 6}) scale(1.5)`}><Cadeado0 /></g>)}
       </svg> : null}
       {brilho > 0 && !silh ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}><path d="M150 40 l6 -16 l6 16 l16 6 l-16 6 l-6 16 l-6 -16 l-16 -6Z" fill="#fff" opacity={brilho} transform={`rotate(${f * 3} 156 46)`} /></svg> : null}
     </div>

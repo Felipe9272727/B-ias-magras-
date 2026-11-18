@@ -55,7 +55,7 @@ export const Parede: React.FC<{f: number; clima?: Clima; tom?: number; feixe?: b
 // ---------- fundo ilustrado (cenários do Felipe, ampliados): anda mais devagar que a câmera (paralaxe 2.5D) e fica
 // levemente desfocado; bancadas e personagens na frente ficam nítidos ----------
 const NOVO: Record<string, string> = {tribunal_geral: 'geral', tribunal_noite: 'geral', bancada_juiz: 'juiz', mesa_defesa: 'tribuna', mesa_acusacao: 'promotor', estrado: 'banco', escritorio: 'escritorio', investigacao: 'lab', corredor: 'corredor', farol_tarde: 'cais', farol_noite: 'farol_noite', ...Object.fromEntries(['juiz', 'banco', 'tribuna', 'promotor', 'geral', 'lab', 'cais'].map((k) => [k, k]))};
-export const Fundo: React.FC<{nome: string; f: number; k?: number; blur?: number; luz?: number; pos?: string; zoom?: number}> = ({nome, f, k = 0.45, blur = 1.2, luz = 0.9, pos = '50% 50%', zoom = 1}) => {
+export const Fundo: React.FC<{nome: string; f: number; k?: number; blur?: number; luz?: number; pos?: string; zoom?: number}> = ({nome, f, k = 0.45, blur = 0, luz = 0.9, pos = '50% 50%', zoom = 1}) => {
   const [x, y, z] = useContext(CamCtx);
   const xb = 960 + (x - 960) * k, yb = 540 + (y - 540) * k, zb = 1 + (z - 1) * k;
   const sc = zb / z, tx = (960 - xb * zb - (960 - x * z)) / z, ty = (540 - yb * zb - (540 - y * z)) / z;
@@ -111,7 +111,7 @@ export const PALCO: Record<string, {prof: number[]}> = {
 };
 const P_ATOR = 0.62;
  // profundidade "do personagem" (logo atrás do móvel)
-export const orbita = (f: number, amp = 1): [number, number] => [Math.sin(f / 95) * 34 * amp + Math.sin(f / 41) * 6 * amp, Math.cos(f / 130) * 12 * amp];
+export const orbita = (f: number, amp = 1): [number, number] => [Math.sin(f / 95) * 22 * amp + Math.sin(f / 41) * 4 * amp, Math.cos(f / 130) * 8 * amp];
 const Camada: React.FC<{src: string; prof: number; f: number; z: number; zoom: number; ox: number; oy: number; desl?: string; filtro?: string; amp?: number}> = ({src, prof, f, z, zoom, ox, oy, desl, filtro, amp = 1}) => {
   const [x, y, zc] = useContext(CamCtx);
   const k = Math.max(0.35, 1 + (prof - P_ATOR) * 1.1);
@@ -153,17 +153,17 @@ export const Sala: React.FC<{plano: Plano; f: number; clima?: Clima; rod?: strin
         <P g={q.delegado} x={400} y={470} s={150} f={f} rod={rod} z={30} />
         <P g={q.assistente} x={1260} y={470} s={160} f={f} rod={rod} z={30} />
         <P g={q.advogada} x={1380} y={365} s={230} f={f} rod={rod} z={31} />
-        <P g={q.re} x={1590} y={425} s={190} f={f} rod={rod} z={32} />
+        <P g={q.re} x={1560} y={425} s={180} f={f} rod={rod} z={32} />
         <Plaq x={960} y={560} txt={vazio ? undefined : 'JUIZ'} cor="Roxo" z={25} />
-        <Plaq x={290} y={650} txt={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
+        <Plaq x={330} y={650} txt={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
         <Plaq x={1570} y={720} txt={q.advogada ? `DEFESA · ${NOME[q.advogada.cor].toUpperCase()}` : undefined} cor={q.advogada?.cor} />
-        <P g={q.promotor} x={110} y={700} s={190} f={f} rod={rod} z={50} />
-        {q.promotor ? <Bancada x={40} y={900} w={520} h={180} nome={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} z={55} /> : null}
+        <P g={q.promotor} x={200} y={700} s={190} f={f} rod={rod} z={50} />
+        {q.promotor ? <Bancada x={130} y={900} w={500} h={180} nome={tag(q.promotor, rod, 'PROMOTOR')} cor={q.promotor?.cor} z={55} /> : null}
       </> : null}
       {plano === 'banco' ? <>
         <Palco nome="banco" f={f} zoom={1.35} ox={-10} oy={177} noite={noite} />
         <P g={q.delegado} x={640} y={330} s={200} f={f} rod={rod} z={5} />
-        <P g={q.testemunha} x={170} y={30} s={420} f={f} rod={rod} z={10} />
+        <P g={q.testemunha} x={180} y={70} s={400} f={f} rod={rod} z={10} />
         <Plaq x={390} y={700} txt={tag(q.testemunha, rod, 'TESTEMUNHA')} cor={q.testemunha?.cor} />
       </> : null}
       {plano === 'tribuna' ? <>
@@ -202,8 +202,8 @@ export const Mesa: React.FC<{f: number; esq: Gente; dir: Gente; rod: string; lug
       <div style={{position: 'absolute', left: 10, top: 10, fontFamily: MONO, fontWeight: 700, fontSize: 30, color: '#fff', background: '#000c', padding: '0 8px', opacity: Math.floor(f / 12) % 2 ? 1 : 0.6}}>FINAL 1 x 0</div>
       <div style={{position: 'absolute', left: 10, bottom: 8, fontFamily: POP, fontWeight: 800, fontSize: 20, color: LUZ}}>ÚLTIMO MINUTO</div>
     </div> : null}
-    <div style={{position: 'absolute', left: 80, top: lugar === 'cais' ? 230 : 175, zIndex: 3}}><Pedra cor={esq.cor} s={380} f={f} rod={rod} humor={esq.humor} fala={esq.fala} gesto={esq.gesto} cadeados={esq.cadeados} olhar={esq.olhar ?? [1, 0]} brilho={esq.brilho} exp={esq.exp} /></div>
-    <div style={{position: 'absolute', left: 1440 + (lugar === 'cais' ? -40 : 0), top: lugar === 'cais' ? 250 : 175, zIndex: 3, transform: 'scaleX(-1)'}}><Pedra cor={dir.cor} s={380} f={f} rod={rod} humor={dir.humor} fala={dir.fala} gesto={dir.gesto} cadeados={dir.cadeados} maoBolso={dir.maoBolso} semAnel={dir.semAnel} cabecaBaixa={dir.cabecaBaixa} olhar={dir.olhar ? [-dir.olhar[0], dir.olhar[1]] : [-1, 0]} brilho={dir.brilho} exp={dir.exp} espelho /></div>
+    <div style={{position: 'absolute', left: 175, top: lugar === 'cais' ? 230 : 175, zIndex: 3}}><Pedra cor={esq.cor} s={360} f={f} rod={rod} humor={esq.humor} fala={esq.fala} gesto={esq.gesto} cadeados={esq.cadeados} olhar={esq.olhar ?? [1, 0]} brilho={esq.brilho} exp={esq.exp} /></div>
+    <div style={{position: 'absolute', left: 1385 + (lugar === 'cais' ? -40 : 0), top: lugar === 'cais' ? 250 : 195, zIndex: 3, transform: 'scaleX(-1)'}}><Pedra cor={dir.cor} s={360} f={f} rod={rod} humor={dir.humor} fala={dir.fala} gesto={dir.gesto} cadeados={dir.cadeados} maoBolso={dir.maoBolso} semAnel={dir.semAnel} cabecaBaixa={dir.cabecaBaixa} olhar={dir.olhar ? [-dir.olhar[0], dir.olhar[1]] : [-1, 0]} brilho={dir.brilho} exp={dir.exp} espelho /></div>
     {lugar === 'cais' ? <div style={{position: 'absolute', left: 1380, top: 860, width: 400, height: 200, background: `repeating-linear-gradient(0deg, #8a6a3a 0 40px, #6a4e26 40px 44px)`, border: `5px solid ${TINTA}`, zIndex: 4}}><div style={{position: 'absolute', left: 20, top: 60, fontFamily: MONO, fontWeight: 700, fontSize: 26, color: '#3a2a10'}}>PEIXE · PEDRA ALTA</div></div> : null}
     <div style={{position: 'absolute', left: 360, top: 720, width: 1200, height: 380, zIndex: 5}}>
       <Img src={staticFile('tribunal/palco/tribuna_c1.png')} style={{position: 'absolute', left: -360, top: -692, width: 1920, height: 1080, filter: lugar === 'cais' ? 'brightness(0.85) sepia(0.2)' : undefined}} />
@@ -288,6 +288,8 @@ export const Corte: React.FC<{f: number; aceso: (h: string) => number; escuro?: 
 
 // ---------- gravura "SÓ VOCÊ VÊ": 15 anos atrás, noite de tempestade (azul-noite e âmbar) ----------
 export type GravK = {luz?: number; rubi?: number; tranca?: number; anel?: number; barco?: number; naufragio?: number; anselmo?: number; janela?: number; cores?: boolean; relogio?: string; envelope?: number; peridoto?: number};
+// imagem inteira (sem fatiar, sem buracos) com deslocamento 3D pelo mapa de profundidade
+const Inteira: React.FC<{nome: string; f: number}> = ({nome, f}) => <Camada src={staticFile(`tribunal/palco/${nome}.jpg`)} prof={0.62} f={f} z={0} zoom={1.08} ox={0} oy={0} desl={staticFile(`tribunal/palco/${nome}_desl.png`)} amp={0.8} />;
 // ---------- o passado (15 anos atrás): ilustrações geradas, em camadas 2.5D, trocando conforme a cena pede ----------
 export const Gravura: React.FC<{f: number; k: GravK; apagada?: number}> = ({f, k, apagada = 0}) => {
   const env = k.envelope ?? 0, ans = Math.max(k.anselmo ?? 0, k.janela ?? 0), nau = Math.max(k.naufragio ?? 0, k.peridoto ?? 0), bar = k.barco ?? 0;
@@ -300,8 +302,8 @@ export const Gravura: React.FC<{f: number; k: GravK; apagada?: number}> = ({f, k
   return (
     <AbsoluteFill style={{background: '#070b14', overflow: 'hidden'}}>
       <AbsoluteFill style={{filter: `${cor} brightness(${brilho})`, transform: `scale(${1.02 + 0.05 * Math.sin(f / 200)})`}}>
-        <Palco nome={base} f={f} atras amp={1.4} />
-        {cam.map(([n, w]) => w > 0.01 ? <AbsoluteFill key={n} style={{opacity: Math.min(1, w / 0.3) ** 2 * (3 - 2 * Math.min(1, w / 0.3))}}><Palco nome={n} f={f} atras amp={1.4} /></AbsoluteFill> : null)}
+        <Inteira nome={base} f={f} />
+        {cam.map(([n, w]) => w > 0.01 ? <AbsoluteFill key={n} style={{opacity: Math.min(1, w / 0.12)}}><Inteira nome={n} f={f} /></AbsoluteFill> : null)}
       </AbsoluteFill>
       {base === 'fb_tranca' && (k.anel ?? 0) > 0 ? <div style={{position: 'absolute', left: 0.56 * 1920 - 90, top: 0.57 * 1080 - 90, width: 180, height: 180, borderRadius: 90, background: `radial-gradient(${LUZ}ee, ${LATAO}66 40%, #0000 70%)`, opacity: (k.anel ?? 0) * (0.6 + 0.4 * Math.sin(f * 0.3)), mixBlendMode: 'screen'}} /> : null}
       <Chuva f={f} n={70} op={0.35} />
@@ -365,7 +367,7 @@ export const GravuraSvg: React.FC<{f: number; k: GravK; apagada?: number}> = ({f
 // ---------- dado grande: fundo liso de noite com moldura de latão ----------
 export const Liso: React.FC<{f: number; tom?: string; children?: React.ReactNode}> = ({f, tom = NOITE, children}) => (
   <AbsoluteFill style={{background: tom}}>
-    <Img src={staticFile('tribunal/palco/geral.jpg')} style={{position: 'absolute', left: -120 + Math.sin(f / 95) * 30, top: -70 + Math.cos(f / 130) * 12, width: 2160, height: 1220, objectFit: 'cover', filter: 'blur(14px) brightness(0.42) saturate(0.9)'}} />
+    <Img src={staticFile('tribunal/palco/geral.jpg')} style={{position: 'absolute', left: -120 + Math.sin(f / 95) * 30, top: -70 + Math.cos(f / 130) * 12, width: 2160, height: 1220, objectFit: 'cover', filter: 'brightness(0.34) saturate(0.85)'}} />
     <AbsoluteFill style={{background: tom, opacity: 0.55}} />
     <AbsoluteFill style={{backgroundImage: 'repeating-linear-gradient(35deg, #ffffff06 0 2px, #0000 2px 9px)', backgroundPosition: `${f * 0.3}px 0`}} />
     <AbsoluteFill style={{background: `linear-gradient(100deg, #0000 ${((f % 120) / 120) * 160 - 40}%, ${LUZ}14 ${((f % 120) / 120) * 160 - 22}%, #0000 ${((f % 120) / 120) * 160 - 4}%)`}} />
