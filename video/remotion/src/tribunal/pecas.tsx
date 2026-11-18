@@ -137,8 +137,8 @@ export const Colar: React.FC<{s: number; f: number}> = ({s, f}) => (
 export const Carimbo: React.FC<{txt: string; tipo: 'condenada' | 'absolvida' | 'aceita' | 'recusada' | 'neutro'; t: number; fs?: number; rot?: number}> = ({txt, tipo, t, fs = 90, rot}) => {
   if (t < 0) return null;
   const r = rot ?? ((hash(txt) % 9) - 4) * 1.4;
-  const bg = tipo === 'absolvida' ? PERG : tipo === 'neutro' ? '#2a1a10' : '#0000';
-  const cor = tipo === 'absolvida' ? '#6d5410' : tipo === 'aceita' ? LATAO : tipo === 'neutro' ? PERG : '#4a5058';
+  const bg = tipo === 'absolvida' ? PERG : tipo === 'neutro' ? '#2a1a10' : tipo === 'aceita' ? '#2a1a10' : '#E4DED2';
+  const cor = tipo === 'absolvida' ? '#6d5410' : tipo === 'aceita' ? LUZ : tipo === 'neutro' ? PERG : '#3A3F47';
   const borda = tipo === 'absolvida' || tipo === 'aceita' ? LATAO : '#4a5058';
   return (
     <div style={{position: 'relative', display: 'inline-block', transform: `rotate(${r}deg) scale(${interpolate(t, [0, 6], [2.6, 1], cl)})`, opacity: interpolate(t, [0, 3], [0, 1], cl)}}>
@@ -232,7 +232,7 @@ export const Registro: React.FC<{f: number; itens: ItemReg[]; w?: number; cols?:
 };
 
 // ---------- placa de depoimento: tábua com as declarações numeradas ----------
-export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?: number | null; f: number; w?: number; max?: number; reescreve?: {i: number; txt: string; at: number} | null; carimbos?: {i: number; txt: string; at: number; tipo?: 'chumbo' | 'latao'}[]; fs?: number; entra?: number}> = ({cor, titulo, decl, lit, f, w = 860, max = 150, reescreve, carimbos = [], fs = 23, entra = -99}) => (
+export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?: number | null; f: number; w?: number; max?: number; reescreve?: {i: number; txt: string; at: number} | null; carimbos?: {i: number; txt: string; at: number; tipo?: 'chumbo' | 'latao'}[]; fs?: number; entra?: number}> = ({cor, titulo, decl, lit, f, w = 860, max = 150, reescreve, carimbos = [], fs = 26, entra = -99}) => (
   <div style={{position: 'relative', width: w, background: `repeating-linear-gradient(2deg, ${MAD_E} 0 46px, #4e311e 46px 49px)`, border: `6px solid ${TINTA}`, borderRadius: 16, boxShadow: sombra, padding: '12px 22px 18px', boxSizing: 'border-box'}}>
     {[[8, 8], [w - 26, 8]].map(([x, y], i) => <div key={i} style={{position: 'absolute', left: x, top: y, width: 14, height: 14, borderRadius: 7, background: LATAO, border: '2px solid #111'}} />)}
     <div style={{display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8}}><div style={{width: 18, height: 18, borderRadius: 9, background: COR[cor], border: '3px solid #111'}} /><div style={{fontFamily: POP, fontWeight: 800, fontSize: 28, letterSpacing: 2, color: PERG}}>{titulo ?? `DEPOIMENTO · ${NOME[cor].toUpperCase()}`}</div></div>
@@ -407,3 +407,56 @@ export const Acoes: React.FC<{f: number; n?: number; marcadas?: {i: number; at: 
 );
 
 export const ceu = NOITE;
+
+// ---------- a mão esquerda do Rubi (dedo do anel: anelar no dia 2, mínimo no dia 4) ----------
+export const Mao: React.FC<{s: number; f: number; dedo: number; tag?: string; tagT?: number}> = ({s, f, dedo, tag, tagT = 999}) => {
+  // dedo: 0 = anelar, 1 = mínimo (pode ser fracionário: o anel "pula")
+  const D: [number, number, number, number][] = [[60, 250, 150, 'p' as any], [110, 70, 300, 0], [170, 40, 330, 0], [230, 60, 310, 0], [282, 120, 250, 0]].map(([x, top, len]) => [x as number, top as number, len as number, 0]);
+  const ax = 230 + (282 - 230) * dedo, ay = 200 + (250 - 200) * dedo;
+  return (
+    <div style={{position: 'relative', width: s, height: s * 1.25}}>
+      <svg viewBox="0 0 360 450" width={s} height={s * 1.25} style={{overflow: 'visible'}}>
+        <g stroke="#111" strokeWidth={8} strokeLinejoin="round" fill="#f0c9cf">
+          <path d="M70 300 Q60 440 190 440 Q320 440 312 300 L300 230 L80 230Z" />
+          {D.slice(1).map(([x, top], i) => <rect key={i} x={x - 26} y={top} width={52} height={260 - top + 20} rx={26} />)}
+          <path d="M80 300 Q20 250 30 190 Q46 170 70 200 L110 280" />
+        </g>
+        <text x={110} y={400} fontFamily="Poppins" fontWeight={800} fontSize={28} fill="#5a3a3a">MÃO ESQUERDA</text>
+        <g transform={`translate(${ax} ${ay + Math.sin(f * 0.2) * 2})`}><ellipse rx={34} ry={16} fill="none" stroke="#6d5410" strokeWidth={16} /><ellipse rx={34} ry={16} fill="none" stroke={LATAO} strokeWidth={10} /><circle cy={-14} r={11} fill={LATAO} stroke="#111" strokeWidth={3} /></g>
+      </svg>
+      {tag ? <div style={{position: 'absolute', left: s * (ax / 360) + 40, top: s * (ay / 360) * 1.0 - 120, transform: `scale(${interpolate(tagT, [0, 8], [1.8, 1], cl)})`, opacity: tagT >= 0 ? 1 : 0}}><svg width={80} height={80} style={{position: 'absolute', left: -60, top: 60}}><path d="M70 6 L10 70" stroke={LUZ} strokeWidth={8} strokeLinecap="round" /></svg><TagSo txt={tag} fs={34} /></div> : null}
+    </div>
+  );
+};
+
+// ---------- rádio de bordo (o "rádio VHF" inventado) ----------
+export const Radio: React.FC<{s: number; f: number}> = ({s, f}) => (
+  <svg viewBox="0 0 200 200" width={s} height={s} style={{overflow: 'visible'}}>
+    <path d="M150 60 L170 -40" stroke="#111" strokeWidth={8} strokeLinecap="round" /><circle cx={170} cy={-42} r={8} fill="#c33" stroke="#111" strokeWidth={3} />
+    <rect x={20} y={60} width={160} height={120} rx={14} fill="#2b2f36" stroke="#111" strokeWidth={6} />
+    <rect x={36} y={76} width={80} height={40} rx={4} fill="#8fd3a0" stroke="#111" strokeWidth={4} /><text x={76} y={104} textAnchor="middle" fontFamily="JetBrains Mono" fontWeight={700} fontSize={20} fill="#111">VHF</text>
+    {[0, 1, 2].map((i) => <path key={i} d={`M40 ${132 + i * 12} h70`} stroke="#777" strokeWidth={5} />)}
+    <circle cx={150} cy={100} r={18} fill={LATAO} stroke="#111" strokeWidth={4} /><path d={`M150 100 L${150 + 14 * Math.cos(f * 0.1)} ${100 + 14 * Math.sin(f * 0.1)}`} stroke="#111" strokeWidth={4} />
+    {[0, 1, 2].map((i) => <path key={i} d={`M${182 + i * 12} ${-10 - i * 6} q14 20 0 40`} fill="none" stroke={LUZ} strokeWidth={5} opacity={((f / 6 + i) % 3) / 3} />)}
+  </svg>
+);
+
+// ---------- o garçom que não existe (contorno pontilhado) ----------
+export const Garcom: React.FC<{s: number; f: number; k?: number}> = ({s, f, k = 1}) => (
+  <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{overflow: 'visible', opacity: Math.min(1, k * 1.5)}}>
+    <g fill="none" stroke={PERG} strokeWidth={7} strokeDasharray="14 10" strokeDashoffset={-f * 1.5} strokeLinecap="round" pathLength={1000} style={{strokeDasharray: `${k * 1000} 1000`}}>
+      <circle cx={100} cy={60} r={40} /><path d="M40 290 L52 130 Q100 108 148 130 L160 290Z" /><path d="M148 140 Q190 150 186 110" /><path d="M150 106 H200" strokeWidth={9} /><path d="M176 106 V70 L170 50 H190 L184 70 V106" />
+    </g>
+    <g fill="none" stroke={PERG} strokeWidth={6} strokeDasharray="12 9" strokeDashoffset={-f * 1.5}><circle cx={100} cy={60} r={40} /><path d="M40 290 L52 130 Q100 108 148 130 L160 290Z" /></g>
+  </svg>
+);
+
+// ---------- leme de navio (a transição D4: a mesa da defesa gira) ----------
+export const Leme: React.FC<{s: number; rot: number}> = ({s, rot}) => (
+  <svg viewBox="-110 -110 220 220" width={s} height={s} style={{overflow: 'visible'}}>
+    <g transform={`rotate(${rot})`} stroke="#111" strokeWidth={5}>
+      {Array.from({length: 8}).map((_, i) => <g key={i} transform={`rotate(${i * 45})`}><rect x={-6} y={-104} width={12} height={40} rx={6} fill={MAD_C} /><rect x={-5} y={-66} width={10} height={50} fill={MAD_E} /></g>)}
+      <circle r={66} fill="none" stroke={MAD_E} strokeWidth={18} /><circle r={66} fill="none" stroke="#111" strokeWidth={3} /><circle r={22} fill={LATAO} /><circle r={8} fill="#6d5410" />
+    </g>
+  </svg>
+);

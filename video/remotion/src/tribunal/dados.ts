@@ -48,7 +48,9 @@ export const mkDados = (d: any) => {
   const penal = (R: string) => evs(R).filter((e) => e.tipo === 'penalidade');
   const primeiro = (R: string, p: (e: Ev) => boolean) => evs(R).find(p);
   const cadeados = caso.CADEADOS ?? {};
-  return {d, ev, evs, ficha, desc, ref, pac, acao, decl, declIdx, conta, modelo, res, novas, exames, penal, primeiro, cadeados, locais, caso};
+  // a frase do log (fala ou declaração) que contém o termo: para recortes, sempre cópia do log
+  const frase = (R: string, i: number, termo: string) => { const e = ev(R, i); const t = [e?.fala ?? '', ...(e?.declaracoes ?? [])].join(' '); const fr = t.split(/(?<=[.!?])\s+/); return fr.find((x) => x.toLowerCase().includes(termo.toLowerCase())) ?? ''; };
+  return {frase, d, ev, evs, ficha, desc, ref, pac, acao, decl, declIdx, conta, modelo, res, novas, exames, penal, primeiro, cadeados, locais, caso};
 };
 export type Dados = ReturnType<typeof mkDados>;
 

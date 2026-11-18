@@ -195,6 +195,7 @@ export const Planta: React.FC<{f: number; visitados?: {loc: string; at: number}[
 );
 
 // ---------- o museu em corte + a régua de latão (noite do crime, 22:10 a 22:35) ----------
+const NIVEL: Record<string, number> = {'22:12': 1, '22:16': 1, '22:26': 1, '22:27': 2, '22:35': 1};
 export const MARCOS = ['22:10', '22:12', '22:14', '22:16', '22:18', '22:22', '22:26', '22:27', '22:28', '22:35'];
 const min = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
 export const xHora = (h: string) => 150 + ((min(h) - min('22:10')) / 25) * 1620;
@@ -225,7 +226,7 @@ export const Corte: React.FC<{f: number; aceso: (h: string) => number; escuro?: 
     {MARCOS.map((h) => { const a = aceso(h), x = xHora(h), golpe = h === '22:18'; return (
       <div key={h} style={{position: 'absolute', left: x - 60, top: 770, width: 120, display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: golpe ? 30 : 10}}>
         <div style={{width: 34, height: 34, borderRadius: 17, background: a > 0 ? (golpe ? '#C0262E' : LUZ) : CHUMBO, border: `5px solid ${TINTA}`, boxShadow: a > 0 ? `0 0 ${20 + 14 * a}px ${golpe ? '#ff3b3b' : LUZ}` : 'none', marginTop: 22, transform: `scale(${1 + 0.4 * a * (a < 1 ? 1 : 0)})`}} />
-        <div style={{marginTop: 8, fontFamily: MONO, fontWeight: 700, fontSize: golpe && a > 0 ? 54 : 36, lineHeight: 1, color: a > 0 ? (golpe ? '#ff5a4a' : '#fff') : '#7c8590', ...C(6), transform: `rotate(${['22:26', '22:28'].includes(h) ? 0 : 0}deg) translateY(${['22:27', '22:12', '22:16', '22:26', '22:35'].includes(h) ? 52 : 0}px)`}}>{h}</div>
+        <div style={{marginTop: 8, fontFamily: MONO, fontWeight: 700, fontSize: golpe && a > 0 ? 50 : 34, lineHeight: 1, color: a > 0 ? (golpe ? '#ff5a4a' : '#fff') : '#7c8590', ...C(6), transform: `translateY(${(NIVEL[h] ?? 0) * 46}px)`}}>{h}</div>
       </div>
     ); })}
     {children}

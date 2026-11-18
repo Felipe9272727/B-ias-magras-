@@ -126,7 +126,7 @@ const CenaView: React.FC<{c: Cena; D: Dados}> = ({c, D}) => {
   const f = parado ? par![0] : f0;
   const X = mkX(c, f, D);
   const cena = CENAS[c.id];
-  const out = cena ? cena(X) : {m: <Liso f={f}><div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: BANG, fontSize: 120, color: PERG}}>{c.visual.titulo ?? c.id}</div></Liso>};
+  const out: {m: React.ReactNode; h?: React.ReactNode} = cena ? cena(X) : {m: <Liso f={f}><div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: BANG, fontSize: 120, color: PERG}}>{c.visual.titulo ?? c.id}</div></Liso>};
   let soco = 0;
   for (const o of c.over) { const d = f0 - o.at; if (d >= 0 && d < 12 && (o.tipo === 'selo' || o.tipo === 'meme')) soco = Math.max(soco, 0.045 * (1 - d / 12)); }
   const wk = Math.min(1, X.cita.reduce((a, o) => a + ease(f0, o.at, o.at + 16) * (1 - ease(f0, o.at + o.dur - 12, o.at + o.dur)), 0));
