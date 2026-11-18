@@ -426,6 +426,50 @@
    "Branco": "Admin",
    "Roxo": "Armas",
    "Ciano": "Refeitorio"
+  },
+  "36": {
+   "Vermelho": "Refeitorio",
+   "Azul": "Refeitorio",
+   "Verde": "Refeitorio",
+   "Rosa": "Refeitorio",
+   "Laranja": "Seguranca",
+   "Preto": "Admin",
+   "Branco": "Admin",
+   "Roxo": "Armas",
+   "Ciano": "Admin"
+  },
+  "37": {
+   "Vermelho": "Armas",
+   "Azul": "Admin",
+   "Verde": "Deposito",
+   "Rosa": "Admin",
+   "Laranja": "Seguranca",
+   "Preto": "Admin",
+   "Branco": "Admin",
+   "Roxo": "Refeitorio",
+   "Ciano": "Refeitorio"
+  },
+  "38": {
+   "Vermelho": "Navegacao",
+   "Azul": "Admin",
+   "Verde": "Eletrica",
+   "Rosa": "Admin",
+   "Laranja": "Seguranca",
+   "Preto": "Admin",
+   "Branco": "Deposito",
+   "Roxo": "Refeitorio",
+   "Ciano": "MotorSuperior"
+  },
+  "39": {
+   "Vermelho": "Navegacao",
+   "Azul": "Refeitorio",
+   "Verde": "Eletrica",
+   "Rosa": "Refeitorio",
+   "Laranja": "Seguranca",
+   "Preto": "Admin",
+   "Branco": "MotorInferior",
+   "Roxo": "Refeitorio",
+   "Ciano": "Reator"
   }
  },
  "seed": 1972683716,
@@ -12816,6 +12860,1298 @@
     "tarefas": 37,
     "totalTarefas": 41
    }
+  },
+  {
+   "tique": 36,
+   "decisoes": [
+    {
+     "cor": "Ciano",
+     "acao": "ir para Admin",
+     "pensamento": "Preciso chegar ao Reator pra iniciar; vou passar pelo Admin que é vizinho.",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "continuar até Admin",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Preciso ir para a Elétrica para terminar minha tarefa.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Estou invisível e com 3 pessoas me vendo em Admin, vou usar o mapa pra planejar onde matar quando ficar visível no tique 38.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3672,
+      "y": 1656
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Vou seguir pelo Refeitório em direção à minha tarefa na Navegação.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "ir para Seguranca",
+     "pensamento": "Sem tarefas, vou checar as câmeras em Segurança pra ver onde todo mundo está e achar o impostor restante.",
+     "de": "MotorInferior",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "ficar parado observando",
+     "pensamento": "Marrom era impostor, falta 1; Branco fez scan falso no t17, então vou ficar perto do grupo e vigiar Vermelho e Verde.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3240,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "continuar até Admin",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ficar parado observando",
+     "pensamento": "Já fiz todas as minhas tarefas, então fico perto de Azul e Rosa e observo para ver se tem algo estranho.",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4296,
+      "y": 600
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3240,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3672,
+       "y": 1656
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4296,
+       "y": 600
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 564,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 37,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 37,
+   "decisoes": [
+    {
+     "cor": "Rosa",
+     "acao": "continuar até Admin",
+     "pensamento": "",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Navegacao",
+     "pensamento": "Vou para Navegação terminar minha última tarefa e ajudar a completar a barra.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Estou com duas testemunhas aqui no Admin e minha invisibilidade acabou; vou fingir tarefa pra não chamar atenção e esperar uma oportunidade melhor.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3288,
+      "y": 2088
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Preciso ir ao Reator completar minha tarefa; como Admin só conecta ao Refeitório e Depósito, vou pelo Refeitório.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "continuar até Admin",
+     "pensamento": "",
+     "de": "Refeitorio",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Já fiz todas as minhas tarefas, então vou para o Refeitório, onde há mais gente e posso observar os outros e ficar seguro.",
+     "de": "Armas",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "ir para Eletrica",
+     "pensamento": "Preciso ir para a Elétrica para fazer minha tarefa de calibrar o distribuidor.",
+     "de": "Refeitorio",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2376,
+      "y": 1896
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "olhar as câmeras",
+     "pensamento": "Tarefas pessoais acabaram, vou continuar espionando pelas câmeras pra pegar o impostor restante.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Minhas tarefas acabaram; vou monitorar o mapa do Admin para rastrear movimentos suspeitos.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3240,
+      "y": 1944
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2376,
+       "y": 1896
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3240,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3288,
+       "y": 2088
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 564,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 37,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 38,
+   "decisoes": [
+    {
+     "cor": "Vermelho",
+     "acao": "continuar até Navegacao",
+     "pensamento": "",
+     "de": "Armas",
+     "para": "Navegacao",
+     "ponto": {
+      "x": 5160,
+      "y": 1032
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Azul e Verde estão sempre juntos e consertando sistemas juntos, o que é suspeito para dois tripulantes. Preciso monitorar eles de perto e usar o mapa para ver onde estão.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "olhar as câmeras",
+     "pensamento": "Minhas tarefas estão todas feitas, vou olhar as câmeras daqui pra vigiar movimentos suspeitos.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Deposito",
+     "pensamento": "Com três testemunhas me vigiando em Admin, preciso sair dessa sala logo para me isolar e planejar o próximo movimento.",
+     "de": "Admin",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2904,
+      "y": 1992
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "Deposito",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1608,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Roxo tá aqui perto, mas preciso ir pro Reator fazer minha tarefa; vou cortar por Motor Superior.",
+     "de": "Refeitorio",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "ver sinais vitais",
+     "pensamento": "Faz 7 tiques que não uso meu poder, então preciso checar os sinais vitais agora.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3336,
+      "y": 1704
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Minhas tarefas estão todas feitas e o bar está em 90%, então vou ficar monitorando o mapa do Admin para detectar quem está onde e com quem, pensando nos outros impostor restante.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3240,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ficar parado observando",
+     "pensamento": "Todas as minhas tarefas estão feitas, então fico no Refeitório perto do Ciano, que está sozinho comigo, e observo o que acontece.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5160,
+       "y": 1032
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1608,
+       "y": 2520
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3336,
+       "y": 1704
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3240,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2904,
+       "y": 1992
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 564,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 37,
+    "totalTarefas": 41
+   }
+  },
+  {
+   "tique": 39,
+   "decisoes": [
+    {
+     "cor": "Azul",
+     "acao": "ir para O2",
+     "pensamento": "Tenho a tarefa de limpar o filtro de O2, então vou até lá, já que o O2 acabou de ser consertado e ninguém precisa de mim no Admin agora.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ficar parado observando",
+     "pensamento": "Já fiz todas as minhas tarefas, então vou ficar em um lugar central como o Refeitório, perto do botão, observando quem aparece para ajudar a achar os impostores.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3336,
+      "y": 456
+     }
+    },
+    {
+     "cor": "Preto",
+     "acao": "ficar parado observando",
+     "pensamento": "Minhas tarefas estão todas prontas; fico em Admin observando quem entra e sai para reunir informação, já que Azul e Rosa estão comigo.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3240,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "olhar as câmeras",
+     "pensamento": "Tarefas acabadas, vou vigiar as câmeras para achar o impostor restante.",
+     "de": "Seguranca",
+     "para": "Seguranca",
+     "ponto": {
+      "x": 1128,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Verde",
+     "acao": "fazer tarefa: Calibrar o distribuidor",
+     "pensamento": "Tenho que terminar minha tarefa na Elétrica logo.",
+     "de": "Eletrica",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1656,
+      "y": 2904
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "ir para O2",
+     "pensamento": "Vou para O2 para verificar se está tudo bem após a sabotagem recente e observar quem está por lá.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Reator",
+     "pensamento": "Preciso terminar minha tarefa no Reator, é logo aqui do lado e ainda dá para observar quem entra.",
+     "de": "MotorSuperior",
+     "para": "Reator",
+     "ponto": {
+      "x": 312,
+      "y": 1224
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ficar invisível e ir para MotorInferior",
+     "pensamento": "Motor Inferior tem 1 pessoa sozinha, vou ficar invisível e ir lá pra matar.",
+     "de": "Deposito",
+     "para": "MotorInferior",
+     "ponto": {
+      "x": 360,
+      "y": 2568
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "fazer tarefa: Traçar a rota",
+     "pensamento": "Vou concluir minha última tarefa enquanto não há ninguém por perto.",
+     "de": "Navegacao",
+     "para": "Navegacao",
+     "ponto": {
+      "x": 5304,
+      "y": 984
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Cientista",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1656,
+       "y": 2904
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Seguranca",
+      "ponto": {
+       "x": 1128,
+       "y": 1752
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3240,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorInferior",
+      "ponto": {
+       "x": 360,
+       "y": 2568
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3336,
+       "y": 456
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Reator",
+      "ponto": {
+       "x": 312,
+       "y": 1224
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 564,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 38,
+    "totalTarefas": 41
+   }
   }
  ],
  "reunioes": [
@@ -13520,6 +14856,55 @@
    "aparente": "Branco",
    "de": "Refeitorio",
    "para": "Admin"
+  },
+  {
+   "tique": 36,
+   "tipo": "reaparece",
+   "cor": "Branco",
+   "sala": "Admin"
+  },
+  {
+   "tique": 37,
+   "tipo": "poder",
+   "cor": "Laranja",
+   "poder": "cameras"
+  },
+  {
+   "tique": 38,
+   "tipo": "poder",
+   "cor": "Laranja",
+   "poder": "cameras"
+  },
+  {
+   "tique": 38,
+   "tipo": "poder",
+   "cor": "Azul",
+   "poder": "vitais",
+   "mortos": [
+    "Amarelo",
+    "Marrom"
+   ]
+  },
+  {
+   "tique": 39,
+   "tipo": "poder",
+   "cor": "Laranja",
+   "poder": "cameras"
+  },
+  {
+   "tique": 39,
+   "tipo": "invisivel",
+   "cor": "Branco",
+   "sala": "Deposito",
+   "ate": 45
+  },
+  {
+   "tique": 39,
+   "tipo": "tarefa",
+   "cor": "Vermelho",
+   "sala": "Navegacao",
+   "nome": "Traçar a rota",
+   "visual": false
   }
  ],
  "fotos": [],
@@ -13674,33 +15059,33 @@
  "resultado": null,
  "casal": [],
  "uso": {
-  "chamadas": 335,
+  "chamadas": 365,
   "falhas": 1,
   "porProvider": {
-   "or:openai/gpt-6-luna": 34,
-   "haiku": 33,
-   "or:google/gemma-4-26b-a4b-it": 36,
-   "or:mistralai/mistral-small-2603": 29,
-   "or:xiaomi/mimo-v2.6-flash": 34,
+   "or:openai/gpt-6-luna": 37,
+   "haiku": 35,
+   "or:google/gemma-4-26b-a4b-it": 39,
+   "or:mistralai/mistral-small-2603": 31,
+   "or:xiaomi/mimo-v2.6-flash": 38,
    "or:meta/muse-ember": 14,
-   "or:z-ai/glm-5.3-flash": 32,
-   "or:qwen/qwen3.8-27b": 38,
-   "sonnet": 38,
-   "or:deepseek/deepseek-v4.1-flash": 30,
+   "or:z-ai/glm-5.3-flash": 36,
+   "or:qwen/qwen3.8-27b": 42,
+   "sonnet": 42,
+   "or:deepseek/deepseek-v4.1-flash": 34,
    "or:minimax/minimax-m3.1-flash": 17
   },
   "falhasPor": {
    "or:xiaomi/mimo-v2.6-flash": 1
   },
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.006081958699999998,
-   "or:openai/gpt-6-luna": 0.009523700000000003,
+   "or:z-ai/glm-5.3-flash": 0.006891838699999998,
+   "or:openai/gpt-6-luna": 0.010317850000000003,
    "or:meta/muse-ember": 0.00325294,
    "or:minimax/minimax-m3.1-flash": 0.009075663,
-   "or:mistralai/mistral-small-2603": 0.014206554,
-   "or:xiaomi/mimo-v2.6-flash": 0.011324236799999998,
-   "or:google/gemma-4-26b-a4b-it": 0.011951323000000003,
-   "or:qwen/qwen3.8-27b": 0.08221309000000003
+   "or:mistralai/mistral-small-2603": 0.015666789,
+   "or:xiaomi/mimo-v2.6-flash": 0.012548316799999995,
+   "or:google/gemma-4-26b-a4b-it": 0.012709744000000004,
+   "or:qwen/qwen3.8-27b": 0.08845786400000004
   },
   "motivos": {
    "or:xiaomi/mimo-v2.6-flash": [
@@ -13721,7 +15106,7 @@
   },
   "Azul": {
    "papel": "Cientista",
-   "usos": 6,
+   "usos": 7,
    "fantasma": null,
    "comeu": 0
   },
@@ -13757,7 +15142,7 @@
   },
   "Branco": {
    "papel": "Espectro",
-   "usos": 3,
+   "usos": 4,
    "fantasma": null,
    "comeu": 0
   },
