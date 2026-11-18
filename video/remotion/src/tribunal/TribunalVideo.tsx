@@ -8,7 +8,7 @@ import {MemeCard} from '../components/overlays';
 import {Selo} from '../au7/Hud7';
 import {AMBAR, BANG, C, CHUMBO, cl, COR, ease, hash, Icone, LATAO, LUZ, MAD_C, MAD_E, MARINHO, MONO, NOITE, NOME, norm, PERG, Pedra, POP, quique, ROD_NOME, rotuloDe, sombra, TINTA, VINHO} from './base';
 import {Lacre} from './pecas';
-import {Liso} from './cenarios';
+import {Fundo, Liso} from './cenarios';
 import {mkDados, mkX, type CapO, type Cena, type CitaO, type Dados, type TL} from './dados';
 import {CENAS, GRIFO, PARADO} from './cenas';
 
@@ -78,6 +78,8 @@ const Cita: React.FC<{o: CitaO; D: Dados; k: number; cena: string}> = ({o, D, k,
 };
 const claro2 = (cor: string) => ['Amarelo', 'Lima', 'Ciano', 'Rosa'].includes(cor);
 
+// cenário de abertura de cada capítulo (os que deram para aproveitar das folhas do Felipe + os gerados)
+const capFundo = (t: string) => { const n = norm(t); return n.includes('SO VOCE VE') ? 'farol_noite' : n.includes('SAFIRA, DIA 1') ? 'vila' : n.includes('JADE, DIA 1') ? 'estaleiro' : n.includes('DIA 3') ? 'sala_provas' : n.includes('JADE, DIA 4') ? 'tribunal_noite' : n.includes('SAFIRA, DIA 4') ? 'farol_interior' : n.includes('FECHAMENTO') ? 'praia' : 'tribunal_geral'; };
 // ---------- cartão de capítulo: tábua de madeira com cantoneiras de latão; o feixe do farol passa ----------
 const Capitulo: React.FC<{o: CapO; id: string}> = ({o, id}) => {
   const f = useCurrentFrame();
@@ -89,6 +91,7 @@ const Capitulo: React.FC<{o: CapO; id: string}> = ({o, id}) => {
   return (
     <AbsoluteFill style={{opacity: a, zIndex: 60}}>
       <Liso f={f + hash(id)} tom={so ? '#0b1222' : '#1a0f08'} />
+      <Fundo nome={capFundo(o.titulo)} f={f} blur={2.2} luz={0.6} k={0} zoom={['vila', 'estaleiro', 'sala_provas', 'farol_interior', 'praia'].includes(capFundo(o.titulo)) ? 1.6 : 1} />
       <div style={{position: 'absolute', left: 230, top: 210, width: 1460, height: 620, transform: `translateY(${(1 - quique(f, 0, 16)) * -900}px) rotate(${-1.5 + Math.sin(f / 30) * 0.4}deg)`}}>
         <div style={{position: 'absolute', inset: 0, background: so ? PERG : `repeating-linear-gradient(1deg, ${MAD_C} 0 44px, #7b4e2e 44px 48px)`, border: `8px solid ${TINTA}`, borderRadius: 20, boxShadow: `${sombra}, 0 0 80px ${so ? LUZ : '#000'}66`}} />
         {[[0, 0], [1, 0], [0, 1], [1, 1]].map(([x, y], i) => <div key={i} style={{position: 'absolute', left: x ? 1460 - 70 : -6, top: y ? 620 - 70 : -6, width: 76, height: 76, background: `linear-gradient(135deg, ${LUZ}, ${LATAO}, #8a6d14)`, border: `4px solid ${TINTA}`, borderRadius: 10, clipPath: ['polygon(0 0,100% 0,0 100%)', 'polygon(0 0,100% 0,100% 100%)', 'polygon(0 0,0 100%,100% 100%)', 'polygon(100% 0,100% 100%,0 100%)'][i]}} />)}
