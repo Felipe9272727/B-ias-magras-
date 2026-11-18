@@ -274,19 +274,39 @@ export const Flamula: React.FC<{t: number; s?: number; n?: number}> = ({t, s = 1
 };
 
 // ---------- OBJEÇÃO! (bandeira quadrada de latão e vinho, a ficha pregada nela) ----------
+// balão de grito (estilo dos jogos de tribunal): balão espetado branco, letras grandes com contorno, tremida e clarão;
+// some depois de ~1,5 s e deixa a prova na tela
+const espinhos = (w: number, h: number, n: number, seed: number) => {
+  const pts: string[] = [];
+  for (let i = 0; i < n * 2; i++) {
+    const a = (i / (n * 2)) * Math.PI * 2, fora = i % 2 === 0, j = 0.85 + 0.3 * rnd(i + seed);
+    const rx = (w / 2) * (fora ? 1 * j : 0.74), ry = (h / 2) * (fora ? 1.05 * j : 0.7);
+    pts.push(`${(w / 2 + Math.cos(a) * rx).toFixed(1)},${(h / 2 + Math.sin(a) * ry).toFixed(1)}`);
+  }
+  return pts.join(' ');
+};
 export const Bandeira: React.FC<{t: number; ficha?: {id: string; nome: string}; promotor?: boolean; s?: number; txt?: string}> = ({t, ficha, promotor, s = 1, txt = 'OBJEÇÃO!'}) => {
-  if (t < 0) return null;
-  const k = ease(t, 0, 8), b = quique(t, 0, 16);
-  const c1 = promotor ? '#E8871E' : VINHO, c2 = promotor ? '#7a3c08' : LATAO;
+  if (t < 0 || t > 110) return null;
+  const toma = /TOMA/i.test(txt);
+  const cor = promotor ? '#E8871E' : toma ? '#2F6BD8' : '#E0262E';
+  const k = interpolate(t, [0, 5], [2.4, 1], cl) * (1 + 0.05 * Math.max(0, 1 - t / 10) * Math.sin(t * 2.5));
+  const treme = t < 16 ? (1 - t / 16) * 14 : 0;
+  const some = 1 - ease(t, 38, 50);
+  const W = 860 * s, H = 470 * s;
   return (
-    <div style={{position: 'relative', width: 700 * s, height: 460 * s, transform: `translateX(${(1 - k) * -1100}px) scale(${1 + ease(t, 40, 56) * 0.15}) rotate(${(1 - b) * -12 - 3}deg)`, transformOrigin: '6% 100%', opacity: 1 - ease(t, 40, 56)}}>
-      <div style={{position: 'absolute', left: 0, top: 0, width: 22 * s, height: 460 * s, background: MAD_E, border: '5px solid #111', borderRadius: 8}} />
-      <div style={{position: 'absolute', left: 22 * s, top: 14 * s, width: 640 * s, height: 340 * s, background: `linear-gradient(135deg, ${c1} 0 58%, ${c2} 58% 100%)`, border: '7px solid #111', boxShadow: sombra, transform: `skewY(${Math.sin(t * 0.4) * 1.5}deg)`}}>
-        {[[14, 14], [596, 14], [14, 296], [596, 296]].map(([x, y], i) => <div key={i} style={{position: 'absolute', left: x * s, top: y * s, width: 18 * s, height: 18 * s, borderRadius: 9, background: '#ddd', border: '3px solid #111'}} />)}
-        <div style={{position: 'absolute', left: 30 * s, top: 24 * s, fontFamily: BANG, fontSize: 132 * s, lineHeight: 1, letterSpacing: 4, color: '#fff', ...C(12 * s)}}>{txt}</div>
-        {promotor ? <div style={{position: 'absolute', left: 34 * s, top: 170 * s, fontFamily: POP, fontWeight: 800, fontSize: 30 * s, color: '#fff', ...C(5)}}>DO PROMOTOR</div> : null}
-      </div>
-      {ficha ? <div style={{position: 'absolute', left: 360 * s, top: 180 * s, transform: `rotate(6deg) scale(${quique(t, 6, 12)})`}}><Ficha id={ficha.id} nome={ficha.nome} w={250 * s} brilho f={t} /><div style={{position: 'absolute', left: 116 * s, top: -8, width: 18, height: 18, borderRadius: 9, background: '#999', border: '3px solid #111'}} /></div> : null}
+    <div style={{position: 'relative', width: W, height: H}}>
+      {some > 0.01 ? <div style={{position: 'absolute', inset: 0, opacity: some, transform: `translate(${Math.sin(t * 3.1) * treme}px, ${Math.cos(t * 2.7) * treme}px) scale(${k}) rotate(-4deg)`, transformOrigin: '30% 60%'}}>
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+          {t < 12 ? Array.from({length: 22}).map((_, i) => { const a = (i / 22) * Math.PI * 2; return <path key={i} d={`M${W / 2 + Math.cos(a) * W * 0.5} ${H / 2 + Math.sin(a) * H * 0.55} L${W / 2 + Math.cos(a) * W * (0.75 + t * 0.02)} ${H / 2 + Math.sin(a) * H * (0.85 + t * 0.03)}`} stroke="#fff" strokeWidth={10 * s} opacity={0.8 * (1 - t / 12)} />; }) : null}
+          <polygon points={espinhos(W * 0.92, H * 0.9, 16, 3)} transform={`translate(${W * 0.06} ${H * 0.07})`} fill="#000" />
+          <polygon points={espinhos(W * 0.92, H * 0.9, 16, 3)} transform={`translate(${W * 0.04} ${H * 0.04})`} fill="#fff" stroke="#111" strokeWidth={9 * s} strokeLinejoin="round" />
+          <path d={`M${W * 0.18} ${H * 0.8} L${W * 0.02} ${H * 1.02} L${W * 0.3} ${H * 0.86}Z`} fill="#fff" stroke="#111" strokeWidth={9 * s} strokeLinejoin="round" />
+        </svg>
+        <div style={{position: 'absolute', left: 0, right: 0, top: H * 0.24, textAlign: 'center', fontFamily: BANG, fontSize: (txt.length > 9 ? 150 : 176) * s, lineHeight: 1, letterSpacing: 4, color: cor, WebkitTextStroke: `${10 * s}px #111`, paintOrder: 'stroke fill', textShadow: `0 ${8 * s}px 0 #111`, transform: 'rotate(-3deg)'}}>{txt}</div>
+        {promotor ? <div style={{position: 'absolute', left: 0, right: 0, top: H * 0.66, textAlign: 'center', fontFamily: POP, fontWeight: 800, fontSize: 34 * s, color: '#111'}}>DO PROMOTOR</div> : null}
+      </div> : null}
+      {t < 5 ? <div style={{position: 'fixed', left: -4000, top: -4000, width: 9000, height: 9000, background: '#fff', opacity: 0.7 * (1 - t / 5), pointerEvents: 'none'}} /> : null}
+      {ficha && t >= 30 ? <div style={{position: 'absolute', left: W * 0.42, top: H * 0.3, opacity: 1 - ease(t, 96, 110), transform: `rotate(4deg) scale(${quique(t, 30, 12)})`}}><Ficha id={ficha.id} nome={ficha.nome} w={260 * s} brilho f={t} tag="A PROVA" /></div> : null}
     </div>
   );
 };

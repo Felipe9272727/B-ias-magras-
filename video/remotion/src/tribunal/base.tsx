@@ -10,6 +10,7 @@ export const CamCtx = React.createContext<[number, number, number]>([960, 540, 1
 export const NOITE = '#0F1B2D', MAD_E = '#5B3A24', MAD_C = '#8A5A36', LATAO = '#C9A227', PERG = '#F1E6CF', LUZ = '#FFE29A', CHUMBO = '#3A3F47';
 export const TINTA = '#1E150D', AMBAR = '#D98A1E', VINHO = '#6E1F2A', MARINHO = '#1B2A4E', LACRE = '#8E2A1C', CHUVA = '#5E6B7A';
 export const COR: Record<string, string> = {Vermelho: '#D7263D', Azul: '#2F6BD8', Amarelo: '#F2B705', Rosa: '#F49AC2', Roxo: '#8E44AD', Laranja: '#E8871E', Verde: '#1E9E6A', Ciano: '#1FB5C9', Lima: '#A7C93A'};
+export const MODELO: Record<string, string> = {Vermelho: 'Claude Haiku', Azul: 'Claude Sonnet', Amarelo: 'GPT-6 Luna', Rosa: 'MiMo V2.6 Flash', Roxo: 'DeepSeek V4.1 Flash', Laranja: 'GLM 5.3 Flash', Verde: 'Qwen 3.8 27B', Ciano: 'MiniMax M3.1 Flash', Lima: 'Mistral Small'};
 export const NOME: Record<string, string> = {Vermelho: 'Rubi', Azul: 'Safira', Amarelo: 'Topázio', Rosa: 'Quartzo', Roxo: 'Ametista', Laranja: 'Âmbar', Verde: 'Jade', Ciano: 'Turquesa', Lima: 'Peridoto'};
 export const FAROL_COR: Record<string, string> = {S: '#5AA8FF', J: '#3FE0A0'};
 export const ROD_NOME: Record<string, string> = {S: 'RODADA DA SAFIRA', J: 'RODADA DA JADE'};
@@ -58,7 +59,7 @@ const LISA = ['Verde', 'Ciano', 'Laranja'];
 const pts = (p: [number, number][]) => p.map((q) => q.map((v) => v.toFixed(1)).join(',')).join(' ');
 
 export type Humor = 'normal' | 'feliz' | 'triste' | 'susto' | 'cinico' | 'bravo';
-type PedraP = {cor: string; s: number; f?: number; rod?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; silh?: boolean; gesto?: number; busto?: boolean; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; style?: React.CSSProperties; papel?: Papel; exp?: string; espelho?: boolean; svg?: boolean};
+type PedraP = {cor: string; s: number; f?: number; rod?: string | null; humor?: Humor; fala?: boolean; olhar?: [number, number]; silh?: boolean; gesto?: number; busto?: boolean; maoBolso?: boolean; semAnel?: boolean; cadeados?: number; cabecaBaixa?: number; brilho?: number; style?: React.CSSProperties; papel?: Papel; exp?: string; espelho?: boolean; svg?: boolean; tag?: boolean};
 
 // ---------- sprites 2D (folhas do Felipe, recortadas e ampliadas): substituem as pedras em todo o vídeo ----------
 // pre = prefixo do arquivo em public/tribunal/sprites; ex = humor -> expressão; g = expressão do gesto (apontar/martelo)
@@ -128,7 +129,7 @@ export const Boneco: React.FC<{k: string; dh: number; f: number; fala?: boolean;
 export const RubiGrande: React.FC<{exp?: string; h: number; f?: number; silh?: boolean; fala?: boolean; style?: React.CSSProperties}> = ({exp = 'normal', h, f = 0, silh, fala, style}) => (
   <div style={{display: 'inline-block', filter: silh ? 'brightness(0) drop-shadow(0 0 10px #D7263D)' : 'drop-shadow(0 14px 18px #0008)', ...style}}><Boneco k={`rubi_${exp}`} dh={h} f={f} fala={fala} seed={3} /></div>
 );
-const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, gesto = 0, busto, cadeados = 0, cabecaBaixa = 0, brilho = 0, style, exp, espelho}) => {
+const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, gesto = 0, busto, cadeados = 0, cabecaBaixa = 0, brilho = 0, style, exp, espelho, tag}) => {
   const F = FAM[cor];
   const k = spriteKey(cor, humor, gesto, exp)!;
   const h = hash(cor);
@@ -145,6 +146,7 @@ const Ator: React.FC<PedraP> = ({cor, s, f = 0, humor = 'normal', fala, silh, ge
       <div style={{position: 'absolute', left: s / 2 - px * dw + (F.dx ?? 0) * s, top: s * 0.04, width: dw, height: dh, transformOrigin: `${px * 100}% 50%`, transform: `scaleX(${espelho && cor === 'Vermelho' ? -1 : 1})`, filter: glow ? `brightness(0) drop-shadow(0 0 ${s * 0.03}px ${glow}) drop-shadow(0 0 ${s * 0.015}px ${glow})` : busto ? undefined : `drop-shadow(0 ${s * 0.03}px ${s * 0.03}px #0009)`}}>
         <Boneco k={k} dh={dh} f={f} fala={fala} seed={h} cabecaBaixa={cabecaBaixa} energia={busto ? 0.8 : 1} />
       </div>
+      {tag && !busto && !silh ? <div style={{position: 'absolute', left: s / 2, top: -Math.max(40, s * 0.13), transform: `translateX(-50%) scaleX(${espelho ? -1 : 1})`, display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', zIndex: 5, fontFamily: POP, fontWeight: 800, fontSize: Math.max(24, s * 0.085), lineHeight: 1.1, color: claro(cor) ? '#1E150D' : '#fff', background: COR[cor], border: '3px solid #1E150D', borderRadius: 30, padding: '1px 12px', boxShadow: '0 4px 0 #0008'}}>{NOME[cor]}<span style={{fontFamily: MONO, fontWeight: 700, fontSize: Math.max(17, s * 0.058), opacity: 0.9}}>{MODELO[cor]}</span></div> : null}
       {cadeados > 0 ? <svg viewBox="0 0 200 300" width={s} height={s * 1.5} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
         {Array.from({length: cadeados}).map((_, k2) => <g key={k2} transform={`translate(${busto ? 150 + k2 * 30 : 100 + (k2 - (cadeados - 1) / 2) * 44} ${(busto ? 205 : 268) + Math.sin(f * 0.12 + k2) * 2}) rotate(${Math.sin(f * 0.09 + k2 * 2) * 6}) scale(1.5)`}><Cadeado0 /></g>)}
       </svg> : null}

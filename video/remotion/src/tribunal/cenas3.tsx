@@ -72,7 +72,7 @@ const Cartao: React.FC<{t: number; acao: string; txt: string; cor: string; grifo
 
 // ================= A0: a inspiração (trecho do trailer oficial de Phoenix Wright) e o pedido do @SwordMan333 =================
 const A0: CenaFn = (X) => {
-  const {f, dur} = X, pop0 = Math.round(dur * 0.5), enc = ease(f, pop0 - 10, pop0 + 12);
+  const {f} = X, pop0 = 425, enc = ease(f, 7 * 30, 7 * 30 + 16); // o trecho do jogo toca inteiro, depois a TV encolhe e entra o pedido
   const dias = [0, 1, 2, 3, 4].map((k) => pop0 + 24 + k * 9);
   const texto = 'faz um tribunal das ia, onde tem 5 ia, uma juiz, acusador, acusado e o advogado das duas, e os casos são totalmentes aleatórios...';
   return {m: <Liso f={f}>

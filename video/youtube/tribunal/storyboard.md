@@ -78,7 +78,6 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 ## A0 — Inspiração · 0:25–0:34
 - **TELA**: trecho do trailer oficial de Phoenix Wright: Ace Attorney Trilogy (Capcom, página do jogo na Steam) com o "Objection!", numa moldura de TV de madeira com a etiqueta "INSPIRAÇÃO"; depois pop-up do comentário real do @SwordMan333 com o contador "PEDIU POR 5 DIAS".
 - **NARRAÇÃO**: "Isso aqui é inspirado em Phoenix Wright, o jogo em que o advogado grita objeção e desmonta o mentiroso no tribunal. O SwordMan333 me pediu isso durante cinco dias. Pedido atendido."
-- **SELO**: "ideia de @SwordMan333"
 
 ## A2 — O experimento · 0:25–0:55
 - **TELA**: título "TRIBUNAL DAS IAs" entalhado numa placa de madeira com cantos de latão; embaixo, em Poppins, "ASSASSINATO NO MUSEU DO FAROL". Carimbo pequeno "ideia de @SwordMan333". O banco das testemunhas acende: Rubi (rubi lapidado vermelho, terno escuro, mão direita enfaixada, anel dourado de âncora na esquerda), nome e modelo embaixo. A nuvem de pensamento dele abre ao lado com a etiqueta "SÓ VOCÊ VÊ". As duas cadeiras da defesa: Safira (azul) e Jade (verde), cada uma com nome, modelo e "RODADA 1" / "RODADA 2". No alto, Ametista com nome e modelo.

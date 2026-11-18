@@ -127,8 +127,8 @@ def main():
             audio.append(dict(src=B.sfx('mouse-click'), at=6, vol=0.5)); t += 2.4
         elif cenas:
             audio.append(dict(src=B.sfx('whoosh'), at=0, vol=0.22))
-        if sid == 'A0':  # trecho do trailer oficial de Phoenix Wright (Capcom/Steam): o som do jogo, baixo, por baixo da narração
-            audio.append(dict(src='tribunal/pw_trecho.mp4', at=0, vol=0.3))
+        if sid == 'A0':  # trecho do trailer oficial de Phoenix Wright (Capcom/Steam): toca sozinho, com o som do jogo; a narração entra depois
+            audio.append(dict(src='tribunal/pw_trecho.mp4', at=0, vol=0.85)); t = 7.3
         for it in c['itens']:
             if it[0] == 'n':
                 src, d = tts(it[1], B.NARRADOR); audio.append(dict(src=src, at=round(t * FPS), txt=it[1])); t += d + 0.15
