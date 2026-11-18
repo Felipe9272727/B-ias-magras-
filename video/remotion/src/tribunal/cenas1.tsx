@@ -4,7 +4,7 @@ import React from 'react';
 import {AbsoluteFill, interpolate} from 'remotion';
 import {AMBAR, BANG, C, cl, COR, ease, janela, LATAO, LUZ, MAD_C, MONO, NOME, PERG, Pedra, POP, quique, rnd, sombra, TINTA, VINHO} from './base';
 import {Anel, Bandeira, Cadeado, Carimbo, Colar, Estreia, Ficha, Lacre, Numero, Piso, Placa, Registro, Retrato, TagSo, Versoes, FarolPac, estado} from './pecas';
-import {Corte, Gravura, Liso, MARCOS, Mesa, Papel, Planta, Sala, xHora} from './cenarios';
+import {Corte, Gravura, Liso, MARCOS, Mesa, mxC, Papel, Planta, Sala, xHora} from './cenarios';
 import {palT, sk, type X} from './dados';
 import {Cam, CartaoSo, Hud, marcasPara, passos, pop, Rot, type CenaFn} from './util';
 
@@ -121,11 +121,13 @@ const B1: CenaFn = (X) => {
 // ---------- B2: a noite da festa (corte do museu + régua de latão) ----------
 export const HORA_FR: Record<string, number> = {'22:10': 0.02, '22:12': 0.07, '22:14': 0.16, '22:16': 0.24, '22:18': 0.32, piso: 0.42, '22:22': 0.5, '22:26': 0.58, '22:27': 0.65, '22:28': 0.8, '22:35': 0.88, balao: 0.93};
 type Pos = [number, number];
-const ROTA: Record<string, [string, Pos][]> = {
+const ROTA0: Record<string, [string, Pos][]> = {
   Vermelho: [['0', [470, 560]], ['22:10', [1350, 165]], ['22:16', [960, 560]], ['22:22', [1360, 560]], ['22:26', [540, 560]], ['22:27', [760, 560]], ['22:28', [400, 560]]],
   Amarelo: [['0', [380, 560]], ['22:12', [120, 560]], ['22:35', [1580, 560]]],
   Rosa: [['0', [-200, 560]], ['22:26', [240, 560]], ['22:27', [760, 560]], ['22:28', [990, 600]], ['22:35', [1660, 560]]],
 };
+// na ilustração do museu: x pelas paredes medidas; o chão desceu 40 px; o terraço virou a escada do corredor do terraço
+const ROTA: Record<string, [string, Pos][]> = Object.fromEntries(Object.entries(ROTA0).map(([k, r]) => [k, r.map(([h, [x, y]]) => [h, [mxC(x), y < 300 ? 330 : y + 22]] as [string, Pos])]));
 export const Noite: React.FC<{f: number; T: (h: string) => number; so?: string[]; texto?: boolean; janelaLaudo?: number}> = ({f, T, so, texto = true, janelaLaudo = 0}) => {
   const aceso = (h: string) => (so && !so.includes(h) ? 0 : f >= T(h) ? (f < T(h) + 12 ? 1 + (1 - (f - T(h)) / 12) * 0 : 1) : 0);
   const t18 = T('22:18'), escuro = so ? (so.includes('22:18') ? janela(f, t18, t18 + 60, 8) * 0.8 : 0) : janela(f, t18, t18 + 40, 6);
@@ -135,13 +137,13 @@ export const Noite: React.FC<{f: number; T: (h: string) => number; so?: string[]
   const atual = texto ? [...cap].reverse().find(([h]) => f >= T(h) && (!so || so.includes(h))) : undefined;
   const atores = (
     <>
-      <div style={{position: 'absolute', left: 1000, top: 560, zIndex: 3}}><div style={{transform: `rotate(${liaCai * 80}deg)`, transformOrigin: '50% 100%'}}><Papel s={90} nome="LIA" /></div></div>
-      {f >= T('piso') && (!so || so.includes('piso')) ? <div style={{position: 'absolute', left: 1080, top: 640, zIndex: 4}}><Piso s={70} k={ease(f, T('piso'), T('piso') + 30)} cor={LUZ} w={8} /></div> : null}
+      <div style={{position: 'absolute', left: mxC(1000), top: 582, zIndex: 3}}><div style={{transform: `rotate(${liaCai * 80}deg)`, transformOrigin: '50% 100%'}}><Papel s={90} nome="LIA" /></div></div>
+      {f >= T('piso') && (!so || so.includes('piso')) ? <div style={{position: 'absolute', left: mxC(1080), top: 662, zIndex: 4}}><Piso s={70} k={ease(f, T('piso'), T('piso') + 30)} cor={LUZ} w={8} /></div> : null}
       {(['Amarelo', 'Vermelho', 'Rosa'] as const).map((cor) => { const [x, y] = pos(cor); return <div key={cor} style={{position: 'absolute', left: x, top: y, zIndex: 5, transition: 'none'}}><Pedra cor={cor} s={118} f={f} rod="S" maoBolso={false} humor={cor === 'Rosa' && f > T('22:28') ? 'susto' : 'normal'} cadeados={0} /><div style={{textAlign: 'center', fontFamily: POP, fontWeight: 800, fontSize: 20, color: '#fff', ...C(4)}}>{NOME[cor]}</div></div>; })}
-      {f >= T('22:10') && f < T('22:16') && (!so) ? <div style={{position: 'absolute', left: 1450, top: 120, zIndex: 6}}><Ficha id="E2" nome="SEM SINAL" w={120} /></div> : null}
-      {f >= T('22:14') && f < T('22:18') && (!so) ? <div style={{position: 'absolute', left: 1000, top: 380, zIndex: 6, transform: `scale(${pop(f, T('22:14'))})`}}><Rot fs={22} bg="#8fd3ff">“Pode vir, estou abrindo agora.”</Rot></div> : null}
-      {f >= T('22:22') && f < T('22:22') + 50 && (!so) ? [0, 1].map((k) => <div key={k} style={{position: 'absolute', left: 1440 + k * 30, top: 540 - (f - T('22:22')) * 2, width: 34, height: 20, background: '#f5efe0', border: '3px solid #111', transform: `rotate(${(f - T('22:22')) * 6 * (k ? 1 : -1)}deg)`, zIndex: 6}} />) : null}
-      {f >= T('22:26') && f < T('22:26') + 60 && (!so) ? <div style={{position: 'absolute', left: 470, top: 560 + Math.min(60, (f - T('22:26')) * 2), zIndex: 6}}><Ficha id="E6" nome="PÁGINA" w={110} /></div> : null}
+      {f >= T('22:10') && f < T('22:16') && (!so) ? <div style={{position: 'absolute', left: mxC(1450), top: 250, zIndex: 6}}><Ficha id="E2" nome="SEM SINAL" w={120} /></div> : null}
+      {f >= T('22:14') && f < T('22:18') && (!so) ? <div style={{position: 'absolute', left: mxC(1000), top: 400, zIndex: 6, transform: `scale(${pop(f, T('22:14'))})`}}><Rot fs={22} bg="#8fd3ff">“Pode vir, estou abrindo agora.”</Rot></div> : null}
+      {f >= T('22:22') && f < T('22:22') + 50 && (!so) ? [0, 1].map((k) => <div key={k} style={{position: 'absolute', left: mxC(1440) + k * 30, top: 560 - (f - T('22:22')) * 2, width: 34, height: 20, background: '#f5efe0', border: '3px solid #111', transform: `rotate(${(f - T('22:22')) * 6 * (k ? 1 : -1)}deg)`, zIndex: 6}} />) : null}
+      {f >= T('22:26') && f < T('22:26') + 60 && (!so) ? <div style={{position: 'absolute', left: mxC(470), top: 580 + Math.min(60, (f - T('22:26')) * 2), zIndex: 6}}><Ficha id="E6" nome="PÁGINA" w={110} /></div> : null}
     </>
   );
   return (
@@ -185,7 +187,7 @@ const B3: CenaFn = (X) => {
     {tri.map(([cor, k, n], i) => { const at = cd + i * 14, ch = (cad[k]?.chaves ?? []) as string[]; return (
       <div key={cor} style={{position: 'absolute', left: 120 + i * 600, top: 170}}>
         <Retrato cor={cor} rod="S" s={300} f={f} modelo={D.modelo(cor)} />
-        <div style={{position: 'absolute', left: 40, top: -150 + ease(f, at, at + 16) * 300, display: 'flex', gap: 10}}>{Array.from({length: n}).map((_, j) => <Cadeado key={j} s={110} f={f} />)}</div>
+        <div style={{position: 'absolute', left: 262, top: -150 + ease(f, at, at + 16) * 430, display: 'flex', flexDirection: 'column', gap: 4, zIndex: 3}}>{Array.from({length: n}).map((_, j) => <Cadeado key={j} s={90} f={f} />)}</div>
         <div style={{position: 'absolute', left: -20, top: 630, width: 420, fontFamily: MONO, fontWeight: 700, fontSize: 24, color: PERG, opacity: ease(f, at + 10, at + 20)}}>SEGREDO: {cad[k]?.assunto}</div>
         <div style={{position: 'absolute', left: -20, top: 700, display: 'flex', flexDirection: 'column', gap: 10, opacity: ease(f, cd + 50, cd + 62), transform: `translateY(${(1 - ease(f, cd + 50, cd + 62)) * 40}px)`}}>{ch.map((id) => <TagSo key={id} txt={`CHAVE: ${D.ficha(id).nome.toUpperCase()}`} fs={26} />)}</div>
       </div>

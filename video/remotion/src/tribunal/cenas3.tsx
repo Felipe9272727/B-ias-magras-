@@ -1,7 +1,7 @@
 // TRIBUNAL: cenas G1–J4 (dia 3 lado a lado, os dois julgamentos finais, placar, prêmios e a pergunta).
 // Mesmo método das outras: âncoras da timeline (X.c citações, X.s selos) + proporções; fatos sempre do log (D).
 import React from 'react';
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, OffthreadVideo, staticFile} from 'remotion';
 import {AMBAR, BANG, C, CHUMBO, COR, ease, Icone, janela, LATAO, LUZ, MAD_C, MAD_E, MONO, NOME, PERG, Pedra, POP, quique, RubiGrande, sombra, TINTA, VINHO, type Humor} from './base';
 import {Acoes, AncoraConta, Anel, Arpao, Bandeira, Cadeado, Carimbo, Coracao, Estreia, FarolPac, Ficha, Lacre, Mao, Numero, Piso, Placa, PlacaJogo, Registro, Retrato, TagSo, Versoes, estado} from './pecas';
 import {Chuva, Divide, Fundo, Gravura, Liso, Mesa, Sala} from './cenarios';
@@ -67,6 +67,38 @@ const Cartao: React.FC<{t: number; acao: string; txt: string; cor: string; grifo
       <div style={{fontFamily: POP, fontWeight: 800, fontSize: fs, lineHeight: 1.22, color: TINTA}}>“{partes}”</div>
     </div>
   );
+};
+
+
+// ================= A0: a inspiração (trecho do trailer oficial de Phoenix Wright) e o pedido do @SwordMan333 =================
+const A0: CenaFn = (X) => {
+  const {f, dur} = X, pop0 = Math.round(dur * 0.5), enc = ease(f, pop0 - 10, pop0 + 12);
+  const dias = [0, 1, 2, 3, 4].map((k) => pop0 + 24 + k * 9);
+  const texto = 'faz um tribunal das ia, onde tem 5 ia, uma juiz, acusador, acusado e o advogado das duas, e os casos são totalmentes aleatórios...';
+  return {m: <Liso f={f}>
+    <div style={{position: 'absolute', left: g(260, 90, enc), top: g(110, 190, enc), width: g(1400, 1000, enc), transform: `rotate(${-1 + enc}deg) scale(${f < 14 ? quique(f, 0, 16) : 1})`, transformOrigin: '50% 50%'}}>
+      <div style={{position: 'relative', background: `repeating-linear-gradient(1deg, ${MAD_C} 0 44px, #7b4e2e 44px 48px)`, border: `8px solid ${TINTA}`, borderRadius: 24, padding: 22, boxShadow: sombra}}>
+        <div style={{position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', border: `6px solid ${TINTA}`, borderRadius: 12, background: '#000'}}>
+          <OffthreadVideo src={staticFile('tribunal/pw_trecho.mp4')} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+        </div>
+        <div style={{position: 'absolute', left: 40, top: -30}}><Rot fs={34} bg={LUZ}>A INSPIRAÇÃO</Rot></div>
+        <div style={{position: 'absolute', right: 30, bottom: -26, fontFamily: MONO, fontWeight: 700, fontSize: 20, color: PERG, background: '#000c', borderRadius: 6, padding: '2px 10px'}}>Phoenix Wright: Ace Attorney Trilogy · trailer oficial (Capcom)</div>
+      </div>
+    </div>
+    {f >= pop0 ? <div style={{position: 'absolute', left: 1130, top: 250, width: 720, transform: `scale(${quique(f, pop0, 16)}) rotate(2deg)`, transformOrigin: '20% 50%'}}>
+      <div style={{background: PERG, border: `6px solid ${TINTA}`, borderRadius: 18, boxShadow: sombra, padding: '20px 26px'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 14}}>
+          <div style={{width: 64, height: 64, borderRadius: 32, background: '#5a6fb0', border: `4px solid ${TINTA}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: BANG, fontSize: 40, color: '#fff'}}>S</div>
+          <div style={{fontFamily: POP, fontWeight: 800, fontSize: 34, color: TINTA}}>@SwordMan333</div>
+        </div>
+        <div style={{marginTop: 12, fontFamily: POP, fontWeight: 600, fontSize: 30, lineHeight: 1.3, color: TINTA}}>{texto}</div>
+      </div>
+      <div style={{display: 'flex', gap: 10, marginTop: 18, justifyContent: 'center'}}>
+        {dias.map((at, k) => <div key={k} style={{opacity: f >= at ? 1 : 0, transform: `scale(${pop(f, at)}) rotate(${(k % 2 ? 4 : -4)}deg)`, fontFamily: BANG, fontSize: 34, color: '#fff', background: VINHO, border: `4px solid ${TINTA}`, borderRadius: 8, padding: '0 10px'}}>DIA {k + 1}</div>)}
+      </div>
+      {f >= dias[4] + 12 ? <div style={{marginTop: 14, display: 'flex', justifyContent: 'center'}}><Carimbo txt="PEDIU POR 5 DIAS" tipo="aceita" t={f - dias[4] - 12} fs={64} /></div> : null}
+    </div> : null}
+  </Liso>, h: null};
 };
 
 // ================= G1: o laudo (dia 3, lado a lado) =================
@@ -555,5 +587,5 @@ const J4: CenaFn = (X) => {
   </Cam>, h: null};
 };
 
-export const CENAS3: Record<string, CenaFn> = {G1, G2, G3, G4, G5, G6, H1, H2, H3, H4, I1, I2, I3, I4, I5, I6, I7, J1, J2, J3, J4};
+export const CENAS3: Record<string, CenaFn> = {A0, G1, G2, G3, G4, G5, G6, H1, H2, H3, H4, I1, I2, I3, I4, I5, I6, I7, J1, J2, J3, J4};
 export {AMBAR, CHUMBO};

@@ -216,24 +216,19 @@ export const Mesa: React.FC<{f: number; esq: Gente; dir: Gente; rod: string; lug
 
 // ---------- planta do museu (maquete vista de cima) ----------
 export const LOC: Record<string, [number, number, number, number, string]> = {
-  L1: [760, 300, 420, 300, 'SALÃO DA LENTE'], L2: [1230, 120, 360, 230, 'TERRAÇO'], L5: [1230, 390, 360, 120, 'CORREDOR DO TERRAÇO'], L3: [300, 560, 380, 240, 'SALA DE SEGURANÇA'],
-  L6: [760, 640, 420, 230, 'SALÃO DA FESTA'], L4: [80, 120, 330, 220, 'CASA DA RÉ'], L7: [1640, 620, 250, 220, 'ARQUIVO DO JORNAL'], L8: [1620, 880, 280, 170, 'LABORATÓRIO'], FUNDOS: [1230, 560, 220, 110, 'PORTA DOS FUNDOS'],
+  L1: [756, 236, 440, 380, 'SALÃO DA LENTE'], L2: [1024, 40, 412, 310, 'TERRAÇO'], L5: [1200, 360, 80, 310, 'CORREDOR DO TERRAÇO'], L3: [566, 620, 184, 320, 'SALA DE SEGURANÇA'],
+  L6: [756, 620, 440, 320, 'SALÃO DA FESTA'], L4: [124, 40, 286, 290, 'CASA DA RÉ'], L7: [1396, 704, 240, 286, 'ARQUIVO DO JORNAL'], L8: [1640, 704, 230, 286, 'LABORATÓRIO'], FUNDOS: [1200, 670, 80, 110, 'PORTA DOS FUNDOS'],
 };
 export const centroLoc = (id: string): [number, number] => { const l = LOC[id] ?? LOC.L1; return [l[0] + l[2] / 2, l[1] + l[3] / 2]; };
 export const Planta: React.FC<{f: number; visitados?: {loc: string; at: number}[]; quem?: {cor: string; rota: {loc: string; at: number}[]}[]; rod?: string; acesos?: string[]}> = ({f, visitados = [], quem = [], rod, acesos = []}) => (
   <AbsoluteFill style={{background: '#1c2a3a'}}>
-    <AbsoluteFill style={{backgroundImage: 'linear-gradient(#ffffff0c 2px, #0000 2px), linear-gradient(90deg, #ffffff0c 2px, #0000 2px)', backgroundSize: '60px 60px', backgroundPosition: `${f * 0.2}px ${f * 0.1}px`}} />
-    <div style={{position: 'absolute', left: 700, top: 90, width: 1160, height: 800, background: '#d8c9a8', border: `8px solid ${TINTA}`, borderRadius: 10, boxShadow: '20px 24px 0 #0008'}} />
+    <Img src={staticFile('tribunal/palco/museu_planta.jpg')} style={{position: 'absolute', left: 0, top: 4, width: 1920, height: 1072}} />
     {Object.entries(LOC).map(([id, [x, y, w, h, nome]]) => {
       const v = visitados.find((q) => q.loc === id && f >= q.at), t = v ? f - v.at : -1, aceso = acesos.includes(id) || t >= 0;
+      const estreito = w < 120;
       return (
-        <div key={id} style={{position: 'absolute', left: x, top: y, width: w, height: h, background: aceso ? '#f6e7c4' : '#b9a986', border: `6px solid ${TINTA}`, borderRadius: 6, boxShadow: `10px 12px 0 #0007${aceso ? `, 0 0 ${30 + 10 * Math.sin(f * 0.2)}px ${LUZ}` : ''}`, transform: `translateY(${t >= 0 && t < 14 ? -14 * (1 - quique(t, 0, 14)) : 0}px)`}}>
-          <div style={{position: 'absolute', left: 10, top: 6, fontFamily: POP, fontWeight: 800, fontSize: w < 260 ? 19 : 24, lineHeight: 1.05, color: TINTA, maxWidth: w - 20}}>{nome}</div>
-          {id !== 'FUNDOS' ? <div style={{position: 'absolute', right: 8, bottom: 4, fontFamily: MONO, fontWeight: 700, fontSize: 20, color: '#6b5a3a'}}>{id}</div> : null}
-          {id === 'L1' ? <svg width={w} height={h} style={{position: 'absolute', inset: 0}}><circle cx={w / 2} cy={h / 2 + 20} r={60} fill="#cfe9ff" stroke={TINTA} strokeWidth={5} /><circle cx={w / 2} cy={h / 2 + 20} r={36} fill="none" stroke={TINTA} strokeWidth={3} /></svg> : null}
-          {id === 'L6' ? <svg width={w} height={h} style={{position: 'absolute', inset: 0}}><rect x={w / 2 - 50} y={h - 60} width={100} height={50} fill="#3a2010" stroke={TINTA} strokeWidth={4} /><path d={`M${w / 2 - 26} ${h - 14} q10 -${24 + 6 * Math.sin(f * 0.5)} 26 -30 q16 6 26 30Z`} fill={AMBAR} /></svg> : null}
-          {id === 'L3' ? <div style={{position: 'absolute', left: w / 2 - 50, top: h / 2 - 20, width: 100, height: 64, background: '#2c7a3a', border: `5px solid #222`, opacity: 0.6 + 0.4 * Math.sin(f * 0.4)}} /> : null}
-          {id === 'L2' ? <div style={{position: 'absolute', left: 8, right: 8, bottom: 8, height: 14, backgroundImage: `repeating-linear-gradient(90deg, ${TINTA} 0 6px, #0000 6px 22px)`}} /> : null}
+        <div key={id} style={{position: 'absolute', left: x, top: y, width: w, height: h, border: aceso ? `6px solid ${LUZ}` : '3px dashed #ffffff66', borderRadius: 8, boxShadow: aceso ? `0 0 ${30 + 10 * Math.sin(f * 0.2)}px ${LUZ}, inset 0 0 40px ${LUZ}55` : 'none', transform: `scale(${t >= 0 && t < 14 ? 1 + 0.05 * Math.sin((t / 14) * Math.PI) : 1})`}}>
+          <div style={{position: 'absolute', left: estreito ? w + 8 : 10, top: estreito ? 10 : 8, fontFamily: POP, fontWeight: 800, fontSize: 21, lineHeight: 1.05, color: TINTA, background: aceso ? `linear-gradient(${LUZ}, ${LATAO})` : PERG, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '1px 8px', whiteSpace: 'nowrap', boxShadow: '0 4px 0 #0007'}}>{nome}</div>
         </div>
       );
     })}
@@ -251,25 +246,17 @@ const NIVEL: Record<string, number> = {'22:12': 1, '22:16': 1, '22:26': 1, '22:2
 export const MARCOS = ['22:10', '22:12', '22:14', '22:16', '22:18', '22:22', '22:26', '22:27', '22:28', '22:35'];
 const min = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
 export const xHora = (h: string) => 150 + ((min(h) - min('22:10')) / 25) * 1620;
-export const SALA_C: [string, number, number, string][] = [['SEGURANÇA', 60, 270, 'L3'], ['SALÃO DA FESTA', 340, 360, 'L6'], ['CORREDOR', 710, 170, 'ESC'], ['SALÃO DA LENTE', 890, 360, 'L1'], ['CORREDOR DO TERRAÇO', 1260, 270, 'L5'], ['FUNDOS', 1540, 260, 'FUNDOS']];
+export const SALA_C: [string, number, number, string][] = [['SEGURANÇA', 72, 222, 'L3'], ['SALÃO DA FESTA', 294, 413, 'L6'], ['CORREDOR', 707, 180, 'ESC'], ['SALÃO DA LENTE', 887, 401, 'L1'], ['CORREDOR DO TERRAÇO', 1288, 197, 'L5'], ['FUNDOS', 1485, 186, 'FUNDOS']];
+// posições antigas (diagrama) -> posições na ilustração do museu em corte (paredes medidas na imagem)
+const XA = [60, 335, 705, 885, 1255, 1535, 1800], XN = [72, 294, 707, 887, 1288, 1485, 1671];
+export const mxC = (x: number) => { if (x <= XA[0]) return XN[0] + (x - XA[0]); for (let i = 0; i < XA.length - 1; i++) if (x <= XA[i + 1]) return XN[i] + ((x - XA[i]) / (XA[i + 1] - XA[i])) * (XN[i + 1] - XN[i]); return XN[XN.length - 1] + (x - XA[XA.length - 1]); };
 export const Corte: React.FC<{f: number; aceso: (h: string) => number; escuro?: number; janela?: [string, string, number]; children?: React.ReactNode; sobre?: React.ReactNode; atores?: React.ReactNode}> = ({f, aceso, escuro = 0, janela, children, sobre, atores}) => (
   <AbsoluteFill style={{background: NOITE}}>
-    <Chuva f={f} n={50} op={0.25} />
-    <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
-      <path d="M60 300 L960 150 L1860 300Z" fill="#2a1a10" stroke={TINTA} strokeWidth={6} />
-      <rect x={1260} y={200} width={270} height={100} fill="#3a2a1a" stroke={TINTA} strokeWidth={5} />
-      <path d="M1260 200 h270" stroke={LATAO} strokeWidth={6} strokeDasharray="6 14" />
-      <text x={1395} y={190} textAnchor="middle" fontFamily="Poppins" fontWeight={800} fontSize={26} fill={PERG}>TERRAÇO</text>
-      <path d="M40 700 H1880" stroke={TINTA} strokeWidth={10} />
-    </svg>
-    {SALA_C.map(([n, x, w, id]) => <div key={n} style={{position: 'absolute', left: x, top: 330, width: w, height: 370, background: id === 'ESC' ? 'linear-gradient(#20140c, #120a05)' : 'linear-gradient(#5b3a24, #3b2516)', border: `6px solid ${TINTA}`, boxSizing: 'border-box'}}><div style={{position: 'absolute', left: 8, top: 8, fontFamily: POP, fontWeight: 800, fontSize: w < 200 ? 19 : 23, lineHeight: 1.05, color: PERG}}>{n}</div></div>)}
-    <svg width={1920} height={1080} style={{position: 'absolute', inset: 0}}>
-      <circle cx={1070} cy={560} r={70} fill="#cfe9ff55" stroke={TINTA} strokeWidth={5} /><rect x={1030} y={630} width={80} height={60} fill={MAD_E} stroke={TINTA} strokeWidth={4} />
-      <rect x={470} y={620} width={110} height={70} fill="#2a1408" stroke={TINTA} strokeWidth={4} /><path d={`M500 690 q12 -${30 + 6 * Math.sin(f * 0.5)} 26 -34 q16 8 26 34Z`} fill={AMBAR} />
-      <rect x={110} y={520} width={120} height={80} fill="#2c7a3a" stroke="#222" strokeWidth={6} opacity={0.6 + 0.4 * Math.sin(f * 0.4)} />
-      <rect x={1440} y={560} width={70} height={50} fill="#EDE6D6" stroke={TINTA} strokeWidth={4} /><path d="M1475 566 v38 M1456 585 h38" stroke={LATAO} strokeWidth={6} />
-      <rect x={1680} y={480} width={80} height={220} fill="#1a0f08" stroke={TINTA} strokeWidth={5} />
-    </svg>
+    <Img src={staticFile('tribunal/palco/museu_corte.jpg')} style={{position: 'absolute', left: -12, top: -124, width: 1775, height: 991}} />
+    <Chuva f={f} n={40} op={0.18} />
+    <AbsoluteFill style={{background: `linear-gradient(100deg, #0000 ${((f % 120) / 120) * 160 - 40}%, ${LUZ}1c ${((f % 120) / 120) * 160 - 22}%, #0000 ${((f % 120) / 120) * 160 - 4}%)`, mixBlendMode: 'screen'}} />
+    {SALA_C.map(([n, x, w]) => <div key={n} style={{position: 'absolute', left: x + w / 2, top: 196, transform: 'translateX(-50%)', fontFamily: POP, fontWeight: 800, fontSize: w < 230 ? 18 : 22, lineHeight: 1.05, color: TINTA, background: `linear-gradient(${LUZ}, ${LATAO})`, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '1px 8px', whiteSpace: 'nowrap', boxShadow: '0 4px 0 #0007', zIndex: 2}}>{n}</div>)}
+    <div style={{position: 'absolute', left: 1470, top: 40, transform: 'translateX(-50%)', fontFamily: POP, fontWeight: 800, fontSize: 22, color: TINTA, background: `linear-gradient(${LUZ}, ${LATAO})`, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '1px 8px', zIndex: 2}}>TERRAÇO</div>
     {atores}
     {escuro > 0 ? <AbsoluteFill style={{background: '#000', opacity: escuro * 0.82}} /> : null}
     {/* a régua */}
@@ -389,7 +376,20 @@ export const Divide: React.FC<{f: number; esq: React.ReactNode; dir: React.React
 };
 
 // ---------- figura de papel para quem não é IA (a vítima Lia, o Anselmo) ----------
-export const Papel: React.FC<{s: number; nome: string; cor?: string; caida?: number}> = ({s, nome, cor = '#E9E1CC', caida = 0}) => (
+// pessoas que não são IA (Lia, Anselmo, Dr. Valdomiro): retratos gerados; o resto cai no boneco de papel
+const EXTRA = (nome: string) => /LIA/i.test(nome) ? 'lia' : /ANSELMO/i.test(nome) ? 'anselmo' : /VALDOMIRO/i.test(nome) ? 'valdomiro' : null;
+export const Papel: React.FC<{s: number; nome: string; cor?: string; caida?: number}> = (p) => {
+  const ex = EXTRA(p.nome);
+  if (!ex) return <PapelSvg {...p} />;
+  const {s, nome, cor = '#E9E1CC', caida = 0} = p;
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `rotate(${caida * 82}deg)`, transformOrigin: '50% 100%'}}>
+      <div style={{width: s * 1.3, height: s * 1.5, overflow: 'hidden', display: 'flex', justifyContent: 'center'}}><Img src={staticFile(`tribunal/sprites/extra_${ex}.png`)} style={{height: s * 2.2, width: 'auto', filter: 'drop-shadow(0 6px 8px #0008)'}} /></div>
+      <div style={{fontFamily: POP, fontWeight: 800, fontSize: Math.max(18, s * 0.22), color: TINTA, background: cor, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '0 6px', whiteSpace: 'nowrap', transform: `rotate(${-caida * 82}deg)`}}>{nome}</div>
+    </div>
+  );
+};
+const PapelSvg: React.FC<{s: number; nome: string; cor?: string; caida?: number}> = ({s, nome, cor = '#E9E1CC', caida = 0}) => (
   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `rotate(${caida * 82}deg)`, transformOrigin: '50% 100%'}}>
     <svg viewBox="0 0 100 150" width={s} height={s * 1.5}><g stroke={TINTA} strokeWidth={5} fill={cor}><circle cx={50} cy={32} r={24} /><path d="M18 148 L26 70 Q50 58 74 70 L82 148Z" /></g></svg>
     <div style={{fontFamily: POP, fontWeight: 800, fontSize: Math.max(18, s * 0.22), color: TINTA, background: cor, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '0 6px', whiteSpace: 'nowrap', transform: `rotate(${-caida * 82}deg)`}}>{nome}</div>
