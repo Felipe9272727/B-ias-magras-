@@ -194,3 +194,20 @@ Fonte: comentários dos posts de feedback (`video/youtube/feedback/comentarios_p
 - Vozes "generated" da conta antiga (Marrom, Banana, Caqui) não passam de conta: escolher outra voz se precisar.
 - Teste de vozes grátis (18/11): Chatterbox mediano; ZONOS3-Mini e Qwen3-TTS testados; o Qwen foi o melhor, mas
   "nem chega perto do ElevenLabs" (Felipe). Ficar no ElevenLabs.
+
+## Visual 2.5D/3D com imagens geradas (Tribunal, 18/11)
+- O Felipe achou "bem ruim" o visual feito só com miniaturas ampliadas e CSS. O que resolveu:
+  1. **Cenários gerados no OpenRouter** com `video/scripts/gerar_imagem_or.mjs` (modelo `google/gemini-3.1-flash-image`,
+     16:9, ~US$ 0,067 por imagem, 1376x768). Prompt: estilo de visual novel cel-shaded, "no people, no text", e dizer
+     onde fica o móvel (ex.: "mesa atravessando a parte de baixo, topo a ~65% da altura"). Créditos do OpenRouter são
+     poucos: conferir em /api/v1/credits antes de gerar lote.
+  2. **Profundidade local** (Depth Anything V2 small ONNX, `scratchpad/profundidade.py`) e **fatias por faixa de
+     profundidade** (`camadas.py`): c0 = fundo com buracos preenchidos (inpaint), c1/c2 = móveis em RGBA. Em
+     `cenarios.tsx`, `Palco` desenha as camadas com paralaxe pela profundidade (câmera + órbita lenta) e o fundo ganha
+     `feDisplacementMap` pelo mapa (sensação 3D). Personagens entram entre as camadas (z), atrás do móvel.
+  3. **Boneco recortado** (`Boneco` em base.tsx + `rig.ts`): sprite em tronco/cabeça (corte com máscara em degradê na
+     linha do pescoço, pivô no pescoço) e braço (polígono com borda borrada que só cresce a partir do ombro, sem buraco).
+     Respira, balança, acena ao falar. O tronco do sprite tem que aparecer até a cintura (o Felipe reclamou de "só cabeça").
+  4. Câmera presa à borda do palco (`Cam` em util.tsx) para nunca mostrar a beira da imagem.
+- Sprites das folhas do ChatGPT: `scratchpad/sprites.py` (rembg isnet-anime + RealESRGAN anime 16x -> 1000 px).
+- Render do Tribunal: ~11 quadros/s em 540p com 4 núcleos (`tb_render.sh`, `tb_audio.py`, `tb_final.py`).
