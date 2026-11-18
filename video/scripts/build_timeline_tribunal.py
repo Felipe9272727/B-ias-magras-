@@ -28,6 +28,16 @@ MUSICA = {'A1': 'decisions', 'A2': 'investigations', 'B1': 'darkest-child', 'B2'
           'I7': 'heroic-age', 'J1': 'call-to-adventure', 'J3': 'winner-winner', 'J4': 'chill-wave'}
 
 
+# vozes do Tribunal com o gênero certo de cada personagem (18/11: Safira e Jade estavam com voz de homem,
+# Turquesa e Peridoto com voz de mulher). As outras cores continuam com as vozes do AU7.
+VOZES_TRIB = {
+    'Azul': 'n2a9VtkZLl8j1FSXHsL7',   # Safira: Sofia (feminina, natural)
+    'Verde': 'cgSgspJ2msm6clMCkdW9',  # Jade: Jessica (feminina, animada)
+    'Ciano': 'TX3LPaxmHKxFdv7VOQHJ',  # Turquesa: Liam (masculina)
+    'Lima': 'NDUHL9ozN4FPvbUqxHVJ',   # Peridoto: Wallace (masculina, grave)
+}
+
+
 def tts(texto, voz, eco=False):
     src, d = B.tts(texto.replace('*****', '...'), voz, eco=eco)
     return (src.replace('au7/voz/', 'tribunal/voz/') if src else None), d
@@ -134,7 +144,7 @@ def main():
                 src, d = tts(it[1], B.NARRADOR); audio.append(dict(src=src, at=round(t * FPS), txt=it[1])); t += d + 0.15
             else:
                 x = it[1]
-                src, d = tts(x['texto'], B.VOZES.get(x['cor'], B.NARRADOR), eco=x['tipo'].startswith('pensamento'))
+                src, d = tts(x['texto'], VOZES_TRIB.get(x['cor']) or B.VOZES.get(x['cor'], B.NARRADOR), eco=x['tipo'].startswith('pensamento'))
                 audio.append(dict(src=src, at=round(t * FPS), txt=f"{x['cor']} ({x['tipo']}): {x['texto']}"))
                 if '*****' in x['texto']:
                     audio.append(dict(src=B.sfx('censor-beep'), at=round((t + 0.3) * FPS), vol=0.35))
