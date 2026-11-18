@@ -232,14 +232,18 @@ export const Registro: React.FC<{f: number; itens: ItemReg[]; w?: number; cols?:
 };
 
 // ---------- placa de depoimento: tábua com as declarações numeradas ----------
-export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?: number | null; f: number; w?: number; max?: number; reescreve?: {i: number; txt: string; at: number} | null; carimbos?: {i: number; txt: string; at: number; tipo?: 'chumbo' | 'latao'}[]; fs?: number; entra?: number}> = ({cor, titulo, decl, lit, f, w = 860, max = 150, reescreve, carimbos = [], fs = 26, entra = -99}) => (
-  <div style={{position: 'relative', width: w, background: `repeating-linear-gradient(2deg, ${MAD_E} 0 46px, #4e311e 46px 49px)`, border: `6px solid ${TINTA}`, borderRadius: 16, boxShadow: sombra, padding: '12px 22px 18px', boxSizing: 'border-box'}}>
+export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?: number | null; f: number; w?: number; max?: number; reescreve?: {i: number; txt: string; at: number} | null; carimbos?: {i: number; txt: string; at: number; tipo?: 'chumbo' | 'latao'}[]; fs?: number; entra?: number}> = ({cor, titulo, decl, lit, f, w = 860, max = 150, reescreve, carimbos = [], fs = 26, entra = -99}) => {
+  // a placa inteira entra junto com as declarações (antes não fica um quadro vazio na tela)
+  const bk = entra < -50 ? 1 : ease(f, entra - 12, entra);
+  if (bk <= 0 || !decl.length) return null;
+  return (
+  <div style={{position: 'relative', width: w, opacity: bk, transform: `scale(${0.92 + 0.08 * bk})`, transformOrigin: '50% 0%', background: `repeating-linear-gradient(2deg, ${MAD_E} 0 46px, #4e311e 46px 49px)`, border: `6px solid ${TINTA}`, borderRadius: 16, boxShadow: sombra, padding: '12px 22px 18px', boxSizing: 'border-box'}}>
     {[[8, 8], [w - 26, 8]].map(([x, y], i) => <div key={i} style={{position: 'absolute', left: x, top: y, width: 14, height: 14, borderRadius: 7, background: LATAO, border: '2px solid #111'}} />)}
     <div style={{display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8}}><div style={{width: 18, height: 18, borderRadius: 9, background: COR[cor], border: '3px solid #111'}} /><div style={{fontFamily: POP, fontWeight: 800, fontSize: 28, letterSpacing: 2, color: PERG}}>{titulo ?? `DEPOIMENTO · ${NOME[cor].toUpperCase()}`}</div></div>
     {decl.map((d, i) => {
       const aceso = lit === i, re = reescreve && reescreve.i === i && f >= reescreve.at ? f - reescreve.at : -1;
       const ap = ease(f, entra + i * 8, entra + i * 8 + 10);
-      const txt = aceso || d.length <= max ? d : d.slice(0, max).replace(/\s+\S*$/, '') + '…';
+      const txt = (aceso && !(reescreve && reescreve.i === i && f >= reescreve.at)) || d.length <= max ? d : d.slice(0, max).replace(/\s+\S*$/, '') + '…';
       const cb = carimbos.filter((c) => c.i === i && f >= c.at);
       return (
         <div key={i} style={{position: 'relative', display: 'flex', gap: 10, alignItems: 'flex-start', margin: '6px 0', padding: '6px 10px', borderRadius: 8, background: aceso ? LUZ : '#F1E6CFe8', boxShadow: aceso ? `0 0 ${24 + 6 * Math.sin(f * 0.3)}px ${LUZ}` : 'none', transform: `translateX(${(1 - ap) * -60}px) scale(${aceso ? 1.015 : 1})`, opacity: ap, border: aceso ? `3px solid ${TINTA}` : '3px solid #0000'}}>
@@ -247,7 +251,7 @@ export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?
           <div style={{position: 'relative', fontFamily: MONO, fontWeight: aceso ? 700 : 500, fontSize: aceso ? fs + 1 : fs - 2, lineHeight: 1.25, color: TINTA}}>
             <span style={{opacity: re >= 0 ? 0.5 : 1}}>{txt}</span>
             {re >= 0 ? <div style={{position: 'absolute', left: 0, top: '0.6em', height: 5, width: `${ease(re, 0, 12) * 100}%`, background: VINHO, transform: 'rotate(-0.6deg)'}} /> : null}
-            {re >= 0 ? <div style={{fontFamily: POP, fontWeight: 600, fontStyle: 'italic', fontSize: fs + 2, color: MARINHO, marginTop: 4}}>{reescreve!.txt.split(' ').map((p, k, arr) => <span key={k} style={{opacity: re > 12 + (k / arr.length) * 40 ? 1 : 0}}>{p} </span>)}</div> : null}
+            {re >= 0 ? <div style={{fontFamily: POP, fontWeight: 600, fontStyle: 'italic', fontSize: fs + 2, color: MARINHO, marginTop: 4}}>{(reescreve!.txt.length > 130 ? reescreve!.txt.slice(0, 130).replace(/\s+\S*$/, '') + '…' : reescreve!.txt).split(' ').map((p, k, arr) => <span key={k} style={{opacity: re > 12 + (k / arr.length) * 40 ? 1 : 0}}>{p} </span>)}</div> : null}
           </div>
           {cb.map((c, k) => <div key={k} style={{position: 'absolute', right: -18 - k * 6, bottom: -14, transform: `rotate(${-5 + k * 3}deg) scale(${interpolate(f - c.at, [0, 6], [2.2, 1], cl)})`, fontFamily: BANG, fontSize: 26, letterSpacing: 1.5, color: c.tipo === 'latao' ? TINTA : '#fff', background: c.tipo === 'latao' ? LATAO : CHUMBO, border: `3px solid ${TINTA}`, borderRadius: 6, padding: '0 8px', whiteSpace: 'nowrap', zIndex: 4}}>{c.txt}</div>)}
         </div>
@@ -255,6 +259,7 @@ export const Placa: React.FC<{cor: string; titulo?: string; decl: string[]; lit?
     })}
   </div>
 );
+};
 
 // ---------- ALTO LÁ! (flâmula náutica dourada que chicoteia com o vento) ----------
 export const Flamula: React.FC<{t: number; s?: number; n?: number}> = ({t, s = 1, n}) => {
@@ -306,18 +311,21 @@ export const Bandeira: React.FC<{t: number; ficha?: {id: string; nome: string}; 
         {promotor ? <div style={{position: 'absolute', left: 0, right: 0, top: H * 0.66, textAlign: 'center', fontFamily: POP, fontWeight: 800, fontSize: 34 * s, color: '#111'}}>DO PROMOTOR</div> : null}
       </div> : null}
       {t < 5 ? <div style={{position: 'fixed', left: -4000, top: -4000, width: 9000, height: 9000, background: '#fff', opacity: 0.7 * (1 - t / 5), pointerEvents: 'none'}} /> : null}
-      {ficha && t >= 30 ? <div style={{position: 'absolute', left: W * 0.42, top: H * 0.3, opacity: 1 - ease(t, 96, 110), transform: `rotate(4deg) scale(${quique(t, 30, 12)})`}}><Ficha id={ficha.id} nome={ficha.nome} w={260 * s} brilho f={t} tag="A PROVA" /></div> : null}
+      {ficha && t >= 44 ? <div style={{position: 'absolute', left: W * 0.42, top: H * 0.3, opacity: 1 - ease(t, 96, 110), transform: `rotate(4deg) scale(${quique(t, 44, 12)})`}}><Ficha id={ficha.id} nome={ficha.nome} w={260 * s} brilho f={t} tag="A PROVA" /></div> : null}
     </div>
   );
 };
 
 // ---------- TOMA ESSA! (arpão de latão que atravessa a tela e crava) ----------
-export const Arpao: React.FC<{t: number; alvoX: number; y: number; lento?: boolean; item?: {id: string; nome: string}}> = ({t, alvoX, y, lento, item}) => {
+export const Arpao: React.FC<{t: number; alvoX: number; y: number; lento?: boolean; item?: {id: string; nome: string}; placa?: boolean}> = ({t, alvoX, y, lento, item, placa = true}) => {
   if (t < 0) return null;
   const dv = lento ? 26 : 10, k = ease(t, 0, dv), x = -400 + (alvoX + 400) * k, crava = t >= dv;
   const tc = t - dv, treme = crava ? Math.sin(tc * 2.4) * 5 * Math.exp(-tc / 8) : 0, des = ease(tc, 2, 16);
+  // some sozinho: a placa sai em ~1,5 s e o arpão inteiro em ~2,5 s (não fica preso embaixo do balão)
+  const vai = 1 - ease(tc, 62, 76), placaOp = placa ? 1 - ease(tc, 38, 48) : 0;
+  if (vai <= 0) return null;
   return (
-    <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, pointerEvents: 'none'}}>
+    <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, pointerEvents: 'none', opacity: vai}}>
       <svg width={1920} height={1080} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
         <path d={`M${x - 560} ${y + 40} Q${x - 400} ${y + 70} ${x - 300} ${y}`} fill="none" stroke="#7a6440" strokeWidth={6} strokeDasharray="14 8" />
         <g transform={`translate(${x} ${y}) rotate(${treme})`}>
@@ -328,11 +336,11 @@ export const Arpao: React.FC<{t: number; alvoX: number; y: number; lento?: boole
         </g>
         {crava ? Array.from({length: 7}).map((_, i) => { const a = -Math.PI / 2 + (i - 3) * 0.4, r = 30 + tc * 4; return tc < 14 ? <path key={i} d={`M${x + 50 + Math.cos(a) * r} ${y + Math.sin(a) * r} l${Math.cos(a) * 18} ${Math.sin(a) * 18}`} stroke={MAD_C} strokeWidth={6} strokeLinecap="round" opacity={1 - tc / 14} /> : null; }) : null}
       </svg>
-      <div style={{position: 'absolute', left: x - 300, top: y + 10, width: 280, transformOrigin: '50% 0%', transform: `scaleY(${crava ? des : 0.08}) rotate(${treme * 0.3}deg)`}}>
+      {placaOp > 0 ? <div style={{position: 'absolute', left: x - 300, top: y + 10, width: 280, opacity: placaOp, transformOrigin: '50% 0%', transform: `scaleY(${crava ? des : 0.08}) rotate(${treme * 0.3}deg)`}}>
         <div style={{background: MARINHO, border: `6px solid ${LATAO}`, outline: '4px solid #111', padding: '10px 14px 26px', clipPath: 'polygon(0 0,100% 0,100% 100%,50% 86%,0 100%)'}}>
           <div style={{fontFamily: BANG, fontSize: 70, lineHeight: 1, letterSpacing: 3, color: '#fff', textAlign: 'center', ...C(7)}}>TOMA ESSA!</div>
         </div>
-      </div>
+      </div> : null}
       {item ? <div style={{position: 'absolute', left: x - 170, top: y - 150, transform: `rotate(-8deg) scale(${0.9})`}}><Ficha id={item.id} nome={item.nome} w={200} brilho f={t} /></div> : null}
     </div>
   );
@@ -340,11 +348,14 @@ export const Arpao: React.FC<{t: number; alvoX: number; y: number; lento?: boole
 
 // ---------- VERSÕES DO RUBI (painel de latão, três colunas) ----------
 export type Marca = {col: number; txt: string; rod: string; at: number; ref?: string};
-export const Versoes: React.FC<{f: number; marcas: Marca[]; w?: number; total?: boolean; fs?: number}> = ({f, marcas, w = 820, total, fs = 21}) => {
+export const Versoes: React.FC<{f: number; marcas: Marca[]; w?: number; total?: boolean; fs?: number; janela?: [number, number]}> = ({f, marcas, w = 820, total, fs = 21, janela}) => {
   const COLS = ['TERRAÇO', 'MÃO', 'CÍRCULO'];
   const vis = marcas.filter((m) => f >= m.at);
+  // janela: a tabela entra, mostra a versão nova e sai (não fica por cima de nome, painel ou balão)
+  const op = janela ? 1 - ease(f, janela[1] - 10, janela[1]) : 1;
+  if (op <= 0) return null;
   return (
-    <div style={{width: w, background: `linear-gradient(160deg, #e2c35a, ${LATAO} 40%, #8a6d14)`, border: `6px solid ${TINTA}`, borderRadius: 14, boxShadow: sombra, padding: '8px 14px 12px', boxSizing: 'border-box'}}>
+    <div style={{width: w, opacity: op, background: `linear-gradient(160deg, #e2c35a, ${LATAO} 40%, #8a6d14)`, border: `6px solid ${TINTA}`, borderRadius: 14, boxShadow: sombra, padding: '8px 14px 12px', boxSizing: 'border-box'}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 10, fontFamily: BANG, fontSize: 46, letterSpacing: 2, color: TINTA}}>VERSÕES DO RUBI <span style={{fontFamily: MONO, fontWeight: 700, fontSize: 26, background: TINTA, color: LATAO, borderRadius: 6, padding: '0 8px'}}>{vis.length}</span>{total ? <span style={{fontFamily: POP, fontWeight: 800, fontSize: 18, background: PERG, border: '2px solid #111', borderRadius: 4, padding: '0 6px', marginLeft: 'auto'}}>CÁLCULO NOSSO</span> : null}</div>
       <div style={{display: 'flex', gap: 10}}>
         {COLS.map((c, ci) => (

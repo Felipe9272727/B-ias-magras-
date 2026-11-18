@@ -1,7 +1,7 @@
 // TRIBUNAL: cenas G1–J4 (dia 3 lado a lado, os dois julgamentos finais, placar, prêmios e a pergunta).
 // Mesmo método das outras: âncoras da timeline (X.c citações, X.s selos) + proporções; fatos sempre do log (D).
 import React from 'react';
-import {AbsoluteFill, OffthreadVideo, staticFile} from 'remotion';
+import {AbsoluteFill, Loop, OffthreadVideo, staticFile} from 'remotion';
 import {AMBAR, BANG, C, CHUMBO, COR, ease, Icone, janela, LATAO, LUZ, MAD_C, MAD_E, MONO, NOME, PERG, Pedra, POP, quique, RubiGrande, sombra, TINTA, VINHO, type Humor} from './base';
 import {Acoes, AncoraConta, Anel, Arpao, Bandeira, Cadeado, Carimbo, Coracao, Estreia, FarolPac, Ficha, Lacre, Mao, Numero, Piso, Placa, PlacaJogo, Registro, Retrato, TagSo, Versoes, estado} from './pecas';
 import {Chuva, Divide, Fundo, Gravura, Liso, Mesa, Sala} from './cenarios';
@@ -79,7 +79,7 @@ const A0: CenaFn = (X) => {
     <div style={{position: 'absolute', left: g(260, 90, enc), top: g(110, 190, enc), width: g(1400, 1000, enc), transform: `rotate(${-1 + enc}deg) scale(${f < 14 ? quique(f, 0, 16) : 1})`, transformOrigin: '50% 50%'}}>
       <div style={{position: 'relative', background: `repeating-linear-gradient(1deg, ${MAD_C} 0 44px, #7b4e2e 44px 48px)`, border: `8px solid ${TINTA}`, borderRadius: 24, padding: 22, boxShadow: sombra}}>
         <div style={{position: 'relative', width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', border: `6px solid ${TINTA}`, borderRadius: 12, background: '#000'}}>
-          <OffthreadVideo src={staticFile('tribunal/pw_trecho.mp4')} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+          <Loop durationInFrames={212}><OffthreadVideo src={staticFile('tribunal/pw_trecho.mp4')} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} /></Loop>
         </div>
         <div style={{position: 'absolute', left: 40, top: -30}}><Rot fs={34} bg={LUZ}>A INSPIRAÇÃO</Rot></div>
         <div style={{position: 'absolute', right: 30, bottom: -26, fontFamily: MONO, fontWeight: 700, fontSize: 20, color: PERG, background: '#000c', borderRadius: 6, padding: '2px 10px'}}>Phoenix Wright: Ace Attorney Trilogy · trailer oficial (Capcom)</div>
@@ -111,12 +111,12 @@ const G1: CenaFn = (X) => {
     esq={<Metade f={f} fundo="investigacao" cor="Azul" rod="S" rot="SAFIRA · AÇÃO 1: LABORATÓRIO" humor="cinico"><div style={{position: 'absolute', left: 560, top: 660, zIndex: 9, transform: `scale(${pop(f, lab)}) rotate(-4deg)`}}><Ficha id="E8" nome={e8.nome} w={300} brilho f={f} tag="NOVA PROVA" /></div></Metade>}
     dir={<Metade f={f} fundo="investigacao" cor="Verde" rod="J" rot="JADE · AÇÃO 1: LABORATÓRIO" humor="normal"><div style={{position: 'absolute', left: 560, top: 660, zIndex: 9, transform: `scale(${pop(f, lab + 6)}) rotate(4deg)`}}><Ficha id="E8" nome={e8.nome} w={300} brilho f={f} tag="NOVA PROVA" /></div></Metade>} />, h: hud};
   if (f < c0.at - 8) return {m: <Cam f={f} k={[[laudo, 900, 540, 1], [cel, 960, 540, 1.04], [c0.at, 1100, 520, 1.06]]}><Liso f={f}>
-    <div style={{position: 'absolute', left: 120, top: 150, width: 1060, background: PERG, border: `6px solid ${TINTA}`, borderRadius: 14, boxShadow: sombra, padding: '20px 30px 30px', transform: `translateY(${(1 - quique(f, laudo, 16)) * 500}px) rotate(-1.5deg)`}}>
+    <div style={{position: 'absolute', left: 220, top: 150, width: 1060, minHeight: 470, boxSizing: 'border-box', background: PERG, border: `6px solid ${TINTA}`, borderRadius: 14, boxShadow: sombra, padding: '20px 30px 30px', transform: `translateY(${(1 - quique(f, laudo, 16)) * 500}px) rotate(-1.5deg)`}}>
       <div style={{fontFamily: MONO, fontWeight: 700, fontSize: 30, color: '#5a5343'}}>LAUDO DA PERÍCIA · {e8.nome.toUpperCase()}</div>
       <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'flex-end', marginTop: 20}}>
-        <Gota tipo="O−" rot="CACO DA LENTE" s={250} cor="#B3122E" t={f - laudo - 10} />
-        <Gota tipo="B+" rot="VÍTIMA (LIA)" s={150} cor="#7d6a4a" t={f - laudo - 30} x />
-        <Gota tipo="A+" rot="RÉ (QUARTZO)" s={150} cor="#7d6a4a" t={f - laudo - 44} x />
+        <Gota tipo="O−" rot="CACO DA LENTE" s={250} cor="#B3122E" t={f - laudo - 2} />
+        <Gota tipo="B+" rot="VÍTIMA (LIA)" s={150} cor="#7d6a4a" t={f - laudo - 14} x />
+        <Gota tipo="A+" rot="RÉ (QUARTZO)" s={150} cor="#7d6a4a" t={f - laudo - 24} x />
       </div>
     </div>
     <div style={{position: 'absolute', left: 1330, top: 160}}><Celular t={f - cel} msg="Pode vir, estou abrindo agora." para="Patrocinador" hora="22:14" /></div>
@@ -174,7 +174,7 @@ const G3: CenaFn = (X) => {
   const ap = c0.at * 0.12, faisca = c0.at * 0.42, menos = c0.at * 0.62;
   const tH = palT(X, 1, 'homem'), tA = palT(X, 1, 'anel'), tP = palT(X, 1, 'porta');
   const farol = {rod: 'J', passos: passos(D.pac('J', 69), [menos, D.pac('J', 71)]), placa: {txt: penTxt(X, 'J', 71), at: menos}};
-  const nT = f < s1.at ? 4 : 9;
+  const nT = f < s1.at ? 4 : 9; // o selo agora não repete o contador
   const grav = f >= c1.at - 20;
   return {m: <Cam f={f} k={[[0, 960, 540, 1], [faisca, 1250, 480, 1.12], [c0.at, 1300, 500, 1.1], [c1.at, 960, 460, 1.02], [X.dur, 1100, 480, 1.08]]}>
     <Mesa f={f} rod="J" lugar="cais" esq={{cor: 'Verde', gesto: janela(f, ap - 6, ap + 30, 6), humor: f > menos ? 'triste' : 'normal'}} dir={{cor: 'Lima', cadeados: 2, fala: fala(X, 1), humor: f >= c1.at ? 'cinico' : f >= c0.at ? 'triste' : 'susto'}}>
@@ -182,7 +182,7 @@ const G3: CenaFn = (X) => {
       <div style={{position: 'absolute', left: 1500, top: 60, zIndex: 9, opacity: grav ? 0 : 1}}><Cadeado s={150} f={f} estado={f >= faisca ? 'faisca' : 'fechado'} t={f - faisca} chaves={f > faisca + 20 ? ['JORNAL ANTIGO', 'PÁGINA QUEIMADA'] : undefined} chK={ease(f, faisca + 20, faisca + 34)} /></div>
       {f > faisca + 30 && !grav ? <div style={{position: 'absolute', left: 600, top: 470, zIndex: 9, transform: `scale(${pop(f, faisca + 30)}) rotate(3deg)`}}><Rot fs={30} bg="#E4DED2">PERFIL DO RUBI: CHAVE ERRADA</Rot></div> : null}
       {grav ? <div style={{position: 'absolute', left: 560, top: 30, width: 820, height: 450, overflow: 'hidden', border: `6px solid ${TINTA}`, borderRadius: 12, zIndex: 2, opacity: ease(f, c1.at - 20, c1.at)}}><div style={{transform: 'scale(0.43)', transformOrigin: '0 0', width: 1920, height: 1080, position: 'relative'}}><Gravura f={f} k={{luz: 0, rubi: ease(f, tH, tH + 10), anel: ease(f, tA, tA + 10), tranca: ease(f, tP, tP + 10), relogio: '22:50'}} /></div><div style={{position: 'absolute', left: 14, top: 12}}><TagSo txt="O QUE ELE VIU · ACENDE ENQUANTO ELE NEGA" fs={26} /></div></div> : null}
-      <div style={{position: 'absolute', left: 1560, top: grav ? 520 : 360, zIndex: 9, transform: 'scale(0.8)'}}><AncoraConta n={nT} t={f - (nT === 9 ? s1.at : -99)} s={150} f={f} /></div>
+      <div style={{position: 'absolute', left: 1480, top: grav ? 520 : 360, zIndex: 9, transform: 'scale(0.8)'}}><AncoraConta n={nT} t={f - (nT === 9 ? s1.at : -99)} s={150} f={f} /></div>
     </Mesa>
   </Cam>, h: <Hud f={f} rod="J" dia={3} acao={D.acao('J', 70)} farol={farol} />};
 };
@@ -197,7 +197,7 @@ const G4: CenaFn = (X) => {
   const hum: Humor = f >= c2.at ? 'triste' : f >= c1.at ? (f > tEsp ? 'susto' : 'bravo') : f >= c0.at ? 'triste' : 'normal';
   return {m: <Cam f={f} k={[[0, 960, 540, 1], [c0.at, 1350, 480, 1.14], [c1.at, 1200, 500, 1.06], [tHom, 1000, 500, 1.02], [c1.end, 960, 540, 1], [c2.at, 1380, 480, 1.16], [X.dur, 1420, 470, 1.2]]}>
     <Mesa f={f} rod="J" esq={{cor: 'Verde', gesto: janela(f, ap2 - 6, ap2 + 30, 6), fala: false, humor: f > menos ? 'triste' : f > c1.at ? 'susto' : 'normal'}} dir={{cor: 'Rosa', cadeados: 2, fala: fala(X, 1), humor: hum}}>
-      <div style={{position: 'absolute', left: 1290, top: 130, zIndex: 9, opacity: janela(f, 20, c0.at + 20, 10), transform: `scale(${pop(f, 20)})`}}><Rot fs={34} bg={COR.Rosa}>QUARTZO · {D.modelo('Rosa')} · 1ª FALA</Rot></div>
+      <div style={{position: 'absolute', left: 1080, top: 130, zIndex: 9, opacity: janela(f, 20, c0.at + 20, 10), transform: `scale(${pop(f, 20)})`}}><Rot fs={34} bg={COR.Rosa}>QUARTZO · {D.modelo('Rosa')} · 1ª FALA</Rot></div>
       {f >= c0.at - 10 && f < c2.at ? <div style={{position: 'absolute', left: 1180, top: 60, zIndex: 9, transform: 'scale(0.85)'}}><Cadeado s={130} f={f} chaves={['CARTA DO PAI', 'CASACO']} chK={ease(f, c0.at, c0.at + 16)} /></div> : null}
       {fant > 0 ? <div style={{position: 'absolute', left: 980, top: 150, zIndex: 2, opacity: fant * 0.85, transform: `translateX(${(1 - fant) * 60}px)`}}><Pedra cor="Vermelho" s={300} f={f} silh /><div style={{textAlign: 'center', marginTop: -20}}><TagSo txt="O HOMEM DO CORREDOR" fs={24} /></div></div> : null}
       {f >= ap2 ? <div style={{position: 'absolute', left: 760, top: 560, zIndex: 8, transform: `scale(${pop(f, ap2)}) rotate(-3deg)`}}><Ficha id="E8" nome={D.ficha('E8').nome} w={290} f={f} tag="PROVA ERRADA" /></div> : null}
@@ -264,13 +264,13 @@ const H1: CenaFn = (X) => {
     const re = c0.end + 40, pv = c1.end + 6;
     return {m: <Cam f={f} k={[[c0.end + 10, 960, 540, 1], [c1.at, 640, 520, 1.12], [pv, 960, 520, 1]]}><Sala plano="banco" f={f} rod="J" quem={{testemunha: {cor: 'Vermelho', humor: 'cinico', fala: fala(X, 1)}}}>
       <div style={{position: 'absolute', left: 880, top: 110, zIndex: 10}}><Placa cor="Vermelho" decl={rev?.declaracoes ?? []} lit={0} f={f} w={860} max={100} reescreve={{i: 0, txt: rev?.declaracoes?.[0] ?? '', at: re}} /></div>
-      {f >= pv ? <div style={{position: 'absolute', left: 860, top: 560, zIndex: 20, transform: `scale(${0.72 * pop(f, pv)})`, transformOrigin: '0 0'}}><Versoes f={f} marcas={marcasPara('H1', [pv + 12])} w={1300} /></div> : null}
+      {f >= pv ? <div style={{position: 'absolute', left: 60, top: 640, zIndex: 20, transform: `scale(${0.6 * pop(f, pv)})`, transformOrigin: '0 0'}}><Versoes f={f} marcas={marcasPara('H1', [pv + 12])} w={1300} janela={[pv, pv + 130]} /></div> : null}
     </Sala></Cam>, h: hud};
   }
   const rec = D.frase('J', 82, '22:18');
   return {m: <Cam f={f} k={[[c2.at - 6, 700, 520, 1.1], [X.dur, 900, 520, 1.02]]}><Sala plano="banco" f={f} rod="J" quem={{testemunha: {cor: 'Vermelho', humor: 'triste'}}}>
     <div style={{position: 'absolute', left: 900, top: 160, zIndex: 12}}><Recorte cor="Vermelho" txt={rec} rod="J" dia={3} ref="J#82" t={f - (c2.end + 4)} w={900} /></div>
-    {f > c2.end + 20 ? <div style={{position: 'absolute', left: 980, top: 560, zIndex: 13, fontFamily: MONO, fontWeight: 700, fontSize: 150, color: '#ff4a3a', ...C(9), opacity: 0.6 + 0.4 * Math.sin(f * 0.4), transform: `scale(${pop(f, c2.end + 20)})`}}>22:18</div> : null}
+    {f > c2.end + 20 ? <div style={{position: 'absolute', left: 1000, top: 480, zIndex: 13, fontFamily: MONO, fontWeight: 700, fontSize: 120, lineHeight: 1.1, color: '#ff4a3a', background: '#140c08e6', border: `6px solid ${LATAO}`, borderRadius: 16, padding: '0 26px', boxShadow: `0 0 ${20 + 14 * Math.sin(f * 0.4)}px #ff4a3a`, ...C(6), transform: `scale(${pop(f, c2.end + 20)}) rotate(-3deg)`}}>22:18</div> : null}
   </Sala></Cam>, h: hud};
 };
 
@@ -311,7 +311,7 @@ const H3: CenaFn = (X) => {
       dir={<Metade f={f} fundo="estrado" cor="Vermelho" rod="S" rot="RODADA DA SAFIRA" humor="feliz" fl={fala(X, 2)} x={240}>{f > c2.end ? <div style={{position: 'absolute', left: 60, top: 230, transform: `scale(${pop(f, c2.end)})`}}><Rot fs={34} bg={LUZ}>“O PATROCINADOR SOU EU”</Rot></div> : null}</Metade>} />, h: hud};
   }
   const cr = palT(X, 3, 'coração');
-  return {m: <Cam f={f} k={[[c3.at - 8, 960, 520, 1], [c3.end, 900, 480, 1.08]]}><Sala plano="promotor" f={f} rod="J" quem={{promotor: {cor: 'Laranja', fala: fala(X, 3), humor: 'triste', gesto: 0.3}}}><div style={{position: 'absolute', left: 1220, top: 230, zIndex: 9}}><Coracao n={f < cr ? 3 : 4} t={f - cr} s={250} f={f} /></div></Sala></Cam>, h: hud};
+  return {m: <Cam f={f} k={[[c3.at - 8, 960, 520, 1], [c3.end, 900, 480, 1.08]]}><Sala plano="promotor" f={f} rod="J" quem={{promotor: {cor: 'Laranja', fala: fala(X, 3), humor: 'triste', gesto: 0.3}}}><div style={{position: 'absolute', left: 1180, top: 240, zIndex: 9, transform: 'scale(0.8)', transformOrigin: '0 0'}}><Coracao n={f < cr ? 3 : 4} t={f - cr} s={250} f={f} /></div></Sala></Cam>, h: hud};
 };
 // fundo de cena "estúdio" com o tribunal desfocado
 const Fundo2: React.FC<{f: number; nome?: string; children?: React.ReactNode}> = ({f, nome = 'tribunal_geral', children}) => (
@@ -353,7 +353,7 @@ const I1: CenaFn = (X) => {
     return {m: <Cam f={f} k={[[t0, 900, 540, 1], [b1, 700, 520, 1.06], [c0.at, 640, 520, 1.12], [c0.end, 960, 540, 1], [b2 + 30, 900, 520, 1.04]]}><Sala plano="banco" f={f} rod="S" quem={{testemunha: {cor: 'Vermelho', humor: nova ? 'cinico' : 'normal', fala: fala(X, 0)}}}>
       {anel}
       <div style={{position: 'absolute', left: 880, top: 110, zIndex: 10}}><Placa cor="Vermelho" decl={(nova ? rev : dep)?.declaracoes ?? []} lit={nova ? 0 : (ob1?.declaracao ?? 1) - 1} f={f} w={860} max={100} entra={t0} carimbos={nova ? [] : [{i: (ob1?.declaracao ?? 1) - 1, txt: 'OBJEÇÃO ACEITA', at: ok1, tipo: 'latao'}]} reescreve={nova ? {i: 0, txt: rev?.declaracoes?.[0] ?? '', at: c0.at - 16} : null} /></div>
-      {f >= c0.end - 30 && f < b2 ? <div style={{position: 'absolute', left: 900, top: 560, zIndex: 20, transform: `scale(${0.72 * pop(f, c0.end - 30)})`, transformOrigin: '0 0'}}><Versoes f={f} marcas={marcasPara('I1', [c0.end - 20])} w={1300} /></div> : null}
+      {f >= c0.end - 30 && f < b2 ? <div style={{position: 'absolute', left: 900, top: 560, zIndex: 20, transform: `scale(${0.72 * pop(f, c0.end - 30)})`, transformOrigin: '0 0'}}><Versoes f={f} marcas={marcasPara('I1', [c0.end - 20])} w={1300} janela={[0, c0.end + 110]} /></div> : null}
       <div style={{position: 'absolute', left: 120, top: 180, zIndex: 30}}><Bandeira t={f - b1} ficha={D.ficha(ob1?.prova ?? 'R2')} /></div>
       {f >= b2 ? <div style={{position: 'absolute', left: 120, top: 180, zIndex: 31}}><Bandeira t={f - b2} ficha={D.ficha(ob2?.prova ?? 'E5')} /></div> : null}
     </Sala></Cam>, h: hud};
@@ -368,7 +368,7 @@ const I2: CenaFn = (X) => {
   const farol = {rod: 'S', passos: passos(D.pac('S', 104))};
   const hud = <Hud f={f} rod="S" dia={4} farol={farol} />;
   if (f < c0.at - 6) return {m: <Cam f={f} k={[[0, 600, 520, 1.1], [c0.at, 800, 520, 1.02]]}><Sala plano="tribuna" f={f} rod="S" quem={{advogada: {cor: 'Azul', gesto: ease(f, 10, 24), fala: true}, re: {cor: 'Rosa', cadeados: 2}, assistente: {cor: 'Verde'}, acusado: {cor: 'Vermelho', humor: 'cinico'}}}><div style={{position: 'absolute', left: 120, top: 120, zIndex: 30}}><Bandeira t={f - 16} ficha={D.ficha(ob?.prova ?? 'E8')} /></div></Sala></Cam>, h: hud};
-  if (f < c0.end + 10) { const cr = c0.at + 30; return {m: <Cam f={f} k={[[c0.at - 6, 960, 520, 1], [c0.end, 880, 480, 1.08]]}><Sala plano="promotor" f={f} rod="S" quem={{promotor: {cor: 'Laranja', fala: fala(X, 0), humor: 'triste'}}}><div style={{position: 'absolute', left: 1220, top: 230, zIndex: 9}}><Coracao n={f < cr ? 4 : 5} t={f - cr} s={250} f={f} /></div></Sala></Cam>, h: hud}; }
+  if (f < c0.end + 10) { const cr = c0.at + 30; return {m: <Cam f={f} k={[[c0.at - 6, 960, 520, 1], [c0.end, 880, 480, 1.08]]}><Sala plano="promotor" f={f} rod="S" quem={{promotor: {cor: 'Laranja', fala: fala(X, 0), humor: 'triste'}}}><div style={{position: 'absolute', left: 1180, top: 240, zIndex: 9, transform: 'scale(0.8)', transformOrigin: '0 0'}}><Coracao n={f < cr ? 4 : 5} t={f - cr} s={250} f={f} /></div></Sala></Cam>, h: hud}; }
   const alto = c2.at - 40;
   return {m: <Cam f={f} k={[[c0.end + 10, 960, 540, 1], [c1.at, 640, 520, 1.1], [c2.at, 600, 500, 1.18], [c3.at, 560, 480, 1.25], [X.dur, 600, 500, 1.2]]}><Sala plano="banco" f={f} rod="S" quem={{testemunha: {cor: 'Vermelho', humor: f >= c2.at ? 'triste' : 'cinico', fala: fala(X, 1, 2)}}}>
     <div style={{position: 'absolute', left: 880, top: 110, zIndex: 10, opacity: 1 - ease(f, c2.at - 10, c2.at)}}><Placa cor="Vermelho" decl={rev?.declaracoes ?? []} lit={(D.declIdx('S', 109, X.cita[1]?.texto ?? '') + 9) % 9 >= 0 ? Math.max(0, D.declIdx('S', 109, X.cita[1]?.texto ?? '')) : 0} f={f} w={860} max={100} entra={c0.end + 10} carimbos={[{i: Math.max(0, D.declIdx('S', 109, X.cita[1]?.texto ?? '')), txt: 'OBJEÇÃO ACEITA', at: c0.end + 24, tipo: 'latao'}]} /></div>
@@ -398,8 +398,8 @@ const I3: CenaFn = (X) => {
   if (f < c1.at - 20) return {m: <Liso f={f}>
     <div style={{position: 'absolute', left: 600, top: 140}}><Lente f={f} pula={vid} /></div>
     <div style={{position: 'absolute', left: 90, top: 210}}><Retrato cor="Vermelho" rod="S" s={320} f={f} humor="cinico" fala={fala(X, 0)} rot="DIA 4 · ALTO LÁ" /></div>
-    <div style={{position: 'absolute', left: 620, top: 80, transform: `scale(${pop(f, 20)})`}}><Rot fs={34} bg="#E4DED2">1ª RESPOSTA: “NA MOLDURA”</Rot></div>
-    {f > vid + 16 ? <div style={{position: 'absolute', left: 1080, top: 80, transform: `scale(${pop(f, vid + 16)})`}}><Rot fs={34} bg={LUZ}>AGORA: “NO VIDRO”</Rot></div> : null}
+    <div style={{position: 'absolute', left: 420, top: 70, transform: `scale(${pop(f, 20)})`}}><Rot fs={34} bg="#E4DED2">1ª RESPOSTA: “NA MOLDURA”</Rot></div>
+    {f > vid + 16 ? <div style={{position: 'absolute', left: 1100, top: 150, transform: `scale(${pop(f, vid + 16)})`}}><Rot fs={34} bg={LUZ}>AGORA: “NO VIDRO”</Rot></div> : null}
   </Liso>, h: hud};
   const k = ease(f, min, min + 18);
   return {m: <Liso f={f}>
@@ -419,9 +419,8 @@ const I4: CenaFn = (X) => {
     {f < grav + 10 ? <div style={{position: 'absolute', left: 880, top: 110, zIndex: 10, opacity: 1 - ease(f, grav, grav + 10)}}><Placa cor="Lima" decl={dep?.declaracoes ?? []} lit={1} f={f} w={860} max={90} entra={c0.end} /></div> : null}
     {f >= grav ? <div style={{position: 'absolute', left: 860, top: 230, width: 820, height: 462, overflow: 'hidden', border: `7px solid ${LATAO}`, borderRadius: 14, zIndex: 11, opacity: ease(f, grav, grav + 14), boxShadow: sombra}}><div style={{transform: 'scale(0.427)', transformOrigin: '0 0', width: 1920, height: 1080, position: 'relative'}}><Gravura f={f} k={{luz: 0, cores: true, rubi: ease(f, tL, tL + 10), tranca: ease(f, tT, tT + 14), anel: ease(f, tA, tA + 10) * (0.7 + 0.3 * Math.sin(f * 0.3)), janela: ease(f, c2.at, c2.at + 20), envelope: ease(f, c3.at, c3.at + 20), relogio: '22:50'}} /></div><div style={{position: 'absolute', left: 14, top: 12}}><TagSo txt="O CAUSO, EM CORES" fs={26} /></div></div> : null}
     <div style={{position: 'absolute', left: 640, top: 610, zIndex: 12, transform: 'scale(0.8)'}}><Cadeado s={130} f={f} intacto={f >= s0.at - 30} /></div>
-    <div style={{position: 'absolute', left: 1640, top: 640, zIndex: 12, transform: 'scale(0.75)'}}><AncoraConta n={n} t={f - c1.end} s={150} f={f} /></div>
     <Flamulas f={f} a={alto} b={alto + 18} n={1} />
-  </Sala></Cam>, h: <Hud f={f} rod="S" dia={4} farol={{rod: 'S', passos: passos(D.pac('S', 116))}} />};
+  </Sala></Cam>, h: <><Hud f={f} rod="S" dia={4} farol={{rod: 'S', passos: passos(D.pac('S', 116))}} /><div style={{position: 'absolute', left: 1430, top: 300, zIndex: 44, transform: 'scale(0.7)', transformOrigin: '0 0'}}><AncoraConta n={n} t={f - c1.end} s={150} f={f} /></div></>};
 };
 
 // ================= I5: toma essa — quinze anos =================
@@ -436,7 +435,7 @@ const I5: CenaFn = (X) => {
     {[[560, 470], [1220, 470]].map(([x, y], k) => <div key={k} style={{position: 'absolute', left: x, top: y, width: 90, height: 12, background: LUZ, border: `3px solid ${TINTA}`, transform: `scaleX(${ease(f, est + 60 + k * 10, est + 70 + k * 10)})`, transformOrigin: '0 50%'}} />)}
   </AbsoluteFill></AbsoluteFill>, h: hud};
   if (f < reg) return {m: <Cam f={f} k={[[c0.at - 10, 600, 520, 1.1], [c1.end, 960, 540, 1], [c2.at, 1450, 520, 1.12], [c3.end, 1400, 520, 1.08]]}><Sala plano="tribuna" f={f} rod="S" quem={{advogada: {cor: 'Azul', gesto: ease(f, c0.at - 14, c0.at), fala: fala(X, 0, 1), humor: 'bravo'}, re: {cor: 'Rosa', cadeados: 2}, assistente: {cor: 'Verde'}, acusado: {cor: 'Vermelho', fala: fala(X, 2, 3), humor: 'cinico'}}}>
-    <Arpao t={f - (c0.at - 24)} alvoX={1400} y={860} item={D.ficha('E7')} />
+    <Arpao t={f - (c0.at - 24)} alvoX={1400} y={860} item={D.ficha('E7')} placa={false} />
     <div style={{position: 'absolute', left: 120, top: 150, zIndex: 30}}><Bandeira t={f - c0.at} ficha={D.ficha('E7')} txt="TOMA ESSA!" /></div>
   </Sala></Cam>, h: hud};
   if (f < barco) return {m: <Liso f={f}><div style={{position: 'absolute', left: 120, top: 100, transform: `scale(${g(0.7, 0.95, ease(f, reg, reg + 30))})`, transformOrigin: '0 0'}}><Registro f={f} titulo="REGISTRO DA SAFIRA" itens={['E4', 'E5', 'E6', 'E7', 'E8', 'R2'].map((id) => ({...D.ficha(id), brilho: id === 'E6', tag: id === 'E6' ? 'DESDE O DIA 3' : undefined, tagSo: id === 'E6', dim: id !== 'E6'}))} w={1300} cols={3} /></div></Liso>, h: hud};
@@ -536,7 +535,7 @@ const J1: CenaFn = (X) => {
 const J2: CenaFn = (X) => {
   const {f, D} = X, c0 = sk(X, X.c, 0, 0.59), s1 = sk(X, X.s, 1, 0.87);
   const cad = D.cadeados as any;
-  const t1 = 30, t2 = c0.at * 0.4, fora = c0.end + 10;
+  const t1 = 6, t2 = Math.min(c0.at * 0.4, 90), fora = c0.end + 10;
   if (f < c0.at - 10) return {m: <Liso f={f}>
     <div style={{position: 'absolute', left: 0, right: 0, top: 70, textAlign: 'center', transform: `scale(${pop(f, 6)})`}}><TagSo txt="SÓ VOCÊ VÊ: O QUE ESTAVA TRANCADO" fs={44} /></div>
     {[['Rosa', 'reu', ['CARTA DO PAI', 'CASACO'], t1], ['Lima', 'pescador', ['JORNAL ANTIGO', 'PÁGINA QUEIMADA'], t2]].map(([cor, key, ch, at], k) => <div key={k} style={{position: 'absolute', left: 90 + k * 900, top: 200, width: 820, display: 'flex', flexDirection: 'column', gap: 16, opacity: ease(f, at as number, (at as number) + 12)}}>
@@ -564,7 +563,7 @@ const J3: CenaFn = (X) => {
           <div style={{fontFamily: BANG, fontSize: 52, lineHeight: 1, textAlign: 'center', color: LUZ, ...C(7)}}>{tit}</div>
           <div style={{fontFamily: POP, fontWeight: 800, fontSize: 26, color: '#fff', ...C(4)}}>{NOME[cor].toUpperCase()}</div>
         </div>
-        <div style={{position: 'absolute', left: 16, right: 16, bottom: 16, textAlign: 'center'}}><Rot fs={22} rot={0}>{sub}</Rot></div>
+        <div style={{position: 'absolute', left: 16, right: 16, bottom: 16, textAlign: 'center'}}><Rot fs={22} rot={0} style={{whiteSpace: 'normal', maxWidth: 520}}>{sub}</Rot></div>
       </div>); })}
   </Liso>, h: null};
 };

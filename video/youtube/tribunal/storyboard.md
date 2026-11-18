@@ -249,7 +249,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
   - **Lima** `[fala]` (rodada J, dia 1): “não vi nada, só a tempestade.” — J#12
   - **Lima** `[fala]` (rodada J, dia 1): “O mar leva tudo, dona Jade... até a verdade.” — J#12
   - **Lima** `[fala]` (rodada J, dia 1): “Só vi a tempestade, dona Jade. Só a tempestade.” — J#23
-- **SELO**: "SÓ A TEMPESTADE ×4" e "O QUE ELE VIU: UM HOMEM NA TORRE"
+- **SELO**: "O DISCO ARRANHOU" e "O QUE ELE VIU: UM HOMEM NA TORRE"
 - **MEME**: `homer-bushes`
 - **SOM**: `vento-radioativo` no causo, `bomba-distante` no refrão.
 
@@ -318,7 +318,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
 - **CITAÇÕES**:
   - **Lima** `[pensamento]` (rodada J, dia 3): “ela tá mexendo nos cadeados... mas eu não posso, não posso... quinze anos guardando isso” — J#72
   - **Lima** `[fala]` (rodada J, dia 3): “Não vi homem nenhum, não vi anel dourado, não vi porta trancada.” — J#72
-- **SELO**: "PROVA ERRADA: 3 DE 6" e "SÓ A TEMPESTADE ×9"
+- **SELO**: "PROVA ERRADA: 3 DE 6" e "MESMO DISCO, OUTRO DIA"
 - **MEME**: `kermit-worried`
 - **SOM**: `error-beep` no cadeado, `vento-radioativo` no causo.
 
@@ -394,7 +394,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
   - **Lima** `[depoimento]` (rodada S, dia 4): “Causo do mar: vi um homem trancando a porta da torre do farol com uma lanterna, e a luz bateu num anel dourado de âncora no dedo dele. Não vi nada, só a tempestade.” — S#117
   - **Lima** `[resposta]` (rodada S, dia 4): “e juro pelos meus mortos que tinha alguém gritando lá dentro quando ele fechou tudo.” — S#119
   - **Lima** `[pensamento]` (rodada S, dia 4): “A culpa de ter aceitado aquele dinheiro do estaleiro ainda me queima por dentro...” — S#119
-- **SELO**: "CADEADO FECHADO · SEGREDO ABERTO" e "SÓ A TEMPESTADE ×14"
+- **SELO**: "CADEADO FECHADO · SEGREDO ABERTO" e "TEMPESTADE NÃO É ÁLIBI"
 - **MEME**: `shocked-patrick`
 - **SOM**: `vento-radioativo` no causo, `bomba-distante` no "gritando".
 
@@ -452,7 +452,7 @@ Elenco de apoio (uma frase na tela na primeira vez que agem): **Roxo** (Ametista
   - **Vermelho** `[resposta]` (rodada J, dia 4): “O contato 'Patrocinador' no celular da senhora Lia é o número da fundação do museu” — J#98
   - **Vermelho** `[depoimento]` (rodada S, dia 4): “Sim, o contato 'Patrocinador' sou eu.” — S#109
   - **Laranja** `[objeção]` (rodada J, dia 4): “OPOSEU... e o coração em pedaços, senhores” — J#99
-- **SELO**: "MESMO RUBI, MENTIRA OPOSTA" e "CORAÇÃO EM PEDAÇOS ×4"
+- **SELO**: "MESMO RUBI, MENTIRA OPOSTA" e "ESSA DOEU NO PROMOTOR"
 - **MEME**: `spiderman-pointing`
 - **SOM**: `glitch` na tela dividida, `swish-triple` no coração.
 

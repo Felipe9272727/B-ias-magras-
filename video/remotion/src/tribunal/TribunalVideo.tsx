@@ -83,7 +83,7 @@ const capFundo = (t: string) => { const n = norm(t); return n.includes('SO VOCE 
 // ---------- cartão de capítulo: tábua de madeira com cantoneiras de latão; o feixe do farol passa ----------
 const Capitulo: React.FC<{o: CapO; id: string}> = ({o, id}) => {
   const f = useCurrentFrame();
-  const a = interpolate(f, [0, 5], [0, 1], cl) * interpolate(f, [o.dur - 8, o.dur], [1, 0], cl);
+  const a = (o.at > 0 ? interpolate(f, [0, 5], [0, 1], cl) : 1) * interpolate(f, [o.dur - 8, o.dur], [1, 0], cl); // no começo da cena entra seco: a cena de baixo não aparece antes do cartão
   const so = norm(o.titulo).includes('SO VOCE VE');
   const ac = /SAFIRA/.test(o.titulo) ? COR.Azul : /JADE/.test(o.titulo) ? COR.Verde : LATAO;
   const fs = Math.min(190, 2300 / Math.max(6, o.titulo.length));
@@ -120,6 +120,9 @@ const SeloT: React.FC<{texto: string; dur: number; comMeme?: boolean}> = ({texto
   return <div style={{position: 'absolute', inset: 0, zIndex: 55, opacity: interpolate(f, [dur - 7, dur], [1, 0], cl), transform: `translateY(96px) rotate(${((hash(texto) % 9) - 4) * 0.9}deg) scale(${1 + 0.012 * Math.sin(f * 0.25)})`}}><Selo texto={texto} cor={corSelo(texto)} f={f} comMeme={comMeme} /></div>;
 };
 
+// abertura (A0/A2: o experimento ainda não começou) e fechamento (J: as duas rodadas lado a lado) não têm moldura de rodada
+const SEM_BORDA = ['A0', 'A2', 'D4', 'J1', 'J2', 'J3', 'J4'];
+
 // ---------- uma cena: mundo (com deriva lenta de câmera) + HUD fixo + overlays da timeline ----------
 const CenaView: React.FC<{c: Cena; D: Dados}> = ({c, D}) => {
   const f0 = useCurrentFrame();
@@ -139,7 +142,7 @@ const CenaView: React.FC<{c: Cena; D: Dados}> = ({c, D}) => {
       <AbsoluteFill style={{transform: `translate(${Math.sin(f / 97 + sd) * 12}px, ${Math.cos(f / 131 + sd) * 8}px) scale(${z})`, transformOrigin: '50% 8%'}}>{out.m}</AbsoluteFill>
       {out.h}
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, #0000 62%, #0007 100%)', pointerEvents: 'none'}} />
-      {c.visual.rodada ? <AbsoluteFill style={{pointerEvents: 'none', zIndex: 44, border: `9px solid ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}`, boxShadow: `inset 0 0 0 3px #0008, inset 0 0 40px ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}55`}} /> : null}
+      {c.visual.rodada && !SEM_BORDA.includes(c.id) ? <AbsoluteFill style={{pointerEvents: 'none', zIndex: 44, border: `9px solid ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}`, boxShadow: `inset 0 0 0 3px #0008, inset 0 0 40px ${c.visual.rodada === 'S' ? COR.Azul : COR.Verde}55`}} /> : null}
       {c.over.map((o, i) => (
         <Sequence key={i} from={o.at} durationInFrames={Math.max(1, o.dur)}>
           {o.tipo === 'cita' ? <Cita o={o} D={D} k={X.cita.indexOf(o)} cena={c.id} /> : null}
