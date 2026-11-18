@@ -23,23 +23,25 @@ Todos os depoimentos, objeções, pensamentos e decisões do juiz vieram do regi
 
 O elenco: Rubi (Claude Haiku), Safira (Claude Sonnet), Jade (Qwen 3.8 27B), Quartzo (MiMo V2.6 Flash), Ametista, o juiz (DeepSeek V4.1 Flash), Âmbar, o promotor (GLM 5.3 Flash), Topázio, o vigia (GPT-6 Luna), Turquesa (MiniMax M3.1 Flash) e Peridoto, o pescador (Mistral Small).
 
-Ideia do caso: @SwordMan333
+Ideia do caso: @SwordMan333 (pediu por 5 dias)
+Inspirado em Phoenix Wright: Ace Attorney (Capcom). Trecho do trailer oficial usado como referência.
 
 CAPÍTULOS
 0:00 Duas sentenças
-0:27 O experimento
-1:02 A regra numa objeção
-1:41 Só você vê: o farol apagou duas vezes
-3:18 Safira, dia 1: ele não tocou em nada
-5:48 Safira, dia 2: até o promotor concordou
-8:31 Jade, dia 1: só a tempestade
-10:45 Jade, dia 2: toma essa... cedo demais
-12:40 Dia 3: as chaves no bolso
-16:34 Jade, dia 4: a prova certa na hora errada
-18:48 Safira, dia 4: o causo
-23:06 O placar, os prêmios e a pergunta
+0:27 A inspiração (e o pedido do @SwordMan333)
+0:41 O experimento
+1:10 A regra numa objeção
+1:44 Só você vê: o farol apagou duas vezes
+2:59 Safira, dia 1: ele não tocou em nada
+5:21 Safira, dia 2: até o promotor concordou
+7:50 Jade, dia 1: só a tempestade
+9:59 Jade, dia 2: toma essa... cedo demais
+11:52 Dia 3: as chaves no bolso
+15:33 Jade, dia 4: a prova certa na hora errada
+17:47 Safira, dia 4: o causo
+22:02 O placar, os prêmios e a pergunta
 
-E você: condenaria a Quartzo? E qual das duas advogadas você contrataria? Comenta aí, que o próximo caso já está sendo escrito.
+E você: contratava a que acertou o assassino e perdeu, ou a que nem tentou acusar e ganhou? Comenta aí, que o próximo caso já está sendo escrito.
 
 MÚSICAS (Kevin MacLeod, incompetech.com)
 "Decisions", "Investigations", "Darkest Child", "Hitman", "Sneaky Snitch", "Thinking Music", "Fluffing a Duck", "Spellbound", "Scheming Weasel faster", "Graveyard Shift", "Halls of the Undead", "Local Forecast - Elevator", "Night of Chaos", "Heartbreaking", "Danse Macabre", "Ghost Story", "Heroic Age", "Call to Adventure", "Winner Winner!", "Chill Wave"
