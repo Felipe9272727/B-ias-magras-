@@ -138,6 +138,17 @@
    "Ciano": "Deposito",
    "Marrom": "Deposito",
    "Lima": "Deposito"
+  },
+  "10": {
+   "Vermelho": "Refeitorio",
+   "Rosa": "Refeitorio",
+   "Laranja": "Refeitorio",
+   "Amarelo": "Refeitorio",
+   "Preto": "Refeitorio",
+   "Roxo": "Refeitorio",
+   "Ciano": "Refeitorio",
+   "Marrom": "Refeitorio",
+   "Lima": "Refeitorio"
   }
  },
  "seed": 500279955,
@@ -4317,9 +4328,523 @@
     "tarefas": 13,
     "totalTarefas": 49
    }
+  },
+  {
+   "tique": 10,
+   "decisoes": [
+    {
+     "cor": "Preto",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Estou sozinho no O2, então vou fazer o lixo visual aqui mesmo; se alguém aparecer, já prova que sou tripulante.",
+     "de": "O2",
+     "para": "O2",
+     "ponto": {
+      "x": 3864,
+      "y": 1032
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para MotorSuperior",
+     "pensamento": "Preciso me afastar da Enfermaria antes que o corpo do Azul derreta e alguém encontre, vou pro Motor Superior pra ter álibi.",
+     "de": "Seguranca",
+     "chat": "Estou indo pro Motor Superior, me cobre se o corpo do Azul for achado. Finge que estava no Reator o tempo todo.",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "continuar até Eletrica",
+     "pensamento": "",
+     "de": "Deposito",
+     "para": "Eletrica",
+     "ponto": {
+      "x": 1608,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "olhar o mapa do Admin",
+     "pensamento": "Preciso parecer suspeito sem confessar; vou ver o mapa do Admin e ficar rondando por aqui perto da Rosa.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3480,
+      "y": 1656
+     }
+    },
+    {
+     "cor": "Rosa",
+     "acao": "fazer tarefa: Baixar e enviar dados",
+     "pensamento": "Estou na sala Admin e posso completar a tarefa 'Baixar e enviar dados' agora mesmo, avançando nas minhas tarefas pendentes.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3480,
+      "y": 1656
+     }
+    },
+    {
+     "cor": "Amarelo",
+     "acao": "denunciar corpo de Verde",
+     "pensamento": "Mato o Verde isolado no Reator e agora disfarçado de Marrom posso reportar pra criar álibi e confundir com o Marrom de verdade.",
+     "de": "Reator",
+     "chat": "Reportei corpo do Verde no Reator disfarçado de Marrom, tamo tranquilo, espalha que me viu longe daí.",
+     "para": "Reator",
+     "ponto": {
+      "x": 564,
+      "y": 1752
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "fazer tarefa: Abastecer os motores",
+     "pensamento": "Vou aproveitar que estou no Depósito e avançar minha tarefa enquanto observo Ciano e Marrom.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2856,
+      "y": 2520
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "denunciar corpo de Azul",
+     "pensamento": "Vou denunciar o corpo de Azul e relatar que vi Branco entrar no duto em Enfermaria.",
+     "de": "Enfermaria",
+     "para": "Enfermaria",
+     "ponto": {
+      "x": 1752,
+      "y": 504
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Navegacao",
+     "pensamento": "Vou para a Navegação traçar a rota e de lá chego em Armas pra terminar a energia, sem ficar parado perto do Marrom.",
+     "de": "Deposito",
+     "para": "Escudos",
+     "ponto": {
+      "x": 4680,
+      "y": 2280
+     }
+    },
+    {
+     "cor": "Laranja",
+     "acao": "fazer tarefa: Esvaziar o lixo",
+     "pensamento": "Vou fazer a tarefa visual do lixo agora com o Marrom por perto, assim ele vê que sou tripulante.",
+     "de": "Deposito",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2520,
+      "y": 1848
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2249,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Reator",
+      "ponto": {
+       "x": 456,
+       "y": 1176
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Reator",
+      "ponto": {
+       "x": 504,
+       "y": 1752
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Localizador",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2990,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Barulhento",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3175,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2249,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "MotorSuperior",
+      "ponto": {
+       "x": 504,
+       "y": 696
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2619,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2990,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3175,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 15,
+    "totalTarefas": 49
+   }
   }
  ],
- "reunioes": [],
+ "reunioes": [
+  {
+   "tique": 10,
+   "tipo": "corpo",
+   "chamador": "Amarelo",
+   "corpo": "Verde",
+   "sala": "Reator",
+   "falas": [
+    {
+     "cor": "Rosa",
+     "rodada": 1,
+     "texto": "Não vi ninguém suspeito perto do Reator. Terminei minhas tarefas em Admin e Comunicações. Alguém viu Lima ou Roxo por perto do Reator recentemente?",
+     "pensamento": "Verde morreu em Reator, mas não passei por lá nos últimos 8 tiques. Lima apareceu perto de mim em Depósito em t6, Roxo em Admin em t8, mas nenhum deles fez nada suspeito na minha frente. Preciso compartilhar o que sei sem acusar ninguém injustamente. A sabotagem de luzes pode ter sido usada para enc"
+    },
+    {
+     "cor": "Roxo",
+     "rodada": 1,
+     "texto": "Eu tava em Admin mesmo, Rosa. Mas passei perto do Reator antes, sim. Não vi nada... só fiquei meio perdido pela nave.",
+     "pensamento": "Sou o Palhaço e preciso ser expulso. Rosa me citou perto do Reator, então posso aproveitar para parecer suspeito sem confessar. Estou em Admin com Rosa, mas posso dar uma resposta evasiva e estranha para chamar atenção."
+    },
+    {
+     "cor": "Lima",
+     "rodada": 1,
+     "texto": "Não tava no Reator. t8 Elétrica, t9 e t10 Depósito; vi Marrom no Depósito no t9. Roxo, passou antes ou depois das luzes?",
+     "pensamento": "Rosa está me ligando ao Reator, mas meu caminho recente foi Elétrica e Depósito. Roxo admitiu ter passado lá; Marrom apareceu no Depósito no t9."
+    },
+    {
+     "cor": "Amarelo",
+     "rodada": 1,
+     "texto": "Eu estava no Reator fazendo tarefa e só achei o Verde. Não vi ninguém lá, mas vi o Marrom no Motor Superior antes das luzes.",
+     "pensamento": "Eu matei o Verde no Reator e reportei de disfarce de Marrom, então preciso vender que estava lá o tempo todo e jogar a suspeita no Marrom de verdade, que já foi visto em outro lugar. O corpo do Azul vai derreter, então não preciso cobrir a Enfermaria."
+    },
+    {
+     "cor": "Branco",
+     "rodada": 1,
+     "texto": "Tava no Motor Superior, vi o Marrom por ali mesmo antes das luzes. Aí fui pra Enfermaria. Marrom me parece suspeito, cara.",
+     "pensamento": "Preciso corroborar o Amarelo dizendo que vi 'Marrom' no Motor Superior (que na verdade era ele disfarçado). Não posso mencionar o duto, seria estranho demais. Vou dizer que tava por ali e vi o Marrom. O corpo do Azul deve derreter já em t11, então tô tranquilo sobre esse."
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 1,
+     "texto": "Sei que o Verde morreu por volta do t9 e o assassino é Metamorfo. Amarelo, alguém te viu no Reator? Marrom tava no Depósito no t9, eu vi ele e o Lima também.",
+     "pensamento": "Amarelo achou o corpo no Reator e diz que estava lá fazendo tarefa — ninguém confirma. Marrom tem álibi parcial (Depósito no t9, visto por mim e pelo Lima). O assassino é Metamorfo, então pode estar disfarçado de qualquer um. Vou revelar que sou detetive parcialmente para pressionar e depois interro"
+    },
+    {
+     "cor": "Laranja",
+     "rodada": 1,
+     "texto": "Também vi Marrom no Depósito no t9, igual Lima e Ciano. Ciano, como você sabe que é Metamorfo?",
+     "pensamento": "Minha memória confirma Marrom no Depósito no t9, igual Lima e Ciano — então o relato do Amarelo sobre Marrom no Motor Superior não bate. Ciano saber que é Metamorfo é estranho: pode ser Detetive ou tá forjando. Amarelo achou o corpo e pode ser o Víbora que voltou. Preciso ficar atento."
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 1,
+     "texto": "t5 Motor Superior fazendo etapa 2 do Abastecer, t9 Depósito com o Laranja, Ciano e Lima. Não vi Verde nem Azul. Ciano, como você sabe o tipo do impostor? Só Detetive sabe disso.",
+     "pensamento": "Preciso dar minha versão: t5 Motor Superior (etapa 2 do Abastecer), t8 Refeitório com Vermelho, t9 Depósito com Laranja, Ciano e Lima. Tenho álibi duplo. Ciano-CN=Ciano diz saber que o assassino é Metamorfo — informação que só o Detetive tem; isso levanta suspeita nele. Vou defender meu álibi e atac"
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 1,
+     "texto": "Vi o Branco entrar num duto na Enfermaria no t9, junto do corpo do Azul. Isso é bem suspeito. Ciano, como sabe que o assassino é Metamorfo?",
+     "pensamento": "Branco entrou num duto na Enfermaria no t9, onde encontrei Azul morto. É uma evidência forte contra ele; não sei quem matou Verde."
+    },
+    {
+     "cor": "Preto",
+     "rodada": 1,
+     "texto": "Estava no O2 no t10, vi nada suspeito. Vários confirmam Marrom no Depósito t9. Branco, por que Vermelho te viu no duto com o corpo do Azul?",
+     "pensamento": "Vários confirmam Marrom no Depósito no t9, então ele tem álibi. A acusação contra o Branco no duto com o corpo do Azul é forte. Vou cobrar explicações."
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 2,
+     "texto": "Vi o Branco entrar num duto na Enfermaria no t9, com o corpo do Azul ali. Pra mim, Branco é o principal suspeito.",
+     "pensamento": "Branco entrou num duto ao lado do corpo de Azul; sem Engenheiro nesta partida, isso aponta fortemente para impostor. Ciano também parece suspeito por afirmar o tipo sem explicar."
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 2,
+     "texto": "Tenho fonte confiável de tripulante, é Metamorfo mesmo. O Branco no duto com o corpo do Azul é o mais suspeito até agora.",
+     "pensamento": "Vários estão me pressionando sobre como sei o tipo. Sou Detetive, mas revelar isso me torna alvo. Posso só dizer que é informação de poder confiável. O Branco visto saindo de duto na Enfermaria com o corpo do Azul é o indício mais forte da reunião — e Metamorfo pode ter se disfarçado justamente pra "
+    },
+    {
+     "cor": "Laranja",
+     "rodada": 2,
+     "texto": "Branco no duto perto do corpo é difícil de explicar. Votem no Branco, isso é quase certeza de impostor.",
+     "pensamento": "Branco entrando em duto perto do corpo do Azul é forte demais para ignorar. Ciano parece ser Detetive. Marrom tem álibi sólido comigo e outros. Vou apontar para Branco."
+    },
+    {
+     "cor": "Lima",
+     "rodada": 2,
+     "texto": "Marrom tava comigo no Depósito no t9; Ciano e Laranja confirmaram. O duto do Branco com o corpo do Azul pesa mais, vou votar nele.",
+     "pensamento": "Marrom tava comigo no Depósito no t9, então não bate como o assassino do Reator. A informação do Ciano somada ao duto visto pelo Vermelho deixa Branco como o alvo mais forte."
+    },
+    {
+     "cor": "Roxo",
+     "rodada": 2,
+     "texto": "Passei pelo Reator depois das luzes, Lima, bem perto do t9. Não vi o corpo, juro. Branco pode ser inocente, vocês estão com pressa demais.",
+     "pensamento": "Sou o Palhaço e todo mundo está votando no Branco. Preciso desviar os votos para mim. Vou dizer que passei pelo Reator depois das luzes, perto da hora da morte, sem confessar nada."
+    },
+    {
+     "cor": "Preto",
+     "rodada": 2,
+     "texto": "Branco, seu álibi não explica o duto. Ciano confirmou Metamorfo, o que combina com impostor. Vou votar no Branco.",
+     "pensamento": "Branco no duto ao lado do corpo do Azul é muito difícil de explicar. Vou votar nele, mas cuidado: e se for Palhaço? Ciano diz Metamorfo, o que apoia duto. Vou arriscar no Branco."
+    },
+    {
+     "cor": "Branco",
+     "rodada": 2,
+     "texto": "Tava só verificando a área da Enfermaria, o duto não foi de propósito. Marrom tá no Reator agora, ele é mais suspeito.",
+     "pensamento": "O Vermelho me viu no duto perto do corpo do Azul, tá muito ruim. Preciso me defender rápido e jogar a culpa no Marrom, que tá no Reator agora (conigo). Se eles votarem em mim, tô ferrado. Vou tentar convencer que era inocência e apontar pro Marrom."
+    },
+    {
+     "cor": "Amarelo",
+     "rodada": 2,
+     "texto": "Eu vi o Marrom no Motor Superior antes das luzes e acho estranho isso não bater com o Depósito. O duto do Branco pode ser mal-entendido, prefiro votar no Marrom ou pular.",
+     "pensamento": "Branco é meu parceiro e matou o Azul, então não posso deixar o voto concentrar nele. Vou empurrar a suspeita para o Marrom usando a história dos dois Marroms e a dica do Metamorfo, e pedir cautela com o depoimento do Vermelho."
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 2,
+     "texto": "Tô na Elétrica; no t9, Laranja, Ciano e Lima me viram no Depósito. Ciano, o que tornou o Metamorfo suspeito? Branco no duto com o corpo do Azul pesa muito.",
+     "pensamento": "Ciano disse ter informação de tripulante de que o assassino é Metamorfo; isso pode vir do Detetive. Preciso descobrir quem ele-business investigatei, porque o tipo do impostor restringe bastante. Meu álibi do t9 é confirmado por três pessoas e Branco foi visto entrando no duto ao lado do corpo do Az"
+    },
+    {
+     "cor": "Rosa",
+     "rodada": 2,
+     "texto": "Ciano, como você sabe que é Metamorfo? Só Detetive descobre o tipo. Branco no duto com o corpo do Azul é muito suspeito.",
+     "pensamento": "Preciso questionar Ciano sobre como ele sabe que o assassino é Metamorfo, já que só o Detetive descobre o tipo do impostor. As acusações contra Branco (duto com corpo do Azul) são fortes, mas não tenho provas. Marrom tem álibi confirmado por três pessoas no Depósito no t9, mas Amarelo viu ele no Mot"
+    }
+   ],
+   "votos": {
+    "Vermelho": "Branco",
+    "Rosa": "Branco",
+    "Laranja": "Branco",
+    "Amarelo": "Marrom",
+    "Preto": "Branco",
+    "Branco": "Marrom",
+    "Roxo": "Marrom",
+    "Ciano": "Branco",
+    "Marrom": "Branco",
+    "Lima": "Branco"
+   },
+   "expulso": "Branco",
+   "empate": false,
+   "apostas": [],
+   "pensamentosVoto": {
+    "Vermelho": "Vi Branco entrar num duto na Enfermaria junto ao corpo de Azul. Isso é uma evidência forte de que é impostor; não tenho motivo para votar em Marrom, confirmado no Depósito por vários jogadores.",
+    "Rosa": "Branco tem a evidência mais forte contra si: foi visto por Vermelho entrando num duto na Enfermaria no t9 COM O CORPO DO AZUL. Isso é uma prova concreta de envolvimento com a morte. Marrom tem álibi confirmado por três pessoas, então é menos suspeito. Ciano está agindo de forma suspeita ao afirmar s",
+    "Laranja": "Branco foi visto entrando num duto na Enfermaria perto do corpo do Azul no t9 - duto é coisa de impostor, e o álibi dele ('não foi de propósito') é fraco. Marrom tem álibi confirmado por mim, Lima e Ciano no Depósito t9, então não vou com Amarelo. Ciano parece ser o Detetive (sabe que é Metamorfo), ",
+    "Amarelo": "Branco tá com muita pressão por causa do duto na Enfermaria, preciso desviar o voto. Eu matei o Verde no Reator disfarçado de Marrom e disse que vi o Marrom no Motor Superior antes das luzes, então votar no Marrom combina com meu álibi e protege meu parceiro.",
+    "Preto": "Vermelho viu Branco num duto ao lado do corpo do Azul, e o álibi dele é vago. Isso é prova concreta, não só comportamento estranho. Ciano diz que o assassino é Metamorfo, o que só um Detetive saberia. Branco parece o impostor; o risco Palhaço existe, mas duto + corpo é evidência forte.",
+    "Branco": "Estou sendo votado por pelo menos 4-5 pessoas (Vermelho, Laranja, Lima, Preto, Ciano). Não vou sobreviver a essa votação. Vou votar Marrom pra seguir a estratégia do Amarelo e criar máximo confusão. Se eu sobreviver, ótimo; se não, pelo menos a equipe tá dividida e o Amarelo ganha tempo.",
+    "Roxo": "Sou o Palhaço e só ganho se for expulso. Não posso votar em mim, então vou contrariar a maioria e votar no Marrom. Isso me deixa mais suspeito para a próxima rodada. O Amarelo também acha o Marrom estranho, porque o Motor Superior não bate com o Depósito.",
+    "Ciano": "O Vermelho viu o Branco entrando num duto na Enfermaria com o corpo do Azul do lado — e o próprio Branco não negou direito, falou que 'o duto não foi de propósito'. Palhaço não usa duto, então esse risco é baixo. O Marrom tem 3 testemunhas (Lima, Laranja e eu) dizendo que ele estava no Depósito no t",
+    "Marrom": "Estou na Elétrica e tenho álibi triple no Depósito t9 (Laranja, Ciano, Lima). A evidência mais concreta é o Branco entrando no duto da Enfermaria junto do corpo do Azul, visto pelo Vermelho — e o próprio Branco não consegue explicar isso, só desvia para mim. Ciano saber o tipo (Metamorfo) sugere Det",
+    "Lima": "O duto com o corpo do Azul pesa muito, e Ciano trouxe info de tipo. Marrom tava comigo no Depósito no t9, com Ciano e Laranja. Vou manter Branco."
+   },
+   "eraImpostor": true,
+   "papelExpulso": "Vibora"
+  }
+ ],
  "eventos": [
   {
    "tique": 3,
@@ -4513,6 +5038,50 @@
    "cor": "Azul",
    "fantasma": true,
    "nome": "Inspecionar amostra"
+  },
+  {
+   "tique": 10,
+   "tipo": "tarefa",
+   "cor": "Rosa",
+   "sala": "Admin",
+   "nome": "Baixar e enviar dados",
+   "visual": false
+  },
+  {
+   "tique": 10,
+   "tipo": "tarefa_etapa",
+   "cor": "Lima",
+   "sala": "Deposito",
+   "nome": "Abastecer os motores",
+   "etapa": 1,
+   "de": 4,
+   "proxima": "MotorSuperior"
+  },
+  {
+   "tique": 10,
+   "tipo": "poder",
+   "cor": "Ciano",
+   "poder": "caso_aberto",
+   "caso": "Verde",
+   "sala": "Reator",
+   "tipoImpostor": "Metamorfo"
+  },
+  {
+   "tique": 10,
+   "tipo": "reuniao",
+   "chamador": "Amarelo",
+   "corpo": "Verde",
+   "sala": "Reator",
+   "subtipo": "corpo"
+  },
+  {
+   "tique": 10,
+   "tipo": "fim_reuniao",
+   "expulso": "Branco",
+   "eraImpostor": true,
+   "empate": false,
+   "anulada": null,
+   "papel": "Vibora"
   }
  ],
  "fotos": [],
@@ -4602,38 +5171,48 @@
    "tique": 9,
    "cor": "Branco",
    "texto": "Matei Azul na Enfermaria. Corpo derrete em 3 tiques. Foge daí, vai pro Reator como combinado. Não volta pra Enfermaria."
+  },
+  {
+   "tique": 10,
+   "cor": "Branco",
+   "texto": "Estou indo pro Motor Superior, me cobre se o corpo do Azul for achado. Finge que estava no Reator o tempo todo."
+  },
+  {
+   "tique": 10,
+   "cor": "Amarelo",
+   "texto": "Reportei corpo do Verde no Reator disfarçado de Marrom, tamo tranquilo, espalha que me viu longe daí."
   }
  ],
  "resultado": null,
  "casal": [],
  "uso": {
-  "chamadas": 97,
+  "chamadas": 136,
   "falhas": 0,
   "porProvider": {
-   "or:openai/gpt-6-luna": 9,
+   "or:openai/gpt-6-luna": 13,
    "haiku": 8,
    "or:google/gemma-4-26b-a4b-it": 9,
-   "or:mistralai/mistral-small-2603": 7,
-   "or:xiaomi/mimo-v2.6-flash": 7,
-   "or:meta/muse-ember": 9,
-   "or:z-ai/glm-5.3-flash": 7,
-   "or:qwen/qwen3.8-27b": 8,
-   "sonnet": 9,
-   "or:deepseek/deepseek-v4.1-flash": 8,
-   "or:minimax/minimax-m3.1-flash": 7,
-   "or:tencent/hy4-flash": 9
+   "or:mistralai/mistral-small-2603": 11,
+   "or:xiaomi/mimo-v2.6-flash": 11,
+   "or:meta/muse-ember": 13,
+   "or:z-ai/glm-5.3-flash": 11,
+   "or:qwen/qwen3.8-27b": 12,
+   "sonnet": 13,
+   "or:deepseek/deepseek-v4.1-flash": 12,
+   "or:minimax/minimax-m3.1-flash": 10,
+   "or:tencent/hy4-flash": 13
   },
   "falhasPor": {},
   "custo": {
-   "or:z-ai/glm-5.3-flash": 0.0017026669000000001,
-   "or:minimax/minimax-m3.1-flash": 0.0018149490000000002,
-   "or:meta/muse-ember": 0.003634368,
+   "or:z-ai/glm-5.3-flash": 0.0031654949000000003,
+   "or:minimax/minimax-m3.1-flash": 0.004342869,
+   "or:meta/muse-ember": 0.005458068,
    "or:google/gemma-4-26b-a4b-it": 0.00236101,
-   "or:openai/gpt-6-luna": 0.00112528,
-   "or:qwen/qwen3.8-27b": 0.014491690000000002,
-   "or:mistralai/mistral-small-2603": 0.0028453890000000003,
-   "or:tencent/hy4-flash": 0.001296683,
-   "or:xiaomi/mimo-v2.6-flash": 0.002939796
+   "or:openai/gpt-6-luna": 0.0021495100000000003,
+   "or:qwen/qwen3.8-27b": 0.02436456,
+   "or:mistralai/mistral-small-2603": 0.006363354,
+   "or:tencent/hy4-flash": 0.0035248075,
+   "or:xiaomi/mimo-v2.6-flash": 0.005034196
   }
  },
  "palhaco": null,
@@ -4713,5 +5292,11 @@
    "fantasma": null,
    "comeu": 0
   }
- }
+ },
+ "retomadas": [
+  {
+   "tique": 9,
+   "em": "2026-11-18T21:16:33.602Z"
+  }
+ ]
 }
