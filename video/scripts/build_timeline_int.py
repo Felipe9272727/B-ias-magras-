@@ -9,6 +9,7 @@ import base64
 import concurrent.futures as cf
 import hashlib
 import shutil
+import os
 import threading
 import urllib.error
 import importlib.util
