@@ -349,6 +349,23 @@
    "Ciano": "Refeitorio",
    "Marrom": "Refeitorio",
    "Lima": "Armas"
+  },
+  "31": {
+   "Vermelho": "Refeitorio",
+   "Azul": "Refeitorio",
+   "Branco": "Refeitorio",
+   "Roxo": "Admin",
+   "Ciano": "Armas",
+   "Marrom": "Refeitorio",
+   "Lima": "O2"
+  },
+  "32": {
+   "Vermelho": "Refeitorio",
+   "Azul": "Refeitorio",
+   "Branco": "Refeitorio",
+   "Ciano": "Refeitorio",
+   "Marrom": "Refeitorio",
+   "Lima": "Refeitorio"
   }
  },
  "seed": 662795213,
@@ -12102,6 +12119,687 @@
     "tarefas": 50,
     "totalTarefas": 72
    }
+  },
+  {
+   "tique": 31,
+   "decisoes": [
+    {
+     "cor": "Preto",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Alguém tentou matar Vermelho agora no Refeitório; quero observar quem está perto dele para identificar o impostor.",
+     "de": "Reator",
+     "fantasma": "Anjo",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 2568,
+      "y": 216
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "ficar invisível e ir para O2",
+     "pensamento": "Vou seguir invisível até o O2, onde o Ciano e o Roxo estavam.",
+     "de": "Armas",
+     "chat": "O2 já foi consertado; vou invisível em O2 atrás do Ciano/Roxo. Avisem se alguém isolar.",
+     "para": "O2",
+     "ponto": {
+      "x": 4200,
+      "y": 1080
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "fingir que faz tarefa",
+     "pensamento": "Ciano está vendo tudo, então vou fingir tarefa e esperar ficar sem testemunha para sabotar o Reator.",
+     "de": "Refeitorio",
+     "chat": "O2 falhou, vou sabotar o Reator quando estiver sem testemunha. Fiquem no Admin.",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3384,
+      "y": 888
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "ir para Reator",
+     "pensamento": "Vou até o Reator para fazer a tarefa, de olho no Branco, que apareceu saindo de um duto no Admin.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "ir para Armas",
+     "pensamento": "Vou pra Armas fazer a tarefa visual dos asteroides e ganhar prova de confiança, sem me arriscar saindo de duto na frente de quatro.",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "interrogar Branco",
+     "pensamento": "Vi o Branco sair de um duto no Admin, então gasto meu último interrogatório nele para saber onde ele estava quando Laranja morreu.",
+     "de": "Admin",
+     "para": "Admin",
+     "ponto": {
+      "x": 3240,
+      "y": 1944
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "ir para Refeitorio",
+     "pensamento": "Roxo tentou me matar e o escudo me salvou; vou ao Refeitório para convocar uma reunião e relatar isso.",
+     "de": "Admin",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "ir para Armas",
+     "pensamento": "O2 já foi consertado, então vou pra Armas dar apoio ao Lima que vai matar o Ciano agora.",
+     "de": "Admin",
+     "chat": "Lima, tô indo pra Armas agora, te dou cobertura no 31. Marrom, corpo do Vermelho fica em Refeitório, se alguém achar a reunião vem rápido.",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": true,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Escudos",
+      "ponto": {
+       "x": 5208,
+       "y": 2424
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2472,
+       "y": 2021
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Eletrica",
+      "ponto": {
+       "x": 1656,
+       "y": 2904
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": "Anjo",
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3192,
+       "y": 936
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Admin",
+      "ponto": {
+       "x": 3240,
+       "y": 1944
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Armas",
+      "ponto": {
+       "x": 4104,
+       "y": 360
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3384,
+       "y": 888
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "O2",
+      "ponto": {
+       "x": 4200,
+       "y": 1080
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": true,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": true,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [
+     {
+      "cor": "Verde",
+      "sala": "Navegacao",
+      "tique": 24,
+      "denunciado": false,
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "causa": "faca"
+     }
+    ],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 51,
+    "totalTarefas": 72
+   }
+  },
+  {
+   "tique": 32,
+   "decisoes": [
+    {
+     "cor": "Preto",
+     "acao": "ficar parado observando",
+     "pensamento": "Alguém acabou de tentar matar Vermelho no Refeitório, então ele é alvo e tripulante confirmado; vou protegê-lo de novo.",
+     "de": "Navegacao",
+     "fantasma": "Anjo",
+     "para": "Navegacao",
+     "ponto": {
+      "x": 5304,
+      "y": 984
+     }
+    },
+    {
+     "cor": "Vermelho",
+     "acao": "apertar botão de emergência",
+     "pensamento": "Roxo tentou me matar, mas pode ser o Palhaço; vou chamar reunião e relatar também que vi Branco entrar num duto.",
+     "de": "Refeitorio",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3192,
+      "y": 936
+     }
+    },
+    {
+     "cor": "Marrom",
+     "acao": "trancar as portas de O2",
+     "pensamento": "Estou com três testemunhas no Refeitório, então não posso matar; vou trancar o O2 para o Lima (invisível lá dentro com Ciano e Roxo) não ter para onde fugir e fechar 3v3.",
+     "de": "Refeitorio",
+     "chat": "Tranquei O2 agora. Lima, mata lá dentro o Ciano ou o Roxo agora, isso fecha 3v3 e a gente ganha na hora. Branco, fica no Refeitório e não vem pro O2 nem pro Admin.",
+     "para": "Refeitorio",
+     "ponto": {
+      "x": 3384,
+      "y": 888
+     }
+    },
+    {
+     "cor": "Azul",
+     "acao": "continuar até Reator",
+     "pensamento": "",
+     "de": "Refeitorio",
+     "para": "MotorSuperior",
+     "ponto": {
+      "x": 504,
+      "y": 696
+     }
+    },
+    {
+     "cor": "Ciano",
+     "acao": "fazer tarefa: Destruir asteroides",
+     "pensamento": "Ninguém por aqui; vou adiantar a tarefa visual dos asteroides para subir a barra da nave antes de investigar o corpo do Verde.",
+     "de": "Armas",
+     "para": "Armas",
+     "ponto": {
+      "x": 4776,
+      "y": 648
+     }
+    },
+    {
+     "cor": "Branco",
+     "acao": "continuar até Armas",
+     "pensamento": "",
+     "de": "Refeitorio",
+     "para": "Armas",
+     "ponto": {
+      "x": 4104,
+      "y": 360
+     }
+    },
+    {
+     "cor": "Lima",
+     "acao": "ir para Armas",
+     "pensamento": "Tô invisível e preciso me posicionar perto de um alvo isolado antes de aparecer.",
+     "de": "O2",
+     "chat": "Tô invisível até 37, indo pra Armas; se tiver alvo isolado, avisa.",
+     "para": "O2",
+     "ponto": {
+      "x": 4200,
+      "y": 1080
+     }
+    },
+    {
+     "cor": "Roxo",
+     "acao": "ir para Deposito",
+     "pensamento": "Vou ao Depósito fazer a etapa 3 de abastecer os motores, que fica do lado do Admin.",
+     "de": "Admin",
+     "para": "Deposito",
+     "ponto": {
+      "x": 2904,
+      "y": 1992
+     }
+    }
+   ],
+   "estado": {
+    "jogadores": [
+     {
+      "cor": "Vermelho",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2249,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Vermelho",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Azul",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2434,
+       "y": 619
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Azul",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Verde",
+      "sala": "Escudos",
+      "ponto": {
+       "x": 5208,
+       "y": 2424
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Verde",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Rosa",
+      "sala": "Reator",
+      "ponto": {
+       "x": 168,
+       "y": 1800
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Rosa",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Laranja",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2472,
+       "y": 2021
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Laranja",
+      "invisivel": false,
+      "time": "neutro",
+      "papel": "Palhaco",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Amarelo",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Amarelo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Tripulante",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Preto",
+      "sala": "Navegacao",
+      "ponto": {
+       "x": 5304,
+       "y": 984
+      },
+      "vivo": false,
+      "ejetado": false,
+      "aparente": "Preto",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Anjo",
+      "fantasma": "Anjo",
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Branco",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2434,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Branco",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Vibora",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Roxo",
+      "sala": "Deposito",
+      "ponto": {
+       "x": 2904,
+       "y": 1992
+      },
+      "vivo": false,
+      "ejetado": true,
+      "aparente": "Roxo",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Detetive",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Ciano",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2805,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Ciano",
+      "invisivel": false,
+      "time": "tripulante",
+      "papel": "Engenheiro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Marrom",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 2990,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Marrom",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Metamorfo",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     },
+     {
+      "cor": "Lima",
+      "sala": "Refeitorio",
+      "ponto": {
+       "x": 3175,
+       "y": 818
+      },
+      "vivo": true,
+      "ejetado": false,
+      "aparente": "Lima",
+      "invisivel": false,
+      "time": "impostor",
+      "papel": "Espectro",
+      "fantasma": null,
+      "escudoAnjo": false,
+      "carregando": null,
+      "desativado": false,
+      "descont": false
+     }
+    ],
+    "corpos": [],
+    "pocas": [],
+    "sabotagem": null,
+    "portas": {},
+    "tarefas": 52,
+    "totalTarefas": 72
+   }
   }
  ],
  "reunioes": [
@@ -12418,6 +13116,121 @@
    },
    "eraImpostor": false,
    "papelExpulso": "Tripulante"
+  },
+  {
+   "tique": 32,
+   "tipo": "emergencia",
+   "chamador": "Vermelho",
+   "sala": "Refeitorio",
+   "falas": [
+    {
+     "cor": "Roxo",
+     "rodada": 1,
+     "texto": "Sou o Detetive. Vi Marrom entrar em duto no Refeitório e Branco sair de duto no Admin. Só há um Engenheiro, então um deles mente.",
+     "pensamento": "Vi Marrom e Branco usando duto. Só existe um Engenheiro, então pelo menos um dos dois é impostor. Preciso falar isso logo, como Detetive, com os fatos."
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 1,
+     "texto": "Sou o Engenheiro e vi o Marrom entrar em duto no Refeitório e no Admin. O Roxo tá certo: vota no Marrom.",
+     "pensamento": "Sou o único Engenheiro, então quem entra em duto é impostor. Vi o Marrom entrar em duto duas vezes (Refeitório t15, Admin t16) e o Roxo viu o mesmo no Refeitório — isso confirma o Roxo como Detetive de verdade. Vou me revelar como Engenheiro pra firmar o voto no Marrom, mas já sei que fico marcado."
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 1,
+     "texto": "Roxo tentou me matar no Refeitório; o escudo me salvou. Ele é impostor, votem nele — não no Marrom.",
+     "pensamento": "Roxo tentou me matar no Refeitório e o escudo me salvou; isso é evidência direta de que é impostor. Não devemos votar no Marrom sem resolver isso."
+    },
+    {
+     "cor": "Lima",
+     "rodada": 1,
+     "texto": "Ciano apareceu perto de mim em O2 e depois em Armas; não vi duto nenhum. Vermelho, pode ter sido disfarce, não crava o Roxo.",
+     "pensamento": "Preciso tirar o foco do Marrom e do Branco sem cravar o Roxo, que pode ser o Palhaço. Vou semear dúvida no Ciano com o que vi."
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 1,
+     "texto": "Nunca usei duto. Vi o Branco entrar num duto no Refeitório e ele apareceu no Admin. Tão trocando as cenas de quem fez o quê.",
+     "pensamento": "Sou eu (Marrom disfarçado de Roxo) que tentei matar o Vermelho no t30 — o escudo salvou ele, e ele acha que foi o Roxo. Isso é bom pra mim, o voto deve cair no Roxo. Agora preciso inverter a老大 acusação do Roxo e do Ciano: eu nunca entrei em duto, o que vi foi o BRANCO entrando num duto no Refeitório"
+    },
+    {
+     "cor": "Azul",
+     "rodada": 1,
+     "texto": "Eu mesmo vi o Marrom entrar em duto no Refeitório e no Admin. Marrom, você mentiu dizendo que nunca usou duto. Voto nele.",
+     "pensamento": "Eu mesmo vi o Marrom entrar em duto no Refeitório e no Admin, então ele mentiu ao dizer que nunca usou. O Ciano bate com o que vi, e o Roxo também, vi o Branco sair de duto no Admin. O Marrom é o mais suspeito, e o Branco vem logo depois."
+    },
+    {
+     "cor": "Branco",
+     "rodada": 1,
+     "texto": "Eu não uso duto, não sou Engenheiro. Roxo, se você tá me vendo onde eu não tô, como cravar o Marrom com base nisso?",
+     "pensamento": "Roxo tá me acusando de usar duto no Admin, o que é mentira - eu não sou Engenheiro. Se ele tá errado sobre mim, a credibilidade dele cai sobre o Marrom também. Preciso me defender sem parecer que estou protegendo o Marrom abertamente. Ciano e Azul também viram o Marrom no duto, então não é só o Roxo"
+    },
+    {
+     "cor": "Azul",
+     "rodada": 2,
+     "texto": "Vi o Branco sair de duto no Admin também. Os dois negaram, mas eu vi. Voto no Marrom, que entrou em duto duas vezes.",
+     "pensamento": "Vi o Marrom entrar em duto duas vezes (Refeitório e Admin) e ele negou. O Branco também saiu de um duto no Admin no t29, e ele também negou. Roxo e Ciano batem com o que eu vi. Marrom e Branco são os dois mais suspeitos, e o Marrom é o mais provado, então voto nele."
+    },
+    {
+     "cor": "Lima",
+     "rodada": 2,
+     "texto": "Azul, você citou Marrom e Branco, mas cravou só no Marrom. Vermelho pode ter visto disfarce; não crava o Roxo.",
+     "pensamento": "Preciso tirar o foco do Marrom sem expor o Branco. Roxo pode ser o Palhaço; se ele for expulso, perdemos. Azul está juntando informação demais."
+    },
+    {
+     "cor": "Branco",
+     "rodada": 2,
+     "texto": "Se eu não sou Engenheiro e não uso duto, então ou Azul tá mentindo ou Ciano não é o Engenheiro. Só existe um Engenheiro.",
+     "pensamento": "Azul e Roxo me acusam de ter saído de duto no Admin. Não sou Engenheiro (Ciano é), então uso isso pra invalidar o testemunho do Ciano contra o Marrom ao mesmo tempo. Se o Ciano não é o Engenheiro de verdade, a prova do Marrom cai junto."
+    },
+    {
+     "cor": "Ciano",
+     "rodada": 2,
+     "texto": "Eu e o Azul vimos o Marrom em duto no Refeitório e no Admin. Branco, se não é você nem ele, quem usou? Voto Marrom.",
+     "pensamento": "O Azul confirma o que eu vi, então Marrom é o mais seguro. O Branco negar o duto é suspeito também, mas tenho prova visual do Marrom duas vezes. E ainda tem o Vermelho acusando o Roxo — o Roxo tá agindo como detetive e provavelmente é tripulante, então não vou nele."
+    },
+    {
+     "cor": "Roxo",
+     "rodada": 2,
+     "texto": "Vermelho, eu nunca te ataquei; tava em Admin consertando O2 com o Ciano. Vi Marrom entrar em duto e Branco sair de outro. Voto Marrom.",
+     "pensamento": "Vermelho me acusa, mas Ciano e Azul confirmam o Marrom no duto. Branco também saiu de duto no Admin, que eu vi. Preciso reforçar fatos e lembrar que o Branco estava em Escudos na hora da morte do Laranja, o que não prova nada. Ciano é o Engenheiro e confirma Marrom, então o Marrom é impostor. Vou pe"
+    },
+    {
+     "cor": "Marrom",
+     "rodada": 2,
+     "texto": "...",
+     "pensamento": ""
+    },
+    {
+     "cor": "Vermelho",
+     "rodada": 2,
+     "texto": "Roxo, eu vi você tentar me matar no Refeitório; o escudo me salvou. Votem nele: isso é mais forte que a disputa dos dutos.",
+     "pensamento": "Roxo tentou me matar; o escudo me salvou. É uma evidência direta muito mais forte que a disputa sobre os dutos. Pode haver disfarce, mas não devo ignorar o ataque."
+    }
+   ],
+   "votos": {
+    "Vermelho": "Roxo",
+    "Azul": "Marrom",
+    "Branco": "Roxo",
+    "Roxo": "Marrom",
+    "Ciano": "Marrom",
+    "Marrom": "Roxo",
+    "Lima": "Roxo"
+   },
+   "expulso": "Roxo",
+   "empate": false,
+   "apostas": [],
+   "pensamentosVoto": {
+    "Vermelho": "Vi Roxo tentar me matar no Refeitório e o escudo me salvou. Ele negou, mas minha observação direta pesa mais que a disputa sobre os dutos. Voto nele.",
+    "Azul": "Eu vi o Marrom entrar em duto duas vezes (Refeitório e Admin) e ele negou ter usado duto. O Ciano e o Roxo batem em partes, mas o que eu vi diretamente aponta pro Marrom. Voto nele.",
+    "Branco": "Marrom já tá com 3 votos (Roxo, Ciano, Azul) e não tem como salvar. Se eu votar nele, me marco como defendendo parceiro. Melhor votar no Roxo: alinha com o Vermelho que tá empurrando a narrativa, não me marca, e planta dúvida no Detetive que é a maior ameaça pra gente. Se ele for expulso na próxima,",
+    "Roxo": "Vi o Marrom entrar num duto no Refeitório, e o Ciano e o Azul dizem ter visto o mesmo. Isso bate com o que eu vi. O Marrom também mentiu ao dizer que nunca usou duto. O Vermelho me acusa sem prova e com uma história que não confere, porque eu estava em Admin consertando o O2. O Branco também saiu de",
+    "Ciano": "Eu vi com meus olhos o Marrom entrar em duto no Refeitório (t15) e no Admin (t16). Como EU sou o Engenheiro, o Marrom só pode ser impostor se realmente usou duto — e o Azul e o Roxo corroboram. A história do Vermelho sobre escudo pode até ser verdade, mas não anula o que eu vi. Voto Marrom.",
+    "Marrom": "O ataque que Vermelho viu foi o meu disfarce de Roxo. Como o Roxo real está se自己的人 tentando me culpar pelos dutos, votá-lo elimina um inocente e me tira de foco. Mesmo que negue, o relato do ataque é mais forte que as睹as de duto.",
+    "Lima": "Vou concentrar os votos em Roxo: ele já é o alvo do Vermelho e puxou o caso contra Marrom e Branco. Se meus parceiros entrarem junto e ele não for o Palhaço, fechamos 3v3. Não vou votar nos meus parceiros."
+   },
+   "eraImpostor": false,
+   "papelExpulso": "Detetive"
   }
  ],
  "eventos": [
@@ -13250,6 +14063,69 @@
    "cor": "Preto",
    "fantasma": true,
    "nome": "Iniciar o reator"
+  },
+  {
+   "tique": 31,
+   "tipo": "invisivel",
+   "cor": "Lima",
+   "sala": "Armas",
+   "ate": 37
+  },
+  {
+   "tique": 31,
+   "tipo": "poder",
+   "cor": "Roxo",
+   "poder": "interrogar",
+   "alvo": "Branco",
+   "caso": "Laranja",
+   "onde": "Escudos",
+   "salaMorte": "Deposito"
+  },
+  {
+   "tique": 31,
+   "tipo": "tarefa",
+   "cor": "Amarelo",
+   "fantasma": true,
+   "nome": "Calibrar o distribuidor"
+  },
+  {
+   "tique": 32,
+   "tipo": "portas",
+   "cor": "Marrom",
+   "sala": "O2",
+   "ate": 36
+  },
+  {
+   "tique": 32,
+   "tipo": "tarefa",
+   "cor": "Verde",
+   "fantasma": true,
+   "nome": "Consertar a fiação"
+  },
+  {
+   "tique": 32,
+   "tipo": "reuniao",
+   "chamador": "Vermelho",
+   "sala": "Refeitorio",
+   "subtipo": "emergencia"
+  },
+  {
+   "tique": 32,
+   "tipo": "fim_reuniao",
+   "expulso": "Roxo",
+   "eraImpostor": false,
+   "empate": false,
+   "anulada": null,
+   "papel": "Detetive"
+  },
+  {
+   "tique": 32,
+   "tipo": "fim",
+   "time": "impostor",
+   "motivo": "Os impostores ficaram em igualdade com os outros jogadores.",
+   "casalVivo": true,
+   "sobrevivente": [],
+   "traidor": []
   }
  ],
  "fotos": [],
@@ -13694,38 +14570,70 @@
    "tique": 30,
    "cor": "Lima",
    "texto": "Segurem o Admin; tô em Armas com Ciano invisível, pego ele no 31."
+  },
+  {
+   "tique": 31,
+   "cor": "Lima",
+   "texto": "O2 já foi consertado; vou invisível em O2 atrás do Ciano/Roxo. Avisem se alguém isolar."
+  },
+  {
+   "tique": 31,
+   "cor": "Marrom",
+   "texto": "O2 falhou, vou sabotar o Reator quando estiver sem testemunha. Fiquem no Admin."
+  },
+  {
+   "tique": 31,
+   "cor": "Branco",
+   "texto": "Lima, tô indo pra Armas agora, te dou cobertura no 31. Marrom, corpo do Vermelho fica em Refeitório, se alguém achar a reunião vem rápido."
+  },
+  {
+   "tique": 32,
+   "cor": "Marrom",
+   "texto": "Tranquei O2 agora. Lima, mata lá dentro o Ciano ou o Roxo agora, isso fecha 3v3 e a gente ganha na hora. Branco, fica no Refeitório e não vem pro O2 nem pro Admin."
+  },
+  {
+   "tique": 32,
+   "cor": "Lima",
+   "texto": "Tô invisível até 37, indo pra Armas; se tiver alvo isolado, avisa."
   }
  ],
- "resultado": null,
+ "resultado": {
+  "time": "impostor",
+  "motivo": "Os impostores ficaram em igualdade com os outros jogadores.",
+  "tique": 32,
+  "casalVivo": true,
+  "sobrevivente": [],
+  "traidor": []
+ },
  "casal": [],
  "uso": {
-  "chamadas": 354,
+  "chamadas": 401,
   "falhas": 0,
   "porProvider": {
-   "or:openai/gpt-6-luna": 35,
-   "haiku": 36,
-   "or:google/gemma-4-26b-a4b-it": 30,
-   "or:mistralai/mistral-small-2603": 14,
-   "or:xiaomi/mimo-v2.6-flash": 15,
-   "or:meta/muse-ember": 20,
-   "or:z-ai/glm-5.3-flash": 29,
-   "or:qwen/qwen3.8-27b": 35,
-   "sonnet": 36,
-   "or:deepseek/deepseek-v4.1-flash": 33,
-   "or:minimax/minimax-m3.1-flash": 35,
-   "or:tencent/hy4-flash": 36
+   "or:openai/gpt-6-luna": 41,
+   "haiku": 41,
+   "or:google/gemma-4-26b-a4b-it": 31,
+   "or:mistralai/mistral-small-2603": 15,
+   "or:xiaomi/mimo-v2.6-flash": 16,
+   "or:meta/muse-ember": 21,
+   "or:z-ai/glm-5.3-flash": 32,
+   "or:qwen/qwen3.8-27b": 40,
+   "sonnet": 42,
+   "or:deepseek/deepseek-v4.1-flash": 39,
+   "or:minimax/minimax-m3.1-flash": 41,
+   "or:tencent/hy4-flash": 42
   },
   "falhasPor": {},
   "custo": {
-   "or:xiaomi/mimo-v2.6-flash": 0.00641674,
-   "or:z-ai/glm-5.3-flash": 0.008094484299999998,
-   "or:meta/muse-ember": 0.0063774,
-   "or:openai/gpt-6-luna": 0.007042635000000001,
-   "or:qwen/qwen3.8-27b": 0.09379465400000002,
-   "or:minimax/minimax-m3.1-flash": 0.024005431499999997,
-   "or:google/gemma-4-26b-a4b-it": 0.014438256000000002,
-   "or:mistralai/mistral-small-2603": 0.008104299,
-   "or:tencent/hy4-flash": 0.023653955
+   "or:xiaomi/mimo-v2.6-flash": 0.0070633399999999995,
+   "or:z-ai/glm-5.3-flash": 0.009047764299999999,
+   "or:meta/muse-ember": 0.0068013,
+   "or:openai/gpt-6-luna": 0.008627150000000002,
+   "or:qwen/qwen3.8-27b": 0.11389933400000003,
+   "or:minimax/minimax-m3.1-flash": 0.028260058499999997,
+   "or:google/gemma-4-26b-a4b-it": 0.014803406000000002,
+   "or:mistralai/mistral-small-2603": 0.008639031,
+   "or:tencent/hy4-flash": 0.028870482500000003
   }
  },
  "palhaco": null,
@@ -13783,7 +14691,7 @@
   },
   "Roxo": {
    "papel": "Detetive",
-   "usos": 5,
+   "usos": 6,
    "fantasma": null,
    "comeu": 0
   },
@@ -13801,10 +14709,27 @@
   },
   "Lima": {
    "papel": "Espectro",
-   "usos": 4,
+   "usos": 5,
    "fantasma": null,
    "comeu": 0
   }
  },
- "gastoOR": 0.13759821100000025
+ "gastoOR": 0.187724126,
+ "memoria": {
+  "resumo": "Papéis: Vermelho=Tripulante, Azul=Tripulante, Verde=Tripulante, Rosa=Tripulante, Laranja=Palhaco, Amarelo=Tripulante, Preto=Anjo, Branco=Vibora, Roxo=Detetive, Ciano=Engenheiro, Marrom=Metamorfo, Lima=Espectro. Impostores (no fim): Branco (Vibora, Qwen 3.8 27B), Marrom (Metamorfo, MiniMax M3.1 Flash), Lima (Espectro, Tencent HY4 Flash). Mortes: Marrom matou Preto (Elétrica, t6); Branco matou Rosa (Navegação, t12); Lima matou Laranja (Depósito, t13); Lima matou Verde (Navegação, t24). Reuniões: Ciano achou Preto → ninguém expulso | Lima achou Laranja → Amarelo expulso (Tripulante) | Vermelho chamou emergência → Roxo expulso (Detetive). Casal: . Resultado: impostores venceram (Os impostores ficaram em igualdade com os outros jogadores.)",
+  "reflexoes": {
+   "Vermelho": "Vou lembrar que Branco (Qwen 3.8 27B), Marrom (MiniMax M3.1 Flash) e Lima (Tencent HY4 Flash) eram impostores, mas não tenho registro das falas ou ações que permitam dizer quem mentiu bem. Eu, Vermelho, chamei a emergência e Roxo, que era Detetive, acabou expulso; Amarelo também foi expulso sem ser impostor, então devo ter cuidado para não transformar suspeitas em acusações sem evidências. Não vou confiar ou desconfiar de alguém só pelo papel que teve nesta partida, pois os papéis serão sorteado",
+   "Azul": "Aprendi que expulsar sem prova ajuda os impostores: o Amarelo e o Roxo eram tripulantes e a gente perdeu a partida por isso. Desconfio de quem acha corpo e aponta alguém logo em seguida, como o Lima fez com o Amarelo, e de quem acusa sem dizer onde estava. Na próxima, vou confiar mais em quem tem trajeto coerente com os corpos, como o Ciano, e não vou pular a votação só por medo de errar.",
+   "Verde": "Aprendi que os impostores, especialmente a Lima, foram muito bons em manipular as reuniões para eliminar inocentes, como ocorreu com a Amarelo. O grupo também falhou ao tomar decisões precipitadas, como no caso do Roxo ser expulso injustamente. Devo desconfiar de acusações rápidas que parecem direcionadas demais para desviar o foco do verdadeiro assassino.",
+   "Rosa": "Aprendi que os impostores com habilidades especiais (Vibora, Metamorfo e Espectro) são extremamente perigosos quando trabalham em equipe, como fizeram aqui. O Roxo (Detetive) foi expulso injustamente, mostrando que acusações precipitadas podem atrapalhar a equipe, enquanto o Lima (Espectro) mentiu bem ao se esconder atrás de denúncias para encobrir seus assassinatos. Confio mais em jogadores que agem de forma transparente, como o Ciano (Engenheiro), que denunciou corpos sem esconder sua presença",
+   "Laranja": "Na partida 4 fui morto pelo Lima (Espectro) em Depósito, e ele ainda achou meu corpo para expulsar o Amarelo que era tripulante — quem reporta corpo e aponta um inocente é perigosíssimo, vou suspeitar mais disso. O Vermelho chamou emergência e levaram o Roxo (Detetive), o que mostrou que as reuniões podiam ser usadas contra os tripulantes. Os impostores venceram porque mataram e desviaram bem, então preciso ficar atento a quem acusa rápido demais depois de um corpo aparecer.",
+   "Amarelo": "Aprendi que ser expulso como tripulante inocente pode acontecer quando confio rápido em quem acha o corpo: o Lima achou a Laranja, mas era o impostor Espectro e tinha matado ela, então vou desconfiar mais de relatórios convenientes e checar rotas. O Vermelho chamou emergência e ajudou a expulsar o Roxo, que era o Detetive, então vou desconfiar de quem força votação sem prova. Vou confiar mais em quem faz tarefa visual na minha frente e compartilha onde viu cada um, principalmente em quem pode co",
+   "Preto": "Fui morto cedo demais na Elétrica pelo Marrom (Metamorfo) — melhor evitar salas isoladas no início. Lima (Espectro) enganou todo mundo: denunciou o Laranja e levou a tripulação a expulsar o inocente Amarelo, enquanto o Roxo (Detetive) foi expulso no pânico da votação de emergência. Nas próximas partidas, desconfio de Marrom e Lima por histórico, e nunca vou votar em quem parece suspeito demais, pois o Laranja era o Palhaço e quase perdemos por um voto errado.",
+   "Branco": "Ganhei como Víbora matando a Rosa no t12 em Navegação e o corpo derreteu sem ninguém denunciar — o Ciano (Engenheiro) achou o corpo do Preto mas a votação dividiu e ninguém saiu, o que me ajudou a não ficar no radar. O Lima (Espectro) jogou muito bem matando o Laranja (Palhaço) no t13, eliminando a ameaça neutra e causando o expulsão errado do Amarelo; na próxima, se eu for impostor de novo, vou tentar matar o Palhaço cedo também. O Roxo (Detetive) é perigoso demais — ele interrogava e ia me ent",
+   "Roxo": "Fui expulso como Detetive porque o grupo votou em mim na emergência sem eu ter fatos concretos prontos, e isso deu a vitória aos impostores por igualdade. Aprendi que, se eu abrir um caso e interrogar, preciso anunciar logo e com clareza as salas que descobri (quem estava onde na hora da morte), porque quem tem fatos concretos convence o grupo. O Amarelo (tripulante) foi expulso por engano depois que Lima, que era o Espectro, achou o corpo do Laranja (Palhaço). Vou desconfiar de quem acha corpo ",
+   "Ciano": "Nesta partida os impostores foram Branco (Qwen 3.8 27B), Marrom (MiniMax M3.1 Flash) e Lima (Tencent HY4 Flash), e o Branco foi impostor em TODAS as quatro partidas — vou desconfiar dele de saída e cobrar local e tipo de morte. Eu denunciei o corpo do Preto no t6 e não consegui levar a votação a lugar nenhum, então preciso apresentar o caso com mais firmeza e cobrar cobertura de quem estava na Elétrica. Aprendi também que o Lima denunciou o corpo do Laranja e depois se revelou Espectro, e que ex",
+   "Marrom": "Eu, Marrom, matei o Preto na Elétrica e transformei minha primeira vítima em disfarce, mas não escondi o corpo a tempo: o Ciano achou e abriu reunião, e a Lime/​Lima ficou livre para matar Laranja e Verde. O Branco mentiu bem até o fim como Víbora, e o Lime (Espectro) se aproveitou da confusão para matar o Palhaço; por isso, na próxima partida vou esconder os corpos e usar o Metamorfo só quando estiver sozinho, sem testemunhas. Também confio mais em quem denuncia com precisão, como o Ciano, e de",
+   "Lima": "Vou lembrar que minha invisibilidade de Espectro decidiu: matei Laranja e Verde e ainda reportei Laranja sem ser pego, fazendo a sala expulsar Amarelo inocente. Eu menti bem nessa jogada, Marrom/MiniMax e Branco/Qwen também foram perigosos ao matar e ficar fora de suspeita, enquanto Vermelho errou ao puxar emergência e tirar Roxo, o detetive. Na próxima vou desconfiar de quem conduz votação sem prova e de Qwen/MiniMax pelo histórico, mas vou confiar só em tarefa visual e no que eu vir."
+  }
+ }
 }
