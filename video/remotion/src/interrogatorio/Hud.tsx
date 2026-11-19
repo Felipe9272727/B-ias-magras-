@@ -4,6 +4,7 @@ import React from 'react';
 import {interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {FONT} from '../theme';
 import {strokeText} from '../components/basics';
+import {Icone, iconePista} from './Icones';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
@@ -118,8 +119,12 @@ export const MonitorEstresse: React.FC<{estresse: number; bpm: number; t: number
         <>
           <rect x="12" y="12" width="336" height="196" rx="10" fill="#ff1e1e" opacity={piscando} />
           <rect x="108" y="22" width="144" height="30" rx="8" fill="#ff1e1e" stroke="#fff" strokeWidth="2.5" />
-          <text x="180" y="44" textAnchor="middle" fontFamily={FONT.comic} fontSize="22" fill="#fff" letterSpacing="2">
-            ⚠ ALERTA
+          {/* triângulo de alerta em SVG (sem emoji) */}
+          <path d="M126 27 L138 47 H114 Z" fill="#ffd21f" stroke="#000" strokeWidth="1.5" strokeLinejoin="round" />
+          <rect x="125" y="33" width="2.6" height="7" rx="1" fill="#000" />
+          <circle cx="126.3" cy="43.3" r="1.5" fill="#000" />
+          <text x="190" y="44" textAnchor="middle" fontFamily={FONT.comic} fontSize="22" fill="#fff" letterSpacing="2">
+            ALERTA
           </text>
         </>
       )}
@@ -129,14 +134,7 @@ export const MonitorEstresse: React.FC<{estresse: number; bpm: number; t: number
   );
 };
 
-// Ícone por palavra-chave da pista
-const ICONES: [RegExp, string][] = [
-  [/celular|telefone|mensagem|chamada/i, '📱'],
-  [/câmera|camera|vídeo|video|gravaç|corredor/i, '🎥'],
-  [/bolo|migalha|comida|prato|garfo|copo/i, '🍰'],
-  [/digital|impress|pegada|luva|fio|cabelo/i, '🖐️'],
-];
-const iconeDe = (texto: string) => ICONES.find(([re]) => re.test(texto))?.[1] ?? '🔍';
+// Ícone por palavra-chave da pista: SVG (Icones.tsx), nunca emoji
 
 // Foto polaroid do local: um desenho simples de cozinha, com um pedaço de bolo na mesa
 const FotoLocal: React.FC = () => (
@@ -156,13 +154,14 @@ const FotoLocal: React.FC = () => (
 
 // Pasta do caso (manila): fechada entra na tela, abre no quadro `abre` e as pistas aparecem no seu quadro `at`.
 // `t` é o quadro atual, no mesmo referencial de `abre` e de `at`.
-export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; pistas: {texto: string; at: number}[]; abre: number; t: number}> = ({
+export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; pistas: {texto: string; at: number}[]; abre: number; t: number; foto?: string}> = ({
   titulo,
   local,
   hora,
   pistas,
   abre,
   t,
+  foto,
 }) => {
   const {fps} = useVideoConfig();
   // a pasta fechada sobe de baixo (começa 40 quadros antes de abrir)
@@ -286,7 +285,13 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
             transform: 'rotate(4deg)',
           }}
         >
-          <FotoLocal />
+          {foto ? (
+            <div style={{width: 196, height: 150, background: '#f3e0b5', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <Icone nome={foto} tam={120} />
+            </div>
+          ) : (
+            <FotoLocal />
+          )}
           <div style={{height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.comic, fontSize: 28, color: '#2b1d0e', letterSpacing: 1}}>
             {local.toUpperCase()}
           </div>
@@ -330,7 +335,7 @@ export const PastaCaso: React.FC<{titulo: string; local: string; hora: string; p
                     fontSize: 30,
                   }}
                 >
-                  {iconeDe(p.texto)}
+                  <Icone nome={iconePista(p.texto)} tam={40} />
                 </div>
                 <div style={{flex: 1, fontFamily: FONT.mono, fontWeight: 700, fontSize: 30, lineHeight: 1.25, color: '#2b1d0e'}}>
                   {p.texto.slice(0, chars)}

@@ -25,6 +25,7 @@ Visuais NOVOS ou com props novas (ver video/youtube/int2/pacote_roteiro.md, "o q
   INTComentario props autor, texto, selo (na parte 1 o texto do Cafezin era fixo no componente)
   INTVerdade   com caso='p1_<id>' = flashback da parte 1 (o build põe os logs da parte 1 em data.casos com prefixo p1_)
   INTPlacar    só os casos da parte 2; suspeito inocente LIBERADO não pode aparecer como "INOCENTE CONDENADO"
+               (compacto=True: linhas no alto e os selos dos prêmios embaixo, sem cobrir o placar)
 Sem INTLobby (regra do canal: sem transição de lobby). As transições são as TransicaoInt de sempre.
 """
 import json as _json
@@ -419,7 +420,7 @@ SCENES = [
       'O GLM era inocente: só um cantor de ópera no armário, dizendo bom garoto pra ele mesmo. [[m:not-stonks:right:2]] O MiniMax errou. De novo. [[t:2 TEMPORADAS · 2 INOCENTES CONDENADOS:2.4:#e8202a]]'),
 
     # ================================================================== PLACAR (3 passos: prêmios, lição, pergunta)
-    N('f01', 'fim', comp('INTPlacar'),
+    N('f01', 'fim', comp('INTPlacar', compacto=True),
       'Placar. [[s:drumroll:0.5]] Claude, Qwen, DeepSeek e GPT acertaram. [[m:e-tetra:right:2]] Prêmios: azarado das duas temporadas, Claude, inocente e condenado duas vezes. [[t:AZARADO DA TEMPORADA · CLAUDE:2.2:#e8202a]] Redenção: DeepSeek. [[t:REDENÇÃO · DEEPSEEK:1.8:#1f8f3a]] E juiz mais injusto: MiniMax, dois inocentes condenados. [[t:JUIZ MAIS INJUSTO · MINIMAX:2.2:#e8202a]]'),
     N('f02', 'fim', comp('INTElenco', fim=True),
       'A lição: aqui, esconder uma vergonha deu tanta cadeia quanto cometer o crime. [[t:3 CULPADOS PEGOS · 2 INOCENTES CONDENADOS:2.4:#ffd84d]] E me conta: qual segredo é o pior? A serenata de Evidências, os tomates com nome... ou a ópera no armário? [[m:avengers-assemble:right:2]] Valeu, FAMILIAGMS! [[s:tada:0.5]]', pad=1.5),

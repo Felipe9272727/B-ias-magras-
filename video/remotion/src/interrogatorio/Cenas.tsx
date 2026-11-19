@@ -8,8 +8,9 @@ import {FONT} from '../theme';
 import {ASSENTO, SalaInterrogatorio} from './Sala';
 import {IAS, Personagem, type Expressao, type IA} from './Personagens';
 import {Carimbo, Contador, Fala, MonitorEstresse, PastaCaso, PensamentoSecreto, Placa} from './Hud';
+import {CORACAO_PATH, Icone} from './Icones';
 
-type Ent = {quem: 'detetive' | 'suspeito'; k: number; fala: string; pensamento?: string; estresse?: number; bpm?: number; expressao?: string; gesto?: string};
+type Ent = {quem: 'detetive' | 'suspeito'; k: number; fala: string; pensamento?: string; confessou?: boolean; estresse?: number; bpm?: number; expressao?: string; gesto?: string};
 type Log = {caso: {id: string; detetive: IA; suspeito: IA; culpado: boolean; titulo: string; local: string; hora: string; pistas: string[]}; historico: Ent[]; fim: {tipo: string; k: number}; acertou: boolean};
 type Item = {cor: IA; texto: string; at: number; ate: number; pensa?: boolean};
 
@@ -123,13 +124,15 @@ export const INTSala: React.FC<{L: Log; chat: Item[]; carimbo?: string; demo?: b
         if (Math.abs(d) < 3 || f < t0 || f > t0 + 45) return null;
         const k = interpolate(f, [t0, t0 + 45], [0, 1], cl);
         return (
-          <div key={'d' + i} style={{position: 'absolute', left: 250, top: 150 - k * 90, opacity: 1 - k * k, transform: `scale(${1 + 0.5 * Math.max(0, 1 - (f - t0) / 6)}) rotate(-6deg)`, fontFamily: FONT.comic, fontSize: 64, color: d > 0 ? '#ff3b3b' : '#5ff08a', WebkitTextStroke: '3px #000', whiteSpace: 'nowrap'}}>
-            {d > 0 ? `+${d}` : d} ❤️{d >= 12 ? ' MENTIRA?' : ''}
+          <div key={'d' + i} style={{position: 'absolute', left: 250, top: 150 - k * 90, opacity: 1 - k * k, transform: `scale(${1 + 0.5 * Math.max(0, 1 - (f - t0) / 6)}) rotate(-6deg)`, fontFamily: FONT.comic, fontSize: 64, color: d > 0 ? '#ff3b3b' : '#5ff08a', WebkitTextStroke: '3px #000', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 10}}>
+            {d > 0 ? `+${d}` : d}
+            <svg viewBox="0 0 24 24" width={56} height={56} style={{display: 'block'}}><path d={CORACAO_PATH} fill={d > 0 ? '#ff4d6d' : '#5ff08a'} stroke="#000" strokeWidth={1.6} strokeLinejoin="round" /></svg>
+            {d >= 12 ? 'MENTIRA?' : ''}
           </div>
         );
       })}
       {!demo && (nDet <= 15 ? <Contador n={nDet} total={15} /> : (
-        <div style={{position: 'absolute', right: 36, top: 30, padding: '8px 26px', background: '#e8202a', border: '6px solid #000', borderRadius: 16, fontFamily: FONT.comic, fontSize: 52, letterSpacing: 3, color: '#fff', WebkitTextStroke: '2px #000', transform: `rotate(2deg) scale(${1 + 0.05 * Math.sin(f / 4)})`}}>⚖️ VEREDITO</div>
+        <div style={{position: 'absolute', right: 36, top: 30, padding: '8px 26px', background: '#e8202a', border: '6px solid #000', borderRadius: 16, fontFamily: FONT.comic, fontSize: 52, letterSpacing: 3, color: '#fff', WebkitTextStroke: '2px #000', transform: `rotate(2deg) scale(${1 + 0.05 * Math.sin(f / 4)})`, display: 'flex', alignItems: 'center', gap: 14}}><Icone nome="balanca" tam={58} />VEREDITO</div>
       ))}
       <Placa nome={IAS[det].nome} papel="DETETIVE" cor={IAS[det].cor} at={2} lado="esquerda" />
       <Placa nome={IAS[sus].nome} papel="SUSPEITO" cor={IAS[sus].cor} at={6} lado="direita" />
@@ -144,8 +147,12 @@ export const INTSala: React.FC<{L: Log; chat: Item[]; carimbo?: string; demo?: b
 };
 
 // ---------------------------------------------------------------- a pasta do caso
+// foto da polaroid da pasta (parte 2; a parte 1 mantém a cozinha desenhada)
+const FOTO: Record<string, string> = {pizza: 'pizza', piscina: 'copo', elevador: 'elevador', gnomo: 'gnomo', papagaio: 'papagaio', cachorro: 'lua'};
 export const INTPasta: React.FC<{L: Log; ancoras: string[]; scene: Scene}> = ({L, ancoras, scene}) => {
   const f = useCurrentFrame();
+  const {durationInFrames: D} = useVideoConfig();
+  const deriva = interpolate(f, [0, D], [1, 1.045], cl); // deriva lenta: nunca tela parada
   const ts = gatilhos(scene, ancoras);
   const pistas = L.caso.pistas.map((texto, i) => ({texto, at: ts[i] >= 0 ? ts[i] : 40 + i * 60}));
   return (
@@ -155,7 +162,9 @@ export const INTPasta: React.FC<{L: Log; ancoras: string[]; scene: Scene}> = ({L
           detetive={<Boneco ia={L.caso.detetive} papel="detetive" t={f} estresse={0} expressao="pensando" falando={false} acao="mao_no_queixo" />}
           suspeito={<Boneco ia={L.caso.suspeito} papel="suspeito" t={f} estresse={0.3} expressao="nervoso" falando={false} acao="nenhuma" />} />
       </AbsoluteFill>
-      <PastaCaso titulo={L.caso.titulo} local={L.caso.local} hora={L.caso.hora} pistas={pistas} abre={12} t={f} />
+      <AbsoluteFill style={{transform: `scale(${deriva}) translateX(${interpolate(f, [0, D], [0, -14], cl)}px)`}}>
+        <PastaCaso titulo={L.caso.titulo} local={L.caso.local} hora={L.caso.hora} pistas={pistas} abre={12} t={f} foto={FOTO[L.caso.id]} />
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -174,9 +183,11 @@ export const INTCapa: React.FC<{L: Log; n: number}> = ({L, n}) => {
       <div style={{position: 'absolute', left: 0, right: 0, top: 552, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 28, color: '#fff', letterSpacing: 6}}>{papel.toUpperCase()}</div>
     </div>
   );
+  const {durationInFrames: D} = useVideoConfig();
   return (
     <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 40%, #3a2a12 0%, #15100a 55%, #000 100%)', overflow: 'hidden'}}>
       <AbsoluteFill style={{background: `repeating-linear-gradient(90deg, transparent 0 120px, rgba(255,210,31,${0.05 + 0.03 * Math.sin(f / 10)}) 120px 124px)`}} />
+      <AbsoluteFill style={{transform: `scale(${interpolate(f, [0, D], [1, 1.05], cl)})`}}>
       <div style={{position: 'absolute', left: 0, right: 0, top: 50, textAlign: 'center', transform: `scale(${s(0)})`}}>
         <div style={{display: 'inline-block', padding: '6px 30px', background: '#ffd21f', border: '6px solid #000', borderRadius: 14, fontFamily: FONT.comic, fontSize: 60, letterSpacing: 4, transform: 'rotate(-3deg)'}}>CASO {n}</div>
         <div style={{marginTop: 18, fontFamily: FONT.comic, fontSize: 104, color: '#fff', WebkitTextStroke: '4px #000', textShadow: '0 8px 0 #000', letterSpacing: 2}}>{L.caso.titulo.toUpperCase()}</div>
@@ -184,28 +195,31 @@ export const INTCapa: React.FC<{L: Log; n: number}> = ({L, n}) => {
       {lado(L.caso.detetive, 'detetive', 10)}
       {lado(L.caso.suspeito, 'suspeito', 18)}
       <div style={{position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center', fontFamily: FONT.comic, fontSize: 150, color: '#ff3b3b', WebkitTextStroke: '6px #000', transform: `scale(${s(26) * (1 + 0.04 * Math.sin(f / 4))}) rotate(-6deg)`}}>VS</div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
 
 // ---------------------------------------------------------------- a verdade
-export const INTVerdade: React.FC<{L: Log; scene: Scene}> = ({L, scene}) => {
+// flashback=true: o mesmo cartão de um caso da PARTE 1 (data.casos['p1_<id>']), com faixa "PARTE 1", sépia e grão
+export const INTVerdade: React.FC<{L: Log; scene: Scene; flashback?: boolean}> = ({L, scene, flashback}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const [tAc] = gatilhos(scene, [L.acertou ? 'acertou' : 'errou']);
+  const [gat] = gatilhos(scene, [L.acertou ? 'acertou' : 'errou']);
+  const tAc = gat >= 0 ? gat : flashback ? 34 : -1; // no flashback o narrador não diz "errou": o carimbo bate sozinho
   const k = spring({frame: f - 6, fps, config: {damping: 13, stiffness: 150}});
   const sus = L.caso.suspeito;
   const {durationInFrames: D} = useVideoConfig();
   const zoom = interpolate(f, [0, D], [1, 1.12], cl);
   const pulo = tAc >= 0 && f >= tAc ? Math.max(0, 1 - (f - tAc) / 10) * 30 : 0;
-  const provas = PROVAS[L.caso.id] ?? ['❓'];
+  const provas = PROVAS[L.caso.id.replace(/^p1_/, '')] ?? ['lupa', 'bilhete', 'digital', 'olho'];
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-    <AbsoluteFill style={{transform: `scale(${zoom}) translateY(${-pulo}px)`}}>
+    <AbsoluteFill style={{transform: `scale(${zoom}) translateY(${-pulo}px)`, filter: flashback ? 'sepia(0.6) saturate(0.75) contrast(1.05)' : undefined}}>
     <AbsoluteFill style={{background: L.caso.culpado ? 'radial-gradient(circle at 50% 45%, #5a1010 0%, #1a0505 60%, #000 100%)' : 'radial-gradient(circle at 50% 45%, #10502a 0%, #05180c 60%, #000 100%)', overflow: 'hidden'}}>
       <Raios cor={L.caso.culpado ? '#ff5a5a' : '#5ff08a'} />
       <Provas itens={provas} />
-      <div style={{position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontFamily: FONT.comic, fontSize: 120, color: '#ffd21f', WebkitTextStroke: '5px #000', letterSpacing: 6, transform: `scale(${k})`}}>A VERDADE</div>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontFamily: FONT.comic, fontSize: flashback ? (L.caso.titulo.length > 16 ? 84 : 104) : 120, color: '#ffd21f', WebkitTextStroke: '5px #000', letterSpacing: 6, transform: `scale(${k})`}}>{flashback ? L.caso.titulo.toUpperCase() : 'A VERDADE'}</div>
       <div style={{position: 'absolute', left: 960 - 260, top: 260, width: 520, height: 600}}>
         <div style={{position: 'absolute', left: 30, top: 0}}>
           <Boneco ia={sus} papel="suspeito" t={f} estresse={0} expressao={L.caso.culpado ? 'culpado' : 'chocado'} falando={false} acao={L.caso.culpado ? 'nenhuma' : 'apontar'} />
@@ -220,13 +234,32 @@ export const INTVerdade: React.FC<{L: Log; scene: Scene}> = ({L, scene}) => {
       {tAc >= 0 && <div style={{position: 'absolute', left: 1180, top: 680, width: 420, textAlign: 'center', fontFamily: FONT.display, fontWeight: 900, fontSize: 34, color: '#fff', opacity: interpolate(f, [tAc + 6, tAc + 14], [0, 1], cl)}}>detetive: {IAS[L.caso.detetive].nome}</div>}
     </AbsoluteFill>
     </AbsoluteFill>
+    {flashback && <Flashback />}
     </AbsoluteFill>
   );
 };
-// as provas de cada caso, flutuando atrás do suspeito na tela da verdade
+// moldura de flashback: grão, faixas de fita velha, vinheta e o selo "PARTE 1"
+const Flashback: React.FC = () => {
+  const f = useCurrentFrame();
+  const r = (k: number) => { const x = Math.sin(f * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x) };
+  return (
+    <AbsoluteFill style={{pointerEvents: 'none'}}>
+      <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 50%, transparent 55%, #1a0e00cc 100%)'}} />
+      <AbsoluteFill style={{background: 'repeating-linear-gradient(0deg, #0000 0 3px, #00000022 3px 4px)'}} />
+      {[0, 1, 2].map((i) => <div key={i} style={{position: 'absolute', top: 0, bottom: 0, left: r(i + 1) * 1920, width: 2 + r(i + 7) * 3, background: '#fff6', opacity: r(i + 3) > 0.55 ? 0.7 : 0}} />)}
+      <div style={{position: 'absolute', left: 48, top: 44, padding: '6px 26px', background: '#6a4cff', border: '6px solid #000', borderRadius: 14, fontFamily: FONT.comic, fontSize: 58, letterSpacing: 4, color: '#fff', WebkitTextStroke: '2px #000', transform: 'rotate(-4deg)', boxShadow: '0 10px 0 #0008'}}>PARTE 1</div>
+      <div style={{position: 'absolute', left: 60, top: 150, display: 'flex', alignItems: 'center', gap: 12, fontFamily: FONT.mono, fontWeight: 700, fontSize: 34, color: '#fff', opacity: f % 30 < 18 ? 1 : 0.25}}>
+        <svg width={30} height={30}><polygon points="4,2 28,15 4,28" fill="#fff" /></svg>FLASHBACK
+      </div>
+    </AbsoluteFill>
+  );
+};
+// as provas de cada caso (ícones SVG), flutuando atrás do suspeito na tela da verdade
 const PROVAS: Record<string, string[]> = {
-  macarena: ['🎵', '🔊', '🪈', '🎧'], bolo: ['🎂', '🍴', '🕯️', '🍫'], carro: ['🚗', '💅', '✨', '🎨'],
-  audio: ['🎤', '📱', '💸', '🚿'], servidor: ['🔌', '🔋', '🎮', '🛏️'], peixe: ['🐟', '💃', '📝', '🫧'],
+  macarena: ['nota', 'alto', 'notas', 'fone'], bolo: ['bolo', 'garfo', 'vela', 'chocolate'], carro: ['carro', 'esmalte', 'brilho', 'paleta'],
+  audio: ['microfone', 'celular', 'dinheiro', 'chuveiro'], servidor: ['tomada', 'bateria', 'controle', 'cama'], peixe: ['peixe', 'notas', 'bilhete', 'bolhas'],
+  pizza: ['pizza', 'microfone', 'coracao', 'wifi'], piscina: ['copo', 'meia', 'celular', 'pegada'], elevador: ['elevador', 'cartao', 'fogo', 'lampada'],
+  gnomo: ['gnomo', 'tomate', 'mochila', 'folha'], papagaio: ['papagaio', 'girassol', 'caderno', 'multa'], cachorro: ['notas', 'lua', 'osso', 'casaco'],
 };
 const Raios: React.FC<{cor: string}> = ({cor}) => {
   const f = useCurrentFrame();
@@ -245,28 +278,38 @@ const Provas: React.FC<{itens: string[]}> = ({itens}) => {
     <>
       {itens.map((e, i) => {
         const x = [330, 1590, 420, 1500][i % 4], y = [300, 330, 760, 760][i % 4];
-        return <div key={i} style={{position: 'absolute', left: x - 60, top: y - 60 + Math.sin(f / 18 + i * 1.7) * 22, fontSize: 120, transform: `rotate(${Math.sin(f / 25 + i) * 12}deg)`, filter: 'drop-shadow(0 8px 0 #0008)'}}>{e}</div>;
+        return <div key={i} style={{position: 'absolute', left: x - 70, top: y - 70 + Math.sin(f / 18 + i * 1.7) * 22, transform: `rotate(${Math.sin(f / 25 + i) * 12}deg)`, filter: 'drop-shadow(0 8px 0 #0008)'}}><Icone nome={e} tam={140} /></div>;
       })}
     </>
   );
 };
 
-// ---------------------------------------------------------------- comentário do Cafezin (a ideia)
-export const INTComentario: React.FC = () => {
+// ---------------------------------------------------------------- comentário de quem pediu o vídeo
+// Sem props: o do @CAFEZIN-K (parte 1). Parte 2: autor/texto/selo do roteiro. Avatar e coração em SVG (sem emoji).
+const TXT_CAFEZIN = 'Mano muito bom, seria interessante se você fizesse um jogo de investigação estilo patrick jane, onde uma empresa de IA deve ser o que vai interrogar e fazer o culpado assumir o que fez, e também uma empresa de outra IA que vai ser a culpada do caso e vai ter que mentir e não ser pega...';
+export const INTComentario: React.FC<{autor?: string; texto?: string; selo?: string}> = ({autor = '@CAFEZIN-K', texto, selo}) => {
   const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {fps, durationInFrames: D} = useVideoConfig();
   const k = spring({frame: f, fps, config: {damping: 13, stiffness: 140}});
-  const txt = 'Mano muito bom, seria interessante se você fizesse um jogo de investigação estilo patrick jane, onde uma empresa de IA deve ser o que vai interrogar e fazer o culpado assumir o que fez, e também uma empresa de outra IA que vai ser a culpada do caso e vai ter que mentir e não ser pega...';
-  const chars = Math.round(interpolate(f, [10, 200], [0, txt.length], cl));
+  const txt = texto ?? TXT_CAFEZIN;
+  const chars = Math.round(interpolate(f, [10, Math.min(200, Math.max(60, D - 50))], [0, txt.length], cl));
+  const cafezin = !texto;
+  const tSelo = Math.min(200, Math.max(60, D - 50));
+  const ks = spring({frame: f - tSelo + 20, fps, config: {damping: 10, stiffness: 200}});
   return (
-    <AbsoluteFill style={{background: 'linear-gradient(#141821, #07090d)', alignItems: 'center', justifyContent: 'center'}}>
-      <div style={{width: 1400, padding: '40px 50px', background: '#fff', borderRadius: 30, border: '6px solid #000', boxShadow: '0 20px 0 #000a', transform: `scale(${0.7 + 0.3 * k}) rotate(-1deg)`}}>
+    <AbsoluteFill style={{background: 'linear-gradient(#141821, #07090d)', alignItems: 'center', justifyContent: 'center', paddingTop: cafezin ? 0 : 150}}>
+      <div style={{width: 1400, padding: '40px 50px', background: '#fff', borderRadius: 30, border: '6px solid #000', boxShadow: '0 20px 0 #000a', transform: `scale(${(0.7 + 0.3 * k) * interpolate(f, [0, D], [1, 1.04], cl)}) rotate(-1deg)`}}>
         <div style={{display: 'flex', alignItems: 'center', gap: 20}}>
-          <div style={{width: 90, height: 90, borderRadius: 45, background: 'linear-gradient(135deg,#6b3a1f,#d98a4a)', border: '4px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 50}}>☕</div>
-          <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 40, color: '#111'}}>@CAFEZIN-K</div>
+          <div style={{width: 90, height: 90, borderRadius: 45, background: cafezin ? 'linear-gradient(135deg,#6b3a1f,#d98a4a)' : 'linear-gradient(135deg,#ff3bb0,#6a4cff)', border: '4px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.comic, fontSize: 54, color: '#fff', WebkitTextStroke: '2px #000'}}>
+            {cafezin ? <Icone nome="cafe" tam={60} /> : autor.replace('@', '').charAt(0).toUpperCase()}
+          </div>
+          <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 40, color: '#111'}}>{autor}</div>
         </div>
         <div style={{marginTop: 24, fontFamily: FONT.display, fontWeight: 600, fontSize: 40, lineHeight: 1.35, color: '#222', minHeight: 330}}>{txt.slice(0, chars)}</div>
-        <div style={{marginTop: 10, fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: '#c81e1e'}}>❤️ ideia aceita · VALEU, CAFEZIN!</div>
+        <div style={{marginTop: 10, display: 'flex', alignItems: 'center', gap: 12, fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: '#c81e1e', transform: cafezin ? undefined : `scale(${0.6 + 0.4 * ks})`, transformOrigin: 'left center', opacity: cafezin ? 1 : Math.min(1, ks * 2)}}>
+          <svg viewBox="0 0 24 24" width={36} height={36} style={{display: 'block'}}><path d={CORACAO_PATH} fill="#e8202a" /></svg>
+          {selo ?? 'ideia aceita · VALEU, CAFEZIN!'}
+        </div>
       </div>
     </AbsoluteFill>
   );
@@ -276,9 +319,10 @@ export const INTComentario: React.FC = () => {
 const ORDEM_IAS: IA[] = ['gpt', 'claude', 'deepseek', 'glm', 'minimax', 'qwen'];
 export const INTElenco: React.FC<{fim?: boolean}> = ({fim}) => {
   const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const {fps, durationInFrames: D} = useVideoConfig();
   return (
     <AbsoluteFill style={{background: '#2b3040', overflow: 'hidden'}}>
+      <AbsoluteFill style={{transform: `scale(${interpolate(f, [0, D], [1, 1.05], cl)})`}}>
       {/* régua de altura */}
       {Array.from({length: 9}, (_, i) => (
         <div key={i} style={{position: 'absolute', left: 0, right: 0, top: 120 + i * 90, borderTop: `${i % 2 ? 3 : 6}px solid #ffffff${i % 2 ? '33' : '66'}`}}>
@@ -300,6 +344,7 @@ export const INTElenco: React.FC<{fim?: boolean}> = ({fim}) => {
           </div>
         );
       })}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -319,9 +364,9 @@ export const INTLobby: React.FC<{L: Log; proximo: number; chat: Item[]}> = ({L, 
         {/* sala de espera: placa, banco, máquina de café e quadro de procurados */}
         <div style={{position: 'absolute', left: 60, top: 24, padding: '6px 26px', background: '#1b4d8c', border: '6px solid #0c1f38', borderRadius: 12, fontFamily: FONT.display, fontWeight: 900, fontSize: 40, color: '#fff', letterSpacing: 6}}>SALA DE ESPERA</div>
         <div style={{position: 'absolute', left: 120, top: 190, width: 200, height: 420, background: '#7a2a2a', border: '7px solid #1a0a0a', borderRadius: 16}}>
-          <div style={{margin: 20, height: 140, background: '#111', borderRadius: 8, color: '#7fe08a', fontFamily: FONT.mono, fontSize: 22, padding: 10}}>CAFÉ ☕<br />R$ 2,00</div>
+          <div style={{margin: 20, height: 140, background: '#111', borderRadius: 8, color: '#7fe08a', fontFamily: FONT.mono, fontSize: 22, padding: 10}}>CAFÉ<br />R$ 2,00</div>
         </div>
-        <div style={{position: 'absolute', left: 1500, top: 180, width: 300, height: 230, background: '#c9a46a', border: '7px solid #4a3216', borderRadius: 8, fontFamily: FONT.comic, fontSize: 34, textAlign: 'center', paddingTop: 10}}>PROCURADOS<div style={{fontSize: 80}}>🐟🎂📱</div></div>
+        <div style={{position: 'absolute', left: 1500, top: 180, width: 300, height: 230, background: '#c9a46a', border: '7px solid #4a3216', borderRadius: 8, fontFamily: FONT.comic, fontSize: 34, textAlign: 'center', paddingTop: 10}}>PROCURADOS<div style={{display: 'flex', justifyContent: 'center', gap: 10, marginTop: 30}}><Icone nome="peixe" tam={78} /><Icone nome="bolo" tam={78} /><Icone nome="celular" tam={78} /></div></div>
         <div style={{position: 'absolute', left: 300, right: 300, top: 640, height: 40, background: '#6b4a2a', border: '6px solid #2a1a0a', borderRadius: 10}} />
         {quem.map((ia, i) => (
           <div key={ia} style={{position: 'absolute', left: i === 0 ? 700 : 1220, top: 760}}>
@@ -352,10 +397,12 @@ export const INTLobby: React.FC<{L: Log; proximo: number; chat: Item[]}> = ({L, 
 };
 
 // ---------------------------------------------------------------- placar final
-export const INTPlacar: React.FC<{casos: Record<string, Log>; scene: Scene}> = ({casos, scene}) => {
+// compacto (parte 2): linhas mais baixas e coladas no alto, deixando embaixo o lugar dos selos dos prêmios
+export const INTPlacar: React.FC<{casos: Record<string, Log>; scene: Scene; compacto?: boolean}> = ({casos, scene, compacto}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const lista = Object.values(casos);
+  // só os casos deste vídeo (na parte 2, data.casos também traz os da parte 1 com prefixo p1_, para os flashbacks)
+  const lista = Object.entries(casos).filter(([id]) => !id.startsWith('p1_')).map(([, L]) => L);
   const [tAc] = gatilhos(scene, ['acertaram']);
   return (
     <AbsoluteFill style={{background: 'linear-gradient(#1a1030, #07050d)', overflow: 'hidden'}}>
@@ -365,16 +412,16 @@ export const INTPlacar: React.FC<{casos: Record<string, Log>; scene: Scene}> = (
         const comoDet = lista.find((L) => L.caso.detetive === ia);
         const comoSus = lista.find((L) => L.caso.suspeito === ia);
         const s = spring({frame: f - 10 - i * 8, fps, config: {damping: 13}});
-        const sus = !comoSus ? '' : comoSus.fim.tipo === 'confissao' || (comoSus.historico.some((x) => x.confessou) && comoSus.caso.culpado) ? 'CONFESSOU' : comoSus.caso.culpado ? 'NEGOU ATÉ O FIM' : 'INOCENTE CONDENADO';
+        const sus = !comoSus ? '' : comoSus.fim.tipo === 'confissao' || (comoSus.historico.some((x) => x.confessou) && comoSus.caso.culpado) ? 'CONFESSOU' : comoSus.caso.culpado ? 'NEGOU ATÉ O FIM' : comoSus.fim.tipo === 'liberar' ? 'INOCENTE LIBERADO' : 'INOCENTE CONDENADO';
         return (
-          <div key={ia} style={{position: 'absolute', left: 160, right: 160, top: 180 + i * 140, height: 120, display: 'flex', alignItems: 'center', gap: 30, background: '#ffffff12', border: `5px solid ${IAS[ia].cor}`, borderRadius: 24, padding: '0 30px', transform: `translateX(${(1 - s) * -1800}px)`}}>
+          <div key={ia} style={{position: 'absolute', left: 160, right: 160, top: compacto ? 146 + i * 106 : 180 + i * 140, height: compacto ? 96 : 120, display: 'flex', alignItems: 'center', gap: 30, background: '#ffffff12', border: `5px solid ${IAS[ia].cor}`, borderRadius: 24, padding: '0 30px', transform: `translateX(${(1 - s) * -1800}px)`}}>
             <div style={{position: 'relative', width: 120, height: 120}}><div style={{position: 'absolute', left: 60, top: 118}}><Personagem ia={ia} expressao={comoDet?.acertou ? 'confiante' : 'culpado'} falando={false} t={f + i * 9} altura={130} /></div></div>
             <div style={{width: 260, fontFamily: FONT.comic, fontSize: 60, color: IAS[ia].cor, WebkitTextStroke: '2px #000'}}>{IAS[ia].nome}</div>
-            <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff'}}>
-              detetive: <span style={{display: 'inline-block', color: comoDet?.acertou ? '#5ff08a' : '#ff6060', opacity: f >= tAc + i * 12 ? 1 : 0, transform: `scale(${f >= tAc + i * 12 ? 1 + 0.6 * Math.max(0, 1 - (f - tAc - i * 12) / 8) : 1})`}}>{comoDet?.acertou ? '✅ ACERTOU' : '❌ ERROU'}</span>
+            <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff', display: 'flex', alignItems: 'center', gap: 12}}>
+              detetive: <span style={{display: 'inline-flex', alignItems: 'center', gap: 10, color: comoDet?.acertou ? '#5ff08a' : '#ff6060', opacity: f >= tAc + i * 12 ? 1 : 0, transform: `scale(${f >= tAc + i * 12 ? 1 + 0.6 * Math.max(0, 1 - (f - tAc - i * 12) / 8) : 1})`}}><Icone nome={comoDet?.acertou ? 'certo' : 'errado'} tam={40} />{comoDet?.acertou ? 'ACERTOU' : 'ERROU'}</span>
               {tAc >= 0 && <Sequence from={tAc + i * 12} durationInFrames={40}><Audio src={staticFile(comoDet?.acertou ? 'sfx/correct-ding.mp3' : 'sfx/wrong-buzzer.mp3')} volume={0.35} /></Sequence>}
             </div>
-            <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff'}}>suspeito: <span style={{color: '#ffd21f'}}>{sus}</span></div>
+            <div style={{flex: 1, fontFamily: FONT.display, fontWeight: 900, fontSize: 36, color: '#fff'}}>suspeito: <span style={{color: sus === 'INOCENTE LIBERADO' ? '#5ff08a' : '#ffd21f'}}>{sus}</span></div>
           </div>
         );
       })}
@@ -408,6 +455,84 @@ export const INTTitulo: React.FC<{kicker: string; titulo: string; sub: string}> 
   );
 };
 
+// ---------------------------------------------------------------- SÓ VOCÊ VÊ: a verdade do suspeito, que o detetive não sabe
+// linhas[i] entra quando o narrador fala ancoras[i] (como as pistas da Pasta). Com destaque=i (cena de corte no meio
+// do caso), todas já estão lá e a linha i pulsa, maior, e as outras apagam. "???" fica tremendo (segredo guardado).
+export const INTSegredo: React.FC<{L: Log; linhas: string[]; ancoras: string[]; destaque?: number; scene: Scene}> = ({L, linhas, ancoras, destaque, scene}) => {
+  const f = useCurrentFrame();
+  const {fps, durationInFrames: D} = useVideoConfig();
+  const sus = L.caso.suspeito, det = L.caso.detetive;
+  const real = destaque == null;
+  const ts = gatilhos(scene, ancoras);
+  const at = linhas.map((_, i) => (!real ? 4 + i * 3 : ts[i] >= 0 ? ts[i] : 24 + i * 40));
+  const deriva = interpolate(f, [0, D], [1, 1.05], cl);
+  const passeio = interpolate(f, [0, D], [0, -16], cl);
+  const kTopo = spring({frame: f, fps, config: {damping: 12, stiffness: 170}});
+  const tSelo = real ? Math.max(8, at[0]) : 6;
+  const kSelo = f < tSelo ? 0 : spring({frame: f - tSelo, fps, config: {damping: 8, stiffness: 300, mass: 0.6}});
+  const corSelo = L.caso.culpado ? '#e8202a' : '#1f8f3a';
+  const pulso = 1 + 0.035 * Math.sin(f / 4);
+  const fala = (t: string) => {
+    // a palavra CULPADO/INOCENTE no começo da linha ganha a cor do veredito; "???" treme
+    const m = t.match(/^(CULPADO|INOCENTE)(.*)$/);
+    const partes = t.split('???');
+    if (partes.length > 1)
+      return <>{partes[0]}<span style={{display: 'inline-block', color: '#b9a4ff', transform: `rotate(${Math.sin(f / 3) * 6}deg) scale(${1.15 + 0.1 * Math.sin(f / 5)})`, marginLeft: 8}}>???</span>{partes[1]}</>;
+    if (m) return <><span style={{color: L.caso.culpado ? '#ff5a5a' : '#5ff08a'}}>{m[1]}</span>{m[2]}</>;
+    return t;
+  };
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(circle at 30% 45%, #2c1a52 0%, #120a24 55%, #05030a 100%)', overflow: 'hidden'}}>
+      <Raios cor="#8a6cff" />
+      <AbsoluteFill style={{transform: `scale(${deriva}) translateX(${passeio}px)`}}>
+        {/* cabeçalho */}
+        <div style={{position: 'absolute', left: 0, right: 0, top: 34, display: 'flex', justifyContent: 'center', transform: `scale(${kTopo})`}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 22, padding: '6px 40px 4px', background: '#6a4cff', border: '7px solid #000', borderRadius: 22, boxShadow: '0 12px 0 #000a', transform: 'rotate(-2deg)'}}>
+            <Icone nome="olho" tam={84} />
+            <span style={{fontFamily: FONT.comic, fontSize: 96, color: '#fff', letterSpacing: 6, WebkitTextStroke: '3px #000'}}>SÓ VOCÊ VÊ</span>
+          </div>
+        </div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 172, textAlign: 'center', fontFamily: FONT.display, fontWeight: 800, fontSize: 32, color: '#cbb8ff', letterSpacing: 2, opacity: kTopo}}>
+          a verdade de {IAS[sus].nome} · o detetive {IAS[det].nome} não sabe
+        </div>
+        {/* o suspeito, com o carimbo do veredito verdadeiro */}
+        <div style={{position: 'absolute', left: 130, top: 300, width: 460, height: 600}}>
+          <Boneco ia={sus} papel="suspeito" t={f} estresse={real ? 0.3 : 0.7} expressao={!real ? 'suando' : L.caso.culpado ? 'culpado' : 'nervoso'} falando={false} acao="nenhuma" />
+        </div>
+        <div style={{position: 'absolute', left: 80, width: 560, top: 790, textAlign: 'center', fontFamily: FONT.comic, fontSize: 70, color: IAS[sus].cor, WebkitTextStroke: '3px #000', letterSpacing: 2}}>{IAS[sus].nome}</div>
+        {kSelo > 0 && (
+          <div style={{position: 'absolute', left: 360, top: 640, transform: `translate(-50%, -50%) rotate(-12deg) scale(${2.2 - 1.2 * kSelo})`, opacity: Math.min(1, kSelo * 3)}}>
+            <div style={{fontFamily: FONT.comic, fontSize: 92, color: '#fff', background: corSelo, padding: '4px 30px 0', border: '9px solid #fff', borderRadius: 20, letterSpacing: 5, WebkitTextStroke: '3px #000', boxShadow: '0 14px 0 #0009', whiteSpace: 'nowrap'}}>{L.caso.culpado ? 'CULPADO' : 'INOCENTE'}</div>
+          </div>
+        )}
+        {/* a ficha secreta */}
+        <div style={{position: 'absolute', left: 690, top: 240, width: 1150, minHeight: 600, boxSizing: 'border-box', padding: '34px 44px', background: 'rgba(28, 20, 52, 0.94)', border: '7px dashed #8a6cff', borderRadius: 44, boxShadow: '0 0 40px #6a4cff66, 0 18px 0 #000a'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 14, fontFamily: FONT.mono, fontWeight: 700, fontSize: 26, color: '#b9a4ff', letterSpacing: 3, marginBottom: 18}}>
+            <Icone nome="bilhete" tam={38} />FICHA SECRETA · {L.caso.titulo.toUpperCase()}
+          </div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 16}}>
+            {linhas.map((t, i) => {
+              const d = f - at[i];
+              if (d < 0) return null;
+              const kk = spring({frame: d, fps, config: {damping: 13, stiffness: 210}});
+              const alvo = destaque === i;
+              const apaga = !real && !alvo;
+              return (
+                <div key={i} style={{display: 'flex', alignItems: 'center', gap: 20, padding: alvo ? '12px 22px' : '6px 22px', borderRadius: 18,
+                  background: alvo ? '#ffd21f' : 'transparent', border: alvo ? '5px solid #000' : '5px solid transparent', boxShadow: alvo ? '0 0 34px #ffd21faa' : 'none',
+                  opacity: Math.min(1, kk * 2) * (apaga ? 0.38 : 1), transform: `translateX(${(1 - kk) * 120}px) scale(${alvo ? pulso * 1.03 : 1})`, transformOrigin: 'left center'}}>
+                  <div style={{width: 46, height: 46, flexShrink: 0, borderRadius: 23, background: alvo ? '#000' : '#6a4cff', border: '4px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONT.comic, fontSize: 30, color: alvo ? '#ffd21f' : '#fff'}}>{i + 1}</div>
+                  <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: i === 0 && t.length < 12 ? 56 : 42, lineHeight: 1.22, color: alvo ? '#111' : '#f4efff'}}>{alvo ? t : fala(t)}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 // ---------------------------------------------------------------- liga os nomes do roteiro aos componentes
 export const INTVisual: React.FC<{name: string; props: Record<string, any>; scene: Scene; timeline: Timeline}> = ({name, props: p, scene, timeline}) => {
   const casos = (timeline.data as any).casos as Record<string, Log>;
@@ -416,12 +541,13 @@ export const INTVisual: React.FC<{name: string; props: Record<string, any>; scen
     case 'INTSala': return <INTSala L={L} chat={(p.chat ?? []) as Item[]} carimbo={p.carimbo} demo={p.demo} />;
     case 'INTPasta': return <INTPasta L={L} ancoras={p.ancoras ?? []} scene={scene} />;
     case 'INTCapa': return <INTCapa L={L} n={p.n} />;
-    case 'INTVerdade': return <INTVerdade L={L} scene={scene} />;
-    case 'INTComentario': return <INTComentario />;
+    case 'INTVerdade': return <INTVerdade L={L} scene={scene} flashback={p.flashback} />;
+    case 'INTComentario': return <INTComentario autor={p.autor} texto={p.texto} selo={p.selo} />;
+    case 'INTSegredo': return <INTSegredo L={L} linhas={p.linhas ?? []} ancoras={p.ancoras ?? []} destaque={p.destaque} scene={scene} />;
     case 'INTTitulo': return <INTTitulo kicker={p.kicker} titulo={p.titulo} sub={p.sub} />;
     case 'INTElenco': return <INTElenco fim={p.fim} />;
     case 'INTLobby': return <INTLobby L={L} proximo={p.proximo} chat={(p.chat ?? []) as Item[]} />;
-    case 'INTPlacar': return <INTPlacar casos={casos} scene={scene} />;
+    case 'INTPlacar': return <INTPlacar casos={casos} scene={scene} compacto={p.compacto} />;
     default: return <AbsoluteFill style={{background: '#300'}} />;
   }
 };

@@ -92,7 +92,7 @@ export const SceneView: React.FC<{scene: Scene; timeline: Timeline; anterior?: s
         if (e.type === 'txt')
           return (
             <Sequence key={i} from={e.at} durationInFrames={e.dur} name={`txt ${e.text}`}>
-              <TextPop text={e.text} dur={e.dur} color={e.color} />
+              <TextPop text={e.text} dur={e.dur} color={e.color} top={e.top} size={e.size} />
             </Sequence>
           );
         if (e.type === 'voz')

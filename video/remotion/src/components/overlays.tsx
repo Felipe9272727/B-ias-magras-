@@ -234,17 +234,17 @@ const MemeCaption: React.FC<{text: string; big?: boolean}> = ({text, big}) => (
 );
 
 // Texto grande que "explode" na tela.
-export const TextPop: React.FC<{text: string; dur: number; color?: string}> = ({text, dur, color = C.gold}) => {
+export const TextPop: React.FC<{text: string; dur: number; color?: string; top?: number; size?: number}> = ({text, dur, color = C.gold, top = 210, size = 132}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const p = spring({frame, fps, config: {damping: 9, stiffness: 220, mass: 0.5}});
   const out = interpolate(frame, [dur - 6, dur], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
-    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'flex-start', paddingTop: 210}}>
+    <AbsoluteFill style={{alignItems: 'center', justifyContent: 'flex-start', paddingTop: top}}>
       <div
         style={{
           fontFamily: FONT.comic,
-          fontSize: 132,
+          fontSize: size,
           color,
           letterSpacing: 4,
           transform: `scale(${p * out}) rotate(${(1 - p) * -8 - 2}deg)`,

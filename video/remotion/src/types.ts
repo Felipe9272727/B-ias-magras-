@@ -21,7 +21,7 @@ export type SceneEvent =
   | {type: 'meme'; at: number; dur: number; id: string; pos: 'left' | 'right' | 'center' | 'full' | 'top'; caption?: string}
   | {type: 'sfx'; at: number; id: string; vol?: number; file?: string}
   | {type: 'hl'; at: number; key: string}
-  | {type: 'txt'; at: number; dur: number; text: string; color?: string}
+  | {type: 'txt'; at: number; dur: number; text: string; color?: string; top?: number; size?: number}
   | {type: 'punch'; at: number}
   | {type: 'voz'; at: number; src: string}
   | {type: 'tk'; at: number; tick: number}
