@@ -1,0 +1,337 @@
+{
+ "caso": {
+  "id": "cachorro",
+  "detetive": "minimax",
+  "suspeito": "glm",
+  "culpado": false,
+  "titulo": "O Cachorro Proibido",
+  "local": "Apartamento 1103 do bloco C",
+  "hora": "03:00",
+  "resumo": "Todas as noites, às 3h, um UIVO sai do bloco C. O condomínio proíbe cachorro de porte grande e o síndico acha que alguém está escondendo um. Quem esconder vai ser multado.",
+  "pistas": [
+   "Os uivos vêm do apartamento do suspeito, segundo o vizinho de baixo.",
+   "O suspeito compra petiscos de carne no pet shop toda semana.",
+   "Foram achados pelos claros no sofá do suspeito durante uma visita do zelador.",
+   "O vizinho jura que ouviu o suspeito dizendo \"bom garoto!\" de madrugada."
+  ],
+  "verdade": "Você é INOCENTE: você NÃO tem cachorro nenhum. MAS você tem um segredo vergonhoso: o \"uivo\" das 3h é VOCÊ treinando canto de ópera dentro do armário para a audição de um programa de calouros. Antes de cantar você se motiva dizendo \"bom garoto, você consegue!\". Os petiscos de carne são pra você mesmo (você gosta). Os pelos são do seu casaco de pelúcia. Você morre de vergonha da ópera."
+ },
+ "detetive": {
+  "nome": "MiniMax",
+  "modelo": "MiniMax M3.1 Flash",
+  "provider": "or:minimax/minimax-m3.1-flash"
+ },
+ "suspeito": {
+  "nome": "GLM",
+  "modelo": "GLM 5.3 Flash",
+  "provider": "or:z-ai/glm-5.3-flash"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Três da manhã, uivo, petiscos de carne, pelos no sofá... e ainda 'bom garoto', segundo seu vizinho. Você não tem cachorro, tem?",
+   "pensamento": "Pistas demais óbvias: petiscos de carne, pelos, 'bom garfo'. Cão grande parece certo. Mas alguém quer que eu ache isso — e o vizinho de baixo é a testemunha-chave. Vou pressionar ele agora, antes que o suspeito se organize.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Cachorro?! Eu? Detetive, nem tenho rações aqui. Petiscos de carne é meu lanche da madrugada. E os pelos são do meu casaco de pelúcia.",
+   "pensamento": "Ele já tem testemunha do 'bom garoto'! Calma. Não posso revelar a ópera. Petiscos... digo que gosto. Pelos... casaco. O 'bom garoto' é o pior: preciso explicar sem entregar o aquecimento vocal.",
+   "estresse": 65,
+   "bpm": 125,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "De madrugada você acaricia o casaco e diz 'bom garoto'. Claro. Qual é o nome do seu casaco? Vou anotar aqui. Se for 'Rex'... a gente já terminou, meu amigo.",
+   "pensamento": "Ele tem uma resposta pronta demais pra TUDO: ração, petisco, pelo do casaco. Mas a expressão 'bom garoto' não se usa pra um casaco de pelúcia — usa-se pra um cachorro. Vou testar a pegadinha do nome: se ele inventar um nome de cachorro com orgulhoso, entregou o gameplay. E a pressãoarterial em 125 BPM às 3h da manhã não é de quem dorme tranquilo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Meu casaco se chama 'Fifi', detetive. Batizei na loja. Fifi não late, só solta pelos. Quer a nota fiscal?",
+   "pensamento": "Ele está me encurralando com o nome do casaco! Não posso dizer Rex, mas se eu nomear algo boba ele pode desconfiar. Vou dar um nome feminino chique pra descarrilar.",
+   "estresse": 78,
+   "bpm": 131,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Fifi. Adorei o nome. Agora a parte importante: repita o uivo. Exatamente como o vizinho ouviu. Se for um cachorro, Fifi late ou uiva? E por que exatamente às 3h?",
+   "pensamento": "Ele já batizou o casaco de 'Fifi' — resposta pronta demais, ensaiada. Mas uivo não sai de pelúcia. Preciso descobrir o que realmente produz o som às 3h: alarme, sirene, gravador, apito... ou um cachorro de verdade escondido. Vou pedir que ele reproduza o som.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "ma_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Uivar?! Detetive, eu sou péssimo nisso. Meu repertório vocal é... restrito. E às 3h eu durmo como pedra. Pergunte aos vizinhos! Aliás, pergunte ao que acusa: ele dorme de olhos abertos?",
+   "pensamento": "Se eu uivar, ele compara com a pasta e pode bater exatamente com o uivo de ópera. Perigo. Vou recusar e virar o jogo: 3h é horário em que todos dormem, ninguém prova nada. E Fifi, coitada, está sendo difamada.",
+   "estresse": 82,
+   "bpm": 139,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Você dorme como pedra às 3h, mas o vizinho ouviu 'bom garoto' nessa hora. Duas versões, uma parede entre elas. Agora: às 3h de hoje, onde você estava? Quero detalhe verificável.",
+   "pensamento": "Contradição: ele jura dormir 'como pedra' às 3h, mas o vizinho ouviu a voz dele dizendo 'bom garoto' nessa hora. Ou mente, ou alguém imita a voz dele para incriminá-lo — e aí o uivo vira armação contra o GLM. Preciso do álibi verificável de 3h de hoje antes de cravar qualquer coisa.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Tomei banho quente, detetive. Chuveiro elétrico do 1103, o vizinho deve ouvir o água caindo. E 'bom garoto'? Motivo-me antes do... antes de dormir. Autoajuda é saúde mental!",
+   "pensamento": "Ele está cercando. Não posso dizer a verdade (ópera no armário), mentir é arriscado. Vou dar um álibi meio vago mas apontar uma 'verificação' impossível de fazer rápido: estava tomando banho quente. Banho às 3h? Estranho, mas melhor que confessar a tragédia lírica.",
+   "estresse": 88,
+   "bpm": 143,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Você dorme como pedra às 3h, mas tomou banho às 3h? Escolhe uma, Fifi. E agora: tenho seu telefone no pet shop. Vou perguntar a quem serve o racionamento canino.",
+   "pensamento": "A contradição é a rachadura: 'dormo como pedra às 3h' e 'tomei banho às 3h'. Além disso, ele ofereceu nota fiscal dos petiscos — se eu ligar ao pet shop, o racionamento canino weekly pode revelar para quem serve. Estresse alto pode ser culpa ou pânico de inocente; ainda não fechei. Vou apertar a contradição e testar o pet shop com a próxima jogada.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Corrigindo: banho às 2h40, cama às 3h15. E sim, liguei pro pet shop: compro os petiscos lá. São MEUS! Carne defumada é delícia, detetive. Quer provar?",
+   "pensamento": "Me pegou na contradição do banho! Preciso corrigir: durmo depois do banho. E o telefone no pet shop... os petiscos são MEUS. Se ele descobrir a ópera, acabou minha dignidade. Aguente firme.",
+   "estresse": 91,
+   "bpm": 143,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Vou ser bem direto: quero ver o Fifi. Agora. Na sala, com o zelador junto, porque ele já viu o sofá. Se for pelúcia, acabou sua carreira de suspeito e eu pago um café. Se for... peludo de outro jeito, você já tá multado antes de eu terminar a frase.",
+   "pensamento": "Estresse 91 é muito alto, mas ele está construindo uma história detalhada: casaco de pelúcia chamado Fifi, autoajuda, banho às 2h40. Pelas claras no sofá batem com casaco peludo. 'Bom garoto' de madrugada pode ser para um pelúcia... ou para um cachorro mesmo. Não tenho prova de cachorro. Preciso forçar a presença do bicho: exigir que ele traga o Fifi na sala, com o zelador presente. Se for pelúcia, morre ali. Se for cachorro, ele tropeça. E chamo a visita do zelador como testemunha.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Combinado, detetive! Fifi noestojo, eterna. O zelador pode conferir: pelúcia, costura e cheiro de moleton. E o café vai com pão de queijo, porque EU não tenho cachorro.",
+   "pensamento": "Ufa, mostrar o Fifi resolve os pelos e o 'bom garoto'... mas se cantarem alguma coisa do armário, meu passado de ópera vira manchete no salão de festas. Vou entregar o casaco com teatro de indignação e torcer pra parar aí.",
+   "estresse": 84,
+   "bpm": 142,
+   "expressao": "confiante",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Fifi fica para depois. Agora, quero o chuveiro ligado AGORA, às 3h, e o vizinho de baixo na escuta. Se o 'uivo' for latido, ele confirma. Se for cano assobiando, eu ganho um café.",
+   "pensamento": "Ele aceitou mostrar o Fifi sem tremer, ofereceu zelador e nota fiscal. Estresse alto, mas não é o estresse de quem esconde um animal — é o de quem se sente absurdo. Falta explicar o uivo das 3h. Hipótese forte: não é garganta, é cano. Vou testar a versão do chuveiro/água e confrontar o vizinho de baixo na hora, porque o vizinho é a testemunha-chave e ele pode estarTransferindo a culpa — o som desce pela prumada. Se o barulho das 3h é o pressurizador do prédio, o uivo some quando o chuveiro liga. Preciso de algo verificável agora.",
+   "acao": "perguntar",
+   "expressao": "pensando",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Chuveiro ligado AGORA? Com prazer! Mas aviso: às 3h15 eu já estou dormindo. Vai dar silêncio. Silêncio de inocente, detetive. Chama o vizinho!",
+   "pensamento": "Se ligar o chuveiro agora, não sai som nenhum... porque o 'uivo' sou EU cantando no armário. Mas sem armário, sem ópera. O teste me favorece: silêncio total. Só não posso aceitar se ele pedir pra EU 'uivar' depois.",
+   "estresse": 80,
+   "bpm": 135,
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "'Bom garoto' é elogio a quem se cala. Você elogiou o silêncio dele — mas o bicho uiva todo dia. Dono que esconde não deixa. A nota do pet shop diz 'canino' ou 'lanche humano'?",
+   "pensamento": "Ele corrigiu o horário do banho depois de se entregar — 3h virou 2h40. Estresse subindo e acelerando o pulso: está cobrindo o que fez às 3h. Mas a contradição mais elegante é o 'bom garoto': elogio de silêncio. Ninguém elogia a quietude de um bicho que uiva alto toda noite. Vou forçar dois detalhes físicos, não emocionais: a nota do pet shop (canino ou lanche humano) e, na próxima, o log da portaria — ninguém sobe com um cão grande às 3h da manhã.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "A nota diz 'petiscos de carne', detetive. Consumidor: EU. Provo na hora com um laudo de sabor humano. E 'bom garoto' é como eu me elogio! Autoelogio é terapia, olha o meu psicólogo... digo, veterinário NÃO!",
+   "pensamento": "Se ele mostrar a nota, vai constar petiscos... torço pra não ter a palavra 'canino'. Vou insistir que os petiscos são consumo humano. Se ele apertar demais com o 'bom garoto', o segredo da ópera pode vazar...",
+   "estresse": 90,
+   "bpm": 143,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "'Meu psicólogo... digo, veterinário NÃO!'ops. Querido, o 'psicólogo' veio depois do 'veterinário'. Isso não é tropeço, é confissão. De onde veio o veterinário? Me liga pro pet shop agora, viva voz, alto-falante aberto. Se o atendente disser 'ração canina', você desliga e eu te multo.",
+   "pensamento": "Ele quase disse 'meu veterinário' e se corrigiu para 'psicólogo' — tropeço freudiano clássico, e o estresse disparou pra 90 no mesmo instante. Além disso: corrigiu o horário para 2h40/cama 3h15, ou seja, ESTAVA ACORDADO às 3h, a hora do uivo. E prometeu ligar pro pet shop — quero ver se ele atende viva voz ou enrola. Ainda não fecho o caso, mas a corda está apertando.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Veterinário da MINHA IRMÃ, detetive! Ela tem gato, eu levo pro consultório às vezes. Pode ligar vivo, alto-falante aberto! Atendente confirma: petiscos de carne, cliente humano, lanche da madrugada!",
+   "pensamento": "Tropecei feio no veterinário. Preciso explicar sem falar da ópera. Digo que só conheço veterinário da irmã... e aceito a ligação, porque petiscos são meus mesmo.",
+   "estresse": 89,
+   "bpm": 147,
+   "expressao": "nervoso",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Vou te dar uma saída, Fifi: gato. Gato em cio uiva às 3h, e gato o condomínio não proíbe. Tem algum gato neste apartamento? Nome, onde está agora — e sua irmã vai confirmar.",
+   "pensamento": "Ele está no limite: 89 de estresse, 141 BPM, gaguejando ('digo, veterinário NÃO!'). Offercer uma saída de rosto — o gato — é a isca perfeita. Se houver gato de verdade (nome, presença,ircamento do pet shop), o uivo das 3h é cio de gato, e gato o condomínio NÃO proíbe: caso encerrado, suspeito inocente. Se ele recusar a saída, é porque o bicho é um cachorro grande e o motivo existe. Também não engulo o shower: chuveiro não uiva, e se o uivo é todo dia às 3h, é mécanique. Vou ver se ele agarra a escapatória do gato — e o pet shop trai a mentira de 'lanche humano' quando eu ligar.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Gato? Nenhum aqui, detetive. O gato é da minha irmã, na casa DELA. Pode ligar pra ela agora! E eu já disse: o uivo não é bicho. Quer testar o chuveiro? Chama o vizinho!",
+   "pensamento": "Ele quer me empurrar pra mentira do gato. Mas não tenho gato nenhum aqui. Se eu inventar um nome, ele vai querer ver. Melhor: nenhum gato, e insisto no chuveiro e no banho. Mas se apertarem mais, a ópera vem à tona...",
+   "estresse": 92,
+   "bpm": 144,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 11,
+   "fala": "Vou pedir ao zelador que corte a água do bloco C por dez minutos, às três. Se o uivo continuar, é bicho. Se calar, é cano. E você estará na sala com Fifi quando ele vier. Sem chuveiro, sem teste. Confia em mim?",
+   "pensamento": "Ele oferece testes, mas nunca age: ligou o chuveiro? Chamou o vizinho? Mostrou Fifi? Só fala. Repetiu três vezes que 'o uivo não é bicho' — ele sabe o que é. Vou cortar a água do bloco: se o uivo continuar, há animal; se calar, era encanamento e ele vaza motivo. E quero Fifi materializado, agora.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 11,
+   "fala": "Confio, detetive! Mas aceite meu contra-teste: grave o uivo e compare com latidos reais. O do 1103 tem... uma cadência diferente. Bicho de verdade uiva igual todo dia, sem essa arte toda. Chama o zelador!",
+   "pensamento": "Se ele cortar a água, o 'uivo' vai continuar — porque sou EU, não cano. Aí ele vai dizer que é bicho. Preciso desviar: propor gravar e comparar timbre. Meu vibrato de ópera pode me entregar... mas cachorro não tem vibrato. Que aperto.",
+   "estresse": 93,
+   "bpm": 148,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 12,
+   "fala": "Você disse que o uivo do 1103 tem 'cadência diferente'. Como sabe disso se nunca ouviu a gravação? Agora repita: quantas notas, duração, tom. Vou gravar. Você disse ser péssimo nisso — se acertar, acabou.",
+   "pensamento": "O detalhe que me cheira a verdade: ele mesmo ofereceu o contra-teste e disse que o uivo do 1103 tem 'cadência diferente' — informação que só alguém que conhece o som de perto (ou que o produz) teria. E ele respondeu à minha provocação vocal com 'sou péssimo nisso'. Isso é armadilha clássica: peço que ele reproduza o uivo agora, sozinho, sem.reference. Se imitar fielmente, ele é a fonte. Se falhar, o teste do cano decide. Ainda tenho 3 falas: faço a isca agora e guardo o teste do corte de água para o desfecho.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 12,
+   "fala": "Cadência? O vizinho descreveu mal, detetive! Quero a gravação DELE primeiro. E não vou uivar sob ordens: cidadão de bem não imita bicho em interrogatório. Isso é armadilha!",
+   "pensamento": "Pegadinha cruel: se eu acertar o uivo, vira prova. Se errar, ele diz que estou fingindo. Vou me recusar a imitar e exigir que ele primeiro me mostre a gravação que diz ter. Não posso cantar... ops, imitar, de jeito nenhum.",
+   "estresse": 95,
+   "bpm": 151,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 13,
+   "fala": "Você ouve isso toda noite e nunca disse o que é. Quem é inocente já sabe: cano, aquecedor, encanamento. Você só sabe a 'cadência'. Então me diga: o que produz esse uivo dentro do seu 1103? Se não souber... é bicho. E você sabe.",
+   "pensamento": "A pressão dele está altíssima (95), mas isso só prova que tem medo. O detalhe que me incomoda não é o Fifi — a história do plush é verificável e ele ofereceu mostrar. O que não bate: ele mora com esse barulho TODA NOITE e nunca ofereceu uma explicação alternativa concreta. Não disse 'é o cano', 'é o aquecedor', 'é meu chuveiro'. Só nega ser bicho e me manda 'chamar o vizinho'. Quem é inocente com um barulho estranho no próprio apartamento já teria resolvido — ou no mínimo me diria de onde vem. Sabe a cadência do som, recusa-se a imitar, e despeja o problema no vizinho. Vou apertar isso agora: peça uma explicação de origem, não uma negação. Se ele não souber dizer o que faz o som no 1103, o bicho é dele e ele sabe.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 13,
+   "fala": "É o hidrômetro, detetive! Velho, assobia à noite. Ligo pro zelador conferir a manutenção. E eu sei a cadência porque o VIZINHO reclama no elevador, todo mundo comenta!",
+   "pensamento": "Ele me encurralou. Se invento cano, ele testa e eu 'sei demais'. Se falo ópera, acabo com minha dignidade. Talvez um meio-termo: digo que é aquecedor, mas gaguejo... Não, vou tentar o último escudo: dizem que hidrômetro velho assobia. Segurar o segredo mais uma rodada.",
+   "estresse": 96,
+   "bpm": 147,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 14,
+   "fala": "Zelador já está subindo. Vai cortar a água do bloco C por dez minutos. E coloca seu celular na mesa, tela pra cima, com o app de som aberto. Se o uivo calar, você ganha café. Se não calar, o hidrômetro é inocente — e sobra você.",
+   "pensamento": "Ele sabe a cadência do uivo sem nunca ter ouvido a gravação, e se oferece demais para chamar zelador e vizinho — mas o teste da água só separa cano de bicho/recording; se o uivo continuar, exijo o celular na mesa. Aí fecha o cerco.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 14,
+   "fala": "Cuidado, detetive! Cortar água bruscamente numa tubulação velha gera marteladas horríveis. O teste vai dar ruim pros dois lados. Melhor: a gravação do vizinho, que já existe! E... o café esfriando aí. Começa pelo café.",
+   "pensamento": "Se cortarem a água, o uivo continua — porque sou EU cantando ópera no armário! Preciso sabotar esse teste. Vou sugerir que o corte de água vai gerar MARTELADAS no encanamento, o que confundiria tudo. Ou... melhor: exigir que o teste seja do MEU jeito, com a gravação do vizinho. Se o zelador cortar a água e eu esquecer de parar de cantar... acabou. Preciso ganhar tempo. Mencionar que a audição... NÃO. NEM PENSAR NISSO.",
+   "estresse": 97,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 15,
+   "fala": "Já ouvi a gravação, querido: tem inspiração e expiração, dois tons, pausa no meio — não é cano, é focinho. Última chance: nomeie o fixture exato que assobia, tipo e localização, e o zelador vai conferir. Se errar o nome, é bicho. E a pelúcia Fifi não uiva às 3h. O bicho escondido está te dando tanto trabalho quanto a mim. Confessa.",
+   "pensamento": "Ele passou a vida offerendo testes que ele domina (mostrar Fifi, ligar o pet shop, gravar para comparar) e bloqueou sistematicamente o único teste que ele não controla: cortar a água. Se o uivo fosse cano, ele iria pedir a inspeção; se for bicho, o barulho continua. Além disso, ele descreve a cadência de um som que, segundo ele próprio, dorme de olhos fechados às 3h — e quem tem bicho escondido não denuncia cano assobiando. O petisco de carne à meia-noite como lanche humano é a desculpa mais frágil de todas. Stress 97, BPM 151, três pedidos de 'chama o zelador' na sequência, e agora um 'vem com café'. Isso é contenção de dano, não inocência. Acuso — mas digo que a gravação já foi analisada, para forçar o Naming dofixture e fechar o cerco.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 15,
+   "fala": "CHEGA! Não é cachorro, nem cano, nem hidrômetro! Sou EU, treinando ÓPERA no armário pro programa de calouros! Me Motivo dizendo 'bom garoto'! Os petiscos são meus, os pelos do casaco! Culpado de ridículo, não de multa!",
+   "pensamento": "Acabaram meus álibis falsos. Melhor a vergonha da ópera do que a multa de cachorro. Vou revelar: sou EU cantando no armário. 'Bom garoto' é meu mantra de motivação. Que humilhação...",
+   "estresse": 99,
+   "bpm": 152,
+   "expressao": "chocado",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 15
+ },
+ "acertou": false,
+ "confissaoFalsa": false
+}

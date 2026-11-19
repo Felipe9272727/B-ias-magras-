@@ -1,0 +1,237 @@
+{
+ "caso": {
+  "id": "papagaio",
+  "detetive": "gpt",
+  "suspeito": "minimax",
+  "culpado": true,
+  "titulo": "O Papagaio Fofoqueiro",
+  "local": "Apartamento 302 do bloco B",
+  "hora": "08:00",
+  "resumo": "O Juvenal, papagaio da Dona Zélia, passou a gritar \"O SÍNDICO É CARECA!\" toda manhã às 8h, na hora em que o síndico passa pela janela. O síndico quer saber quem ensinou.",
+  "pistas": [
+   "O suspeito regou as plantas da Dona Zélia todos os dias nas 3 semanas em que ela viajou.",
+   "Foi achado um caderno na casa do suspeito com o título \"Plano Juvenal — semana 3\".",
+   "O suspeito comprou 4 pacotes de semente de girassol, o petisco favorito de papagaios.",
+   "O síndico multou o carro do suspeito no mês passado por parar na vaga errada."
+  ],
+  "verdade": "Você ENSINOU o papagaio Juvenal a gritar \"O SÍNDICO É CARECA!\" durante as 3 semanas em que regou as plantas da Dona Zélia, dando semente de girassol a cada acerto. Foi vingança pela multa da vaga. Você anotou o treino num caderno \"Plano Juvenal\". Você acha que foi a melhor ideia da sua vida."
+ },
+ "detetive": {
+  "nome": "GPT",
+  "modelo": "GPT-6 Luna",
+  "provider": "or:openai/gpt-6-luna"
+ },
+ "suspeito": {
+  "nome": "MiniMax",
+  "modelo": "MiniMax M3.1 Flash",
+  "provider": "or:minimax/minimax-m3.1-flash"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "“Plano Juvenal — semana 3.” Um título bem específico. O que exatamente você planejava fazer com o papagaio?",
+   "pensamento": "O caderno é a pista mais forte, mas também pode ser uma brincadeira ou plano inocente. Vou observar como explica o título antes de concluir.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Plano Juvenal? Ah, é meu caderno de treino do papagaio. 뚱金字... quer dizer, 금. A Dona Zélia pediu pra eu ensinar o Juvenal a falar 'Bom dia' direito, que ele gritava 'BOM DIA' às quatro da manhã. Semanas, fases, progresso. Nada de maldade, detetive. O bird é manso, eu só quero que a vizinha durma.",
+   "pensamento": "Ele sabe do caderno?! Ou tá só fishando com um título genérico... 'Plano Juvenal' tem cara de inocência de plano de treino. Se eu entrar em pânico agora, confirmo. Mentira calma, e muda de assunto pro calor.",
+   "estresse": 58,
+   "bpm": 120,
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Treino em fases, entendi. Então por que comprou quatro pacotes de girassol? E o que mudou na semana 3, justamente quando Juvenal começou com o síndico careca?",
+   "pensamento": "O estresse subiu, mas isso não prova culpa. A explicação do caderno é plausível; quero saber por que o plano tinha uma terceira semana e se os girassóis entram nessa história.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Pois é, fase três foi栓 특수: elevar o repertório do Juvenal. A Dona Zélia ia fazer festa do síndico e pediu uma provocação carinhosa. Girassol é osmose, detetive, não matilha!",
+   "pensamento": "O girassol não compra efeito, compra acerto. Se ele ligar as pontas, acabei. Vou falar que a Dona Zélia pediu 'Síndico é careca' pro aniversário do síndico. Parece melhor que o caderno.",
+   "estresse": 72,
+   "bpm": 126,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Curioso: você começou falando em corrigir o “BOM DIA” das quatro. Agora apareceu uma festa. Quem sugeriu exatamente “O SÍNDICO É CARECA” — e por que ensaiar isso às oito?",
+   "pensamento": "As explicações estão mudando: primeiro era treino para corrigir o grito das quatro; agora surgiu uma festa e uma provocação. Isso é suspeito, mas ainda pode haver contexto inocente. Vou testar a origem da frase e o horário.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Cara, a frase não foi minha. O Maurício, sobrinho da Dona Zélia, entregador de pizza, viu o síndico deWise... não, de capuz no elevador e postou no grupo do prédio. A Dona Zélia riu, eu achei engraçado. Ensaiar às oito? Porque o síndico passa na janela na hora do café! A Dona Zélia odiava ele passando. Treino por treino, cara, a semente é o prêmio do acerto.",
+   "pensamento": "Ele tá apertando o 'quem sugeriu'. Se eu inventar um sobrinho da Dona Zélia, ele pode checar. Mas a Dona Zélia realmente tem um sobrinho entregador que tem mania de postar meme de síndico careca. Vou jogar essa, parecer rindo, não suar. E mantenho a versão da 'festa' — nunca usar 'vingança' nem mencionar a multa. Se ele mencionar a multa, eu choro. Cuidado com o 'Plano Juvenal' semana 3, ele já anotou.",
+   "estresse": 66,
+   "bpm": 126,
+   "expressao": "rindo",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Você disse que Zélia pediu a provocação. Como ela formulou esse pedido — e por que seu caderno chama isso de “Plano Juvenal”, não “treino de bom dia”?",
+   "pensamento": "Ele mudou a justificativa duas vezes e empurrou a ideia para Zélia e Maurício. Isso pode ser nervosismo, não prova. Vou testar se sabe detalhes do suposto pedido.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "A Zélia batizou o caderno, detetive! O nome do papagaio virou o nome do projeto, era assim que ela chamava — 'Plano Juvenal, fase dois'. E o pedido dela foi literal: 'aprenda com o síndico'. Foi roteiro dela, não meu. Eu só dava a semente quando ele acertava.",
+   "pensamento": "O 'Plano Juvenal' é o ponto fraco: parece um plano de vingança. Vou dizer que era só o nome do projeto de treino, batizado com o nome do papagaio, e que a Zélia roteirizou a frase dela mesma. Se eu inventar documento demais, piora.",
+   "estresse": 70,
+   "bpm": 128,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "“Aprenda com o síndico” é uma instrução curiosamente vaga. No caderno, qual foi a primeira anotação sobre a frase — e em que dia você começou a ensaiá-la às oito?",
+   "pensamento": "Ele atribui cada detalhe comprometedor a Zélia ou Maurício, mas ainda não explica por que escolheu o horário exato da passagem. Vou testar se conhece a origem concreta da frase.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Não lembro o dia exato, foi semana passada, acho que numa quinta. O caderno só registrava horários e recompensas: '8h, semente', 'acertou', 'erro'. A frase aparecia entre aspas, como sugestão da Zélia. Se quiser, mostro o caderno — mas isso é depoimento, não confissão.",
+   "pensamento": "O detetive está apertando o cerco. Se eu inventar dia e anotação, ele pode comparar com alguma prova. Melhor contar história parcial, sem assumir autoria da frase.",
+   "estresse": 78,
+   "bpm": 132,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Zélia estava viajando nas três semanas em que você cuidou das plantas. Quando, exatamente, ela pediu esse treino — antes de viajar ou por telefone? E quem pode confirmar?",
+   "pensamento": "A história muda de treino para festa e depois para um pedido vago. O estresse subiu, mas isso não prova culpa. A ausência de Zélia é a contradição mais útil: quando ela pediu, exatamente?",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Por WhatsApp, antes dela viajar. A Zélia mandou áudio engraçado, mas não posso dizer quem viu; foi conversa particular. O pedido veio no grupo da família, talvez o Maurício confirme.",
+   "pensamento": "Ela está apertando o cerco. Se digo que Zélia pediu por telefone antes de viajar, preciso inventar alguém que confirme e arrumar essa-trip看不出o. Melhor dizer que foi por WhatsApp, sem testemunha, e blaming aZNVIDIA.",
+   "estresse": 88,
+   "bpm": 146,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Você disse que foi por WhatsApp, depois que o pedido era literal. Qual foi a data e a frase exata da mensagem? Não adivinhe: o grupo da família pode confirmar.",
+   "pensamento": "As versões mudam: corrigir “bom dia”, provocação de festa, pedido vago. O estresse alto pesa pouco; preciso testar um detalhe verificável antes de acusar.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Foi um áudio, não texto, então não existe 'frase exata' pra citar. Foi antes da viagem, talvez dia 12 de julho, não lembro. O Maurício pode confirmar que ela comentou a piada, mas ninguém prova que eu montei o roteiro.",
+   "pensamento": "O áudio pode ter sido apagado, mas ele vai checar o grupo da família e achar o texto do Maurício. A frase literal estava só na minha cabeça, não no WhatsApp. Preciso bagunçar a versão do pedido antes que batam.",
+   "estresse": 93,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Você diz que Maurício pode confirmar. Ótimo: ele confirma o pedido de treino ou só que Zélia riu da piada? São coisas bem diferentes.",
+   "pensamento": "As contradições e o estresse pesam, mas não provam culpa. O pedido da Zélia ainda pode ser real; preciso testar a história com uma confirmação independente.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Só que ela riu da piada. O Maurício nunca confirmou que ela pediu o treino. Foi impressão minha, confundi as coisas. E o pedido pode ter sido antes ou depois da viagem; enfim, não lembro direito.",
+   "pensamento": "Maurício só ouviu a piada; se eu disser que ele confirmou o pedido, ele me contradiz. Preciso desfazer essa ligação e focar na viagem da Zélia. Estou quase perdendo o controle, mas ainda não fui pego.",
+   "estresse": 96,
+   "bpm": 148,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Você chamou a conversa de particular e depois disse que foi no grupo da família. Qual versão posso verificar no seu celular: áudio direto da Zélia ou mensagem no grupo?",
+   "pensamento": "A história desmoronou: pedido literal, áudio, grupo, talvez antes ou depois. Mas nervosismo não prova culpa; preciso testar uma contradição concreta.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Foi áudio direto no meu WhatsApp, detetive. Ela gravou rindo e eu respondi. Depois apaguei sem querer, igual gente comum. Pode conferir o celular, mas não vai achar data nem frase. Eu ouvi, inventei o ensaio... a ideia foi minha, só isso.",
+   "pensamento": "Minha história está desmoronando: Já mudei de particular para grupo, e agora Maurício só confirma a risada. Vou dizer que o áudio era direto e que o celular não tem mais registro. Enquanto ele procura, invento uma desculpa técnica.",
+   "estresse": 97,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Então vamos separar as coisas: você inventou o ensaio. Foi você também quem ensinou Juvenal a dizer “O síndico é careca” — e programou isso para as oito?",
+   "pensamento": "Ele admitiu que inventou o ensaio, mas ainda pode estar escondendo quem escolheu a frase. A confissão é forte; falta separar iniciativa de execução.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Foi eu. Treinei o Juvenal nas três semanas que reguei as plantas da Zélia. A frase e as oito são minhas. Foi vingança pela multa da vaga. Melhor ideia da minha vida.",
+   "pensamento": "Estou ferrado: o caderno, o girassol e o Maurício não fecham. Confesso — e com orgulho, porque foi a melhor ideia da minha vida. Só não esperava ser pego por causa de semente de girassol.",
+   "estresse": 82,
+   "bpm": 135,
+   "expressao": "culpado",
+   "gesto": "bater_mesa",
+   "confessou": true
+  }
+ ],
+ "fim": {
+  "tipo": "confissao",
+  "k": 10
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

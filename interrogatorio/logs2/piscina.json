@@ -1,0 +1,237 @@
+{
+ "caso": {
+  "id": "piscina",
+  "detetive": "claude",
+  "suspeito": "qwen",
+  "culpado": true,
+  "titulo": "A Piscina Cor-de-Rosa",
+  "local": "Piscina do condomínio",
+  "hora": "01:10",
+  "resumo": "Na manhã da festa infantil do condomínio, a piscina amanheceu COR-DE-ROSA e com cheiro de morango. Ninguém conseguiu entrar na água e a festa foi cancelada.",
+  "pistas": [
+   "O cartão do suspeito comprou 40 pacotes de suco em pó sabor morango no mercado às 22:40 da véspera.",
+   "A câmera da piscina ficou desligada das 01:00 às 01:25.",
+   "Pegadas cor-de-rosa vão da piscina até a porta do bloco do suspeito.",
+   "Às 01:30 o suspeito postou: \"amanhã sai conteúdo HISTÓRICO\"."
+  ],
+  "verdade": "Você JOGOU os 40 pacotes de suco em pó de morango na piscina à 01:10, pra gravar um vídeo \"nadei numa piscina de suco\" e viralizar. Desligou a câmera da piscina à 01:00 no quadro de luz da área de lazer. Escorregou na borda e o vídeo ficou horrível, então nem postou. Suas meias ainda estão cor-de-rosa."
+ },
+ "detetive": {
+  "nome": "Claude",
+  "modelo": "Claude Haiku",
+  "provider": "haiku"
+ },
+ "suspeito": {
+  "nome": "Qwen",
+  "modelo": "Qwen 3.8 27B",
+  "provider": "or:qwen/qwen3.8-27b"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Quarenta pacotes de suco de morango, às dez e quarenta da noite. Ou você é muito organizado pra festas, ou muito criativo pra piscinas. Qual dos dois?",
+   "pensamento": "O cartão é dele, mas cartão não confessa sozinho. Estresse 35 e BPM 100: calmo demais pra quem pintou uma piscina, ou tranquilo demais pra quem não tem nada a esconder. Preciso ver qual dos dois.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Ah, mas eu comprei pro smoothie da manhã seguinte. Ninguém comeu. O que isso tem a ver com a piscina?",
+   "pensamento": "Porque ele tá dizendo 22h40? Eu joguei às 01h10. Tá confundindo horários? Vou aproveitar essa brecha pra confundir ele de volta.",
+   "estresse": 42,
+   "bpm": 106,
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Smoothie às dez e quarenta, certo. Agora me explica o post das 01:30. Conteúdo histórico. Cinco minutos depois da câmera voltar. Coincidência, ou você já sabia que ela estaria cega?",
+   "pensamento": "Resposta rápida e ensaiada, mas o BPM não disparou. Pode ser inocente com uma explicação boa, ou pode ser muito bom. O post das 01:30 é a pista que mais me interessa agora.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Post? Eu tava dormindo, cara. Celular no silent. Não vi nada das uma e meia.",
+   "pensamento": "Ele sabe da câmera desligada às 01:00 e agora fala de um post às 01:30? Que post? Talvez alguém viu a piscina cor-de-rosa e postou. Preciso fingir que não sei de nada.",
+   "estresse": 58,
+   "bpm": 114,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Dormindo, celular no silent, e às uma e meia você postou um conteúdo histórico. Ou você tem um agendador de sonhos, ou alguém mexeu no seu celular. Quem tem acesso a ele?",
+   "pensamento": "Ele fala 'dormindo' com o BPM em 119. Quem dorme não sobe o pulso assim. Mas o post pode ter sido agendado ou o celular pode ter sido usado por outra pessoa. Preciso saber quem tinha acesso ao aparelho antes de cravar qualquer coisa.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Ah, aquele app de curiosidade histórica. Ele agenda posts aleatórios no meio da noite. É tipo um 'sabia que?' automático. Meu celular tava trancado no modo avião, juro.",
+   "pensamento": "Ele tá conectando os pontos. A câmera desligada + meu post. Preciso explicar o post sem abrir a caixa de Pandora. Vou tentar o app de curiosidades que posta sozinho.",
+   "estresse": 74,
+   "bpm": 133,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Modo avião, né? Então seu app de curiosidades usou pombo-correio pra postar às uma e meia? Seu coração já respondeu por você: cento e trinta e dois BPM.",
+   "pensamento": "Modo avião corta a internet, então o post das 01:30 não saiu sozinho. Ou ele mentiu sobre o modo avião, ou alguém postou por ele. Os BPM subindo na hora certa dizem que ele sabe disso. Ainda não sei se é culpado ou só um sujeito com um app muito suspeito.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Cara, o Pedro do 302 tava dormindo no sofá aqui em casa. Deve ter pegado meu celular. Pergunta pra ele.",
+   "pensamento": "Tô encurralado. O detetive tá me espremendo. Preciso de um bode expiativo rápido. Tomar o cara do 302 que tava na festa?",
+   "estresse": 82,
+   "bpm": 138,
+   "expressao": "nervoso",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Pedro do 302, anotado. Mas esse app de curiosidades guarda histórico, né? Abre aí e me mostra o agendamento das uma e meia. Agora.",
+   "pensamento": "Ele jogou o Pedro na roda rápido demais. Culpa de terceiro é o primeiro reflexo de quem tem o que esconder. Mas um inocente também tentaria se livrar assim. Preciso do agendamento do app antes de cair em qualquer lado.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Meu celular tá com o Pedro, falei. E antes que você pergunte: não, ele não guarda histórico. É app minimalista. Toca em mim?",
+   "pensamento": "Que porra. Invenção em cima da hora e agora ele quer ver o histórico. Não tem app. Meu celular tá no quarto no silent. Preciso manter a história do Pedro.",
+   "estresse": 88,
+   "bpm": 140,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Pedro do 302, anotado. Mas as pegadas cor-de-rosa terminam na SUA porta, não na dele. Ele dormiu no sofá, então me explica como os passos chegaram até a sua casa.",
+   "pensamento": "O Pedro do 302 é a história mais conveniente que já ouvi. Se ele estava no sofá, por que as pegadas terminam na porta DELE? Ou ele mente, ou o Pedro tem pé de 46 e nunca usa chinelo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Pegada cor-de-rosa na minha porta? Deve ser marca de tinta. Eu tava pintando a parede interna. Pinta rosa? Sim, gosto de rosa. Tamo lá, detetive.",
+   "pensamento": "As pegadas vão até a minha porta porque EU voltei da piscina. As meias ainda estão cor-de-rosa no armário. Se ele perguntar das meias, estou acabado. Preciso desviar antes.",
+   "estresse": 93,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Tinta rosa, então? Me mostra a lata. Agora. E já que o Pedro não deixou pegada nenhuma, quem pisou em rosa até a sua porta?",
+   "pensamento": "Ele tá suando frio e o coração quase fora do peito. Mas o Pedro ainda pode ser inocente de verdade. Não tenho prova que feche o caso. Se não existir lata de tinta nenhuma, aí eu acuso.",
+   "acao": "perguntar",
+   "expressao": "suando",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Lata? Já joguei fora ontem. Projeto interno, parede da sala. Pegada... meu têz tava manchado de tinta. Tá na máquina de lavar. Quer ver?",
+   "pensamento": "Não existe lata de tinta. Não existe projeto. Meus tênis estão limpos na entrada. Se ele mandar olhar na máquina de lavar, eu estou frito. Preciso desviar o foco antes que ele mande alguém ver.",
+   "estresse": 95,
+   "bpm": 148,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Não mostra a máquina ainda. Vou lá eu mesmo. Mas me diz: tinta não tem cheiro de morango. Por que a piscina cheira a suco em pó?",
+   "pensamento": "Ele está desmoronando, mas cada desculpa vem pronta demais: Pedro, app, tinta, máquina de lavar. O elo que ele não explica é o cheiro de morango. Se for inocente, a resposta sobre o cheiro separa tinta de suco. Estou blefando: não tenho perícia nenhuma, só o cheiro.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Piscina cheira a suco em pó? Que isso. Pode ser alucinação de quem tava de ressaca. E sim, existe tinta aromática. Pesquisa, detetive.",
+   "pensamento": "Ele tá me encurralando. Cheiro de morango é um detalhe que eu não posso explicar se não for suco em pó. Preciso inventar alguma coisa sobre tinta aromática antes que ele feche o cerco.",
+   "estresse": 98,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Engraçado. Pedro do 302 não tá com a mesma história que você. Ele disse que o celular nunca saiu da sua mão. Quer repensar o 'Pedro pegou'?",
+   "pensamento": "Ele está suando e cada desculpa muda. Pedro do 302 é blefe, eu ainda não o interroguei. Sinto cheiro de culpa, mas lembro do Carro Rosa: fui acusado sem prova e era inocente. Não posso repetir isso. Vou apertar mais uma vez e ver se ele se contradiz sozinho.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Pedro tá mentindo. O cara não suporta que eu sou mais criativo que ele. Pergunta com mais gente, detetive. Tô de boa aqui.",
+   "pensamento": "O Pedro me traiu. A desculpa do celular caiu. Se ele me delatou, eu vou delatar ele de algo. Mas ainda não confesso - ele não mencionou as meias. Ainda tenho uma cartada.",
+   "estresse": 99,
+   "bpm": 155,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Já são três histórias: o app, o Pedro e a tinta. Quantas ainda cabem no seu bolso? Escolhe uma, campeão. Eu já estou indo até a sua máquina de lavar.",
+   "pensamento": "Três desculpas diferentes em dez minutos: app, Pedro, tinta. Ele está suando e o coração a 150, mas estresse não é confissão. Se o Pedro tiver razão, esse cara está afundando sozinho. Preciso que ele escolha uma versão antes de eu ir até a máquina de lavar.",
+   "acao": "perguntar",
+   "expressao": "suando",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Detetive, para. Tamo lá, eu fui. Queria um vídeo de nado na piscina de suco. Escorreguei, ficou feio, nem postei. Fui idiota.",
+   "pensamento": "Ele tá indo na máquina. Vai achar as meias. Não tem mais saída. Vou confessar antes que ele abra a porta da máquina e me veja mais humilhado ainda.",
+   "estresse": 60,
+   "bpm": 116,
+   "expressao": "culpado",
+   "gesto": "nenhuma",
+   "confessou": true
+  }
+ ],
+ "fim": {
+  "tipo": "confissao",
+  "k": 10
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

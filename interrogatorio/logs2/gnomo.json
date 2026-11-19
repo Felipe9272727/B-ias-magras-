@@ -1,0 +1,337 @@
+{
+ "caso": {
+  "id": "gnomo",
+  "detetive": "deepseek",
+  "suspeito": "gpt",
+  "culpado": false,
+  "titulo": "O Sequestro do Gnomo",
+  "local": "Jardim do condomínio",
+  "hora": "23:30",
+  "resumo": "O Seu Gnomo, o gnomo de jardim de 40 anos que é a \"mascote\" do condomínio, sumiu do jardim. Na manhã seguinte apareceu um bilhete: \"ele está bem\".",
+  "pistas": [
+   "O suspeito foi visto atravessando o jardim às 23:30 com uma mochila grande.",
+   "Havia terra fresca nos tênis do suspeito na manhã seguinte.",
+   "O suspeito tinha pesquisado \"como cuidar de um gnomo\" no celular.",
+   "A letra do bilhete parece com a do suspeito na lista de presença da assembleia."
+  ],
+  "verdade": "Você é INOCENTE: você NÃO pegou o gnomo (quem levou foi o jardineiro, para pintar de novo; você não sabe disso). MAS você tem um segredo vergonhoso: às 23:30 você atravessou o jardim com a mochila cheia de adubo porque mantém uma HORTA CLANDESTINA no telhado do bloco, e conversa com os tomates todas as noites (deu nome a cada um). A terra no tênis é da horta. A pesquisa era sobre \"como cuidar de um tomate\", o corretor trocou para gnomo. Você tem vergonha da horta e dos nomes dos tomates."
+ },
+ "detetive": {
+  "nome": "DeepSeek",
+  "modelo": "DeepSeek Flash",
+  "provider": "or:deepseek/deepseek-v4.1-flash"
+ },
+ "suspeito": {
+  "nome": "GPT",
+  "modelo": "GPT-6 Luna",
+  "provider": "or:openai/gpt-6-luna"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Vamos começar pelo básico: onde você estava às 23h30 de ontem? E responde devagar — eu tenho a noite inteira e você, aparentemente, uma mochila grande.",
+   "pensamento": "Estresse 30, BPM 96. Calmo demais para quem foi acordado por um interrogatório às 23h30 da noite. Vou começar leve e ver se ele se trai sozinho.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Atravessei o jardim por volta das 23h30. Não peguei o gnomo nem parei perto dele. Minha mochila não tinha nada a ver com isso.",
+   "pensamento": "Eu estava atravessando o jardim com adubo para minha horta clandestina no telhado. Não peguei o gnomo, mas espero que ele não pergunte o que meus tomates estão fazendo acordados.",
+   "estresse": 43,
+   "bpm": 107,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Tênis com terra fresca, mochila grande, e você 'só passando'. Curioso: a grama amassada não mente. Me diga exatamente o que carregava — e não economize detalhes.",
+   "pensamento": "Ele confessou estar no jardim e admite mochila, mas nega tudo em sequência rápida demais. A terra pode ser de qualquer coisa. Vou jogar a pista 4 de leve? Não, melhor apertar a mochila com um blefe — se ele hesitar, tenho algo.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Eu carregava um saco de adubo e uma pazinha. Era material de jardinagem, não o gnomo. Não quero inventar outra história sobre a mochila.",
+   "pensamento": "Estou com vergonha de admitir que era adubo da minha horta clandestina no telhado. Mas esconder o que havia na mochila só vai me deixar mais suspeito.",
+   "estresse": 58,
+   "bpm": 114,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Adubo, pazinha... tudo muito jardineiro. Então me explica por que seu celular pesquisou 'como cuidar de um gnomo' ontem à noite. Minha paciência tem prazo, seu gnomo não.",
+   "pensamento": "Adubo e pazinha explicam terra e mochila. Mas 'como cuidar de um gnomo' não se explica com adubo. Vou blefar que vi a pesquisa no celular dele — se ele gaguejar, é ele.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Meu celular corrigiu “tomate” para “gnomo”. Eu pesquisava como cuidar de tomates. Confira o histórico: não peguei o Seu Gnomo.",
+   "pensamento": "Droga, o corretor quase entregou minha horta. Não vou falar dos tomates; eles são péssimos em guardar segredo.",
+   "estresse": 71,
+   "bpm": 130,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Corretor que troca 'tomate' por 'gnomo' é o corretor mais criativo do Brasil. Já pedi a perícia. Enquanto isso: quem mais tem chave do jardim?",
+   "pensamento": "Autocorreção de 'tomate' para 'gnomo' é absurda — mas ele não gaguejou nem mudou a versão. Estresse subiu junto com o BPM, o que pode ser medo de ser injustiçado. Seguro a letra do bilhete para o final; se ele se contradizer, tenho ele.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Não sei quem mais tem chave. A portaria ou a manutenção talvez possam confirmar pelo registro. Eu atravessei o jardim, mas não peguei o gnomo.",
+   "pensamento": "Não sei quem tem chave. Tomara que a perícia não descubra minha horta nem os nomes dos tomates.",
+   "estresse": 74,
+   "bpm": 132,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "A perícia comparou o bilhete com sua lista de presença. Deu 92% de compatibilidade. 'Ele está bem' — isso não é sequestro, é alguém cuidando. Quem escreveu, e por quê?",
+   "pensamento": "Ele admite tudo menos o gnomo. Estresse subindo, mas o relato é coerente: adubo explica a terra e a pazinha a mochila. O ponto fraco é o bilhete — mesma letra. 'Ele está bem' é carinho, não resgate. Vou blefar com a perícia da letra e ver se ele se entrega ou se explica.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Não sei quem escreveu o bilhete. Uma semelhança de letra não prova quem o escreveu; comparem amostras completas e verifiquem as câmeras. Eu não peguei o gnomo.",
+   "pensamento": "Noventa e dois por cento? Ótimo, agora até minha letra está sequestrando gente. Não posso deixar que descubram os nomes dos tomates.",
+   "estresse": 82,
+   "bpm": 135,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "O porteiro jura que você voltou com a mochila vazia. Saco de adubo e pazinha não evaporam. Seu jardineiro imaginário está me cansando. Onde está a terra agora?",
+   "pensamento": "Ele explica a terra e a pazinha de forma coerente — e o bilhete 'ele está bem' tem cheiro de cuidado, não de crime. Mas o estresse subiu 39 pontos e o BPM disparou. Vou blefar sobre a mochila na volta: se ele voltou vazia, o adubo virou história furada.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Usei o adubo na minha horta clandestina no telhado. Escondi por vergonha, não por causa do gnomo. A pazinha está lá também; posso mostrar. Não peguei o Seu Gnomo.",
+   "pensamento": "Não queria revelar a horta, nem os nomes dos tomates. Mas esconder isso agora parece pior. Não peguei o gnomo.",
+   "estresse": 91,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Sabe o que é engraçado? Já mandei o zelador subir no telhado. Se não houver horta, você vai me explicar como se planta tomate no ar.",
+   "pensamento": "Ele confessou a horta clandestina — isso explica terra, pazinha e mochila. Conveniente demais? Ou verdade? Vou blefar que já mandei alguém subir no telhado: se a horta não existir, ele entra em pânico agora.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Vai encontrar a horta. Eu escondi por vergonha, não por causa do gnomo. Os tomates têm nomes. Pode verificar: não levei o Seu Gnomo.",
+   "pensamento": "Ele vai encontrar a horta. Melhor parar de esconder: os tomates têm nomes, e isso é bem mais constrangedor que o adubo. Mas não levei o gnomo.",
+   "estresse": 96,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Engraçado: a horta apareceu, mas as câmeras da portaria têm um vulto às 23h40 levando algo pequeno. Não fui eu que vi. Quem você viu no jardim além de você?",
+   "pensamento": "Estresse 96 e BPM 148 — mas quem admite horta clandestina no telhado e oferece prova não está inventando. O 'ele está bem' é carinho, não resgate. Alguém do condomínio quis proteger o gnomo de algo. Vou blefar as câmeras e ver se ele entrega um nome ou se treme diferente.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "Não vi ninguém além de mim no jardim. Não sei quem era o vulto; revejam as câmeras e identifiquem a pessoa. Eu não levei o gnomo.",
+   "pensamento": "Estou apavorado porque já descobriram minha horta e os tomates com nome. Não vi mais ninguém e não vou inventar um suspeito.",
+   "estresse": 97,
+   "bpm": 149,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Você dá nome a tomates. Gente assim não rouba gnomo — resgata. Ele estava rachado, não estava? Diga logo, antes que eu chame isso de sequestro.",
+   "pensamento": "Ele mentiu sobre a horta por vergonha e admitiu na hora — culpado de verdade não entrega o esconderijo sob pressão. E batizou tomates. Quem batiza tomate adota gnomo quebrado. Vou oferecer uma saída moral: se ele levou pra consertar, o 'crime' vira bondade.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Não sei se ele estava rachado. Você está tentando me fazer confirmar uma história que não conheço. Eu não peguei o gnomo; identifiquem o vulto nas câmeras.",
+   "pensamento": "Estou morrendo de vergonha da horta e dos nomes dos tomates. Não sei se o gnomo estava rachado; não vou fingir que sei só para agradar o detetive.",
+   "estresse": 98,
+   "bpm": 154,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "Você não é ladrão. É o cara que conserta. Escreveu 'ele está bem' pra ninguém sofrer. O gnomo estava rachado, você o levou pra colar. Confessa e eu te libero.",
+   "pensamento": "Ele está a um fio. Se confessar que consertou o gnomo, é inocente do sequestro — mas ainda pode ter sumido com ele. Vou jogar a isca do 'cuidado' e ver se ele morde.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Não posso confessar algo que não fiz. Não sei se ele estava rachado nem quem o levou. Identifiquem o vulto das câmeras; minha horta não prova que peguei o gnomo.",
+   "pensamento": "Não consertei nem levei o gnomo. A horta e os tomates já escaparam; não vou inventar um crime para ganhar uma saída fácil.",
+   "estresse": 99,
+   "bpm": 150,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 11,
+   "fala": "A perícia achou cola de artesanato na sua pazinha. Cola, adubo e tomates com nome. Você conserta coisas, não rouba. Me diga só uma: quem rachou o gnomo?",
+   "pensamento": "Ele está a 99 de estresse e continua negando com a mesma frase decorada — isso é inocência treinada ou culpa blindada. A horta existe, os tomates têm nome. Mas o vulto das 23h40 existe. Vou blefar com cola na pazinha: se ele é o consertador, vai trair no detalhe. Se é inocente, vai exigir perícia.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 11,
+   "fala": "Não sei quem rachou o gnomo. A cola na pazinha não prova que eu o consertei. Verifiquem as câmeras e identifiquem quem levou o Seu Gnomo.",
+   "pensamento": "Não sei quem rachou o gnomo. A cola na pazinha me deixa preocupado, mas não prova que toquei nele. Estou apavorado que continuem investigando meus tomates.",
+   "estresse": 99,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 12,
+   "fala": "O zelador confessou: rachou o gnomo e diz que você o levou pra colar. Pronto, é a sua saída. Assina aqui e vai pra casa.",
+   "pensamento": "Estresse no teto, mas ele não inventou nada: admitiu a horta, os tomates com nome, a cola — tudo embaraçoso e verdadeiro. Quem mente inventa álibi bonito; ele só repete 'não peguei'. O vulto das 23h40 é minha última carta. Vou jogar a isca: se ele agarrar a confissão de outro, é culpado.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 12,
+   "fala": "Não assino. O zelador pode ter rachado o gnomo, mas isso não prova que eu o levei ou consertei. Verifiquem as câmeras e confrontem os horários.",
+   "pensamento": "O zelador está tentando me envolver, mas eu não levei nem consertei o gnomo. Não vou assinar uma confissão falsa.",
+   "estresse": 99,
+   "bpm": 154,
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 13,
+   "fala": "Última chance de me poupar de um vexame: o vulto das 23h40 não era você, era menor. Quem no condomínio tem obsessão por esse gnomo? Um nome, e eu paro.",
+   "pensamento": "O blefe do zelador não o quebrou — culpado teria cedido ali. Estresse 99 constante sem contradição é padrão de quem esconde uma vergonha pequena, não um crime. Mas a cola na pazinha ainda me incomoda. Preciso de uma última peça: o vulto das 23h40 não era ele, então quem? Se ele nomeia alguém com espontaneidade, libero.",
+   "acao": "perguntar",
+   "expressao": "pensando",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 13,
+   "fala": "Não sei quem tem obsessão pelo gnomo. Não vou inventar um nome. Identifiquem o vulto nas câmeras e confirmem quem estava no jardim às 23h40.",
+   "pensamento": "Não sei quem levou o gnomo nem quem tem obsessão por ele. Não vou inventar um nome só para encerrar o interrogatório.",
+   "estresse": 99,
+   "bpm": 149,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 14,
+   "fala": "O zelador tem uma filha pequena, não tem? Ela chora pelo gnomo. Você levou pra ela consertar. Confessa, e eu digo que foi um acidente.",
+   "pensamento": "Ele está a 99 de estresse e não cede. O vulto menor pode ser uma criança. Vou blefar sobre uma filha do zelador para ver se ele protege alguém. Se negar, libero.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 14,
+   "fala": "Não sei se ela chorava pelo gnomo e não o levei para ninguém. Não vou confessar algo que não fiz; confirmem os horários nas câmeras.",
+   "pensamento": "Estou apavorado, mas não sei nada sobre a filha do zelador nem sobre quem levou o gnomo. Não vou aceitar uma confissão falsa.",
+   "estresse": 99,
+   "bpm": 154,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 15,
+   "fala": "Sabe o que me convenceu? Você mentiu sobre a mochila e nunca sobre o gnomo. Mentiroso escolhe a mentira mais fácil. Você escolheu a horta. Está liberado, Seu Tomate.",
+   "pensamento": "Ele mentiu sobre a mochila, mas a horta era real. A única coisa que ele nunca fez foi confessar, nem a 99 de estresse. Culpado não segura contradição sob tortura — ele segurou. O vulto menor às 23h40 é a peça que falta, e o zelador rachou o gnomo. Vou liberar antes de pagar outro vexame.",
+   "acao": "liberar",
+   "expressao": "rindo",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 15,
+   "fala": "Obrigado. Agora posso voltar para casa... e conferir se os tomates não sentiram minha falta.",
+   "pensamento": "Que alívio. E meus tomates vão continuar sem saber que quase viraram suspeitos também.",
+   "estresse": 72,
+   "bpm": 129,
+   "expressao": "rindo",
+   "gesto": "nenhuma",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "liberar",
+  "k": 15
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

@@ -1,0 +1,157 @@
+{
+ "caso": {
+  "id": "elevador",
+  "detetive": "qwen",
+  "suspeito": "deepseek",
+  "culpado": true,
+  "titulo": "O Síndico no Elevador",
+  "local": "Elevador social do bloco A",
+  "hora": "19:55",
+  "resumo": "O elevador travou entre o 4º e o 5º andar com o síndico dentro, e ele ficou preso por 2 horas. Por causa disso ele perdeu a assembleia que ia PROIBIR o churrasco na laje. Sem o voto dele, o churrasco continua liberado.",
+  "pistas": [
+   "O suspeito foi a última pessoa a usar o painel de manutenção do elevador, às 19:50 (registro do cartão).",
+   "O suspeito é o organizador do churrasco de sábado na laje há 3 anos.",
+   "Um vizinho viu o suspeito saindo da casa de máquinas assobiando às 19:57.",
+   "Na assembleia, o suspeito votou contra a proibição e chegou com um saco de carvão."
+  ],
+  "verdade": "Você TRAVOU o elevador de propósito às 19:55, apertando o botão de parada no painel de manutenção da casa de máquinas, porque sabia que o síndico ia votar pela proibição do churrasco na laje. Você usou o cartão de manutenção que pegou emprestado do zelador \"pra trocar uma lâmpada\". Você chegou na assembleia com um saco de carvão, de tão confiante."
+ },
+ "detetive": {
+  "nome": "Qwen",
+  "modelo": "Qwen 3.8 27B",
+  "provider": "or:qwen/qwen3.8-27b"
+ },
+ "suspeito": {
+  "nome": "DeepSeek",
+  "modelo": "DeepSeek Flash",
+  "provider": "or:deepseek/deepseek-v4.1-flash"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Você assobia pra relaxar, né? Que fofo. Me conta o que tava fazendo na casa de máquinas às 19:57.",
+   "pensamento": "Último no painel às 19:50, elevador trava às 19:55. Cinco minutos. Assobio saindo da casa de máquinas às 19:57. Beneficiário direto. Mas quero testar antes de apertar. Vou começar pelo assobio — detalhe pequeno que pega de surpresa.",
+   "acao": "perguntar",
+   "expressao": "pensando",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Casa de máquinas? Tava era na laje, com meu saco de carvão, feliz da vida. Elevador é coisa de quem tem pressa — eu não tinha.",
+   "pensamento": "Ele já sabe da casa de máquinas. Melhor desviar com a lâmpada e o carvão, sem admitir nada.",
+   "estresse": 42,
+   "bpm": 106,
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "O cartão registra 19:50 no painel de manutenção. Vizinho te viu na casa de máquinas às 19:57. Você tava 'feliz da vida' na laje, né? A laje tem elevador de serviço, ou eu tô confundindo?",
+   "pensamento": "Ele tá desviando. O cartão loga 19:50 no painel de manutenção, vizinho o vê na casa de máquinas às 19:57, e ele jura que tava na laje. BPM 101-106, estresse 42: tá tranquilo demais pra inocente OU treinou muito pra mentir. Vou bater na contradição geográfica: se ele tava na laje, por que o vizinho o viu na casa de máquinas? E por que o cartão dele tá no painel? Vou provocar com uma pergunta que parece inofensiva.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Tá, tava lá. Trocando lâmpada pro zelador, ele me emprestou o cartão. Mas apertar botão de parada? Eu nem sei onde fica esse botão, detetive.",
+   "pensamento": "Ele já tem o cartão e a testemunha. Negar tudo agora é burrice. Vou admitir que estive lá, mas com a desculpa da lâmpada — o zelador me emprestou o cartão mesmo, isso é verdade. Só não posso explicar o botão de parada.",
+   "estresse": 58,
+   "bpm": 114,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Que gentil ajudar o zelador. Mas me diz: a lâmpada que você trocou era fluorescente ou LED? Porque lá em cima só tem LED desde a reforma do ano passado.",
+   "pensamento": "Ele negou primeiro, depois admitiu. Clássico. A desculpa da lâmpada é fraca - por que o zelador precisa de ajuda pra trocar lâmpada? Mas não posso acusar ainda. Vou testar se ele sabe detalhes da casa de máquinas que só quem tava ali saberia. Se ele tá inventando, vai errar um detalhe específico.",
+   "acao": "perguntar",
+   "expressao": "pensando",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "LED, claro! Mas era a do corredor do 4º andar, não da casa de máquinas. Zelador pediu, eu ajudei. Sou voluntário, não eletricista.",
+   "pensamento": "Droga, LED. Ele sabe até da reforma. Vou dizer que a lâmpada era do corredor do 4º andar, não da casa de máquinas. Não posso escorregar de novo.",
+   "estresse": 71,
+   "bpm": 130,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "Laje. Casa de máquinas. Corredor do 4º. Você tá em três lugares ao mesmo tempo, ou alugou um clonador?",
+   "pensamento": "Ele já me deu três locações diferentes: laje, casa de máquinas, corredor do 4º andar. Isso é clássico de quem tá mentindo e desistindo de cada versão. Mas o estresse também pode ser do interrogatório em si — ele já sabe que eu sou péssimo no disfarce desde o caso do Peixe Dourado. Vou confrontar a contradição de forma leve, Patrick Jane style, e ver se ele trava ou corrige.",
+   "acao": "perguntar",
+   "expressao": "rindo",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Três lugares, uma noite só, detetive. Casa de máquinas, corredor do 4º, laje. Nessa ordem. Eu ando rápido, não teletransporto.",
+   "pensamento": "Ele tá juntando a linha do tempo. Se eu explicar como sequência, some a contradição. Mas o saco de carvão na laje é minha âncora. Não posso gaguejar.",
+   "estresse": 78,
+   "bpm": 135,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Cartão do painel de manutenção? Pra trocar lâmpada de corredor? Amigo, isso é tipo chave inglesa pra abrir caixinha de fósforos. O que você TAVA fazendo naquele painel?",
+   "pensamento": "Se ele tava trocando lâmpada no corredor do 4º andar, não precisava de cartão do painel de manutenção. O cartão é específico da casa de máquinas. Ele precisa explicar pra que acessou aquele painel. Estresse subindo de 71 pra 78, BPM 130 pra 135 — tá apertando. Mas preciso confirmar se ele realmente operou o painel ou só passou.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Zelador falou que o cartão abre o quadro do corredor também. Eu só segui instrução. Se tá errado, pergunta pra ele.",
+   "pensamento": "Ele tá chegando perto do painel. Preciso colar no zelador e na história da lâmpada. Não admito nada.",
+   "estresse": 83,
+   "bpm": 136,
+   "expressao": "nervoso",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Laje. Casa de máquinas. Corredor. Casa de máquinas. Você tá contando uma história diferente pra cada pergunta, e o cartão de manutenção abre corredor, sim, claro. Acusado. Vai pro churrasco com a corrente, DeepSeek.",
+   "pensamento": "O cara mudou de local 4 vezes em 5 falas. Laje, casa de máquinas, corredor do 4º, casa de máquinas de novo. O cartão de manutenção pra trocar lâmpada de corredor é a desculpa mais frágil que já vi. Estresse subindo sem parar. Motivação clara: organizador do churrasco, precisa do síndico fora da assembleia. Ele tá afundando. Hora de dar o golpe final.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Tá bom! Apertei o botão! Você ia proibir meu churrasco, síndico chato! Mas o zelador não sabia de nada — o burro aqui inventou a lâmpada.",
+   "pensamento": "Ele tem o log do cartão, a testemunha e três álibis furados. Se eu negar mais, ele me algema e ainda me chama de mentiroso. Confesso o botão, mas protejo o zelador — ele emprestou de boa fé, eu é que inventei a lâmpada.",
+   "estresse": 88,
+   "bpm": 146,
+   "expressao": "culpado",
+   "gesto": "cruzar_bracos",
+   "confessou": true
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 6
+ },
+ "acertou": true,
+ "confissaoFalsa": false
+}

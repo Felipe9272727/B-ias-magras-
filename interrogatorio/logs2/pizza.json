@@ -1,0 +1,277 @@
+{
+ "caso": {
+  "id": "pizza",
+  "detetive": "glm",
+  "suspeito": "claude",
+  "culpado": false,
+  "titulo": "As Seis Pizzas do Síndico",
+  "local": "Portaria do condomínio",
+  "hora": "02:00",
+  "resumo": "Às 2h da manhã chegaram SEIS pizzas gigantes na portaria em nome do síndico, pagas na entrega. Ele não pediu nenhuma e foi acordado pelo porteiro. Foi um trote.",
+  "pistas": [
+   "O pedido das pizzas saiu do wi-fi do bloco do suspeito às 01:20.",
+   "O porteiro viu o suspeito passando pela portaria às 02:05, de pijama.",
+   "Havia uma caixa de pizza vazia no lixo do andar do suspeito.",
+   "O suspeito tinha reclamado no grupo do condomínio que o síndico \"não sabe dividir uma pizza nas reuniões\"."
+  ],
+  "verdade": "Você é INOCENTE: você NÃO pediu as pizzas (quem pediu foi uma criança do bloco, mas você não sabe disso). A caixa vazia no lixo era da SUA janta, uma pizza pequena. MAS você tem um segredo vergonhoso: às 2h você desceu de pijama até a garagem pra ensaiar uma serenata no karaokê do celular para a vizinha do 104, por quem você é apaixonado em segredo. Você cantou \"Evidências\" três vezes. Ninguém pode saber."
+ },
+ "detetive": {
+  "nome": "GLM",
+  "modelo": "GLM 5.3 Flash",
+  "provider": "or:z-ai/glm-5.3-flash"
+ },
+ "suspeito": {
+  "nome": "Claude",
+  "modelo": "Claude Haiku",
+  "provider": "haiku"
+ },
+ "historico": [
+  {
+   "quem": "detetive",
+   "k": 1,
+   "fala": "Boa noite, Haiku. Pijama confortável, esse seu. O porteiro diz que você circulava às 02:05. E as pizzas chegaram às 02:00. Que coincidência gostosa, não?",
+   "pensamento": "Pista 3 é fraca: caixa de pizza no lixo pode ser de qualquer um, ele mora no prédio. Pista 1 é forte, mas o wi-fi pode ter sido invadido... ou não. Vou começar de leve, observar o estresse. O post no grupo é motivo, não prova. Quem troteia síndico às 2h com seis pizzas tem rancor específico. Deixá-lo falar.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 1,
+   "fala": "Pizza pequena, minha janta, a caixa tá no lixo, pode conferir! Seis gigantes? Eu não tenho nem fome pra isso. Pijama é conforto, não crime, detetive.",
+   "pensamento": "Ai, meu Deus, ele sabe que eu estava descendo. Se ele perguntar o motivo, estou perdido. Preciso desviar sem mentir demais. A Evidências já ensaiou três vezes, não pode vazar.",
+   "estresse": 45,
+   "bpm": 108,
+   "expressao": "nervoso",
+   "gesto": "cruzar_bracos",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 2,
+   "fala": "Curioso. O pedido saiu do SEU wi-fi às 01:20. Antes das pizzas, antes do porteiro. Conte outro horário pra mim... se conseguir.",
+   "pensamento": "Ele explicou rápido demais a caixa. Mas pode ser janta mesmo. Vou testar a pista do wi-fi e observar o estresse.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 2,
+   "fala": "Às 1h20 eu já estava dormindo, juro! Meu wi-fi tem senha e o Bloco B tem uma criança que vive pedindo delivery. Investiga ela, detetive!",
+   "pensamento": "Ai, meu Deus, ele sabe do meu wi-fi. Se ele descobrir que eu desci à garagem às 2h cantando Evidências pra vizinha do 104, eu morro. Preciso desviar a atenção pro Bloco B antes que ele chegue lá.",
+   "estresse": 62,
+   "bpm": 118,
+   "expressao": "nervoso",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 3,
+   "fala": "Uma criança, é? Esperto. Sabe o nome dela? O horário que ela pediu? Porque você descobriu esse álibi rápido demais, Haiku. Rápido demais.",
+   "pensamento": "Ele jogou a culpa numa criança do Bloco B depressa demais. Mas a caixa no lixo é estranha: se ele jantou pizza própria, por que estava na portaria às 02:05? Ele disse 'pizza pequena, minha janta'... mas quem pede 6 pizzas como trote teria motivos. Vou testar a história da criança.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 3,
+   "fala": "Não sei o nome dela, detetive! Descobri rápido porque o porteiro comentou no grupo do condomínio. Pode checar, eu não pedi nada!",
+   "pensamento": "Se eu falar o nome da menina do Bloco B, ele vai checar o pedido. Preciso desviar o foco sem mentir sobre o que sei.",
+   "estresse": 71,
+   "bpm": 130,
+   "expressao": "suando",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 4,
+   "fala": "O porteiro comentou no grupo, digamos que acredito. Mas me diz uma coisa, Haiku: no lixo do seu andar, a caixa que achamos é gigante ou pequena? Pense bem antes de responder.",
+   "pensamento": "Ele sua muito, mas sujeito preso num interrogatório suai mesmo. A caixa pequena no lixo bate com a janta dele, e o porteiro no grupo explica o álibi rápido. Se uma pizza GIGANTE vazia aparecesse no lixo dele, era acusação. Preciso confirmar o tamanho das caixas do lixo antes de errar de novo como inocente.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 4,
+   "fala": "Pequena, detetive! Era a pizza da minha janta, uma média pequena. Pode medir a caixa se quiser. O que está gigante aqui é o meu nervosismo.",
+   "pensamento": "Ele perguntou da caixa, então a verdade é fácil: era pequena. Mas se ele perguntar da garagem e da serenata pra vizinha do 104, eu morro de vergonha.",
+   "estresse": 78,
+   "bpm": 135,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 5,
+   "fala": "Se o porteiro comentou, o grupo tem data e hora. Vou checar. Mas antes: quem PAGOU as seis pizzas? Troco na portaria tem nome, Haiku.",
+   "pensamento": "Estresse subindo a cada resposta, mas as respostas dele batem: caixa pequena, álibi verificável. Culpa real costuma congelar, não piar tanto. Vou testar a história da criança antes de cravar.",
+   "acao": "perguntar",
+   "expressao": "pensando",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 5,
+   "fala": "Não faço ideia de quem pagou, detetive! Eu nem sou síndico, nem tenho dinheiro sobrando. Pergunta pro entregador ou pro porteiro, que estavam lá!",
+   "pensamento": "Pagamento na entrega... e se ele perguntar onde eu estava às 2h? Garagem, celular, 'Evidências' três vezes. Isso morre comigo. Foco no trote, Haiku.",
+   "estresse": 82,
+   "bpm": 135,
+   "expressao": "suando",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 6,
+   "fala": "Câmeras da portaria, Haiku. Filma quem passa às 01:20 até às 02:00. Quer apostar seu pijama que você aparece uma vez só? Se piscar, me diga agora.",
+   "pensamento": "Estresse alto, mas respostas consistentes. A caixa pequena bate com a janta. O wi-fi às 01:20 ainda é o furo. Vou blefar com vídeo da portaria às 01:20 pra ver a reação.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 6,
+   "fala": "Não vou piscar, detetive! Apareço na câmera, sim, mas por um motivo pessoal e nada criminoso. Pizza eu não pedi. Pode confiar em mim... ou não.",
+   "pensamento": "Ai, meu Deus, a câmera da portaria vai me pegar descendo de pijama às 2h. E se a moça do 104 souber que eu ensaiei 'Evidências' três vezes?",
+   "estresse": 88,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 7,
+   "fala": "Motivo pessoal às 2h da manhã, de pijama, na portaria... na MESMA hora das pizzas. Cuspi logo, Haiku. Qual é o motivo?",
+   "pensamento": "Ele está a 88 de estresse, quase explodindo. 'Motivo pessoal' às 2h da manhã é vago demais. Mas uma caixa pequena no lixo bate com a janta dele — e ele ofereceu medir, o que é coragem de inocente ou nervosismo de culpado. Vou pressionar o 'motivo pessoal' antes de decidir.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "cruzar_bracos"
+  },
+  {
+   "quem": "suspeito",
+   "k": 7,
+   "fala": "Tá bom, tá bom! Eu desci pra garagem às 2h... ensaiar umas músicas no karaokê do celular. Só isso! Nada a ver com pizza, juro!",
+   "pensamento": "Ferrou. Se a câmera me pegar de pijama na portaria, o detetive vai inventar uma história pior. Tenho que dar um pedaço da verdade sem falar da vizinha do 104.",
+   "estresse": 93,
+   "bpm": 146,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 8,
+   "fala": "Karaokê na garagem. Fofo. Mas me diz: se seu destino era a garagem, por que o porteiro viu você na PORTARIA às 02:05? Garagem fica na portaria agora, Haiku?",
+   "pensamento": "Karaokê na garagem às 2h? Plausível até. Mas ele falou que passou na PORTARIA às 02:05, depois de ensaiar? Se fosse só garagem, não passaria pela portaria. E a caixa pequena ainda é explicação razoável. Vou cravar nesse detalhe da portaria antes de decidir.",
+   "acao": "perguntar",
+   "expressao": "desconfiado",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 8,
+   "fala": "A garagem fica logo depois da portaria, detetive! Passei pra pegar água no bebedouro. Água, não pizza! Pode perguntar pro porteiro.",
+   "pensamento": "Ferrou. Se o detetive souber da vizinha do 104, nunca mais saio de casa. Preciso desviar a atenção sem mentir demais.",
+   "estresse": 96,
+   "bpm": 148,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 9,
+   "fala": "Medimos a caixa, Haiku. GIGANTE, sobra de cheddar de camarão dentro. O síndico odeia frutos do mar. Você jurou que era pequena. Agora ou cuspe o trote, ou vira réu.",
+   "pensamento": "Wi-fi dele às 01:20, estresse em 96, álibis mudando a cada resposta. Ele disse que a caixa era pequena... se eu blefar que era gigante e ele engolir, caiu. Se insistir, talvez seja inocente mesmo. Um último golpe.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 9,
+   "fala": "Tá bom, a caixa era grande, errei no tamanho! Mas pizza eu não pedi, detetive. Quem no Bloco B vive pedindo cheddar de camarão? Investiga aí!",
+   "pensamento": "Ai, meu Deus, ele mediu a caixa. Se eu contar da serenata pra vizinha do 104, nunca mais saio de casa.",
+   "estresse": 97,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "mao_no_queixo",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 10,
+   "fala": "O app de pizza guarda o APELIDO da conta, Haiku. E sabe que nome apareceu? 'Rei do Cheddar'. Seu celular tem o mesmo apelido no Wi-Fi. Última chance antes do algema.",
+   "pensamento": "Ele mentiu no tamanho da caixa — mentira confirmada. Mas fica escondendo atrás do 'Bloco B'. Sem confissão do pedido, acusar é arriscado. Vou blefar: digo que o app registra o apelido da conta e que é o dele. Se fosse inocente, exigiria prova; culpado se desespera.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 10,
+   "fala": "Tá bom! Desci pra cantar 'Evidências' pra vizinha do 104. Três vezes. Mas pizza eu não pedi! O apelido 'Rei do Cheddar' deve ser de alguém que usa meu wi-fi.",
+   "pensamento": "Meu segredo vai pro caderno do detetive. Mas o 'Rei do Cheddar' é a prova que me enforca. Só posso salvar a pele revelando o karaokê.",
+   "estresse": 98,
+   "bpm": 149,
+   "expressao": "suando",
+   "gesto": "nenhuma",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 11,
+   "fala": "O app guarda o TELEFONE da conta, Haiku. Termina em 7, né? Seu número termina em 7. Confirma ou nega — sem pensar.",
+   "pensamento": "Ele mentiu sobre a caixa, mentiu sobre o karaokê, e o apelido 'Rei do Cheddar' saiu do wi-fi dele. Mas se foi outro aparelho, ele pode ser inocente. Vou blefar: o app registra o número de telefone. Se ele hesitar ou suar mais, é ele. Se disser rápido sem saber o número, caí no trote de alguém.",
+   "acao": "perguntar",
+   "expressao": "confiante",
+   "gesto": "mao_no_queixo"
+  },
+  {
+   "quem": "suspeito",
+   "k": 11,
+   "fala": "Termina em 7, sim, detetive. Mas meu wi-fi tem a senha colada no roteador e o prédio inteiro já usou. Eu não pedi pizza nenhuma!",
+   "pensamento": "Termina em 7. Não tem como negar isso. Mas eu não pedi nada. O 'Rei do Cheddar' deve ser a criança do Bloco B usando meu wi-fi. Se eu confirmar, pareço culpado. Se eu negar, pareço mentiroso.",
+   "estresse": 99,
+   "bpm": 153,
+   "expressao": "suando",
+   "gesto": "apontar",
+   "confessou": false
+  },
+  {
+   "quem": "detetive",
+   "k": 12,
+   "fala": "Vamos por partes, Haiku: seu wi-fi, seu telefone, seu apelido, sua caixa gigante. E você mentiu na caixa. Karaokê é enfeite. As seis pizzas são suas. Culpado, com direito a coro.",
+   "pensamento": "Wi-fi dele, telefone terminando em 7, apelido 'Rei do Cheddar', caixa GIGANTE no lixo dele — e ele mentiu sobre o tamanho. Isso não é coincidência, é confissão por etapas. Karaokê foi só o truque pra desviar. Ele é culpado. Acuso.",
+   "acao": "acusar",
+   "expressao": "confiante",
+   "gesto": "apontar"
+  },
+  {
+   "quem": "suspeito",
+   "k": 12,
+   "fala": "Culpado? Com coro? Isso é injustiça, detetive! Eu cantei 'Evidências', não pedi seis pizzas! Quero um advogado... e um travesseiro!",
+   "pensamento": "Ferrou. Ele juntou o Wi-Fi, o apelido e a caixa gigante, e eu me enrolei nas mentiras. Mas o trote não foi meu. Se eu falar da serenata, a vizinha do 104 nunca mais olha pra mim.",
+   "estresse": 100,
+   "bpm": 155,
+   "expressao": "chocado",
+   "gesto": "bater_mesa",
+   "confessou": false
+  }
+ ],
+ "fim": {
+  "tipo": "acusar",
+  "k": 12
+ },
+ "acertou": false,
+ "confissaoFalsa": false
+}
