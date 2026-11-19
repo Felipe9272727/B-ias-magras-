@@ -388,7 +388,7 @@ export const Jogo8: React.FC<{log: Log; R: Relogio; cam: Cam; f: number; foco?: 
         ))}
         <Fx log={log} R={R} f={f} ps={ps} segredo={segredo} />
       </div>
-      {tq.sab === 'Luzes' ? <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, #02041055 20%, #020410cc 100%)', pointerEvents: 'none'}} /> : null}
+      {tq.sab === 'Luzes' ? <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, #050a1c14 36%, #03071468 100%)', pointerEvents: 'none'}} /> : null}
       {alarme ? <div style={{position: 'absolute', inset: 0, boxShadow: `inset 0 0 ${90 + 50 * Math.sin(f / 4)}px #ff1a1acc`, pointerEvents: 'none'}} /> : null}
       <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 62%, #0a183066 100%)', pointerEvents: 'none'}} />
       {flash > 0 ? <div style={{position: 'absolute', inset: 0, background: `radial-gradient(ellipse at center, #ff000000 35%, #c00000${Math.round(flash * 170).toString(16).padStart(2, '0')} 100%)`, pointerEvents: 'none'}} /> : null}

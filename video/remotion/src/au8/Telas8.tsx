@@ -38,7 +38,7 @@ const naReuniao = (log: Log, idx: number) => {
 // ---------- mesa de reunião ----------
 // fase 'discussao': quem fala (falando) ganha destaque; fase 'votos': as bolinhas de quem votou entram uma a uma embaixo
 // de cada votado, depois o carimbo (EXPULSO / ANULADO PELO JUIZ / NINGUÉM EXPULSO).
-export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase: 'discussao' | 'votos'; falando?: string[]; segredo?: boolean; temBalao?: boolean}> = ({log, idx, f, dur, fase, falando = [], segredo, temBalao}) => {
+export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase: 'discussao' | 'votos'; falando?: string[]; segredo?: boolean; temBalao?: boolean; ocupadoEmbaixo?: boolean}> = ({log, idx, f, dur, fase, falando = [], segredo, temBalao, ocupadoEmbaixo}) => {
   const {fps} = useVideoConfig();
   const r = log.reunioes[idx];
   const js = naReuniao(log, idx);
@@ -47,61 +47,82 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
   const nV = fase === 'votos' ? Math.floor(interpolate(f, [ini, fimV], [0, eleitores.length], cl)) : 0;
   const carimbo = fase === 'votos' ? f - (fimV + 10) : -1;
   const pulos = eleitores.slice(0, nV).filter((e) => r.votos[e] === 'pular');
-  // segredo: sem "por que votou" (o pensamento de voto do Marrom entregaria o disfarce)
   const motivos = segredo ? [] : r.motivos ?? [];
-  const deriva = 1 + 0.035 * (dur > 1 ? f / dur : 0);
   const titulo = r.tipo === 'corpo' ? `CORPO ENCONTRADO: ${String(r.corpo ?? '').toUpperCase()}` : 'REUNIÃO DE EMERGÊNCIA';
   const resultado = r.expulso ? `${r.expulso.toUpperCase()} ${FEM.has(r.expulso) ? 'EXPULSA' : 'EXPULSO'}` : 'NINGUÉM EXPULSO';
+  const ehVotos = fase === 'votos';
+  const cardH = ehVotos ? 194 : 216;
+  const ocupado = Boolean(ocupadoEmbaixo || temBalao);
+
+  // Câmera dinâmica de estúdio na discussão: aproxima suavemente do quadrante de quem fala
+  const falIdx = fase === 'discussao' && falando.length > 0 ? js.findIndex((j) => falando.includes(j.cor)) : -1;
+  const focoCol = falIdx >= 0 ? falIdx % 4 : 1.5;
+  const focoRow = falIdx >= 0 ? Math.floor(falIdx / 4) : 1;
+  const ox = falIdx >= 0 ? 18 + focoCol * 21.3 : 50;
+  const oy = falIdx >= 0 ? 22 + focoRow * 24 : 24;
+  const zoomBase = 1 + 0.025 * (dur > 1 ? f / dur : 0);
+  const zoomMesa = ehVotos ? zoomBase : falIdx >= 0 ? 1.055 : zoomBase;
+
   return (
     <AbsoluteFill>
       <Estrelas f={f} vel={1.2} />
-      <AbsoluteFill style={{transform: `scale(${deriva})`, transformOrigin: '50% 0%'}}>
-        <div style={{position: 'absolute', left: 40, right: 40, top: 22, display: 'flex', alignItems: 'baseline', gap: 22}}>
-          <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 50, color: r.tipo === 'corpo' ? '#ff5a4a' : '#ffd84d', ...CONTORNO(7)}}>{titulo}</span>
-          <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 26, color: '#cfe0ff'}}>partida {log.partida} · tique {r.tique} · {r.chamador} chamou · {SALA[r.sala] ?? r.sala}</span>
+      {/* Cabeçalho flexível: mini selo EXPULSO nunca invade o título */}
+      <div style={{position: 'absolute', left: 40, right: 40, top: 18, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, zIndex: 10}}>
+        <div style={{display: 'flex', alignItems: 'baseline', gap: 18, minWidth: 0, overflow: 'hidden'}}>
+          <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 44, color: r.tipo === 'corpo' ? '#ff5a4a' : '#ffd84d', whiteSpace: 'nowrap', ...CONTORNO(6)}}>{titulo}</span>
+          <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 23, color: '#cfe0ff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>partida {log.partida} · tique {r.tique} · {r.chamador} chamou · {SALA[r.sala] ?? r.sala}</span>
         </div>
-        <div style={{position: 'absolute', left: 40, top: 104, width: 1840, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14}}>
+        {carimbo >= 0 && ocupado ? (
+          <div style={{flex: 'none', fontFamily: FONTE, fontWeight: 900, fontSize: 28, color: '#fff', background: r.expulso ? '#d81818' : '#3a4a6a', border: '4px solid #fff', borderRadius: 12, padding: '3px 18px', boxShadow: '0 6px 0 #0008', whiteSpace: 'nowrap', ...CONTORNO(2)}}>{resultado}</div>
+        ) : null}
+      </div>
+
+      <AbsoluteFill style={{transform: `scale(${zoomMesa})`, transformOrigin: `${ox}% ${oy}%`}}>
+        <div style={{position: 'absolute', left: 40, top: 96, width: 1840, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: ehVotos ? 10 : 14}}>
           {js.map((j, i) => {
             const fala = falando.includes(j.cor);
             const votos = eleitores.slice(0, nV).filter((e) => r.votos[e] === j.cor);
             const alvo = carimbo >= 0 && r.expulso === j.cor;
             const ent = spring({frame: f - i * 1.2, fps, config: {damping: 15}});
+            const opBase = !j.vivo ? 0.44 : (fase === 'discussao' && falando.length > 0 && !fala) ? 0.62 : (carimbo >= 0 && r.expulso && !alvo ? 0.7 : 1);
             return (
-              <div key={j.cor} style={{position: 'relative', height: 222, borderRadius: 16, padding: '10px 12px', boxSizing: 'border-box', background: !j.vivo ? '#2a3040' : alvo ? '#ffd4d4' : '#e9eef7', border: `5px solid ${fala ? '#ffd84d' : alvo ? '#e01818' : '#0b1020'}`, opacity: (j.vivo ? (carimbo >= 0 && r.expulso && !alvo ? 0.72 : 1) : 0.48) * ent,
-                transform: `scale(${fala ? 1.07 : alvo ? 1.04 : 1}) translateY(${(1 - ent) * 30 + (j.vivo ? Math.sin((f + i * 17) / 21) * 2 : 0)}px)`, zIndex: fala ? 5 : alvo ? 4 : 1, boxShadow: fala ? '0 0 34px #ffd84dcc' : alvo ? '0 0 42px #ff2222cc, 0 8px 0 #0008' : '0 6px 0 #0007'}}>
+              <div key={j.cor} style={{position: 'relative', height: cardH, borderRadius: 16, padding: ehVotos ? '8px 12px' : '10px 12px', boxSizing: 'border-box', background: !j.vivo ? '#2a3040' : alvo ? '#ffd4d4' : '#e9eef7', border: `5px solid ${fala ? '#ffd84d' : alvo ? '#e01818' : '#0b1020'}`, opacity: opBase * ent,
+                transform: `scale(${fala ? 1.06 : alvo ? 1.03 : 1}) translateY(${(1 - ent) * 26 + (j.vivo ? Math.sin((f + i * 17) / 21) * 2 : 0)}px)`, zIndex: fala ? 5 : alvo ? 4 : 1, boxShadow: fala ? '0 0 38px #ffd84ddd, 0 8px 0 #0008' : alvo ? '0 0 40px #ff2222cc, 0 8px 0 #0008' : '0 6px 0 #0007'}}>
+                {fala && fase === 'discussao' ? (
+                  <div style={{position: 'absolute', right: 10, top: -14, fontFamily: FONTE, fontWeight: 900, fontSize: 14, letterSpacing: 1.5, color: '#0b1020', background: '#ffd84d', border: '3px solid #000', borderRadius: 8, padding: '0 8px'}}>EM FALA</div>
+                ) : null}
                 <div style={{display: 'flex', gap: 10, alignItems: 'center'}}>
-                  <Cabeca cor={j.cor} s={124} morto={!j.vivo} />
+                  <Cabeca cor={j.cor} s={ehVotos ? 106 : 120} morto={!j.vivo} />
                   <div style={{minWidth: 0}}>
-                    <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 38, lineHeight: 1.05, color: !j.vivo ? '#aab' : j.time === 'impostor' && !segredo ? '#d40000' : '#0b1020'}}>{j.cor}</div>
-                    <div style={{fontFamily: FONTE, fontWeight: 600, fontSize: 19, color: j.vivo ? '#44506a' : '#99a', whiteSpace: 'nowrap', overflow: 'hidden'}}>{j.modelo}</div>
-                    {segredo ? null : <Chip papel={j.papel} time={j.time} fs={16} />}
+                    <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: ehVotos ? 34 : 38, lineHeight: 1.05, color: !j.vivo ? '#aab' : j.time === 'impostor' && !segredo ? '#d40000' : '#0b1020'}}>{j.cor}</div>
+                    <div style={{fontFamily: FONTE, fontWeight: 600, fontSize: 18, color: j.vivo ? '#44506a' : '#99a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{j.modelo}</div>
+                    {segredo ? null : <Chip papel={j.papel} time={j.time} fs={15} />}
                   </div>
-                  {votos.length ? <div style={{marginLeft: 'auto', fontFamily: FONTE, fontWeight: 900, fontSize: 60, color: '#e01818', ...CONTORNO(5)}}>{votos.length}</div> : null}
+                  {votos.length ? <div style={{marginLeft: 'auto', fontFamily: FONTE, fontWeight: 900, fontSize: 56, color: '#e01818', ...CONTORNO(4)}}>{votos.length}</div> : null}
                 </div>
                 <div style={{display: 'flex', gap: 3, marginTop: 5, flexWrap: 'nowrap'}}>
-                  {votos.map((e) => <span key={e} style={{width: 17, height: 17, borderRadius: 9, background: corDe(e), border: '2px solid #000', flex: 'none'}} />)}
+                  {votos.map((e) => <span key={e} style={{width: 16, height: 16, borderRadius: 8, background: corDe(e), border: '2px solid #000', flex: 'none'}} />)}
                 </div>
               </div>
             );
           })}
         </div>
-        {fase === 'votos' ? (
-          <div style={{position: 'absolute', left: 40, right: 40, top: 814, display: 'flex', alignItems: 'center', gap: 16}}>
-            <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 34, color: '#fff', ...CONTORNO(5)}}>QUEM VOTOU EM QUEM · {nV}/{eleitores.length} votos</span>
-            {pulos.length ? <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 26, color: '#cfe0ff'}}>pularam: {pulos.length}</span> : null}
+        {ehVotos ? (
+          <div style={{position: 'absolute', left: 40, right: 40, top: 714, display: 'flex', alignItems: 'center', gap: 16}}>
+            <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 30, color: '#fff', ...CONTORNO(5)}}>QUEM VOTOU EM QUEM · {nV}/{eleitores.length} votos</span>
+            {pulos.length ? <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 24, color: '#cfe0ff'}}>pularam: {pulos.length}</span> : null}
           </div>
         ) : null}
-        {fase === 'votos' && motivos.length && !temBalao && carimbo < 3 ? (
-          // POR QUE VOTARAM: fica visível enquanto os votos caem e sai limpo quando o carimbo EXPULSO bate embaixo
-          <div style={{position: 'absolute', left: 40, right: 40, top: 864, display: 'flex', gap: 18, opacity: carimbo >= 0 ? interpolate(carimbo, [0, 3], [1, 0], cl) : 1}}>
+        {ehVotos && motivos.length && !ocupado && carimbo < 3 ? (
+          <div style={{position: 'absolute', left: 40, right: 40, top: 766, display: 'flex', gap: 18, opacity: carimbo >= 0 ? interpolate(carimbo, [0, 3], [1, 0], cl) : 1}}>
             {motivos.map((m, i) => {
               const a = interpolate(f, [ini + 6 + i * 10, ini + 16 + i * 10], [0, 1], cl);
               return (
-                <div key={m.cor} style={{flex: 1, display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0b1020e8', border: `4px solid ${corDe(m.cor)}`, borderRadius: 16, padding: '10px 16px', opacity: a, transform: `translateY(${(1 - a) * 24}px)`}}>
-                  <Cabeca cor={m.cor} s={58} />
+                <div key={m.cor} style={{flex: 1, display: 'flex', gap: 14, alignItems: 'flex-start', background: '#0b1020ee', border: `4px solid ${corDe(m.cor)}`, borderRadius: 16, padding: '10px 16px', opacity: a, transform: `translateY(${(1 - a) * 24}px)`}}>
+                  <Cabeca cor={m.cor} s={56} />
                   <div style={{minWidth: 0}}>
-                    <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 22, color: '#ffd84d'}}>POR QUE {m.cor.toUpperCase()} VOTOU {FEM.has(m.alvo) ? 'NA' : 'NO'} {m.alvo.toUpperCase()}</div>
-                    <div style={{fontFamily: FONTE, fontWeight: 700, fontSize: 25, lineHeight: 1.2, color: '#fff'}}>"{m.texto}"</div>
+                    <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 21, color: '#ffd84d'}}>POR QUE {m.cor.toUpperCase()} VOTOU {FEM.has(m.alvo) ? 'NA' : 'NO'} {m.alvo.toUpperCase()}</div>
+                    <div style={{fontFamily: FONTE, fontWeight: 700, fontSize: 24, lineHeight: 1.2, color: '#fff'}}>"{m.texto}"</div>
                   </div>
                 </div>
               );
@@ -109,16 +130,12 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
           </div>
         ) : null}
       </AbsoluteFill>
-      {carimbo >= 0 && !temBalao ? (
-        <div style={{position: 'absolute', left: 0, right: 0, top: 866, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+      {carimbo >= 0 && !ocupado ? (
+        <div style={{position: 'absolute', left: 0, right: 0, top: 822, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
           <div style={{position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
             <div style={{position: 'absolute', inset: -14, borderRadius: 30, border: `6px solid ${r.expulso ? '#ff5555' : '#93c5fd'}`, transform: `scale(${interpolate(carimbo, [0, 14], [0.95, 1.38], cl)})`, opacity: interpolate(carimbo, [0, 14], [0.85, 0], cl)}} />
-            <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 98, color: '#fff', background: r.expulso ? 'linear-gradient(180deg, #ef2323, #b51010)' : 'linear-gradient(180deg, #4b5e84, #2f3c59)', border: '9px solid #fff', borderRadius: 22, padding: '2px 48px', transform: `rotate(-3deg) scale(${interpolate(carimbo, [0, 7], [2.4, 1], cl)})`, opacity: interpolate(carimbo, [0, 3], [0, 1], cl), boxShadow: r.expulso ? '0 14px 0 #0009, 0 0 40px #ff222288' : '0 14px 0 #0009', ...CONTORNO(6)}}>{resultado}</div>
+            <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 94, color: '#fff', background: r.expulso ? 'linear-gradient(180deg, #ef2323, #b51010)' : 'linear-gradient(180deg, #4b5e84, #2f3c59)', border: '9px solid #fff', borderRadius: 22, padding: '4px 48px', transform: `rotate(-2.5deg) scale(${interpolate(carimbo, [0, 7], [2.2, 1], cl)})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: r.expulso ? '0 14px 0 #0009, 0 0 40px #ff222288' : '0 14px 0 #0009', ...CONTORNO(6)}}>{resultado}</div>
           </div>
-        </div>
-      ) : carimbo >= 0 && temBalao ? (
-        <div style={{position: 'absolute', right: 40, top: 18, pointerEvents: 'none'}}>
-          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 34, color: '#fff', background: r.expulso ? '#d81818' : '#3a4a6a', border: '5px solid #fff', borderRadius: 14, padding: '4px 22px', boxShadow: '0 8px 0 #0008', ...CONTORNO(3)}}>{resultado}</div>
         </div>
       ) : null}
     </AbsoluteFill>
@@ -247,6 +264,68 @@ export const Placar: React.FC<{titulo: string; linhas: LinhaPlacar[]; f: number;
             </div>
           );
         })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---------- encerramento cinematográfico: ROXO vs MARROM (substitui tela de reunião congelada) ----------
+export const Encerramento: React.FC<{titulo: string; sub?: string; f: number; dur: number; comMeme?: boolean}> = ({titulo, sub, f, dur, comMeme}) => {
+  const {fps} = useVideoConfig();
+  const eT = spring({frame: f, fps, config: {damping: 13, stiffness: 150}});
+  const eL = spring({frame: f - 8, fps, config: {damping: 12, stiffness: 140}});
+  const eR = spring({frame: f - 14, fps, config: {damping: 12, stiffness: 140}});
+  const eVs = spring({frame: f - 20, fps, config: {damping: 10, stiffness: 180}});
+  const pulse = 0.25 + 0.1 * Math.sin(f / 9);
+  const floatL = Math.sin(f / 14) * 10;
+  const floatR = Math.cos(f / 14) * 10;
+  return (
+    <AbsoluteFill>
+      <Estrelas f={f} vel={2.6} />
+      <AbsoluteFill style={{background: `radial-gradient(circle at 24% 54%, rgba(168,85,247,${pulse}), transparent 48%), radial-gradient(circle at 68% 54%, rgba(239,68,68,${pulse}), transparent 48%)`, pointerEvents: 'none'}} />
+      {/* Barras cinema letterbox */}
+      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 48, background: '#02040a', borderBottom: '2px solid rgba(255,216,77,0.35)'}} />
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 48, background: '#02040a', borderTop: '2px solid rgba(255,216,77,0.35)'}} />
+
+      {/* Título principal */}
+      <div style={{position: 'absolute', left: 60, right: 60, top: 74, textAlign: 'center', transform: `scale(${0.8 + 0.2 * eT})`, opacity: eT}}>
+        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 74, color: '#ffd84d', letterSpacing: 2, lineHeight: 1.05, textShadow: '0 0 36px rgba(255,216,77,0.35)', ...CONTORNO(9)}}>{titulo.toUpperCase()}</div>
+        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 30, color: '#e2e8f0', marginTop: 8, ...CONTORNO(5)}}>{sub}</div> : null}
+      </div>
+
+      {/* Palco do Duelo (com espaço limpo à direita quando o meme entra) */}
+      <div style={{position: 'absolute', left: 70, right: comMeme ? 510 : 70, top: 248, bottom: 138, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 36, transition: 'right 0.25s'}}>
+        {/* Card ROXO */}
+        <div style={{flex: 1, maxWidth: 560, ...PAINEL, border: '6px solid #a855f7', background: 'linear-gradient(180deg, rgba(44,20,78,0.92), rgba(14,10,34,0.96))', padding: '26px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.7), 0 0 42px rgba(168,85,247,0.3)', transform: `translateX(${(1 - eL) * -140}px) translateY(${floatL}px)`, opacity: eL}}>
+          <Crewmate4 cor="Roxo" size={175} t={f} />
+          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 52, color: '#e9d5ff', marginTop: 4, ...CONTORNO(6)}}>ROXO</div>
+          <div style={{display: 'flex', alignItems: 'center', gap: 10, marginTop: 2}}>
+            <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 20, color: '#cbd5e1'}}>Claude Sonnet</span>
+            <Chip papel="Detetive" time="tripulante" fs={17} />
+          </div>
+          <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 24, color: '#fff', marginTop: 14, lineHeight: 1.25}}>Tinha a prova no bolso — mas caiu 4 x 3</div>
+        </div>
+
+        {/* Badge VS */}
+        <div style={{flex: 'none', width: 106, height: 106, borderRadius: 999, background: 'linear-gradient(180deg, #ffd84d, #f59e0b)', border: '6px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FONTE, fontWeight: 900, fontSize: 44, color: '#0b1020', boxShadow: '0 12px 30px rgba(0,0,0,0.7), 0 0 36px rgba(255,216,77,0.55)', transform: `scale(${eVs}) rotate(-6deg)`}}>VS</div>
+
+        {/* Card MARROM */}
+        <div style={{flex: 1, maxWidth: 560, ...PAINEL, border: '6px solid #ef4444', background: 'linear-gradient(180deg, rgba(72,22,22,0.92), rgba(24,10,14,0.96))', padding: '26px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.7), 0 0 42px rgba(239,68,68,0.3)', transform: `translateX(${(1 - eR) * 140}px) translateY(${floatR}px)`, opacity: eR}}>
+          <Crewmate4 cor="Marrom" size={175} t={f + 12} virado />
+          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 52, color: '#fecaca', marginTop: 4, ...CONTORNO(6)}}>MARROM</div>
+          <div style={{display: 'flex', alignItems: 'center', gap: 10, marginTop: 2}}>
+            <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 20, color: '#cbd5e1'}}>MiniMax M3.1</span>
+            <Chip papel="Metamorfo" time="impostor" fs={17} />
+          </div>
+          <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 24, color: '#fff', marginTop: 14, lineHeight: 1.25}}>Usou a cara do Roxo e virou o jogo</div>
+        </div>
+      </div>
+
+      {/* Rodapé de engajamento */}
+      <div style={{position: 'absolute', left: 60, right: 60, bottom: 68, textAlign: 'center', opacity: interpolate(f, [28, 44], [0, 1], cl)}}>
+        <span style={{display: 'inline-block', fontFamily: FONTE, fontWeight: 900, fontSize: 26, color: '#fef08a', background: 'rgba(15,23,42,0.88)', border: '3px solid rgba(255,216,77,0.65)', borderRadius: 14, padding: '6px 28px', letterSpacing: 1}}>
+          QUAL JOGO AS IAs DEVEM JOGAR NO LUGAR DO AMONG? COMENTA AÍ!
+        </span>
       </div>
     </AbsoluteFill>
   );

@@ -3,7 +3,7 @@
 // balão de fala / pensamento secreto / chat dos impostores, selo, cartão de capítulo, crédito "ideia de @fulano" e as
 // transições próprias do vídeo (grade de duto fechando e abrindo; faixa de alarme).
 import React from 'react';
-import {interpolate, spring, useVideoConfig} from 'remotion';
+import {interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {COR} from '../amongus/Crewmate';
 import {Crewmate4} from '../amongus/Crewmate4';
 import {corTime, papelNome, type Evento, type Tique} from './Jogo8';
@@ -84,20 +84,21 @@ function texto(e: Evento, segredo = false): [string, string] | null {
   }
 }
 // a linha entra deslizando em ~8 quadros desde o começo do tique (fDe: quadro da cena em que o relógio passa por T)
-export const Feed: React.FC<{eventos: Evento[]; T: number; segredo?: boolean; f?: number; fDe?: (t: number) => number}> = ({eventos, T, segredo, f, fDe}) => {
+export const Feed: React.FC<{eventos: Evento[]; T: number; segredo?: boolean; f?: number; fDe?: (t: number) => number; esconder?: boolean}> = ({eventos, T, segredo, esconder}) => {
+  if (esconder) return null;
   const n = Math.ceil(T);
   const itens = eventos.filter((e) => e.tique <= n && e.tique > n - 5 && texto(e, segredo)).slice(-5);
   return (
-    <div style={{position: 'absolute', right: 24, top: 106, width: 400, display: 'flex', flexDirection: 'column', gap: 7}}>
+    <div style={{position: 'absolute', right: 28, top: 108, width: 376, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 7, pointerEvents: 'none'}}>
       {itens.map((e, i) => {
         const [cor, tx] = texto(e, segredo)!;
         const idade = T - (e.tique - 0.85);
         if (idade < 0) return null;
-        const entra = f !== undefined && fDe ? Math.max(0, Math.min(1, (f - fDe(e.tique - 0.85)) / 8)) : Math.min(1, idade * 3);
+        const entra = Math.max(0.25, Math.min(1, idade * 6));
         return (
-          <div key={`${e.tique}_${i}_${tx}`} style={{display: 'flex', alignItems: 'center', gap: 10, padding: '5px 12px', background: '#0b1428e0', border: `3px solid ${cor}`, borderRadius: 12, transform: `translateX(${(1 - entra) * 440}px)`, opacity: Math.max(0.4, 1 - Math.max(0, n - e.tique) * 0.16)}}>
-            <span style={{width: 14, height: 14, borderRadius: 7, background: cor, flex: 'none', border: '2px solid #000'}} />
-            <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 19, color: '#fff', lineHeight: 1.15}}>{tx}</span>
+          <div key={`${e.tique}_${i}_${tx}`} style={{display: 'flex', alignItems: 'center', gap: 10, padding: '5px 12px', boxSizing: 'border-box', width: '100%', background: '#0b1428ee', border: `3px solid ${cor}`, borderRadius: 12, opacity: entra * Math.max(0.72, 1 - Math.max(0, n - e.tique) * 0.12)}}>
+            <span style={{width: 13, height: 13, borderRadius: 7, background: cor, flex: 'none', border: '2px solid #000'}} />
+            <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 18, color: '#fff', lineHeight: 1.15, overflowWrap: 'anywhere'}}>{tx}</span>
           </div>
         );
       })}
@@ -134,16 +135,49 @@ export const Balao: React.FC<{k: 'fala' | 'pensa' | 'chat'; cor: string; modelo:
 // selo centralizado (carimbo torto), fonte menor quando o texto é longo
 // comMeme: o meme ocupa a direita da tela; o selo vai para a esquerda para um não tapar o outro
 // baixo: um número grande está na tela ao mesmo tempo (ele ocupa a faixa de cima); o selo desce para não cobrir
-export const Selo: React.FC<{texto: string; cor?: string; f: number; comMeme?: boolean; baixo?: boolean}> = ({texto, cor = '#e8701a', f, comMeme, baixo}) => {
-  const e = interpolate(f, [0, 6], [2.4, 1], cl);
+export const Selo: React.FC<{texto: string; cor?: string; f: number; comMeme?: boolean; baixo?: boolean; sobreVotos?: boolean; temBalao?: boolean}> = ({texto, cor = '#e8701a', f, comMeme, baixo, sobreVotos, temBalao}) => {
+  const e = interpolate(f, [0, 6], [2.2, 1], cl);
   const sheen = interpolate(f, [5, 22], [-35, 135], cl);
-  const fs = texto.length > 34 ? 42 : texto.length > 22 ? 52 : 66;
+  const fs = texto.length > 34 ? 40 : texto.length > 22 ? 50 : 62;
+  if (sobreVotos) {
+    return (
+      <div style={{position: 'absolute', left: 40, right: comMeme ? 470 : 40, bottom: 52, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+        <div style={{position: 'relative', overflow: 'hidden', fontFamily: FONTE, fontWeight: 900, fontSize: Math.min(fs, comMeme ? 46 : 54), color: '#fff', background: `linear-gradient(180deg, ${cor}, ${cor}dd)`, border: '6px solid #fff', maxWidth: comMeme ? 1360 : 1620, textAlign: 'center', borderRadius: 18, padding: '8px 34px', transform: `rotate(-2.2deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: `0 12px 0 #0009, 0 0 34px ${cor}66`, ...CONTORNO(3)}}>
+          <div style={{position: 'absolute', inset: 0, background: `linear-gradient(112deg, transparent ${sheen - 18}%, rgba(255,255,255,0.42) ${sheen}%, transparent ${sheen + 18}%)`, pointerEvents: 'none'}} />
+          <span style={{position: 'relative'}}>{texto}</span>
+        </div>
+      </div>
+    );
+  }
+  const topPos = baixo ? 560 : temBalao ? 146 : 228;
   return (
-    <div style={{position: 'absolute', left: comMeme ? 30 : 0, right: comMeme ? 700 : 0, top: baixo ? 600 : 236, display: 'flex', justifyContent: 'center'}}>
-      <div style={{position: 'relative', overflow: 'hidden', fontFamily: FONTE, fontWeight: 900, fontSize: comMeme ? Math.min(fs, 54) : fs, color: '#fff', background: `linear-gradient(180deg, ${cor}, ${cor}dd)`, border: '7px solid #fff', maxWidth: comMeme ? 1150 : 1500, textAlign: 'center', borderRadius: 18, padding: '6px 38px', transform: `rotate(-4.5deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: `0 14px 0 #0009, 0 0 38px ${cor}66`, ...CONTORNO(3)}}>
+    <div style={{position: 'absolute', left: comMeme ? 30 : 0, right: comMeme ? 700 : 0, top: topPos, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+      <div style={{position: 'relative', overflow: 'hidden', fontFamily: FONTE, fontWeight: 900, fontSize: comMeme ? Math.min(fs, 52) : fs, color: '#fff', background: `linear-gradient(180deg, ${cor}, ${cor}dd)`, border: '7px solid #fff', maxWidth: comMeme ? 1150 : 1500, textAlign: 'center', borderRadius: 18, padding: '6px 38px', transform: `rotate(-4deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: `0 14px 0 #0009, 0 0 38px ${cor}66`, ...CONTORNO(3)}}>
         <div style={{position: 'absolute', inset: 0, background: `linear-gradient(112deg, transparent ${sheen - 18}%, rgba(255,255,255,0.42) ${sheen}%, transparent ${sheen + 18}%)`, pointerEvents: 'none'}} />
         <span style={{position: 'relative'}}>{texto}</span>
       </div>
+    </div>
+  );
+};
+
+export const Numero8: React.FC<{texto: string; sub?: string; dur: number; sobreVotos?: boolean}> = ({texto, sub, dur, sobreVotos}) => {
+  const f = useCurrentFrame();
+  const e = interpolate(f, [0, 7], [2.2, 1], cl);
+  const o = interpolate(f, [0, 4, dur - 8, dur], [0, 1, 1, 0], cl);
+  if (sobreVotos) {
+    return (
+      <div style={{position: 'absolute', left: 40, right: 40, bottom: 26, display: 'flex', justifyContent: 'center', opacity: o, pointerEvents: 'none'}}>
+        <div style={{...PAINEL, border: '5px solid #ffd84d', background: 'linear-gradient(180deg, rgba(16,24,48,0.96), rgba(8,12,26,0.98))', padding: '12px 54px 14px', textAlign: 'center', transform: `scale(${e})`, boxShadow: '0 16px 40px rgba(0,0,0,0.75), 0 0 36px rgba(255,216,77,0.28)'}}>
+          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 102, lineHeight: 0.98, color: '#ffd84d', WebkitTextStroke: '11px #000', paintOrder: 'stroke fill'}}>{texto}</div>
+          {sub ? <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 34, color: '#f8fafc', WebkitTextStroke: '6px #000', paintOrder: 'stroke fill', marginTop: 4}}>{sub}</div> : null}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div style={{position: 'absolute', top: 196, left: 40, right: 40, textAlign: 'center', opacity: o, pointerEvents: 'none'}}>
+      <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 158, lineHeight: 1, color: '#ffd400', transform: `scale(${e})`, WebkitTextStroke: '16px #000', paintOrder: 'stroke fill'}}>{texto}</div>
+      {sub ? <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 44, color: '#fff', WebkitTextStroke: '8px #000', paintOrder: 'stroke fill', marginTop: 6}}>{sub}</div> : null}
     </div>
   );
 };

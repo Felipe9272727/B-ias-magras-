@@ -7,12 +7,12 @@
 // cartões de função, elenco, comentários e placar. Soco de zoom em selo/meme/número e deriva lenta em toda cena.
 import React, {useEffect, useMemo, useState} from 'react';
 import {AbsoluteFill, Audio, continueRender, delayRender, interpolate, Sequence, staticFile, useCurrentFrame, type CalculateMetadataFunction} from 'remotion';
-import {Numero} from '../age/Extras';
+import {Gif} from '@remotion/gif';
 import {MemeCard, type MemeInfo} from '../components/overlays';
 import {AU2Comentarios, type Comentario} from '../amongus3/Comentarios';
 import {Jogo8, relogio, type Cam, type Log} from './Jogo8';
-import {Balao, Barra, Capitulo, DUR_TRANS8, Feed, FimPartida, Ideia, Selo, Transicao8, Vivos} from './Hud8';
-import {Ejecao, Elenco, Mesa, Papeis, Placar, type LinhaPlacar, type PapelCartao} from './Telas8';
+import {Balao, Barra, Capitulo, DUR_TRANS8, Feed, FimPartida, Ideia, Numero8, Selo, Transicao8, Vivos} from './Hud8';
+import {Ejecao, Elenco, Encerramento, Mesa, Papeis, Placar, type LinhaPlacar, type PapelCartao} from './Telas8';
 
 type Over =
   | {tipo: 'fala' | 'pensa' | 'chat'; at: number; dur: number; cor: string; texto: string}
@@ -27,7 +27,8 @@ type Visual =
   | {tipo: 'papeis'; lista: PapelCartao[]; titulo?: string}
   | {tipo: 'elenco'; titulo?: string; destaques?: string[]; nota?: Record<string, string>}
   | {tipo: 'comentarios'; comentarios: Comentario[]}
-  | {tipo: 'placar'; titulo: string; linhas: LinhaPlacar[]};
+  | {tipo: 'placar'; titulo: string; linhas: LinhaPlacar[]}
+  | {tipo: 'encerramento'; titulo: string; sub?: string};
 type Cena = {id: string; dur: number; partida: number; t0: number; vel: number; tk?: [number, number][]; entrada?: 'duto' | 'alarme' | 'o2'; cam: Cam; foco?: string; hud?: boolean; papeis?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: Visual; segredo?: boolean};
 type TL = {cenas: Cena[]};
 
@@ -74,32 +75,37 @@ const CenaView: React.FC<{c: Cena; log: Log; elenco: Log}> = ({c, log, elenco}) 
   const tqFala = v && 'indice' in v ? log.tiques[Math.max(0, log.reunioes[v.indice].tique - 2)] : tq;
   const estadoDe = (cor: string) => tqFala.estados.find((e) => e.cor === cor);
   const falando = falasOver.filter((o) => f >= o.at && f < o.at + o.dur).map((o) => o.cor);
+  const ehVotos = v?.tipo === 'votos';
+  const ehEncerramento = v?.tipo === 'encerramento';
+  const temMemeAgora = c.over.some((o) => o.tipo === 'meme' && o.pos !== 'left' && f >= o.at && f < o.at + o.dur);
+  const temOverlayEmbaixo = falando.length > 0 || c.over.some((o) => (o.tipo === 'numero' || o.tipo === 'meme' || o.tipo === 'selo') && f >= o.at && f < o.at + o.dur);
   const flash = c.entrada ? 0 : interpolate(f, [0, 5], [0.45, 0], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{background: '#050814'}}>
       <AbsoluteFill style={{transform: `${tremor ? `translate(${Math.sin(f * 2.7) * tremor}px, ${Math.cos(f * 3.3) * tremor}px) ` : ''}scale(${1 + soco})`}}>
         {!v ? <Jogo8 log={log} R={R} cam={c.cam} zoomDe={zoomDe} falas={falas} f={f} foco={c.foco} papeis={c.papeis} mascara={mascara} segredo={c.segredo} /> : null}
         {v?.tipo === 'reuniao' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="discussao" falando={falando} segredo={c.segredo} /> : null}
-        {v?.tipo === 'votos' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="votos" falando={falando} segredo={c.segredo} temBalao={falando.length > 0} /> : null}
+        {v?.tipo === 'votos' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="votos" falando={falando} segredo={c.segredo} temBalao={falando.length > 0} ocupadoEmbaixo={temOverlayEmbaixo} /> : null}
         {v?.tipo === 'ejecao' ? <Ejecao log={log} idx={v.indice} f={f} dur={c.dur} /> : null}
         {v?.tipo === 'papeis' ? <Papeis lista={v.lista} titulo={v.titulo} f={f} dur={c.dur} /> : null}
         {v?.tipo === 'elenco' ? <Elenco log={elenco} f={f} dur={c.dur} titulo={v.titulo} destaques={v.destaques} nota={v.nota} /> : null}
         {v?.tipo === 'placar' ? <Placar titulo={v.titulo} linhas={v.linhas} f={f} dur={c.dur} /> : null}
+        {v?.tipo === 'encerramento' ? <Encerramento titulo={v.titulo} sub={v.sub} f={f} dur={c.dur} comMeme={temMemeAgora} /> : null}
         {v?.tipo === 'comentarios' ? <AbsoluteFill style={{background: '#0b1428'}}><AbsoluteFill style={{transform: `scale(${0.9 + 0.03 * clamp01(f / c.dur)})`}}><AU2Comentarios comentarios={v.comentarios} passo={Math.max(24, Math.floor((c.dur - 50) / Math.max(1, v.comentarios.length)))} /></AbsoluteFill></AbsoluteFill> : null}
       </AbsoluteFill>
       {!v && c.hud !== false ? (
         <>
           <Barra partida={log.partida} T={T} t={tq} limite={log.cfg.limite} />
           <Vivos t={tq} />
-          <Feed eventos={log.eventos} T={T} segredo={c.segredo} f={f} fDe={R.fDe} />
+          <Feed eventos={log.eventos} T={T} segredo={c.segredo} f={f} fDe={R.fDe} esconder={temMemeAgora} />
         </>
       ) : null}
       {c.over.map((o, i) => (
         <Sequence key={i} from={o.at} durationInFrames={o.dur}>
           {o.tipo === 'fala' || o.tipo === 'pensa' || o.tipo === 'chat' ? <SeqBalao o={o} modelo={J[o.cor]?.modelo ?? ''} papel={c.segredo ? undefined : estadoDe(o.cor)?.papel} time={c.segredo ? undefined : estadoDe(o.cor)?.time} /> : null}
-          {o.tipo === 'selo' ? <SeqSelo texto={o.texto} cor={o.cor} comMeme={c.over.some((m) => m.tipo === 'meme' && m.pos !== 'left' && m.at < o.at + o.dur && m.at + m.dur > o.at)} baixo={c.over.some((m) => m.tipo === 'numero' && m.at < o.at + o.dur && m.at + m.dur > o.at)} /> : null}
-          {o.tipo === 'meme' ? <MemeCard info={o.info} dur={o.dur} pos={o.pos} /> : null}
-          {o.tipo === 'numero' ? <Numero texto={o.texto} sub={o.sub} dur={o.dur} /> : null}
+          {o.tipo === 'selo' ? <SeqSelo texto={o.texto} cor={o.cor} comMeme={c.over.some((m) => m.tipo === 'meme' && m.pos !== 'left' && m.at < o.at + o.dur && m.at + m.dur > o.at)} baixo={c.over.some((m) => m.tipo === 'numero' && m.at < o.at + o.dur && m.at + m.dur > o.at)} sobreVotos={ehVotos} temBalao={falando.length > 0} /> : null}
+          {o.tipo === 'meme' ? (ehVotos ? <MemeCompacto info={o.info} dur={o.dur} modo="votos" /> : ehEncerramento ? <MemeCompacto info={o.info} dur={o.dur} modo="encerramento" /> : <MemeCard info={o.info} dur={o.dur} pos={o.pos} />) : null}
+          {o.tipo === 'numero' ? <Numero8 texto={o.texto} sub={o.sub} dur={o.dur} sobreVotos={ehVotos} /> : null}
           {o.tipo === 'marco' ? <SeqCap titulo={o.titulo} sub={o.sub} dur={o.dur} /> : null}
           {o.tipo === 'fim' ? <SeqFim o={o} /> : null}
           {o.tipo === 'ideia' ? <SeqIdeia o={o} /> : null}
@@ -125,7 +131,25 @@ const CenaView: React.FC<{c: Cena; log: Log; elenco: Log}> = ({c, log, elenco}) 
   );
 };
 const SeqBalao: React.FC<{o: FalaOver; modelo: string; papel?: string; time?: string}> = ({o, modelo, papel, time}) => <Balao k={o.tipo} cor={o.cor} modelo={modelo} papel={papel} time={time} texto={o.texto} f={useCurrentFrame()} dur={o.dur} />;
-const SeqSelo: React.FC<{texto: string; cor?: string; comMeme?: boolean; baixo?: boolean}> = ({texto, cor, comMeme, baixo}) => <Selo texto={texto} cor={cor} comMeme={comMeme} baixo={baixo} f={useCurrentFrame()} />;
+const SeqSelo: React.FC<{texto: string; cor?: string; comMeme?: boolean; baixo?: boolean; sobreVotos?: boolean; temBalao?: boolean}> = ({texto, cor, comMeme, baixo, sobreVotos, temBalao}) => <Selo texto={texto} cor={cor} comMeme={comMeme} baixo={baixo} sobreVotos={sobreVotos} temBalao={temBalao} f={useCurrentFrame()} />;
+const MemeCompacto: React.FC<{info: MemeInfo; dur: number; modo: 'votos' | 'encerramento'}> = ({info, dur, modo}) => {
+  const f = useCurrentFrame();
+  const inP = interpolate(f, [0, 7], [0.55, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const outP = interpolate(f, [dur - 7, dur], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const ar = info.width / Math.max(1, info.height);
+  const maxW = modo === 'votos' ? 380 : 410;
+  const maxH = modo === 'votos' ? 248 : 340;
+  let w = maxW, h = w / ar;
+  if (h > maxH) { h = maxH; w = h * ar; }
+  const posStyle: React.CSSProperties = modo === 'votos'
+    ? {right: 40, bottom: 20}
+    : {right: 54, top: Math.round((1080 - h) / 2) + 20};
+  return (
+    <div style={{position: 'absolute', ...posStyle, width: Math.round(w), height: Math.round(h), transform: `rotate(2.2deg) scale(${inP * outP})`, opacity: Math.min(1, f / 3) * outP, border: '8px solid #fff', borderRadius: 14, boxShadow: '0 20px 50px #000c', overflow: 'hidden', background: '#000', pointerEvents: 'none'}}>
+      <Gif src={staticFile(`gifs/${info.file}`)} width={Math.round(w)} height={Math.round(h)} fit="cover" style={{width: '100%', height: '100%'}} />
+    </div>
+  );
+};
 const SeqCap: React.FC<{titulo: string; sub?: string; dur: number}> = ({titulo, sub, dur}) => <Capitulo titulo={titulo} sub={sub} f={useCurrentFrame()} dur={dur} />;
 const SeqFim: React.FC<{o: {dur: number; titulo: string; sub?: string; cor?: string}}> = ({o}) => <FimPartida titulo={o.titulo} sub={o.sub} cor={o.cor} f={useCurrentFrame()} dur={o.dur} />;
 const SeqIdeia: React.FC<{o: {dur: number; autor: string; oque?: string}}> = ({o}) => <Ideia autor={o.autor} oque={o.oque} f={useCurrentFrame()} dur={o.dur} />;
