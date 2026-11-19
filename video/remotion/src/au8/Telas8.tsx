@@ -67,8 +67,8 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
             const alvo = carimbo >= 0 && r.expulso === j.cor;
             const ent = spring({frame: f - i * 1.2, fps, config: {damping: 15}});
             return (
-              <div key={j.cor} style={{position: 'relative', height: 222, borderRadius: 16, padding: '10px 12px', boxSizing: 'border-box', background: !j.vivo ? '#2a3040' : alvo ? '#ffd2d2' : '#e9eef7', border: `5px solid ${fala ? '#ffd84d' : alvo ? '#e01818' : '#0b1020'}`, opacity: (j.vivo ? 1 : 0.55) * ent,
-                transform: `scale(${fala ? 1.07 : 1}) translateY(${(1 - ent) * 30 + (j.vivo ? Math.sin((f + i * 17) / 21) * 2 : 0)}px)`, zIndex: fala ? 5 : 1, boxShadow: fala ? '0 0 34px #ffd84dcc' : '0 6px 0 #0007'}}>
+              <div key={j.cor} style={{position: 'relative', height: 222, borderRadius: 16, padding: '10px 12px', boxSizing: 'border-box', background: !j.vivo ? '#2a3040' : alvo ? '#ffd4d4' : '#e9eef7', border: `5px solid ${fala ? '#ffd84d' : alvo ? '#e01818' : '#0b1020'}`, opacity: (j.vivo ? (carimbo >= 0 && r.expulso && !alvo ? 0.72 : 1) : 0.48) * ent,
+                transform: `scale(${fala ? 1.07 : alvo ? 1.04 : 1}) translateY(${(1 - ent) * 30 + (j.vivo ? Math.sin((f + i * 17) / 21) * 2 : 0)}px)`, zIndex: fala ? 5 : alvo ? 4 : 1, boxShadow: fala ? '0 0 34px #ffd84dcc' : alvo ? '0 0 42px #ff2222cc, 0 8px 0 #0008' : '0 6px 0 #0007'}}>
                 <div style={{display: 'flex', gap: 10, alignItems: 'center'}}>
                   <Cabeca cor={j.cor} s={124} morto={!j.vivo} />
                   <div style={{minWidth: 0}}>
@@ -91,9 +91,9 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
             {pulos.length ? <span style={{fontFamily: FONTE, fontWeight: 800, fontSize: 26, color: '#cfe0ff'}}>pularam: {pulos.length}</span> : null}
           </div>
         ) : null}
-        {fase === 'votos' && motivos.length && !temBalao ? (
-          // POR QUE VOTARAM: pensamento de voto copiado do log de quem votou no mais votado
-          <div style={{position: 'absolute', left: 40, right: 40, top: 864, display: 'flex', gap: 18}}>
+        {fase === 'votos' && motivos.length && !temBalao && carimbo < 3 ? (
+          // POR QUE VOTARAM: fica visível enquanto os votos caem e sai limpo quando o carimbo EXPULSO bate embaixo
+          <div style={{position: 'absolute', left: 40, right: 40, top: 864, display: 'flex', gap: 18, opacity: carimbo >= 0 ? interpolate(carimbo, [0, 3], [1, 0], cl) : 1}}>
             {motivos.map((m, i) => {
               const a = interpolate(f, [ini + 6 + i * 10, ini + 16 + i * 10], [0, 1], cl);
               return (
@@ -109,9 +109,16 @@ export const Mesa: React.FC<{log: Log; idx: number; f: number; dur: number; fase
           </div>
         ) : null}
       </AbsoluteFill>
-      {carimbo >= 0 ? (
-        <div style={{position: 'absolute', left: 0, right: 0, top: motivos.length && !temBalao ? 310 : 420, display: 'flex', justifyContent: 'center'}}>
-          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 110, color: '#fff', background: r.expulso ? '#d81818' : '#3a4a6a', border: '10px solid #fff', borderRadius: 22, padding: '0 50px', transform: `rotate(-4deg) scale(${interpolate(carimbo, [0, 7], [2.6, 1], cl)})`, opacity: interpolate(carimbo, [0, 3], [0, 1], cl), boxShadow: '0 16px 0 #0009', ...CONTORNO(6)}}>{resultado}</div>
+      {carimbo >= 0 && !temBalao ? (
+        <div style={{position: 'absolute', left: 0, right: 0, top: 866, display: 'flex', justifyContent: 'center', pointerEvents: 'none'}}>
+          <div style={{position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div style={{position: 'absolute', inset: -14, borderRadius: 30, border: `6px solid ${r.expulso ? '#ff5555' : '#93c5fd'}`, transform: `scale(${interpolate(carimbo, [0, 14], [0.95, 1.38], cl)})`, opacity: interpolate(carimbo, [0, 14], [0.85, 0], cl)}} />
+            <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 98, color: '#fff', background: r.expulso ? 'linear-gradient(180deg, #ef2323, #b51010)' : 'linear-gradient(180deg, #4b5e84, #2f3c59)', border: '9px solid #fff', borderRadius: 22, padding: '2px 48px', transform: `rotate(-3deg) scale(${interpolate(carimbo, [0, 7], [2.4, 1], cl)})`, opacity: interpolate(carimbo, [0, 3], [0, 1], cl), boxShadow: r.expulso ? '0 14px 0 #0009, 0 0 40px #ff222288' : '0 14px 0 #0009', ...CONTORNO(6)}}>{resultado}</div>
+          </div>
+        </div>
+      ) : carimbo >= 0 && temBalao ? (
+        <div style={{position: 'absolute', right: 40, top: 18, pointerEvents: 'none'}}>
+          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 34, color: '#fff', background: r.expulso ? '#d81818' : '#3a4a6a', border: '5px solid #fff', borderRadius: 14, padding: '4px 22px', boxShadow: '0 8px 0 #0008', ...CONTORNO(3)}}>{resultado}</div>
         </div>
       ) : null}
     </AbsoluteFill>
@@ -128,21 +135,36 @@ export const Ejecao: React.FC<{log: Log; idx: number; f: number; dur: number}> =
   const linha = !cor ? 'Ninguém foi expulso.' : !revela ? `${cor} foi ${FEM.has(cor) ? 'ejetada' : 'ejetado'}.` : `${cor} ${r.eraImpostor ? 'era' : 'não era'} ${FEM.has(cor) ? 'Impostora' : 'Impostor'}.`;
   const n = Math.floor(interpolate(f, [16, 16 + linha.length * 1.3], [0, linha.length], cl));
   const fimTxt = 16 + linha.length * 1.3;
+  const xPos = interpolate(f, [0, Math.max(60, dur)], [-260, 2040]);
+  const yPos = 290 + Math.sin(f / 20) * 32;
+  const corHex = cor ? corDe(cor) : '#7c3aed';
   return (
     <AbsoluteFill>
-      <Estrelas f={f} vel={5} />
+      <Estrelas f={f} vel={6.5} />
+      <AbsoluteFill style={{background: `radial-gradient(ellipse at ${50 + Math.sin(f / 45) * 12}% 38%, ${corHex}2a, transparent 58%)`, pointerEvents: 'none'}} />
       {cor ? (
-        <div style={{position: 'absolute', left: interpolate(f, [0, Math.max(60, dur)], [-260, 2000]), top: 300 + Math.sin(f / 20) * 30, transform: `rotate(${f * 5}deg)`}}>
-          <Crewmate4 cor={cor} size={230} t={f} />
-        </div>
+        <>
+          {[1, 2, 3, 4].map((k) => (
+            <div key={k} style={{position: 'absolute', left: xPos - k * 54 + 40, top: yPos + 100 + Math.sin((f - k * 4) / 14) * 14, width: 32 - k * 5, height: 10 - k * 1.5, borderRadius: 99, background: corHex, opacity: 0.42 - k * 0.08, filter: 'blur(3px)'}} />
+          ))}
+          <div style={{position: 'absolute', left: xPos, top: yPos, transform: `rotate(${f * 5.4}deg)`, filter: `drop-shadow(0 0 28px ${corHex}88)`}}>
+            <Crewmate4 cor={cor} size={230} t={f} />
+          </div>
+        </>
       ) : null}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 610, textAlign: 'center'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 604, textAlign: 'center'}}>
         <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 84, color: '#fff', ...CONTORNO(10)}}>{linha.slice(0, n)}</div>
         {cor && j ? (
-          <div style={{marginTop: 16, opacity: interpolate(f, [fimTxt + 4, fimTxt + 12], [0, 1], cl), transform: `scale(${interpolate(f, [fimTxt + 4, fimTxt + 12], [1.6, 1], cl)})`, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 18}}>
-            {revela ? <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 52, color: '#fff', background: corTime(r.eraImpostor ? 'impostor' : j.time === 'impostor' ? 'tripulante' : j.time), border: '6px solid #fff', borderRadius: 16, padding: '0 26px'}}>{papelNome(String(r.papelExpulso ?? j.papel)).toUpperCase()}</span>
-              : <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 46, color: '#fff', background: '#3a4a6a', border: '6px dashed #fff', borderRadius: 16, padding: '0 26px'}}>FUNÇÃO NÃO REVELADA</span>}
-            <span style={{fontFamily: FONTE, fontWeight: 700, fontSize: 34, color: '#cfe0ff'}}>{j.modelo}</span>
+          <div style={{marginTop: 18, opacity: interpolate(f, [fimTxt + 4, fimTxt + 12], [0, 1], cl), transform: `scale(${interpolate(f, [fimTxt + 4, fimTxt + 12], [1.5, 1], cl)})`, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 18}}>
+            {revela ? (
+              <span style={{fontFamily: FONTE, fontWeight: 900, fontSize: 52, color: '#fff', background: corTime(r.eraImpostor ? 'impostor' : j.time === 'impostor' ? 'tripulante' : j.time), border: '6px solid #fff', borderRadius: 16, padding: '2px 28px', boxShadow: '0 10px 0 #0007'}}>{papelNome(String(r.papelExpulso ?? j.papel)).toUpperCase()}</span>
+            ) : (
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: 14, fontFamily: FONTE, fontWeight: 900, fontSize: 44, color: '#fde68a', background: 'linear-gradient(180deg, #1e293b, #0f172a)', border: '5px dashed #fbbf24', borderRadius: 16, padding: '4px 28px', boxShadow: '0 0 30px rgba(251,191,36,0.28)'}}>
+                <svg width={36} height={36} viewBox="0 0 24 24" fill="none"><rect x={5} y={11} width={14} height={10} rx={2.5} fill="#fbbf24" stroke="#000" strokeWidth={1.8} /><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#fbbf24" strokeWidth={2.5} strokeLinecap="round" /></svg>
+                FUNÇÃO NÃO REVELADA
+              </span>
+            )}
+            <span style={{fontFamily: FONTE, fontWeight: 700, fontSize: 34, color: '#cfe0ff', ...CONTORNO(4)}}>{j.modelo}</span>
           </div>
         ) : null}
       </div>

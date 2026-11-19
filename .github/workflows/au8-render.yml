@@ -1,4 +1,4 @@
-name: AU8 v2 — Render 16 partes em paralelo (com checkpoint)
+name: AU8 v3 (Assinatura) — Render 16 partes em paralelo (com checkpoint)
 
 on:
   push:
@@ -70,7 +70,7 @@ jobs:
       - name: Upload artefato da parte
         uses: actions/upload-artifact@v4
         with:
-          name: au8-v2-parte-${{ matrix.p }}
+          name: au8-v3-parte-${{ matrix.p }}
           path: video/remotion/out/au8_p*.mkv
           retention-days: 7
 
@@ -97,7 +97,7 @@ jobs:
       - name: Baixar todas as 16 partes
         uses: actions/download-artifact@v4
         with:
-          pattern: au8-v2-parte-*
+          pattern: au8-v3-parte-*
           merge-multiple: true
           path: video/remotion/out
 
@@ -113,6 +113,6 @@ jobs:
       - name: Upload MP4 Final 1080p
         uses: actions/upload-artifact@v4
         with:
-          name: Among_IA_8_v2_1080p
-          path: video/remotion/out/among_ia_8_v2_1080p.mp4
+          name: Among_IA_8_v3_1080p
+          path: video/remotion/out/among_ia_8_v3_1080p.mp4
           retention-days: 14

@@ -136,10 +136,14 @@ export const Balao: React.FC<{k: 'fala' | 'pensa' | 'chat'; cor: string; modelo:
 // baixo: um número grande está na tela ao mesmo tempo (ele ocupa a faixa de cima); o selo desce para não cobrir
 export const Selo: React.FC<{texto: string; cor?: string; f: number; comMeme?: boolean; baixo?: boolean}> = ({texto, cor = '#e8701a', f, comMeme, baixo}) => {
   const e = interpolate(f, [0, 6], [2.4, 1], cl);
+  const sheen = interpolate(f, [5, 22], [-35, 135], cl);
   const fs = texto.length > 34 ? 42 : texto.length > 22 ? 52 : 66;
   return (
     <div style={{position: 'absolute', left: comMeme ? 30 : 0, right: comMeme ? 700 : 0, top: baixo ? 600 : 236, display: 'flex', justifyContent: 'center'}}>
-      <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: comMeme ? Math.min(fs, 54) : fs, color: '#fff', background: cor, border: '7px solid #fff', maxWidth: comMeme ? 1150 : 1500, textAlign: 'center', borderRadius: 16, padding: '4px 34px', transform: `rotate(-5deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: '0 12px 0 #0008', ...CONTORNO(3)}}>{texto}</div>
+      <div style={{position: 'relative', overflow: 'hidden', fontFamily: FONTE, fontWeight: 900, fontSize: comMeme ? Math.min(fs, 54) : fs, color: '#fff', background: `linear-gradient(180deg, ${cor}, ${cor}dd)`, border: '7px solid #fff', maxWidth: comMeme ? 1150 : 1500, textAlign: 'center', borderRadius: 18, padding: '6px 38px', transform: `rotate(-4.5deg) scale(${e})`, opacity: interpolate(f, [0, 3], [0, 1], cl), boxShadow: `0 14px 0 #0009, 0 0 38px ${cor}66`, ...CONTORNO(3)}}>
+        <div style={{position: 'absolute', inset: 0, background: `linear-gradient(112deg, transparent ${sheen - 18}%, rgba(255,255,255,0.42) ${sheen}%, transparent ${sheen + 18}%)`, pointerEvents: 'none'}} />
+        <span style={{position: 'relative'}}>{texto}</span>
+      </div>
     </div>
   );
 };
@@ -147,12 +151,17 @@ export const Selo: React.FC<{texto: string; cor?: string; f: number; comMeme?: b
 // cartão de capítulo: número da partida em cima, título-história embaixo
 export const Capitulo: React.FC<{titulo: string; sub?: string; f: number; dur: number}> = ({titulo, sub, f, dur}) => {
   const {fps} = useVideoConfig();
-  const e = spring({frame: f, fps, config: {damping: 12}});
+  const e = spring({frame: f, fps, config: {damping: 13, stiffness: 150}});
+  const out = interpolate(f, [dur - 18, dur], [1, 0], cl);
+  const lineW = interpolate(f, [4, 24], [0, 100], cl);
+  const sheen = interpolate(f, [8, 32], [-30, 130], cl);
   return (
-    <div style={{position: 'absolute', left: 0, right: 0, top: 360, display: 'flex', justifyContent: 'center', opacity: interpolate(f, [dur - 18, dur], [1, 0], cl)}}>
-      <div style={{...PAINEL, border: '6px solid #ffd84d', padding: '18px 64px 22px', textAlign: 'center', transform: `scale(${0.6 + 0.4 * e}) rotate(${(1 - e) * -8}deg)`}}>
-        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 30, color: '#cfe0ff', letterSpacing: 6}}>{sub.toUpperCase()}</div> : null}
-        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: titulo.length > 26 ? 60 : 74, color: '#ffd84d', ...CONTORNO(8), letterSpacing: 1}}>{titulo.toUpperCase()}</div>
+    <div style={{position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 45%, rgba(7,12,28,${0.48 * e * out}), rgba(3,6,16,${0.72 * e * out}))`, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', opacity: out}}>
+      <div style={{position: 'relative', overflow: 'hidden', ...PAINEL, border: '6px solid #ffd84d', padding: '24px 72px 26px', textAlign: 'center', transform: `scale(${0.72 + 0.28 * e}) translateY(${(1 - e) * 24}px)`, boxShadow: '0 22px 60px rgba(0,0,0,0.75), 0 0 44px rgba(255,216,77,0.22)'}}>
+        <div style={{position: 'absolute', inset: 0, background: `linear-gradient(110deg, transparent ${sheen - 15}%, rgba(255,255,255,0.22) ${sheen}%, transparent ${sheen + 15}%)`, pointerEvents: 'none'}} />
+        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 28, color: '#cfe0ff', letterSpacing: 4 + 4 * e, position: 'relative'}}>{sub.toUpperCase()}</div> : null}
+        <div style={{width: `${lineW}%`, maxWidth: 420, height: 4, borderRadius: 4, margin: '10px auto 12px', background: 'linear-gradient(90deg, transparent, #ffd84d, transparent)'}} />
+        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: titulo.length > 26 ? 58 : 74, color: '#ffd84d', ...CONTORNO(8), letterSpacing: 1, position: 'relative'}}>{titulo.toUpperCase()}</div>
       </div>
     </div>
   );
@@ -178,12 +187,21 @@ export const Ideia: React.FC<{autor: string; oque?: string; f: number; dur: numb
 // cartão de fim de partida
 export const FimPartida: React.FC<{titulo: string; sub?: string; cor?: string; f: number; dur: number}> = ({titulo, sub, cor = '#ffd84d', f, dur}) => {
   const {fps} = useVideoConfig();
-  const e = spring({frame: f, fps, config: {damping: 11}});
+  const e = spring({frame: f, fps, config: {damping: 11, stiffness: 135}});
+  const fadeIn = Math.min(1, f / 8);
+  const fadeOut = interpolate(f, [dur - 10, dur], [1, 0], cl);
+  const barH = Math.round(78 * e);
+  const ruleW = interpolate(f, [5, 22], [0, 760], cl);
+  const glow = 0.25 + 0.1 * Math.sin(f / 7);
   return (
-    <div style={{position: 'absolute', inset: 0, background: `rgba(4,8,20,${0.62 * Math.min(1, f / 8)})`, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: interpolate(f, [dur - 10, dur], [1, 0], cl)}}>
-      <div style={{textAlign: 'center', transform: `scale(${0.5 + 0.5 * e})`}}>
-        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 130, color: cor, ...CONTORNO(16), lineHeight: 1}}>{titulo.toUpperCase()}</div>
-        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 44, color: '#fff', ...CONTORNO(8), marginTop: 14}}>{sub}</div> : null}
+    <div style={{position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 50%, rgba(6,10,24,${0.97 * fadeIn}), rgba(2,4,12,${0.995 * fadeIn}))`, backdropFilter: `blur(${Math.round(18 * fadeIn)}px)`, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: fadeOut}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: barH, background: '#02040a', borderBottom: `3px solid ${cor}66`}} />
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: barH, background: '#02040a', borderTop: `3px solid ${cor}66`}} />
+      <div style={{position: 'absolute', width: 1100, height: 340, borderRadius: '50%', background: `radial-gradient(circle, ${cor}${Math.round(glow * 255).toString(16).padStart(2, '0')}, transparent 70%)`, filter: 'blur(24px)', pointerEvents: 'none'}} />
+      <div style={{position: 'relative', textAlign: 'center', padding: '0 80px', transform: `scale(${0.62 + 0.38 * e})`}}>
+        <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 132, color: cor, ...CONTORNO(16), lineHeight: 1.02, letterSpacing: 2, textShadow: `0 0 42px ${cor}66`}}>{titulo.toUpperCase()}</div>
+        <div style={{width: ruleW, height: 6, borderRadius: 6, margin: '18px auto 16px', background: `linear-gradient(90deg, transparent, ${cor}, transparent)`}} />
+        {sub ? <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 42, color: '#f1f5f9', ...CONTORNO(8), letterSpacing: 0.5}}>{sub}</div> : null}
       </div>
     </div>
   );
