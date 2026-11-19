@@ -41,5 +41,5 @@ echo "Baixando trilhas Kevin MacLeod faltantes..."
 python3 ../scripts/au8_baixar_assets.py --music
 
 echo "Upscale 1080p Lanczos + trilha Kevin MacLeod + loudnorm -14 LUFS..."
-python3 ../scripts/au8_final.py out/au8_completo.mkv out/among_ia_8_v2_1080p.mp4
-ls -lh out/among_ia_8_v2_1080p.mp4
+python3 ../scripts/au8_final.py out/au8_completo.mkv out/among_ia_8_v3_1080p.mp4
+ls -lh out/among_ia_8_v3_1080p.mp4

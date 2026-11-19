@@ -108,6 +108,18 @@ const CenaView: React.FC<{c: Cena; log: Log; elenco: Log}> = ({c, log, elenco}) 
       {c.audio.map((a, i) => (
         <Sequence key={`a${i}`} from={a.at}><Audio src={staticFile(a.src)} volume={a.vol ?? 1} /></Sequence>
       ))}
+      {!v && (tq.sab === 'O2' || tq.sab === 'Sismografo') ? (
+        <AbsoluteFill style={{pointerEvents: 'none', boxShadow: `inset 0 0 ${110 + Math.sin(f / 4.5) * 30}px rgba(220,24,38,${0.26 + 0.14 * Math.sin(f / 4.5)})`}} />
+      ) : null}
+      {c.segredo ? (
+        <>
+          <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 14, background: 'linear-gradient(180deg, rgba(2,4,12,0.85), transparent)', pointerEvents: 'none'}} />
+          <div style={{position: 'absolute', right: 28, bottom: 16, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(10,14,28,0.84)', border: '2px solid rgba(192,132,252,0.65)', borderRadius: 10, padding: '4px 14px', fontFamily: "'Poppins', 'Inter', sans-serif", fontWeight: 800, fontSize: 16, letterSpacing: 2, color: '#e9d5ff', pointerEvents: 'none'}}>
+            <span style={{width: 8, height: 8, borderRadius: 99, background: '#c084fc'}} />
+            ABERTURA · SEM SPOILER
+          </div>
+        </>
+      ) : null}
       <AbsoluteFill style={{background: '#fff', opacity: flash, pointerEvents: 'none'}} />
     </AbsoluteFill>
   );
