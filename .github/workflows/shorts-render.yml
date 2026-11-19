@@ -1,4 +1,4 @@
-name: Shorts Director Cut (3× 1080×1920 · -14 LUFS)
+name: Shorts Director Cut (4× 1080×1920 · -14 LUFS)
 
 on:
   push:
@@ -6,7 +6,11 @@ on:
     paths:
       - ".github/workflows/shorts-render.yml"
       - "video/remotion/public/short_*/*.json"
+      - "video/remotion/src/tribunal/ShortTribunalDC.tsx"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   render_short:
@@ -17,6 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - id: ShortTribunalDC
+            music: decisions.mp3
+            out: Short_Tribunal_Museu_Farol.mp4
           - id: ShortInt1DC
             music: investigations.mp3
             out: Short_Interrogatorio1_Peixe_Qwen.mp4
@@ -34,6 +41,10 @@ jobs:
           sparse-checkout: |
             /video/remotion/*
             !/video/remotion/public/*
+            /video/remotion/public/short_tribunal_dc/
+            /video/remotion/public/tribunal/voz/
+            /video/remotion/public/tribunal/sprites/
+            /video/remotion/public/tribunal/cenarios/
             /video/remotion/public/short_int1_dc/
             /video/remotion/public/short_int2_dc/
             /video/remotion/public/short_au8_dc/
@@ -46,11 +57,13 @@ jobs:
             /video/remotion/public/gifs/
             /video/remotion/public/music/
             /video/scripts/
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: video/remotion/package-lock.json
+
       - name: Dependências Remotion & FFmpeg
         working-directory: video/remotion
         run: |
@@ -58,6 +71,7 @@ jobs:
           npm ci --no-audit --no-fund
           npx remotion browser ensure
           python3 ../scripts/shorts_baixar_assets.py
+
       - name: Render 1080×1920 + Mix -14 LUFS
         working-directory: video/remotion
         run: |
@@ -65,15 +79,20 @@ jobs:
           npx remotion render src/index.ts ${{ matrix.id }} out/raw.mp4 --concurrency=4 --crf=18 --log=error
           bash ../scripts/mix_short.sh out/raw.mp4 "public/music/${{ matrix.music }}" 0.34 "out/${{ matrix.out }}"
           ls -lh "out/${{ matrix.out }}"
+          CATBOX=$(curl -sS --max-time 120 -F "reqtype=fileupload" -F "fileToUpload=@out/${{ matrix.out }}" https://catbox.moe/user/api.php || true)
+          echo "${{ matrix.out }} -> CATBOX: $CATBOX" | tee "out/${{ matrix.id }}.catbox.txt"
+
       - name: Upload Short ${{ matrix.id }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.out }}
-          path: video/remotion/out/${{ matrix.out }}
+          path: |
+            video/remotion/out/${{ matrix.out }}
+            video/remotion/out/${{ matrix.id }}.catbox.txt
           retention-days: 14
 
   pacote_final:
-    name: Pacote único 3× Shorts 1080×1920
+    name: Pacote único 4× Shorts + Release
     needs: render_short
     runs-on: ubuntu-latest
     steps:
@@ -82,9 +101,15 @@ jobs:
           pattern: Short_*
           merge-multiple: true
           path: shorts_pacote
-      - run: ls -lh shorts_pacote
+      - run: ls -lh shorts_pacote && cat shorts_pacote/*.catbox.txt || true
       - uses: actions/upload-artifact@v4
         with:
-          name: Shorts_Director_Cut_3x_1080x1920
+          name: Shorts_Director_Cut_4x_1080x1920
           path: shorts_pacote/*.mp4
           retention-days: 14
+      - name: Publicar links diretos no GitHub Release shorts-dc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view shorts-dc --repo "${{ github.repository }}" >/dev/null 2>&1 ||             gh release create shorts-dc --repo "${{ github.repository }}" --title "Shorts Director Cut (4× 1080×1920)" --notes "Downloads diretos em MP4 (-14 LUFS)" --target "${{ github.sha }}"
+          gh release upload shorts-dc shorts_pacote/*.mp4 --clobber --repo "${{ github.repository }}"

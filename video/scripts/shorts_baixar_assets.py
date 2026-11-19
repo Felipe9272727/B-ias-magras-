@@ -21,7 +21,7 @@ NEEDED_GIFS = {
     'nazare-confusa': 'nazare-confusa.gif',
     'coffin-dance': 'coffin-dance.gif',
 }
-NEEDED_MUSIC = ['investigations', 'night-of-chaos']
+NEEDED_MUSIC = ['decisions', 'investigations', 'night-of-chaos']
 
 
 def download(url: str, dest: Path) -> None:
