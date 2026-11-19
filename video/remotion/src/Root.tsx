@@ -3,6 +3,7 @@ import {TesteTransicoes} from './zumbi/TesteTransicoes';
 import {TesteSala} from './zumbi/TesteSala';
 import {ZumbiVideo, calcZumbi} from './zumbi/ZumbiVideo';
 import {AU7Video, calcAU7} from './au7/AU7Video';
+import {AU8Video, calcAU8} from './au8/AU8Video';
 import {PokemonVideo, calcPokemon} from './pokemon/PokemonVideo';
 import {ShortAU7, calcShortAU7} from './au7/ShortAU7';
 import {ShortPokemon, calcShortPokemon} from './pokemon/ShortPokemon';
@@ -312,6 +313,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="ShortAU7" component={ShortAU7} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortAU7} />
       <Composition id="PokemonVideo" component={PokemonVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcPokemon} />
       <Composition id="AU7Video" component={AU7Video} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcAU7} />
+      <Composition id="AU8Video" component={AU8Video} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcAU8} />
       <Composition id="ZumbiVideo" component={ZumbiVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcZumbi} />
       <Composition id="TesteSala" component={TesteSala} durationInFrames={30} fps={30} width={1920} height={1080} defaultProps={{sala: undefined}} />
       <Composition id="TesteMira" component={TesteMira} durationInFrames={90} fps={30} width={1920} height={1080} />

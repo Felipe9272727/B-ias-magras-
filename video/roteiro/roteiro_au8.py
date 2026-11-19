@@ -34,8 +34,12 @@ bateu o limite de uso (uso.motivos da partida 3); não é decisão deles. As fal
 o alvo saiu da sala antes (as decisões do tique são aplicadas na ordem registrada em tiques[t].decisoes).
 
 FORMATO (igual ao roteiro_au7.py, lido por um build_timeline_au8.py copiado do build_timeline_au7.py):
-cena = dict(id, partida, t0, vel, cam, foco, visual, entrada, cap, musica, itens). Sem `visual` a cena é o mapa (The Skeld).
+cena = dict(id, partida, t0, vel, cam, foco, visual, entrada, cap, musica, segredo, itens). segredo=True (só a abertura):
+a tela mostra a cor aparente e nenhuma função, para não entregar quem era o "Roxo" antes do fim. Sem `visual` a cena é o mapa (The Skeld).
 `ev(N)` = âncora um fio depois de N-1: o evento do tique N estoura naquele ponto da narração.
+RELÓGIO (o do motor de mapa, igual ao AU7): o tique mostrado é o teto de T (T=28.3 mostra o tique 29; ev(30)=29.02 mostra o
+30). Por isso t0 e os ['ir', x] avulsos ficam um tique ANTES do ev() que vem depois (montagem: t0 e 'ir' corrigidos em -1
+nas cenas com âncora, para o evento estourar no ponto da narração e não logo no começo da cena).
 Índices de reunião (partidaN.json -> reunioes[i]): P1 [0]=t15 · P2 [0]=t10, [1]=t14 · P3 [0]=t19 · P4 [0]=t8, [1]=t14, [2]=t32.
 P4 tem revelarExpulso=false: na tela de ejeção o texto para as IAs é "função não revelada"; o selo mostra ao espectador.
 Salas do Skeld no log: Refeitorio, Armas, O2, Navegacao, Escudos, Comunicacoes, Deposito, Admin, Eletrica, MotorInferior,
@@ -85,26 +89,26 @@ CENAS = [
     # =====================================================================================================
     # ABERTURA: o clímax primeiro (partida 4, t30-t32). Não resolve: quem era o "Roxo" fica para o último quarto.
     # =====================================================================================================
-    mapa('a1', 4, 29.3, [
+    mapa('a1', 4, 28.3, [
         ['n', 'Última partida da temporada. Falta só um tripulante cair pros impostores ganharem.'],
         ev(30), ['s', 'escudo', 0.7],
         ['n', 'E o Roxo pula no Vermelho. Um escudo salva.'],
         ['selo', 'O ROXO ATACOU?', ROXO],
-    ], cam={'sala': 'Refeitorio', 'zoom': 1.35}, foco='Marrom,Vermelho', vel=0.25, musica='darkest-child'),
+    ], cam={'cor': 'Marrom', 'zoom': 1.45}, foco='Marrom,Vermelho', vel=0.25, musica='darkest-child', segredo=True),
     # a câmera mostra a cor APARENTE (Roxo): o espectador ainda não sabe que é o Marrom
     reuniao('a2', 4, 2, [
         ['fala', 'Vermelho', 'Roxo tentou me matar no Refeitório; o escudo me salvou. Ele é impostor, votem nele — não no Marrom.'],
         ['n', 'Só tem um problema: o Roxo é o Detetive.'],
         ['fala', 'Roxo', 'Vermelho, eu nunca te ataquei; tava em Admin consertando O2 com o Ciano.'],
-    ], entrada='alarme'),
+    ], entrada='alarme', segredo=True),
     votos('a3', 4, 2, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['numero', '4 x 3', 'Roxo expulso'],
         ['selo', 'IMPOSTORES VENCEM', VERMELHO],
         ['meme', 'shocked-krabs'],
         ['s', 'record-scratch', 0.5],
         ['n', 'Quatro a três, e os impostores ganham. Então quem atacou o Vermelho com a cara do Roxo? Guarda essa pergunta. A resposta vem no fim, e ela é pior do que parece.'],
-    ]),
+    ], segredo=True),
 
     # ---------- o último Among, o pedido do público e a regra em uma tela (~35 s) ----------
     tela('b1', 1, {'tipo': 'comentarios', 'comentarios': COMENTARIOS}, [
@@ -129,17 +133,17 @@ CENAS = [
     ]}, [
         ['n', 'Partida um, onze IAs. Os impostores: o Marrom, Metamorfo, que copia a cara dos outros, e o Branco, o Fantasma, que fica invisível. E tem um Palhaço, que só ganha se for expulso.'],
     ], entrada='duto', cap='O Palhaço que confiou no impostor', musica='scheming-weasel-faster'),
-    mapa('p1_a', 1, 2.3, [
+    mapa('p1_a', 1, 1.3, [
         ['n', 'O Marrom estreia rápido. Veste a cara do Azul...'],
         ev(3), ['s', 'transformar', 0.6],
-        ['ir', 5.2],
+        ['ir', 4.2],
         ['n', 'e, com ela, entra num duto no meio do Refeitório.'],
         ev(6), ['s', 'duto', 0.7],
         ['selo', 'A ROSA VIU O "AZUL"', ROSA],
         ['n', 'A Rosa viu. Guarda isso.'],
     ], cam={'sala': 'Refeitorio', 'zoom': 1.45}, foco='Marrom,Rosa', vel=0.35),
-    mapa('p1_b', 1, 12.4, [
-        ['n', 'Enquanto isso, o Palhaço, que é o Amarelo, a Meta Muse Ember, tem um plano pra parecer suspeito.'],
+    mapa('p1_b', 1, 11.4, [
+        ['n', 'Enquanto isso, o Palhaço, que é a Amarelo, a Meta Muse Ember, tem um plano pra parecer suspeito.'],
         ['pensa', 'Amarelo', 'Vi o Marrom sair do duto, vou ficar aqui perto observando ele pra parecer cúmplice.'],
         ['n', 'Ficar colado no impostor. O impostor adorou.'],
         ['pensa', 'Marrom', 'Amarelo está sozinho comigo no Motor Superior, se eu matar ele agora não sobra nenhuma testemunha viva.'],
@@ -148,7 +152,7 @@ CENAS = [
         ['meme', 'chaves-sem-querer'],
         ['n', 'O único jogador da nave que queria ser pego foi morto pelo único que não queria.'],
     ], cam={'sala': 'MotorSuperior', 'zoom': 1.6}, foco='Amarelo,Marrom', vel=0.08),
-    mapa('p1_c', 1, 14.1, [
+    mapa('p1_c', 1, 13.1, [
         ['n', 'E o que ele faz com o corpo?'],
         ['pensa', 'Marrom', 'Amarelo era inocente; denunciar o corpo me faz parecer confiável e tira um tripulante da partida...'],
         ev(15), ['s', 'corpo', 0.6],
@@ -176,21 +180,21 @@ CENAS = [
         ['meme', 'big-brain-patrick'],
     ]),
     votos('p1_f', 1, 0, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['numero', '8 x 1', 'Marrom expulso: era impostor'],
         ['n', 'Oito votos. Ninguém mordeu a isca. Nem o próprio Branco, que votou no parceiro.'],
         ['pensa', 'Branco', 'Marrom tá indo embora com 8 votos, não tem como salvar. Vou votar nele pra parecer que tô do lado da tripulação...'],
         ['meme', 'sweating'],
     ]),
-    mapa('p1_g', 1, 20.5, [
+    mapa('p1_g', 1, 19.5, [
         ['n', 'Sobra o Fantasma, sozinho, e ele descobre a regra do jeito difícil: invisível não pode matar. E quando aparece, sempre tem alguém olhando.'],
-        ['ir', 25.9],
+        ['ir', 24.9],
         ['pensa', 'Branco', 'Estou invisível até o tique 27 com o Preto sozinho aqui em Admin — quando eu ficar visível, é hora de matar ele.'],
         ev(27),
         ['pensa', 'Branco', 'Preto tá me vendo aqui, vou fingir que tô só olhando o mapa do Admin pra parecer normal e ganhar info.'],
         ['selo', 'APARECEU NA FRENTE DO ALVO', BRANCO],
         ['meme', 'mr-bean-waiting'],
-        ['ir', 43.9],
+        ['ir', 42.9],
         ['numero', '4 INVISIBILIDADES', '0 mortes'],
         ev(44),
         ['fim', 'Tripulação vence', '41 de 41 tarefas · o Fantasma nunca matou', '#6dff8a'],
@@ -214,7 +218,7 @@ CENAS = [
     ]}, [
         ['n', 'Partida dois, agora com doze. Os impostores: a Amarelo, agora Metamorfo, e o Branco, de Víbora: o corpo de quem ele mata derrete se ninguém achar a tempo. E do nosso lado tem um Detetive.'],
     ], entrada='duto', cap='Os dois Marrons', musica='quirky-dog'),
-    mapa('p2_a', 2, 3.3, [
+    mapa('p2_a', 2, 2.3, [
         ev(4), ['s', 'transformar', 0.6],
         ['n', 'A Amarelo veste a cara do Marrom...'],
         ev(5), ['s', 'duto', 0.6],
@@ -225,7 +229,7 @@ CENAS = [
         ['pensa', 'Marrom', 'Vou abastecer os motores para cumprir minha tarefa e manter minha aparência de tripulante.'],
         ['n', 'Ele não achou nada estranho.'],
     ], cam={'sala': 'MotorSuperior', 'zoom': 1.6}, foco='Amarelo,Marrom', vel=0.3),
-    mapa('p2_b', 2, 7.3, [
+    mapa('p2_b', 2, 6.3, [
         ['n', 'Aí os dois impostores atacam no mesmo minuto. O Branco mata o Azul na Enfermaria...'],
         ev(8), ['s', 'faca', 0.6],
         ['n', 'o Verde, que é o Rastreador e segue alguém pelo mapa, rastreia o Vermelho, inocente... e, no Reator, a Marrom falsa mata o Verde.'],
@@ -249,19 +253,19 @@ CENAS = [
         ['fala', 'Vermelho', 'Vi o Branco entrar num duto na Enfermaria no t9, junto do corpo do Azul. Isso é bem suspeito.'],
     ], entrada='alarme'),
     votos('p2_d', 2, 0, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['selo', 'VÍBORA EXPULSA', VERDE],
         ['meme', 'stonks'],
         ['n', 'Sete votos, Branco fora, e era a Víbora. A Amarelo votou no Marrom até o fim.'],
     ]),
-    mapa('p2_e', 2, 10.2, [
+    mapa('p2_e', 2, 9.2, [
         ['n', 'Agora, o Detetive. Depois que um corpo é denunciado, ele sabe que tipo de impostor matou e pode perguntar a três pessoas onde elas estavam na hora. O Ciano pergunta primeiro pra quem achou o corpo.'],
         ev(11), ['s', 'notification-pop', 0.5],
         ['selo', 'AMARELO: NO REATOR NA HORA DA MORTE', CIANO],
         ['meme', 'hackerman'],
         ['n', 'Na mosca.'],
     ], cam={'cor': 'Ciano', 'zoom': 1.6}, foco='Ciano,Amarelo', vel=0.1),
-    mapa('p2_f', 2, 13.2, [
+    mapa('p2_f', 2, 12.2, [
         ['n', 'E aí entra o Roxo. Nessa partida, o Sonnet é o Palhaço, e quer ser expulso de qualquer jeito.'],
         ['pensa', 'Roxo', 'Preciso parecer suspeito para ser expulso, então vou apertar o botão de emergência sem motivo e dar álibis estranhos na reunião.'],
         ev(14),
@@ -274,7 +278,7 @@ CENAS = [
         ['meme', 'drake-yes'],
     ], entrada='alarme'),
     votos('p2_h', 2, 1, [
-        ['p', 6.0],
+        ['p', 4.6],
         ['numero', 'TIQUE 14', 'a partida mais curta da temporada'],
         ['n', 'Amarelo expulsa, último impostor fora: a tripulação vence no tique catorze. E o Palhaço, que só queria ser expulso? Zero votos.'],
         ['selo', 'PALHAÇO: 0 VOTOS', ROXO],
@@ -294,7 +298,7 @@ CENAS = [
     ]}, [
         ['n', 'Partida três. Impostores: a Rosa, o Mistral Small, de Fantasma, e o Azul, o Claude Haiku, de Víbora.'],
     ], entrada='duto', cap='Eu vi com meus olhos', musica='investigations'),
-    mapa('p3_a', 3, 0.3, [
+    mapa('p3_a', 3, -0.7, [
         ev(1), ['s', 'sumir', 0.6],
         ['n', 'E a Rosa começa ficando invisível... no meio do Refeitório lotado.'],
         ['selo', 'SUMIU NA FRENTE DE TODO MUNDO', ROSA],
@@ -303,13 +307,13 @@ CENAS = [
         ['n', 'Pelo menos o Lima reparou.'],
         ['pensa', 'Lima', 'Vou garantir essa tarefa visual em Armas antes de procurar pistas sobre o sumiço da Rosa.'],
     ], cam={'sala': 'Refeitorio', 'zoom': 1.3}, foco='Rosa,Lima', vel=0.25),
-    mapa('p3_b', 3, 13.3, [
-        ['ir', 13.6],
+    mapa('p3_b', 3, 12.3, [
+        ['ir', 12.6],
         ['n', 'Ela tranca a porta da Navegação, com o Preto lá dentro. E o Preto é o Detetive.'],
         ev(14), ['s', 'batida-porta', 0.6],
         ['chat', 'Rosa', 'Tranquei Navegação, armadilha pronta.'],
     ], cam={'sala': 'Navegacao', 'zoom': 1.5}, foco='Preto,Rosa', vel=0.25),
-    mapa('p3_c', 3, 16.2, [
+    mapa('p3_c', 3, 15.2, [
         ['n', 'Do outro lado da nave, o parceiro dela também tenta. E avisa no chat:'],
         ev(17),
         ['chat', 'Azul', 'Matei o Branco na Comunicações.'],
@@ -317,7 +321,7 @@ CENAS = [
         ['selo', 'O BRANCO JÁ TINHA SAÍDO', BRANCO],
         ['meme', 'mission-failed'],
     ], cam={'sala': 'Comunicacoes', 'zoom': 1.6}, foco='Azul,Branco', vel=0.15),
-    mapa('p3_d', 3, 17.3, [
+    mapa('p3_d', 3, 16.3, [
         ev(18), ['s', 'faca', 0.6],
         ['n', 'Na Navegação, a armadilha fecha: o Detetive morre antes de abrir um caso sequer. Só que tinha mais alguém chegando.'],
         ['selo', 'O LIMA VIU', LIMA],
@@ -338,7 +342,7 @@ CENAS = [
         ['fala', 'Laranja', 'Marrom confirmou meu relato do Azul no duto, mas isso é pra depois.'],
     ], entrada='alarme'),
     votos('p3_f', 3, 0, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['numero', '8 VOTOS', 'Rosa expulsa: era impostora'],
         ['n', 'Oito votos. E o voto da Rosa foi pro Azul. O parceiro dela.'],
         ['pensa', 'Rosa', 'Melhor votar em Azul (meu parceiro) para tentar salvá-lo e manter o equilíbrio entre impostores.'],
@@ -350,7 +354,7 @@ CENAS = [
         ['fala', 'Verde', 'Mudei de ideia, a Rosa tá muito suspeita com esse duto.'],
         ['selo', 'PALHAÇO: 0 VOTOS. DE NOVO.', VERDE],
     ]),
-    mapa('p3_g', 3, 31.2, [
+    mapa('p3_g', 3, 30.2, [
         ['n', 'Lembra do "isso é pra depois"? Treze tiques depois, o Azul acha alguém sozinho nas Armas. Justo o Marrom, a testemunha do duto.'],
         ev(32), ['s', 'faca', 0.6],
         ['selo', 'A TESTEMUNHA DO DUTO', MARROM],
@@ -359,11 +363,11 @@ CENAS = [
         ['selo', 'VIROU POÇA', VERDE],
         ['meme', 'this-is-fine'],
     ], cam={'sala': 'Armas', 'zoom': 1.6}, foco='Azul,Marrom', vel=0.35),
-    mapa('p3_h', 3, 35.5, [
+    mapa('p3_h', 3, 34.5, [
         ['n', 'Ninguém achou. Ninguém mais apertou o botão. Da expulsão da Rosa até o fim, foram trinta e quatro tiques sem uma reunião.'],
         ['numero', '34 TIQUES', 'sem nenhuma reunião'],
         ['meme', 'skeleton-waiting'],
-        ['ir', 52.9], ev(53),
+        ['ir', 51.9], ev(53),
         ['fim', 'Tripulação vence', '51 de 51 tarefas · o Azul sai impune', '#6dff8a'],
         ['p', 2.0],
         ['n', 'A tripulação ganha nas tarefas, e o Azul sai da nave sem ninguém desconfiar. O "depois" nunca chegou.'],
@@ -390,7 +394,7 @@ CENAS = [
         ['n', 'Os impostores: o Marrom, de novo Metamorfo. O Branco, de Víbora. E o Lima, o nosso dedo-duro, de Fantasma. E o Roxo? Detetive.'],
         ['meme', 'avengers-assemble'],
     ], entrada='duto', cap='O Detetive que sabia', musica='night-of-chaos'),
-    mapa('p4_a', 4, 3.3, [
+    mapa('p4_a', 4, 2.3, [
         ev(4), ['s', 'transformar', 0.6],
         ['n', 'O Marrom veste a cara do Vermelho...'],
         ev(6), ['s', 'faca', 0.6],
@@ -414,7 +418,7 @@ CENAS = [
         ['meme', 'michael-jackson-popcorn'],
         ['n', 'Ninguém foi expulso.'],
     ], entrada='alarme'),
-    mapa('p4_c', 4, 11.3, [
+    mapa('p4_c', 4, 10.3, [
         ['n', 'Aí os três atacam em sequência. O Branco mata a Rosa na Navegação...'],
         ev(12), ['s', 'faca', 0.6],
         ['n', 'e o Lima mata o Laranja no Depósito. O Palhaço morto por um impostor. De novo.'],
@@ -434,12 +438,12 @@ CENAS = [
         ['meme', 'monkey-puppet-awkward'],
     ], entrada='alarme'),
     votos('p4_e', 4, 1, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['n', 'Seis votos na Amarelo. E nessa partida a nave sai da mesa sem saber o que ela era.'],
         ['selo', 'VOCÊ SABE: ERA INOCENTE', AMARELO],
         ['meme', 'crying-jordan'],
     ]),
-    mapa('p4_f', 4, 14.2, [
+    mapa('p4_f', 4, 13.2, [
         ['n', 'Agora presta atenção, que essa é a cena mais importante do vídeo. Depois da reunião, o Detetive interroga o Lima.'],
         ev(15), ['s', 'notification-pop', 0.5],
         ['selo', 'CASO LARANJA: O LIMA ESTAVA NO DEPÓSITO', ROXO],
@@ -450,14 +454,14 @@ CENAS = [
         ['meme', 'dramatic-chipmunk'],
         ['n', 'Ele sabe. Guarda isso.'],
     ], cam={'cor': 'Roxo', 'zoom': 1.65}, foco='Roxo,Lima', vel=0.12, musica='decisions'),
-    mapa('p4_g', 4, 16.3, [
+    mapa('p4_g', 4, 15.3, [
         ['n', 'Quem também ficou de olho no Roxo foi o Marrom.'],
         ['pensa', 'Marrom', 'Ninguém me vê no Refeitório, vou usar a recarga agora disfarçado do Roxo (o detetive que eles acham suspeito)...'],
         ev(17), ['s', 'transformar', 0.6],
         ['selo', 'AGORA EXISTEM DOIS ROXOS', ROXO],
         ['meme', 'free-real-estate'],
     ], cam={'sala': 'Refeitorio', 'zoom': 1.55}, foco='Marrom', vel=0.12),
-    mapa('p4_h', 4, 21.2, [
+    mapa('p4_h', 4, 20.2, [
         ['n', 'Com a cara do Roxo, ele avisa os parceiros:'],
         ev(22),
         ['chat', 'Marrom', 'Matei o Ciano no Refeitório disfarçado de Roxo. Vou culpar o Roxo na próxima reunião.'],
@@ -470,17 +474,17 @@ CENAS = [
         ['selo', 'GEMMA: MORTO EM 2 DE 4', VERDE],
         ['numero', '3 x 4', 'impostores x resto: falta UMA eliminação'],
     ], cam={'mapa': True, 'zoom': 1.2}, foco='Marrom,Lima,Verde', vel=0.4),
-    mapa('p4_h2', 4, 24.2, [
+    mapa('p4_h2', 4, 23.2, [
         ['n', 'E o Anjo, lá do além, escolhe o próximo protegido.'],
         ev(25), ['s', 'escudo', 0.5],
         ['pensa', 'Preto', 'Vermelho e Ciano já têm escudo; vou proteger Lima, que andou sozinha e achou dois corpos.'],
         ['selo', 'O ANJO PROTEGEU O ASSASSINO', LIMA],
         ['meme', 'eye-roll'],
     ], cam={'cor': 'Lima', 'zoom': 1.6}, foco='Lima', vel=0.12),
-    mapa('p4_i', 4, 25.3, [
+    mapa('p4_i', 4, 24.3, [
         ['n', 'Os impostores sabotam o oxigênio, e nessa partida o prazo é curto. O Ciano conserta um painel. O outro, no Admin, quem conserta é o Roxo de verdade.'],
         ev(26), ['s', 'sirene-ataque', 0.5],
-        ['ir', 29.2],
+        ['ir', 28.2],
         ['pensa', 'Roxo', 'O O2 acaba no tique 32 e o painel do O2 já foi consertado, então conserto o do Admin agora.'],
         ['n', 'No mesmo instante, no Refeitório, o Roxo falso pula no Vermelho.'],
         ev(30), ['s', 'escudo', 0.7],
@@ -490,7 +494,7 @@ CENAS = [
         ['chat', 'Marrom', 'Matei o Vermelho de Refeitório.'],
         ['n', 'Também não matou. Mas agora o Vermelho tem certeza de que o Roxo é o assassino.'],
     ], cam={'sala': 'Refeitorio', 'zoom': 1.4}, foco='Marrom,Vermelho,Roxo', vel=0.35),
-    mapa('p4_j', 4, 31.2, [
+    mapa('p4_j', 4, 30.2, [
         ev(32),
         ['pensa', 'Vermelho', 'Roxo tentou me matar, mas pode ser o Palhaço; vou chamar reunião e relatar também que vi Branco entrar num duto.'],
     ], cam={'cor': 'Vermelho', 'zoom': 1.7}, foco='Vermelho', vel=0.05),
@@ -513,7 +517,7 @@ CENAS = [
         ['selo', 'NUNCA FALOU DA LIMA', ROXO],
     ], entrada='alarme'),
     votos('p4_l', 4, 2, [
-        ['p', 6.5],
+        ['p', 4.6],
         ['numero', '4 x 3', 'o voto do Vermelho decidiu'],
         ['n', 'Quatro a três. Os três impostores votaram no Roxo. O quarto voto foi do Vermelho, o que o escudo salvou.'],
         ['pensa', 'Marrom', 'O ataque que Vermelho viu foi o meu disfarce de Roxo.'],
