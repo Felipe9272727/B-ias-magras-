@@ -26,6 +26,9 @@ if [ "${FORCE_RENDER:-0}" != "1" ] && git ls-remote --heads "$R" "$BR" | grep -q
   exit 0
 fi
 
+# Baixa GIFs de meme faltantes a partir do catalog.json
+python3 ../scripts/au8_baixar_assets.py --gifs
+
 # Pasta leve só com assets do AU8 (evita o bundler copiar GBs de outros vídeos)
 LEVE="out/au8_public"
 if [ ! -d "$LEVE" ]; then

@@ -17,6 +17,8 @@ if [ ! -L "$REM/out" ]; then
   ln -s "$CACHE" "$REM/out"
 fi
 
+python3 ../scripts/au8_baixar_assets.py --gifs --music
+
 # Pasta leve só com assets do AU8 (hardlinks no mesmo FS do repo, fora do cache)
 LEVE="/tmp/au8_public_leve"
 rm -rf "$LEVE"
