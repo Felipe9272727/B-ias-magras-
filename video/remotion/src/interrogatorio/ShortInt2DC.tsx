@@ -10,7 +10,7 @@ import {FONT} from '../theme';
 import {Som as Sfx} from './ShortKit';
 import {ASSENTO, SalaInterrogatorio} from './Sala';
 import {IAS, Personagem, type Expressao, type IA} from './Personagens';
-import {Carimbo, MonitorEstresse} from './Hud';
+import {MonitorEstresse} from './Hud';
 
 type Palavra = {w: string; s: number; e: number; ia?: string};
 type Aud = {src: string; at: number; de: number; ate?: number; ia?: string};
@@ -104,7 +104,7 @@ const LegendaDC: React.FC<{palavras: Palavra[]}> = ({palavras}) => {
   const narr = palavras.filter((p) => !p.ia);
   if (!narr.length) return null;
   const grupos: Palavra[][] = [];
-  for (let i = 0; i < narr.length; i += 4) grupos.push(narr.slice(i, i + 4));
+  for (let i = 0; i < narr.length; i += 3) grupos.push(narr.slice(i, i + 3));
   const ativo = grupos.find((g) => f >= g[0].s - 2 && f <= g[g.length - 1].e + 8);
   if (!ativo) return null;
   return (
@@ -122,7 +122,7 @@ const LegendaDC: React.FC<{palavras: Palavra[]}> = ({palavras}) => {
               fontSize: atual ? 74 : 66,
               lineHeight: 1.08,
               color: destaque ? '#ffd84d' : atual ? '#fff' : jaFoi ? '#f1f5f9' : '#94a3b8',
-              transform: `scale(${atual ? 1.08 : 1})`, padding: atual ? '0 10px' : '0 2px', padding: atual ? '0 10px' : '0 2px',
+              transform: `scale(${atual ? 1.08 : 1})`, padding: atual ? '0 10px' : '0 2px',
               textShadow: atual ? '0 0 28px rgba(255,216,77,0.45)' : '0 8px 18px rgba(0,0,0,0.8)',
               ...CONTORNO(11),
             }}

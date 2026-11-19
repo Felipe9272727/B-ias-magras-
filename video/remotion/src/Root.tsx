@@ -62,6 +62,7 @@ import {PreviaPersonagens} from './interrogatorio/PreviaPersonagens';
 import {PreviaHud} from './interrogatorio/PreviaHud';
 import {ThumbInt} from './interrogatorio/ThumbInt';
 import {ShortInterrogatorio, calcShortInterrogatorio} from './interrogatorio/ShortInterrogatorio';
+import {ShortInt1DC, calcShortInt1DC} from './interrogatorio/ShortInt1DC';
 import {ShortInt2DC, calcShortInt2DC} from './interrogatorio/ShortInt2DC';
 import {ShortAU8DC, calcShortAU8DC} from './au8/ShortAU8DC';
 import {PreviaLobo} from './lobisomem/PreviaLobo';
@@ -314,6 +315,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="TribunalVideo" component={TribunalVideo} durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{tl: null}} calculateMetadata={calcTribunal} />
       <Composition id="ShortDesenha" component={ShortDesenha} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{s: null}} calculateMetadata={calcShortDesenha} />
       <Composition id="ShortPokemon" component={ShortPokemon} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortPokemon} />
+      <Composition id="ShortInt1DC" component={ShortInt1DC} width={1080} height={1920} fps={30} durationInFrames={1400} defaultProps={{blocos: null}} calculateMetadata={calcShortInt1DC} />
       <Composition id="ShortInt2DC" component={ShortInt2DC} width={1080} height={1920} fps={30} durationInFrames={1300} defaultProps={{blocos: null}} calculateMetadata={calcShortInt2DC} />
       <Composition id="ShortAU8DC" component={ShortAU8DC} width={1080} height={1920} fps={30} durationInFrames={1300} defaultProps={{tl: null}} calculateMetadata={calcShortAU8DC} />
       <Composition id="ShortAU7" component={ShortAU7} durationInFrames={300} fps={30} width={1080} height={1920} defaultProps={{tl: null}} calculateMetadata={calcShortAU7} />

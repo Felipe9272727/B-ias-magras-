@@ -40,7 +40,7 @@ const LegendaV: React.FC<{palavras: Palavra[]}> = ({palavras}) => {
   const f = useCurrentFrame();
   if (!palavras.length) return null;
   const grupos: Palavra[][] = [];
-  for (let i = 0; i < palavras.length; i += 4) grupos.push(palavras.slice(i, i + 4));
+  for (let i = 0; i < palavras.length; i += 3) grupos.push(palavras.slice(i, i + 3));
   const ativo = grupos.find((g) => f >= g[0].s - 2 && f <= g[g.length - 1].e + 8);
   if (!ativo) return null;
   return (
