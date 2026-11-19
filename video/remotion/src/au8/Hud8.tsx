@@ -163,7 +163,7 @@ export const Ideia: React.FC<{autor: string; oque?: string; f: number; dur: numb
   const {fps} = useVideoConfig();
   const e = spring({frame: f, fps, config: {damping: 13, stiffness: 170}});
   return (
-    <div style={{position: 'absolute', left: 24, top: 120, transform: `translateX(${(1 - e) * -520}px)`, opacity: interpolate(f, [dur - 8, dur], [1, 0], cl)}}>
+    <div style={{position: 'absolute', left: 24, bottom: 36, transform: `translateX(${(1 - e) * -520}px)`, opacity: interpolate(f, [dur - 8, dur], [1, 0], cl)}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '5px solid #000', borderRadius: 16, padding: '6px 18px 6px 10px', boxShadow: '0 8px 0 #0008', transform: 'rotate(-2deg)'}}>
         <svg width={46} height={46} viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" fill="#ffd84d" stroke="#000" strokeWidth={1.6} /><path d="M9 19.5h6M10 22h4" stroke="#000" strokeWidth={1.8} strokeLinecap="round" /></svg>
         <div>
@@ -191,9 +191,22 @@ export const FimPartida: React.FC<{titulo: string; sub?: string; cor?: string; f
 
 // ---------- transições próprias do AU8 (o corte cai no quadro 22) ----------
 export const DUR_TRANS8 = 44;
-export const Transicao8: React.FC<{tipo: 'duto' | 'alarme'; f: number}> = ({tipo, f}) => {
+export const Transicao8: React.FC<{tipo: 'duto' | 'alarme' | 'o2'; f: number}> = ({tipo, f}) => {
   const k = f <= 22 ? interpolate(f, [0, 16], [0, 1], cl) : interpolate(f, [26, 44], [1, 0], cl);
   const e = k * k * (3 - 2 * k);
+  if (tipo === 'o2') {
+    return (
+      <div style={{position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none'}}>
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <div key={i} style={{position: 'absolute', left: -200, width: 2400, top: i * 180, height: 181, background: i % 2 ? '#c4142c' : '#082032', transform: `translateX(${(i % 2 ? 1 : -1) * (1 - e) * 2400}px) skewX(-12deg)`, borderTop: '8px solid #22d3ee', borderBottom: '8px solid #000'}} />
+        ))}
+        <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: e}}>
+          <div style={{fontFamily: FONTE, fontWeight: 900, fontSize: 118, color: '#22d3ee', ...CONTORNO(16), letterSpacing: 3}}>SABOTAGEM O2!</div>
+          <div style={{fontFamily: FONTE, fontWeight: 800, fontSize: 40, color: '#fff', ...CONTORNO(8), marginTop: 6}}>OXIGÊNIO ACABANDO · DOIS PAINÉIS</div>
+        </div>
+      </div>
+    );
+  }
   if (tipo === 'alarme') {
     return (
       <div style={{position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none'}}>

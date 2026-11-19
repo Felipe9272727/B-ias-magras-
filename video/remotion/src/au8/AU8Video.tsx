@@ -28,7 +28,7 @@ type Visual =
   | {tipo: 'elenco'; titulo?: string; destaques?: string[]; nota?: Record<string, string>}
   | {tipo: 'comentarios'; comentarios: Comentario[]}
   | {tipo: 'placar'; titulo: string; linhas: LinhaPlacar[]};
-type Cena = {id: string; dur: number; partida: number; t0: number; vel: number; tk?: [number, number][]; entrada?: 'duto' | 'alarme'; cam: Cam; foco?: string; hud?: boolean; papeis?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: Visual; segredo?: boolean};
+type Cena = {id: string; dur: number; partida: number; t0: number; vel: number; tk?: [number, number][]; entrada?: 'duto' | 'alarme' | 'o2'; cam: Cam; foco?: string; hud?: boolean; papeis?: boolean; over: Over[]; audio: {src: string; at: number; vol?: number}[]; visual?: Visual; segredo?: boolean};
 type TL = {cenas: Cena[]};
 
 export const calcAU8: CalculateMetadataFunction<{tl: TL | null}> = async () => {
@@ -80,7 +80,7 @@ const CenaView: React.FC<{c: Cena; log: Log; elenco: Log}> = ({c, log, elenco}) 
       <AbsoluteFill style={{transform: `${tremor ? `translate(${Math.sin(f * 2.7) * tremor}px, ${Math.cos(f * 3.3) * tremor}px) ` : ''}scale(${1 + soco})`}}>
         {!v ? <Jogo8 log={log} R={R} cam={c.cam} zoomDe={zoomDe} falas={falas} f={f} foco={c.foco} papeis={c.papeis} mascara={mascara} segredo={c.segredo} /> : null}
         {v?.tipo === 'reuniao' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="discussao" falando={falando} segredo={c.segredo} /> : null}
-        {v?.tipo === 'votos' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="votos" falando={falando} segredo={c.segredo} /> : null}
+        {v?.tipo === 'votos' ? <Mesa log={log} idx={v.indice} f={f} dur={c.dur} fase="votos" falando={falando} segredo={c.segredo} temBalao={falando.length > 0} /> : null}
         {v?.tipo === 'ejecao' ? <Ejecao log={log} idx={v.indice} f={f} dur={c.dur} /> : null}
         {v?.tipo === 'papeis' ? <Papeis lista={v.lista} titulo={v.titulo} f={f} dur={c.dur} /> : null}
         {v?.tipo === 'elenco' ? <Elenco log={elenco} f={f} dur={c.dur} titulo={v.titulo} destaques={v.destaques} nota={v.nota} /> : null}
@@ -117,7 +117,7 @@ const SeqSelo: React.FC<{texto: string; cor?: string; comMeme?: boolean; baixo?:
 const SeqCap: React.FC<{titulo: string; sub?: string; dur: number}> = ({titulo, sub, dur}) => <Capitulo titulo={titulo} sub={sub} f={useCurrentFrame()} dur={dur} />;
 const SeqFim: React.FC<{o: {dur: number; titulo: string; sub?: string; cor?: string}}> = ({o}) => <FimPartida titulo={o.titulo} sub={o.sub} cor={o.cor} f={useCurrentFrame()} dur={o.dur} />;
 const SeqIdeia: React.FC<{o: {dur: number; autor: string; oque?: string}}> = ({o}) => <Ideia autor={o.autor} oque={o.oque} f={useCurrentFrame()} dur={o.dur} />;
-const SeqTrans: React.FC<{tipo: 'duto' | 'alarme'}> = ({tipo}) => <Transicao8 tipo={tipo} f={useCurrentFrame()} />;
+const SeqTrans: React.FC<{tipo: 'duto' | 'alarme' | 'o2'}> = ({tipo}) => <Transicao8 tipo={tipo} f={useCurrentFrame()} />;
 
 export const AU8Video: React.FC<{tl: TL | null}> = ({tl}) => {
   const [logs, setLogs] = useState<Record<number, Log> | null>(null);
