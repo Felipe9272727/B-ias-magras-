@@ -1,6 +1,6 @@
 # Among IA 8 (The Skeld, 12 IAs): título, descrição, capítulos e créditos
 
-Duração: 18:45 (timeline de 33.747 quadros a 30 fps). Capítulos tirados de `video/remotion/public/timeline_au8.json`;
+Duração: 17:27 (versão v4 "Director Cut"). Capítulos tirados de `video/remotion/public/timeline_au8.json`;
 se o roteiro mudar, recalcular. Link do render (1080p): https://gofile.io/d/5aXpVI7z
 
 ## Título
@@ -25,12 +25,12 @@ Ideias de vocês que entraram: @HerzMayhem (expulsão sem revelar a função), @
 
 CAPÍTULOS
 0:00 Quem era aquele Roxo?
-0:43 O último Among (e a regra numa tela)
-1:33 Partida 1: O Palhaço que confiou no impostor
-4:53 Partida 2: Os dois Marrons
-8:06 Partida 3: Eu vi com meus olhos
-11:28 Partida bônus: O Detetive que sabia
-17:53 Prêmios da temporada
+0:42 O último Among (e a regra numa tela)
+1:18 Partida 1: O Palhaço que confiou no impostor
+4:22 Partida 2: Os dois Marrons
+7:38 Partida 3: Eu vi com meus olhos
+10:40 Partida bônus: O Detetive que sabia
+16:36 Prêmios da temporada
 
 E você: sentado na cadeira do Vermelho, viu o "Roxo" te atacar e o Detetive diz que foi o Marrom. Em quem você votava? Comenta aí.
 
