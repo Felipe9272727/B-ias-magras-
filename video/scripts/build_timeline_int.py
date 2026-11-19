@@ -58,7 +58,21 @@ bt.TERMOS = {'Anthropic', 'Skeld', 'tokens', 'JSON'}
 
 
 def chave():
-    return (Path.home() / '.config' / 'elevenlabs' / 'api_key').read_text().strip()
+    # 19/11: a chave vem do ambiente ou do mod chaves-ias (conta nova 'elevenlabs2' primeiro), como no AU8
+    import glob as _g
+    k = os.environ.get('ELEVENLABS_API_KEY')
+    if k:
+        return k
+    for nome in ('elevenlabs2', 'elevenlabs'):
+        for f in _g.glob('/root/.claude/plugins/store/chaves-ias*.json'):
+            v = json.loads(Path(f).read_text())
+            for d in (v, v.get('data', {}), v.get('values', {})):
+                if isinstance(d, dict) and d.get(nome):
+                    return d[nome]
+    old = Path.home() / '.config' / 'elevenlabs' / 'api_key'
+    if old.exists():
+        return old.read_text().strip()
+    raise SystemExit('SEM CHAVE do ElevenLabs')
 
 
 _INDICE = None
@@ -262,8 +276,13 @@ def main():
     ap.add_argument('--roteiro', default='roteiro_int')
     ap.add_argument('--saida', default='timeline_int.json')
     ap.add_argument('--contar', action='store_true', help='só conta os caracteres que ainda faltam gerar')
+    # parte 2 (19/11): --logs logs2 --voz voice_int2 (vozes numa pasta própria: os ids de cena podem repetir os da parte 1)
+    ap.add_argument('--logs', default='logs')
+    ap.add_argument('--voz', default='voice_int')
     args = ap.parse_args()
-    global SO_CONTAR, ROTEIRO
+    global SO_CONTAR, ROTEIRO, VOZ, LOGS_INT
+    VOZ = PUBLIC / args.voz
+    LOGS_INT = ROOT.parent / 'interrogatorio' / args.logs
     SO_CONTAR = args.contar
     ROTEIRO = args.roteiro
     VOZ.mkdir(parents=True, exist_ok=True)
@@ -331,7 +350,7 @@ def main():
             forced |= n['forced']
             end = lead + n['dur'] + max(0.0, n['extra'])
             if n['audio']:
-                voices.append(dict(at=round(lead * FPS), src=f'voice_int/{sid}.mp3'))
+                voices.append(dict(at=round(lead * FPS), src=f'{VOZ.name}/{sid}.mp3'))
         else:
             t = lead
             chat = []
@@ -344,7 +363,7 @@ def main():
                     words += n['words']
                     forced |= {off + i for i in n['forced']}
                     if n['audio']:
-                        voices.append(dict(at=round(t * FPS), src=f'voice_int/{sid}_{k}.mp3'))
+                        voices.append(dict(at=round(t * FPS), src=f'{VOZ.name}/{sid}_{k}.mp3'))
                     t += n['dur'] + max(0.0, n['extra']) + 0.3
                 else:
                     item = dict(cor=quem.split(':')[-1], texto=txt, at=round(t * FPS), pensa=quem.startswith('pensa:'))
@@ -354,16 +373,16 @@ def main():
                     chat.append(item)
                     if txt.strip('. ') and not args.sem_voz:
                         _, dur = tts(' '.join(bt.spoken(x) for x in txt.split()), voz_de(quem), base)
-                        src = f'voice_int/{sid}_{k}.mp3'
+                        src = f'{VOZ.name}/{sid}_{k}.mp3'
                         if quem.startswith('pensa:'):  # pensamento: eco na voz normal
                             e = base.parent / f'{base.name}_eco.mp3'
                             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'aecho=0.8:0.85:60|140:0.45|0.25,volume=0.95', e], check=True)
-                            src = f'voice_int/{sid}_{k}_eco.mp3'
+                            src = f'{VOZ.name}/{sid}_{k}_eco.mp3'
                         if sc.get('rapido'):  # lobby (até 5 s): corta o silêncio das pontas e acelera a fala
                             r = base.parent / f'{base.name}_r.mp3'
                             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', base.with_suffix('.mp3'), '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo=' + str(sc['rapido']), r], check=True)
                             dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', r], capture_output=True, text=True).stdout)
-                            src = f'voice_int/{sid}_{k}_r.mp3'
+                            src = f'{VOZ.name}/{sid}_{k}_r.mp3'
                         voices.append(dict(at=round(t * FPS), src=src, cor=quem))
                     else:
                         dur = 1.3 if not txt.strip('. ') else len(txt) / 15
