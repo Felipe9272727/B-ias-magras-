@@ -1561,6 +1561,8 @@ function carregarCheckpoint() {
   dutosTapados.clear(); for (const d of c.dutosTapados) dutosTapados.add(d)
   mortosTripulantes = c.mortosTripulantes; gastoInicio = c.gastoInicio
   Object.assign(uso, c.uso)
+  // 19/11: na retomada as falhas antigas (de uma ponte que caiu) não contam para o limite; o custo e as chamadas continuam
+  uso.falhasAntes = {...(uso.falhasPor ?? {})}; uso.falhasPor = {}; uso.falhas = 0
   for (const k of Object.keys(log)) delete log[k]
   Object.assign(log, c.log)
   ;(log.retomadas ??= []).push({ tique: c.tique, em: new Date().toISOString() })
