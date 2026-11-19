@@ -1,6 +1,11 @@
 name: Shorts Director Cut (3× 1080×1920 · -14 LUFS)
 
 on:
+  push:
+    branches: ["claude/wizardly-bell-35bp85", "main"]
+    paths:
+      - ".github/workflows/shorts-render.yml"
+      - "video/remotion/public/short_*/*.json"
   workflow_dispatch:
 
 jobs:
