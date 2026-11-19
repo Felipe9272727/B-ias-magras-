@@ -231,6 +231,7 @@ CENAS = [
         ['n', 'o Verde, que é o Rastreador e segue alguém pelo mapa, rastreia o Vermelho, inocente... e, no Reator, a Marrom falsa mata o Verde.'],
         ev(9), ['s', 'faca', 0.6],
         ['chat', 'Amarelo', 'Mati o Verde no Reator disfarçado de Marrom, culpo ele se acharem o corpo.'],
+        ['n', 'Guarda esse Verde: é o Gemma. Ganhou um poder, morreu no tique 9 e não chegou a abrir a boca numa reunião.'],
         ['selo', 'MATOU COM A CARA DO MARROM', VERMELHO],
         ['meme', 'galvao-clima-terrivel'],
     ], cam={'mapa': True, 'zoom': 1.15}, foco='Branco,Amarelo,Verde', vel=0.2),
@@ -465,6 +466,8 @@ CENAS = [
         ['meme', 'not-stonks'],
         ['n', 'Quem mata é o Lima, que trancou o Verde na Navegação e esperou.'],
         ev(24), ['s', 'faca', 0.6],
+        ['n', 'E o Gemma morre de novo. Justo na partida em que mais falou nas reuniões. O azarado da temporada.'],
+        ['selo', 'GEMMA: MORTO EM 2 DE 4', VERDE],
         ['numero', '3 x 4', 'impostores x resto: falta UMA eliminação'],
     ], cam={'mapa': True, 'zoom': 1.2}, foco='Marrom,Lima,Verde', vel=0.4),
     mapa('p4_h2', 4, 24.2, [
@@ -540,6 +543,7 @@ CENAS = [
         dict(rotulo='Impostor cara de pau', valor='MARROM · 2 votos nos próprios parceiros · 2x "..."', quem='Marrom', cor='#ff6a5a'),
         dict(rotulo='Dedo-duro que virou bandido', valor='LIMA · entregou a Rosa, depois matou 2', quem='Lima', cor='#b9ff5a'),
         dict(rotulo='Sabia e não falou', valor='ROXO · Detetive expulso por 4 x 3', quem='Roxo', cor='#c9a0ff'),
+        dict(rotulo='Azarado da temporada', valor='VERDE (GEMMA) · morto em 2 de 4 partidas', quem='Verde', cor='#5ad17a'),
         dict(rotulo='Palhaços', valor='0 VOTOS EM 4 PARTIDAS · 2 MORTOS POR IMPOSTOR', quem='Laranja', cor='#ffd84d'),
     ]}, [
         ['n', 'Placar da temporada: tripulação três, impostores um. O impostor cara de pau é o Marrom, que votou nos próprios parceiros duas vezes. O dedo-duro que virou bandido, o Lima. O Detetive que sabia e não falou, o Roxo. E os Palhaços: quatro partidas, zero votos, e dois mortos por impostor.'],
