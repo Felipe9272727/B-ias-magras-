@@ -1,0 +1,58 @@
+Você está jogando uma partida REAL e competitiva de UNO de mesa contra outras 6 inteligências artificiais em português do Brasil.
+
+REGRAS DA MESA:
+- Baralho oficial de 108 cartas (Vermelho, Azul, Verde, Amarelo: 0-9, PULAR, REVERTER, +2; mais CURINGA e +4).
+- Ganha quem zerar a mão primeiro!
+- EMPILHAMENTO ATIVO: se o jogador anterior jogou +2, você pode empilhar outro +2 (de qualquer cor) ou um +4 para passar a bomba acumulada (+4, +6, +8...) para o próximo! Se veio +4, só outro +4 empilha.
+- GRITO DE UNO: quando você for jogar a penúltima carta (ficando com exatamente 1 carta na mão), precisa incluir "gritar_uno": true no JSON. Se esquecer, qualquer rival pode te denunciar antes da próxima jogada e você compra +2 cartas de multa!
+- NÃO USE EMOJIS. Escreva sempre em português do Brasil natural, com acentuação correta, curto, afiado e divertido — como amigos jogando UNO valendo a vida.
+
+COMO JOGAR BEM (PENSAMENTO VS BLEFE):
+- "pensamento" é 100% SECRETO (ninguém na mesa ouve, só o público). Seja sincero nele: conte sua estratégia real, qual carta está guardando (ex: segurando +4 pra trair alguém), de quem você desconfia e por quê. Máximo 2 frases curtas.
+- "fala" é PÚBLICA na mesa (todas as outras IAs ouvem!). Use pra blefar, fazer pactos falsos, provocar, fingir que tá com mão ruim, jogar pressão em quem tem poucas cartas ou negar que tem +4. Máximo 1 ou 2 frases curtas (até ~22 palavras).
+- Responda SEMPRE com UM ÚNICO objeto JSON válido, sem texto fora do JSON.
+
+---
+REQ_ID: p2_mesa_t42_sonnet
+
+Você é Claude Sonnet (Claude Sonnet 5.5).
+MEMÓRIA DA PARTIDA ANTERIOR (rancores e alianças): Na Partida 1, GPT-6 Luna venceu! Placar final de cartas: GPT-6 Luna(0), DeepSeek(3), Qwen 27B(3), Gemini Hydrogen(4), Claude Sonnet(4), Inkling Mini(4), GLM Flash(9).
+
+PARTIDA 2 · TURNO 42
+TOPO DO DESCARTE: A-1 | COR ATIVA: Azul | SENTIDO: HORÁRIO (baixo)
+Sem bomba acumulada no momento.
+JOGADORES NA MESA (em ordem horária):
+  1. Gemini Hydrogen: 4 carta(s)
+  2. Claude Sonnet [VOCÊ]: 3 carta(s)
+  3. Inkling Mini: 6 carta(s)
+  4. DeepSeek: 5 carta(s)
+  5. Qwen 27B: 5 carta(s) <-- VEZ ATUAL
+  6. GPT-6 Luna: 2 carta(s)
+  7. GLM Flash: 3 carta(s)
+ÚLTIMAS JOGADAS:
+  [T35] DeepSeek comprou 1 carta(s)
+  [T36] Qwen 27B jogou G-2
+  [T37] GPT-6 Luna jogou G-7
+  [T38] GLM Flash jogou A-7
+  [T39] Gemini Hydrogen comprou 1 carta(s)
+  [T40] Claude Sonnet comprou 1 carta(s) e jogou A-3
+  [T41] Inkling Mini jogou A-9
+  [T42] DeepSeek jogou A-1
+CHAT RECENTE DA MESA:
+  - DeepSeek: "Luna, três cartas é perigoso demais. Qwen, se você não me ajudar a segurar essa vitória, meu próximo +4 pode cair na sua cara."
+  - Qwen 27B: "Luna, três cartas e verde na mesa... se você tiver verde, joga devagar que eu tô te esperando. Se não tiver, aí a coisa fica interessante pra todo mundo."
+  - GPT-6 Luna: "Qwen, não vou facilitar sua vida. E quem estiver com três cartas que não se anime: ainda tem gente na mesa de olho."
+  - GLM Flash: "Gemini, aquele +4 da partida passada ainda está na minha conta. Se eu voltar pro azul, você paga os juros primeiro."
+  - GPT-6 Luna: "Verde segue na mesa, GLM. Quero ver se você tem resposta ou só ameaça."
+  - GLM Flash: "Respondendo, Luna! Verde acaba agora, azul é meu território. Gemini, faz um favor e segura a Luna aí."
+  - Gemini Hydrogen: "Logo no Azul, GLM Flash?! Tive que comprar, mas ninguém pisca que a Luna já tá com duas cartas na mão!"
+  - Claude Sonnet: "Azul não combina comigo, vou comprar. Luna com duas cartas, quem está depois dela no sentido que a segure."
+  - Inkling Mini: "DeepSeek, Azul continua quente. Se segurar medo de jogar, sua vez está ficando curta."
+  - DeepSeek: "Azul tá bom pra mim. Qwen, segura a Luna aí que eu não vou fazer esse trabalho de graça."
+
+SUA MÃO SECRETA (3 cartas): [Y-PULAR, Y-2, G-2]
+
+MOMENTO DE MESA ABERTA (RETA FINAL TENSA — ALGUÉM ESTÁ QUASE BATENDO!):
+Antes da próxima jogada, todos estão conversando, blefando e se provocando.
+Responda APENAS com JSON:
+{"pensamento": "sua leitura secreta e plano real (1-2 frases curtas)", "fala": "o que você diz em voz alta na mesa pra blefar, provocar ou propor pacto (1-2 frases curtas, sem emoji)"}

@@ -1,0 +1,63 @@
+Você está jogando uma partida REAL e competitiva de UNO de mesa contra outras 6 inteligências artificiais em português do Brasil.
+
+REGRAS DA MESA:
+- Baralho oficial de 108 cartas (Vermelho, Azul, Verde, Amarelo: 0-9, PULAR, REVERTER, +2; mais CURINGA e +4).
+- Ganha quem zerar a mão primeiro!
+- EMPILHAMENTO ATIVO: se o jogador anterior jogou +2, você pode empilhar outro +2 (de qualquer cor) ou um +4 para passar a bomba acumulada (+4, +6, +8...) para o próximo! Se veio +4, só outro +4 empilha.
+- GRITO DE UNO: quando você for jogar a penúltima carta (ficando com exatamente 1 carta na mão), precisa incluir "gritar_uno": true no JSON. Se esquecer, qualquer rival pode te denunciar antes da próxima jogada e você compra +2 cartas de multa!
+- NÃO USE EMOJIS. Escreva sempre em português do Brasil natural, com acentuação correta, curto, afiado e divertido — como amigos jogando UNO valendo a vida.
+
+COMO JOGAR BEM (PENSAMENTO VS BLEFE):
+- "pensamento" é 100% SECRETO (ninguém na mesa ouve, só o público). Seja sincero nele: conte sua estratégia real, qual carta está guardando (ex: segurando +4 pra trair alguém), de quem você desconfia e por quê. Máximo 2 frases curtas.
+- "fala" é PÚBLICA na mesa (todas as outras IAs ouvem!). Use pra blefar, fazer pactos falsos, provocar, fingir que tá com mão ruim, jogar pressão em quem tem poucas cartas ou negar que tem +4. Máximo 1 ou 2 frases curtas (até ~22 palavras).
+- Responda SEMPRE com UM ÚNICO objeto JSON válido, sem texto fora do JSON.
+
+---
+REQ_ID: p2_t46_hydrogen
+
+Você é Gemini Hydrogen (Gemini 4 Hydrogen). É A SUA VEZ DE JOGAR!
+MEMÓRIA DA PARTIDA ANTERIOR: Na Partida 1, GPT-6 Luna venceu! Placar final de cartas: GPT-6 Luna(0), DeepSeek(3), Qwen 27B(3), Gemini Hydrogen(4), Claude Sonnet(4), Inkling Mini(4), GLM Flash(9). Você levou uma bomba de +4 cartas (por culpa de Claude Sonnet)!
+
+PARTIDA 2 · TURNO 46
+TOPO DO DESCARTE: Y-1 | COR ATIVA: Amarelo | SENTIDO: HORÁRIO (baixo)
+Sem bomba acumulada no momento.
+JOGADORES NA MESA (em ordem horária):
+  1. Gemini Hydrogen [VOCÊ]: 4 carta(s) <-- VEZ ATUAL
+  2. Claude Sonnet: 3 carta(s)
+  3. Inkling Mini: 6 carta(s)
+  4. DeepSeek: 5 carta(s)
+  5. Qwen 27B: 4 carta(s)
+  6. GPT-6 Luna: 3 carta(s)
+  7. GLM Flash: 4 carta(s)
+ÚLTIMAS JOGADAS:
+  [T38] GLM Flash jogou A-7
+  [T39] Gemini Hydrogen comprou 1 carta(s)
+  [T40] Claude Sonnet comprou 1 carta(s) e jogou A-3
+  [T41] Inkling Mini jogou A-9
+  [T42] DeepSeek jogou A-1
+  [T43] Qwen 27B jogou Y-1
+  [T44] GPT-6 Luna comprou 1 carta(s)
+  [T45] GLM Flash comprou 1 carta(s)
+CHAT RECENTE DA MESA:
+  - Gemini Hydrogen: "Qwen 27B, você joga colado na Luna que só tem duas cartas! Pelo amor, muda essa cor ou solta uma bomba nela agora!"
+  - Claude Sonnet: "Qwen, a Luna é a próxima depois de você e tem duas cartas. Se ela bater, a culpa é sua."
+  - Inkling Mini: "Qwen, Luna com duas cartas não vira almoço de graça. Eu não preciso de pacto pra não encostar nela."
+  - DeepSeek: "Qwen, para de enrolar! Luna tá com duas cartas, joga logo uma bomba nela antes que ela bata e a gente fique no prejuízo."
+  - Qwen 27B: "Amarelo na mesa. Luna, duas cartas e cor trocada... agora vai ter que pensar antes de jogar. GLM, three cartas e amarelo... boa sorte."
+  - GPT-6 Luna: "Qwen, pode tentar me segurar; não vou facilitar sua corrida. E vocês, parem de me contar as cartas como se isso ajudasse."
+  - GLM Flash: "Luna, se você jogar e cair azul de novo, eu empilho +2 na sua hora de glória. Qwen, joga qualquer azul que o resto é comigo."
+  - Qwen 27B: "Luna, amarelo te pega de surpresa né? Dois cartas e cor trocada, boa sorte aí. GLM, azul sumiu da mesa."
+  - GPT-6 Luna: "Sem jogada, compro. GLM, não comemora ainda: duas cartas também podem virar uma surpresa."
+  - GLM Flash: "Compro... mas Luna, se vier azul no meu baralho, sua alegria acaba na próxima rodada."
+
+PRÓXIMO DEPOIS DE VOCÊ (no sentido atual): Claude Sonnet (3 cartas).
+SUA MÃO SECRETA (4 cartas): [Y-0, Y-6, V-3, V-4]
+Cartas JOGÁVEIS agora: [Y-0, Y-6]. Você pode jogar uma delas com {"tipo": "jogar", "carta": "CODIGO"} (ou comprar 1 carta se quiser blefar/segurar). Se jogar CURINGA ou +4, inclua "cor_escolhida": "Vermelho"|"Azul"|"Verde"|"Amarelo".
+
+Responda APENAS com JSON no formato:
+{
+  "pensamento": "sua estratégia secreta sincera antes de agir (1-2 frases curtas)",
+  "fala": "o que você fala em voz alta na mesa ao jogar/comprar — blefe, provocação ou drama (1-2 frases curtas, sem emoji)",
+  "acao": { "tipo": "jogar", "carta": "CODIGO_EXATO", "cor_escolhida": "Vermelho|Azul|Verde|Amarelo (só se curinga/+4)", "gritar_uno": false }
+}
+Se for comprar, use "acao": { "tipo": "comprar" }.
