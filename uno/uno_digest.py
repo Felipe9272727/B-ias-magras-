@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Analisa logs reais de partidas do UNO das IAs e gera pacote_roteiro.md fiel 100% aos logs (zero invenção)."""
 import json
+import os
 import sys
 from pathlib import Path
 
-LOGS = Path("/home/felipexcria750/uno_ias/logs")
+UNO_DIR = Path(os.environ.get("UNO_DIR", Path(__file__).resolve().parent))
+LOGS = UNO_DIR / "logs"
 
 
 def summarize_match(path: Path) -> str:
@@ -84,7 +86,7 @@ def main():
         print("Nenhuma partida encontrada em", LOGS)
         return
     parts = [summarize_match(f) for f in files]
-    dest = Path("/home/felipexcria750/uno_ias/pacote_logs_uno.md")
+    dest = UNO_DIR / "pacote_logs_uno.md"
     dest.write_text("\n\n---\n\n".join(parts), encoding="utf-8")
     print(f"Gerado {dest} ({len(files)} partidas, {dest.stat().st_size:,} bytes)")
 

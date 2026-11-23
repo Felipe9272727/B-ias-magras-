@@ -18,10 +18,13 @@ import subprocess
 import urllib.request
 from pathlib import Path
 
-BASE = Path("/home/felipexcria750/uno_ias")
-CACHE_DIR = BASE / "voice_cache"
-SFX_DIR = Path("/home/felipexcria750/worldbox_video_v2/assets_cache/sfx")
-MUSIC_JSON = Path("/home/felipexcria750/ref_branch/video/remotion/public/music/music.json")
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+BASE = Path(os.environ.get("UNO_DIR", Path(__file__).resolve().parent.parent))
+ASSETS_DIR = Path(os.environ.get("UNO_ASSETS_DIR", REPO_ROOT / "video" / "remotion" / "public"))
+CACHE_DIR = Path(os.environ.get("UNO_VOICE_CACHE", BASE / "voice_cache"))
+SFX_DIR = ASSETS_DIR / "sfx"
+SFX_EXTRA_DIRS = [ASSETS_DIR / d for d in ("sfx_au2", "sfx_au4", "sfx_jogo")]
+MUSIC_JSON = ASSETS_DIR / "music" / "music.json"
 
 # Vozes ElevenLabs distintas (Narrador + 7 IAs) — IDs padrão/públicos compatíveis com a conta
 VOICE_IDS = {
@@ -49,13 +52,25 @@ def find_ffmpeg() -> str:
     return "ffmpeg"
 
 
+def find_sfx_wav(name: str) -> Path | None:
+    for d in (SFX_DIR, *SFX_EXTRA_DIRS):
+        for ext in (".wav", ".mp3"):
+            cand = d / f"{name}{ext}"
+            if cand.exists():
+                return cand
+    return None
+
+
 def get_el_key() -> str:
     if os.environ.get("ELEVENLABS_API_KEY"):
         return os.environ["ELEVENLABS_API_KEY"].strip()
-    p = Path("/home/felipexcria750/.elevenlabs_temp_key")
-    if p.exists():
-        return p.read_text(encoding="utf-8").strip()
-    raise RuntimeError("Falta ELEVENLABS_API_KEY ou ~/.elevenlabs_temp_key")
+    apis_path = Path(os.environ.get("APIS_TXT", "/data/data/com.termux/files/home/storage/shared/geminineon/apis.txt"))
+    if apis_path.exists():
+        for line in apis_path.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^\s*elevenlabs\s+api\s*:\s*(.+)$", line, re.I)
+            if m and m.group(1).strip():
+                return m.group(1).strip()
+    raise RuntimeError("Falta ELEVENLABS_API_KEY ou entrada 'elevenlabs api:' em apis.txt")
 
 
 def tts_eleven(speaker: str, text: str, modo: str = "fala", model_id: str = "eleven_v3") -> Path:

@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Empacota UNO das IAs para render em 16 runners (ou render local) + mix -14 LUFS + QA 30s + upload Buzzheavier."""
 import json
+import os
 import tarfile
+import tempfile
 from pathlib import Path
 
-UNO_DIR = Path("/home/felipexcria750/uno_ias")
-ASSETS_DIR = Path("/home/felipexcria750/worldbox_video_v2/assets_cache")
-REF_MUSIC_JSON = Path("/home/felipexcria750/ref_branch/video/remotion/public/music/music.json")
-PACK_DIR = Path("/tmp/gh_uno_pack")
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+UNO_DIR = Path(os.environ.get("UNO_DIR", Path(__file__).resolve().parent.parent))
+ASSETS_DIR = Path(os.environ.get("UNO_ASSETS_DIR", REPO_ROOT / "video" / "remotion" / "public"))
+REF_MUSIC_JSON = ASSETS_DIR / "music" / "music.json"
+PACK_DIR = Path(os.environ.get("UNO_WORK_DIR", Path(tempfile.gettempdir()) / "gh_uno_pack"))
 
 
 def load_music_info() -> dict:
@@ -79,14 +82,19 @@ def main():
     bundle = PACK_DIR / "bundle_uno.tar"
     with tarfile.open(bundle, "w") as tf:
         for fn in ("uno_rules.mjs", "uno_roster.mjs", "timeline_uno.json"):
-            tf.add(str(UNO_DIR / fn), arcname=f"uno_ias/{fn}")
+            p = UNO_DIR / fn
+            if p.exists():
+                tf.add(str(p), arcname=f"uno/{fn}")
         for fn in ("uno_canvas.mjs", "uno_fx.mjs", "render_uno.mjs"):
-            tf.add(str(UNO_DIR / "render" / fn), arcname=f"uno_ias/render/{fn}")
-        tf.add(str(ASSETS_DIR / "fonts"), arcname="worldbox_video_v2/assets_cache/fonts")
+            p = UNO_DIR / "render" / fn
+            if p.exists():
+                tf.add(str(p), arcname=f"uno/render/{fn}")
+        if (ASSETS_DIR / "fonts").exists():
+            tf.add(str(ASSETS_DIR / "fonts"), arcname="video/remotion/public/fonts")
         for m in sorted(used_memes):
             gp = ASSETS_DIR / "gifs" / f"{m}.gif"
             if gp.exists():
-                tf.add(str(gp), arcname=f"worldbox_video_v2/assets_cache/gifs/{gp.name}")
+                tf.add(str(gp), arcname=f"video/remotion/public/gifs/{gp.name}")
 
     audio_tar = PACK_DIR / "audio_pack_uno.tar"
     with tarfile.open(audio_tar, "w") as tf:

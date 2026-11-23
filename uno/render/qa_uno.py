@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """QA automático rigoroso do UNO das IAs (acentuação PT-BR, zero emojis, zero sussurros, zero memes repetidos, duração 10-15 min)."""
 import json
+import os
 import re
 import sys
 from collections import Counter
 from pathlib import Path
 
-TIMELINE = Path("/home/felipexcria750/uno_ias/timeline_uno.json")
+UNO_DIR = Path(os.environ.get("UNO_DIR", Path(__file__).resolve().parent.parent))
+TIMELINE = Path(os.environ.get("UNO_TIMELINE", UNO_DIR / "timeline_uno.json"))
 
 BAD_PTBR = [
     r"\bnao\b", r"\bvoce\b", r"\bvoces\b", r"\btambem\b", r"\bentao\b", r"\bso\b",

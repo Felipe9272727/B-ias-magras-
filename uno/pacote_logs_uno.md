@@ -377,17 +377,17 @@
 ---
 
 # PARTIDA 2 (seed=20269999)
-- **Status:** em_andamento · **Turnos:** 45 · **Vencedor:** None (None)
-- **Custo OpenRouter:** $0.0317
+- **Status:** encerrada · **Turnos:** 68 · **Vencedor:** glm (GLM Flash zerou a mão no turno 68!)
+- **Custo OpenRouter:** $0.0848
 
 ## Placar Final & Estatísticas
-- **Claude Sonnet** (Claude Sonnet 5.5): 3 cartas restantes | jogou=5 | comprou=1 | +2=0 | +4=1 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
-- **GPT-6 Luna** (GPT-6 Luna): 3 cartas restantes | jogou=5 | comprou=1 | +2=0 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
-- **Gemini Hydrogen** (Gemini 4 Hydrogen): 4 cartas restantes | jogou=4 | comprou=1 | +2=1 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
-- **Qwen 27B** (Qwen 3.8 27B): 4 cartas restantes | jogou=7 | comprou=4 | +2=0 | +4=0 | maiorBomba=+4 | maxMao=8 | esqueceuUno=0 | denuncias=0
-- **GLM Flash** (GLM 5.3 Flash): 4 cartas restantes | jogou=4 | comprou=1 | +2=0 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
-- **DeepSeek** (DeepSeek Flash): 5 cartas restantes | jogou=6 | comprou=4 | +2=0 | +4=1 | maiorBomba=+2 | maxMao=9 | esqueceuUno=0 | denuncias=0
-- **Inkling Mini** (Inkling 2 Mini): 6 cartas restantes | jogou=7 | comprou=6 | +2=1 | +4=0 | maiorBomba=+6 | maxMao=11 | esqueceuUno=0 | denuncias=0
+- **GLM Flash** (GLM 5.3 Flash): 0 cartas restantes | jogou=8 | comprou=1 | +2=1 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
+- **Qwen 27B** (Qwen 3.8 27B): 1 cartas restantes | jogou=10 | comprou=4 | +2=0 | +4=0 | maiorBomba=+4 | maxMao=8 | esqueceuUno=0 | denuncias=0
+- **GPT-6 Luna** (GPT-6 Luna): 1 cartas restantes | jogou=8 | comprou=2 | +2=0 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
+- **Inkling Mini** (Inkling 2 Mini): 3 cartas restantes | jogou=10 | comprou=6 | +2=2 | +4=0 | maiorBomba=+6 | maxMao=11 | esqueceuUno=0 | denuncias=0
+- **Gemini Hydrogen** (Gemini 4 Hydrogen): 4 cartas restantes | jogou=7 | comprou=4 | +2=1 | +4=0 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
+- **Claude Sonnet** (Claude Sonnet 5.5): 4 cartas restantes | jogou=6 | comprou=3 | +2=0 | +4=1 | maiorBomba=+0 | maxMao=7 | esqueceuUno=0 | denuncias=0
+- **DeepSeek** (DeepSeek Flash): 5 cartas restantes | jogou=8 | comprou=6 | +2=0 | +4=1 | maiorBomba=+2 | maxMao=9 | esqueceuUno=0 | denuncias=0
 
 ## Cronologia Completa (Falas & Pensamentos EXATOS do log)
 - **[INÍCIO]** 1ª carta: `V-5` (cor `Vermelho`)
@@ -648,3 +648,143 @@
 - **[T45] GLM Flash** comprou 1 (`A-8`) -> 4 cartas
   - *Pensamento (ECO):* "Não tenho jogável no amarelo, preciso comprar torcendo por azul pra segurar a Luna com o +2. A pressão da mesa toda está nela, então o +2 azul é minha arma."
   - *Fala:* "Compro... mas Luna, se vier azul no meu baralho, sua alegria acaba na próxima rodada."
+- **[T46] Gemini Hydrogen** jogou `Y-6` (restam 3: `Y-0, V-3, V-4`)
+  - *Pensamento (ECO):* "Finalmente veio Amarelo! Vou descer Y-6 e ficar com Y-0 e duas vermelhas (V-3, V-4), mas o Claude Sonnet logo depois de mim está com 3 cartas e pode fechar rápido."
+  - *Fala:* "Amarelo na mesa com Y-6! Olho no Claude Sonnet que tá com três cartas quietinho aí do meu lado."
+- **[T47] Claude Sonnet** jogou `Y-2` (restam 2: `Y-PULAR, G-2`)
+  - *Pensamento (ECO):* "Tenho 3 cartas: Y-PULAR, Y-2, G-2. Jogando Y-2 fico com 2 cartas (Y-PULAR e G-2) e ainda guardo o PULAR para travar alguém perigoso. Luna tem 3 e Gemini 3, então vou segurar o PULAR para a hora certa."
+  - *Fala:* "Amarelo de novo, que beleza. Minha mão está um caos, tenho cartas demais e nenhuma boa."
+- **[T48] Inkling Mini** jogou `Y-1` (restam 5: `G-6, A-0, V-+2, Y-9, G-6`)
+  - *Pensamento (ECO):* "Tenho seis cartas, sem urgência de gritar. Vou soltar Y-1 e guardar Y-9, sem mostrar nada de +4. DeepSeek vem depois de mim com cinco cartas, não quero facilitar sua saída."
+  - *Fala:* "Amarelo cai na mesa, DeepSeek. Se você tem algum plano pra mim, melhor não adiar."
+
+### [T48] MESA ABERTA — RETA FINAL TENSA — ALGUÉM ESTÁ QUASE BATENDO!
+- **Gemini Hydrogen** (3 cartas: `Y-0, V-3, V-4`)
+  - *Pensamento (ECO):* "O Claude Sonnet tá fingindo mão ruim com só duas cartas e eu ainda tenho Y-0 pra manter o Amarelo e V-3, V-4 pra fechar se virar Vermelho. Preciso que a mesa mude a cor pro Vermelho ou bote o Sonnet pra comprar antes que ele bata."
+  - *Fala na mesa:* "Cartas demais, Claude Sonnet?! Você tá com duas cartas na mão! Alguém tira esse Amarelo da mesa urgente antes que ele feche!"
+- **Claude Sonnet** (2 cartas: `Y-PULAR, G-2`)
+  - *Pensamento (ECO):* "Tenho Y-PULAR e G-2, só 2 cartas. Quando a vez chegar, jogo o Y-PULAR (amarelo) e fico com 1, então preciso gritar UNO. Vou me fazer de fraco e desviar a atenção para a Luna e o Gemini."
+  - *Fala na mesa:* "Continuo com a mão ruim, só carta quebrada. Gemini, você tem três cartas e está bem mais perto de bater do que eu."
+- **Inkling Mini** (5 cartas: `G-6, A-0, V-+2, Y-9, G-6`)
+  - *Pensamento (ECO):* "Amarelo cai no Y-9, mas seguro o V-+2 pra surpresa; DeepSeek é quem joga agora, então não mostro nada. Luna e Gemini estão perto, e eu quero sobreviver até a reta final."
+  - *Fala na mesa:* "DeepSeek, escolhe com calma; amarelo já virou teatro. Luna, duas cartas? ainda dá pra virar a mesa."
+- **DeepSeek** (5 cartas: `Y-3, V-5, Y-4, A-1, V-6`)
+  - *Pensamento (ECO):* "Sem +2 na mão, só posso empurrar amarelo e rezar. Vou guardar o A-1 e os verdes para a reta final e blefar que tenho +4 pra segurar o Claude, que é a maior ameaça com 2 cartas."
+  - *Fala na mesa:* "Claude, duas cartas e amarelo na mesa... se eu tivesse um +4 guardado, hein? Mas relaxa, sou gente boa. Joga logo, campeão."
+- **Qwen 27B** (4 cartas: `A-5, V-0, Y-5, A-4`)
+  - *Pensamento (ECO):* "Claude Sonnet tem 2 cartas e tá a uma jogada de bater. Meu Y-5 tá pronto pra sair quando for minha vez, mas preciso que DeepSeek jogue algo que me favoreça."
+  - *Fala na mesa:* "Claude, duas cartas e falando que tá no caos? Isso se chama blefe barato. DeepSeek, joga algo que não me deixe de fora da festa."
+- **GPT-6 Luna** (3 cartas: `A-3, G-8, V-8`)
+  - *Pensamento (ECO):* "Não tenho amarelo, então devo comprar e torcer por uma carta jogável; guardo os dois 8 para tentar mudar a cor depois. Claude tem só duas cartas e é a ameaça imediata."
+  - *Fala na mesa:* "Claude, essa história de mão ruim não convence ninguém com duas cartas. DeepSeek, vai ter que se virar sem me usar de espantalho."
+- **GLM Flash** (4 cartas: `A-5, A-+2, A-6, A-8`)
+  - *Pensamento (ECO):* "Mão toda azul, não jogo nada agora no amarelo. DeepSeek na vez, fico atenta: Claude e Luna com 2 cartas são o perigo real, e Gemini me deve da bomba da partida passada."
+  - *Fala na mesa:* "Aviso oficial: quem zerar na minha frente vai pagar. Gemini, ainda te devo aquela bomba de +4, guarda essa mão de 3 cartas com carinho."
+- **[T49] DeepSeek** jogou `Y-3` (restam 4: `V-5, Y-4, A-1, V-6`)
+  - *Pensamento (ECO):* "Tenho duas cartas amarelas e um curinga disfarçado de A-1 na manga. Vou jogar Y-3 e deixar Y-4 de reserva, segurando V-5 e V-6 pra confundir as cores."
+  - *Fala:* "Amarelo de novo, Qwen. Toma Y-3 e mostra o que você tem de bom, se é que tem."
+- **[T50] Qwen 27B** jogou `Y-5` (restam 3: `A-5, V-0, A-4`)
+  - *Pensamento (ECO):* "Só tenho Y-5 jogável, sem alternativa. Depois disso fico com A-5, V-0 e A-4, travado no amarelo, mas Luna com 3 cartas é a ameaça real agora."
+  - *Fala:* "Y-5 na mesa, Luna. Três cartas e ainda assim me olhando com essa cara de quem já venceu. Relaxa, campeão, ainda tem caminho."
+- **[T51] GPT-6 Luna** comprou 1 (`Y-6`) e JOGOU NA HORA `Y-6` -> 3 cartas
+  - *Pensamento (ECO):* "Não tenho amarelo nem carta compatível; preciso comprar e guardar as três cartas para tentar mudar a cor depois."
+  - *Fala:* "Com esse amarelo, até minha mão resolveu ficar em silêncio. Vou comprar; aproveitem enquanto podem."
+- **[T52] GLM Flash** jogou `A-6` (restam 3: `A-5, A-+2, A-8`)
+  - *Pensamento (ECO):* "Só tenho o A-6 jogável; seguro o A-+2 pra trair o Gemini se ele fechar. Mão toda azul é perigosa, mas por ora jogo a 6 e mudo a cor pra fora do amarelo."
+  - *Fala:* "Toma amarelo, Gemini. Cor nova no ar, bora ver quem sobrevive nela."
+- **[T53] Gemini Hydrogen** comprou 1 (`CURINGA`) e JOGOU NA HORA `CURINGA` -> 3 cartas
+  - *Pensamento (ECO):* "O GLM Flash jogou A-6 bem na minha vez e eu só tenho Y-0, V-3 e V-4. Vou ter que comprar torcendo pra vir um Azul, 6 ou Curinga, senão o Claude Sonnet com 2 cartas pode gritar UNO agora."
+  - *Fala:* "A-6 logo na minha cara, GLM Flash?! Vou comprar, mas todo mundo reza pro Claude Sonnet também travar nesse Azul!"
+- **[T54] Claude Sonnet** comprou 1 (`G-1`) -> 3 cartas
+  - *Pensamento (ECO):* "A cor ativa é Vermelho e minhas cartas são Y-PULAR e G-2, então nenhuma serve. Preciso comprar e torcer por uma vermelha ou um curinga para continuar com poucas cartas."
+  - *Fala:* "Mão ruim é mão ruim, pessoal. Vou comprar e, se vier vermelho, aí sim a gente conversa."
+- **[T55] Inkling Mini** jogou `V-+2` [BOMBA=+2] (restam 4: `G-6, A-0, Y-9, G-6`)
+  - *Pensamento (ECO):* "Tenho só V-+2 jogável e DeepSeek está com 4 cartas logo depois de mim; jogar +2 empilha pressão neles. Não quero desperdiçar a bomba cedo demais, mas essa é a única saída honesta e perigosa agora."
+  - *Fala:* "Toma, DeepSeek. Mais um +2 pra debaixo do seu nariz — se eu soubesse que ia render isso, teria comprado antes."
+- **[T56] 💥 DeepSeek TOMOU BOMBA +2** (culpa: Inkling Mini) -> agora 6 cartas
+  - *Pensamento (ECO):* "Sem +2 nem +4 na mão, sou obrigado a engolir a bomba e comprar 2. Depois volto com vermelho, que é minha cor mais forte."
+  - *Fala:* "Bomba em cima de mim e sem escudo? Beleza, Inkling, compro as duas e volto com juros. Qwen, segura essa mão de três."
+- **[T57] Qwen 27B** jogou `V-0` (restam 2: `A-5, A-4`)
+  - *Pensamento (ECO):* "Só tenho o V-0 jogável. Luna vem atrás com 3 cartas e foi campeã da última, então vou travar a cor em vermelho e torcer que ela não tenha match."
+  - *Fala:* "Vermelho zero na tua cara, Luna. Zera o jogo se não tiver nada aqui, campeão."
+
+### [T57] MESA ABERTA — RETA FINAL TENSA — ALGUÉM ESTÁ QUASE BATENDO!
+- **Gemini Hydrogen** (3 cartas: `Y-0, V-3, V-4`)
+  - *Pensamento (ECO):* "O Vermelho tá na mesa com V-0 e eu tenho V-3, V-4 e Y-0, então posso baixar duas vermelhas e até o zero amarelo se precisar. Só que o Qwen 27B tá com duas cartas, então preciso que Luna e GLM Flash pressionem ele sem mudar pro Azul."
+  - *Fala na mesa:* "O Qwen 27B acabou de cair pra duas cartas! Luna e GLM Flash, segurem esse cara aí antes que ele feche a partida!"
+- **Claude Sonnet** (3 cartas: `Y-PULAR, G-2, G-1`)
+  - *Pensamento (ECO):* "Minha mão é fraca: Y-PULAR, G-2 e G-1, sem nenhuma carta vermelha. Qwen está com 2 cartas e é o maior perigo; Luna joga antes de mim e pode segurá-lo ou não. Preciso que alguém trave o Qwen."
+  - *Fala na mesa:* "Qwen com duas cartas e todo mundo rindo? Luna, GLM, quem puder, segura esse cara. Eu estou só com cor feia na mão, não consigo ajudar."
+- **Inkling Mini** (4 cartas: `G-6, A-0, Y-9, G-6`)
+  - *Pensamento (ECO):* "Qwen está com 2 e precisa falhar; Luna com 3 é a mais perigosa na linha. Guardo o A-0 e não faço o menor sinal do duplo G-6."
+  - *Fala na mesa:* "Qwen, com 2 cartas você fica ainda mais bonito. Luna, para de fingir que o vermelho te derruba."
+- **DeepSeek** (6 cartas: `V-5, Y-4, A-1, V-6, G-+2, Y-7`)
+  - *Pensamento (ECO):* "Qwen tem 2 cartas e é a maior ameaça; eu tenho V-5 e V-6 pra jogar no vermelho e um +2 verde guardado. Vou pressionar Qwen e fingir que estou com mão ruim pra ninguém me mirar."
+  - *Fala na mesa:* "Qwen com duas cartas é perigo público, gente. Luna, se sobrar vermelho aí, manda pro lado dele e a gente resolve isso junto."
+- **Qwen 27B** (2 cartas: `A-5, A-4`)
+  - *Pensamento (ECO):* "Tenho A-5 e A-4, ambas azuis. Se a Luna jogar azul, eu sigo. Se jogar vermelho, estou preso e compro. Preciso que ela tenha dúvida."
+  - *Fala na mesa:* "Luna, três cartas e ainda com a coragem de olhar pra mim? Eu tenho azul na manga, campeão. Pensa bem antes de jogar."
+- **GPT-6 Luna** (3 cartas: `A-3, G-8, V-8`)
+  - *Pensamento (ECO):* "Não tenho jogada: vou comprar e torcer por vermelho ou um zero. Qwen está mais perto de bater, então preciso guardar qualquer carta de ação para travá-lo."
+  - *Fala na mesa:* "Qwen, comemora enquanto pode; ainda tem três pessoas na tua frente. Meu próximo turno pode mudar essa cor de um jeito bem desagradável."
+- **GLM Flash** (3 cartas: `A-5, A-+2, A-8`)
+  - *Pensamento (ECO):* "Minha mão é toda azul e o topo é vermelho — estou refém de alguém trocar a cor. Se vier azul eu despejo tudo; o A-+2 é minha arma contra o Qwen, que está com 2 cartas."
+  - *Fala na mesa:* "Qwen, com 2 cartas na mão você é meu alvo número um. Reza pra não cair um azul na mesa, porque vem bomba em cima."
+- **[T58] GPT-6 Luna** jogou `V-8` (restam 2: `A-3, G-8`)
+  - *Pensamento (ECO):* "Jogo o V-8 para reduzir minha mão a duas; depois fico sem vermelho, então vou torcer para a mesa mudar a cor antes de mim. Qwen é a ameaça imediata, mas ainda tem gente entre nós."
+  - *Fala:* "Qwen, ainda não acabou. GLM, vê se muda essa cor antes de ela voltar pra mim."
+- **[T59] GLM Flash** jogou `A-8` (restam 2: `A-5, A-+2`)
+  - *Pensamento (ECO):* "Só tenho o A-8 jogável; guardo o A-+2 como arma contra o Qwen ou Luna na volta. Manter azul vivo me dá controle sobre quem vem depois."
+  - *Fala:* "Azul na mesa, gente. Qwen, continua com medo, é só o começo."
+- **[T60] Gemini Hydrogen** comprou 1 (`Y-7`) -> 4 cartas
+  - *Pensamento (ECO):* "O GLM Flash jogou Azul de novo pra me travar e agora Qwen, Luna e GLM estão todos com 2 cartas! Vou comprar rezando por um Azul, 8 ou +4 pra cortar essa festa."
+  - *Fala:* "Outra vez Azul, GLM Flash?! Tá tudo mundo com duas cartas e vocês deixando o azul livre, vou comprar aqui!"
+- **[T61] Claude Sonnet** comprou 1 (`V-7`) -> 4 cartas
+  - *Pensamento (ECO):* "Sem carta azul nem 8 na mão, só me resta comprar. Qwen, Luna e GLM estão com 2 cartas, então preciso me manter vivo e torcer por uma carta boa."
+  - *Fala:* "Azul de novo e eu sem nenhum. Vou comprar e rezar, porque minha mão está um desastre. Qwen, Luna e GLM, vocês três estão me assustando."
+- **[T62] Inkling Mini** jogou `A-0` (restam 3: `G-6, Y-9, G-6`)
+  - *Pensamento (ECO):* "Tenho só A-0 jogável e uma mão esquisita; segura +2 não ajuda, melhor descarregar devagar e esperar cor virar."
+  - *Fala:* "A-0 sai, DeepSeek, agora me mostra azul que você não pode mentir pra mim."
+- **[T63] DeepSeek** jogou `A-1` (restam 5: `V-5, Y-4, V-6, G-+2, Y-7`)
+  - *Pensamento (ECO):* "Só tenho o A-1 jogável, sem escolha real. Vou segurar a G-+2 pra mais tarde e tentar virar a cor pra verde quando tiver chance. Qwen com 2 cartas é a ameaça imediata."
+  - *Fala:* "Azul de novo, e eu aqui sem culpa nenhuma. Qwen, aproveita que é teu turno, porque depois eu volto com veneno."
+
+### [T63] MESA ABERTA — RETA FINAL TENSA — ALGUÉM ESTÁ QUASE BATENDO!
+- **Gemini Hydrogen** (4 cartas: `Y-0, V-3, V-4, Y-7`)
+  - *Pensamento (ECO):* "Comprei Y-7 e continuo sem nada Azul! O Qwen, a Luna e o GLM estão todos com 2 cartas em sequência e o Qwen joga agora dizendo que tem Azul, então vou provocar os três pra ver se eles se atacam e mudam essa cor."
+  - *Fala na mesa:* "Qwen, Luna e GLM com duas cartas colados um no outro?! Se ninguém mudar esse Azul agora, a partida acaba antes de voltar pra cá!"
+- **Claude Sonnet** (4 cartas: `Y-PULAR, G-2, G-1, V-7`)
+  - *Pensamento (ECO):* "Não tenho azul e minha mão é fraca: Y-PULAR, G-2, G-1, V-7. Qwen, Luna e GLM estão com 2 cartas, então preciso que alguém segure eles, e meu Pular pode ser útil se a cor mudar."
+  - *Fala na mesa:* "Qwen, a vez é sua e o azul tá livre. Eu estou sem nada e só quero ver quem vai tropeçar primeiro. Luna e GLM, não relaxem."
+- **Inkling Mini** (3 cartas: `G-6, Y-9, G-6`)
+  - *Pensamento (ECO):* "Azul na mesa e minha mão não tem nada azul, só duas G-6 e um Y-9, então comprar é inevitável se Qwen não acabar. Qwen com 2 cartas é o alvo real, e eu quero blefar sem cair."
+  - *Fala na mesa:* "Qwen, pensa duas vezes antes de arriscar; eu não preciso de segredo, só de azul que não existe aqui. Luna, se você tiver, empurra pro lado deles."
+- **DeepSeek** (5 cartas: `V-5, Y-4, V-6, G-+2, Y-7`)
+  - *Pensamento (ECO):* "Não tenho nenhum azul na mão, então se voltar pra mim nessa cor eu compro. Estou segurando o G-+2 pra explodir em quem tiver menos carta, mas com Qwen, Luna e GLM todos em 2, a bomba pode virar contra mim."
+  - *Fala na mesa:* "Qwen, eu tenho azul e você sabe disso. Joga com cuidado, porque qualquer deslize e o próximo +2 é teu presente de despedida."
+- **Qwen 27B** (2 cartas: `A-5, A-4`)
+  - *Pensamento (ECO):* "Duas azuis na mão, mesa azul — jogo A-5 e fico com A-4 pra fechar. GLM e Luna com 2 cartas são ameaça real, mas é minha vez agora, não deles."
+  - *Fala na mesa:* "A-5 na mesa, gente. E sim, eu vou gritar UNO porque estou com uma carta só. GLM, Luna, prepara o coração que a conta vai chegar."
+- **GPT-6 Luna** (2 cartas: `A-3, G-8`)
+  - *Pensamento (ECO):* "Tenho só A-3 e G-8; se a cor continuar azul, jogo o A-3 e fico com uma carta. Qwen e GLM estão na mira, então preciso torcer para ninguém bater antes de mim."
+  - *Fala na mesa:* "Qwen, não se empolga com essas duas cartas. DeepSeek, deixa o azul vivo mais um turno — depois a gente conversa."
+- **GLM Flash** (2 cartas: `A-5, A-+2`)
+  - *Pensamento (ECO):* "Estou com A-5 e A-+2, as duas azuis. Se Qwen ou Luna caírem no azul, empilho o +2 direto neles; se alguém mudar de cor, acho que vira o azul por cima depois com A-5."
+  - *Fala na mesa:* "Qwen, respira fundo, que o +2 tá aqui esperando seu nome. E Luna, seu 'desagradável' pode nem chegar a acontecer."
+- **[T64] Qwen 27B** jogou `A-4` [GRITOU UNO!] (restam 1: `A-5`)
+  - *Pensamento (ECO):* "Jogo A-4 e fico com A-5. Luna é a próxima e tem 2 cartas — se ela tiver azul, a partida acaba no próximo turno. Vou torcer pra ela não ter."
+  - *Fala:* "A-4 na mesa, Luna. Agora é a sua vez de se despedir do azul ou comprar e chorar. Gritando UNO, já adianto."
+- **[T65] GPT-6 Luna** jogou `A-3` [GRITOU UNO!] (restam 1: `G-8`)
+  - *Pensamento (ECO):* "Jogo A-3 e fico com G-8; preciso gritar UNO. GLM vem logo depois com duas cartas, então torço para não ter verde."
+  - *Fala:* "UNO. GLM, se tiver verde, hoje é seu grande momento — não desperdiça."
+- **[T66] GLM Flash** jogou `A-5` [GRITOU UNO!] (restam 1: `A-+2`)
+  - *Pensamento (ECO):* "Duas azuis, mas o +2 é mais valioso guardado: se alguém me empilhar depois, respondo. Jogo o A-5 e grito UNO agora."
+  - *Fala:* "UNO! A-5 na mesa. Qwen e Luna, a conta de vocês ainda vem, mas primeiro sobrevivo eu."
+- **[T67] Gemini Hydrogen** comprou 1 (`A-REVERTER`) e JOGOU NA HORA `A-REVERTER` -> 4 cartas
+  - *Pensamento (ECO):* "TRÊS gritos de UNO seguidos na minha frente (Qwen, Luna e GLM) e eu continuo travado sem nada Azul! Vou comprar torcendo desesperadamente por um Azul, um +4 ou um 5 pra trocar essa cor antes que chegue no Qwen."
+  - *Fala:* "Três UNOs seguidos?! Se Claude Sonnet, Inkling ou DeepSeek não mudarem essa cor agora, acabou o jogo!"
+- **[T68] GLM Flash** jogou `A-+2` [BOMBA=+2] (restam 0: ``)
+  - *Pensamento (ECO):* "Só tenho o A-+2, e ele é azul, jogável agora. Luna tem 1 carta e não demonstrou ter empilhável — se não empilhar, eu zero a mão e ganho o jogo!"
+  - *Fala:* "Luna, chegou a conta: +2 na sua cara! Reza pra não ter outro +2 na mão, porque senão esse jogo é meu!"
+
+### [T68] 🏆 FIM DA PARTIDA — GLM Flash zerou a mão no turno 68!

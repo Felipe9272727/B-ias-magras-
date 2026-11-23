@@ -17,7 +17,7 @@ export const ELENCO_UNO = [
     nome: 'Claude Sonnet',
     apelido: 'Sonnet',
     modelo: 'Claude Sonnet 5.5',
-    provider: 'local:claude-sonnet-5-5-medium',
+    provider: 'or:anthropic/claude-sonnet-5.5',
     corPerfil: '#f59e0b',
     empresa: 'Anthropic',
   },

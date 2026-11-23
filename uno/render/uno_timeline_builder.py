@@ -8,13 +8,16 @@ zero overlays cortados pelo fim da cena, e exporta `timeline_uno.json` + `voice_
 import importlib.util
 import json
 import math
+import re
 import subprocess
 import wave
 from collections import Counter
 from pathlib import Path
 import struct
+import sys
 
-from uno_audio_engine import BASE, SFX_DIR, find_ffmpeg, tts_eleven
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from uno_audio_engine import BASE, SFX_DIR, SFX_EXTRA_DIRS, find_ffmpeg, find_sfx_wav, tts_eleven
 
 FPS = 30
 SR = 48000
@@ -30,15 +33,48 @@ def read_wav_stereo_float(path: Path) -> list[tuple[float, float]]:
 
 
 def load_sfx_wav(name: str) -> Path | None:
-    cand = SFX_DIR / f"{name}.wav"
-    if cand.exists():
-        return cand
-    return None
+    return find_sfx_wav(name)
 
 
 def wav_duration_sec(path: Path) -> float:
     with wave.open(str(path), "rb") as w:
         return w.getnframes() / float(w.getframerate())
+
+
+def derive_elenco_highlights(falas_out: list[dict], elenco: list[dict]) -> list[dict]:
+    """Deriva highlights (at/dur em frames) a partir dos tempos reais de falas_out."""
+    aliases: list[tuple[str, re.Pattern]] = []
+    for m in elenco:
+        mid = m["id"]
+        terms = {mid}
+        if m.get("nome"):
+            terms.add(m["nome"])
+        pat = re.compile(r"\b(?:" + "|".join(re.escape(t) for t in sorted(terms, key=len, reverse=True)) + r")\b", re.I)
+        aliases.append((mid, pat))
+
+    highlights: list[dict] = []
+    for seg in falas_out:
+        txt = seg.get("texto", "")
+        n = max(1, len(txt))
+        hits: list[tuple[int, str]] = []
+        for mid, pat in aliases:
+            m_hit = pat.search(txt)
+            if m_hit:
+                hits.append((m_hit.start(), mid))
+        if not hits:
+            continue
+        hits.sort(key=lambda x: x[0])
+        seg_start = int(seg["at"])
+        seg_end = seg_start + int(seg["dur"])
+        for idx, (pos, mid) in enumerate(hits):
+            start_f = seg_start + int(round((pos / n) * int(seg["dur"])))
+            if idx + 1 < len(hits):
+                next_pos = hits[idx + 1][0]
+                end_f = seg_start + int(round((next_pos / n) * int(seg["dur"])))
+            else:
+                end_f = seg_end
+            highlights.append({"id": mid, "at": start_f, "dur": max(8, end_f - start_f)})
+    return highlights
 
 
 def compute_rms_30fps(samples_l: list[float], total_frames: int) -> list[float]:
@@ -180,6 +216,8 @@ def build_from_storyboard(sb_path: Path):
             "overlays": overlays_out,
             "voice_rms": voice_rms,
         }
+        if sc_out.get("tipo") == "elenco" and falas_out:
+            sc_out["highlights"] = derive_elenco_highlights(falas_out, elenco)
         timeline_scenes.append(sc_out)
         global_frame += dur_frames
 

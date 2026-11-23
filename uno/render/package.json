@@ -1,0 +1,14 @@
+{
+  "name": "uno-render",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Renderer 2.5D Skia Canvas para UNO das IAs",
+  "scripts": {
+    "render": "node render_uno.mjs",
+    "smoke": "node render_uno.mjs --smoke-test"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.65"
+  }
+}

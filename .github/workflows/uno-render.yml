@@ -1,0 +1,313 @@
+name: UNO das IAs — Render distribuído + Mix 1080p
+
+on:
+  push:
+    branches: ["uno-ias"]
+    paths:
+      - "uno/uno_pedido.json"
+  workflow_dispatch:
+    inputs:
+      only_shards:
+        description: "Shards específicos separados por vírgula (ex: 0,1) ou vazio para todos"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: Shard ${{ matrix.shard }} / 16
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /uno/
+            !/uno/logs/
+            !/uno/voice_cache/
+            /video/remotion/public/fonts/
+            /video/remotion/public/gifs/
+
+      - name: Calcular cenas do shard
+        id: shard_info
+        shell: python3 {0}
+        env:
+          SHARD_INDEX: ${{ matrix.shard }}
+          ONLY_SHARDS: ${{ inputs.only_shards || '' }}
+        run: |
+          import json, os
+          from pathlib import Path
+
+          shard = int(os.environ["SHARD_INDEX"])
+          only_filter = os.environ.get("ONLY_SHARDS", "").strip()
+          if only_filter:
+              allowed = {int(x.strip()) for x in only_filter.split(",") if x.strip()}
+              if shard not in allowed:
+                  print("Pulando shard por filtro manual only_shards.")
+                  with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+                      fh.write("has_scenes=false\nscene_ids=\n")
+                  raise SystemExit(0)
+
+          uno_dir = Path("uno")
+          tl = json.loads((uno_dir / "timeline_uno.json").read_text(encoding="utf-8"))
+          cenas = tl.get("cenas", [])
+
+          shards_file = uno_dir / "shards.json"
+          if shards_file.is_file():
+              shards_data = json.loads(shards_file.read_text(encoding="utf-8"))
+              match = next((s for s in shards_data if int(s["shard"]) == shard), None)
+              ids = match["scene_ids"] if match else []
+          else:
+              num_shards = min(16, len(cenas))
+              if num_shards > 0 and shard < num_shards:
+                  a = (shard * len(cenas)) // num_shards
+                  b = ((shard + 1) * len(cenas)) // num_shards
+                  ids = [sc["id"] for sc in cenas[a:b]]
+              else:
+                  ids = []
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"has_scenes={'true' if ids else 'false'}\n")
+              fh.write(f"scene_ids={','.join(ids)}\n")
+          print(f"Shard {shard}: {len(ids)} cenas -> {ids}")
+
+      - name: Setup Node 20
+        if: steps.shard_info.outputs.has_scenes == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências (FFmpeg + @napi-rs/canvas)
+        if: steps.shard_info.outputs.has_scenes == 'true'
+        working-directory: uno/render
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          npm install --no-audit --no-fund
+
+      - name: Preparar GIFs do shard
+        if: steps.shard_info.outputs.has_scenes == 'true'
+        shell: python3 {0}
+        env:
+          SCENE_IDS: ${{ steps.shard_info.outputs.scene_ids }}
+        run: |
+          import json, os, shutil, subprocess, tempfile, urllib.request
+          from pathlib import Path
+
+          id_set = {x.strip() for x in os.environ.get("SCENE_IDS", "").split(",") if x.strip()}
+          tl = json.loads(Path("uno/timeline_uno.json").read_text(encoding="utf-8"))
+          needed_memes = {
+              ov["meme"]
+              for sc in tl.get("cenas", [])
+              if sc["id"] in id_set
+              for ov in sc.get("overlays", [])
+              if ov.get("tipo") == "meme" and ov.get("meme")
+          }
+          gifs_dir = Path("video/remotion/public/gifs")
+          gifs_dir.mkdir(parents=True, exist_ok=True)
+          catalog_path = gifs_dir / "catalog.json"
+          catalog = {m["id"]: m for m in json.loads(catalog_path.read_text(encoding="utf-8"))} if catalog_path.is_file() else {}
+          headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"}
+
+          for meme in sorted(needed_memes):
+              dest = gifs_dir / f"{meme}.gif"
+              if dest.is_file() and dest.stat().st_size > 512 and dest.read_bytes()[:4] == b"GIF8":
+                  continue
+              meta = catalog.get(meme) or {}
+              url = meta.get("media_url")
+              if not url:
+                  raise SystemExit(f"GIF ausente e sem media_url no catalog.json: {meme}")
+              with tempfile.NamedTemporaryFile(delete=False) as tf:
+                  tmp = Path(tf.name)
+              try:
+                  req = urllib.request.Request(url, headers=headers)
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      tmp.write_bytes(resp.read())
+                  if tmp.read_bytes()[:4] == b"GIF8":
+                      shutil.move(str(tmp), str(dest))
+                  else:
+                      subprocess.run(
+                          [
+                              "ffmpeg", "-v", "error", "-y", "-i", str(tmp),
+                              "-vf", "fps=12,scale=360:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
+                              str(dest),
+                          ],
+                          check=True,
+                      )
+                      tmp.unlink(missing_ok=True)
+                  print(f"GIF baixado: {dest.name}")
+              except Exception:
+                  tmp.unlink(missing_ok=True)
+                  raise
+
+      - name: Renderizar cenas do shard ${{ matrix.shard }}
+        if: steps.shard_info.outputs.has_scenes == 'true'
+        env:
+          UNO_DIR: ${{ github.workspace }}/uno
+          UNO_ASSETS_DIR: ${{ github.workspace }}/video/remotion/public
+          UNO_WORK_DIR: ${{ runner.temp }}/uno_scenes
+          UNO_GIF_CACHE_DIR: ${{ runner.temp }}/uno_gifs_frames
+        run: |
+          mkdir -p "${UNO_WORK_DIR}"
+          node uno/render/render_uno.mjs --timeline uno/timeline_uno.json --only "${{ steps.shard_info.outputs.scene_ids }}"
+
+      - name: Upload cenas do shard ${{ matrix.shard }}
+        if: steps.shard_info.outputs.has_scenes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: uno-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/uno_scenes/*.mkv
+          if-no-files-found: error
+          retention-days: 3
+
+  finalizar:
+    name: Mix Final 1080p Lanczos + QA Frames
+    needs: render
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.only_shards == '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /uno/
+            !/uno/logs/
+            !/uno/voice_cache/
+            /video/remotion/public/music/
+
+      - name: Baixar cenas renderizadas dos shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: uno-shard-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/uno_scenes
+
+      - name: Instalar FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+
+      - name: Preparar áudio master (FLAC / chunks) e trilhas Kevin MacLeod
+        shell: python3 {0}
+        run: |
+          import json, os, sys, urllib.request
+          from pathlib import Path
+          from urllib.parse import quote
+
+          uno_dir = Path("uno")
+          flac = uno_dir / "voice_sfx_master_uno.flac"
+
+          # Suporte a chunks divididos (<100MB para limite do GitHub)
+          if not flac.is_file() or flac.stat().st_size == 0:
+              chunks = sorted(uno_dir.glob("voice_sfx_master_uno.flac.part*"))
+              if not chunks:
+                  chunks = sorted(
+                      p for p in uno_dir.glob("voice_sfx_master_uno.flac.*")
+                      if p.is_file()
+                  )
+              if not chunks:
+                  raise SystemExit("Nem voice_sfx_master_uno.flac nem chunks divididos foram encontrados em uno/.")
+              print(f"Reconstituindo {flac} a partir de {len(chunks)} chunks...")
+              with flac.open("wb") as out_fh:
+                  for ch in chunks:
+                      out_fh.write(ch.read_bytes())
+
+          tl = json.loads((uno_dir / "timeline_uno.json").read_text(encoding="utf-8"))
+          music_dir = Path("video/remotion/public/music")
+          music_dir.mkdir(parents=True, exist_ok=True)
+          music_json = music_dir / "music.json"
+          info = {m["id"]: m for m in json.loads(music_json.read_text(encoding="utf-8"))} if music_json.is_file() else {}
+
+          needed_tracks = {
+              (sc.get("music") or "quirky-dog")
+              for sc in tl.get("cenas", [])
+          } - {"silencio", "none", "silence"}
+
+          headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"}
+          base_url = "https://incompetech.com/music/royalty-free/mp3-royaltyfree/"
+          for mid in sorted(needed_tracks):
+              dest = music_dir / f"{mid}.mp3"
+              if dest.is_file() and dest.stat().st_size > 10_000:
+                  continue
+              meta = info.get(mid) or {}
+              candidates = []
+              if meta.get("media_url"):
+                  candidates.append(meta["media_url"])
+              title = meta.get("title", mid.replace("-", " ").title())
+              candidates.extend([
+                  base_url + quote(title + ".mp3"),
+                  base_url + quote(title.replace(" faster", " (faster version)") + ".mp3"),
+                  base_url + quote(title + " A.mp3"),
+              ])
+              last_err = None
+              ok = False
+              for url in candidates:
+                  try:
+                      req = urllib.request.Request(url, headers=headers)
+                      with urllib.request.urlopen(req, timeout=30) as resp:
+                          data = resp.read()
+                      if len(data) < 10_000:
+                          raise RuntimeError(f"arquivo muito pequeno ({len(data)} bytes)")
+                      dest.write_bytes(data)
+                      print(f"Música baixada: {dest.name} ({len(data)//1024} KB)")
+                      ok = True
+                      break
+                  except Exception as exc:
+                      last_err = exc
+              if not ok:
+                  raise SystemExit(f"Falha ao baixar música '{mid}': {last_err}")
+
+          # Gera music_blocks.json se ainda não existir em uno/
+          blocks_path = uno_dir / "music_blocks.json"
+          if not blocks_path.is_file():
+              sys.path.insert(0, str((uno_dir / "render").resolve()))
+              os.environ["UNO_DIR"] = str(uno_dir.resolve())
+              os.environ["UNO_ASSETS_DIR"] = str(Path("video/remotion/public").resolve())
+              from prep_uno_pack import compute_music_blocks, load_music_info
+              blocks, _ = compute_music_blocks(tl, load_music_info())
+              blocks_path.write_text(json.dumps(blocks, indent=2), encoding="utf-8")
+              print(f"music_blocks.json gerado com {len(blocks)} blocos.")
+
+      - name: Executar mix final 1080p Lanczos (-14 LUFS)
+        env:
+          UNO_DIR: ${{ github.workspace }}/uno
+          UNO_ASSETS_DIR: ${{ github.workspace }}/video/remotion/public
+          UNO_WORK_DIR: ${{ runner.temp }}/uno_scenes
+        run: |
+          mkdir -p out
+          python3 uno/render/uno_final_mix.py \
+            --scenes-dir "${UNO_WORK_DIR}" \
+            --timeline uno/timeline_uno.json \
+            --voice-flac uno/voice_sfx_master_uno.flac \
+            --music-blocks uno/music_blocks.json \
+            --music-dir video/remotion/public/music \
+            --out out/uno_das_ias_1080p.mp4
+
+      - name: Extrair quadros de QA (a cada 30s)
+        run: |
+          mkdir -p "${{ runner.temp }}/uno_qa_frames"
+          ffmpeg -v error -y -i out/uno_das_ias_1080p.mp4 -vf "fps=1/30,scale=640:-1" -q:v 4 "${{ runner.temp }}/uno_qa_frames/qa_%03d.jpg"
+          (cd "${{ runner.temp }}" && python3 -m zipfile -c "${{ github.workspace }}/out/uno_qa_frames_30s.zip" uno_qa_frames)
+          ls -lh out/uno_das_ias_1080p.mp4 out/uno_qa_frames_30s.zip
+
+      - name: Upload MP4 Final 1080p
+        uses: actions/upload-artifact@v4
+        with:
+          name: uno-das-ias-1080p
+          path: out/uno_das_ias_1080p.mp4
+          retention-days: 14
+
+      - name: Upload Quadros QA (30s)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uno-qa-frames-30s
+          path: out/uno_qa_frames_30s.zip
+          retention-days: 7

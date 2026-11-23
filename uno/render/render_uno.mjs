@@ -4,10 +4,12 @@
  * Compatível com render local E sharding em 16 máquinas do GitHub Actions (`--scenes-only --only ...`).
  */
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
-import { createCanvas, GlobalFonts, loadImage } from '/tmp/wb_recorder/node_modules/@napi-rs/canvas/index.js';
+import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
 import { W, H, ASSENTOS_7, drawUnoTable, drawPlayerSeat, drawDialogueCard } from './uno_canvas.mjs';
 import { drawFlyingCard, drawStampSeal, drawChapterCard, drawRosterScreen, drawPodiumScreen } from './uno_fx.mjs';
 
@@ -16,24 +18,32 @@ const REC_H = 720;
 const DPR = REC_W / W;
 const FPS = 30;
 
-const HOME = '/home/felipexcria750';
-const UNO_DIR = path.join(HOME, 'uno_ias');
-const FONTS_DIR = path.join(HOME, 'worldbox_video_v2/assets_cache/fonts');
-const GIFS_DIR = path.join(HOME, 'worldbox_video_v2/assets_cache/gifs');
-const GIF_CACHE_DIR = '/tmp/uno_gifs_frames';
-const WORK_DIR = '/tmp/uno_scenes';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
+const UNO_DIR = process.env.UNO_DIR || path.resolve(__dirname, '..');
+const ASSETS_DIR = process.env.UNO_ASSETS_DIR || path.join(REPO_ROOT, 'video', 'remotion', 'public');
+const FONTS_DIR = path.join(ASSETS_DIR, 'fonts');
+const GIFS_DIR = path.join(ASSETS_DIR, 'gifs');
+const WORK_DIR = process.env.UNO_WORK_DIR || path.join(os.tmpdir(), 'uno_scenes');
+const GIF_CACHE_DIR = process.env.UNO_GIF_CACHE_DIR || path.join(os.tmpdir(), 'uno_gifs_frames');
 
 function registerFonts() {
   const map = [
-    ['Bangers-Regular.ttf', 'Bangers'],
-    ['Poppins-ExtraBold.ttf', 'PoppinsExtraBold'],
-    ['Poppins-Bold.ttf', 'PoppinsBold'],
-    ['Poppins-SemiBold.ttf', 'PoppinsSemiBold'],
-    ['JetBrainsMono-Bold.ttf', 'JetBrainsMono'],
+    [['Bangers-Regular.ttf', 'Bangers-400-latin.woff2'], 'Bangers'],
+    [['Poppins-ExtraBold.ttf', 'Poppins-800-latin.woff2'], 'PoppinsExtraBold'],
+    [['Poppins-Bold.ttf', 'Poppins-900-latin.woff2', 'Poppins-800-latin.woff2'], 'PoppinsBold'],
+    [['Poppins-SemiBold.ttf', 'Poppins-600-latin.woff2'], 'PoppinsSemiBold'],
+    [['JetBrainsMono-Bold.ttf', 'JetBrainsMono-700-latin.woff2'], 'JetBrainsMono'],
   ];
-  for (const [fn, family] of map) {
-    const p = path.join(FONTS_DIR, fn);
-    if (fs.existsSync(p)) GlobalFonts.registerFromPath(p, family);
+  for (const [candidates, family] of map) {
+    for (const fn of candidates) {
+      const p = path.join(FONTS_DIR, fn);
+      if (fs.existsSync(p)) {
+        GlobalFonts.registerFromPath(p, family);
+        break;
+      }
+    }
   }
 }
 
