@@ -128,9 +128,13 @@ jobs:
           merge-multiple: true
       - name: Juntar, mixar, abertura e 1080p
         run: |
-          python3 -c "import json;print(json.load(open('ia_youtuber/episodios/$EP/montar.json')).get('musica','investigations'))" > /tmp/mus
+          J=ia_youtuber/episodios/$EP/montar.json
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('musica','investigations'))" $J > /tmp/mus
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('pergunta_final',''))" $J > /tmp/perg
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('placar_final',''))" $J > /tmp/placar
           python3 ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/$EP \
             --apis-txt /dev/null --etapa final --partes 16 --music "$(cat /tmp/mus)" \
+            --pergunta-final "$(cat /tmp/perg)" --placar-final "$(cat /tmp/placar)" \
             --opening-mp4 ia_youtuber/episodios/$EP/abertura.mp4 --upscale-1080p \
             --out "episodio_${EP}.mp4"
           ffprobe -v error -show_entries format=duration -of csv=p=0 "episodio_${EP}.mp4"

@@ -717,6 +717,9 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
         check=True,
     )
 
+    if args.pergunta_final:
+        render_end_card(ep_sem_abertura, args, mus_path, mus_vol, work_dir)
+
     out_mp4 = args.out or (sess_dir / "episodio_final_youtube.mp4")
     if args.opening_mp4 and args.opening_mp4.is_file() and not args.skip_opening:
         out_w, out_h = (1920, 1080) if args.upscale_1080p else (args.width, args.height)
@@ -746,6 +749,73 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
     return 0
 
 
+def _end_card_svg(placar: str, pergunta: str) -> str:
+    import html as _h
+    linhas = []
+    cur = ""
+    for w in pergunta.split():
+        if cur and len(cur) + 1 + len(w) > 30:
+            linhas.append(cur)
+            cur = w
+        else:
+            cur = f"{cur} {w}".strip()
+    if cur:
+        linhas.append(cur)
+    linhas = linhas[:3]
+    y0 = 360 - (len(linhas) - 1) * 26
+    txt = "".join(
+        f'<text x="640" y="{y0 + i * 54}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" '
+        f'font-size="46" fill="#ffffff" stroke="#020617" stroke-width="7" paint-order="stroke">{_h.escape(l)}</text>'
+        for i, l in enumerate(linhas)
+    )
+    placar_svg = (
+        f'<rect x="290" y="150" width="700" height="62" rx="14" fill="#7f1d1d" stroke="#fecaca" stroke-width="3"/>'
+        f'<text x="640" y="192" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="28" '
+        f'fill="#ffffff" letter-spacing="1.5">{_h.escape(placar)}</text>'
+    ) if placar else ""
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">'
+        '<rect width="1280" height="720" fill="#020617" fill-opacity="0.55"/>'
+        f'{placar_svg}{txt}'
+        '<rect x="470" y="520" width="340" height="64" rx="32" fill="#00f0ff"/>'
+        '<text x="640" y="562" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="28" fill="#020617">COMENTA AÍ</text>'
+        '</svg>'
+    )
+
+
+def render_end_card(ep_mp4: Path, args: argparse.Namespace, mus_path: Path | None, mus_vol: float, work_dir: Path) -> None:
+    """Fechamento: placar + pergunta pro publico sobre o ultimo quadro desfocado (5 s), anexado ao fim do episodio."""
+    ff = find_ffmpeg()
+    dur = 5.0
+    card_png = work_dir / "fim_card.png"
+    subprocess.run([find_rsvg(), "-w", "1280", "-h", "720", "-o", str(card_png)],
+                   input=_end_card_svg(args.placar_final or "", args.pergunta_final).encode("utf-8"), check=True)
+    last = work_dir / "fim_ultimo.png"
+    subprocess.run([ff, "-v", "error", "-y", "-sseof", "-0.2", "-i", str(ep_mp4), "-frames:v", "1", "-update", "1", str(last)], check=True)
+    w, h = (1920, 1080) if args.upscale_1080p else (args.width, args.height)
+    aud_in = ["-stream_loop", "-1", "-i", str(mus_path)] if mus_path else ["-f", "lavfi", "-i", f"anullsrc=r={SR}:cl=stereo"]
+    vol = min(1.0, mus_vol * 2.2) if mus_path else 1.0
+    card = work_dir / "fim_card.mp4"
+    subprocess.run([
+        ff, "-v", "error", "-y", "-loop", "1", "-i", str(last), "-loop", "1", "-i", str(card_png), *aud_in,
+        "-filter_complex",
+        f"[0:v]scale={w}:{h},boxblur=18:2,fps={FPS}[bg];[1:v]scale={w}:{h},format=rgba,fade=in:st=0:d=0.35:alpha=1[c];"
+        f"[bg][c]overlay,trim=0:{dur},setpts=PTS-STARTPTS,format=yuv420p[v];"
+        f"[2:a]aformat=sample_rates={SR}:channel_layouts=stereo,volume={vol:.3f},atrim=0:{dur},afade=t=out:st={dur - 1.5}:d=1.5[a]",
+        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-c:a", "aac", "-b:a", "192k",
+        "-ar", str(SR), str(card),
+    ], check=True)
+    junto = work_dir / "episodio_com_fim.mp4"
+    subprocess.run([
+        ff, "-v", "error", "-y", "-i", str(ep_mp4), "-i", str(card), "-filter_complex",
+        f"[0:v]fps={FPS},setsar=1[v0];[1:v]fps={FPS},setsar=1[v1];[0:a]aformat=sample_rates={SR}:channel_layouts=stereo[a0];"
+        f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo[a1];[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]",
+        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p",
+        "-c:a", "aac", "-b:a", "192k", "-ar", str(SR), str(junto),
+    ], check=True)
+    junto.replace(ep_mp4)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap = argparse.ArgumentParser(description="Pos-producao IA YouTuber (ElevenLabs v4 + visuals_v2 overlay + mix -14 LUFS)")
     ap.add_argument("--sessao-dir", type=Path, default=SCRIPT_DIR / "gravacoes", help="Diretorio da sessao com gameplay_real.mp4 e session_log.jsonl")
@@ -757,6 +827,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--partes", type=int, default=16, help="Total de partes (padrao: 16)")
     ap.add_argument("--turnos", default=None, help="Turnos escolhidos, ex. 1,7,14 (so esses sao narrados; o jogo congela enquanto o YouTuber fala)")
     ap.add_argument("--skip-opening", action="store_true", help="Nao prepende abertura")
+    ap.add_argument("--pergunta-final", default="", help="Pergunta pro publico no cartao final (vazio = sem cartao)")
+    ap.add_argument("--placar-final", default="", help="Placar do cartao final (ex.: 3 SALVOS · 1 TRANCADO)")
     ap.add_argument("--music", default="investigations", help="ID da faixa em video/remotion/public/music/music.json")
     ap.add_argument("--voice-id", default=DEFAULT_ROBO_VOICE_ID, help="Voice ID do Robo no ElevenLabs")
     ap.add_argument("--model-id", default=ELEVEN_MODEL_V4, help="Modelo ElevenLabs (padrao: eleven_v4)")
