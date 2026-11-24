@@ -477,6 +477,9 @@ class BrowserCDPBackend:
         self.rec_proc: subprocess.Popen[bytes] | None = None
         self.rec_path: Path | None = None
         self.rec_start_mono: float | None = None
+        # Pausa do jogo (relay com o subagente): o tempo pausado some da gravacao
+        self._paused_total = 0.0
+        self._pause_start: float | None = None
 
         self._browser_proc: subprocess.Popen[bytes] | None = None
         self._cdp: CDPClient | None = None
@@ -499,7 +502,26 @@ class BrowserCDPBackend:
     def current_video_sec(self, prior_sec: float = 0.0) -> float:
         if self.rec_start_mono is None:
             return round(prior_sec, 3)
-        return round(prior_sec + max(0.0, time.monotonic() - self.rec_start_mono), 3)
+        return round(prior_sec + max(0.0, self._clock() - self.rec_start_mono), 3)
+
+    def _clock(self) -> float:
+        """Relogio da gravacao: monotonic menos o tempo em que o jogo ficou pausado."""
+        agora = self._pause_start if self._pause_start is not None else time.monotonic()
+        return agora - self._paused_total
+
+    def set_paused(self, pausado: bool) -> None:
+        """Congela/descongela o Scratch (frameLoop do TurboWarp) e a gravacao."""
+        if not self._cdp:
+            return
+        js = "(()=>{const v=window.vm||(window.scaffolding&&scaffolding.vm);if(!v)return 'sem vm';v.runtime.frameLoop.%s();return 'ok'})()" % ("stop" if pausado else "start")
+        if pausado and self._pause_start is None:
+            self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
+            time.sleep(0.3)  # deixa o ultimo quadro chegar antes de cortar a gravacao
+            self._pause_start = time.monotonic()
+        elif not pausado and self._pause_start is not None:
+            self._paused_total += time.monotonic() - self._pause_start
+            self._pause_start = None
+            self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
 
     def _build_launch_cmd(self, fallback_headless: bool = False) -> list[str]:
         headless_flag = "--headless" if fallback_headless else "--headless=new"
@@ -746,7 +768,9 @@ class BrowserCDPBackend:
                     pass
             if not b64_data:
                 return
-            t_now = time.monotonic()
+            if self._pause_start is not None:
+                return  # jogo pausado: nada vai pra gravacao
+            t_now = self._clock()
             with self._frame_lock:
                 if not self._recording or self._frames_dir is None:
                     return
@@ -776,7 +800,7 @@ class BrowserCDPBackend:
     def stop_recording(self) -> None:
         if not self._recording:
             return
-        t_stop = time.monotonic()
+        t_stop = self._clock()
         with self._frame_lock:
             self._recording = False
 

@@ -19,10 +19,10 @@ on:
         options: [calibrar, jogar]
         default: calibrar
       ia:
-        description: "Quem joga: claude (Opus pela assinatura) ou openrouter"
+        description: "Quem joga: relay (subagente Opus fora do GitHub, via git), claude (token da assinatura) ou openrouter"
         type: choice
-        options: [claude, openrouter]
-        default: claude
+        options: [relay, claude, openrouter]
+        default: relay
       orcamento_usd:
         description: "Teto de gasto no OpenRouter (USD), só para ia=openrouter"
         default: "0.80"
@@ -34,7 +34,7 @@ on:
         default: "opus"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: tnmn-${{ github.ref }}
@@ -43,7 +43,7 @@ concurrency:
 jobs:
   jogar:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 340
     steps:
       - uses: actions/checkout@v4
         with:
@@ -74,9 +74,9 @@ jobs:
           print("modo=" + v("modo", "calibrar"))
           print("orcamento_usd=" + v("orcamento_usd", "0.80"))
           print("max_turnos=" + v("max_turnos", "120"))
-          ia = v("ia", "claude")
+          ia = v("ia", "relay")
           print("ia=" + ia)
-          print("modelo=" + v("modelo", "opus" if ia == "claude" else "google/gemini-2.5-flash"))
+          print("modelo=" + v("modelo", "opus" if ia != "openrouter" else "google/gemini-2.5-flash"))
           PY
           cat "$GITHUB_OUTPUT"
         env:
@@ -92,6 +92,21 @@ jobs:
           npm install -g @anthropic-ai/claude-code
           claude --version
 
+      - name: Branch de revezamento
+        if: steps.p.outputs.modo == 'jogar' && steps.p.outputs.ia == 'relay'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config --global user.name "tnmn-relay"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir relay && cd relay && git init -q
+          git checkout -q -b "tnmn-relay-${GITHUB_RUN_ID}"
+          echo "Revezamento do IA YouTuber (run ${GITHUB_RUN_ID}): pedido_N.txt + turno_N.jpg -> resposta_N.json" > LEIA.txt
+          git add . && git commit -qm "relay inicio"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push -q origin HEAD
+          echo "::notice::Relay pronto na branch tnmn-relay-${GITHUB_RUN_ID}"
+
       - name: Calibrar (prints com grade 0..1000)
         if: steps.p.outputs.modo == 'calibrar'
         run: |
@@ -106,7 +121,9 @@ jobs:
           IA: ${{ steps.p.outputs.ia }}
           MODELO: ${{ steps.p.outputs.modelo }}
         run: |
-          if [ "$IA" = claude ]; then
+          if [ "$IA" = relay ]; then
+            MOD="--ia relay --relay-dir relay"
+          elif [ "$IA" = claude ]; then
             if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then echo "::error::Falta o secret CLAUDE_CODE_OAUTH_TOKEN"; exit 1; fi
             MOD="--ia claude --model-claude $MODELO"
           else
@@ -121,6 +138,10 @@ jobs:
       - name: Limpar perfil do navegador
         if: always()
         run: rm -rf ia_youtuber/gravacoes/*/_chromium_profile_* ia_youtuber/gravacoes/*/_frames* || true
+
+      - name: Apagar branch de revezamento
+        if: always() && steps.p.outputs.ia == 'relay' && steps.p.outputs.modo == 'jogar'
+        run: cd relay && git push -q origin --delete "tnmn-relay-${GITHUB_RUN_ID}" || true
 
       - name: Enviar gravação
         if: always()

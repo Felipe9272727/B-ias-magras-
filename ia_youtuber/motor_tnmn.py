@@ -854,7 +854,7 @@ def call_openrouter_vision(
         "model": model,
         "messages": messages,
         "temperature": 0.6,
-        "max_tokens": 700,
+        "max_tokens": 1500,
     }
     last_err = "erro desconhecido"
     for attempt in range(3):
@@ -1046,9 +1046,57 @@ def call_claude_vision(
     raise RuntimeError(f"Claude falhou apos 3 tentativas: {last_err}")
 
 
+def _git(relay: Path, *cmd: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(["git", "-C", str(relay), *cmd], capture_output=True, text=True, check=check)
+
+
+def _relay_push(relay: Path, msg: str) -> None:
+    _git(relay, "add", "-A")
+    _git(relay, "commit", "-q", "-m", msg, check=False)
+    for tentativa in range(6):
+        if _git(relay, "push", "-q", "origin", "HEAD", check=False).returncode == 0:
+            return
+        _git(relay, "pull", "-q", "--rebase", "origin", _git(relay, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip(), check=False)
+        time.sleep(2.0 * (tentativa + 1))
+    raise RuntimeError("Relay: nao consegui dar push no git")
+
+
+def call_relay(
+    messages: list[dict[str, Any]],
+    img: "Image.Image",
+    relay: Path,
+    turno: int,
+    timeout_sec: float,
+) -> tuple[dict[str, Any], str] | None:
+    """Revezamento por git: manda o print e espera a resposta do subagente YouTuber (fora do GitHub)."""
+    relay = relay.resolve()
+    if not (relay / "sistema.txt").exists():
+        (relay / "sistema.txt").write_text(messages[0]["content"], encoding="utf-8")
+    user_text = next(c["text"] for c in messages[1]["content"] if c.get("type") == "text")
+    img.convert("RGB").save(relay / f"turno_{turno:04d}.jpg", "JPEG", quality=86)
+    (relay / f"pedido_{turno:04d}.txt").write_text(user_text, encoding="utf-8")
+    _relay_push(relay, f"pedido {turno}")
+    log(f"Relay: turno {turno} enviado, jogo pausado esperando o YouTuber...")
+    resp = relay / f"resposta_{turno:04d}.json"
+    branch = _git(relay, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+    limite = time.monotonic() + timeout_sec
+    while time.monotonic() < limite:
+        _git(relay, "pull", "-q", "--rebase", "origin", branch, check=False)
+        if resp.exists():
+            content = resp.read_text(encoding="utf-8")
+            parsed = parse_json_robusto(content)
+            if isinstance(parsed, dict) and parsed.get("parar"):
+                log("Relay: YouTuber pediu para encerrar a sessao.")
+                return None
+            return sanitize_llm_decision(parsed), content
+        time.sleep(6.0)
+    log(f"Relay: sem resposta em {timeout_sec:.0f}s, encerrando.")
+    return None
+
+
 def run_live(args: argparse.Namespace) -> int:
     coords = load_and_validate_coords(args.coords)
-    usa_claude = args.ia == "claude"
+    usa_claude = args.ia in ("claude", "relay")
     api_key = None if usa_claude else read_openrouter_key(args.apis_txt)
     if not usa_claude and not api_key:
         raise RuntimeError("Falta OPENROUTER_API_KEY ou entrada 'openrouter:' em apis.txt")
@@ -1080,7 +1128,7 @@ def run_live(args: argparse.Namespace) -> int:
 
     # Checa saldo ANTES de iniciar gravacao/jogo (regra MEMORIA_TECNICA.md); com Claude o teto e o --max-turnos
     if usa_claude:
-        log(f"IA: Claude Code ({args.model_claude}) via assinatura; limite = {args.max_turnos} turnos")
+        log(f"IA: {'relay (subagente via git)' if args.ia == 'relay' else 'Claude Code ' + args.model_claude}; limite = {args.max_turnos} turnos")
     b0 = None if usa_claude else check_openrouter_budget(api_key, args.orcamento_usd, baseline_usage)
     if b0 is not None:
         if not b0.ok:
@@ -1128,13 +1176,22 @@ def run_live(args: argparse.Namespace) -> int:
                 log(f"Trava de orcamento atingida (${b.session_spent_usd:.4f} >= ${args.orcamento_usd:.2f}). Parando graciosamente.")
                 break
 
+            if args.ia == "relay" and hasattr(backend, "set_paused"):
+                backend.set_paused(True)
             t_turn_start = backend.current_video_sec(prior_video_sec)
             raw_img = backend.capture_screenshot()
             llm_img = raw_img if args.sem_grade else draw_precision_grid(raw_img)
             img_url = image_to_data_url(llm_img)
 
             messages = build_turn_messages(img_url, turno, coords, memory_turns, resumo_vizinhos)
-            if usa_claude:
+            if args.ia == "relay":
+                r = call_relay(messages, llm_img, args.relay_dir, turno, args.relay_timeout)
+                if hasattr(backend, "set_paused"):
+                    backend.set_paused(False)
+                if r is None:
+                    break
+                decision, _raw = r
+            elif usa_claude:
                 decision, _raw = call_claude_vision(args.model_claude, messages, llm_img, sess_dir, turno)
             else:
                 decision, _raw = call_openrouter_vision(api_key, args.model, messages)
@@ -1208,7 +1265,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--width", type=int, default=1280, help="Largura da tela/gravacao (padrao: 1280)")
     ap.add_argument("--height", type=int, default=720, help="Altura da tela/gravacao (padrao: 720)")
     ap.add_argument("--fps", type=int, default=30, help="FPS da gravacao real (padrao: 30)")
-    ap.add_argument("--ia", choices=["openrouter", "claude"], default="openrouter", help="Quem joga: OpenRouter (Vision) ou Claude Code pela assinatura")
+    ap.add_argument("--ia", choices=["openrouter", "claude", "relay"], default="openrouter", help="Quem joga: OpenRouter (Vision), Claude Code pela assinatura, ou relay (subagente fora do GitHub via git)")
+    ap.add_argument("--relay-dir", type=Path, default=None, help="Clone git da branch de revezamento (--ia relay)")
+    ap.add_argument("--relay-timeout", type=float, default=1200.0, help="Segundos esperando cada resposta do relay (padrao: 1200)")
     ap.add_argument("--model-claude", default="opus", help="Modelo do Claude Code quando --ia claude (padrao: opus)")
     ap.add_argument("--model", default="google/gemini-2.5-flash", help="Slug do modelo Vision no OpenRouter")
     ap.add_argument("--orcamento-usd", type=float, default=0.80, help="Teto de gasto em USD nesta sessao (padrao: 0.80)")
