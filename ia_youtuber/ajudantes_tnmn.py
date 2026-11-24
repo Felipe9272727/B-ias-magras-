@@ -36,7 +36,7 @@ const T=L('Things').map(String);
 const d=vis('Dopplegangers');
 return JSON.stringify({things:T,posX:V('pos X'),stop:V('STOP GAME'),
  visitante:d.length>0,phone:vis('Phone').length,
- btn:vis('Buttons').map(t=>t.getCostumes()[t.currentCostume].name),checklist:vis('Checklist').length,
+ btn:vis('Buttons').map(t=>t.getCostumes()[t.currentCostume].name),checklist:vis('Checklist').length,chk:vis('Checklist').map(t=>t.getCostumes()[t.currentCostume].name),
  docs:vis('documents').map(t=>t.getCostumes()[t.currentCostume].name.replace(/^[A-Z] /,'')),
  closed:vis('CLOSED').length,endmenu:vis('End menu').length});})()"""
 
@@ -76,6 +76,10 @@ ALVOS: dict[str, tuple[str, str]] = {
     "documento_pedido": ("documents", r"Solicitud$"),
     "documento_id": ("documents", r"[Ii]dentificador$"),
     "perguntar": ("Checklist", r"^Queston$"),
+    "chk_id": ("Checklist", r"^ID[01]$"),
+    "chk_aparencia": ("Checklist", r"^Looks[01]$"),
+    "chk_pedido": ("Checklist", r"^REQUEST[01]$"),
+    "chk_lista": ("Checklist", r"^LIST[01]$"),
     "telefone_voltar": ("Phone", r"^Back$"),
 }
 for _d in "123456789":
@@ -241,6 +245,8 @@ class Ajudantes:
             return self.clicar_sprite(nome)
         if tipo in ("ligar", "discar") and act.get("numero"):
             return self.ligar(str(act["numero"]))
+        if tipo == "pedir_documentos" or (tipo == "acao_semantica" and nome == "pedir_documentos"):
+            return self.pedir_documentos(act.get("itens") or ["id", "pedido"])
         if tipo == "pasta":
             return self.abrir_pasta(int(act.get("andar", 1)), int(act.get("ficha", act.get("apto", 1))))
         return False
@@ -259,6 +265,27 @@ class Ajudantes:
         ok = self.clicar_sprite("porta")
         with self._lock:
             self._passados_ao_abrir = c["passaram"]
+        return ok
+
+    def pedir_documentos(self, itens: list[str]) -> bool:
+        """Abre a checklist, marca o que pedir (traje termina em 0 = pedido) e aperta a interrogacao."""
+        mapa = {"id": ("chk_id", "ID"), "identidade": ("chk_id", "ID"), "aparencia": ("chk_aparencia", "Looks"),
+                "pedido": ("chk_pedido", "REQUEST"), "lista": ("chk_lista", "LIST")}
+        self.fechar_pastas()
+        if not (self.estado() or {}).get("checklist"):
+            self.clicar_sprite("checklist")
+            time.sleep(0.8)
+        for it in itens:
+            alvo = mapa.get(str(it).lower())
+            if not alvo:
+                continue
+            chk = [str(x) for x in ((self.estado() or {}).get("chk") or [])]
+            if f"{alvo[1]}0" in chk:
+                continue  # ja marcado para pedir
+            self.clicar_sprite(alvo[0])
+            time.sleep(0.4)
+        ok = self.clicar_sprite("perguntar")
+        time.sleep(0.5)
         return ok
 
     def fechar_pastas(self) -> bool:

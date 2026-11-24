@@ -89,6 +89,8 @@ ACOES (prefira SEMPRE estas, elas acham o botao sozinhas mesmo com a camera mexe
 - {"tipo": "acao_semantica", "nome": "chamar_ddd"}         -> emergencia + liga 3312 (doppelganger confirmado)
 - {"tipo": "pasta", "andar": 1, "ficha": 3}                -> abre a pasta do andar na ficha R03
 - {"tipo": "acao_semantica", "nome": "fechar_pastas"}
+- {"tipo": "pedir_documentos", "itens": ["id", "pedido"]}   -> abre a checklist, marca o que pedir (id, pedido, aparencia, lista)
+  e aperta a interrogacao; os papeis aparecem na mesa. Sem marcar nada o visitante so diz "Good to go" e nao entrega nada.
 - {"tipo": "ligar", "numero": "5513"}                      -> abre o telefone e disca (o resultado aparece na caixa de texto)
 - {"tipo": "acao_semantica", "nome": "documento_pedido"} / "documento_id"   -> abre o papel na mesa (clique de novo fecha)
 - {"tipo": "acao_semantica", "nome": "checklist"} / "perguntar"             -> checklist e o botao de interrogar
@@ -381,6 +383,9 @@ def sanitize_llm_decision(parsed: dict[str, Any] | None) -> dict[str, Any]:
                 "x2": round(clamp(float(act["x2"]), 0.0, 1000.0), 1),
                 "y2": round(clamp(float(act["y2"]), 0.0, 1000.0), 1),
             })
+        elif tipo == "pedir_documentos":
+            itens = [str(x).lower() for x in (act.get("itens") or ["id", "pedido"]) if str(x).lower() in ("id", "identidade", "pedido", "aparencia", "lista")]
+            clean_actions.append({"tipo": "pedir_documentos", "itens": itens or ["id", "pedido"]})
         elif tipo == "pasta":
             clean_actions.append({"tipo": "pasta", "andar": int(act.get("andar", 1) or 1), "ficha": int(act.get("ficha", 1) or 1)})
         elif tipo in ("discar", "ligar") and act.get("numero"):
@@ -784,7 +789,7 @@ def execute_actions(
 
     for act in actions:
         tipo = act["tipo"]
-        if ajud is not None and tipo in ("acao_semantica", "ligar", "discar", "pasta"):
+        if ajud is not None and tipo in ("acao_semantica", "ligar", "discar", "pasta", "pedir_documentos"):
             try:
                 if ajud.executar(act):
                     time.sleep(0.25)
