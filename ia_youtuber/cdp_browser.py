@@ -513,7 +513,12 @@ class BrowserCDPBackend:
         """Congela/descongela o Scratch (frameLoop do TurboWarp) e a gravacao."""
         if not self._cdp:
             return
-        js = "(()=>{const v=window.vm||(window.scaffolding&&scaffolding.vm);if(!v)return 'sem vm';v.runtime.frameLoop.%s();return 'ok'})()" % ("stop" if pausado else "start")
+        js = (
+            "(()=>{const v=window.vm||(window.scaffolding&&scaffolding.vm);if(!v)return 'sem vm';v.runtime.frameLoop.%s();"
+            "const ae=v.runtime.audioEngine;const r=window.__tnmnRec;"
+            "try{if(%s){if(r&&r.state==='recording')r.pause();ae&&ae.audioContext.suspend();}"
+            "else{ae&&ae.audioContext.resume();if(r&&r.state==='paused')r.resume();}}catch(e){}return 'ok'})()"
+        ) % (("stop", "true") if pausado else ("start", "false"))
         if pausado and self._pause_start is None:
             self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
             time.sleep(0.3)  # deixa o ultimo quadro chegar antes de cortar a gravacao
@@ -693,6 +698,23 @@ class BrowserCDPBackend:
                     {"type": "mouseReleased", "x": px, "y": py, "button": "left", "clickCount": 2},
                 )
 
+    def move_px(self, px: float, py: float) -> None:
+        if not self._cdp:
+            raise RuntimeError("CDP nao conectado")
+        with self._action_lock:
+            self._cdp.call("Input.dispatchMouseEvent", {"type": "mouseMoved", "x": float(px), "y": float(py), "button": "none"})
+
+    def click_px(self, px: float, py: float) -> None:
+        """Clique em pixels da pagina (mesmo tempo de pressao do click normal, que o Scratch precisa)."""
+        if not self._cdp:
+            raise RuntimeError("CDP nao conectado")
+        with self._action_lock:
+            self._cdp.call("Input.dispatchMouseEvent", {"type": "mouseMoved", "x": float(px), "y": float(py), "button": "none"})
+            time.sleep(0.1)
+            self._cdp.call("Input.dispatchMouseEvent", {"type": "mousePressed", "x": float(px), "y": float(py), "button": "left", "clickCount": 1})
+            time.sleep(0.25)
+            self._cdp.call("Input.dispatchMouseEvent", {"type": "mouseReleased", "x": float(px), "y": float(py), "button": "left", "clickCount": 1})
+
     def drag(self, x1: float, y1: float, x2: float, y2: float) -> None:
         if not self._cdp:
             raise RuntimeError("CDP nao conectado")
@@ -783,6 +805,7 @@ class BrowserCDPBackend:
             except Exception:
                 pass
 
+        self._iniciar_audio()
         self._sc_handler = _on_screencast_frame
         self._cdp.on("Page.screencastFrame", _on_screencast_frame)
         self._cdp.call(
@@ -797,10 +820,52 @@ class BrowserCDPBackend:
         )
         _log(f"Gravacao CDP screencast iniciada -> {out_mp4}")
 
+    _JS_AUDIO_INI = (
+        "(()=>{const v=window.vm;if(!v||!v.runtime.audioEngine)return 'sem audio';const ae=v.runtime.audioEngine;"
+        "const ctx=ae.audioContext;try{ctx.resume()}catch(e){};const dest=ctx.createMediaStreamDestination();"
+        "ae.inputNode.connect(dest);window.__tnmnChunks=[];"
+        "const r=new MediaRecorder(dest.stream,{mimeType:'audio/webm;codecs=opus',audioBitsPerSecond:128000});"
+        "r.ondataavailable=e=>{if(e.data&&e.data.size)window.__tnmnChunks.push(e.data)};r.start(1000);"
+        "window.__tnmnRec=r;return 'ok '+ctx.state})()"
+    )
+    _JS_AUDIO_FIM = (
+        "new Promise(res=>{const r=window.__tnmnRec;if(!r)return res(0);"
+        "r.onstop=async()=>{const b=new Blob(window.__tnmnChunks,{type:'audio/webm'});"
+        "const u=new Uint8Array(await b.arrayBuffer());let s='';for(let i=0;i<u.length;i+=32768)"
+        "s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));window.__tnmnB64=btoa(s);res(window.__tnmnB64.length)};"
+        "if(r.state==='paused')r.resume();r.stop();})"
+    )
+
+    def _iniciar_audio(self) -> None:
+        try:
+            res = self._cdp.call("Runtime.evaluate", {"expression": self._JS_AUDIO_INI, "returnByValue": True}, timeout=10.0)
+            _log(f"Audio do jogo: {res.get('result', {}).get('value')}")
+        except Exception as exc:
+            _log(f"Audio do jogo indisponivel: {exc}")
+
+    def _salvar_audio(self, destino: Path) -> Path | None:
+        """Baixa o webm/opus gravado na pagina em pedacos de 1 MB (base64) e salva em disco."""
+        try:
+            res = self._cdp.call("Runtime.evaluate", {"expression": self._JS_AUDIO_FIM, "awaitPromise": True, "returnByValue": True}, timeout=120.0)
+            n = int(res.get("result", {}).get("value") or 0)
+            if n <= 0:
+                return None
+            partes = []
+            for i in range(0, n, 1_000_000):
+                r = self._cdp.call("Runtime.evaluate", {"expression": f"window.__tnmnB64.substr({i},1000000)", "returnByValue": True}, timeout=60.0)
+                partes.append(r.get("result", {}).get("value") or "")
+            destino.write_bytes(base64.b64decode("".join(partes)))
+            _log(f"Audio do jogo salvo: {destino} ({destino.stat().st_size // 1024} KB)")
+            return destino
+        except Exception as exc:
+            _log(f"Falha ao salvar audio do jogo: {exc}")
+            return None
+
     def stop_recording(self) -> None:
         if not self._recording:
             return
         t_stop = self._clock()
+        audio_webm = self._salvar_audio(self.rec_path.with_name(self.rec_path.stem + "_audio.webm")) if self.rec_path else None
         with self._frame_lock:
             self._recording = False
 
@@ -901,6 +966,16 @@ class BrowserCDPBackend:
         else:
             shutil.rmtree(self._frames_dir, ignore_errors=True)
             _log(f"Gravacao MP4 finalizada: {self.rec_path}")
+            if audio_webm is not None and audio_webm.is_file():
+                tmp = self.rec_path.with_name(self.rec_path.stem + "_com_audio.mp4")
+                rr = subprocess.run([ff, "-y", "-v", "warning", "-i", str(self.rec_path), "-i", str(audio_webm),
+                                     "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-af", "apad", "-c:a", "aac", "-b:a", "192k",
+                                     "-shortest", "-movflags", "+faststart", str(tmp)], capture_output=True, text=True, timeout=300)
+                if rr.returncode == 0:
+                    tmp.replace(self.rec_path)
+                    _log("Audio do jogo embutido no MP4")
+                else:
+                    _log(f"Erro ao embutir audio: {rr.stderr[:300]}")
 
     def close(self) -> None:
         try:

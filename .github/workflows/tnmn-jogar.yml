@@ -16,7 +16,7 @@ on:
       modo:
         description: "calibrar (só prints com grade, sem gastar IA) ou jogar"
         type: choice
-        options: [calibrar, jogar]
+        options: [calibrar, testar, jogar]
         default: calibrar
       ia:
         description: "Quem joga: relay (subagente Opus fora do GitHub, via git), claude (token da assinatura) ou openrouter"
@@ -111,6 +111,12 @@ jobs:
         if: steps.p.outputs.modo == 'calibrar'
         run: |
           python3 ia_youtuber/motor_tnmn.py --backend browser --calibrar \
+            --sessao-dir "ia_youtuber/gravacoes/gh_${GITHUB_RUN_ID}"
+
+      - name: Testar ajudantes (sem IA)
+        if: steps.p.outputs.modo == 'testar'
+        run: |
+          python3 ia_youtuber/motor_tnmn.py --backend browser --testar-ajudantes \
             --sessao-dir "ia_youtuber/gravacoes/gh_${GITHUB_RUN_ID}"
 
       - name: Jogar e gravar

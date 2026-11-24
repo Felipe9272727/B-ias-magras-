@@ -70,26 +70,33 @@ REQUIRED_SEMANTIC_ACTIONS = (
 )
 VALID_EMOTIONS = {"cyan", "green", "yellow", "red", "purple"}
 
-SYSTEM_PROMPT_TNMN = """Voce e o OPUS, uma IA que hoje assumiu a cadeira de YouTuber de terror do canal do Felipe (Felipex007) para jogar That's Not My Neighbor DE VERDADE do inicio ao fim e provar que consegue zerar o turno sem deixar nenhum doppelganger passar!
+SYSTEM_PROMPT_TNMN = """Voce e o OPUS, uma IA que hoje assumiu a cadeira de YouTuber de terror do canal do Felipe (Felipex007) para jogar That's Not My Neighbor DE VERDADE (remake no Scratch, 1955, modo Arcade) e deixar ZERO doppelgangers entrarem no predio.
 
-SUAS REGRAS DO JOGO (remake no Scratch de That's Not My Neighbor - 1955, modo Arcade):
-1. Voce e o porteiro do predio. Cada pessoa que aparece na janela pede para entrar.
-2. Menus: na tela de titulo clique PLAY (`menu_play`); na escolha de modo clique Play (`modo_play`). Se aparecer SKIP no tutorial, pode usar `pular_tutorial`. Caixa de dialogo preta embaixo: `avancar_dialogo` para ler a proxima fala.
-3. NUNCA confie de cara! Antes de decidir:
-   - Observe a pessoa atras do vidro: rosto, olhos (quantidade, cor, formato), nariz, boca/dentes, sardas, cabelo, roupa e proporcoes.
-   - Leia o que ela fala na caixa de dialogo (nome, apartamento, andar).
-   - Abra a pasta do andar dela (`pasta_andar_1`, `pasta_andar_2`, `pasta_andar_3`) e compare com a foto e os dados do registro oficial. Feche a pasta clicando nela de novo ou no X que aparecer (use a grade).
-   - Se ela entregar um papel na mesa, abra (`documento_mesa`) e confira nome, apartamento e data.
-4. Na duvida: `telefone` (de disco, na mesa a esquerda) para ligar para o apartamento e ver se o morador verdadeiro ja esta em casa. O numero do Departamento de Doppelgangers (D.D.D.) e 3312, no bilhete da parede.
-5. DOPPELGANGER confirmado (traco fisico diferente do registro, dado errado, morador ja em casa) -> como o filme do D.D.D. ensina: aperte o botao de emergencia (`caixa_perigo`), ligue 3312 no `telefone` e tranque (`botao_vermelho_trancar`). NUNCA destranque.
-7. O tutorial e um filme: o SKIP nem sempre pula; nao gaste turnos clicando nele, use waits maiores (5 a 8 s). A camera segue o mouse: se o clique nao pegou, clique direto pela grade no print atual.
-6. Morador real confirmado -> `botao_verde_destrancar` (cadeado aberto).
+COMO O JOGO FUNCIONA (lido do codigo do jogo):
+- O turno tem de 12 a 18 visitantes, um de cada vez, que param na janela. Metade, em media, e doppelganger.
+- A PORTA e um botao so (abre/fecha). Com ela ABERTA, TODO visitante que chegar atravessa direto, sem parar.
+  Voce tem um REFLEXO automatico: depois que o visitante liberado entra, a porta fecha sozinha. Mesmo assim confira o estado.
+- Visitante nao vai embora sozinho: ou voce LIBERA (morador verdadeiro) ou chama o D.D.D. (doppelganger), que vem e remove.
+  Remover morador verdadeiro tambem conta contra voce.
+- Procedimento do D.D.D.: apertar a caixa de emergencia (baixa a grade e toca o alarme do jogo) e ligar 3312. Sem emergencia, o 3312 nao atende.
+- Confira cada visitante: rosto/roupa contra a ficha da pasta do andar dele (andar 1, 2 ou 3; fichas R01 a R04), o pedido de entrada
+  e a identidade na mesa (nome, apartamento, validade mm/aaaa; hoje e fevereiro de 1955; logo do D.D.D.), e se precisar ligue
+  pro apartamento (numero na ficha): se o morador atender de dentro de casa, quem esta na janela e falso.
+- Cada pedido traz o ESTADO DO JOGO lido direto do jogo (porta, visitante, pasta, telefone, emergencia, contagem). Confie nele.
 
-REGRAS DE COORDENADAS E VISAO:
-- A imagem tem uma grade visual de 0 a 1000 em X (esquerda->direita) e Y (topo->base).
-- Voce pode usar `{"tipo": "acao_semantica", "nome": "<nome>"}` OU coordenadas diretas `{"tipo": "click", "x": 500, "y": 400}` / `{"tipo": "drag", "x1": ..., "y1": ..., "x2": ..., "y2": ...}` / `{"tipo": "discar", "numero": "3312"}` / `{"tipo": "wait", "seg": 1.5}`.
-- Se `calibrado` for false ou um clique semantico nao acertar o botao na tela, USE coordenadas diretas olhando os numeros da grade sobre o screenshot!
-- REGRA DE OURO: NUNCA invente o que nao esta vendo no screenshot! Baseie `observacao` e `fala_youtuber` estritamente no que aparece na tela agora.
+ACOES (prefira SEMPRE estas, elas acham o botao sozinhas mesmo com a camera mexendo):
+- {"tipo": "acao_semantica", "nome": "liberar"}            -> abre a porta pro visitante atual (fecha sozinha depois que ele entra)
+- {"tipo": "acao_semantica", "nome": "chamar_ddd"}         -> emergencia + liga 3312 (doppelganger confirmado)
+- {"tipo": "pasta", "andar": 1, "ficha": 3}                -> abre a pasta do andar na ficha R03
+- {"tipo": "acao_semantica", "nome": "fechar_pastas"}
+- {"tipo": "ligar", "numero": "5513"}                      -> abre o telefone e disca (o resultado aparece na caixa de texto)
+- {"tipo": "acao_semantica", "nome": "documento_pedido"} / "documento_id"   -> abre o papel na mesa (clique de novo fecha)
+- {"tipo": "acao_semantica", "nome": "checklist"} / "perguntar"             -> checklist e o botao de interrogar
+- {"tipo": "acao_semantica", "nome": "porta"}             -> so o botao da porta (abrir/fechar na mao)
+- {"tipo": "acao_semantica", "nome": "avancar_dialogo"} / "menu_play" / "modo_play" -> menus e caixa de dialogo
+- {"tipo": "wait", "seg": 2.0}; e, so se nada acima servir, {"tipo": "click", "x": 500, "y": 400} olhando a grade 0..1000 do print.
+- Tutorial/filme do comeco: espere com waits de 5 a 8 s, nao fique clicando.
+- NUNCA invente o que nao esta no print nem no estado do jogo.
 
 PERSONALIDADE DO OPUS (estilo de gameplay de terror dos YouTubers BR, 100% original, sem copiar bordao de ninguem):
 - Voce NARRA O TEMPO TODO, quase sem pausa, como YouTuber gravando: fala o que esta vendo, o que vai checar e por que, ENQUANTO faz ("deixa eu abrir a pasta do segundo andar... Garcia, apartamento 2B, olha a foto: cabelo igual, nariz igual... ate agora ta limpo").
@@ -100,7 +107,7 @@ PERSONALIDADE DO OPUS (estilo de gameplay de terror dos YouTubers BR, 100% origi
 - Reacoes curtas e exageradas no susto ("NAO! nao, nao, nao", "ai meu Deus, olha o olho dele") e comemoracao quando acerta.
 - NUNCA diga que e o Claude, nunca cite a Anthropic nem modelo de IA. Nada de cliche de robo ("trilhoes de parametros").
 - PORTUGUES CORRETO COM ACENTOS (é, não, você, está, até, já, pô, aí...). Isso vai pra legenda: sem acento fica feio.
-- Tamanho da fala: 2 a 3 frases, 25 a 45 palavras (uns 10 a 15 segundos de voz), ZERO emojis. Nao repita a mesma piada nem a mesma abertura de frase de turnos anteriores.
+- O jogo RODA EM TEMPO REAL enquanto voce fala (a gameplay nao para). Tamanho da fala: varie entre 8 e 30 palavras (3 a 11 s); reacao curta quando a acao e rapida, fala maior quando esta conferindo ficha/documento. ZERO emojis. Nao repita piada nem abertura de frase.
 - `emocao`: quase sempre "cyan" (neutro, narrando tranquilo). So use outra cor no PICO de verdade, no maximo 1 a cada 4 turnos:
   * "green"  = acertou / comemorando com a galera
   * "yellow" = achou uma pista forte de doppelganger
@@ -112,7 +119,7 @@ Responda EXCLUSIVAMENTE com um objeto JSON valido neste formato:
 {
   "observacao": "descricao objetiva do que realmente ve na tela",
   "pensamento": "deducao rapida do proximo passo",
-  "fala_youtuber": "narracao do Opus em PT-BR com acentos (2-3 frases, 25-45 palavras, sem emojis)",
+  "fala_youtuber": "narracao do Opus em PT-BR com acentos (8 a 30 palavras, sem emojis)",
   "emocao": "cyan|green|yellow|red|purple",
   "selo": "TEXTO CURTO OU null",
   "acoes": [
@@ -374,7 +381,9 @@ def sanitize_llm_decision(parsed: dict[str, Any] | None) -> dict[str, Any]:
                 "x2": round(clamp(float(act["x2"]), 0.0, 1000.0), 1),
                 "y2": round(clamp(float(act["y2"]), 0.0, 1000.0), 1),
             })
-        elif tipo == "discar" and act.get("numero"):
+        elif tipo == "pasta":
+            clean_actions.append({"tipo": "pasta", "andar": int(act.get("andar", 1) or 1), "ficha": int(act.get("ficha", 1) or 1)})
+        elif tipo in ("discar", "ligar") and act.get("numero"):
             digits = re.sub(r"[^0-9]", "", str(act["numero"]))[:8]
             if digits:
                 clean_actions.append({"tipo": "discar", "numero": digits})
@@ -766,6 +775,7 @@ def execute_actions(
     actions: list[dict[str, Any]],
     backend: GameBackend,
     coords: dict[str, Any],
+    ajud: Any = None,
 ) -> float:
     """Executa a sequencia de acoes no backend real e retorna a duracao total em segundos."""
     t0 = time.monotonic()
@@ -774,6 +784,13 @@ def execute_actions(
 
     for act in actions:
         tipo = act["tipo"]
+        if ajud is not None and tipo in ("acao_semantica", "ligar", "discar", "pasta"):
+            try:
+                if ajud.executar(act):
+                    time.sleep(0.25)
+                    continue
+            except Exception as exc:
+                log(f"Ajudante falhou em {act}: {exc}")
         if tipo == "acao_semantica":
             nome = act["nome"]
             spec = acoes_map.get(nome)
@@ -816,6 +833,7 @@ def build_turn_messages(
     coords: dict[str, Any],
     memory_turns: list[dict[str, Any]],
     resumo_vizinhos: list[str],
+    estado_txt: str = "",
 ) -> list[dict[str, Any]]:
     calibrado = bool(coords.get("calibrado", False))
     acoes_desc = {
@@ -834,6 +852,7 @@ def build_turn_messages(
         f"Acoes semanticas disponiveis: {json.dumps(acoes_desc, ensure_ascii=False)}\n"
         f"Resumo de vizinhos ja atendidos: {viz_text}\n"
         f"Memoria dos ultimos turnos (janela 12):\n{mem_text}\n\n"
+        f"{estado_txt}\n\n"
         "Analise o screenshot atual (com grade 0..1000) e devolva o JSON estrito da proxima jogada e sua fala YouTuber."
     )
     return [
@@ -1098,6 +1117,63 @@ def call_relay(
     return None
 
 
+def run_teste_ajudantes(args: argparse.Namespace) -> int:
+    """Liga o jogo no Chrome, passa os menus e testa os reflexos/macros sem IA (prints + video com audio)."""
+    from ajudantes_tnmn import Ajudantes
+    coords = load_and_validate_coords(args.coords)
+    sess_dir = args.sessao_dir or (DEFAULT_RECORDINGS_ROOT / "teste_ajudantes")
+    sess_dir.mkdir(parents=True, exist_ok=True)
+    backend = build_backend(args, sess_dir)
+    backend.click(164, 29); time.sleep(1.0); backend.click(164, 29); time.sleep(8.0)
+    backend.start_recording(sess_dir / "gameplay_real.mp4")
+    ajud = Ajudantes(backend, log)
+    ajud.iniciar_vigia()
+    n = [0]
+
+    def foto(tag: str) -> None:
+        n[0] += 1
+        backend.capture_screenshot().save(sess_dir / f"teste_{n[0]:02d}_{tag}.jpg", quality=80)
+        log(f"[{tag}] " + ajud.resumo_texto().replace("\n", " | "))
+
+    try:
+        for nome in ("menu_play", "modo_play"):
+            sp = coords["acoes"][nome]
+            backend.click(float(sp["x"]), float(sp["y"])); time.sleep(4.0)
+        foto("depois_menus")
+        feito = False
+        t_lim = time.monotonic() + 420
+        while time.monotonic() < t_lim:
+            e = ajud.estado() or {}
+            c = ajud._contagens(e) if e else {}
+            if e.get("endmenu"):
+                foto("fim"); break
+            parado = e.get("visitante") and abs(float(e.get("posX") or 0)) < 1
+            if parado and not feito:
+                foto("visitante_na_janela")
+                ajud.abrir_pasta(1, 2); time.sleep(1.5); foto("pasta_1_R02")
+                ajud.fechar_pastas(); time.sleep(1.0); foto("pastas_fechadas")
+                ajud.executar({"tipo": "acao_semantica", "nome": "documento_pedido"}); time.sleep(1.5); foto("pedido")
+                ajud.executar({"tipo": "acao_semantica", "nome": "documento_pedido"}); time.sleep(1.0)
+                ajud.ligar("1152"); time.sleep(6.0); foto("ligou_1152")
+                ajud.liberar(); time.sleep(1.0); foto("liberou")
+                time.sleep(7.0); foto("depois_de_entrar")
+                feito = True
+            elif parado and feito and c.get("passaram", 0) >= 1:
+                foto("segundo_visitante")
+                ajud.chamar_ddd(); time.sleep(3.0); foto("chamou_ddd")
+                time.sleep(14.0); foto("depois_ddd")
+                break
+            else:
+                backend.click(500, 819)  # avanca dialogo/tutorial
+                time.sleep(3.0)
+        foto("final")
+    finally:
+        ajud.parar_vigia()
+        backend.stop_recording()
+        backend.close()
+    return 0
+
+
 def run_live(args: argparse.Namespace) -> int:
     coords = load_and_validate_coords(args.coords)
     usa_claude = args.ia in ("claude", "relay")
@@ -1171,6 +1247,13 @@ def run_live(args: argparse.Namespace) -> int:
     session_log_path = sess_dir / "session_log.jsonl"
     ckpt_path = sess_dir / "checkpoint.json"
     backend.start_recording(rec_file)
+    ajud = None
+    if args.backend == "browser" and not args.sem_ajudantes:
+        from ajudantes_tnmn import Ajudantes
+        ajud = Ajudantes(backend, log)
+        ajud.iniciar_vigia()
+        log("Ajudantes ligados: estado do jogo no pedido, cliques pelo sprite, porta fecha sozinha depois que o visitante entra")
+    fim_de_jogo = False
 
     try:
         while not stop_flag["stop"] and turno < args.max_turnos:
@@ -1187,7 +1270,11 @@ def run_live(args: argparse.Namespace) -> int:
             llm_img = raw_img if args.sem_grade else draw_precision_grid(raw_img)
             img_url = image_to_data_url(llm_img)
 
-            messages = build_turn_messages(img_url, turno, coords, memory_turns, resumo_vizinhos)
+            estado_txt = ajud.resumo_texto() if ajud is not None else ""
+            if "ENCERRADO" in estado_txt:
+                fim_de_jogo = True
+                estado_txt += "\nEste e o ULTIMO turno: faca a fala final (resultado e pergunta pra galera) e acoes vazias."
+            messages = build_turn_messages(img_url, turno, coords, memory_turns, resumo_vizinhos, estado_txt)
             if args.ia == "relay":
                 r = call_relay(messages, llm_img, args.relay_dir, turno, args.relay_timeout)
                 if hasattr(backend, "set_paused"):
@@ -1201,7 +1288,13 @@ def run_live(args: argparse.Namespace) -> int:
                 decision, _raw = call_openrouter_vision(api_key, args.model, messages)
 
             t_action_start = backend.current_video_sec(prior_video_sec)
-            act_dur = execute_actions(decision["acoes"], backend, coords)
+            act_dur = execute_actions(decision["acoes"], backend, coords, ajud)
+            # Tempo real: o jogo continua rodando enquanto o YouTuber fala (a fala nao congela a tela na montagem)
+            n_pal = len(str(decision.get("fala_youtuber") or "").split())
+            fala_est = (n_pal / 2.6 + 0.6) if n_pal else 0.0
+            falta = min(args.max_espera_fala, fala_est - act_dur)
+            if falta > 0:
+                time.sleep(falta)
             t_turn_end = backend.current_video_sec(prior_video_sec)
 
             # Atualiza resumo de vizinhos quando libera ou aciona D.D.D.
@@ -1248,7 +1341,12 @@ def run_live(args: argparse.Namespace) -> int:
                 f"{decision['fala_youtuber'][:75]}"
             )
             time.sleep(args.intervalo_sec)
+            if fim_de_jogo:
+                log("Tela de resumo final: encerrando a sessao")
+                break
     finally:
+        if ajud is not None:
+            ajud.parar_vigia()
         backend.stop_recording()
         if hasattr(backend, "close"):
             backend.close()
@@ -1284,6 +1382,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--adb-serial", default=None, help="Serial do dispositivo Android para --backend adb")
     ap.add_argument("--game-cmd", default=None, help="Comando opcional para abrir o jogo automaticamente")
     ap.add_argument("--sem-grade", action="store_true", help="Nao desenha grade 0..1000 no print enviado a IA")
+    ap.add_argument("--testar-ajudantes", action="store_true", help="Testa os ajudantes sem IA (browser)")
+    ap.add_argument("--sem-ajudantes", action="store_true", help="Desliga os reflexos/macros lidos da VM do Scratch")
+    ap.add_argument("--max-espera-fala", type=float, default=16.0, help="Maximo de segundos que o jogo roda esperando a fala acabar")
     ap.add_argument("--calibrar", action="store_true", help="Tira screenshot com grade 0..1000 para calibrar coords_tnmn.json")
     ap.add_argument("--dry-run", action="store_true", help="Valida schema, grade visual, parser e trava de orcamento sem abrir jogo")
     return ap.parse_args(argv)
@@ -1295,6 +1396,8 @@ def main(argv: list[str] | None = None) -> int:
         return run_dry_run(args)
     if args.calibrar:
         return run_calibrate(args)
+    if args.testar_ajudantes:
+        return run_teste_ajudantes(args)
     return run_live(args)
 
 
