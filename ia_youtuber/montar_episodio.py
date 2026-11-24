@@ -305,9 +305,12 @@ def build_turn_plan(
     """Um segmento por turno escolhido: congela o print enquanto o YouTuber fala e depois roda as acoes do turno."""
     segments: list[CutSegment] = []
     dst = 0.0
-    for idx, ev in enumerate(entries):
-        if int(ev.get("turno", -1)) not in turnos:
+    pos = {int(ev.get("turno", -1)): i for i, ev in enumerate(entries)}
+    for tn in turnos:
+        if tn not in pos:
             continue
+        idx = pos[tn]
+        ev = entries[idx]
         t0 = float(ev.get("t_video_sec", 0.0))
         t1 = float(entries[idx + 1]["t_video_sec"]) if idx + 1 < len(entries) else min(video_dur, t0 + 4.0)
         t1 = max(t1, t0 + 1.0)
@@ -623,7 +626,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
                 stamp = selo
                 stamp_p = min(1.0, dt / 0.18) if dt < 2.55 else max(0.0, (2.8 - dt) / 0.25)
         quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6))])
-    (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
+    (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
         print(f"PREP PRONTA: {total_frames} quadros, {total_dur:.2f}s", flush=True)
         return 0
@@ -721,6 +724,7 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
         render_end_card(ep_sem_abertura, args, mus_path, mus_vol, work_dir)
 
     out_mp4 = args.out or (sess_dir / "episodio_final_youtube.mp4")
+    tz = float(plano.get("fim_seg1", 0.0)) if args.teaser else 0.0
     if args.opening_mp4 and args.opening_mp4.is_file() and not args.skip_opening:
         out_w, out_h = (1920, 1080) if args.upscale_1080p else (args.width, args.height)
         subprocess.run(
@@ -729,11 +733,22 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
                 "-i", str(args.opening_mp4),
                 "-i", str(ep_sem_abertura),
                 "-filter_complex",
-                f"[0:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1[v0];"
-                f"[1:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1[v1];"
-                f"[0:a]aformat=sample_rates={SR}:channel_layouts=stereo[a0];"
-                f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo[a1];"
-                f"[v0][a0][v1][a1]concat=n=2:v=1:a=1[vo][ao]",
+                (
+                    f"[0:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1[v0];"
+                    f"[1:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1,split[vt0][v1a];"
+                    f"[vt0]trim=0:{tz:.3f},setpts=PTS-STARTPTS[vt];[v1a]trim={tz:.3f},setpts=PTS-STARTPTS[v1];"
+                    f"[0:a]aformat=sample_rates={SR}:channel_layouts=stereo[a0];"
+                    f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo,asplit[at0][a1a];"
+                    f"[at0]atrim=0:{tz:.3f},asetpts=PTS-STARTPTS,afade=t=out:st={max(0.0, tz - 0.4):.3f}:d=0.4[at];"
+                    f"[a1a]atrim={tz:.3f},asetpts=PTS-STARTPTS[a1];"
+                    f"[vt][at][v0][a0][v1][a1]concat=n=3:v=1:a=1[vo][ao]"
+                ) if tz > 0 else (
+                    f"[0:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1[v0];"
+                    f"[1:v]scale={out_w}:{out_h}:flags=lanczos,fps={FPS},setsar=1[v1];"
+                    f"[0:a]aformat=sample_rates={SR}:channel_layouts=stereo[a0];"
+                    f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo[a1];"
+                    f"[v0][a0][v1][a1]concat=n=2:v=1:a=1[vo][ao]"
+                ),
                 "-map", "[vo]", "-map", "[ao]",
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p",
                 "-c:a", "aac", "-b:a", "192k", "-ar", str(SR),
@@ -827,6 +842,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--partes", type=int, default=16, help="Total de partes (padrao: 16)")
     ap.add_argument("--turnos", default=None, help="Turnos escolhidos, ex. 1,7,14 (so esses sao narrados; o jogo congela enquanto o YouTuber fala)")
     ap.add_argument("--skip-opening", action="store_true", help="Nao prepende abertura")
+    ap.add_argument("--teaser", action="store_true", help="O 1o turno escolhido vira o gancho antes da abertura")
     ap.add_argument("--pergunta-final", default="", help="Pergunta pro publico no cartao final (vazio = sem cartao)")
     ap.add_argument("--placar-final", default="", help="Placar do cartao final (ex.: 3 SALVOS · 1 TRANCADO)")
     ap.add_argument("--music", default="investigations", help="ID da faixa em video/remotion/public/music/music.json")
