@@ -1,113 +1,152 @@
 {
   "jogo": "That's Not My Neighbor",
-  "versao_mapa": 1,
-  "calibrado": false,
+  "versao_mapa": 2,
+  "calibrado": true,
   "sistema_coordenadas": "normalizado_0_1000",
-  "resolucao_referencia": [1280, 720],
+  "resolucao_referencia": [
+    1280,
+    720
+  ],
   "notas_calibracao": [
-    "Todas as coordenadas (x, y) estao normalizadas de 0 a 1000 (0,0 = topo-esquerda; 1000,1000 = base-direita), independente da resolucao (1280x720, 1920x1080, etc.).",
-    "Como 'calibrado' esta false, estes valores sao estimativas iniciais para tela 16:9 do That's Not My Neighbor (Nacho Sama). Rode `python3 ia_youtuber/motor_tnmn.py --calibrar` para gerar um print com grade 0..1000 e ajustar se necessario.",
-    "Mesmo antes de calibrar manualmente, o Vision LLM recebe uma grade visual 0..1000 desenhada em memoria sobre o screenshot e pode emitir cliques/arrastes diretos com precisao."
+    "Calibrado em 24/11 nos prints do GitHub Actions (Chrome 1280x720, TurboWarp embed do projeto Scratch 1151980401, remake 'That's Not My Neighbor 1.2.1').",
+    "Coordenadas normalizadas 0..1000. Esta versao do Scratch NAO tem persiana nem lista do dia: tem pastas por andar, botoes de destrancar (verde) e trancar (vermelho), telefone de disco e o bilhete D.D.D. 3312.",
+    "Telas internas (pasta aberta, documento aberto, telefone) ainda nao foram vistas: ali a IA deve clicar direto pela grade.",
+    "teclado_telefone continua estimado (o telefone e de disco); preferir coordenadas diretas olhando a grade."
   ],
   "acoes": {
-    "persiana_corda": {
+    "menu_play": {
       "tipo": "click",
-      "x": 642,
-      "y": 148,
-      "drag_alternativo": {"x1": 642, "y1": 140, "x2": 642, "y2": 320},
-      "descricao": "Corda / puxador da persiana da janela da portaria (abrir ou fechar)"
+      "x": 776,
+      "y": 169,
+      "descricao": "Botao PLAY na tela de titulo"
     },
-    "pasta_registros": {
+    "modo_play": {
       "tipo": "click",
-      "x": 185,
-      "y": 650,
-      "descricao": "Pasta verde de registros dos apartamentos/moradores na mesa/parede esquerda"
+      "x": 660,
+      "y": 910,
+      "descricao": "Botao 'Play' na tela de escolha de modo (Arcade ja vem marcado)"
     },
-    "fechar_pasta": {
+    "pular_tutorial": {
       "tipo": "click",
-      "x": 885,
-      "y": 135,
-      "descricao": "Botao X ou borda para fechar a pasta de registros aberta"
+      "x": 770,
+      "y": 136,
+      "descricao": "Botao SKIP no canto de cima a direita durante o tutorial"
     },
-    "proxima_pagina_pasta": {
+    "avancar_dialogo": {
       "tipo": "click",
-      "x": 790,
-      "y": 520,
-      "descricao": "Avancar pagina/aba na pasta de registros dos andares"
+      "x": 500,
+      "y": 819,
+      "descricao": "Clicar na caixa de dialogo preta de baixo para avancar a fala do visitante"
     },
-    "pagina_anterior_pasta": {
+    "pasta_andar_1": {
       "tipo": "click",
-      "x": 210,
-      "y": 520,
-      "descricao": "Voltar pagina/aba na pasta de registros dos andares"
+      "x": 773,
+      "y": 215,
+      "descricao": "Pasta amarela '1o Floor' (registro dos moradores do 1o andar) na parede a direita"
     },
-    "lista_hoje": {
+    "pasta_andar_2": {
       "tipo": "click",
-      "x": 875,
-      "y": 310,
-      "descricao": "Today's List (Lista de Hoje) pregada na parede/quadro a direita"
+      "x": 773,
+      "y": 382,
+      "descricao": "Pasta amarela '2o Floor' (moradores do 2o andar)"
+    },
+    "pasta_andar_3": {
+      "tipo": "click",
+      "x": 773,
+      "y": 542,
+      "descricao": "Pasta amarela '3o Floor' (moradores do 3o andar)"
+    },
+    "quadro_moradores": {
+      "tipo": "click",
+      "x": 199,
+      "y": 493,
+      "descricao": "Quadro com fotos dos moradores na parede esquerda"
+    },
+    "bilhete_ddd": {
+      "tipo": "click",
+      "x": 198,
+      "y": 333,
+      "descricao": "Bilhete '3312 D.D.D.' (numero do Departamento de Doppelgangers) na parede esquerda"
     },
     "documento_mesa": {
       "tipo": "click",
-      "x": 495,
-      "y": 790,
-      "descricao": "Pegar documento (ID Card ou Entry Request) entregue na bandeja da mesa"
+      "x": 578,
+      "y": 889,
+      "descricao": "Papel/documento entregue pelo visitante na mesa (embaixo, centro-direita)"
     },
-    "fechar_documento": {
+    "botao_verde_destrancar": {
       "tipo": "click",
-      "x": 860,
-      "y": 160,
-      "descricao": "Guardar / fechar documento aberto em inspecao"
+      "x": 660,
+      "y": 736,
+      "descricao": "Botao VERDE com cadeado aberto: deixar o visitante entrar (e morador de verdade)"
     },
-    "perguntar_btn": {
+    "botao_vermelho_trancar": {
       "tipo": "click",
-      "x": 495,
-      "y": 625,
-      "descricao": "Botao/icone de interrogar o vizinho sobre inconsistencias (aparencia, ID, entrada)"
+      "x": 719,
+      "y": 736,
+      "descricao": "Botao VERMELHO com cadeado fechado: barrar o visitante (e doppelganger)"
     },
-    "telefone_gancho": {
+    "telefone": {
       "tipo": "click",
-      "x": 815,
-      "y": 640,
-      "descricao": "Tirar ou colocar o telefone no gancho para ligar para apartamento ou 3312"
+      "x": 215,
+      "y": 875,
+      "descricao": "Telefone de disco na mesa a esquerda (ligar para morador ou para o D.D.D. 3312)"
     },
-    "botao_verde": {
+    "caixa_perigo": {
       "tipo": "click",
-      "x": 665,
-      "y": 785,
-      "descricao": "Botao verde para liberar a entrada do morador (abrir portao)"
-    },
-    "tampa_ddd": {
-      "tipo": "click",
-      "x": 775,
-      "y": 775,
-      "descricao": "Levantar tampa protetora do botao vermelho de emergencia D.D.D."
-    },
-    "botao_vermelho_ddd": {
-      "tipo": "click",
-      "x": 775,
-      "y": 790,
-      "descricao": "Botao vermelho de emergencia D.D.D. (acionar apos confirmar doppelganger ou discar 3312)"
-    },
-    "tela_continuar": {
-      "tipo": "click",
-      "x": 500,
-      "y": 820,
-      "descricao": "Botao Continue / Next / Start Shift em menus, transicoes e relatorio final"
+      "x": 180,
+      "y": 646,
+      "descricao": "Caixa de vidro com botao de emergencia (placa DANGER) a esquerda"
     }
   },
   "teclado_telefone": {
-    "1": {"x": 775, "y": 465},
-    "2": {"x": 825, "y": 465},
-    "3": {"x": 875, "y": 465},
-    "4": {"x": 775, "y": 530},
-    "5": {"x": 825, "y": 530},
-    "6": {"x": 875, "y": 530},
-    "7": {"x": 775, "y": 595},
-    "8": {"x": 825, "y": 595},
-    "9": {"x": 875, "y": 595},
-    "0": {"x": 825, "y": 660},
-    "ligar": {"x": 825, "y": 720},
-    "desligar": {"x": 745, "y": 640}
+    "1": {
+      "x": 775,
+      "y": 465
+    },
+    "2": {
+      "x": 825,
+      "y": 465
+    },
+    "3": {
+      "x": 875,
+      "y": 465
+    },
+    "4": {
+      "x": 775,
+      "y": 530
+    },
+    "5": {
+      "x": 825,
+      "y": 530
+    },
+    "6": {
+      "x": 875,
+      "y": 530
+    },
+    "7": {
+      "x": 775,
+      "y": 595
+    },
+    "8": {
+      "x": 825,
+      "y": 595
+    },
+    "9": {
+      "x": 875,
+      "y": 595
+    },
+    "0": {
+      "x": 825,
+      "y": 660
+    },
+    "ligar": {
+      "x": 825,
+      "y": 720
+    },
+    "desligar": {
+      "x": 745,
+      "y": 640
+    }
   }
 }

@@ -57,36 +57,32 @@ DEFAULT_APIS_TXT = Path(
 )
 
 REQUIRED_SEMANTIC_ACTIONS = (
-    "persiana_corda",
-    "pasta_registros",
-    "lista_hoje",
+    "menu_play",
+    "modo_play",
+    "avancar_dialogo",
+    "pasta_andar_1",
+    "pasta_andar_2",
+    "pasta_andar_3",
     "documento_mesa",
-    "fechar_documento",
-    "perguntar_btn",
-    "telefone_gancho",
-    "botao_verde",
-    "botao_vermelho_ddd",
-    "tela_continuar",
+    "botao_verde_destrancar",
+    "botao_vermelho_trancar",
+    "telefone",
 )
 VALID_EMOTIONS = {"cyan", "green", "yellow", "red", "purple"}
 
 SYSTEM_PROMPT_TNMN = """Voce e o HYDROGEN (Gemini Hydrogen), uma IA que hoje assumiu a cadeira de YouTuber de terror do canal do Felipe (Felipex007) para jogar That's Not My Neighbor DE VERDADE do inicio ao fim e provar que consegue zerar o turno sem deixar nenhum doppelganger passar!
 
-SUAS REGRAS DO JOGO (That's Not My Neighbor - 1955):
-1. Voce e o porteiro do predio em 1955. Cada pessoa que aparece na janela pede para entrar.
-2. NUNCA confie de cara! Sempre faca a checagem completa antes de apertar o botao verde:
-   - Observe a pessoa atras do vidro: rosto, olhos (quantidade e formato), nariz (dois narizes?!), boca/sorriso, bigode/barba, cabelo, chapeu, cicatrizes, roupa e proporcoes.
-   - Pegue os documentos na bandeja (`documento_mesa`): Cartao de Identidade (ID) e Pedido de Entrada (Entry Request).
-   - Compare a FOTO do ID com a pessoa na janela, o NOME, o NUMERO DO ID, o APARTAMENTO e a DATA DE VALIDADE (o jogo se passa em 1955 — documento vencido e suspeito!).
-   - Confira a Lista de Hoje (`lista_hoje`) na parede direita para saber se esse morador esta na lista do dia.
-   - Confira a Pasta de Registros (`pasta_registros`) do andar/apartamento para verificar aparencia oficial, moradia e ID correto.
-3. Em caso de duvida (falta Entry Request, nome/ID estranho ou aparencia suspeita):
-   - Use o botao de perguntar (`perguntar_btn`) OU tire o telefone do gancho (`telefone_gancho`) e disque o numero do apartamento no teclado (`0`..`9`) para confirmar se o morador real ja esta la dentro!
-4. Se confirmar que e um DOPPELGANGER (tracos fisicos errados, 3 olhos, 2 narizes, sem bigode da foto, ID falso/vencido, morador ja esta em casa):
-   - NUNCA aperte `botao_verde`!
-   - Disque `3312` no telefone (ou acione `tampa_ddd` / `botao_vermelho_ddd`) para chamar o D.D.D. e eliminar o monstro!
-5. Se 100% confirmado morador real valido -> `botao_verde`.
-6. Se a persiana estiver fechada -> `persiana_corda`. Se estiver em menu / resultado do dia / proximo vizinho -> `tela_continuar`.
+SUAS REGRAS DO JOGO (remake no Scratch de That's Not My Neighbor - 1955, modo Arcade):
+1. Voce e o porteiro do predio. Cada pessoa que aparece na janela pede para entrar.
+2. Menus: na tela de titulo clique PLAY (`menu_play`); na escolha de modo clique Play (`modo_play`). Se aparecer SKIP no tutorial, pode usar `pular_tutorial`. Caixa de dialogo preta embaixo: `avancar_dialogo` para ler a proxima fala.
+3. NUNCA confie de cara! Antes de decidir:
+   - Observe a pessoa atras do vidro: rosto, olhos (quantidade, cor, formato), nariz, boca/dentes, sardas, cabelo, roupa e proporcoes.
+   - Leia o que ela fala na caixa de dialogo (nome, apartamento, andar).
+   - Abra a pasta do andar dela (`pasta_andar_1`, `pasta_andar_2`, `pasta_andar_3`) e compare com a foto e os dados do registro oficial. Feche a pasta clicando nela de novo ou no X que aparecer (use a grade).
+   - Se ela entregar um papel na mesa, abra (`documento_mesa`) e confira nome, apartamento e data.
+4. Na duvida: `telefone` (de disco, na mesa a esquerda) para ligar para o apartamento e ver se o morador verdadeiro ja esta em casa. O numero do Departamento de Doppelgangers (D.D.D.) e 3312, no bilhete da parede.
+5. DOPPELGANGER confirmado (traco fisico diferente do registro, dado errado, morador ja em casa) -> `botao_vermelho_trancar` (cadeado fechado). NUNCA destranque.
+6. Morador real confirmado -> `botao_verde_destrancar` (cadeado aberto).
 
 REGRAS DE COORDENADAS E VISAO:
 - A imagem tem uma grade visual de 0 a 1000 em X (esquerda->direita) e Y (topo->base).
@@ -116,7 +112,7 @@ Responda EXCLUSIVAMENTE com um objeto JSON valido neste formato:
   "emocao": "cyan|green|yellow|red|purple",
   "selo": "TEXTO CURTO OU null",
   "acoes": [
-    {"tipo": "acao_semantica", "nome": "persiana_corda"},
+    {"tipo": "acao_semantica", "nome": "pasta_andar_1"},
     {"tipo": "wait", "seg": 1.0}
   ]
 }"""
@@ -915,8 +911,8 @@ def run_dry_run(args: argparse.Namespace) -> int:
         "emocao": "red",
         "selo": "DOIS NARIZES?!",
         "acoes": [
-            {"tipo": "discar", "numero": "3312"},
-            {"tipo": "acao_semantica", "nome": "botao_vermelho_ddd"},
+            {"tipo": "acao_semantica", "nome": "pasta_andar_2"},
+            {"tipo": "acao_semantica", "nome": "botao_vermelho_trancar"},
             {"tipo": "wait", "seg": 1.2},
         ],
     })
@@ -1060,6 +1056,12 @@ def run_live(args: argparse.Namespace) -> int:
 
     backend = build_backend(args, sess_dir)
     stop_flag = {"stop": False}
+    if args.backend == "browser" and not args.retomar:
+        # Bandeira verde do TurboWarp 2x (a pagina do jogo pede) antes da IA assumir
+        backend.click(164, 29)
+        time.sleep(1.0)
+        backend.click(164, 29)
+        time.sleep(8.0)
 
     def _on_signal(signum: int, _frame: Any) -> None:
         log(f"Sinal {signum} recebido; encerrando gravacao graciosamente...")
@@ -1094,10 +1096,10 @@ def run_live(args: argparse.Namespace) -> int:
 
             # Atualiza resumo de vizinhos quando libera ou aciona D.D.D.
             act_names = [a.get("nome") for a in decision["acoes"] if a.get("tipo") == "acao_semantica"]
-            if "botao_verde" in act_names:
+            if "botao_verde_destrancar" in act_names:
                 resumo_vizinhos.append(f"T{turno}: liberado ({decision['observacao'][:50]})")
-            elif "botao_vermelho_ddd" in act_names:
-                resumo_vizinhos.append(f"T{turno}: D.D.D. acionado ({decision['observacao'][:50]})")
+            elif "botao_vermelho_trancar" in act_names:
+                resumo_vizinhos.append(f"T{turno}: barrado ({decision['observacao'][:50]})")
 
             entry = {
                 "turno": turno,
