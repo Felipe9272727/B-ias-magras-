@@ -95,11 +95,11 @@ def dynamic_caption(t: float, manifest: dict, fallback_cap: str) -> str:
                 return (
                     "É galera, cansei de fazer vídeo... as views só caindo."
                     if frac < 0.48
-                    else "Então hoje não sou eu que vou gravar... vai ser o Hydrogen."
+                    else "Então hoje não sou eu que vou gravar... vai ser o Opus."
                 )
             if cid == "robo_intro":
                 return (
-                    "E AÍ PESSOAL, tudo beleza? Aqui é o Hydrogen e hoje o Felipe tirou folga!"
+                    "E AÍ PESSOAL, tudo beleza? Aqui é o Opus e hoje o Felipe tirou folga!"
                     if frac < 0.46
                     else "Já senta o dedo no like que a gente vai zerar That's Not My Neighbor sem deixar UM monstro passar!"
                 )
@@ -141,7 +141,7 @@ def svg_caption(text: str, speaker: str | None, emotion: str) -> str:
     col_main, col_dark, col_hi, _, _ = get_palette(emotion)
     is_robo = speaker == "robo"
     accent = col_main if is_robo else "#38bdf8"
-    tag = "HYDROGEN" if is_robo else "FELIPE"
+    tag = "OPUS" if is_robo else "FELIPE"
     tag_bg = col_dark if is_robo else "#1e3a8a"
     tag_stroke = col_hi if is_robo else "#93c5fd"
     tag_w = 132 if is_robo else 108
@@ -188,8 +188,8 @@ def _svg_caption_side(text: str, speaker: str | None, emotion: str) -> str:
         '<g class="caption">',
         f'  <rect x="{box_x + 3:.1f}" y="{box_y + 5:.1f}" width="{box_w:.1f}" height="{box_h:.1f}" rx="14" fill="#000000" fill-opacity="0.55"/>',
         f'  <rect x="{box_x:.1f}" y="{box_y:.1f}" width="{box_w:.1f}" height="{box_h:.1f}" rx="14" fill="#070b15" fill-opacity="0.92" stroke="{col_main}" stroke-width="2.4"/>',
-        f'  <rect x="{box_x + 18:.1f}" y="{box_y - 15:.1f}" width="122" height="26" rx="8" fill="{col_dark}" stroke="{col_hi}" stroke-width="1.6"/>',
-        f'  <text x="{box_x + 79:.1f}" y="{box_y + 2.5:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="13.5" fill="#ffffff" letter-spacing="1.1">HYDROGEN</text>',
+        f'  <rect x="{box_x + 18:.1f}" y="{box_y - 15:.1f}" width="80" height="26" rx="8" fill="{col_dark}" stroke="{col_hi}" stroke-width="1.6"/>',
+        f'  <text x="{box_x + 58:.1f}" y="{box_y + 2.5:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="13.5" fill="#ffffff" letter-spacing="1.1">OPUS</text>',
     ]
     for idx, line in enumerate(lines):
         ly = box_y + 38.0 + idx * lh
@@ -1852,8 +1852,8 @@ def render_outro_card_svg(t: float, m: dict) -> str:
   <g opacity="{p:.3f}">
     <rect x="240" y="228" width="800" height="264" rx="24" fill="#0b1224" stroke="#00f0ff" stroke-width="3"/>
     <line x1="280" y1="231" x2="1000" y2="231" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5"/>
-    <text x="640" y="318" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="38" fill="#ffffff" letter-spacing="1.6">PRÉVIA · HYDROGEN YOUTUBER</text>
+    <text x="640" y="318" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="38" fill="#ffffff" letter-spacing="1.6">PRÉVIA · OPUS YOUTUBER</text>
     <text x="640" y="368" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="800" font-size="22" fill="#38bdf8" letter-spacing="1">THAT'S NOT MY NEIGHBOR · FELIPEX007</text>
-    <text x="640" y="422" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="500" font-size="17" fill="#94a3b8">Hydrogen no comando · Abertura Webcam + Mecha Articulado + Boca LED</text>
+    <text x="640" y="422" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="500" font-size="17" fill="#94a3b8">Opus no comando · Abertura Webcam + Mecha Articulado + Boca LED</text>
   </g>
 </svg>'''

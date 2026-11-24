@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
     inputs:
       ep:
-        description: "Pasta do episódio em ia_youtuber/episodios/"
-        default: "p1"
+        description: "Pasta do episódio em ia_youtuber/episodios/ (vazio = ia_youtuber/episodios/atual.txt)"
+        default: ""
 
 permissions:
   contents: read
@@ -21,9 +21,6 @@ permissions:
 concurrency:
   group: tnmn-montar-${{ github.ref }}
   cancel-in-progress: true
-
-env:
-  EP: ${{ inputs.ep || 'p1' }}
 
 jobs:
   prep:
@@ -42,6 +39,10 @@ jobs:
             video/remotion/public/sfx_au2
             video/remotion/public/sfx_au4
             video/remotion/public/sfx_jogo
+      - name: Episódio
+        env:
+          IN_EP: ${{ inputs.ep }}
+        run: echo "EP=${IN_EP:-$(cat ia_youtuber/episodios/atual.txt 2>/dev/null || echo p1)}" | tee -a "$GITHUB_ENV"
       - name: Dependências
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-roboto
@@ -83,6 +84,10 @@ jobs:
           fetch-depth: 1
           sparse-checkout: |
             ia_youtuber
+      - name: Episódio
+        env:
+          IN_EP: ${{ inputs.ep }}
+        run: echo "EP=${IN_EP:-$(cat ia_youtuber/episodios/atual.txt 2>/dev/null || echo p1)}" | tee -a "$GITHUB_ENV"
       - name: Dependências
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-roboto
@@ -112,6 +117,10 @@ jobs:
           sparse-checkout: |
             ia_youtuber
             video/remotion/public/music
+      - name: Episódio
+        env:
+          IN_EP: ${{ inputs.ep }}
+        run: echo "EP=${IN_EP:-$(cat ia_youtuber/episodios/atual.txt 2>/dev/null || echo p1)}" | tee -a "$GITHUB_ENV"
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - uses: actions/download-artifact@v4
         with:
