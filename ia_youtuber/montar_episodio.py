@@ -301,6 +301,7 @@ def build_turn_plan(
     turnos: list[int],
     speech_durations: dict[int, float],
     video_dur: float,
+    congelar: dict[int, float] | None = None,
 ) -> tuple[list[CutSegment], float]:
     """Um segmento por turno escolhido: congela o print enquanto o YouTuber fala e depois roda as acoes do turno."""
     segments: list[CutSegment] = []
@@ -317,6 +318,9 @@ def build_turn_plan(
         fala = float(speech_durations.get(idx, 0.0))
         acao = t1 - t0
         freeze = max(0.35, fala + 0.35 - acao) if fala > 0 else 0.0
+        if fala > 0 and congelar and tn in congelar:
+            # turno em que a fala comenta o print: segura a tela parada (com deriva) por essa fracao da fala
+            freeze = max(freeze, fala * float(congelar[tn]))
         mapped = {**ev, "_idx": idx, "_speech_dur": fala, "t_cut_start": round(dst + 0.15, 3), "t_cut_end": round(dst + 0.15 + fala, 3)}
         segments.append(CutSegment(src_start=round(t0, 3), src_end=round(t1, 3), dst_start=round(dst, 3), events=[mapped], freeze_sec=round(freeze, 3)))
         dst += freeze + (t1 - t0)
@@ -570,6 +574,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
     speech_wavs: dict[int, Path] = {}
     speech_durs: dict[int, float] = {}
     turnos_sel = [int(x) for x in args.turnos.split(",")] if args.turnos else None
+    congelar: dict[int, float] = {}
+    mj = sess_dir / "montar.json"
+    if mj.is_file():
+        congelar = {int(k): float(v) for k, v in (json.loads(mj.read_text(encoding="utf-8")).get("congelar") or {}).items()}
     for idx, ev in enumerate(entries):
         fala = (ev.get("fala_youtuber") or "").strip()
         if turnos_sel is not None and int(ev.get("turno", -1)) not in turnos_sel:
@@ -583,7 +591,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
 
     # 2. Corte de tempos mortos
     if turnos_sel is not None:
-        segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4))
+        segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4), congelar)
     else:
         segments, total_dur = build_cut_plan(entries, speech_durs)
     cut_mp4 = work_dir / "gameplay_cortado.mp4"
@@ -622,9 +630,9 @@ def run_pipeline(args: argparse.Namespace) -> int:
                 if c0 <= t < c1:
                     cap = txt
                     break
-            if selo and 0.0 <= dt <= 2.8:
+            if selo and 0.0 <= dt <= 3.5:
                 stamp = selo
-                stamp_p = min(1.0, dt / 0.18) if dt < 2.55 else max(0.0, (2.8 - dt) / 0.25)
+                stamp_p = min(1.0, dt / 0.18) if dt < 3.25 else max(0.0, (3.5 - dt) / 0.25)
         quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6))])
     (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
