@@ -215,6 +215,7 @@ class CutSegment:
     src_end: float
     dst_start: float
     events: list[dict[str, Any]]
+    freeze_sec: float = 0.0  # congela o 1o quadro (o jogo estava pausado enquanto a IA pensava/falava)
 
 
 def load_session_log(log_path: Path) -> list[dict[str, Any]]:
@@ -286,6 +287,37 @@ def build_cut_plan(
     return segments, round(dst_cursor, 3)
 
 
+def wav_duration_or_probe(path: Path) -> float:
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)], capture_output=True, text=True)
+    try:
+        return float(out.stdout.strip())
+    except ValueError:
+        return 0.0
+
+
+def build_turn_plan(
+    entries: list[dict[str, Any]],
+    turnos: list[int],
+    speech_durations: dict[int, float],
+    video_dur: float,
+) -> tuple[list[CutSegment], float]:
+    """Um segmento por turno escolhido: congela o print enquanto o YouTuber fala e depois roda as acoes do turno."""
+    segments: list[CutSegment] = []
+    dst = 0.0
+    for idx, ev in enumerate(entries):
+        if int(ev.get("turno", -1)) not in turnos:
+            continue
+        t0 = float(ev.get("t_video_sec", 0.0))
+        t1 = float(entries[idx + 1]["t_video_sec"]) if idx + 1 < len(entries) else min(video_dur, t0 + 4.0)
+        t1 = max(t1, t0 + 1.0)
+        fala = float(speech_durations.get(idx, 0.0))
+        freeze = fala + 0.25 if fala > 0 else 0.0
+        mapped = {**ev, "_idx": idx, "_speech_dur": fala, "t_cut_start": round(dst + 0.15, 3), "t_cut_end": round(dst + 0.15 + fala, 3)}
+        segments.append(CutSegment(src_start=round(t0, 3), src_end=round(t1, 3), dst_start=round(dst, 3), events=[mapped], freeze_sec=round(freeze, 3)))
+        dst += freeze + (t1 - t0)
+    return segments, round(dst, 3)
+
+
 def load_visuals_v2(extra_dir: Path | None = None):
     candidates = [
         extra_dir,
@@ -349,7 +381,9 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
     for i, seg in enumerate(segments):
         parts.append(
             f"[0:v]trim=start={seg.src_start:.3f}:end={seg.src_end:.3f},"
-            f"setpts=PTS-STARTPTS,fps={FPS},scale={width}:{height}:flags=lanczos[v{i}]"
+            f"setpts=PTS-STARTPTS,fps={FPS},scale={width}:{height}:flags=lanczos"
+            + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
+            + f"[v{i}]"
         )
         concat_inputs += f"[v{i}]"
     parts.append(f"{concat_inputs}concat=n={len(segments)}:v=1:a=0[vout]")
@@ -481,8 +515,11 @@ def run_pipeline(args: argparse.Namespace) -> int:
     # 1. Sintese ElevenLabs v4 + duracoes reais
     speech_wavs: dict[int, Path] = {}
     speech_durs: dict[int, float] = {}
+    turnos_sel = [int(x) for x in args.turnos.split(",")] if args.turnos else None
     for idx, ev in enumerate(entries):
         fala = (ev.get("fala_youtuber") or "").strip()
+        if turnos_sel is not None and int(ev.get("turno", -1)) not in turnos_sel:
+            fala = ""
         if not fala:
             speech_durs[idx] = 0.8
             continue
@@ -491,7 +528,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
         speech_durs[idx] = wav_duration_sec(wp)
 
     # 2. Corte de tempos mortos
-    segments, total_dur = build_cut_plan(entries, speech_durs)
+    if turnos_sel is not None:
+        segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4))
+    else:
+        segments, total_dur = build_cut_plan(entries, speech_durs)
     cut_mp4 = work_dir / "gameplay_cortado.mp4"
     render_cut_gameplay(gameplay_mp4, segments, cut_mp4, args.width, args.height)
 
@@ -599,6 +639,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--video", type=Path, default=None, help="Caminho explicito para gameplay_real.mp4")
     ap.add_argument("--out", type=Path, default=None, help="MP4 final de saida")
     ap.add_argument("--opening-mp4", type=Path, default=None, help="MP4 da abertura do Felipe para prepender")
+    ap.add_argument("--turnos", default=None, help="Turnos escolhidos, ex. 1,7,14 (so esses sao narrados; o jogo congela enquanto o YouTuber fala)")
     ap.add_argument("--skip-opening", action="store_true", help="Nao prepende abertura")
     ap.add_argument("--music", default="investigations", help="ID da faixa em video/remotion/public/music/music.json")
     ap.add_argument("--voice-id", default=DEFAULT_ROBO_VOICE_ID, help="Voice ID do Robo no ElevenLabs")
