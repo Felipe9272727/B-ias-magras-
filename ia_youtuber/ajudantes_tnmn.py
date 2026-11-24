@@ -29,7 +29,7 @@ from typing import Any, Callable
 # JavaScript (roda na pagina do TurboWarp)
 # ----------------------------------------------------------------------------------------------
 JS_ESTADO = r"""(()=>{const v=window.vm;if(!v)return null;const st=v.runtime.getTargetForStage();
-const L=n=>{for(const id in st.lists){if(st.lists[id].name===n)return st.lists[id].value}return []};
+const L=n=>{for(const id in st.variables){const x=st.variables[id];if(x.name===n&&x.type==='list')return x.value}return []};
 const V=n=>{for(const id in st.variables){if(st.variables[id].name===n)return st.variables[id].value}return null};
 const vis=n=>v.runtime.targets.filter(t=>!t.isStage&&t.sprite.name===n&&t.visible);
 const T=L('Things').map(String);
@@ -49,10 +49,12 @@ if(!ts.length)return null;
 ts.sort((a,b)=>r._drawList.indexOf(b.drawableID)-r._drawList.indexOf(a.drawableID));
 const t=ts[0];const b=r.getBounds(t.drawableID);if(!b)return null;
 const cw=cv.clientWidth,ch=cv.clientHeight;
+const ign=new Set(['Pointer','left hand','right hand','Film effect','LIGHTS','Particles','Text','Text Engine']);
+const cand=v.runtime.targets.filter(x=>!x.isStage&&x.visible&&!ign.has(x.sprite.name)).map(x=>x.drawableID);
 const pts=[[.5,.5],[.5,.4],[.5,.6],[.4,.5],[.6,.5],[.35,.35],[.65,.65],[.35,.65],[.65,.35],[.5,.25],[.5,.75],[.25,.5],[.75,.5]];
 for(const [fx,fy] of pts){const sx=b.left+(b.right-b.left)*fx,sy=b.bottom+(b.top-b.bottom)*fy;
  const cx=(sx+W/2)/W*cw,cy=(H/2-sy)/H*ch;
- if(r.pick(cx,cy,1,1)===t.drawableID)return [rc.left+cx,rc.top+cy,1];}
+ if(r.pick(cx,cy,1,1,cand)===t.drawableID)return [rc.left+cx,rc.top+cy,1];}
 return [rc.left+((b.left+b.right)/2+W/2)/W*cw,rc.top+(H/2-(b.top+b.bottom)/2)/H*ch,0];})()"""
 
 # (sprite, regex do nome do traje)
@@ -150,9 +152,8 @@ class Ajudantes:
                 alvo = novo
                 break
             alvo = novo
-        if alvo[2] == 0 and nome not in ("telefone",):
-            self.log(f"[ajudante] '{nome}' esta coberto por outra coisa; nao cliquei")
-            return False
+        if alvo[2] == 0:
+            self.log(f"[ajudante] '{nome}': ponto exato nao confirmado, clicando no centro do botao")
         self.b.click_px(alvo[0], alvo[1])
         return True
 
