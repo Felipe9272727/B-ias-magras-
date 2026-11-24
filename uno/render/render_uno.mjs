@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * UNO das IAs — Renderizador Unificado 30.000 FPS (Node Skia Canvas -> FFmpeg rawvideo pipe)
- * Compatível com render local E sharding em 16 máquinas do GitHub Actions (`--scenes-only --only ...`).
+ * Compativel com render local E sharding em 16 maquinas do GitHub Actions (`--only ...`).
  */
 import fs from 'node:fs';
 import os from 'node:os';
@@ -10,7 +10,15 @@ import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { once } from 'node:events';
 import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
-import { W, H, ASSENTOS_7, drawUnoTable, drawPlayerSeat, drawDialogueCard } from './uno_canvas.mjs';
+import {
+  W,
+  H,
+  ASSENTOS_7,
+  resolvePlayerId,
+  drawUnoTable,
+  drawPlayerSeat,
+  drawDialogueCard,
+} from './uno_canvas.mjs';
 import { drawFlyingCard, drawStampSeal, drawChapterCard, drawRosterScreen, drawPodiumScreen } from './uno_fx.mjs';
 
 const REC_W = 1280;
@@ -122,7 +130,7 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
   const ctx = canvas.getContext('2d');
   const tmpPath = `${outPath}.tmp.${process.pid}.mkv`;
 
-  // Pré-carrega GIFs usados nesta cena
+  // Pre-carrega GIFs usados nesta cena
   const memeAssets = new Map();
   for (const ov of scene.overlays || []) {
     if (ov.tipo === 'meme' && ov.meme) {
@@ -146,15 +154,27 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
   for (let f = 0; f < durFrames; f++) {
     const progress = f / Math.max(1, durFrames - 1);
     const voiceAmp = rmsArr[f] ?? 0.35;
+    const globalFrame = startGlobal + f;
+
+    // Detecta qual IA esta falando ou pensando exatamente neste frame para animar boca/expressao!
+    let activeFala = null;
+    for (const seg of scene.falas || []) {
+      if (f >= seg.at && f < seg.at + seg.dur && seg.speaker !== 'narrador') {
+        activeFala = seg;
+        break;
+      }
+    }
+    const speakingId = activeFala ? resolvePlayerId(activeFala.speaker || activeFala.nome) : null;
+    const speakingMode = activeFala ? (activeFala.modo || 'fala') : 'fala';
 
     ctx.save();
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-    // Deriva lenta suave de câmera (+5% zoom ao longo da cena para nunca ficar tela estática!)
+    // Deriva lenta suave de camera (+4.5% zoom ao longo da cena para nunca ficar tela estatica!)
     const zoom = scene.tipo === 'mesa' ? 1.0 + 0.045 * progress : 1.0 + 0.025 * progress;
     const focusIdx = typeof scene.focusIdx === 'number' ? scene.focusIdx : null;
-    const targetX = focusIdx !== null && ASSENTOS_7[focusIdx] ? W * 0.5 + (ASSENTOS_7[focusIdx].x - W * 0.5) * 0.16 : W * 0.5;
-    const targetY = focusIdx !== null && ASSENTOS_7[focusIdx] ? H * 0.5 + (ASSENTOS_7[focusIdx].y - H * 0.5) * 0.14 : H * 0.5;
+    const targetX = focusIdx !== null && ASSENTOS_7[focusIdx] ? W * 0.5 + (ASSENTOS_7[focusIdx].x - W * 0.5) * 0.14 : W * 0.5;
+    const targetY = focusIdx !== null && ASSENTOS_7[focusIdx] ? H * 0.5 + (ASSENTOS_7[focusIdx].y - H * 0.5) * 0.12 : H * 0.5;
 
     ctx.translate(W / 2, H / 2);
     ctx.scale(zoom, zoom);
@@ -168,67 +188,97 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
       for (const h of scene.highlights || []) {
         if (f >= h.at && f < h.at + h.dur) activeId = h.id;
       }
-      drawRosterScreen(ctx, { elenco: tl.elenco, activeId, frame: startGlobal + f, ...(scene.elencoMeta || {}) });
+      drawRosterScreen(ctx, { elenco: tl.elenco, activeId, frame: globalFrame, ...(scene.elencoMeta || {}) });
     } else if (scene.tipo === 'podio') {
-      drawPodiumScreen(ctx, scene.podio);
+      drawPodiumScreen(ctx, { ...scene.podio, frame: globalFrame });
     } else {
-      // Cena principal de mesa UNO
+      // Cena principal de mesa UNO 2.5D
       const st = scene.mesa;
+      const jogadores = st.jogadores || [];
+
+      // Cone de luz da mesa aponta para quem esta falando agora ou para o jogador da vez
+      let spotlightIdx = typeof st.ativoIdx === 'number' ? st.ativoIdx : null;
+      if (speakingId) {
+        const spIdx = jogadores.findIndex((j) => resolvePlayerId(j.id || j.nome) === speakingId);
+        if (spIdx >= 0) spotlightIdx = spIdx;
+      }
+      const activeSeat = spotlightIdx !== null ? ASSENTOS_7[spotlightIdx] : null;
+      const activeColor = spotlightIdx !== null && jogadores[spotlightIdx] ? jogadores[spotlightIdx].corPerfil : null;
+
       drawUnoTable(ctx, {
         corAtiva: st.corAtiva,
         direcao: st.direcao,
         pilhaCompra: st.pilhaCompra,
         descarteTop: st.descarteTop,
         deckCount: st.deckCount,
-        frame: startGlobal + f,
+        frame: globalFrame,
         turno: st.turno,
         partidaNum: st.partidaNum,
         bannerSub: st.bannerSub || '',
+        activeSeat,
+        activeColor,
       });
 
-      // Desenha os 7 jogadores + leques reais
-      st.jogadores.forEach((j, idx) => {
+      // Desenha os 7 personagens 2.5D + leques semitransparentes ordenados de tras para frente (profundidade 2.5D!)
+      const drawOrder = jogadores
+        .map((j, idx) => ({ j, idx, seat: ASSENTOS_7[idx] }))
+        .filter((item) => Boolean(item.seat))
+        .sort((a, b) => a.seat.y - b.seat.y);
+
+      for (const { j, idx, seat } of drawOrder) {
+        const pid = resolvePlayerId(j.id || j.nome);
+        const isThisSpeaker = Boolean(speakingId && pid === speakingId);
         drawPlayerSeat(ctx, {
           jogador: j,
-          seat: ASSENTOS_7[idx],
+          seat,
           isActive: idx === st.ativoIdx,
-          frame: startGlobal + f,
+          isSpeaking: isThisSpeaker && speakingMode !== 'pensamento',
+          isThinking: isThisSpeaker && speakingMode === 'pensamento',
+          speakingId,
+          speakingMode,
+          voiceAmp,
+          pilhaCompra: st.pilhaCompra || 0,
+          frame: globalFrame,
         });
-      });
+      }
 
-      // Carta voando (se houver animação nesta cena)
+      // Carta voando (se houver animacao nesta cena)
       if (scene.flyCard && f >= scene.flyCard.at && f <= scene.flyCard.at + scene.flyCard.dur) {
         const fp = (f - scene.flyCard.at) / Math.max(1, scene.flyCard.dur);
         const sIdx = scene.flyCard.fromIdx;
-        const from = sIdx === 'deck' ? { x: W * 0.5 - 105, y: H * 0.44 } : ASSENTOS_7[sIdx];
-        const to = scene.flyCard.to === 'discard' ? { x: W * 0.5 + 92, y: H * 0.44 } : ASSENTOS_7[scene.flyCard.to];
-        drawFlyingCard(ctx, {
-          fromX: from.x,
-          fromY: from.y,
-          toX: to.x,
-          toY: to.y,
-          progress: fp,
-          codigo: scene.flyCard.codigo,
-          faceDown: Boolean(scene.flyCard.faceDown),
-          glowColor: scene.flyCard.glowColor || null,
-        });
+        const from = sIdx === 'deck' ? { x: W * 0.5 - 108, y: H * 0.445 } : ASSENTOS_7[sIdx];
+        const to = scene.flyCard.to === 'discard' ? { x: W * 0.5 + 94, y: H * 0.445 } : ASSENTOS_7[scene.flyCard.to];
+        if (from && to) {
+          drawFlyingCard(ctx, {
+            fromX: from.x,
+            fromY: from.y,
+            toX: to.x,
+            toY: to.y,
+            progress: fp,
+            codigo: scene.flyCard.codigo,
+            faceDown: Boolean(scene.flyCard.faceDown),
+            glowColor: scene.flyCard.glowColor || null,
+          });
+        }
       }
     }
 
     ctx.restore();
 
-    // Camada HUD fixa (sem zoom): Balões de diálogo/pensamento + Selos + Memes
+    // Camada HUD fixa (sem zoom): Baloes de dialogo/pensamento + Selos + Memes
     ctx.save();
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
     for (const seg of scene.falas || []) {
       if (f >= seg.at && f < seg.at + seg.dur && seg.speaker !== 'narrador') {
         drawDialogueCard(ctx, {
+          id: seg.speaker,
           nome: seg.nome,
           corPerfil: seg.corPerfil,
           texto: seg.texto,
           modo: seg.modo || 'fala',
           voiceAmp,
+          frame: globalFrame,
         });
       }
     }

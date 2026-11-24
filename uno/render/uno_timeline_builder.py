@@ -8,6 +8,7 @@ zero overlays cortados pelo fim da cena, e exporta `timeline_uno.json` + `voice_
 import importlib.util
 import json
 import math
+import os
 import re
 import subprocess
 import wave
@@ -17,7 +18,7 @@ import struct
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from uno_audio_engine import BASE, SFX_DIR, SFX_EXTRA_DIRS, find_ffmpeg, find_sfx_wav, tts_eleven
+from uno_audio_engine import BASE, DEFAULT_MODEL_ID, SFX_DIR, SFX_EXTRA_DIRS, find_ffmpeg, find_sfx_wav, tts_eleven
 
 FPS = 30
 SR = 48000
@@ -106,7 +107,10 @@ def build_from_storyboard(sb_path: Path):
 
     scenes_in = mod.SCENES
     elenco = mod.ELENCO
-    model_id = getattr(mod, "ELEVEN_MODEL", "eleven_v3")
+    sb_model = getattr(mod, "ELEVEN_MODEL", None)
+    model_id = os.environ.get("UNO_ELEVEN_MODEL") or (
+        sb_model if sb_model and sb_model != "eleven_v3" else DEFAULT_MODEL_ID
+    )
 
     # Valida zero memes repetidos no vídeo inteiro (regra MEMORIA_TECNICA.md)
     meme_counts = Counter()

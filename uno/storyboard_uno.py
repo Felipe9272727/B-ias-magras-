@@ -1,26 +1,33 @@
 #!/usr/bin/env python3
 """
-UNO das IAs — Storyboard Oficial (Canal Felipex007 · Duração-alvo: 12 a 14 minutos)
+UNO das IAs — Storyboard Oficial v2 (Canal Felipex007 · Duração-alvo: 12 a 15 minutos)
+
+Upgrades da v2:
+  - Motor de voz atualizado para ElevenLabs v4 (`ELEVEN_MODEL = "eleven_v4"`).
+  - Narração PT-BR fluida e natural (zero códigos crus como Y-6 ou A-+2 lidos pelo narrador).
+  - Presença forte e recorrente da Inkling Mini nas conversas das DUAS partidas (17 falas/pensamentos
+    verbatim dos logs reais, contra apenas 4 na v1).
+  - Continuidade narrativa reforçada entre todas as cenas (fechando todos os saltos de turno em P1 e P2).
 
 Regras de ouro seguidas à risca (CLAUDE.md + video/MEMORIA_TECNICA.md):
   - Narrador = Felipe em 1ª pessoa ("eu coloquei", nunca "o Felipe", nunca diz que é IA/Claude).
-  - Abertura no clímax (~12s) -> Regras numa cena só (<=20s) -> Elenco acendendo por nome.
+  - Abertura no clímax (~11s) -> Regras numa cena só (<=20s) -> Elenco acendendo por nome.
   - 100% fiel aos logs reais (`uno/logs/partida_1.json` e `uno/logs/partida_2.json`):
-      * TODA fala e TODO pensamento de IA é cópia literal (ou trecho literal exato) do JSON.
+      * TODA fala e TODO pensamento de IA é cópia literal exata do JSON.
       * TODO estado de `mesa` (mãos reais, descarte, monte, cor, sentido, bomba, UNO) é
         reconstruído diretamente dos logs sem nenhuma invenção.
   - Pensamento usa `modo="pensamento"` (FFmpeg `aecho`, NUNCA `[whispers]`). Todo balão tem voz.
   - ZERO emojis em qualquer campo (falas, selos, legendas, títulos, banners, pódio).
-  - ZERO memes repetidos no vídeo inteiro, todos conferidos no catálogo auditado.
-  - Meme da cena tem a mesma duração do selo da cena (ou 2.2s se não houver selo); nenhum overlay cortado.
-  - Apenas trilhas locais presentes em `video/remotion/public/music/` (créditos completos em descricao_youtube_uno.md).
+  - ZERO memes repetidos no vídeo inteiro (32 GIFs únicos auditados por md5).
+  - Meme da cena tem a mesma duração do selo da cena; nenhum overlay cortado.
+  - Apenas trilhas locais presentes em `video/remotion/public/music/` (créditos em descricao_youtube_uno.md).
 """
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-ELEVEN_MODEL = "eleven_v3"
+ELEVEN_MODEL = "eleven_v4"
 FPS = 30
 
 # =============================================================================
@@ -49,7 +56,7 @@ ELENCO = [
         "modelo": "Inkling 2 Mini",
         "empresa": "Thinking Machines",
         "corPerfil": "#a855f7",
-        "tagline": "Caos puro e bombas",
+        "tagline": "Caos, blefe e bombas",
     },
     {
         "id": "deepseek",
@@ -296,19 +303,19 @@ _ELENCO_FALAS = [
     _nar("Na mesa hoje:", pause_before=0.08),
     _nar("Gemini Hydrogen, Google, o vingativo.", pause_before=0.12),
     _nar("Claude Sonnet, Anthropic, o falso coitado.", pause_before=0.12),
-    _nar("Inkling Mini, puro caos.", pause_before=0.12),
+    _nar("Inkling Mini, puro caos e bomba.", pause_before=0.12),
     _nar("DeepSeek Flash, o cobrador de juros.", pause_before=0.12),
-    _nar("Qwen vinte e sete B, o diplomata.", pause_before=0.12),
+    _nar("Qwen 27B, o diplomata.", pause_before=0.12),
     _nar("GPT-6 Luna, OpenAI, calma até demais.", pause_before=0.12),
     _nar("E GLM Flash. Guarda bem esse nome.", pause_before=0.12),
 ]
 
 # =============================================================================
-# SCENES — 38 CENAS · RITMO ÁGIL · ARCO COMPLETO (~13.0 min · ~2,000 palavras)
+# SCENES — 42 CENAS · RITMO ÁGIL · CONTINUIDADE TOTAL (~13.8 min · ~2,100 palavras)
 # =============================================================================
 SCENES = [
     # -------------------------------------------------------------------------
-    # ATO 0 — ABERTURA NO CLÍMAX (~11s) + REGRAS (<=20s) + ELENCO (~18s)
+    # ATO 0 — ABERTURA NO CLÍMAX (~11s) + REGRAS (<=20s) + ELENCO (~16s)
     # -------------------------------------------------------------------------
     {
         "id": "S01_hook",
@@ -344,7 +351,7 @@ SCENES = [
         "sfx": [
             {"name": "sirene-ataque", "at_sec": 0.15, "vol": 0.34},
             {"name": "swoosh-fly", "at_sec": 0.65, "vol": 0.36},
-            {"name": "record-scratch", "at_sec": 10.6, "vol": 0.38},
+            {"name": "record-scratch", "at_sec": 10.2, "vol": 0.38},
         ],
     },
     {
@@ -367,7 +374,7 @@ SCENES = [
         "falas": [
             _nar(
                 "Eu coloquei sete IAs numa mesa de UNO real, com empilhamento de mais dois e mais quatro, "
-                "grito de UNO e duas partidas com memória ativa. "
+                "grito de UNO e memória entre partidas. "
                 "Você vê todas as cartas e ouve o pensamento secreto com eco. Elas só ouvem mentira."
             ),
         ],
@@ -381,12 +388,12 @@ SCENES = [
                 at_sec=2.5,
                 dur_sec=2.5,
             ),
-            _selo("SÓ VOCÊ VÊ AS CARTAS", "ELAS SÓ OUVEM BLEFE", color="#7e22ce", at_sec=11.0, dur_sec=2.4),
+            _selo("SÓ VOCÊ VÊ AS CARTAS", "ELAS SÓ OUVEM BLEFE", color="#7e22ce", at_sec=10.5, dur_sec=2.4),
         ],
         "sfx": [
             {"name": "pop", "at_sec": 0.18, "vol": 0.32},
             {"name": "swish-triple", "at_sec": 2.5, "vol": 0.30},
-            {"name": "notification-pop", "at_sec": 11.0, "vol": 0.32},
+            {"name": "notification-pop", "at_sec": 10.5, "vol": 0.32},
         ],
     },
     {
@@ -405,18 +412,18 @@ SCENES = [
             _selo("7 IAs · 7 FAMÍLIAS", "MEMÓRIA ATIVA ENTRE PARTIDAS", color="#3b82f6", at_sec=0.3, dur_sec=2.2, y=975),
         ],
         "sfx": [
-            {"name": "pop", "at_sec": 1.3, "vol": 0.26},
-            {"name": "pop", "at_sec": 3.4, "vol": 0.26},
-            {"name": "pop", "at_sec": 5.8, "vol": 0.26},
-            {"name": "pop", "at_sec": 7.5, "vol": 0.26},
-            {"name": "pop", "at_sec": 9.9, "vol": 0.26},
-            {"name": "pop", "at_sec": 12.6, "vol": 0.26},
-            {"name": "notification-pop", "at_sec": 15.0, "vol": 0.34},
+            {"name": "pop", "at_sec": 1.2, "vol": 0.26},
+            {"name": "pop", "at_sec": 3.2, "vol": 0.26},
+            {"name": "pop", "at_sec": 5.3, "vol": 0.26},
+            {"name": "pop", "at_sec": 7.3, "vol": 0.26},
+            {"name": "pop", "at_sec": 9.3, "vol": 0.26},
+            {"name": "pop", "at_sec": 11.2, "vol": 0.26},
+            {"name": "notification-pop", "at_sec": 13.6, "vol": 0.34},
         ],
     },
 
     # -------------------------------------------------------------------------
-    # ATO 1 — PARTIDA 1: "A MÃO AMARELA QUE ERA AZUL"
+    # ATO 1 — PARTIDA 1: "FESTIVAL DE BLEFE"
     # -------------------------------------------------------------------------
     {
         "id": "S04_cap1",
@@ -431,7 +438,7 @@ SCENES = [
             "accent": "#3b82f6",
         },
         "falas": [
-            _nar("Partida um. Abri o microfone antes da primeira carta. E todo mundo mentiu."),
+            _nar("Partida um. Eu abri o microfone antes da primeira carta. Todo mundo mentiu."),
         ],
         "overlays": [],
         "sfx": [
@@ -445,26 +452,26 @@ SCENES = [
         "music": "investigations",
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
-        "focusIdx": 0,
+        "focusIdx": 2,
         "mesa": mesa_turno(1, 0, ativo_idx=0, banner_sub="MESA ABERTA"),
         "falas": [
-            _nar("Gemini Hydrogen tem três Reverter e um Curinga. Claude Sonnet tem mais dois e Pular. Escuta a cara de pau."),
+            _nar("Gemini com três Reverter, Claude com mais dois e Inkling Mini escondendo dois mais dois e Curinga. Escuta a cara de pau."),
             _ia("hydrogen", "Olha, vim só pra assistir essa partida porque minha mão veio um deserto..."),
-            _ia("sonnet", "Vou fingir mão fraca pra ninguém mirar em mim.", modo="pensamento"),
             _ia("sonnet", "Que mão horrível a minha, só carta pequena. Podem ficar tranquilos, hoje eu sou figurante."),
-            _nar("Guarda esse apelido: figurante."),
+            _ia("inkling", "Se alguém acha que eu tenho +4, sinto muito, mas não é o caso."),
+            _nar("Guarda o apelido de figurante — e olha essa Inkling."),
         ],
         "overlays": _pair_selo_meme(
-            "MÃO DE DESERTO?",
-            "3 REVERTER + CURINGA",
+            "TRIO DA CARA DE PAU",
+            "3 MÃOS CHEIAS DE BOMBA",
             "#3b82f6",
             "side-eye-dog",
             "CONFIA NO FIGURANTE",
-            at_sec=4.5,
-            dur_sec=2.5,
+            at_sec=5.5,
+            dur_sec=2.6,
         ),
         "sfx": [
-            {"name": "ba-dum-tss", "at_sec": 13.5, "vol": 0.32},
+            {"name": "ba-dum-tss", "at_sec": 17.5, "vol": 0.32},
         ],
     },
     {
@@ -473,33 +480,35 @@ SCENES = [
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
-        "focusIdx": 3,
-        "mesa": mesa_turno(1, 4, ativo_idx=3, banner_sub="PRIMEIRA BOMBA"),
+        "focusIdx": 2,
+        "mesa": mesa_turno(1, 4, ativo_idx=3, banner_sub="GUERRA ABERTA"),
         "flyCard": {
-            "fromIdx": "deck",
-            "to": 3,
-            "codigo": "+4",
-            "faceDown": True,
-            "at": 28,
+            "fromIdx": 2,
+            "to": "discard",
+            "codigo": "G-+2",
+            "faceDown": False,
+            "at": 22,
             "dur": 22,
-            "glowColor": "#06b6d4",
+            "glowColor": "#a855f7",
         },
         "falas": [
-            _nar("Turno três: Inkling Mini já joga mais dois verde no DeepSeek. Ele sobe pra nove cartas, mas pesca um mais quatro do monte."),
+            _nar("Turno três: a Inkling já dispara mais dois verde no DeepSeek!"),
+            _ia("inkling", "Verde agora, sem drama: vira a mesa e quem quiser empilhar que aceite a responsabilidade."),
+            _nar("Ele sobe pra nove cartas — mas pesca um mais quatro no monte."),
             _ia("deepseek", "Bomba pra mim? Beleza, pago agora mas anota aí: essa conta vai voltar com juros."),
         ],
         "overlays": _pair_selo_meme(
-            "BOMBA +2 NO T04",
-            "DEEPSEEK PESCA +4",
-            "#06b6d4",
+            "INKLING ABRE FOGO · +2",
+            "DEEPSEEK PESCA UM +4",
+            "#a855f7",
             "dicaprio-pointing",
             "ANOTA OS JUROS",
             at_sec=3.2,
-            dur_sec=2.4,
+            dur_sec=2.5,
         ),
         "sfx": [
             {"name": "explosion-arcade", "at_sec": 0.9, "vol": 0.32},
-            {"name": "coin", "at_sec": 3.2, "vol": 0.30},
+            {"name": "coin", "at_sec": 9.8, "vol": 0.30},
         ],
     },
     {
@@ -520,9 +529,9 @@ SCENES = [
             "glowColor": "#eab308",
         },
         "falas": [
-            _nar("Agora olha pra mão da GPT-6 Luna: um verde e cinco cartas azuis. Só que azul começa com a letra A. Escuta o pensamento dela."),
+            _nar("Na sequência, chega na GPT-6 Luna: um verde e cinco cartas azuis. Só que azul começa com a letra A. Escuta."),
             _ia("luna", "Jogo Y-4 para mudar para amarelo, minha cor mais forte: fico com quatro amarelas e um verde.", modo="pensamento"),
-            _nar("Ela leu A de azul e achou que era amarelo! E ninguém na mesa faz ideia."),
+            _nar("Ela leu A de azul achando que era amarelo! E ninguém desconfia."),
         ],
         "overlays": _pair_selo_meme(
             "A = AZUL, NÃO AMARELO!",
@@ -556,8 +565,8 @@ SCENES = [
             "glowColor": "#3b82f6",
         },
         "falas": [
-            _nar("Três cartas de Pular seguidas travam a mesa. Quando volta pro Gemini Hydrogen, ele saca o Reverter azul direto no GLM Flash."),
-            _ia("hydrogen", "Achou que ia passar batido depois daquele Pular, GLM Flash? Toma esse Reverter de volta e mostra o que você tá escondendo aí com cinco cartas!"),
+            _nar("Três Pulares seguidos travam a mesa: GLM pula o Gemini, Claude pula a Inkling e GLM cai pra cinco cartas puxando pro azul. O Gemini revida com Reverter."),
+            _ia("hydrogen", "Toma esse Reverter de volta e mostra o que você tá escondendo aí com cinco cartas!"),
             _ia("glm", "Gemini, que raiva de você, viu?"),
         ],
         "overlays": _pair_selo_meme(
@@ -566,12 +575,12 @@ SCENES = [
             "#3b82f6",
             "avengers-assemble",
             "GUERRA ABERTA",
-            at_sec=2.0,
+            at_sec=2.4,
             dur_sec=2.4,
         ),
         "sfx": [
-            {"name": "swish-triple", "at_sec": 1.2, "vol": 0.32},
-            {"name": "whoosh", "at_sec": 1.8, "vol": 0.34},
+            {"name": "swish-triple", "at_sec": 1.3, "vol": 0.32},
+            {"name": "whoosh", "at_sec": 2.0, "vol": 0.34},
         ],
     },
     {
@@ -592,10 +601,12 @@ SCENES = [
             "glowColor": "#ef4444",
         },
         "falas": [
-            _nar("Inkling joga mais dois no Claude Sonnet. O figurante empilha mais dois vermelho e empurra mais quatro pro Gemini!"),
+            _nar("No sentido invertido, a Inkling Mini joga o segundo mais dois no figurante!"),
+            _ia("inkling", "Claude, é com você a vez depois disso. A bomba é sua, hein."),
+            _nar("O figurante empilha mais dois vermelho e empurra quatro cartas pro Gemini!"),
             _ia("sonnet", "Inkling, a bomba voltou com juros. Gemini, esse +4 acumulado é presente meu, de coração."),
             _ia("hydrogen", "Ah, Claude Sonnet, você não presta!"),
-            _nar("O Gemini foi pra nove cartas — mas pescou um mais quatro no castigo."),
+            _nar("Gemini sobe pra nove — mas pesca um mais quatro."),
         ],
         "overlays": _pair_selo_meme(
             "EMPILHOU +4!",
@@ -603,13 +614,13 @@ SCENES = [
             "#dc2626",
             "surprised-pikachu",
             "ERA FIGURANTE NÉ",
-            at_sec=3.5,
+            at_sec=7.5,
             y=795,
-            dur_sec=2.5,
+            dur_sec=2.6,
         ),
         "sfx": [
             {"name": "explosion", "at_sec": 1.4, "vol": 0.36},
-            {"name": "crowd-boo", "at_sec": 10.5, "vol": 0.30},
+            {"name": "crowd-boo", "at_sec": 15.0, "vol": 0.30},
         ],
     },
     {
@@ -619,21 +630,21 @@ SCENES = [
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
         "focusIdx": 3,
-        "mesa": mesa_turno(1, 23, ativo_idx=3, banner_sub="JUROS COBRADOS"),
+        "mesa": mesa_turno(1, 24, ativo_idx=2, banner_sub="JUROS COBRADOS"),
         "flyCard": {
             "fromIdx": 3,
             "to": "discard",
             "codigo": "+4",
             "faceDown": False,
-            "at": 28,
+            "at": 24,
             "dur": 24,
             "glowColor": "#eab308",
         },
         "falas": [
-            _nar("Cinco turnos depois, DeepSeek encontra a Inkling na mira e cobra os juros."),
-            _ia("deepseek", "Vou usar agora no Inkling pra atrasar quem vem depois de mim, e escolho Amarelo porque tenho quatro cartas dessa cor na mão.", modo="pensamento"),
+            _nar("Logo depois, DeepSeek encontra a Inkling na mira e cobra os juros com aquele mais quatro!"),
             _ia("deepseek", "Inkling, presente pra você, com carinho."),
-            _nar("Inkling explode pra nove cartas."),
+            _nar("Ela explode pra nove cartas — e ainda debocha."),
+            _ia("inkling", "Bomba é minha, gente. Curinga e PULAR ficaram no bolso pra quando a mesa chorar a conta."),
         ],
         "overlays": _pair_selo_meme(
             "JUROS COBRADOS · +4",
@@ -641,13 +652,13 @@ SCENES = [
             "#06b6d4",
             "thanos-inevitable",
             "A CONTA CHEGOU",
-            at_sec=3.5,
+            at_sec=3.6,
             y=795,
             dur_sec=2.5,
         ),
         "sfx": [
             {"name": "impact-epic", "at_sec": 1.0, "vol": 0.36},
-            {"name": "bomba-distante", "at_sec": 10.2, "vol": 0.30},
+            {"name": "bomba-distante", "at_sec": 7.5, "vol": 0.30},
         ],
     },
     {
@@ -663,12 +674,12 @@ SCENES = [
             "to": "discard",
             "codigo": "+4",
             "faceDown": False,
-            "at": 36,
+            "at": 32,
             "dur": 24,
             "glowColor": "#22c55e",
         },
         "falas": [
-            _nar("GLM Flash tava na liderança com três cartas. Aí o Gemini Hydrogen tirou aquele mais quatro da manga."),
+            _nar("Dois turnos depois, GLM Flash lidera com três cartas. Aí o Gemini saca o mais quatro que pescou."),
             _ia("hydrogen", "Desculpa aí, GLM Flash, mas com três cartas não dá pra te deixar passear! Toma esse +4 de presente e vamos pro Verde!"),
             _ia("glm", "Obrigado, Gemini, adorei o presente... vou embalar e devolver com juros pra alguém dessa mesa."),
         ],
@@ -683,12 +694,42 @@ SCENES = [
             dur_sec=2.6,
         ),
         "sfx": [
-            {"name": "explosion", "at_sec": 1.3, "vol": 0.36},
-            {"name": "sad-trombone", "at_sec": 11.2, "vol": 0.30},
+            {"name": "explosion", "at_sec": 1.2, "vol": 0.36},
+            {"name": "sad-trombone", "at_sec": 11.4, "vol": 0.30},
         ],
     },
     {
-        "id": "S12_p1_glm_afunda_pingpong",
+        "id": "S12_p1_inkling_vira_verde",
+        "tipo": "mesa",
+        "music": "monkeys-spinning-monkeys",
+        "lead_in_sec": 0.18,
+        "tail_sec": 0.40,
+        "focusIdx": 2,
+        "mesa": mesa_turno(1, 37, ativo_idx=2, banner_sub="CURINGA NO VERDE"),
+        "flyCard": {
+            "fromIdx": 2,
+            "to": "discard",
+            "codigo": "CURINGA",
+            "faceDown": False,
+            "at": 32,
+            "dur": 24,
+            "glowColor": "#22c55e",
+        },
+        "falas": [
+            _nar("Qwen e DeepSeek disparam no amarelo. No turno trinta e sete, a Inkling Mini puxa o Curinga do bolso e vira pro verde!"),
+            _ia("inkling", "Verde agora, Qwen e DeepSeek: desmoronem ou peguem bomba."),
+            _nar("Só que isso armou a próxima bomba do Gemini."),
+        ],
+        "overlays": [
+            _selo("CURINGA DA INKLING!", "VIROU PRO VERDE NO T37", color="#a855f7", at_sec=3.6, dur_sec=2.5),
+        ],
+        "sfx": [
+            {"name": "swoosh-fly", "at_sec": 1.1, "vol": 0.32},
+            {"name": "notification-pop", "at_sec": 3.6, "vol": 0.32},
+        ],
+    },
+    {
+        "id": "S13_p1_glm_afunda_pingpong",
         "tipo": "mesa",
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.18,
@@ -700,12 +741,12 @@ SCENES = [
             "to": "discard",
             "codigo": "G-REVERTER",
             "faceDown": False,
-            "at": 56,
+            "at": 48,
             "dur": 24,
             "glowColor": "#22c55e",
         },
         "falas": [
-            _nar("No turno trinta e nove, o Gemini mandou mais dois de novo no GLM Flash, que afundou pra nove cartas. E ainda travou o jogo num ping-pong de Reverter com o Claude."),
+            _nar("No verde da Inkling, Gemini acerta mais dois de novo no GLM Flash, que afunda pra nove cartas — e trava num ping-pong de Reverter com o Claude."),
             _ia("glm", "Gemini, levei sua bomba de jeito, mas anota aí: vermelho tava me servindo tão bem que guardo uma cópia pra ti."),
             _ia("sonnet", "Gemini, esse reverter foi educado demais."),
         ],
@@ -715,16 +756,16 @@ SCENES = [
             "#ef4444",
             "spongebob-waiting",
             "E O TURNO NÃO ANDA",
-            at_sec=4.5,
+            at_sec=4.2,
             dur_sec=2.5,
         ),
         "sfx": [
-            {"name": "boing", "at_sec": 2.0, "vol": 0.30},
-            {"name": "swoosh-fly", "at_sec": 11.2, "vol": 0.28},
+            {"name": "boing", "at_sec": 1.8, "vol": 0.30},
+            {"name": "swoosh-fly", "at_sec": 10.6, "vol": 0.28},
         ],
     },
     {
-        "id": "S13_p1_luna_daltonica_2",
+        "id": "S14_p1_luna_daltonica_2",
         "tipo": "mesa",
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.18,
@@ -732,7 +773,7 @@ SCENES = [
         "focusIdx": 5,
         "mesa": mesa_turno(1, 48, ativo_idx=5, banner_sub="DALTONISMO #2"),
         "falas": [
-            _nar("Turno quarenta e oito. Mesa no sete amarelo. Mão da Luna: sete azul, nove azul, sete azul. Escuta a conta dela."),
+            _nar("O ping-pong volta pro sete amarelo no turno quarenta e oito. Mão da Luna: sete azul, nove azul, sete azul. Escuta a conta."),
             _ia("luna", "Tenho duas cópias de A-7 e A-9, então consigo zerar a mão em duas jogadas se mantiverem o amarelo.", modo="pensamento"),
             _nar("E no turno seguinte ela tenta jogar o nove azul no sete amarelo."),
         ],
@@ -742,16 +783,16 @@ SCENES = [
             "#eab308",
             "math-lady",
             "CONTAS DA LUNA",
-            at_sec=5.5,
+            at_sec=5.2,
             dur_sec=2.6,
         ),
         "sfx": [
-            {"name": "glitch", "at_sec": 5.3, "vol": 0.32},
-            {"name": "fail-piano", "at_sec": 11.5, "vol": 0.30},
+            {"name": "glitch", "at_sec": 5.0, "vol": 0.32},
+            {"name": "fail-piano", "at_sec": 11.2, "vol": 0.30},
         ],
     },
     {
-        "id": "S14_p1_jogada_invalida_t49",
+        "id": "S15_p1_jogada_invalida_t49",
         "tipo": "mesa",
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.18,
@@ -768,9 +809,9 @@ SCENES = [
             "glowColor": "#3b82f6",
         },
         "falas": [
-            _nar("O motor bloqueia o nove ilegal e força o sete azul. A mesa vira azul na frente de todos. Olha a fala da Luna."),
+            _nar("O motor bloqueia o nove e força o sete azul. A mesa vira azul na frente de todos. Olha a Luna."),
             _ia("luna", "Amarelo continua; Qwen, segura essa mudança de número. Ainda não é hora de cantar vitória."),
-            _nar("Um sete azul brilhando na tela, e ela anunciando amarelo!"),
+            _nar("Um sete azul brilhando, e ela anunciando amarelo!"),
         ],
         "overlays": _pair_selo_meme(
             "JOGOU AZUL · FALOU AMARELO",
@@ -778,16 +819,16 @@ SCENES = [
             "#dc2626",
             "faustao-errou",
             "ERROU A COR DE NOVO",
-            at_sec=4.5,
+            at_sec=4.2,
             dur_sec=2.6,
         ),
         "sfx": [
             {"name": "wrong-buzzer", "at_sec": 0.8, "vol": 0.34},
-            {"name": "crowd-laugh", "at_sec": 9.2, "vol": 0.32},
+            {"name": "crowd-laugh", "at_sec": 8.6, "vol": 0.32},
         ],
     },
     {
-        "id": "S15_p1_curinga_do_hydrogen",
+        "id": "S16_p1_curinga_do_hydrogen",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -799,14 +840,14 @@ SCENES = [
             "to": "discard",
             "codigo": "CURINGA",
             "faceDown": False,
-            "at": 36,
+            "at": 34,
             "dur": 24,
             "glowColor": "#3b82f6",
         },
         "falas": [
-            _nar("Turno cinquenta e quatro: Qwen, DeepSeek e Luna com duas cartas no vermelho. O Gemini Hydrogen queima o Curinga pro azul achando que travou todo mundo."),
+            _nar("Qwen e DeepSeek mudam pro vermelho empatados com a Luna em duas cartas. Gemini queima o Curinga pro azul achando que travou todo mundo."),
             _ia("hydrogen", "Vou queimar meu Curinga pra puxar pro Azul, que não aparece faz tempo, pra travar esses três!", modo="pensamento"),
-            _nar("Só que entregou a cor exata da Luna! E nem ela percebeu."),
+            _nar("Entregou a cor exata da Luna! E nem ela viu."),
             _ia("luna", "Não tenho carta azul nem curinga; vou comprar e guardar os dois amarelos para quando a cor virar.", modo="pensamento"),
         ],
         "overlays": _pair_selo_meme(
@@ -815,16 +856,16 @@ SCENES = [
             "#7e22ce",
             "picard-facepalm",
             "NÃO É POSSÍVEL",
-            at_sec=11.5,
+            at_sec=11.0,
             dur_sec=2.6,
         ),
         "sfx": [
-            {"name": "gasp", "at_sec": 11.3, "vol": 0.34},
-            {"name": "slide-whistle-fall", "at_sec": 16.5, "vol": 0.30},
+            {"name": "gasp", "at_sec": 10.8, "vol": 0.34},
+            {"name": "slide-whistle-fall", "at_sec": 15.8, "vol": 0.30},
         ],
     },
     {
-        "id": "S16_p1_uno_daltonico",
+        "id": "S17_p1_uno_daltonico",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -841,27 +882,46 @@ SCENES = [
             "glowColor": "#10b981",
         },
         "falas": [
-            _nar("Turno cinquenta e seis: o jogo mostra que o sete azul serve. A Luna baixa, grita UNO e teima no amarelo!"),
+            _nar("Dois turnos depois, a Luna baixa o sete azul, grita UNO e teima no amarelo!"),
             _ia("luna", "Amarelo, Qwen. Agora tenta adivinhar meu último número."),
-            _nar("E com uma carta só, escuta o desespero dela no turno sessenta."),
-            _ia("luna", "Minha última carta é Amarelo 9, então preciso que alguém leve a cor para amarelo antes da minha vez.", modo="pensamento"),
         ],
         "overlays": _pair_selo_meme(
             "GRITOU UNO NO AZUL",
-            "REZANDO POR AMARELO",
+            "CHAMANDO DE AMARELO",
             "#10b981",
             "confused-travolta",
             "QUE COR É ESSA?!",
-            at_sec=9.5,
+            at_sec=3.6,
             dur_sec=2.6,
         ),
         "sfx": [
             {"name": "sirene-ataque", "at_sec": 0.7, "vol": 0.32},
-            {"name": "error-beep", "at_sec": 9.4, "vol": 0.30},
+            {"name": "error-beep", "at_sec": 3.5, "vol": 0.30},
         ],
     },
     {
-        "id": "S17_p1_vitoria_luna",
+        "id": "S18_p1_panico_mesa_t60",
+        "tipo": "mesa",
+        "music": "run-amok",
+        "lead_in_sec": 0.18,
+        "tail_sec": 0.40,
+        "focusIdx": 2,
+        "mesa": mesa_turno(1, 60, ativo_idx=None, banner_sub="PÂNICO NO T60"),
+        "falas": [
+            _nar("Qwen e DeepSeek compram sem azul. Na mesa aberta do turno sessenta, a Inkling bota pressão — enquanto a Luna reza por amarelo segurando um nove azul!"),
+            _ia("inkling", "Luna, uma carta é tudo de bom, mas azul não perdoa quem comemora."),
+            _ia("luna", "Minha última carta é Amarelo 9, então preciso que alguém leve a cor para amarelo antes da minha vez.", modo="pensamento"),
+        ],
+        "overlays": [
+            _selo("MESA EM PÂNICO · T60", "LUNA REZA POR AMARELO", color="#dc2626", at_sec=4.8, dur_sec=2.5),
+        ],
+        "sfx": [
+            {"name": "heartbeat", "at_sec": 0.4, "vol": 0.32},
+            {"name": "emergencia", "at_sec": 4.8, "vol": 0.28},
+        ],
+    },
+    {
+        "id": "S19_p1_vitoria_luna",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -873,14 +933,14 @@ SCENES = [
             "to": "discard",
             "codigo": "A-9",
             "faceDown": False,
-            "at": 42,
+            "at": 40,
             "dur": 26,
             "glowColor": "#10b981",
         },
         "falas": [
-            _nar("Gemini compra. GLM compra e morre na lanterna com nove cartas. A vez volta no azul e, no último lance, a Luna enfim lê a cor certa."),
+            _nar("Gemini compra. GLM compra e morre na lanterna com nove cartas. A vez volta no azul e a Luna enfim lê a cor certa."),
             _ia("luna", "Nove azul. A conta fechou; podem guardar a munição."),
-            _nar("GPT-6 Luna vence a Partida um em modo daltônico! GLM Flash termina em último. Agora eu ligo a memória. E a Partida dois vira guerra."),
+            _nar("GPT-6 Luna vence daltônica! GLM fica em último. Agora eu ligo a memória. E a Partida dois vira guerra."),
         ],
         "overlays": _pair_selo_meme(
             "CAMPEÃ PARTIDA 1 · LUNA",
@@ -888,12 +948,12 @@ SCENES = [
             "#10b981",
             "we-did-it",
             "GANHOU DALTÔNICA",
-            at_sec=5.2,
+            at_sec=4.8,
             dur_sec=2.8,
         ),
         "sfx": [
-            {"name": "tada", "at_sec": 5.0, "vol": 0.36},
-            {"name": "crowd-applause", "at_sec": 7.0, "vol": 0.30},
+            {"name": "tada", "at_sec": 4.6, "vol": 0.36},
+            {"name": "crowd-applause", "at_sec": 6.6, "vol": 0.30},
         ],
     },
 
@@ -901,7 +961,7 @@ SCENES = [
     # ATO 2 — PARTIDA 2: "MEMÓRIA ATIVA, O PACTO QUEBRADO E A BOMBA +6"
     # -------------------------------------------------------------------------
     {
-        "id": "S18_cap2",
+        "id": "S20_cap2",
         "tipo": "capitulo",
         "music": "investigations",
         "lead_in_sec": 0.18,
@@ -913,7 +973,7 @@ SCENES = [
             "accent": "#ef4444",
         },
         "falas": [
-            _nar("Partida dois. Eu passei no ouvido de cada IA quem ganhou e quem jogou bomba nela."),
+            _nar("Partida dois. Eu contei pra cada IA quem ganhou e quem jogou bomba nela."),
         ],
         "overlays": [],
         "sfx": [
@@ -922,7 +982,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S19_p2_rancores_pacto",
+        "id": "S21_p2_rancores_pacto",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
@@ -930,10 +990,11 @@ SCENES = [
         "focusIdx": 1,
         "mesa": mesa_turno(2, 0, ativo_idx=1, banner_sub="MEMÓRIA ATIVA"),
         "falas": [
-            _nar("No turno zero, GLM já cobra o Gemini. Qwen propõe paz. E olha o mais quatro na mão do Claude Sonnet enquanto ele jura inocência."),
+            _nar("Turno zero: GLM cobra o Gemini, Qwen propõe paz, Claude esconde um mais quatro jurando inocência e a Inkling assume a fama."),
             _ia("glm", "Gemini, abre a Partida 2 já me devendo? Anota aí: hoje a conta é minha."),
             _ia("qwen", "Quem quiser, a gente faz pacto de não usar +4 até o meio do jogo, combinado?"),
             _ia("sonnet", "Eu estou com mão fraca, sem +4 nenhum, juro."),
+            _ia("inkling", "Bom jogo de mesa, começo fingindo mão ruim e só fecho a aposta quando tiver +2 na conta. Alguém confia em mim ainda?"),
         ],
         "overlays": _pair_selo_meme(
             "SEM +4 NENHUM, JURO",
@@ -941,34 +1002,36 @@ SCENES = [
             "#f59e0b",
             "monkey-puppet-awkward",
             "CARA DE PAU",
-            at_sec=11.0,
+            at_sec=11.5,
             dur_sec=2.6,
         ),
         "sfx": [
-            {"name": "revela_impostor", "at_sec": 10.8, "vol": 0.34},
-            {"name": "pop", "at_sec": 13.6, "vol": 0.28},
+            {"name": "revela_impostor", "at_sec": 11.3, "vol": 0.34},
+            {"name": "pop", "at_sec": 14.5, "vol": 0.28},
         ],
     },
     {
-        "id": "S20_p2_dejavu_deepseek",
+        "id": "S22_p2_dejavu_deepseek",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
-        "focusIdx": 3,
+        "focusIdx": 2,
         "mesa": mesa_turno(2, 3, ativo_idx=3, banner_sub="DÉJÀ VU +2"),
         "flyCard": {
-            "fromIdx": "deck",
-            "to": 3,
-            "codigo": "+4",
-            "faceDown": True,
-            "at": 28,
+            "fromIdx": 2,
+            "to": "discard",
+            "codigo": "V-+2",
+            "faceDown": False,
+            "at": 22,
             "dur": 22,
-            "glowColor": "#06b6d4",
+            "glowColor": "#a855f7",
         },
         "falas": [
-            _nar("Turno dois: déjà vu absurdo! Inkling Mini mete mais dois no DeepSeek de novo. Ele vai pra nove cartas e pesca outro mais quatro no monte!"),
-            _ia("deepseek", "Inkling, essa +2 vai voltar com juros. Engraçado que sempre sobra pra mim, né? Recolho e sigo vivo."),
+            _nar("Dois turnos depois, déjà vu absurdo: Inkling mete mais dois no DeepSeek de novo!"),
+            _ia("inkling", "DeepSeek, viu essa +2? A conta da última partida voltou, e eu ainda nem acendi o curinga."),
+            _nar("Ele vai pra nove cartas e pesca outro mais quatro!"),
+            _ia("deepseek", "Inkling, essa +2 vai voltar com juros. Engraçado que sempre sobra pra mim, né?"),
         ],
         "overlays": _pair_selo_meme(
             "DÉJÀ VU · +2 NO T02",
@@ -981,48 +1044,68 @@ SCENES = [
         ),
         "sfx": [
             {"name": "explosion-arcade", "at_sec": 0.9, "vol": 0.32},
-            {"name": "wah-wah-trombone", "at_sec": 9.8, "vol": 0.28},
+            {"name": "wah-wah-trombone", "at_sec": 11.0, "vol": 0.28},
         ],
     },
     {
-        "id": "S21_p2_pacto_papel_molhado",
+        "id": "S23_p2_pacto_e_curinga_inkling",
+        "tipo": "mesa",
+        "music": "investigations",
+        "lead_in_sec": 0.18,
+        "tail_sec": 0.40,
+        "focusIdx": 2,
+        "mesa": mesa_turno(2, 9, ativo_idx=2, banner_sub="CURINGA SEM VERGONHA"),
+        "flyCard": {
+            "fromIdx": 2,
+            "to": "discard",
+            "codigo": "CURINGA",
+            "faceDown": False,
+            "at": 36,
+            "dur": 22,
+            "glowColor": "#22c55e",
+        },
+        "falas": [
+            _nar("No turno oito, Claude renova a mentira do pacto. Na jogada seguinte, a Inkling acende o Curinga pro verde!"),
+            _ia("sonnet", "Vermelho, três. Qwen, o pacto do +4 está vivo, pode confiar em mim."),
+            _ia("inkling", "DeepSeek, troquei pra Verde e te deixei mirando a própria bomba. Curinga não tem vergonha."),
+        ],
+        "overlays": _pair_selo_meme(
+            "PODE CONFIAR EM MIM",
+            "E A INKLING VIROU PRO VERDE",
+            "#f59e0b",
+            "roll-safe",
+            "SEM VERGONHA",
+            at_sec=4.5,
+            dur_sec=2.5,
+        ),
+        "sfx": [
+            {"name": "shhh", "at_sec": 4.3, "vol": 0.30},
+            {"name": "swoosh-fly", "at_sec": 8.8, "vol": 0.30},
+        ],
+    },
+    {
+        "id": "S24_p2_mesa_aberta_t12",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
         "focusIdx": 1,
-        "mesa": mesa_turno(2, 8, ativo_idx=1, banner_sub="PACTO DE MENTIRA"),
-        "flyCard": {
-            "fromIdx": 1,
-            "to": "discard",
-            "codigo": "V-3",
-            "faceDown": False,
-            "at": 20,
-            "dur": 22,
-            "glowColor": "#ef4444",
-        },
+        "mesa": mesa_turno(2, 12, ativo_idx=None, banner_sub="ARMADILHA NO VERDE"),
         "falas": [
-            _nar("No turno oito, o Claude Sonnet ainda segurava aquele mais quatro escondido e renovava a promessa pro Qwen."),
-            _ia("sonnet", "Vermelho, três. Qwen, o pacto do +4 está vivo, pode confiar em mim."),
+            _nar("No turno doze, Claude diz que ama verde. A Inkling cutuca o pacto e o DeepSeek lê o futuro."),
+            _ia("inkling", "Qwen e Claude, pacto de +4 pode esperar, eu não vi vocês segurando o mesmo medo."),
             _ia("deepseek", "Qwen, esse pacto do +4 tá cheirando a papel molhado."),
-            _nar("Spoiler: o DeepSeek leu o futuro."),
         ],
-        "overlays": _pair_selo_meme(
-            "PODE CONFIAR EM MIM",
-            "SEGURANDO +4 HÁ 8 TURNOS",
-            "#f59e0b",
-            "roll-safe",
-            "PAPEL MOLHADO",
-            at_sec=3.8,
-            dur_sec=2.5,
-        ),
+        "overlays": [
+            _selo("PAPEL MOLHADO · T12", "GEMINI OUVIU TUDO", color="#22c55e", at_sec=4.2, dur_sec=2.4),
+        ],
         "sfx": [
-            {"name": "shhh", "at_sec": 3.6, "vol": 0.30},
-            {"name": "tic-tac", "at_sec": 10.2, "vol": 0.28},
+            {"name": "tic-tac", "at_sec": 4.0, "vol": 0.28},
+            {"name": "notification-pop", "at_sec": 9.8, "vol": 0.30},
         ],
     },
     {
-        "id": "S22_p2_vinganca_hydrogen",
+        "id": "S25_p2_vinganca_hydrogen",
         "tipo": "mesa",
         "music": "hitman",
         "lead_in_sec": 0.18,
@@ -1034,12 +1117,12 @@ SCENES = [
             "to": "discard",
             "codigo": "G-+2",
             "faceDown": False,
-            "at": 26,
+            "at": 24,
             "dur": 22,
             "glowColor": "#22c55e",
         },
         "falas": [
-            _nar("Claude disse que verde era sua cor favorita. Gemini Hydrogen lembrou da primeira partida e puxou o gatilho."),
+            _nar("Gemini Hydrogen ouviu o Claude chamar verde de cor favorita e puxou o gatilho."),
             _ia("hydrogen", "Se Verde é sua cor favorita, Claude Sonnet, então toma esse +2 de presente! Vamos ver se o seu pacto com o Qwen te salva dessa."),
         ],
         "overlays": _pair_selo_meme(
@@ -1048,7 +1131,7 @@ SCENES = [
             "#22c55e",
             "big-brain-patrick",
             "TESTANDO O PACTO",
-            at_sec=4.2,
+            at_sec=3.8,
             y=795,
             dur_sec=2.5,
         ),
@@ -1058,7 +1141,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S23_p2_bomba_6_sonnet",
+        "id": "S26_p2_bomba_6_sonnet",
         "tipo": "mesa",
         "music": "hitman",
         "lead_in_sec": 0.18,
@@ -1070,12 +1153,12 @@ SCENES = [
             "to": "discard",
             "codigo": "+4",
             "faceDown": False,
-            "at": 34,
+            "at": 32,
             "dur": 26,
             "glowColor": "#dc2626",
         },
         "falas": [
-            _nar("O Claude podia comprar duas e honrar o pacto. Em vez disso, jogou o mais quatro que jurou não ter e montou uma bomba de mais seis na Inkling Mini!"),
+            _nar("Claude podia comprar duas. Em vez disso, sacou o mais quatro secreto e montou uma bomba de mais seis na Inkling!"),
             _ia("sonnet", "Pacto quebrado, mas faz parte.", modo="pensamento"),
             _ia("sonnet", "Qwen, o pacto era até o meio do jogo e eu acabei de ter pressa. Inkling, seis cartas, de nada."),
             _nar("Eu acabei de ter pressa! O pacto durou catorze turnos."),
@@ -1086,17 +1169,17 @@ SCENES = [
             "#dc2626",
             "gordon-ramsay-angry",
             "TRAIÇÃO AO VIVO",
-            at_sec=5.0,
+            at_sec=4.6,
             y=795,
             dur_sec=2.8,
         ),
         "sfx": [
-            {"name": "impact-epic", "at_sec": 1.1, "vol": 0.38},
-            {"name": "explosion", "at_sec": 4.9, "vol": 0.38},
+            {"name": "impact-epic", "at_sec": 1.0, "vol": 0.38},
+            {"name": "explosion", "at_sec": 4.5, "vol": 0.38},
         ],
     },
     {
-        "id": "S24_p2_inkling_11_cartas",
+        "id": "S27_p2_inkling_11_cartas",
         "tipo": "mesa",
         "music": "hitman",
         "lead_in_sec": 0.18,
@@ -1113,7 +1196,7 @@ SCENES = [
             "glowColor": "#a855f7",
         },
         "falas": [
-            _nar("Sem escudo, a Inkling Mini engoliu seis cartas de uma vez e bateu onze cartas na mão — o recorde absoluto de sofrimento das duas partidas."),
+            _nar("Sem escudo, a Inkling Mini engole seis cartas e bate onze na mão — recorde absoluto de sofrimento."),
             _ia("inkling", "Pacto de +4 caiu por terra, Claude. Compra +6 com raiva e espero que DeepSeek pague a conta."),
         ],
         "overlays": _pair_selo_meme(
@@ -1131,12 +1214,12 @@ SCENES = [
         ],
     },
     {
-        "id": "S25_p2_alucinacao_inkling",
+        "id": "S28_p2_alucinacao_inkling",
         "tipo": "mesa",
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.18,
         "tail_sec": 0.40,
-        "focusIdx": 3,
+        "focusIdx": 2,
         "mesa": mesa_turno(2, 20, ativo_idx=2, banner_sub="V-4 NÃO É +4!"),
         "flyCard": {
             "fromIdx": 2,
@@ -1148,10 +1231,10 @@ SCENES = [
             "glowColor": "#ef4444",
         },
         "falas": [
-            _nar("A bomba de mais seis fritou a cabeça da Inkling. No turno vinte ela joga um quatro vermelho normal... achando que é um mais quatro!"),
+            _nar("A bomba fritou a cabeça da Inkling! Cinco turnos depois, ela baixa um quatro vermelho comum achando que é um mais quatro!"),
             _ia("inkling", "Tenho 11 cartas e um +4 guardado. DeepSeek está com 7 e é o próximo — jogar +4 nele é justo.", modo="pensamento"),
             _ia("inkling", "DeepSeek, esse +4 é pra você. Boa sorte com o amarelo."),
-            _nar("Era um quatro vermelho comum!"),
+            _nar("Era um quatro vermelho normal!"),
         ],
         "overlays": _pair_selo_meme(
             "JOGOU V-4 · ACHOU +4",
@@ -1159,7 +1242,7 @@ SCENES = [
             "#a855f7",
             "galaxy-brain",
             "MESTRE DO BLEFE",
-            at_sec=4.8,
+            at_sec=4.6,
             dur_sec=2.6,
         ),
         "sfx": [
@@ -1168,7 +1251,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S26_p2_deepseek_trai_qwen",
+        "id": "S29_p2_deepseek_trai_qwen",
         "tipo": "mesa",
         "music": "hitman",
         "lead_in_sec": 0.18,
@@ -1185,10 +1268,10 @@ SCENES = [
             "glowColor": "#3b82f6",
         },
         "falas": [
-            _nar("Na jogada seguinte, o DeepSeek mostrou um mais quatro de verdade — bem na cara do Qwen, o dono do pacto de paz."),
+            _nar("Logo depois, DeepSeek mostrou um mais quatro de verdade — na cara do Qwen, dono do pacto."),
             _ia("deepseek", "Qwen, o pacto caiu mesmo, mas esse +4 é azul e é seu. Vamos ver se você tem outro escondido."),
             _ia("qwen", "DeepSeek, esse +4 azul eu vou cobrar com juros."),
-            _nar("Quem pediu paz foi de quatro pra oito cartas num segundo."),
+            _nar("De quatro pra oito cartas num segundo."),
         ],
         "overlays": _pair_selo_meme(
             "PACTO DA PAZ: +4 NA CARA",
@@ -1196,17 +1279,17 @@ SCENES = [
             "#ec4899",
             "not-stonks",
             "DIPLOMACIA ZERO",
-            at_sec=3.8,
+            at_sec=3.6,
             y=795,
             dur_sec=2.6,
         ),
         "sfx": [
             {"name": "explosion-arcade", "at_sec": 0.9, "vol": 0.34},
-            {"name": "crowd-boo", "at_sec": 11.2, "vol": 0.30},
+            {"name": "crowd-boo", "at_sec": 10.6, "vol": 0.30},
         ],
     },
     {
-        "id": "S27_p2_emboscada_glm",
+        "id": "S30_p2_emboscada_glm",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
@@ -1214,10 +1297,9 @@ SCENES = [
         "focusIdx": 6,
         "mesa": mesa_turno(2, 36, ativo_idx=6, banner_sub="MÃO 100% AZUL"),
         "falas": [
-            _nar("Turno trinta e seis: olha o GLM Flash na esquerda. Quatro cartas, todas azuis, com um mais dois guardado."),
+            _nar("O jogo trava no verde até o turno trinta e seis. Enquanto isso, o GLM limpou as sobras e ficou escondido com quatro cartas — todas azuis!"),
             _ia("glm", "Minha mão é toda azul e a mesa está travada no verde — vou ter que torcer por alguém puxar pra azul ou usar um +2 pra forçar cor.", modo="pensamento"),
             _ia("glm", "Gemini, aquele +4 da partida passada ainda está na minha conta."),
-            _nar("Dois turnos depois, ele encaixa sete azul e trava Gemini e Claude."),
         ],
         "overlays": _pair_selo_meme(
             "MÃO 100% AZUL · GLM",
@@ -1225,7 +1307,7 @@ SCENES = [
             "#ef4444",
             "mr-bean-waiting",
             "ESPERANDO O AZUL",
-            at_sec=4.5,
+            at_sec=4.8,
             dur_sec=2.6,
         ),
         "sfx": [
@@ -1234,7 +1316,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S28_p2_qwen_salva_mesa",
+        "id": "S31_p2_qwen_salva_mesa",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
@@ -1246,12 +1328,14 @@ SCENES = [
             "to": "discard",
             "codigo": "Y-1",
             "faceDown": False,
-            "at": 24,
+            "at": 48,
             "dur": 22,
             "glowColor": "#eab308",
         },
         "falas": [
-            _nar("A Luna caiu pra duas cartas no azul e a mesa gritou pro Qwen impedir o bi. Ele leu perfeito e trocou pro amarelo."),
+            _nar("Luna cai pra duas cartas, GLM puxa pro azul e a mesa pressiona o Qwen a impedir o bi."),
+            _ia("inkling", "Qwen, Luna com duas cartas não vira almoço de graça."),
+            _nar("Ele lê perfeito e vira pro amarelo!"),
             _ia("qwen", "Y-1 muda pra amarelo e Luna com 2 cartas provavelmente não tem amarelo. Bloqueio ela agora antes que ela bata.", modo="pensamento"),
             _ia("luna", "Sem jogada, compro. GLM, não comemora ainda: duas cartas também podem virar uma surpresa."),
         ],
@@ -1261,16 +1345,16 @@ SCENES = [
             "#ec4899",
             "success-kid",
             "SALVOU A MESA",
-            at_sec=4.0,
+            at_sec=7.8,
             dur_sec=2.5,
         ),
         "sfx": [
-            {"name": "correct-ding", "at_sec": 0.8, "vol": 0.32},
-            {"name": "swoosh-fly", "at_sec": 1.1, "vol": 0.28},
+            {"name": "correct-ding", "at_sec": 7.6, "vol": 0.32},
+            {"name": "swoosh-fly", "at_sec": 8.0, "vol": 0.28},
         ],
     },
     {
-        "id": "S29_p2_sonnet_chorando",
+        "id": "S32_p2_sonnet_chorando",
         "tipo": "mesa",
         "music": "investigations",
         "lead_in_sec": 0.18,
@@ -1278,10 +1362,10 @@ SCENES = [
         "focusIdx": 1,
         "mesa": mesa_turno(2, 48, ativo_idx=1, banner_sub="BLEFE BARATO"),
         "falas": [
-            _nar("Turno quarenta e sete: Claude Sonnet cai pra duas cartas no amarelo... e tenta meter esse migué."),
+            _nar("No amarelo, Claude Sonnet cai pra duas cartas... e tenta meter esse migué."),
             _ia("sonnet", "Amarelo de novo, que beleza. Minha mão está um caos, tenho cartas demais e nenhuma boa."),
             _ia("hydrogen", "Cartas demais, Claude Sonnet?! Você tá com duas cartas na mão!"),
-            _nar("Ninguém caiu. GLM e Gemini trocaram a cor e o Claude travou."),
+            _nar("Ninguém caiu. GLM e Gemini viram pro vermelho e o Claude trava."),
         ],
         "overlays": _pair_selo_meme(
             "CARTAS DEMAIS = 2",
@@ -1289,16 +1373,16 @@ SCENES = [
             "#f59e0b",
             "this-is-fine",
             "MÃO NUM CAOS",
-            at_sec=4.8,
+            at_sec=4.5,
             dur_sec=2.5,
         ),
         "sfx": [
-            {"name": "ba-dum-tss", "at_sec": 8.0, "vol": 0.32},
-            {"name": "wrong-buzzer", "at_sec": 12.2, "vol": 0.28},
+            {"name": "ba-dum-tss", "at_sec": 7.6, "vol": 0.32},
+            {"name": "wrong-buzzer", "at_sec": 11.4, "vol": 0.28},
         ],
     },
     {
-        "id": "S30_p2_fregues_deepseek",
+        "id": "S33_p2_fregues_deepseek",
         "tipo": "mesa",
         "music": "hitman",
         "lead_in_sec": 0.18,
@@ -1310,15 +1394,14 @@ SCENES = [
             "to": "discard",
             "codigo": "V-+2",
             "faceDown": False,
-            "at": 26,
+            "at": 24,
             "dur": 22,
             "glowColor": "#ef4444",
         },
         "falas": [
-            _nar("Turno cinquenta e cinco: pela terceira vez em duas partidas, a Inkling Mini acerta um mais dois no DeepSeek."),
+            _nar("Esse vermelho abre espaço pra Inkling Mini acertar o terceiro mais dois no DeepSeek!"),
             _ia("inkling", "Toma, DeepSeek. Mais um +2 pra debaixo do seu nariz — se eu soubesse que ia render isso, teria comprado antes."),
             _ia("deepseek", "Bomba em cima de mim e sem escudo? Beleza, Inkling, compro as duas e volto com juros."),
-            _nar("Mas não daria tempo. Porque agora vem o final mais insano do canal."),
         ],
         "overlays": _pair_selo_meme(
             "FREGUÊS OFICIAL · 3x +2",
@@ -1332,7 +1415,43 @@ SCENES = [
         ),
         "sfx": [
             {"name": "explosion-arcade", "at_sec": 0.9, "vol": 0.32},
-            {"name": "sad-party-horn", "at_sec": 12.2, "vol": 0.30},
+            {"name": "sad-party-horn", "at_sec": 11.8, "vol": 0.30},
+        ],
+    },
+    {
+        "id": "S34_p2_virada_pro_azul",
+        "tipo": "mesa",
+        "music": "hitman",
+        "lead_in_sec": 0.18,
+        "tail_sec": 0.40,
+        "focusIdx": 2,
+        "mesa": mesa_turno(2, 62, ativo_idx=2, banner_sub="AZUL DE VOLTA"),
+        "flyCard": {
+            "fromIdx": 2,
+            "to": "discard",
+            "codigo": "A-0",
+            "faceDown": False,
+            "at": 42,
+            "dur": 22,
+            "glowColor": "#3b82f6",
+        },
+        "falas": [
+            _nar("Qwen e Luna caem pra duas cartas, GLM vira pro azul com duas também e a Inkling joga seu último azul cutucando o DeepSeek."),
+            _ia("inkling", "A-0 sai, DeepSeek, agora me mostra azul que você não pode mentir pra mim."),
+            _nar("Ele baixa um azul. E começa o final mais insano do canal."),
+        ],
+        "overlays": _pair_selo_meme(
+            "MESA ABERTA NO AZUL",
+            "3 RIVAIS COM 2 CARTAS",
+            "#3b82f6",
+            "one-eternity-later",
+            "AGORA VAI EXPLODIR",
+            at_sec=4.5,
+            dur_sec=2.5,
+        ),
+        "sfx": [
+            {"name": "swoosh-fly", "at_sec": 1.4, "vol": 0.30},
+            {"name": "riser", "at_sec": 9.8, "vol": 0.32},
         ],
     },
 
@@ -1340,7 +1459,7 @@ SCENES = [
     # ATO 3 — O CLÍMAX: "TRÊS UNOs SEGUIDOS E O REVERTER FATAL"
     # -------------------------------------------------------------------------
     {
-        "id": "S31_cap3",
+        "id": "S35_cap3",
         "tipo": "capitulo",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -1352,7 +1471,7 @@ SCENES = [
             "accent": "#eab308",
         },
         "falas": [
-            _nar("Turno sessenta e três. Três rivais colados com duas cartas. E o azul aberto."),
+            _nar("Turno sessenta e três. Três rivais colados com duas cartas. E o azul escancarado."),
         ],
         "overlays": [],
         "sfx": [
@@ -1361,7 +1480,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S32_p2_t63_tensao",
+        "id": "S36_p2_t63_tensao",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -1369,8 +1488,9 @@ SCENES = [
         "focusIdx": None,
         "mesa": mesa_turno(2, 63, ativo_idx=None, banner_sub="AZUL ABERTO!"),
         "falas": [
-            _nar("Olha a mesa: Qwen com duas azuis, Luna com uma azul e uma verde, GLM Flash com cinco azul e mais dois azul. E ninguém antes deles tem azul."),
+            _nar("Qwen, Luna e GLM armados no azul — e ninguém mais tem azul na mão!"),
             _ia("hydrogen", "Qwen, Luna e GLM com duas cartas colados um no outro?! Se ninguém mudar esse Azul agora, a partida acaba antes de voltar pra cá!"),
+            _ia("inkling", "Qwen, pensa duas vezes antes de arriscar; eu não preciso de segredo, só de azul que não existe aqui."),
             _ia("glm", "Qwen, respira fundo, que o +2 tá aqui esperando seu nome."),
         ],
         "overlays": _pair_selo_meme(
@@ -1379,16 +1499,16 @@ SCENES = [
             "#eab308",
             "sweating",
             "NINGUÉM TEM AZUL",
-            at_sec=4.8,
+            at_sec=4.2,
             dur_sec=2.6,
         ),
         "sfx": [
             {"name": "heartbeat", "at_sec": 0.4, "vol": 0.34},
-            {"name": "emergencia", "at_sec": 4.8, "vol": 0.28},
+            {"name": "emergencia", "at_sec": 4.2, "vol": 0.28},
         ],
     },
     {
-        "id": "S33_p2_uno_1_qwen",
+        "id": "S37_p2_uno_1_qwen",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.15,
@@ -1405,7 +1525,7 @@ SCENES = [
             "glowColor": "#ec4899",
         },
         "falas": [
-            _nar("Turno sessenta e quatro. Qwen joga quatro azul e puxa a fila."),
+            _nar("Turno sessenta e quatro. Qwen baixa quatro azul e puxa a fila."),
             _ia("qwen", "A-4 na mesa, Luna. Agora é a sua vez de se despedir do azul ou comprar e chorar. Gritando UNO, já adianto."),
         ],
         "overlays": [
@@ -1417,7 +1537,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S34_p2_uno_2_luna",
+        "id": "S38_p2_uno_2_luna",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.15,
@@ -1446,7 +1566,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S35_p2_uno_3_glm",
+        "id": "S39_p2_uno_3_glm",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.15,
@@ -1463,9 +1583,9 @@ SCENES = [
             "glowColor": "#ef4444",
         },
         "falas": [
-            _nar("Turno sessenta e seis: GLM baixa cinco azul, guarda o mais dois azul e fecha o triplo UNO!"),
+            _nar("GLM baixa cinco azul, guarda o mais dois azul e fecha o triplo UNO!"),
             _ia("glm", "UNO! A-5 na mesa. Qwen e Luna, a conta de vocês ainda vem, mas primeiro sobrevivo eu."),
-            _nar("Agora a vez cai no Gemini Hydrogen, sem nenhum azul na mão."),
+            _nar("A vez cai no Gemini, sem nenhum azul."),
         ],
         "overlays": _pair_selo_meme(
             "TRIPLO UNO NA MESA!",
@@ -1482,7 +1602,7 @@ SCENES = [
         ],
     },
     {
-        "id": "S36_p2_reverter_fatal",
+        "id": "S40_p2_reverter_fatal",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -1499,7 +1619,7 @@ SCENES = [
             "glowColor": "#3b82f6",
         },
         "falas": [
-            _nar("Voltamos pra abertura. Gemini compra e tira um Reverter azul — o motor baixa na hora."),
+            _nar("Voltamos pra abertura. Gemini compra e tira um Reverter azul — baixado na hora."),
             _ia("hydrogen", "TRÊS gritos de UNO seguidos na minha frente (Qwen, Luna e GLM) e eu continuo travado sem nada Azul!", modo="pensamento"),
             _ia("hydrogen", "Três UNOs seguidos?! Se Claude Sonnet, Inkling ou DeepSeek não mudarem essa cor agora, acabou o jogo!"),
             _nar("Só que o Reverter devolveu a vez pro GLM Flash — com mais dois azul na mão!"),
@@ -1510,17 +1630,17 @@ SCENES = [
             "#dc2626",
             "homer-bushes",
             "SUMINDO NO ARBUSTO",
-            at_sec=10.0,
+            at_sec=9.6,
             dur_sec=2.7,
         ),
         "sfx": [
-            {"name": "record-scratch", "at_sec": 9.8, "vol": 0.38},
-            {"name": "gasp", "at_sec": 10.2, "vol": 0.34},
-            {"name": "error-beep", "at_sec": 12.8, "vol": 0.32},
+            {"name": "record-scratch", "at_sec": 9.4, "vol": 0.38},
+            {"name": "gasp", "at_sec": 9.8, "vol": 0.34},
+            {"name": "error-beep", "at_sec": 12.4, "vol": 0.32},
         ],
     },
     {
-        "id": "S37_p2_vitoria_glm",
+        "id": "S41_p2_vitoria_glm",
         "tipo": "mesa",
         "music": "run-amok",
         "lead_in_sec": 0.18,
@@ -1539,7 +1659,7 @@ SCENES = [
         "falas": [
             _nar("O lanterna da primeira partida sorriu pra Luna e bateu a porta com um mais dois azul!"),
             _ia("glm", "Luna, chegou a conta: +2 na sua cara! Reza pra não ter outro +2 na mão, porque senão esse jogo é meu!"),
-            _nar("GLM Flash zera no turno sessenta e oito! De último com nove cartas pra campeão. E o Gemini Hydrogen entregou os dois títulos seguidos de bandeja."),
+            _nar("GLM Flash zera no turno sessenta e oito! De último a campeão. E o Gemini entregou os dois títulos de bandeja."),
         ],
         "overlays": _pair_selo_meme(
             "CAMPEÃO PARTIDA 2 · GLM!",
@@ -1562,7 +1682,7 @@ SCENES = [
     # ATO 4 — FECHAMENTO EM 3 PASSOS (PLACAR + PRÊMIOS + LIÇÃO + PERGUNTA)
     # -------------------------------------------------------------------------
     {
-        "id": "S38_podio_encerramento",
+        "id": "S42_podio_encerramento",
         "tipo": "podio",
         "music": "monkeys-spinning-monkeys",
         "lead_in_sec": 0.20,
@@ -1590,7 +1710,7 @@ SCENES = [
                 {
                     "nome": "Inkling Mini",
                     "corPerfil": "#a855f7",
-                    "detalhe": "4x +2 jogados · Recorde de 11 cartas na P2",
+                    "detalhe": "4x +2 jogados · Recorde de 11 cartas · V-4 = +4",
                     "placar": "0 VIT · 7 CTS",
                 },
                 {
@@ -1626,10 +1746,10 @@ SCENES = [
                     "cor": "#10b981",
                 },
                 {
-                    "titulo": "MAIOR REDENÇÃO",
-                    "vencedor": "GLM Flash",
-                    "motivo": "De último com 9 cartas na P1 a campeão com A-+2",
-                    "cor": "#ef4444",
+                    "titulo": "RAINHA DO CAOS",
+                    "vencedor": "Inkling Mini",
+                    "motivo": "3x +2 no DeepSeek, 11 cartas na mão e V-4 achando +4",
+                    "cor": "#a855f7",
                 },
                 {
                     "titulo": "GARÇOM DE TROFÉUS",
@@ -1642,20 +1762,20 @@ SCENES = [
         },
         "falas": [
             _nar(
-                "Placar final e prêmios. No geral, GPT-6 Luna fecha em primeiro com uma vitória e só uma carta, seguida pelo GLM Flash. "
-                "Traidor da Temporada vai pro Claude Sonnet pela bomba de mais seis. "
-                "Campeã Daltônica pra Luna, Maior Redenção pro GLM Flash e Garçom de Troféus pro Gemini Hydrogen."
+                "Placar final: GPT-6 Luna em primeiro, seguida pela redenção do GLM Flash. "
+                "Traidor da Temporada pro Claude Sonnet, Campeã Daltônica pra Luna, "
+                "Rainha do Caos pra Inkling Mini e Garçom de Troféus pro Gemini Hydrogen."
             ),
             _nar("A lição desse UNO: pacto de paz entre IAs dura só até aparecer um mais quatro.", pause_before=0.20),
             _nar("Comenta aí: qual IA jogou melhor, quem fez o maior papelão e qual jogo eu boto elas pra disputar agora?", pause_before=0.20),
         ],
         "overlays": [
-            _selo("COMENTA O PRÓXIMO JOGO!", "SE INSCREVE NO FELIPEX007", color="#eab308", at_sec=22.0, dur_sec=2.8, y=540),
+            _selo("COMENTA O PRÓXIMO JOGO!", "SE INSCREVE NO FELIPEX007", color="#eab308", at_sec=20.0, dur_sec=2.8, y=540),
         ],
         "sfx": [
             {"name": "drumroll", "at_sec": 0.2, "vol": 0.30},
             {"name": "tada", "at_sec": 2.2, "vol": 0.34},
-            {"name": "crowd-applause", "at_sec": 22.5, "vol": 0.30},
+            {"name": "crowd-applause", "at_sec": 20.5, "vol": 0.30},
         ],
     },
 ]

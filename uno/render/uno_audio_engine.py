@@ -26,6 +26,9 @@ SFX_DIR = ASSETS_DIR / "sfx"
 SFX_EXTRA_DIRS = [ASSETS_DIR / d for d in ("sfx_au2", "sfx_au4", "sfx_jogo")]
 MUSIC_JSON = ASSETS_DIR / "music" / "music.json"
 
+# Modelo padrão verificado na API ElevenLabs (/v1/models)
+DEFAULT_MODEL_ID = "eleven_v4"
+
 # Vozes ElevenLabs distintas (Narrador + 7 IAs) — IDs padrão/públicos compatíveis com a conta
 VOICE_IDS = {
     "narrador": "lvkgCBi6spByiTZMPJEK",  # Gabriel PT-BR (mesma voz aprovada no WorldBox v3.2!)
@@ -73,13 +76,96 @@ def get_el_key() -> str:
     raise RuntimeError("Falta ELEVENLABS_API_KEY ou entrada 'elevenlabs api:' em apis.txt")
 
 
-def tts_eleven(speaker: str, text: str, modo: str = "fala", model_id: str = "eleven_v3") -> Path:
+_CORES_UNO = {
+    "A": "azul",
+    "V": "vermelho",
+    "G": "verde",
+    "Y": "amarelo",
+}
+
+_NUMS_EXTENSO = {
+    "0": "zero",
+    "1": "um",
+    "2": "dois",
+    "3": "três",
+    "4": "quatro",
+    "5": "cinco",
+    "6": "seis",
+    "7": "sete",
+    "8": "oito",
+    "9": "nove",
+    "10": "dez",
+    "11": "onze",
+    "12": "doze",
+    "14": "quatorze",
+    "16": "dezesseis",
+}
+
+_TERM_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
+    # Siglas de IA (case-sensitive para não alterar o verbo "ia")
+    (re.compile(r"\bIAs\b"), "i-ás"),
+    (re.compile(r"\bIA\b"), "i-á"),
+    # Termos do jogo UNO
+    (re.compile(r"\bUNOs\b"), "Únos"),
+    (re.compile(r"\bUNO\b"), "Uno"),
+    # Nomes de modelos e empresas em PT-BR natural para ElevenLabs v4
+    (re.compile(r"\bGPT-(\d+)\b"), lambda m: f"Gê Pê Tê {_NUMS_EXTENSO.get(m.group(1), m.group(1))}"),  # type: ignore[arg-type]
+    (re.compile(r"\bGPT\b"), "Gê Pê Tê"),
+    (re.compile(r"\bGLM\b"), "Gê Éle Ême"),
+    (re.compile(r"\bQwen\s+27B\b", re.I), "Quên vinte e sete B"),
+    (re.compile(r"\b27B\b"), "vinte e sete B"),
+    (re.compile(r"\bQwen\b"), "Quên"),
+    (re.compile(r"\bInkling\b"), "Ínkling"),
+    (re.compile(r"\bDeepSeek\b"), "Dip Sík"),
+    (re.compile(r"\bHydrogen\b"), "Háidrogen"),
+    (re.compile(r"\bSonnet\b"), "Sônet"),
+    (re.compile(r"\bGemini\b"), "Djêmini"),
+    (re.compile(r"\bClaude\b"), "Clôd"),
+    (re.compile(r"\bFlash\b"), "Flésh"),
+    (re.compile(r"\bOpenAI\b"), "Ôpen Êi Ái"),
+    (re.compile(r"\bAnthropic\b"), "Antrópic"),
+    (re.compile(r"\bThinking Machines\b"), "Thínking Machínes"),
+)
+
+_CARD_CODE_RE = re.compile(r"\b([AVGY])-(\+\d+|PULAR|REVERTER|[0-9])\b")
+_PRETO_CODE_RE = re.compile(r"\bPRETO-(\+\d+|CURINGA)\b")
+_PLUS_NUM_RE = re.compile(r"(?<!\w)\+(\d+)\b")
+
+
+def _replace_card_code(match: re.Match[str]) -> str:
+    cor = _CORES_UNO[match.group(1)]
+    val = match.group(2)
+    if val == "PULAR":
+        return f"pular {cor}"
+    if val == "REVERTER":
+        return f"reverter {cor}"
+    if val.startswith("+"):
+        num = val[1:]
+        return f"{cor} mais {_NUMS_EXTENSO.get(num, num)}"
+    return f"{cor} {_NUMS_EXTENSO.get(val, val)}"
+
+
+def normalize_tts_ptbr(text: str) -> str:
+    """Normaliza apenas o texto enviado ao TTS ElevenLabs v4 (mantendo legendas/balões intactos)."""
+    out = re.sub(r"\[whispers?\]", "", text, flags=re.I).strip()
+    out = _CARD_CODE_RE.sub(_replace_card_code, out)
+    out = _PRETO_CODE_RE.sub(
+        lambda m: "curinga" if m.group(1) == "CURINGA" else f"mais {_NUMS_EXTENSO.get(m.group(1)[1:], m.group(1)[1:])}",
+        out,
+    )
+    out = _PLUS_NUM_RE.sub(lambda m: f"mais {_NUMS_EXTENSO.get(m.group(1), m.group(1))}", out)
+    for pat, repl in _TERM_REPLACEMENTS:
+        out = pat.sub(repl, out)
+    return re.sub(r"\s{2,}", " ", out).strip()
+
+
+def tts_eleven(speaker: str, text: str, modo: str = "fala", model_id: str = DEFAULT_MODEL_ID) -> Path:
     """Gera (ou recupera do cache) WAV 48kHz stereo. Para modo='pensamento', aplica ECO (aecho), nunca sussurro."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    # Remove qualquer tag proibida de sussurro
-    clean_text = re.sub(r"\[whispers?\]", "", text, flags=re.I).strip()
+    # Normaliza apenas para a API TTS; texto exibido em tela permanece intacto no storyboard/timeline
+    tts_text = normalize_tts_ptbr(text)
     vid = VOICE_IDS.get(speaker, VOICE_IDS["narrador"])
-    key_str = f"{model_id}|{vid}|{modo}|{clean_text}"
+    key_str = f"{model_id}|{vid}|{modo}|{tts_text}"
     h = hashlib.sha256(key_str.encode("utf-8")).hexdigest()[:16]
     wav_path = CACHE_DIR / f"{speaker}_{modo}_{h}.wav"
     if wav_path.exists() and wav_path.stat().st_size > 2000:
@@ -89,7 +175,7 @@ def tts_eleven(speaker: str, text: str, modo: str = "fala", model_id: str = "ele
     if not raw_mp3.exists() or raw_mp3.stat().st_size < 1000:
         api_key = get_el_key()
         payload = {
-            "text": clean_text,
+            "text": tts_text,
             "model_id": model_id,
             "voice_settings": {
                 "stability": 0.48 if speaker == "narrador" else 0.44,
