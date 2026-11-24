@@ -1134,6 +1134,8 @@ def run_teste_ajudantes(args: argparse.Namespace) -> int:
         n[0] += 1
         backend.capture_screenshot().save(sess_dir / f"teste_{n[0]:02d}_{tag}.jpg", quality=80)
         log(f"[{tag}] " + ajud.resumo_texto().replace("\n", " | "))
+        e = ajud.estado() or {}
+        log(f"[{tag}] bruto: btn={e.get('btn')} things={e.get('things')}")
 
     try:
         for nome in ("menu_play", "modo_play"):

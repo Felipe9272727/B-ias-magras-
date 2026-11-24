@@ -35,7 +35,8 @@ const vis=n=>v.runtime.targets.filter(t=>!t.isStage&&t.sprite.name===n&&t.visibl
 const T=L('Things').map(String);
 const d=vis('Dopplegangers');
 return JSON.stringify({things:T,posX:V('pos X'),stop:V('STOP GAME'),
- visitante:d.length>0,phone:vis('Phone').length,checklist:vis('Checklist').length,
+ visitante:d.length>0,phone:vis('Phone').length,
+ btn:vis('Buttons').map(t=>t.getCostumes()[t.currentCostume].name),checklist:vis('Checklist').length,
  docs:vis('documents').map(t=>t.getCostumes()[t.currentCostume].name.replace(/^[A-Z] /,'')),
  closed:vis('CLOSED').length,endmenu:vis('End menu').length});})()"""
 
@@ -111,10 +112,19 @@ class Ajudantes:
     def _contagens(e: dict[str, Any]) -> dict[str, int]:
         t = e.get("things") or []
         g = lambda i: _num(t[i]) if len(t) > i else 0  # noqa: E731
-        return {
+        c = {
             "porta": g(0), "pasta1": g(1), "pasta2": g(2), "pasta3": g(3), "emerg": g(4),
             "passaram": g(5) + g(6), "removidos": g(7) + g(8), "visitante_n": g(12),
         }
+        # O que esta desenhado na tela manda: traje "1 1" = porta aberta, "2 3" = pasta do andar 1 na ficha R03, "5 1" = emergencia
+        btn = [str(x).strip() for x in (e.get("btn") or [])]
+        if btn:
+            c["porta"] = 1 if "1 1" in btn else 0
+            c["emerg"] = 1 if any(x.startswith("5 1") for x in btn) else 0
+            for andar in (1, 2, 3):
+                pag = [int(x[2]) for x in btn if len(x) == 3 and x[0] == str(andar + 1) and x[2].isdigit()]
+                c[f"pasta{andar}"] = max(pag) if pag else 0
+        return c
 
     def _alvo(self, nome: str) -> tuple[float, float, int] | None:
         sprite, regex = ALVOS[nome]
@@ -140,6 +150,9 @@ class Ajudantes:
                 alvo = novo
                 break
             alvo = novo
+        if alvo[2] == 0 and nome not in ("telefone",):
+            self.log(f"[ajudante] '{nome}' esta coberto por outra coisa; nao cliquei")
+            return False
         self.b.click_px(alvo[0], alvo[1])
         return True
 
@@ -220,10 +233,17 @@ class Ajudantes:
             return self.abrir_pasta(int(act.get("andar", 1)), int(act.get("ficha", act.get("apto", 1))))
         return False
 
+    def _limpar_mesa(self) -> None:
+        self.fechar_pastas()
+        if (self.estado() or {}).get("phone"):
+            self.clicar_sprite("telefone_voltar")
+            time.sleep(0.5)
+
     def liberar(self) -> bool:
         c = self._contagens(self.estado() or {})
         if c["porta"] == 1:
             return True
+        self._limpar_mesa()
         ok = self.clicar_sprite("porta")
         with self._lock:
             self._passados_ao_abrir = c["passaram"]
@@ -274,6 +294,7 @@ class Ajudantes:
     def chamar_ddd(self) -> bool:
         c = self._contagens(self.estado() or {})
         if c["emerg"] != 1:
+            self._limpar_mesa()
             self.clicar_sprite("caixa_perigo")
             time.sleep(1.2)
         return self.ligar("3312")
