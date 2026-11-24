@@ -327,6 +327,97 @@ def build_turn_plan(
     return segments, round(dst, 3)
 
 
+def build_linear_plan(
+    entries: list[dict[str, Any]],
+    speech_durations: dict[int, float],
+    video_dur: float,
+    cortes: list[list[float]],
+    teaser: list[float] | None,
+) -> tuple[list[CutSegment], float]:
+    """Gameplay corrida (tempo real): so tira os trechos de `cortes`; cada fala entra no instante real do turno.
+    `teaser` (opcional) e um trecho repetido no comeco, antes da abertura."""
+    cs = sorted((max(0.0, float(a)), min(video_dur, float(b))) for a, b in (cortes or []) if float(b) > float(a))
+    keep: list[tuple[float, float]] = []
+    cur = 0.0
+    for a, b in cs:
+        if a > cur:
+            keep.append((cur, a))
+        cur = max(cur, b)
+    if cur < video_dur:
+        keep.append((cur, video_dur))
+    ranges = ([(float(teaser[0]), float(teaser[1]))] if teaser else []) + keep
+    segments: list[CutSegment] = []
+    dst = 0.0
+    for a, b in ranges:
+        segments.append(CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], freeze_sec=0.0))
+        dst += b - a
+    prev_end = -1.0
+    max_atraso = 0.0
+    for si, seg in enumerate(segments):
+        seg_end_dst = seg.dst_start + (seg.src_end - seg.src_start)
+        for idx, ev in enumerate(entries):
+            dur = speech_durations.get(idx)
+            if not dur:
+                continue
+            t = float(ev.get("t_video_sec", 0.0))
+            if not (seg.src_start <= t < seg.src_end):
+                continue
+            ideal = seg.dst_start + (t - seg.src_start) + 0.2
+            start = max(ideal, prev_end + 0.15)
+            if teaser and si == 0 and start + dur > seg_end_dst:
+                continue  # fala que nao cabe no gancho fica so na hora certa
+            max_atraso = max(max_atraso, start - ideal)
+            seg.events.append({**ev, "_idx": idx, "_speech_dur": dur, "t_cut_start": round(start, 3), "t_cut_end": round(start + dur, 3)})
+            prev_end = start + dur
+        if teaser and si == 0:
+            prev_end = seg_end_dst
+    print(f"Plano linear: {len(ranges)} trechos, {dst:.1f}s, maior atraso de fala {max_atraso:.1f}s", flush=True)
+    return segments, round(dst, 3)
+
+
+def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: Path) -> bool:
+    """Som do proprio jogo nos mesmos trechos do video (normalizado baixinho, pra ficar de fundo)."""
+    ff = find_ffmpeg()
+    probe = subprocess.run([ff, "-v", "error", "-i", str(gameplay_mp4), "-map", "0:a:0", "-t", "0.1", "-f", "null", "-"], capture_output=True)
+    if probe.returncode != 0:
+        print("Gameplay sem audio do jogo", flush=True)
+        return False
+    parts = [f"[0:a]atrim=start={sg.src_start:.3f}:end={sg.src_end:.3f},asetpts=PTS-STARTPTS[a{i}]" for i, sg in enumerate(segments)]
+    parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I=-24:TP=-3[aout]")
+    subprocess.run([ff, "-v", "error", "-y", "-i", str(gameplay_mp4), "-filter_complex", ";".join(parts), "-map", "[aout]",
+                    "-c:a", "aac", "-b:a", "192k", str(out_m4a)], check=True)
+    return True
+
+
+def write_duck_envelopes(events: list[dict[str, Any]], total_dur: float, work_dir: Path) -> None:
+    """Curvas de volume (100 Hz): a trilha abaixa forte e o som do jogo abaixa um pouco enquanto o narrador fala."""
+    rate = 100
+    n = int(math.ceil(total_dur * rate)) + 1
+    fala = [0.0] * n
+    for ev in events:
+        a = int(max(0.0, ev["t_cut_start"] - 0.15) * rate)
+        b = int(min(total_dur, ev["t_cut_end"] + 0.25) * rate)
+        for i in range(a, min(n, b + 1)):
+            fala[i] = 1.0
+    # rampas: desce em 0.15 s, sobe em 0.6 s
+    s = [0.0] * n
+    v = 0.0
+    for i in range(n):
+        alvo = fala[i]
+        v = min(alvo, v + 1.0 / (0.15 * rate)) if alvo > v else max(alvo, v - 1.0 / (0.6 * rate))
+        s[i] = v
+    for nome, prof in (("duck_musica.wav", 0.78), ("duck_jogo.wav", 0.5)):
+        buf = bytearray(n * 4)
+        for i in range(n):
+            g = int((1.0 - prof * s[i]) * 32767)
+            struct.pack_into("<hh", buf, i * 4, g, g)
+        with wave.open(str(work_dir / nome), "wb") as w:
+            w.setnchannels(2)
+            w.setsampwidth(2)
+            w.setframerate(rate)
+            w.writeframes(bytes(buf))
+
+
 def load_visuals_v2(extra_dir: Path | None = None):
     candidates = [
         extra_dir,
@@ -430,6 +521,7 @@ def build_voice_sfx_master(
     total_dur: float,
     work_dir: Path,
     out_flac: Path,
+    sem_sfx: bool = False,
 ) -> list[float]:
     total_samples = max(1, int(math.ceil(total_dur * SR)))
     voz_l = [0.0] * total_samples
@@ -453,7 +545,7 @@ def build_voice_sfx_master(
                     voz_l[pos] += lv
 
             emo = ev.get("emocao", "cyan")
-            if emo in EMOTION_SFX:
+            if emo in EMOTION_SFX and not sem_sfx:
                 sfx_name, vol = EMOTION_SFX[emo]
                 sp = find_sfx(sfx_name)
                 if sp:
@@ -576,11 +668,15 @@ def run_pipeline(args: argparse.Namespace) -> int:
     turnos_sel = [int(x) for x in args.turnos.split(",")] if args.turnos else None
     congelar: dict[int, float] = {}
     mj = sess_dir / "montar.json"
-    if mj.is_file():
-        congelar = {int(k): float(v) for k, v in (json.loads(mj.read_text(encoding="utf-8")).get("congelar") or {}).items()}
+    cfg = json.loads(mj.read_text(encoding="utf-8")) if mj.is_file() else {}
+    congelar = {int(k): float(v) for k, v in (cfg.get("congelar") or {}).items()}
+    linear = cfg.get("modo") == "linear"
+    mudos = {int(x) for x in (cfg.get("mudos") or [])}
     for idx, ev in enumerate(entries):
         fala = (ev.get("fala_youtuber") or "").strip()
         if turnos_sel is not None and int(ev.get("turno", -1)) not in turnos_sel:
+            fala = ""
+        if int(ev.get("turno", -1)) in mudos:
             fala = ""
         if not fala:
             speech_durs[idx] = 0.8
@@ -590,7 +686,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
         speech_durs[idx] = wav_duration_sec(wp)
 
     # 2. Corte de tempos mortos
-    if turnos_sel is not None:
+    if linear:
+        segments, total_dur = build_linear_plan(entries, {i: d for i, d in speech_durs.items() if i in speech_wavs},
+                                                wav_duration_or_probe(gameplay_mp4), cfg.get("cortes") or [], cfg.get("teaser_trecho"))
+    elif turnos_sel is not None:
         segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4), congelar)
     else:
         segments, total_dur = build_cut_plan(entries, speech_durs)
@@ -599,8 +698,11 @@ def run_pipeline(args: argparse.Namespace) -> int:
 
     # 3. Faixa de voz + SFX + RMS 30fps
     voice_flac = work_dir / "voice_sfx_master.flac"
-    rms = build_voice_sfx_master(segments, speech_wavs, total_dur, work_dir, voice_flac)
+    rms = build_voice_sfx_master(segments, speech_wavs, total_dur, work_dir, voice_flac, sem_sfx=linear)
     total_frames = len(rms)
+    if linear:
+        render_game_audio(gameplay_mp4, segments, work_dir / "jogo.m4a")
+        write_duck_envelopes([ev for sg in segments for ev in sg.events], total_dur, work_dir)
 
     # 4. Plano dos quadros da webcam (salvo em frames.json para as 16 partes)
     all_evs = [ev for seg in segments for ev in seg.events]
@@ -692,7 +794,21 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
     mus_path, mus_vol = resolve_music_spec(args.music)
     ep_sem_abertura = work_dir / "episodio_gameplay_overlay.mp4"
 
-    if mus_path is not None:
+    jogo = work_dir / "jogo.m4a"
+    if mus_path is not None and jogo.is_file() and (work_dir / "duck_musica.wav").is_file():
+        mg = float(getattr(args, "musica_ganho", 0.45))
+        mus_args = ["-stream_loop", "-1", "-i", str(mus_path), "-i", str(jogo),
+                    "-i", str(work_dir / "duck_musica.wav"), "-i", str(work_dir / "duck_jogo.wav")]
+        st = f"aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo"
+        audio_fg = (
+            f"[1:a]{st}[voz];"
+            f"[2:a]{st},atrim=0:{total_dur:.3f},volume={mus_vol * mg:.4f}[m0];"
+            f"[4:a]aresample={SR},{st},apad,atrim=0:{total_dur:.3f}[em];[m0][em]amultiply[mus];"
+            f"[3:a]{st},apad,atrim=0:{total_dur:.3f},volume=0.9[g0];"
+            f"[5:a]aresample={SR},{st},apad,atrim=0:{total_dur:.3f}[eg];[g0][eg]amultiply[jg];"
+            f"[voz][mus][jg]amix=inputs=3:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
+        )
+    elif mus_path is not None:
         mus_args = ["-stream_loop", "-1", "-i", str(mus_path)]
         audio_fg = (
             f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo,asplit=2[voz][chave];"
@@ -850,6 +966,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--partes", type=int, default=16, help="Total de partes (padrao: 16)")
     ap.add_argument("--turnos", default=None, help="Turnos escolhidos, ex. 1,7,14 (so esses sao narrados; o jogo congela enquanto o YouTuber fala)")
     ap.add_argument("--skip-opening", action="store_true", help="Nao prepende abertura")
+    ap.add_argument("--musica-ganho", type=float, default=0.45, help="Multiplica o volume sugerido da trilha (modo linear)")
     ap.add_argument("--teaser", action="store_true", help="O 1o turno escolhido vira o gancho antes da abertura")
     ap.add_argument("--pergunta-final", default="", help="Pergunta pro publico no cartao final (vazio = sem cartao)")
     ap.add_argument("--placar-final", default="", help="Placar do cartao final (ex.: 3 SALVOS · 1 TRANCADO)")

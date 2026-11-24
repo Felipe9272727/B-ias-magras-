@@ -49,7 +49,7 @@ jobs:
           python3 -m pip install --quiet pillow
       - id: cfg
         run: |
-          python3 -c "import json;d=json.load(open('ia_youtuber/episodios/$EP/montar.json'));print('turnos='+d['turnos']);print('musica='+d.get('musica','investigations'))" >> "$GITHUB_OUTPUT"
+          python3 -c "import json;d=json.load(open('ia_youtuber/episodios/$EP/montar.json'));print('turnos='+d.get('turnos',''));print('musica='+d.get('musica','investigations'))" >> "$GITHUB_OUTPUT"
           cat "$GITHUB_OUTPUT"
       - name: Preparação (corte, narração do cache, plano dos quadros)
         env:
@@ -66,6 +66,8 @@ jobs:
             ia_youtuber/episodios/${{ env.EP }}/work_post/gameplay_cortado.mp4
             ia_youtuber/episodios/${{ env.EP }}/work_post/voice_sfx_master.flac
             ia_youtuber/episodios/${{ env.EP }}/work_post/frames.json
+            ia_youtuber/episodios/${{ env.EP }}/work_post/jogo.m4a
+            ia_youtuber/episodios/${{ env.EP }}/work_post/duck_*.wav
           retention-days: 3
 
   parte:
@@ -132,9 +134,11 @@ jobs:
           python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('musica','investigations'))" $J > /tmp/mus
           python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('pergunta_final',''))" $J > /tmp/perg
           python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('placar_final',''))" $J > /tmp/placar
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('musica_ganho',0.45))" $J > /tmp/mg
           python3 ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/$EP \
             --apis-txt /dev/null --etapa final --partes 16 --music "$(cat /tmp/mus)" \
             --pergunta-final "$(cat /tmp/perg)" --placar-final "$(cat /tmp/placar)" \
+            --musica-ganho "$(cat /tmp/mg)" \
             $(python3 -c "import json,sys;print('--teaser' if json.load(open(sys.argv[1])).get('teaser') else '')" $J) \
             --opening-mp4 ia_youtuber/episodios/$EP/abertura.mp4 --upscale-1080p \
             --out "episodio_${EP}.mp4"
