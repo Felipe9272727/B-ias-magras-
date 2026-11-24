@@ -33,16 +33,25 @@ export function easeOutCubic(t) {
 export function drawFlyingCard(ctx, { fromX, fromY, toX, toY, progress, codigo, faceDown = false, glowColor = null }) {
   const p = Math.max(0, Math.min(1, progress));
   const e = easeOutCubic(p);
-  const arc = Math.sin(p * Math.PI) * -95;
-  const x = fromX + (toX - fromX) * e;
-  const y = fromY + (toY - fromY) * e + arc;
+  const minY = Math.min(fromY, toY);
+  const arcHeight = minY < 260 ? -28 : -95;
+  const arc = Math.sin(p * Math.PI) * arcHeight;
   const scale = 0.72 + 0.48 * Math.sin(p * Math.PI) + 0.28 * e;
+  const cardW = Math.round(108 * scale);
+  const cardH = Math.round(162 * scale);
+  const rawX = fromX + (toX - fromX) * e;
+  const rawY = fromY + (toY - fromY) * e + arc;
+  const minX = Math.max(70, cardW * 0.5 + 20);
+  const minClampY = Math.max(88, cardH * 0.5 + 24);
+  const maxClampY = H - Math.max(110, cardH * 0.5 + 24);
+  const x = Math.max(minX, Math.min(W - minX, rawX));
+  const y = Math.max(minClampY, Math.min(maxClampY, rawY));
   const rot = (1 - e) * -0.65 + 0.04;
   drawUnoCard(ctx, {
     x,
     y,
-    w: Math.round(108 * scale),
-    h: Math.round(162 * scale),
+    w: cardW,
+    h: cardH,
     codigo,
     rot,
     faceDown,
@@ -53,7 +62,7 @@ export function drawFlyingCard(ctx, { fromX, fromY, toX, toY, progress, codigo, 
 /**
  * Selo carimbado estilo canal (nunca cortado pelo fim da cena, entrada com slam elastico).
  */
-export function drawStampSeal(ctx, { text, subtext = '', color = '#dc2626', x = W * 0.5, y = 265, localFrame = 0, durFrames = 65 }) {
+export function drawStampSeal(ctx, { text, subtext = '', color = '#dc2626', x = W * 0.5, y = 330, localFrame = 0, durFrames = 65, pilhaCompra = 0 }) {
   if (localFrame < 0 || localFrame > durFrames) return;
   const inP = Math.min(1, localFrame / 8);
   const outP = localFrame > durFrames - 8 ? (durFrames - localFrame) / 8 : 1;
@@ -61,14 +70,41 @@ export function drawStampSeal(ctx, { text, subtext = '', color = '#dc2626', x = 
   const alpha = Math.max(0, Math.min(1, inP * 1.4)) * Math.max(0, Math.min(1, outP));
 
   ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.translate(x, y);
-  ctx.rotate(-0.07);
-  ctx.scale(scale, scale);
-
   ctx.font = '900 44px "Bangers", "PoppinsExtraBold", sans-serif';
   const tw = Math.max(320, ctx.measureText(text).width + 68);
   const th = subtext ? 104 : 76;
+
+  // Garante margem horizontal segura para selos largos nunca cortarem nas laterais
+  const marginX = Math.max(140, tw / 2 + 28);
+  let safeX = marginX <= W - marginX
+    ? Math.max(marginX, Math.min(W - marginX, x))
+    : W * 0.5;
+  let safeY = Math.max(76, Math.min(H - 80, y));
+
+  // Selos centrais nunca devem invadir os assentos/placas superiores (Inkling/Sonnet y<=256)
+  if (safeX >= 440 && safeX <= 1480 && safeY < 325) {
+    safeY = 330;
+  }
+
+  // Evita colisao com o banner de BOMBA +N! (cx=960, cy-160=320.6, 228x68) quando ativo
+  if (pilhaCompra > 0) {
+    const bombHalfW = 132;
+    const bombTop = 278;
+    const bombBot = 364;
+    const hitsBombX = Math.abs(safeX - W * 0.5) < tw / 2 + bombHalfW;
+    const hitsBombY = safeY + th / 2 > bombTop && safeY - th / 2 < bombBot;
+    if (hitsBombX && hitsBombY) {
+      safeY = 672;
+      if (safeX + tw / 2 > 1135) {
+        safeX = Math.max(marginX, 1135 - tw / 2);
+      }
+    }
+  }
+
+  ctx.globalAlpha = alpha;
+  ctx.translate(safeX, safeY);
+  ctx.rotate(-0.07);
+  ctx.scale(scale, scale);
 
   ctx.shadowColor = 'rgba(0,0,0,0.65)';
   ctx.shadowBlur = 24;

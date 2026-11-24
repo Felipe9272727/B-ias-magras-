@@ -16,6 +16,7 @@ import {
   ASSENTOS_7,
   resolvePlayerId,
   drawUnoTable,
+  drawTableHud,
   drawPlayerSeat,
   drawDialogueCard,
 } from './uno_canvas.mjs';
@@ -156,6 +157,11 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
     const voiceAmp = rmsArr[f] ?? 0.35;
     const globalFrame = startGlobal + f;
 
+    // Limpa completamente o framebuffer antes do pan/zoom (elimina fantasmas de meme/bordas!)
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#04070f';
+    ctx.fillRect(0, 0, REC_W, REC_H);
+
     // Detecta qual IA esta falando ou pensando exatamente neste frame para animar boca/expressao!
     let activeFala = null;
     for (const seg of scene.falas || []) {
@@ -265,9 +271,22 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
 
     ctx.restore();
 
-    // Camada HUD fixa (sem zoom): Baloes de dialogo/pensamento + Selos + Memes
+    // Camada HUD fixa (sem zoom): HUD de mesa + Baloes de dialogo/pensamento + Selos + Memes
     ctx.save();
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    const isTableScene = scene.tipo !== 'capitulo' && scene.tipo !== 'elenco' && scene.tipo !== 'podio';
+    if (isTableScene && scene.mesa) {
+      drawTableHud(ctx, {
+        turno: scene.mesa.turno,
+        partidaNum: scene.mesa.partidaNum,
+        direcao: scene.mesa.direcao,
+        bannerSub: scene.mesa.bannerSub || '',
+        corAtiva: scene.mesa.corAtiva,
+        pilhaCompra: scene.mesa.pilhaCompra || 0,
+        frame: globalFrame,
+      });
+    }
 
     for (const seg of scene.falas || []) {
       if (f >= seg.at && f < seg.at + seg.dur && seg.speaker !== 'narrador') {
@@ -292,9 +311,10 @@ async function renderScene(scene, tl, ffmpegBin, outPath) {
           subtext: ov.subtext || '',
           color: ov.color || '#dc2626',
           x: ov.x ?? W * 0.5,
-          y: ov.y ?? 270,
+          y: ov.y ?? 330,
           localFrame: lf,
           durFrames: ov.dur,
+          pilhaCompra: scene.mesa?.pilhaCompra || 0,
         });
       } else if (ov.tipo === 'meme') {
         const imgs = memeAssets.get(ov.meme) || [];

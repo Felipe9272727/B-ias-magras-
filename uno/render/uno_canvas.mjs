@@ -1587,33 +1587,37 @@ export function drawUnoTable(ctx, {
   const rx = 550;
   const ry = 246;
 
-  // 1. Fundo estudio lounge escuro com profundidade arquitetonica + halo da cor ativa
-  const bg = ctx.createRadialGradient(cx, cy - 80, 60, cx, cy, 1180);
+  // 1. Fundo estudio lounge escuro com profundidade arquitetonica + halo da cor ativa (overscan contra pan/zoom)
+  const bg = ctx.createRadialGradient(cx, cy - 80, 60, cx, cy, 1380);
   bg.addColorStop(0, '#162540');
   bg.addColorStop(0.5, '#0b1324');
   bg.addColorStop(1, '#04070f');
   ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(-260, -160, W + 520, H + 320);
 
-  // Linhas sutis de perspectiva do chao/estudio
+  // Linhas sutis de perspectiva do chao/estudio estendidas alem da area de overscan
   ctx.save();
   ctx.strokeStyle = 'rgba(148,163,184,0.045)';
   ctx.lineWidth = 1.5;
-  for (let gx = -200; gx <= W + 200; gx += 160) {
+  const topY = -180;
+  const botY = H + 180;
+  const topFactor = 0.45 + 0.55 * (topY / H);
+  const botFactor = 0.45 + 0.55 * (botY / H);
+  for (let gx = -2600; gx <= W + 2600; gx += 160) {
     ctx.beginPath();
-    ctx.moveTo(cx + (gx - cx) * 0.45, 0);
-    ctx.lineTo(gx, H);
+    ctx.moveTo(cx + (gx - cx) * topFactor, topY);
+    ctx.lineTo(cx + (gx - cx) * botFactor, botY);
     ctx.stroke();
   }
   ctx.restore();
 
   // Cone de luminaria suspensa central (iluminacao dramatica de mesa de cartas)
-  const lamp = ctx.createRadialGradient(cx, cy - 110, 30, cx, cy, 740);
+  const lamp = ctx.createRadialGradient(cx, cy - 110, 30, cx, cy, 860);
   lamp.addColorStop(0, 'rgba(255,246,214,0.09)');
   lamp.addColorStop(0.55, hexToRgba(activeHex, 0.14));
   lamp.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = lamp;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(-260, -160, W + 520, H + 320);
 
   // 2. Sombra projetada da mesa no piso 2.5D
   ctx.save();
@@ -1842,28 +1846,64 @@ export function drawUnoTable(ctx, {
     ctx.fillText(`BOMBA +${pilhaCompra}!`, 0, 2);
     ctx.restore();
   }
+}
 
-  // 11. Top-Left HUD minimalista (sempre livre de colisao)
-  roundRect(ctx, 28, 22, 430, 56, 14);
-  ctx.fillStyle = 'rgba(10,15,28,0.88)';
+// =============================================================================
+// HUD FIXO DE MESA (SEM ZOOM/PAN DE CAMERA — NUNCA CORTADO NAS BORDAS!)
+// =============================================================================
+
+export function drawTableHud(ctx, {
+  turno = 1,
+  partidaNum = 1,
+  direcao = 1,
+  bannerSub = '',
+  corAtiva = 'Vermelho',
+  pilhaCompra = 0,
+  frame = 0,
+}) {
+  const activeHex = COR_HEX[corAtiva] || '#3b82f6';
+  const titleTxt = `UNO DAS IAs · PARTIDA ${partidaNum}`;
+  const subTxt = `TURNO ${turno} · ${direcao === 1 ? 'HORÁRIO' : 'ANTI-HORÁRIO'}${bannerSub ? ` · ${bannerSub}` : ''}`;
+
+  ctx.save();
+
+  // Top-Left HUD minimalista (margem segura x >= 28, y >= 22, sempre livre de colisao)
+  ctx.font = '900 20px "PoppinsExtraBold", sans-serif';
+  const titleW = ctx.measureText(titleTxt).width;
+  ctx.font = '700 14px "JetBrainsMono", monospace';
+  const subW = ctx.measureText(subTxt).width;
+  const hudW = Math.max(430, Math.min(600, Math.ceil(Math.max(titleW + 24, subW)) + 44));
+
+  roundRect(ctx, 28, 22, hudW, 56, 14);
+  ctx.fillStyle = 'rgba(10,15,28,0.90)';
   ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+  ctx.strokeStyle = pilhaCompra > 0 && (Math.floor(frame / 10) % 2 === 0)
+    ? 'rgba(239,68,68,0.65)'
+    : 'rgba(255,255,255,0.16)';
   ctx.lineWidth = 1.5;
   ctx.stroke();
+
+  // Indicador discreto da cor ativa
+  ctx.beginPath();
+  ctx.arc(46, 42, 5.5, 0, Math.PI * 2);
+  ctx.fillStyle = activeHex;
+  ctx.fill();
 
   ctx.fillStyle = '#fde047';
   ctx.font = '900 20px "PoppinsExtraBold", sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  ctx.fillText(`UNO DAS IAs · PARTIDA ${partidaNum}`, 46, 42);
+  ctx.fillText(titleTxt, 60, 42);
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '700 14px "JetBrainsMono", monospace';
-  ctx.fillText(`TURNO ${turno} · ${direcao === 1 ? 'HORÁRIO' : 'ANTI-HORÁRIO'}${bannerSub ? ` · ${bannerSub}` : ''}`, 46, 64);
+  ctx.fillText(subTxt, 46, 64);
 
-  // Selo "SO VOCE VE · MAOS REAIS" no topo direito
-  roundRect(ctx, W - 320, 22, 292, 40, 12);
-  ctx.fillStyle = 'rgba(124,58,237,0.90)';
+  // Selo "SO VOCE VE · MAOS REAIS" no topo direito (borda direita em W - 28)
+  const badgeW = 292;
+  const badgeX = W - 28 - badgeW;
+  roundRect(ctx, badgeX, 22, badgeW, 40, 12);
+  ctx.fillStyle = 'rgba(124,58,237,0.92)';
   ctx.fill();
   ctx.strokeStyle = '#e9d5ff';
   ctx.lineWidth = 1.5;
@@ -1872,7 +1912,9 @@ export function drawUnoTable(ctx, {
   ctx.font = '800 15px "PoppinsExtraBold", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('SÓ VOCÊ VÊ · MÃOS REAIS', W - 174, 42);
+  ctx.fillText('SÓ VOCÊ VÊ · MÃOS REAIS', badgeX + badgeW / 2, 42);
+
+  ctx.restore();
 }
 
 // =============================================================================
