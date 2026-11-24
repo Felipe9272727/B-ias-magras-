@@ -70,7 +70,7 @@ REQUIRED_SEMANTIC_ACTIONS = (
 )
 VALID_EMOTIONS = {"cyan", "green", "yellow", "red", "purple"}
 
-SYSTEM_PROMPT_TNMN = """Voce e o HYDROGEN (Gemini Hydrogen), uma IA que hoje assumiu a cadeira de YouTuber de terror do canal do Felipe (Felipex007) para jogar That's Not My Neighbor DE VERDADE do inicio ao fim e provar que consegue zerar o turno sem deixar nenhum doppelganger passar!
+SYSTEM_PROMPT_TNMN = """Voce e o HYDROGEN, uma IA que hoje assumiu a cadeira de YouTuber de terror do canal do Felipe (Felipex007) para jogar That's Not My Neighbor DE VERDADE do inicio ao fim e provar que consegue zerar o turno sem deixar nenhum doppelganger passar!
 
 SUAS REGRAS DO JOGO (remake no Scratch de That's Not My Neighbor - 1955, modo Arcade):
 1. Voce e o porteiro do predio. Cada pessoa que aparece na janela pede para entrar.
@@ -1004,10 +1004,53 @@ def save_checkpoint(path: Path, state: dict[str, Any]) -> None:
     tmp.replace(path)
 
 
+def call_claude_vision(
+    model: str,
+    messages: list[dict[str, Any]],
+    img: "Image.Image",
+    sess_dir: Path,
+    turno: int,
+    timeout_sec: int = 240,
+) -> tuple[dict[str, Any], str]:
+    """Joga com o Claude Code (assinatura, CLAUDE_CODE_OAUTH_TOKEN): salva o print e pede pro modelo ler com Read."""
+    shots = sess_dir / "_prints_ia"
+    shots.mkdir(parents=True, exist_ok=True)
+    img_path = (shots / f"turno_{turno:04d}.jpg").resolve()
+    img.convert("RGB").save(img_path, "JPEG", quality=86)
+    user_text = next(c["text"] for c in messages[1]["content"] if c.get("type") == "text")
+    prompt = (
+        f"{user_text}\n\nO screenshot atual (com grade 0..1000) esta em: {img_path}\n"
+        "Leia essa imagem com a ferramenta Read e responda SOMENTE com o JSON pedido, sem texto antes ou depois."
+    )
+    cmd = [
+        os.environ.get("CLAUDE_BIN", "claude"), "-p",
+        "--model", model,
+        f"--append-system-prompt={messages[0]['content']}",
+        "--allowedTools=Read",
+        "--max-turns", "4",
+        "--output-format", "text",
+    ]
+    last_err = "erro desconhecido"
+    for attempt in range(3):
+        try:
+            proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=timeout_sec)
+        except subprocess.TimeoutExpired:
+            last_err = f"timeout {timeout_sec}s"
+            continue
+        content = proc.stdout.strip()
+        parsed = parse_json_robusto(content)
+        if proc.returncode == 0 and parsed:
+            return sanitize_llm_decision(parsed), content
+        last_err = f"rc={proc.returncode} saida={content[:200]!r} erro={proc.stderr.strip()[:200]!r}"
+        time.sleep(3.0 * (attempt + 1))
+    raise RuntimeError(f"Claude falhou apos 3 tentativas: {last_err}")
+
+
 def run_live(args: argparse.Namespace) -> int:
     coords = load_and_validate_coords(args.coords)
-    api_key = read_openrouter_key(args.apis_txt)
-    if not api_key:
+    usa_claude = args.ia == "claude"
+    api_key = None if usa_claude else read_openrouter_key(args.apis_txt)
+    if not usa_claude and not api_key:
         raise RuntimeError("Falta OPENROUTER_API_KEY ou entrada 'openrouter:' em apis.txt")
 
     if args.retomar:
@@ -1035,16 +1078,19 @@ def run_live(args: argparse.Namespace) -> int:
         part_idx = 1
         rec_file = sess_dir / "gameplay_real.mp4"
 
-    # Checa saldo ANTES de iniciar gravacao/jogo (regra MEMORIA_TECNICA.md)
-    b0 = check_openrouter_budget(api_key, args.orcamento_usd, baseline_usage)
-    if not b0.ok:
-        raise RuntimeError(f"Falha ao consultar orcamento OpenRouter (/api/v1/key): {b0.error}")
-    if baseline_usage is None:
-        baseline_usage = b0.usage_usd
-    if b0.exceeded:
-        log(f"Orcamento ja atingido antes de iniciar (sessao=${b0.session_spent_usd:.4f}, restante=${b0.limit_remaining_usd}). Encerrando.")
-        return 0
-    log(f"Orcamento OpenRouter OK: baseline=${baseline_usage:.4f}, teto_sessao=${args.orcamento_usd:.2f}")
+    # Checa saldo ANTES de iniciar gravacao/jogo (regra MEMORIA_TECNICA.md); com Claude o teto e o --max-turnos
+    if usa_claude:
+        log(f"IA: Claude Code ({args.model_claude}) via assinatura; limite = {args.max_turnos} turnos")
+    b0 = None if usa_claude else check_openrouter_budget(api_key, args.orcamento_usd, baseline_usage)
+    if b0 is not None:
+        if not b0.ok:
+            raise RuntimeError(f"Falha ao consultar orcamento OpenRouter (/api/v1/key): {b0.error}")
+        if baseline_usage is None:
+            baseline_usage = b0.usage_usd
+        if b0.exceeded:
+            log(f"Orcamento ja atingido antes de iniciar (sessao=${b0.session_spent_usd:.4f}, restante=${b0.limit_remaining_usd}). Encerrando.")
+            return 0
+        log(f"Orcamento OpenRouter OK: baseline=${baseline_usage:.4f}, teto_sessao=${args.orcamento_usd:.2f}")
 
     game_proc: subprocess.Popen[bytes] | None = None
     if args.game_cmd:
@@ -1077,8 +1123,8 @@ def run_live(args: argparse.Namespace) -> int:
     try:
         while not stop_flag["stop"] and turno < args.max_turnos:
             turno += 1
-            b = check_openrouter_budget(api_key, args.orcamento_usd, baseline_usage)
-            if b.ok and b.exceeded:
+            b = None if usa_claude else check_openrouter_budget(api_key, args.orcamento_usd, baseline_usage)
+            if b is not None and b.ok and b.exceeded:
                 log(f"Trava de orcamento atingida (${b.session_spent_usd:.4f} >= ${args.orcamento_usd:.2f}). Parando graciosamente.")
                 break
 
@@ -1088,7 +1134,10 @@ def run_live(args: argparse.Namespace) -> int:
             img_url = image_to_data_url(llm_img)
 
             messages = build_turn_messages(img_url, turno, coords, memory_turns, resumo_vizinhos)
-            decision, _raw = call_openrouter_vision(api_key, args.model, messages)
+            if usa_claude:
+                decision, _raw = call_claude_vision(args.model_claude, messages, llm_img, sess_dir, turno)
+            else:
+                decision, _raw = call_openrouter_vision(api_key, args.model, messages)
 
             t_action_start = backend.current_video_sec(prior_video_sec)
             act_dur = execute_actions(decision["acoes"], backend, coords)
@@ -1127,7 +1176,7 @@ def run_live(args: argparse.Namespace) -> int:
                 "baseline_usage_usd": baseline_usage,
                 "last_video_sec": t_turn_end,
                 "recording_parts": part_idx,
-                "model": args.model,
+                "model": args.model_claude if usa_claude else args.model,
                 "backend": args.backend,
                 "memory_turns": memory_turns,
                 "resumo_vizinhos": resumo_vizinhos[-20:],
@@ -1159,6 +1208,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--width", type=int, default=1280, help="Largura da tela/gravacao (padrao: 1280)")
     ap.add_argument("--height", type=int, default=720, help="Altura da tela/gravacao (padrao: 720)")
     ap.add_argument("--fps", type=int, default=30, help="FPS da gravacao real (padrao: 30)")
+    ap.add_argument("--ia", choices=["openrouter", "claude"], default="openrouter", help="Quem joga: OpenRouter (Vision) ou Claude Code pela assinatura")
+    ap.add_argument("--model-claude", default="opus", help="Modelo do Claude Code quando --ia claude (padrao: opus)")
     ap.add_argument("--model", default="google/gemini-2.5-flash", help="Slug do modelo Vision no OpenRouter")
     ap.add_argument("--orcamento-usd", type=float, default=0.80, help="Teto de gasto em USD nesta sessao (padrao: 0.80)")
     ap.add_argument("--max-turnos", type=int, default=120, help="Maximo de turnos por execucao")

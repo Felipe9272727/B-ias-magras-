@@ -3,7 +3,8 @@ name: IA YouTuber — That's Not My Neighbor (jogar e gravar)
 # Roda o motor_tnmn.py com --backend browser (Chrome headless + SwiftShader, estável no x86 do GitHub;
 # no celular o processo de GPU do SwiftShader cai e o palco do Scratch fica branco).
 # Disparo: editar ia_youtuber/tnmn_pedido.json e dar push, ou rodar manualmente na aba Actions.
-# Precisa do secret OPENROUTER_API_KEY (Settings > Secrets and variables > Actions). A chave nunca vai pro repo.
+# Quem joga e o Claude Opus (Claude Code pela assinatura): precisa do secret CLAUDE_CODE_OAUTH_TOKEN
+# (gerado com `claude setup-token`). Opcional: ia=openrouter usa OPENROUTER_API_KEY. Nada disso vai pro repo.
 
 on:
   push:
@@ -17,15 +18,20 @@ on:
         type: choice
         options: [calibrar, jogar]
         default: calibrar
+      ia:
+        description: "Quem joga: claude (Opus pela assinatura) ou openrouter"
+        type: choice
+        options: [claude, openrouter]
+        default: claude
       orcamento_usd:
-        description: "Teto de gasto no OpenRouter (USD)"
+        description: "Teto de gasto no OpenRouter (USD), só para ia=openrouter"
         default: "0.80"
       max_turnos:
         description: "Máximo de turnos"
         default: "120"
       modelo:
-        description: "Modelo Vision no OpenRouter"
-        default: "google/gemini-2.5-flash"
+        description: "Modelo: opus (ia=claude) ou slug do OpenRouter"
+        default: "opus"
 
 permissions:
   contents: read
@@ -68,14 +74,23 @@ jobs:
           print("modo=" + v("modo", "calibrar"))
           print("orcamento_usd=" + v("orcamento_usd", "0.80"))
           print("max_turnos=" + v("max_turnos", "120"))
-          print("modelo=" + v("modelo", "google/gemini-2.5-flash"))
+          ia = v("ia", "claude")
+          print("ia=" + ia)
+          print("modelo=" + v("modelo", "opus" if ia == "claude" else "google/gemini-2.5-flash"))
           PY
           cat "$GITHUB_OUTPUT"
         env:
           IN_MODO: ${{ inputs.modo }}
+          IN_IA: ${{ inputs.ia }}
           IN_ORCAMENTO_USD: ${{ inputs.orcamento_usd }}
           IN_MAX_TURNOS: ${{ inputs.max_turnos }}
           IN_MODELO: ${{ inputs.modelo }}
+
+      - name: Claude Code
+        if: steps.p.outputs.modo == 'jogar' && steps.p.outputs.ia == 'claude'
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude --version
 
       - name: Calibrar (prints com grade 0..1000)
         if: steps.p.outputs.modo == 'calibrar'
@@ -87,12 +102,20 @@ jobs:
         if: steps.p.outputs.modo == 'jogar'
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          IA: ${{ steps.p.outputs.ia }}
+          MODELO: ${{ steps.p.outputs.modelo }}
         run: |
-          if [ -z "$OPENROUTER_API_KEY" ]; then echo "::error::Falta o secret OPENROUTER_API_KEY"; exit 1; fi
-          python3 ia_youtuber/motor_tnmn.py --backend browser \
+          if [ "$IA" = claude ]; then
+            if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then echo "::error::Falta o secret CLAUDE_CODE_OAUTH_TOKEN"; exit 1; fi
+            MOD="--ia claude --model-claude $MODELO"
+          else
+            if [ -z "$OPENROUTER_API_KEY" ]; then echo "::error::Falta o secret OPENROUTER_API_KEY"; exit 1; fi
+            MOD="--ia openrouter --model $MODELO"
+          fi
+          python3 ia_youtuber/motor_tnmn.py --backend browser $MOD \
             --orcamento-usd "${{ steps.p.outputs.orcamento_usd }}" \
             --max-turnos "${{ steps.p.outputs.max_turnos }}" \
-            --model "${{ steps.p.outputs.modelo }}" \
             --sessao-dir "ia_youtuber/gravacoes/gh_${GITHUB_RUN_ID}"
 
       - name: Limpar perfil do navegador
