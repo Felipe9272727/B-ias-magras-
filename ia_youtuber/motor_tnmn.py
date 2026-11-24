@@ -1220,7 +1220,7 @@ def run_live(args: argparse.Namespace) -> int:
                 "emocao": decision["emocao"],
                 "selo": decision["selo"],
                 "acoes": decision["acoes"],
-                "session_spent_usd": round(b.session_spent_usd, 5) if b.ok else None,
+                "session_spent_usd": round(b.session_spent_usd, 5) if b is not None and b.ok else None,
             }
             with session_log_path.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
