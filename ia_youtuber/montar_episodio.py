@@ -382,7 +382,12 @@ def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: P
     if probe.returncode != 0:
         print("Gameplay sem audio do jogo", flush=True)
         return False
-    parts = [f"[0:a]atrim=start={sg.src_start:.3f}:end={sg.src_end:.3f},asetpts=PTS-STARTPTS[a{i}]" for i, sg in enumerate(segments)]
+    parts = [
+        f"[0:a]atrim=start={sg.src_start:.3f}:end={sg.src_end:.3f},asetpts=PTS-STARTPTS,"
+        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={sg.src_end - sg.src_start:.3f},"
+        f"atrim=0:{sg.src_end - sg.src_start:.3f}[a{i}]"
+        for i, sg in enumerate(segments)
+    ]
     parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I=-24:TP=-3[aout]")
     subprocess.run([ff, "-v", "error", "-y", "-i", str(gameplay_mp4), "-filter_complex", ";".join(parts), "-map", "[aout]",
                     "-c:a", "aac", "-b:a", "192k", str(out_m4a)], check=True)
