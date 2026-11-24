@@ -960,6 +960,14 @@ def run_calibrate(args: argparse.Namespace) -> int:
                 shot = backend.capture_screenshot()
                 draw_precision_grid(shot).save(sess_dir / f"calibracao_grade_bandeira_{espera:02d}s.png")
             log("Prints depois da bandeira verde salvos (calibracao_grade_bandeira_*.png).")
+            # PLAY (tela de titulo, ~x776 y169 na grade 0..1000) e prints da portaria/tutorial
+            backend.click(776, 169)
+            for espera in (5, 10, 15, 30):
+                time.sleep(espera)
+                shot = backend.capture_screenshot()
+                draw_precision_grid(shot).save(sess_dir / f"calibracao_grade_play_{espera:02d}s.png")
+                backend.click(500, 500)  # avanca dialogo/tutorial se houver
+            log("Prints depois do PLAY salvos (calibracao_grade_play_*.png).")
         log("Use os numeros da grade 0..1000 para ajustar ia_youtuber/coords_tnmn.json e defina \"calibrado\": true.")
     finally:
         if hasattr(backend, "close"):
