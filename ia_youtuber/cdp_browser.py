@@ -577,7 +577,7 @@ class BrowserCDPBackend:
         finally:
             log_stderr.close()
 
-        ws_url = self._fetch_ws_debugger_url(timeout=18.0)
+        ws_url = self._fetch_ws_debugger_url(timeout=45.0)
         self._cdp = CDPClient(ws_url)
         self._cdp.call("Page.enable")
         self._cdp.call("Runtime.enable")
@@ -648,11 +648,13 @@ class BrowserCDPBackend:
                 "Input.dispatchMouseEvent",
                 {"type": "mouseMoved", "x": px, "y": py, "button": "none"},
             )
+            # Scratch le o mouse 1x por quadro e o SwiftShader e lento: passar por cima e segurar o clique
+            time.sleep(0.15)
             self._cdp.call(
                 "Input.dispatchMouseEvent",
                 {"type": "mousePressed", "x": px, "y": py, "button": "left", "clickCount": 1},
             )
-            time.sleep(0.06)
+            time.sleep(0.25)
             self._cdp.call(
                 "Input.dispatchMouseEvent",
                 {"type": "mouseReleased", "x": px, "y": py, "button": "left", "clickCount": 1},
