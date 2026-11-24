@@ -57,6 +57,13 @@ for(const [fx,fy] of pts){const sx=b.left+(b.right-b.left)*fx,sy=b.bottom+(b.top
  if(r.pick(cx,cy,1,1,cand)===t.drawableID)return [rc.left+cx,rc.top+cy,1];}
 return [rc.left+((b.left+b.right)/2+W/2)/W*cw,rc.top+(H/2-(b.top+b.bottom)/2)/H*ch,0];})()"""
 
+JS_CLICADO = r"""(()=>{const v=window.vm;if(!v)return 0;const re=new RegExp(%(regex)s);
+const ts=v.runtime.targets.filter(t=>!t.isStage&&t.sprite.name===%(sprite)s&&t.visible&&re.test(t.getCostumes()[t.currentCostume].name));
+if(!ts.length)return 0;v.runtime.startHats('event_whenthisspriteclicked',null,ts[0]);return 1;})()"""
+
+# botoes que ficam debaixo da caixa de dialogo do jogo: o clique e entregue direto ao botao (mesmo evento do Scratch)
+DIRETO = {"porta", "caixa_perigo"}
+
 # (sprite, regex do nome do traje)
 ALVOS: dict[str, tuple[str, str]] = {
     "porta": ("Buttons", r"^1 [01]$"),
@@ -152,6 +159,10 @@ class Ajudantes:
                 alvo = novo
                 break
             alvo = novo
+        if nome in DIRETO:
+            sprite, regex = ALVOS[nome]
+            ok = self.js(JS_CLICADO % {"sprite": json.dumps(sprite), "regex": json.dumps(regex)})
+            return bool(ok)
         if alvo[2] == 0:
             self.log(f"[ajudante] '{nome}': ponto exato nao confirmado, clicando no centro do botao")
         self.b.click_px(alvo[0], alvo[1])
