@@ -35,6 +35,7 @@ from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
+os.environ.setdefault("TNMN_LAYOUT", "side")
 ASSETS_DIR = Path(os.environ.get("UNO_ASSETS_DIR", REPO_ROOT / "video" / "remotion" / "public"))
 SFX_DIR = ASSETS_DIR / "sfx"
 MUSIC_DIR = ASSETS_DIR / "music"
@@ -311,7 +312,8 @@ def build_turn_plan(
         t1 = float(entries[idx + 1]["t_video_sec"]) if idx + 1 < len(entries) else min(video_dur, t0 + 4.0)
         t1 = max(t1, t0 + 1.0)
         fala = float(speech_durations.get(idx, 0.0))
-        freeze = fala + 0.25 if fala > 0 else 0.0
+        acao = t1 - t0
+        freeze = max(0.35, fala + 0.35 - acao) if fala > 0 else 0.0
         mapped = {**ev, "_idx": idx, "_speech_dur": fala, "t_cut_start": round(dst + 0.15, 3), "t_cut_end": round(dst + 0.15 + fala, 3)}
         segments.append(CutSegment(src_start=round(t0, 3), src_end=round(t1, 3), dst_start=round(dst, 3), events=[mapped], freeze_sec=round(freeze, 3)))
         dst += freeze + (t1 - t0)
@@ -374,6 +376,20 @@ def _render_overlay_frame(task: tuple[int, float, float, str, str, str, float, f
     return fi
 
 
+STAGE_CROP = "crop=888:666:197:49"  # palco 4:3 do TurboWarp dentro do 1280x720 (sem a borda branca da pagina)
+STAGE_W, STAGE_H = 960, 720
+
+
+def _drift(i: int, dur: float) -> str:
+    """Camera com deriva lenta em toda cena (zoom suave, alternando o ponto de foco)."""
+    n = max(1, int(round(dur * FPS)))
+    fx, fy = [("0.5", "0.5"), ("0.42", "0.45"), ("0.58", "0.45"), ("0.5", "0.6")][i % 4]
+    z = f"1+0.055*on/{n}"
+    return (
+        f",zoompan=z='{z}':x='(iw-iw/zoom)*{fx}':y='(ih-ih/zoom)*{fy}':d=1:s={STAGE_W}x{STAGE_H}:fps={FPS}"
+    )
+
+
 def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4: Path, width: int, height: int) -> None:
     ff = find_ffmpeg()
     parts: list[str] = []
@@ -381,12 +397,15 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
     for i, seg in enumerate(segments):
         parts.append(
             f"[0:v]trim=start={seg.src_start:.3f}:end={seg.src_end:.3f},"
-            f"setpts=PTS-STARTPTS,fps={FPS},scale={width}:{height}:flags=lanczos"
+            f"setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
             + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
+            + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec)
             + f"[v{i}]"
         )
         concat_inputs += f"[v{i}]"
-    parts.append(f"{concat_inputs}concat=n={len(segments)}:v=1:a=0[vout]")
+    parts.append(f"{concat_inputs}concat=n={len(segments)}:v=1:a=0,split[ca][cb]")
+    parts.append(f"[ca]scale={width}:{height},boxblur=24:2,eq=brightness=-0.22:saturation=0.55[bg]")
+    parts.append(f"[bg][cb]overlay={width - STAGE_W}:0,setsar=1[vout]")
     subprocess.run(
         [
             ff, "-v", "error", "-y", "-i", str(gameplay_mp4),
@@ -406,6 +425,7 @@ def build_voice_sfx_master(
     out_flac: Path,
 ) -> list[float]:
     total_samples = max(1, int(math.ceil(total_dur * SR)))
+    voz_l = [0.0] * total_samples
     mix_l = [0.0] * total_samples
     mix_r = [0.0] * total_samples
     ff = find_ffmpeg()
@@ -423,6 +443,7 @@ def build_voice_sfx_master(
                         break
                     mix_l[pos] += lv
                     mix_r[pos] += rv
+                    voz_l[pos] += lv
 
             emo = ev.get("emocao", "cyan")
             if emo in EMOTION_SFX:
@@ -445,7 +466,7 @@ def build_voice_sfx_master(
                         mix_r[pos] += rv * vol
 
     total_frames = int(math.ceil(total_dur * FPS))
-    rms = compute_rms_30fps(mix_l, total_frames)
+    rms = compute_rms_30fps(voz_l, total_frames)
 
     peak = max(0.001, max(max(abs(x) for x in mix_l), max(abs(x) for x in mix_r)))
     norm = min(1.0, 0.85 / peak)
@@ -463,6 +484,34 @@ def build_voice_sfx_master(
     subprocess.run([ff, "-v", "error", "-y", "-i", str(raw_wav), "-c:a", "flac", str(out_flac)], check=True)
     raw_wav.unlink(missing_ok=True)
     return rms
+
+
+def caption_chunks(fala: str, t0: float, t1: float, max_words: int = 7) -> list[tuple[float, float, str]]:
+    """Divide a fala em blocos de ate 7 palavras, com o tempo proporcional ao numero de letras."""
+    words = (fala or "").split()
+    if not words or t1 <= t0:
+        return []
+    chunks: list[str] = []
+    cur: list[str] = []
+    for w in words:
+        cur.append(w)
+        if len(cur) >= max_words or (len(cur) >= 4 and w[-1:] in ".!?,"):
+            chunks.append(" ".join(cur))
+            cur = []
+    if cur:
+        if chunks and len(cur) <= 2:
+            chunks[-1] += " " + " ".join(cur)
+        else:
+            chunks.append(" ".join(cur))
+    total = sum(len(c) + 2 for c in chunks)
+    out = []
+    t = t0
+    for i, c in enumerate(chunks):
+        d = (t1 - t0) * (len(c) + 2) / total
+        end = t + d if i < len(chunks) - 1 else t1 + 0.35
+        out.append((t, end, c))
+        t += d
+    return out
 
 
 def run_dry_run(args: argparse.Namespace) -> int:
@@ -545,17 +594,35 @@ def run_pipeline(args: argparse.Namespace) -> int:
     # 4. Plano dos quadros da webcam (salvo em frames.json para as 16 partes)
     all_evs = [ev for seg in segments for ev in seg.events]
     quadros = []
+    blocos = {id(ev): caption_chunks(ev.get("fala_youtuber", ""), ev["t_cut_start"], ev["t_cut_end"]) for ev in all_evs}
+    amp_s = 0.0
     for fi in range(total_frames):
         t = fi / FPS
         active_ev = None
         for ev in all_evs:
-            if ev["t_cut_start"] <= t <= ev["t_cut_end"]:
+            if ev["t_cut_start"] <= t <= ev["t_cut_end"] + 0.35:
                 active_ev = ev
                 break
-        emo = active_ev.get("emocao", "cyan") if active_ev else "cyan"
-        cap = active_ev.get("fala_youtuber", "") if active_ev else ""
-        stamp = (active_ev.get("selo") or "") if active_ev else ""
-        quadros.append([fi, round(t, 4), rms[fi], emo, cap, stamp, 1.0 if stamp else 0.0, min(1.0, max(0.0, t / 0.6))])
+        # boca: so a voz, com subida rapida e descida curta; silencio = boca parada
+        raw = rms[fi] if rms[fi] >= 0.05 else 0.0
+        amp_s = raw if raw > amp_s else amp_s * 0.55 + raw * 0.45
+        amp = round(min(1.0, amp_s * 1.25), 3) if amp_s >= 0.03 else 0.0
+        emo, cap, stamp, stamp_p = "cyan", "", "", 0.0
+        if active_ev:
+            dt = t - active_ev["t_cut_start"]
+            selo = (active_ev.get("selo") or "").strip()
+            e = active_ev.get("emocao", "cyan")
+            # expressao neutra na maior parte do tempo: a emocao so aparece no pico (selo ou panico/hype), por ~2 s
+            if e != "cyan" and (selo or e in ("red", "green", "purple")) and 0.0 <= dt <= 2.0:
+                emo = e
+            for c0, c1, txt in blocos[id(active_ev)]:
+                if c0 <= t < c1:
+                    cap = txt
+                    break
+            if selo and 0.0 <= dt <= 2.8:
+                stamp = selo
+                stamp_p = min(1.0, dt / 0.18) if dt < 2.55 else max(0.0, (2.8 - dt) / 0.25)
+        quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6))])
     (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
         print(f"PREP PRONTA: {total_frames} quadros, {total_dur:.2f}s", flush=True)

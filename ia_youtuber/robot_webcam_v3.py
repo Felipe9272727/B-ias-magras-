@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import html
 import math
+import os
 
 W, H = 1280, 720
 CAM_W, CAM_H = 480.0, 270.0  # 16:9 exato -> zero distorcao fullscreen ou canto
@@ -134,6 +135,8 @@ def _hex_points(cx: float, cy: float, r: float) -> str:
 def svg_caption(text: str, speaker: str | None, emotion: str) -> str:
     if not text:
         return ""
+    if os.environ.get("TNMN_LAYOUT") == "side":
+        return _svg_caption_side(text, speaker, emotion)
     lines = wrap_caption(text, 48)
     col_main, col_dark, col_hi, _, _ = get_palette(emotion)
     is_robo = speaker == "robo"
@@ -167,6 +170,33 @@ def svg_caption(text: str, speaker: str | None, emotion: str) -> str:
         parts.append(
             f'  <text x="{W / 2.0:.1f}" y="{ly:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="800" font-size="23.5" fill="#020617" stroke="#020617" stroke-width="5.5" stroke-linejoin="round">{esc}</text>'
             f'  <text x="{W / 2.0:.1f}" y="{ly:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="800" font-size="23.5" fill="#f8fafc">{esc}</text>'
+        )
+    parts.append("</g>")
+    return "\n".join(parts)
+
+
+def _svg_caption_side(text: str, speaker: str | None, emotion: str) -> str:
+    """Legenda na coluna da esquerda (o palco do jogo fica em x=320..1280 e nada tapa o jogo)."""
+    lines = wrap_caption(text, 19)[:4]
+    col_main, col_dark, col_hi, _, _ = get_palette(emotion)
+    n = len(lines)
+    lh = 31.0
+    box_x, box_w = 14.0, 292.0
+    box_h = 30.0 + n * lh
+    box_y = 470.0 - box_h / 2.0
+    parts = [
+        '<g class="caption">',
+        f'  <rect x="{box_x + 3:.1f}" y="{box_y + 5:.1f}" width="{box_w:.1f}" height="{box_h:.1f}" rx="14" fill="#000000" fill-opacity="0.55"/>',
+        f'  <rect x="{box_x:.1f}" y="{box_y:.1f}" width="{box_w:.1f}" height="{box_h:.1f}" rx="14" fill="#070b15" fill-opacity="0.92" stroke="{col_main}" stroke-width="2.4"/>',
+        f'  <rect x="{box_x + 18:.1f}" y="{box_y - 15:.1f}" width="122" height="26" rx="8" fill="{col_dark}" stroke="{col_hi}" stroke-width="1.6"/>',
+        f'  <text x="{box_x + 79:.1f}" y="{box_y + 2.5:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="13.5" fill="#ffffff" letter-spacing="1.1">HYDROGEN</text>',
+    ]
+    for idx, line in enumerate(lines):
+        ly = box_y + 38.0 + idx * lh
+        esc = html.escape(line)
+        parts.append(
+            f'  <text x="{box_x + box_w / 2:.1f}" y="{ly:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="800" font-size="25" fill="#020617" stroke="#020617" stroke-width="5.5" stroke-linejoin="round">{esc}</text>'
+            f'  <text x="{box_x + box_w / 2:.1f}" y="{ly:.1f}" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="800" font-size="25" fill="#f8fafc">{esc}</text>'
         )
     parts.append("</g>")
     return "\n".join(parts)
@@ -1046,7 +1076,7 @@ def _draw_robot_inside_box(
             f'<rect x="{bx:.1f}" y="{by:.1f}" width="6.2" height="{h_bar:.1f}" rx="3.1" fill="{col_main}" opacity="{clamp(base_glow):.2f}" filter="url(#roboGlow)"/>'
             f'<rect x="{bx + 1.4:.1f}" y="{by + 1.1:.1f}" width="3.4" height="{max(1.5, h_bar - 2.2):.1f}" rx="1.7" fill="{col_hi}" opacity="{clamp(0.42 + amp * 0.55):.2f}"/>'
         )
-        wy = 152.0 + math.sin(t * 32.0 + i * 1.05) * (1.2 + amp * 5.8 * envelope)
+        wy = 152.0 + math.sin(t * 32.0 + i * 1.05) * (amp * 7.0 * envelope)
         wave_pts.append(f"{bx + 3.1:.1f},{wy:.1f}")
 
     mouth_svg = f'''
