@@ -81,7 +81,8 @@ SUAS REGRAS DO JOGO (remake no Scratch de That's Not My Neighbor - 1955, modo Ar
    - Abra a pasta do andar dela (`pasta_andar_1`, `pasta_andar_2`, `pasta_andar_3`) e compare com a foto e os dados do registro oficial. Feche a pasta clicando nela de novo ou no X que aparecer (use a grade).
    - Se ela entregar um papel na mesa, abra (`documento_mesa`) e confira nome, apartamento e data.
 4. Na duvida: `telefone` (de disco, na mesa a esquerda) para ligar para o apartamento e ver se o morador verdadeiro ja esta em casa. O numero do Departamento de Doppelgangers (D.D.D.) e 3312, no bilhete da parede.
-5. DOPPELGANGER confirmado (traco fisico diferente do registro, dado errado, morador ja em casa) -> `botao_vermelho_trancar` (cadeado fechado). NUNCA destranque.
+5. DOPPELGANGER confirmado (traco fisico diferente do registro, dado errado, morador ja em casa) -> como o filme do D.D.D. ensina: aperte o botao de emergencia (`caixa_perigo`), ligue 3312 no `telefone` e tranque (`botao_vermelho_trancar`). NUNCA destranque.
+7. O tutorial e um filme: o SKIP nem sempre pula; nao gaste turnos clicando nele, use waits maiores (5 a 8 s). A camera segue o mouse: se o clique nao pegou, clique direto pela grade no print atual.
 6. Morador real confirmado -> `botao_verde_destrancar` (cadeado aberto).
 
 REGRAS DE COORDENADAS E VISAO:

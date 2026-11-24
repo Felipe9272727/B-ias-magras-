@@ -11,7 +11,8 @@
     "Calibrado em 24/11 nos prints do GitHub Actions (Chrome 1280x720, TurboWarp embed do projeto Scratch 1151980401, remake 'That's Not My Neighbor 1.2.1').",
     "Coordenadas normalizadas 0..1000. Esta versao do Scratch NAO tem persiana nem lista do dia: tem pastas por andar, botoes de destrancar (verde) e trancar (vermelho), telefone de disco e o bilhete D.D.D. 3312.",
     "Telas internas (pasta aberta, documento aberto, telefone) ainda nao foram vistas: ali a IA deve clicar direto pela grade.",
-    "teclado_telefone continua estimado (o telefone e de disco); preferir coordenadas diretas olhando a grade."
+    "teclado_telefone continua estimado (o telefone e de disco); preferir coordenadas diretas olhando a grade.",
+    "Partida 1 (24/11): a camera acompanha o mouse; botoes verde/vermelho medidos com a camera centralizada. Se um clique nao pegar, clique direto pela grade no print atual."
   ],
   "acoes": {
     "menu_play": {
@@ -42,19 +43,19 @@
       "tipo": "click",
       "x": 773,
       "y": 215,
-      "descricao": "Pasta amarela '1o Floor' (registro dos moradores do 1o andar) na parede a direita"
+      "descricao": "Pasta amarela '1o Floor' (registro dos moradores do 1o andar) na parede a direita. Cada clique na pasta aberta passa pra proxima ficha (R01..R04); fecha com um clique depois da ultima. Clicar fora NAO fecha."
     },
     "pasta_andar_2": {
       "tipo": "click",
       "x": 773,
       "y": 382,
-      "descricao": "Pasta amarela '2o Floor' (moradores do 2o andar)"
+      "descricao": "Pasta amarela '2o Floor' (moradores do 2o andar). Cada clique na pasta aberta passa pra proxima ficha (R01..R04); fecha com um clique depois da ultima. Clicar fora NAO fecha."
     },
     "pasta_andar_3": {
       "tipo": "click",
       "x": 773,
       "y": 542,
-      "descricao": "Pasta amarela '3o Floor' (moradores do 3o andar)"
+      "descricao": "Pasta amarela '3o Floor' (moradores do 3o andar). Cada clique na pasta aberta passa pra proxima ficha (R01..R04); fecha com um clique depois da ultima. Clicar fora NAO fecha."
     },
     "quadro_moradores": {
       "tipo": "click",
@@ -76,14 +77,14 @@
     },
     "botao_verde_destrancar": {
       "tipo": "click",
-      "x": 660,
-      "y": 736,
+      "x": 714,
+      "y": 739,
       "descricao": "Botao VERDE com cadeado aberto: deixar o visitante entrar (e morador de verdade)"
     },
     "botao_vermelho_trancar": {
       "tipo": "click",
-      "x": 719,
-      "y": 736,
+      "x": 768,
+      "y": 739,
       "descricao": "Botao VERMELHO com cadeado fechado: barrar o visitante (e doppelganger)"
     },
     "telefone": {
