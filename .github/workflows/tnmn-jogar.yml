@@ -1,0 +1,109 @@
+name: IA YouTuber — That's Not My Neighbor (jogar e gravar)
+
+# Roda o motor_tnmn.py com --backend browser (Chrome headless + SwiftShader, estável no x86 do GitHub;
+# no celular o processo de GPU do SwiftShader cai e o palco do Scratch fica branco).
+# Disparo: editar ia_youtuber/tnmn_pedido.json e dar push, ou rodar manualmente na aba Actions.
+# Precisa do secret OPENROUTER_API_KEY (Settings > Secrets and variables > Actions). A chave nunca vai pro repo.
+
+on:
+  push:
+    branches: ["claude/wizardly-bell-35bp85", "claude/video-3", "main"]
+    paths:
+      - "ia_youtuber/tnmn_pedido.json"
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "calibrar (só prints com grade, sem gastar IA) ou jogar"
+        type: choice
+        options: [calibrar, jogar]
+        default: calibrar
+      orcamento_usd:
+        description: "Teto de gasto no OpenRouter (USD)"
+        default: "0.80"
+      max_turnos:
+        description: "Máximo de turnos"
+        default: "120"
+      modelo:
+        description: "Modelo Vision no OpenRouter"
+        default: "google/gemini-2.5-flash"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tnmn-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  jogar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            ia_youtuber
+
+      - name: Dependências
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          python3 -m pip install --quiet pillow
+          for b in google-chrome google-chrome-stable chromium chromium-browser; do command -v $b && break; done
+
+      - name: Parâmetros
+        id: p
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          ped = {}
+          if os.path.exists("ia_youtuber/tnmn_pedido.json"):
+              ped = json.load(open("ia_youtuber/tnmn_pedido.json"))
+          manual = os.environ["GITHUB_EVENT_NAME"] == "workflow_dispatch"
+          def v(k, padrao):
+              if manual:
+                  return os.environ.get("IN_" + k.upper()) or padrao
+              return str(ped.get(k, padrao))
+          print("modo=" + v("modo", "calibrar"))
+          print("orcamento_usd=" + v("orcamento_usd", "0.80"))
+          print("max_turnos=" + v("max_turnos", "120"))
+          print("modelo=" + v("modelo", "google/gemini-2.5-flash"))
+          PY
+          cat "$GITHUB_OUTPUT"
+        env:
+          IN_MODO: ${{ inputs.modo }}
+          IN_ORCAMENTO_USD: ${{ inputs.orcamento_usd }}
+          IN_MAX_TURNOS: ${{ inputs.max_turnos }}
+          IN_MODELO: ${{ inputs.modelo }}
+
+      - name: Calibrar (prints com grade 0..1000)
+        if: steps.p.outputs.modo == 'calibrar'
+        run: |
+          python3 ia_youtuber/motor_tnmn.py --backend browser --calibrar \
+            --sessao-dir "ia_youtuber/gravacoes/gh_${GITHUB_RUN_ID}"
+
+      - name: Jogar e gravar
+        if: steps.p.outputs.modo == 'jogar'
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then echo "::error::Falta o secret OPENROUTER_API_KEY"; exit 1; fi
+          python3 ia_youtuber/motor_tnmn.py --backend browser \
+            --orcamento-usd "${{ steps.p.outputs.orcamento_usd }}" \
+            --max-turnos "${{ steps.p.outputs.max_turnos }}" \
+            --model "${{ steps.p.outputs.modelo }}" \
+            --sessao-dir "ia_youtuber/gravacoes/gh_${GITHUB_RUN_ID}"
+
+      - name: Limpar perfil do navegador
+        if: always()
+        run: rm -rf ia_youtuber/gravacoes/*/_chromium_profile_* ia_youtuber/gravacoes/*/_frames* || true
+
+      - name: Enviar gravação
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tnmn-${{ steps.p.outputs.modo }}-${{ github.run_id }}
+          path: ia_youtuber/gravacoes/
+          retention-days: 14
+          if-no-files-found: warn

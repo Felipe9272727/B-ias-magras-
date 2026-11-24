@@ -1,0 +1,113 @@
+{
+  "jogo": "That's Not My Neighbor",
+  "versao_mapa": 1,
+  "calibrado": false,
+  "sistema_coordenadas": "normalizado_0_1000",
+  "resolucao_referencia": [1280, 720],
+  "notas_calibracao": [
+    "Todas as coordenadas (x, y) estao normalizadas de 0 a 1000 (0,0 = topo-esquerda; 1000,1000 = base-direita), independente da resolucao (1280x720, 1920x1080, etc.).",
+    "Como 'calibrado' esta false, estes valores sao estimativas iniciais para tela 16:9 do That's Not My Neighbor (Nacho Sama). Rode `python3 ia_youtuber/motor_tnmn.py --calibrar` para gerar um print com grade 0..1000 e ajustar se necessario.",
+    "Mesmo antes de calibrar manualmente, o Vision LLM recebe uma grade visual 0..1000 desenhada em memoria sobre o screenshot e pode emitir cliques/arrastes diretos com precisao."
+  ],
+  "acoes": {
+    "persiana_corda": {
+      "tipo": "click",
+      "x": 642,
+      "y": 148,
+      "drag_alternativo": {"x1": 642, "y1": 140, "x2": 642, "y2": 320},
+      "descricao": "Corda / puxador da persiana da janela da portaria (abrir ou fechar)"
+    },
+    "pasta_registros": {
+      "tipo": "click",
+      "x": 185,
+      "y": 650,
+      "descricao": "Pasta verde de registros dos apartamentos/moradores na mesa/parede esquerda"
+    },
+    "fechar_pasta": {
+      "tipo": "click",
+      "x": 885,
+      "y": 135,
+      "descricao": "Botao X ou borda para fechar a pasta de registros aberta"
+    },
+    "proxima_pagina_pasta": {
+      "tipo": "click",
+      "x": 790,
+      "y": 520,
+      "descricao": "Avancar pagina/aba na pasta de registros dos andares"
+    },
+    "pagina_anterior_pasta": {
+      "tipo": "click",
+      "x": 210,
+      "y": 520,
+      "descricao": "Voltar pagina/aba na pasta de registros dos andares"
+    },
+    "lista_hoje": {
+      "tipo": "click",
+      "x": 875,
+      "y": 310,
+      "descricao": "Today's List (Lista de Hoje) pregada na parede/quadro a direita"
+    },
+    "documento_mesa": {
+      "tipo": "click",
+      "x": 495,
+      "y": 790,
+      "descricao": "Pegar documento (ID Card ou Entry Request) entregue na bandeja da mesa"
+    },
+    "fechar_documento": {
+      "tipo": "click",
+      "x": 860,
+      "y": 160,
+      "descricao": "Guardar / fechar documento aberto em inspecao"
+    },
+    "perguntar_btn": {
+      "tipo": "click",
+      "x": 495,
+      "y": 625,
+      "descricao": "Botao/icone de interrogar o vizinho sobre inconsistencias (aparencia, ID, entrada)"
+    },
+    "telefone_gancho": {
+      "tipo": "click",
+      "x": 815,
+      "y": 640,
+      "descricao": "Tirar ou colocar o telefone no gancho para ligar para apartamento ou 3312"
+    },
+    "botao_verde": {
+      "tipo": "click",
+      "x": 665,
+      "y": 785,
+      "descricao": "Botao verde para liberar a entrada do morador (abrir portao)"
+    },
+    "tampa_ddd": {
+      "tipo": "click",
+      "x": 775,
+      "y": 775,
+      "descricao": "Levantar tampa protetora do botao vermelho de emergencia D.D.D."
+    },
+    "botao_vermelho_ddd": {
+      "tipo": "click",
+      "x": 775,
+      "y": 790,
+      "descricao": "Botao vermelho de emergencia D.D.D. (acionar apos confirmar doppelganger ou discar 3312)"
+    },
+    "tela_continuar": {
+      "tipo": "click",
+      "x": 500,
+      "y": 820,
+      "descricao": "Botao Continue / Next / Start Shift em menus, transicoes e relatorio final"
+    }
+  },
+  "teclado_telefone": {
+    "1": {"x": 775, "y": 465},
+    "2": {"x": 825, "y": 465},
+    "3": {"x": 875, "y": 465},
+    "4": {"x": 775, "y": 530},
+    "5": {"x": 825, "y": 530},
+    "6": {"x": 875, "y": 530},
+    "7": {"x": 775, "y": 595},
+    "8": {"x": 825, "y": 595},
+    "9": {"x": 875, "y": 595},
+    "0": {"x": 825, "y": 660},
+    "ligar": {"x": 825, "y": 720},
+    "desligar": {"x": 745, "y": 640}
+  }
+}
