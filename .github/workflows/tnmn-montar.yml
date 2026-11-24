@@ -1,0 +1,136 @@
+name: IA YouTuber — Montar episódio (16 partes em paralelo)
+
+# Entrada: ia_youtuber/episodios/<ep>/ com gameplay_real.mp4, session_log.jsonl, abertura.mp4,
+# vozes/*.mp3 (cache da narração, não gasta ElevenLabs de novo) e montar.json (turnos, música).
+# prep (corte + narração + plano dos quadros) -> 16 partes (webcam do robô) -> final (junta, mixa, abertura, 1080p, Gofile).
+
+on:
+  push:
+    branches: ["claude/wizardly-bell-35bp85", "main"]
+    paths:
+      - "ia_youtuber/episodios/*/montar.json"
+  workflow_dispatch:
+    inputs:
+      ep:
+        description: "Pasta do episódio em ia_youtuber/episodios/"
+        default: "p1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tnmn-montar-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EP: ${{ inputs.ep || 'p1' }}
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      turnos: ${{ steps.cfg.outputs.turnos }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            ia_youtuber
+            video/remotion/public/music
+            video/remotion/public/sfx
+            video/remotion/public/sfx_au2
+            video/remotion/public/sfx_au4
+            video/remotion/public/sfx_jogo
+      - name: Dependências
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-roboto
+          python3 -m pip install --quiet pillow
+      - id: cfg
+        run: |
+          python3 -c "import json;d=json.load(open('ia_youtuber/episodios/$EP/montar.json'));print('turnos='+d['turnos']);print('musica='+d.get('musica','investigations'))" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+      - name: Preparação (corte, narração do cache, plano dos quadros)
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          mkdir -p ia_youtuber/voice_cache && cp ia_youtuber/episodios/$EP/vozes/*.mp3 ia_youtuber/voice_cache/ 2>/dev/null || true
+          python3 ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/$EP \
+            --turnos "${{ steps.cfg.outputs.turnos }}" --music "${{ steps.cfg.outputs.musica }}" \
+            --apis-txt /dev/null --etapa prep
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prep
+          path: |
+            ia_youtuber/episodios/${{ env.EP }}/work_post/gameplay_cortado.mp4
+            ia_youtuber/episodios/${{ env.EP }}/work_post/voice_sfx_master.flac
+            ia_youtuber/episodios/${{ env.EP }}/work_post/frames.json
+          retention-days: 3
+
+  parte:
+    needs: prep
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        p: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    name: Parte ${{ matrix.p }} / 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            ia_youtuber
+      - name: Dependências
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-roboto
+          python3 -m pip install --quiet pillow
+      - uses: actions/download-artifact@v4
+        with:
+          name: prep
+          path: ia_youtuber/episodios/${{ env.EP }}/work_post
+      - name: Renderizar parte
+        run: |
+          python3 ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/$EP \
+            --apis-txt /dev/null --etapa parte --parte ${{ matrix.p }} --partes 16
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parte-${{ matrix.p }}
+          path: ia_youtuber/episodios/${{ env.EP }}/work_post/parte_*.mp4
+          retention-days: 3
+
+  final:
+    needs: [prep, parte]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            ia_youtuber
+            video/remotion/public/music
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          path: ia_youtuber/episodios/${{ env.EP }}/work_post
+          merge-multiple: true
+      - name: Juntar, mixar, abertura e 1080p
+        run: |
+          python3 -c "import json;print(json.load(open('ia_youtuber/episodios/$EP/montar.json')).get('musica','investigations'))" > /tmp/mus
+          python3 ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/$EP \
+            --apis-txt /dev/null --etapa final --partes 16 --music "$(cat /tmp/mus)" \
+            --opening-mp4 ia_youtuber/episodios/$EP/abertura.mp4 --upscale-1080p \
+            --out "episodio_${EP}.mp4"
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "episodio_${EP}.mp4"
+      - name: Gofile
+        run: |
+          S=$(curl -s https://api.gofile.io/servers | python3 -c "import sys,json;print(json.load(sys.stdin)['data']['servers'][0]['name'])")
+          curl -s -F "file=@episodio_${EP}.mp4" "https://$S.gofile.io/contents/uploadfile" | python3 -c "import sys,json;d=json.load(sys.stdin);print('GOFILE', d['data']['downloadPage'])" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: episodio-${{ env.EP }}
+          path: episodio_${{ env.EP }}.mp4
+          retention-days: 14

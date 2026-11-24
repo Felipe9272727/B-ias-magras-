@@ -511,6 +511,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
     overlay_dir = work_dir / "overlay_pngs"
     work_dir.mkdir(parents=True, exist_ok=True)
     overlay_dir.mkdir(parents=True, exist_ok=True)
+    if args.etapa in ("parte", "final"):
+        return run_partes_e_final(args, sess_dir, work_dir, overlay_dir, vis, 0, args.partes)
 
     # 1. Sintese ElevenLabs v4 + duracoes reais
     speech_wavs: dict[int, Path] = {}
@@ -540,10 +542,9 @@ def run_pipeline(args: argparse.Namespace) -> int:
     rms = build_voice_sfx_master(segments, speech_wavs, total_dur, work_dir, voice_flac)
     total_frames = len(rms)
 
-    # 4. Renderizacao da webcam transparente + legendas + selos
+    # 4. Plano dos quadros da webcam (salvo em frames.json para as 16 partes)
     all_evs = [ev for seg in segments for ev in seg.events]
-    vis_dir_str = str(Path(vis.__file__).resolve().parent)
-    tasks = []
+    quadros = []
     for fi in range(total_frames):
         t = fi / FPS
         active_ev = None
@@ -554,13 +555,59 @@ def run_pipeline(args: argparse.Namespace) -> int:
         emo = active_ev.get("emocao", "cyan") if active_ev else "cyan"
         cap = active_ev.get("fala_youtuber", "") if active_ev else ""
         stamp = (active_ev.get("selo") or "") if active_ev else ""
-        stamp_p = 1.0 if stamp else 0.0
-        cam_p = min(1.0, max(0.0, t / 0.6))
-        tasks.append((fi, t, rms[fi], emo, cap, stamp, stamp_p, cam_p, overlay_dir / f"ov_{fi:05d}.png", vis_dir_str))
+        quadros.append([fi, round(t, 4), rms[fi], emo, cap, stamp, 1.0 if stamp else 0.0, min(1.0, max(0.0, t / 0.6))])
+    (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
+    if args.etapa == "prep":
+        print(f"PREP PRONTA: {total_frames} quadros, {total_dur:.2f}s", flush=True)
+        return 0
+    return run_partes_e_final(args, sess_dir, work_dir, overlay_dir, vis, 0, 1)
 
+
+def render_parte(args: argparse.Namespace, work_dir: Path, overlay_dir: Path, vis: Any, k: int, n: int) -> Path:
+    """Renderiza os quadros [k/n] da webcam e compoe sobre o mesmo trecho da gameplay (so video)."""
+    plano = json.loads((work_dir / "frames.json").read_text(encoding="utf-8"))
+    quadros = plano["quadros"]
+    a = len(quadros) * k // n
+    b = len(quadros) * (k + 1) // n
+    vis_dir_str = str(Path(vis.__file__).resolve().parent)
+    tasks = [(q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], overlay_dir / f"ov_{q[0]:05d}.png", vis_dir_str) for q in quadros[a:b]]
     workers = min(8, os.cpu_count() or 4)
     with ProcessPoolExecutor(max_workers=workers) as ex:
         list(ex.map(_render_overlay_frame, tasks, chunksize=8))
+    out = work_dir / f"parte_{k:02d}.mp4"
+    subprocess.run(
+        [
+            find_ffmpeg(), "-v", "error", "-y",
+            "-i", str(work_dir / "gameplay_cortado.mp4"),
+            "-framerate", str(FPS), "-start_number", str(a), "-i", str(overlay_dir / "ov_%05d.png"),
+            "-filter_complex",
+            f"[0:v]trim=start_frame={a}:end_frame={b},setpts=PTS-STARTPTS[g];[g][1:v]overlay=0:0:shortest=1[vout]",
+            "-map", "[vout]", "-frames:v", str(b - a),
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", str(out),
+        ],
+        check=True,
+    )
+    print(f"PARTE {k + 1}/{n} PRONTA: quadros {a}..{b - 1}", flush=True)
+    return out
+
+
+def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path, overlay_dir: Path, vis: Any, k0: int, n: int) -> int:
+    if args.etapa == "parte":
+        render_parte(args, work_dir, overlay_dir, vis, args.parte, args.partes)
+        return 0
+    if args.etapa == "tudo":
+        for k in range(n):
+            render_parte(args, work_dir, overlay_dir, vis, k, n)
+        n_partes = n
+    else:
+        n_partes = args.partes
+    plano = json.loads((work_dir / "frames.json").read_text(encoding="utf-8"))
+    total_dur = float(plano["total_dur"])
+    lista = work_dir / "partes.txt"
+    lista.write_text("".join(f"file 'parte_{i:02d}.mp4'\n" for i in range(n_partes)), encoding="utf-8")
+    cut_mp4 = work_dir / "gameplay_overlay_completo.mp4"
+    subprocess.run([find_ffmpeg(), "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lista), "-c", "copy", str(cut_mp4)], check=True)
+    voice_flac = work_dir / "voice_sfx_master.flac"
 
     # 5. Composicao overlay + audio mix (sidechaincompress + loudnorm -14 LUFS)
     ff = find_ffmpeg()
@@ -570,19 +617,19 @@ def run_pipeline(args: argparse.Namespace) -> int:
     if mus_path is not None:
         mus_args = ["-stream_loop", "-1", "-i", str(mus_path)]
         audio_fg = (
-            f"[2:a]aformat=sample_rates={SR}:channel_layouts=stereo,asplit=2[voz][chave];"
-            f"[3:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{total_dur:.3f},volume={mus_vol:.4f}[mus];"
+            f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo,asplit=2[voz][chave];"
+            f"[2:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{total_dur:.3f},volume={mus_vol:.4f}[mus];"
             f"[mus][chave]sidechaincompress=threshold=0.015:ratio=9:attack=25:release=350:makeup=1[md];"
             f"[voz][md]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
         )
     else:
         mus_args = []
         audio_fg = (
-            f"[2:a]aformat=sample_rates={SR}:channel_layouts=stereo,"
+            f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo,"
             f"loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
         )
 
-    v_filter = "[0:v][1:v]overlay=0:0:shortest=1"
+    v_filter = "[0:v]null"
     if args.upscale_1080p:
         v_filter += ",scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42"
     v_filter += "[vout]"
@@ -591,7 +638,6 @@ def run_pipeline(args: argparse.Namespace) -> int:
         [
             ff, "-v", "error", "-y",
             "-i", str(cut_mp4),
-            "-framerate", str(FPS), "-i", str(overlay_dir / "ov_%05d.png"),
             "-i", str(voice_flac),
             *mus_args,
             "-filter_complex", f"{v_filter};{audio_fg}",
@@ -639,6 +685,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--video", type=Path, default=None, help="Caminho explicito para gameplay_real.mp4")
     ap.add_argument("--out", type=Path, default=None, help="MP4 final de saida")
     ap.add_argument("--opening-mp4", type=Path, default=None, help="MP4 da abertura do Felipe para prepender")
+    ap.add_argument("--etapa", choices=["tudo", "prep", "parte", "final"], default="tudo", help="tudo (local) ou prep -> parte (x N, em paralelo) -> final")
+    ap.add_argument("--parte", type=int, default=0, help="Indice da parte (0..partes-1) com --etapa parte")
+    ap.add_argument("--partes", type=int, default=16, help="Total de partes (padrao: 16)")
     ap.add_argument("--turnos", default=None, help="Turnos escolhidos, ex. 1,7,14 (so esses sao narrados; o jogo congela enquanto o YouTuber fala)")
     ap.add_argument("--skip-opening", action="store_true", help="Nao prepende abertura")
     ap.add_argument("--music", default="investigations", help="ID da faixa em video/remotion/public/music/music.json")
