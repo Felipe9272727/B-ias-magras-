@@ -1,7 +1,13 @@
 # Créditos de música
 
-Todas as faixas são de **Kevin MacLeod (incompetech.com)**, licenciadas sob Creative Commons: By Attribution 4.0 License (CC BY 4.0).
-A licença exige atribuição: cole o bloco abaixo na descrição do vídeo do YouTube (ou nos créditos finais).
+Autores e licenças:
+- **Kevin MacLeod (incompetech.com)** — Creative Commons: By Attribution 4.0 License (CC BY 4.0). Atribuição obrigatória.
+- **Scott Buckley (scottbuckley.com.au)** — CC BY 4.0. Atribuição obrigatória **na descrição do vídeo do YouTube**
+  (as faixas dele estão no Content ID; sem o crédito vem reivindicação; com o crédito, a reivindicação é liberada pelo autor).
+- **HoliznaCC0**, **Loyalty Freak Music**, **Komiku** (Free Music Archive) — CC0 1.0 (domínio público). Crédito não é exigido;
+  colocamos por cortesia.
+
+Cole o bloco "pronto para a descrição" de cada faixa usada na descrição do vídeo do YouTube (ou nos créditos finais).
 
 ## Texto de atribuição (por faixa)
 
@@ -405,3 +411,132 @@ http://creativecommons.org/licenses/by/4.0/
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 - Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Zombie%20Hoodoo.mp3
+
+## Faixas novas (That's Not My Neighbor / IA YouTuber) — campo `clima` no music.json
+
+### Spy Glass — `spy-glass.mp3`
+
+```
+"Spy Glass" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Spy%20Glass.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500058
+
+### Lobby Time — `lobby-time.mp3`
+
+```
+"Lobby Time" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Lobby%20Time.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600054
+
+### Crypto — `crypto.mp3`
+
+```
+"Crypto" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+```
+
+- Arquivo original: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Crypto.mp3
+- Página: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600013
+
+### Anabasis I — `anabasis-i.mp3` (Scott Buckley, CC BY 4.0)
+
+```
+'Anabasis I' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+```
+
+- Formato de atribuição copiado da página da faixa (o autor exige o crédito na descrição do YouTube).
+- Arquivo original: https://www.scottbuckley.com.au/library/wp-content/uploads/2026/09/Anabasis_I.mp3
+- Página: https://www.scottbuckley.com.au/library/anabasis-i/
+
+### Eyes In The Void — `eyes-in-the-void.mp3` (Scott Buckley, CC BY 4.0)
+
+```
+'Eyes In The Void' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+```
+
+- Formato de atribuição copiado da página da faixa (o autor exige o crédito na descrição do YouTube).
+- Arquivo original: https://www.scottbuckley.com.au/library/wp-content/uploads/2025/06/EyesInTheVoid.mp3
+- Página: https://www.scottbuckley.com.au/library/eyes-in-the-void/
+
+### Pumpkin Polka — `pumpkin-polka.mp3` (Scott Buckley, CC BY 4.0)
+
+```
+'Pumpkin Polka' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+```
+
+- Formato de atribuição copiado da página da faixa (o autor exige o crédito na descrição do YouTube).
+- Arquivo original: https://www.scottbuckley.com.au/library/wp-content/uploads/2026/08/PumpkinPolka.mp3
+- Página: https://www.scottbuckley.com.au/library/pumpkin-polka/
+
+### Waiting Around (LoFi, Calm) — `waiting-around.mp3` (HoliznaCC0, CC0)
+
+```
+"Waiting Around (LoFi, Calm)" by HoliznaCC0 (Free Music Archive) - CC0 1.0 Public Domain
+https://creativecommons.org/publicdomain/zero/1.0/
+```
+
+- CC0: crédito não é exigido (cortesia).
+- Arquivo original: https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/aVNvUkfJVw1NI9zHSC3I8d760YbwCt31a3Wi6Ydl.mp3
+- Página: https://freemusicarchive.org/music/holiznacc0/public-domain-lofi/waiting-around-lofi-calm/
+
+### A really dark alley — `a-really-dark-alley.mp3` (Loyalty Freak Music, CC0)
+
+```
+"A really dark alley" by Loyalty Freak Music (Free Music Archive) - CC0 1.0 Public Domain
+https://creativecommons.org/publicdomain/zero/1.0/
+```
+
+- CC0: crédito não é exigido (cortesia).
+- Arquivo original: https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/Loyalty_Freak_Music/WITCHY_BATTY_SPOOKY_HALLOWEEN_IN_SEPTEMBER_/Loyalty_Freak_Music_-_07_-_A_really_dark_alley.mp3
+- Página: https://freemusicarchive.org/music/Loyalty_Freak_Music/WITCHY_BATTY_SPOOKY_HALLOWEEN_IN_SEPTEMBER_/A_really_dark_alley/
+
+### A ghost Waltz — `a-ghost-waltz.mp3` (Loyalty Freak Music, CC0)
+
+```
+"A ghost Waltz" by Loyalty Freak Music (Free Music Archive) - CC0 1.0 Public Domain
+https://creativecommons.org/publicdomain/zero/1.0/
+```
+
+- CC0: crédito não é exigido (cortesia).
+- Arquivo original: https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/Loyalty_Freak_Music/WITCHY_BATTY_SPOOKY_HALLOWEEN_IN_SEPTEMBER_/Loyalty_Freak_Music_-_02_-_A_ghost_Waltz.mp3
+- Página: https://freemusicarchive.org/music/Loyalty_Freak_Music/WITCHY_BATTY_SPOOKY_HALLOWEEN_IN_SEPTEMBER_/A_ghost_Waltz/
+
+### End of the trip — `end-of-the-trip.mp3` (Komiku, CC0)
+
+```
+"End of the trip" by Komiku (Free Music Archive) - CC0 1.0 Public Domain
+https://creativecommons.org/publicdomain/zero/1.0/
+```
+
+- CC0: crédito não é exigido (cortesia).
+- Arquivo original: https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/Komiku/Tale_on_the_Late/Komiku_-_16_-_End_of_the_trip.mp3
+- Página: https://freemusicarchive.org/music/Komiku/Tale_on_the_Late/Komiku_-_Tale_on_the_Late_-_16_End_of_the_trip/
+
+## Bloco pronto para a descrição do YouTube (That's Not My Neighbor: 5 faixas já usadas + 10 novas)
+
+```
+Música:
+"Local Forecast - Elevator", "Investigations", "Hitman", "Run Amok", "Monkeys Spinning Monkeys", "Spy Glass", "Lobby Time", "Crypto"
+Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+
+'Anabasis I' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+'Eyes In The Void' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+'Pumpkin Polka' by Scott Buckley - released under CC-BY 4.0. www.scottbuckley.com.au
+
+"Waiting Around" - HoliznaCC0 (CC0)
+"A really dark alley" e "A ghost Waltz" - Loyalty Freak Music (CC0)
+"End of the trip" - Komiku (CC0)
+```
+
+Obs.: na descrição, listar só as faixas que entraram no corte final (as de Kevin MacLeod podem ser agrupadas no mesmo bloco de licença, como acima).
