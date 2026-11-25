@@ -55,7 +55,10 @@ def trecho(nome: str, src: Path, a: float, b: float | None) -> Path:
 partes = [
     trecho("a_gancho_abertura", P5, 0.0, T5),
     cartao("b_noite1", P4, P4_INI + 1.0, svg("NOITE 1", "A senhora que veio em dobro"), 2.5, "lobby-time"),
-    trecho("c_p4", P4, P4_INI, P4_FIM),
+    # noite 1 com o tutorial enxuto: saudacao + "o quadro e meu" e direto pro primeiro visitante
+    trecho("c1_p4", P4, P4_INI, 38.7),
+    trecho("c2_p4", P4, 46.0, 53.2),
+    trecho("c3_p4", P4, 61.3, P4_FIM),
     cartao("d_fim1", P4, P4_FIM - 0.2, svg("FIM DA NOITE 1", "E a noite 2... foi pior.", "3 REMOVIDOS · 1 LIBERADA · 2 MARGARETTES"), 3.5, "hitman"),
     cartao("e_noite2", P5, T5 + 1.0, svg("NOITE 2", "O telefone que enganou o Opus"), 2.5, "lobby-time"),
     # noite 2 sem repetir a abertura da noite 1: so a explicacao do D.D.D. e direto pra primeira visitante
