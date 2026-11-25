@@ -53,21 +53,165 @@ PREVIEW_DIR_CANDIDATE = Path(
 )
 
 ELEVEN_MODEL_V4 = "eleven_v4"
-DEFAULT_ROBO_VOICE_ID = "IKne3meq5aSn9XLyUdCD"  # Charlie (agil/expressivo)
+# v4 turbo: mesma familia do v4 (entende [laughs], [shouting]...) e custa ~0,2 credito por caractere (o v4 custa 1)
+ELEVEN_MODEL_PADRAO = "eleven_v4_turbo"
+RESERVA_CREDITOS = 400  # nunca deixa a conta do ElevenLabs abaixo disso
+_GASTO: dict[str, Any] = {"saldo": None, "n": 0}
+
+
+def creditos_restantes(apis_txt: Path = DEFAULT_APIS_TXT) -> int | None:
+    key = get_elevenlabs_key(apis_txt)
+    if not key:
+        return None
+    try:
+        req = urllib.request.Request("https://api.elevenlabs.io/v1/history?page_size=1", headers={"xi-api-key": key})
+        h = (json.load(urllib.request.urlopen(req, timeout=30)).get("history") or [{}])[0]
+        req2 = urllib.request.Request("https://api.elevenlabs.io/v1/user/subscription", headers={"xi-api-key": key})
+        sub = json.load(urllib.request.urlopen(req2, timeout=30))
+        usados = max(int(sub.get("character_count") or 0), int(h.get("character_count_change_to") or 0))
+        return int(sub.get("character_limit") or 0) - usados
+    except Exception:
+        return None
+# Voz do Opus (25/11): "Gabriel - Casual" da Voice Library (PT-BR nativo, jovem, verificada no eleven_v4).
+# A antiga era a Charlie (premade em ingles, sotaque australiano), que o Felipe achou "de narrador, parece IA"
+# e lia "AI MEU DEUS" como "A.I.". Para re-renderizar episodios antigos com a voz velha: --voice-id IKne3meq5aSn9XLyUdCD.
+DEFAULT_ROBO_VOICE_ID = "BECjFqjKpX1jVslC0trK"  # Gabriel - Casual (voz de "amigo contando historia")
+VOZ_ANTIGA_CHARLIE = "IKne3meq5aSn9XLyUdCD"
+# Config por modelo. eleven_v4 ignora style/speaker_boost; stability baixa = mais expressiva; speed 1.1 = ritmo de YouTuber.
+# eleven_v3 so aceita stability 0.0 / 0.5 / 1.0.
+ROBO_VOICE_SETTINGS: dict[str, dict[str, Any]] = {
+    "eleven_v4": {"stability": 0.25, "similarity_boost": 0.78, "speed": 1.1},
+    "eleven_v4_turbo": {"stability": 0.25, "similarity_boost": 0.78, "speed": 1.1},
+    "eleven_v3": {"stability": 0.5, "similarity_boost": 0.78},
+    "eleven_multilingual_v2": {"stability": 0.3, "similarity_boost": 0.78, "style": 0.45,
+                               "use_speaker_boost": True, "speed": 1.1},
+}
+# Modelos que entendem tags de audio ([laughs], [shouting]...): conferido no v4 e no v3 (a tag nao e lida em voz alta).
+MODELOS_COM_TAGS = ("eleven_v3", "eleven_v3_conversational", "eleven_v4", "eleven_v4_turbo")
+PRONUNCIA_JSON = SCRIPT_DIR / "pronuncia_ptbr.json"
 FPS = 30
 SR = 48000
 
-_TERM_TTS_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
-    (re.compile(r"\bIAs\b"), "i-ás"),
-    (re.compile(r"\bIA\b"), "i-á"),
-    (re.compile(r"\bD\.D\.D\.(?!\w)|\bDDD\b"), "Dê Dê Dê"),
-    (re.compile(r"\bIDs?\b"), lambda m: "i-dês" if m.group(0).endswith("s") else "i-dê"),  # type: ignore[arg-type]
-    (re.compile(r"\bPC\b"), "Pê Cê"),
-    (re.compile(r"\bviews\b", re.I), "víus"),
-    (re.compile(r"\bThat's Not My Neighbor\b", re.I), "Déts Nót Mái Nêibor"),
-    (re.compile(r"\bdoppelg[aä]ngers?\b", re.I), "dôpelgânguer"),
-    (re.compile(r"\b3312\b"), "três três um dois"),
-)
+
+def _carregar_pronuncia(path: Path = PRONUNCIA_JSON) -> tuple[list[tuple[re.Pattern[str], str]], set[str]]:
+    """Le o dicionario de pronuncia (so para o TTS). Ver ia_youtuber/pronuncia_ptbr.json."""
+    regras: list[tuple[re.Pattern[str], str]] = []
+    telefones: set[str] = set()
+    if path.is_file():
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for r in data.get("substituicoes", []):
+            flags = re.I if "i" in str(r.get("flags", "")) else 0
+            regras.append((re.compile(r["padrao"], flags), r["tts"]))
+        telefones = {str(t) for t in data.get("telefones", [])}
+    return regras, telefones
+
+
+_TERM_TTS_REPLACEMENTS, _TELEFONES_TTS = _carregar_pronuncia()
+
+_UNID = ("zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove")
+_DEZ_A_DEZENOVE = ("dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove")
+_DEZENAS = ("", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa")
+_CENTENAS = ("", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos",
+             "oitocentos", "novecentos")
+
+
+def por_extenso(n: int) -> str:
+    """0..9999 por extenso em PT-BR (1955 -> 'mil novecentos e cinquenta e cinco')."""
+    if n < 10:
+        return _UNID[n]
+    if n < 20:
+        return _DEZ_A_DEZENOVE[n - 10]
+    if n < 100:
+        d, u = divmod(n, 10)
+        return _DEZENAS[d] + (f" e {_UNID[u]}" if u else "")
+    if n < 1000:
+        if n == 100:
+            return "cem"
+        c, r = divmod(n, 100)
+        return _CENTENAS[c] + (f" e {por_extenso(r)}" if r else "")
+    m, r = divmod(n, 1000)
+    mil = "mil" if m == 1 else f"{por_extenso(m)} mil"
+    if not r:
+        return mil
+    return f"{mil} e {por_extenso(r)}" if (r < 100 or r % 100 == 0) else f"{mil} {por_extenso(r)}"
+
+
+def _digitos(s: str) -> str:
+    return " ".join(_UNID[int(c)] for c in s)
+
+
+def _numeros_tts(text: str) -> str:
+    # telefones do jogo e "player9914": digito por digito
+    out = re.sub(r"\bplayer(\d+)\b", lambda m: "player " + _digitos(m.group(1)), text, flags=re.I)
+    for tel in _TELEFONES_TTS:
+        out = re.sub(rf"(?<![\d.,]){re.escape(tel)}(?![\d.,]\d)", _digitos(tel), out)
+    # apartamento "2-02" -> "dois zero dois"
+    out = re.sub(r"\b(\d)-(\d{2})\b", lambda m: _digitos(m.group(1) + m.group(2)), out)
+    # sequencias longas (numero de documento) -> digito por digito
+    out = re.sub(r"(?<![\d.,])\d{5,}(?![\d.,]\d)", lambda m: _digitos(m.group(0)), out)
+    # anos 1000-2099 -> por extenso
+    out = re.sub(r"(?<![\d.,])(1\d{3}|20\d{2})(?![\d.,]\d)", lambda m: por_extenso(int(m.group(1))), out)
+    return out
+
+
+# ---- Tags de emocao (eleven_v3 / eleven_v4) -------------------------------------------------------------
+# So acrescenta tags entre colchetes com base na pontuacao/emocao do turno: nunca inventa palavra.
+# Risada escrita (kkk, haha, rsrs) vira [laughs]. NUNCA [whispers] (regra do canal: pensamento = eco).
+_SIGLAS_MAIUSC = {"QUESTION", "DDD", "ID", "IDS", "IA", "IAS", "PC", "OK", "TV", "SOS"}
+_RE_RISADA = re.compile(r"\b(?:k{3,}|(?:ha){2,}h?|(?:he){2,}|(?:rs){2,})\b", re.I)
+_RE_GRITO = re.compile(r"\bA{2,}H*\b|\bAI MEU DEUS\b|\bSOCORRO\b|\bMEU DEUS\b")
+_TAG_EMOCAO = {"red": "[scared]", "purple": "[surprised]", "yellow": "[curious]", "green": "[excited]"}
+
+
+def _tem_maiuscula_de_grito(s: str) -> bool:
+    for w in re.findall(r"[A-ZÀ-Ý]{3,}", s):
+        if w not in _SIGLAS_MAIUSC:
+            return True
+    return False
+
+
+def adicionar_tags_emocao(text: str, emocao: str | None = None, piada: bool = False, max_tags: int = 3) -> str:
+    """Acrescenta tags de audio ao texto do TTS (nao muda a legenda).
+
+    - risada escrita (kkk/haha/rsrs) -> [laughs]
+    - frase com grito ("AAAH", "AI MEU DEUS", palavra em CAIXA ALTA) -> [shouting] antes dela
+    - primeira frase sem grito recebe a emocao do turno (red=[scared], purple=[surprised], yellow=[curious],
+      green=[excited] so se tiver '!'); a frase logo depois de um grito de red/purple tambem
+    - "Ufa" -> [sighs]; frase que comeca com "Mentira" ou turno marcado como piada -> [laughs] antes da ultima frase
+    """
+    text = re.sub(r"\[\s*whisper(?:s|ing)?\s*\]", "", text or "", flags=re.I)
+    text = _RE_RISADA.sub("[laughs]", text)
+    frases = re.split(r"(?<=[.!?…])\s+", text.strip())
+    n_tags = len(re.findall(r"\[[a-z ]+\]", text))
+    emo = (emocao or "").lower()
+    out: list[str] = []
+
+    def _e_grito(i: int, fr: str) -> bool:
+        return bool(_RE_GRITO.search(fr)) or (_tem_maiuscula_de_grito(fr) and ("!" in fr or i == 0 or len(fr.split()) <= 3))
+
+    # se o grito vem no meio da fala (ex.: "Dois a zero! E o proximo... NAO."), a emocao vai depois do grito
+    grito_no_meio = any(_e_grito(i, fr) for i, fr in enumerate(frases) if i > 0) and not _e_grito(0, frases[0])
+    grito_antes = False
+    for i, fr in enumerate(frases):
+        tag = ""
+        if fr.startswith("["):
+            pass
+        elif _e_grito(i, fr):
+            tag = "[shouting]"
+        elif re.match(r"(?i)ufa\b", fr):
+            tag = "[sighs]"
+        elif re.match(r"(?i)mentira\b", fr) or (piada and i == len(frases) - 1 and i > 0):
+            tag = "[laughs]"
+        elif ((i == 0 and not grito_no_meio) or grito_antes) and emo in _TAG_EMOCAO:
+            if emo != "green" or "!" in fr:
+                if not (grito_antes and emo in ("yellow", "green")):
+                    tag = _TAG_EMOCAO[emo]
+        grito_antes = tag == "[shouting]"
+        if tag and n_tags < max_tags:
+            fr = f"{tag} {fr}"
+            n_tags += 1
+        out.append(fr)
+    return " ".join(out)
 
 EMOTION_SFX = {
     "red": ("sirene-ataque", 0.35),
@@ -115,10 +259,15 @@ def get_elevenlabs_key(apis_txt: Path = DEFAULT_APIS_TXT) -> str | None:
 
 
 def normalize_tts_ptbr(text: str) -> str:
-    """Normaliza apenas o texto enviado ao TTS ElevenLabs v4 (mantendo legendas intactas)."""
-    out = re.sub(r"\[whispers?\]", "", text or "", flags=re.I).strip()
+    """Normaliza apenas o texto enviado ao TTS ElevenLabs (mantendo legendas intactas).
+
+    Dicionario de pronuncia em ia_youtuber/pronuncia_ptbr.json + numeros (anos por extenso, telefones do jogo,
+    apartamentos e numeros de documento digito por digito).
+    """
+    out = re.sub(r"\[\s*whisper(?:s|ing)?\s*\]", "", text or "", flags=re.I).strip()
     for pat, repl in _TERM_TTS_REPLACEMENTS:
         out = pat.sub(repl, out)
+    out = _numeros_tts(out)
     return re.sub(r"\s{2,}", " ", out).strip()
 
 
@@ -128,8 +277,13 @@ def tts_eleven_v4(
     model_id: str = ELEVEN_MODEL_V4,
     cache_dir: Path = DEFAULT_VOICE_CACHE,
     apis_txt: Path = DEFAULT_APIS_TXT,
+    emocao: str | None = None,
+    piada: bool = False,
+    tags: bool = True,
 ) -> Path:
     cache_dir.mkdir(parents=True, exist_ok=True)
+    if tags and model_id in MODELOS_COM_TAGS:
+        text = adicionar_tags_emocao(text, emocao, piada)
     tts_text = normalize_tts_ptbr(text)
     h = hashlib.sha256(f"{model_id}|{voice_id}|{tts_text}".encode("utf-8")).hexdigest()[:16]
     wav_path = cache_dir / f"robo_{h}.wav"
@@ -141,15 +295,21 @@ def tts_eleven_v4(
         key = get_elevenlabs_key(apis_txt)
         if not key:
             raise RuntimeError("Falta ELEVENLABS_API_KEY ou entrada 'elevenlabs api:' em apis.txt")
+        # trava de gasto: confere o saldo de verdade a cada ~40 falas novas e para antes de passar da reserva
+        _GASTO["n"] += 1
+        if _GASTO["saldo"] is None or _GASTO["n"] % 40 == 1:
+            _GASTO["saldo"] = creditos_restantes(apis_txt)
+        fator = 0.25 if model_id in ("eleven_v4_turbo", "eleven_flash_v2_5", "eleven_turbo_v2_5", "eleven_v3_conversational") else 1.0
+        custo = int(len(tts_text) * fator) + 1
+        if _GASTO["saldo"] is not None:
+            if _GASTO["saldo"] - custo < RESERVA_CREDITOS:
+                raise RuntimeError(f"Saldo do ElevenLabs acabando ({_GASTO['saldo']} creditos): parei para nao passar da reserva")
+            _GASTO["saldo"] -= custo
         payload = {
             "text": tts_text,
             "model_id": model_id,
-            "voice_settings": {
-                "stability": 0.36,
-                "similarity_boost": 0.78,
-                "style": 0.45,
-                "use_speaker_boost": True,
-            },
+            "language_code": "pt",
+            "voice_settings": dict(ROBO_VOICE_SETTINGS.get(model_id, ROBO_VOICE_SETTINGS["eleven_v4"])),
         }
         req = urllib.request.Request(
             f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128",
@@ -667,6 +827,13 @@ def run_dry_run(args: argparse.Namespace) -> int:
     sample_ia = normalize_tts_ptbr("A IA analisou todas as IAs e deu views pro canal!")
     assert "i-á" in sample_ia and "i-ás" in sample_ia and "víus" in sample_ia
     print(f"normalize_tts_ptbr OK: {sample_ia}", flush=True)
+    sample_num = normalize_tts_ptbr("Em 1955 liguei pro 3312, apto 2-02, doc 456985512369, player9914.")
+    assert "mil novecentos e cinquenta e cinco" in sample_num and "três três um dois" in sample_num
+    assert "dois zero dois" in sample_num and "player nove nove um quatro" in sample_num
+    sample_tag = adicionar_tags_emocao("AI MEU DEUS. A boca dela tá costurada. kkk", "red")
+    assert sample_tag.startswith("[shouting]") and "[scared]" in sample_tag and "[laughs]" in sample_tag
+    assert "whisper" not in adicionar_tags_emocao("[whispers] oi", "red")
+    print(f"tags OK: {normalize_tts_ptbr(sample_tag)}", flush=True)
 
     dummy_entries = [
         {"turno": 1, "t_video_sec": 2.0, "duracao_acoes_sec": 2.0, "fala_youtuber": "Olha esse suspeito!", "emocao": "yellow", "selo": "SUSPEITO"},
@@ -732,7 +899,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
         if not fala:
             speech_durs[idx] = 0.8
             continue
-        wp = tts_eleven_v4(fala, voice_id=args.voice_id, model_id=args.model_id, apis_txt=args.apis_txt)
+        wp = tts_eleven_v4(fala, voice_id=args.voice_id, model_id=args.model_id, apis_txt=args.apis_txt,
+                           emocao=ev.get("emocao"), piada=bool(ev.get("piada")), tags=not getattr(args, "sem_tags", False))
         speech_wavs[idx] = wp
         speech_durs[idx] = wav_duration_sec(wp)
 
@@ -1038,7 +1206,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--placar-final", default="", help="Placar do cartao final (ex.: 3 SALVOS · 1 TRANCADO)")
     ap.add_argument("--music", default="investigations", help="ID da faixa em video/remotion/public/music/music.json")
     ap.add_argument("--voice-id", default=DEFAULT_ROBO_VOICE_ID, help="Voice ID do Robo no ElevenLabs")
-    ap.add_argument("--model-id", default=ELEVEN_MODEL_V4, help="Modelo ElevenLabs (padrao: eleven_v4)")
+    ap.add_argument("--model-id", default=ELEVEN_MODEL_PADRAO, help="Modelo ElevenLabs (padrao: eleven_v4_turbo)")
+    ap.add_argument("--sem-tags", action="store_true",
+                    help="Nao acrescentar tags de emocao ([shouting], [laughs]...) no texto do TTS")
     ap.add_argument("--width", type=int, default=1280, help="Largura base")
     ap.add_argument("--height", type=int, default=720, help="Altura base")
     ap.add_argument("--upscale-1080p", action="store_true", help="Aplica upscale Lanczos 1080p + color grading AGE")

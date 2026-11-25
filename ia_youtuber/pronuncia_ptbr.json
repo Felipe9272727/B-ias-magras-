@@ -1,0 +1,23 @@
+{
+  "_como_usar": "Substituicoes aplicadas SO no texto enviado ao TTS (a legenda fica original). Ordem importa. 'padrao' e regex Python; 'flags': 'i' = ignora maiusculas. Numeros (anos, telefones, apartamentos, playerNNNN, sequencias longas) sao tratados no codigo (normalize_tts_ptbr). Conferido com speech-to-text (scribe_v1) na voz Gabriel - Casual / eleven_v4 em 25/11.",
+  "substituicoes": [
+    {"padrao": "\\bIAs\\b", "tts": "i-ás"},
+    {"padrao": "\\bIA\\b", "tts": "i-á"},
+    {"padrao": "\\bAI\\b", "tts": "Ai", "nota": "AI MEU DEUS era lido como 'A.I.' em ingles"},
+    {"padrao": "\\bD\\.D\\.D\\.(?=\\s+[A-ZÀ-Ý])", "tts": "Dê Dê Dê.", "nota": "fim de frase: mantem o ponto"},
+    {"padrao": "\\bD\\.D\\.D\\.(?!\\w)|\\bDDD\\b", "tts": "Dê Dê Dê"},
+    {"padrao": "\\bIDs\\b", "tts": "i-dês"},
+    {"padrao": "\\bID\\b", "tts": "i-dê"},
+    {"padrao": "\\bPC\\b", "tts": "Pê Cê"},
+    {"padrao": "\\bviews\\b", "tts": "víus", "flags": "i"},
+    {"padrao": "\\bThat's Not My Neighbor\\b", "tts": "Déts Nót Mái Nêibor", "flags": "i"},
+    {"padrao": "\\bdoppelg[aä]ngers\\b", "tts": "dópelgânguers", "flags": "i"},
+    {"padrao": "\\bdoppelg[aä]nger\\b", "tts": "dópelgânguer", "flags": "i"},
+    {"padrao": "\\bMClooy\\b", "tts": "Méqui Clúi", "flags": "i", "nota": "cru sai 'M. Cluey' (soletra o M)"},
+    {"padrao": "\\bMcloog\\b", "tts": "Méqui Clúgui", "flags": "i", "nota": "grafia borrada do papel falso"},
+    {"padrao": "\\bMClo(?=\\.\\.\\.)", "tts": "Méqui Clô", "flags": "i"},
+    {"padrao": "\\bRafttellyn\\b", "tts": "Ráftélin", "flags": "i", "nota": "cru sai 'Raft Ellen'"},
+    {"padrao": "\\bStilnsky\\b", "tts": "Istílinsqui", "flags": "i", "nota": "cru (e 'Stilínski') perde o S: sai 'Tilski'"}
+  ],
+  "telefones": ["3312", "4242"]
+}
