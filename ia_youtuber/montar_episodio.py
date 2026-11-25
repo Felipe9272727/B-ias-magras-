@@ -462,6 +462,37 @@ def resolve_music_spec(music_id: str) -> tuple[Path | None, float]:
     return (cand if cand.is_file() else None), 0.25
 
 
+def build_music_bed(trilha: list[Any], total_dur: float, out_wav: Path) -> bool:
+    """Trilha com varias musicas intercaladas: trilha = [[inicio_seg, id], ...] (tempo do episodio sem a abertura).
+    Cada faixa entra no seu volume sugerido, com fade de 2 s e cruzamento de 2 s com a proxima."""
+    blocos = sorted([(float(a), str(b)) for a, b in trilha if float(a) < total_dur])
+    if not blocos:
+        return False
+    ff = find_ffmpeg()
+    ins: list[str] = []
+    fg: list[str] = []
+    k = 0
+    for i, (t0, mid) in enumerate(blocos):
+        path, vol = resolve_music_spec(mid)
+        if path is None:
+            print(f"AVISO: musica '{mid}' nao encontrada, pulando", flush=True)
+            continue
+        t1 = blocos[i + 1][0] if i + 1 < len(blocos) else total_dur
+        ini = max(0.0, t0 - (1.0 if i else 0.0))
+        dur = (t1 + (1.0 if i + 1 < len(blocos) else 0.0)) - ini
+        ins += ["-stream_loop", "-1", "-i", str(path)]
+        fg.append(f"[{k}:a]aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo,atrim=0:{dur:.3f},asetpts=PTS-STARTPTS,"
+                  f"volume={vol:.4f},afade=t=in:st=0:d={2.0 if i else 0.5},afade=t=out:st={max(0.0, dur - 2.0):.3f}:d=2,"
+                  f"adelay={int(ini * 1000)}|{int(ini * 1000)}[m{k}]")
+        k += 1
+    if not k:
+        return False
+    fg.append("".join(f"[m{j}]" for j in range(k)) + f"amix=inputs={k}:normalize=0:duration=longest,apad,atrim=0:{total_dur:.3f}[out]")
+    subprocess.run([ff, "-v", "error", "-y", *ins, "-filter_complex", ";".join(fg), "-map", "[out]", "-c:a", "pcm_s16le", str(out_wav)], check=True)
+    print(f"Trilha intercalada: {k} musicas", flush=True)
+    return True
+
+
 def _render_overlay_frame(task: tuple[int, float, float, str, str, str, float, float, Path, str | None]) -> int:
     fi, t, amp, emo, cap, stamp, stamp_p, cam_p, out_png, visuals_dir_str = task
     vis = load_visuals_v2(Path(visuals_dir_str) if visuals_dir_str else None)
@@ -815,6 +846,11 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
     ep_sem_abertura = work_dir / "episodio_gameplay_overlay.mp4"
 
     jogo = work_dir / "jogo.m4a"
+    mjf = sess_dir / "montar.json"
+    trilha = (json.loads(mjf.read_text(encoding="utf-8")).get("trilha") if mjf.is_file() else None) or []
+    bed = work_dir / "trilha_intercalada.wav"
+    if trilha and build_music_bed(trilha, total_dur, bed):
+        mus_path, mus_vol = bed, 1.0
     if mus_path is not None and jogo.is_file() and (work_dir / "duck_musica.wav").is_file():
         mg = float(getattr(args, "musica_ganho", 0.45))
         mus_args = ["-stream_loop", "-1", "-i", str(mus_path), "-i", str(jogo),
