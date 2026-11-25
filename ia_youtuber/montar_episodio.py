@@ -580,7 +580,8 @@ def write_duck_envelopes(events: list[dict[str, Any]], total_dur: float, work_di
         alvo = fala[i]
         v = min(alvo, v + 1.0 / (0.15 * rate)) if alvo > v else max(alvo, v - 1.0 / (0.6 * rate))
         s[i] = v
-    for nome, prof in (("duck_musica.wav", 0.78), ("duck_jogo.wav", 0.5)):
+    # jogo: -10 dB embaixo da fala (voz clara) e volume cheio quando o Opus cala
+    for nome, prof in (("duck_musica.wav", 0.78), ("duck_jogo.wav", 0.7)):
         buf = bytearray(n * 4)
         for i in range(n):
             g = int((1.0 - prof * s[i]) * 32767)
@@ -889,6 +890,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
     if cfg.get("modelo_voz"):
         args.model_id = str(cfg["modelo_voz"])  # o modelo com que as vozes do cache foram geradas
     mudos = {int(x) for x in (cfg.get("mudos") or [])}
+    selos_cfg = {int(k): str(v) for k, v in (cfg.get("selos") or {}).items()}
+    for ev in entries:
+        if int(ev.get("turno", -1)) in selos_cfg:
+            ev["selo"] = selos_cfg[int(ev["turno"])]  # selo editorial (fato conferido no log)
     tz_cfg = cfg.get("teaser_trecho")
     if linear and tz_cfg and cfg.get("teaser_fala"):
         entries.append({"turno": int(cfg.get("teaser_turno", 0)), "t_video_sec": float(tz_cfg[0]) + float(cfg.get("teaser_fala_em", 0.3)),

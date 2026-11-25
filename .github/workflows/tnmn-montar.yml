@@ -139,7 +139,7 @@ jobs:
             --apis-txt /dev/null --etapa final --partes 16 --music "$(cat /tmp/mus)" \
             --pergunta-final "$(cat /tmp/perg)" --placar-final "$(cat /tmp/placar)" \
             --musica-ganho "$(cat /tmp/mg)" \
-            $(python3 -c "import json,sys;print('--teaser' if json.load(open(sys.argv[1])).get('teaser') else '')" $J) \
+            $(python3 -c "import json,sys;d=json.load(open(sys.argv[1]));print('--teaser' if d.get('teaser') or d.get('teaser_trecho') else '')" $J) \
             --opening-mp4 ia_youtuber/episodios/$EP/abertura.mp4 --upscale-1080p \
             --out "episodio_${EP}.mp4"
           ffprobe -v error -show_entries format=duration -of csv=p=0 "episodio_${EP}.mp4"
