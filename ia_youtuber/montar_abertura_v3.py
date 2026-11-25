@@ -518,6 +518,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="vídeo da gameplay (o episódio já com a webcam no canto): a câmera do Opus encolhe por cima")
     ap.add_argument("--entrada-ss", type=float, default=0.0)
     ap.add_argument("--entrada-dur", type=float, default=0.9)
+    ap.add_argument("--opus1-wav", type=Path, default=None, help="fala 1 do Opus com a voz nova (senao usa a da abertura base)")
+    ap.add_argument("--opus2-wav", type=Path, default=None, help="fala 2 do Opus com a voz nova")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--work", type=Path, default=None)
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 4) - 1))
@@ -590,14 +592,14 @@ def main(argv: list[str] | None = None) -> int:
     if gl:
         clips.append(dict(src=gl, ss=0.0, dur=0.35, at=g_cut, db=-12.0, fout=0.1))
     o1 = 0.12
-    d1 = SRC_OPUS_1[1] - SRC_OPUS_1[0]
+    d1 = speech_end(a.opus1_wav) + 0.05 if a.opus1_wav else SRC_OPUS_1[1] - SRC_OPUS_1[0]
     o2 = None if a.sem_like else o1 + d1 + 0.2
-    d2 = SRC_OPUS_2[1] - SRC_OPUS_2[0]
+    d2 = speech_end(a.opus2_wav) + 0.05 if a.opus2_wav else SRC_OPUS_2[1] - SRC_OPUS_2[0]
     o_dur = (o2 + d2 if o2 is not None else o1 + d1) + 0.3
     sections.append(("opus", g, o_dur))
-    op_stem = [dict(src=base, ss=SRC_OPUS_1[0], dur=d1, at=o1, fin=0.02, fout=0.05)]
+    op_stem = [dict(src=a.opus1_wav or base, ss=0.0 if a.opus1_wav else SRC_OPUS_1[0], dur=d1, at=o1, fin=0.02, fout=0.05)]
     if o2 is not None:
-        op_stem.append(dict(src=base, ss=SRC_OPUS_2[0], dur=d2, at=o2, fin=0.02, fout=0.05))
+        op_stem.append(dict(src=a.opus2_wav or base, ss=0.0 if a.opus2_wav else SRC_OPUS_2[0], dur=d2, at=o2, fin=0.02, fout=0.05))
         pop = sfx("pop")
         if pop:
             clips.append(dict(src=pop, ss=0.0, dur=0.5, at=g + o2 + OPUS2_LIKE + 0.85, db=-8.0))
