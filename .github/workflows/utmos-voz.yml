@@ -8,6 +8,7 @@ on:
     paths:
       - "ia_youtuber/utmos_lista_p5.txt"
       - "ia_youtuber/utmos_lista_p4.txt"
+      - "ia_youtuber/teste_vozes/**"
       - ".github/workflows/utmos-voz.yml"
 
 jobs:
@@ -30,13 +31,15 @@ jobs:
           while read -r n; do [ -n "$n" ] && ffmpeg -v error -i "ia_youtuber/episodios/p4/vozes/$n" -ar 16000 -ac 1 "nova_v4/${n%.mp3}.wav"; done < ia_youtuber/utmos_lista_p4.txt
           while read -r n; do [ -n "$n" ] && ffmpeg -v error -i "ia_youtuber/episodios/p5/vozes/$n" -ar 16000 -ac 1 "nova/${n%.mp3}.wav"; done < ia_youtuber/utmos_lista_p5.txt
           for f in $(ls ia_youtuber/episodios/p3/vozes/*.mp3 | head -22); do b=$(basename "$f" .mp3); ffmpeg -v error -i "$f" -ar 16000 -ac 1 "antiga/$b.wav"; done
+          for d in ia_youtuber/teste_vozes/*/; do n=$(basename "$d"); mkdir -p "voz_$n"; for f in "$d"*.mp3; do ffmpeg -v error -i "$f" -ar 16000 -ac 1 "voz_$n/$(basename "$f" .mp3).wav"; done; done
           ls nova | wc -l; ls antiga | wc -l
       - name: Nota UTMOSv2
         run: |
           python - <<'PY'
           import statistics, utmosv2
           m = utmosv2.create_model(pretrained=True, device="cpu")
-          for pasta in ("antiga", "nova", "nova_v4"):
+          import glob
+          for pasta in ["antiga", "nova", "nova_v4"] + sorted(glob.glob("voz_*")):
               r = m.predict(input_dir=pasta, device="cpu", num_workers=0)
               notas = [x["predicted_mos"] for x in r]
               print(f"UTMOS {pasta}: media {statistics.mean(notas):.2f}  mediana {statistics.median(notas):.2f}  min {min(notas):.2f}  max {max(notas):.2f}  n={len(notas)}")
