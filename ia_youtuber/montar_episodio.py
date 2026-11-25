@@ -544,6 +544,31 @@ def build_linear_plan(
     return segments, round(dst, 3)
 
 
+def aplicar_zooms(cut_mp4: Path, events: list[dict[str, Any]], zooms: dict[int, list[float]], w: int, h: int,
+                  dur: float = 3.2) -> None:
+    """Zoom suave (entra em 0,35 s, sai em 0,5 s) no ponto [cx, cy, z] quando a fala do turno comeca (ex.: rosto na janela)."""
+    zs, xs, ys = [], [], []
+    for ev in events:
+        t = int(ev.get("turno", -1))
+        if t not in zooms or ev.get("_so_teaser"):
+            continue
+        cx, cy, z = (float(v) for v in zooms[t])
+        a, b = float(ev["t_cut_start"]), float(ev["t_cut_start"]) + dur
+        env = f"min(1,max(0,min((it-{a:.2f})/0.35,({b:.2f}-it)/0.5)))"
+        zs.append(f"{z - 1:.3f}*{env}")
+        xs.append(f"{cx:.3f}*between(it,{a - 0.2:.2f},{b + 0.7:.2f})")
+        ys.append(f"{cy:.3f}*between(it,{a - 0.2:.2f},{b + 0.7:.2f})")
+    if not zs:
+        return
+    tmp = cut_mp4.with_name("gameplay_zoom_tmp.mp4")
+    vf = (f"zoompan=z='1+{'+'.join(zs)}':x='(iw-iw/zoom)*({'+'.join(xs)})':y='(ih-ih/zoom)*({'+'.join(ys)})'"
+          f":d=1:s={w}x{h}:fps={FPS}")
+    subprocess.run([find_ffmpeg(), "-v", "error", "-y", "-i", str(cut_mp4), "-vf", vf, "-c:v", "libx264", "-preset", "veryfast",
+                    "-crf", "18", "-pix_fmt", "yuv420p", "-an", str(tmp)], check=True)
+    tmp.replace(cut_mp4)
+    print(f"Zooms aplicados: {len(zs)}", flush=True)
+
+
 def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: Path) -> bool:
     """Som do proprio jogo nos mesmos trechos do video (normalizado baixinho, pra ficar de fundo)."""
     ff = find_ffmpeg()
@@ -922,6 +947,9 @@ def run_pipeline(args: argparse.Namespace) -> int:
         segments, total_dur = build_cut_plan(entries, speech_durs)
     cut_mp4 = work_dir / "gameplay_cortado.mp4"
     render_cut_gameplay(gameplay_mp4, segments, cut_mp4, args.width, args.height)
+    zooms_cfg = {int(k): v for k, v in (cfg.get("zooms") or {}).items()}
+    if zooms_cfg:
+        aplicar_zooms(cut_mp4, [ev for sg in segments for ev in sg.events], zooms_cfg, args.width, args.height)
 
     # 3. Faixa de voz + SFX + RMS 30fps
     voice_flac = work_dir / "voice_sfx_master.flac"
