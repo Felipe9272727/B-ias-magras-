@@ -294,7 +294,7 @@ def tts_eleven_v4(
     if not raw_mp3.is_file() or raw_mp3.stat().st_size < 1000:
         key = get_elevenlabs_key(apis_txt)
         if not key:
-            raise RuntimeError("Falta ELEVENLABS_API_KEY ou entrada 'elevenlabs api:' em apis.txt")
+            raise RuntimeError(f"Falta ELEVENLABS_API_KEY (voz fora do cache: {raw_mp3.name} | {model_id} | {voice_id} | {tts_text!r})")
         # trava de gasto: confere o saldo de verdade a cada ~40 falas novas e para antes de passar da reserva
         _GASTO["n"] += 1
         if _GASTO["saldo"] is None or _GASTO["n"] % 40 == 1:
