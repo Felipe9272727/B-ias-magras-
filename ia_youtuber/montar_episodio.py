@@ -500,6 +500,7 @@ def build_linear_plan(
     video_dur: float,
     cortes: list[list[float]],
     teaser: list[float] | None,
+    segura_fim: float = 0.0,
 ) -> tuple[list[CutSegment], float]:
     """Gameplay corrida (tempo real): so tira os trechos de `cortes`; cada fala entra no instante real do turno.
     `teaser` (opcional) e um trecho repetido no comeco, antes da abertura."""
@@ -518,6 +519,8 @@ def build_linear_plan(
     dst = 0.0
     for ri, (a, b) in enumerate(ranges):
         fe = congela_fim if (teaser and ri == 0) else 0.0
+        if ri == len(ranges) - 1 and segura_fim > 0:
+            fe = float(segura_fim)  # segura o ultimo quadro (ex.: tela de resumo) antes do cartao final
         segments.append(CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], freeze_sec=0.0, freeze_end=round(fe, 3)))
         dst += b - a + fe
     prev_end = -1.0
@@ -972,7 +975,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
     # 2. Corte de tempos mortos
     if linear:
         segments, total_dur = build_linear_plan(entries, {i: d for i, d in speech_durs.items() if i in speech_wavs},
-                                                wav_duration_or_probe(gameplay_mp4), cfg.get("cortes") or [], cfg.get("teaser_trecho"))
+                                                wav_duration_or_probe(gameplay_mp4), cfg.get("cortes") or [], cfg.get("teaser_trecho"),
+                                                float(cfg.get("segura_fim", 0.0)))
     elif turnos_sel is not None:
         segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4), congelar)
     else:
