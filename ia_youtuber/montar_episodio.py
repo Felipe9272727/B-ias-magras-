@@ -384,6 +384,7 @@ class CutSegment:
     events: list[dict[str, Any]]
     freeze_sec: float = 0.0  # congela o 1o quadro (o jogo estava pausado enquanto a IA pensava/falava)
     freeze_end: float = 0.0  # congela o ultimo quadro (gancho: segura o susto na tela enquanto o grito toca)
+    faixa: int = -1  # plano linear: indice do trecho de origem (-1 = quadro parado vindo de trecho cortado)
 
 
 def load_session_log(log_path: Path) -> list[dict[str, Any]]:
@@ -501,6 +502,7 @@ def build_linear_plan(
     cortes: list[list[float]],
     teaser: list[float] | None,
     segura_fim: float = 0.0,
+    pausas: dict[int, float] | None = None,
 ) -> tuple[list[CutSegment], float]:
     """Gameplay corrida (tempo real): so tira os trechos de `cortes`; cada fala entra no instante real do turno.
     `teaser` (opcional) e um trecho repetido no comeco, antes da abertura."""
@@ -515,46 +517,97 @@ def build_linear_plan(
         keep.append((cur, video_dur))
     ranges = ([(float(teaser[0]), float(teaser[1]))] if teaser else []) + keep
     congela_fim = float(teaser[2]) if teaser and len(teaser) > 2 else 0.0
+    pausas = pausas or {}
     segments: list[CutSegment] = []
     dst = 0.0
-    for ri, (a, b) in enumerate(ranges):
-        fe = congela_fim if (teaser and ri == 0) else 0.0
-        if ri == len(ranges) - 1 and segura_fim > 0:
-            fe = float(segura_fim)  # segura o ultimo quadro (ex.: tela de resumo) antes do cartao final
-        segments.append(CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], freeze_sec=0.0, freeze_end=round(fe, 3)))
-        dst += b - a + fe
     prev_end = -1.0
     max_atraso = 0.0
-    for si, seg in enumerate(segments):
-        seg_end_dst = seg.dst_start + (seg.src_end - seg.src_start) + seg.freeze_end
-        so_teaser = [i for i, e in enumerate(entries) if e.get("_so_teaser")]
+    n_pausas = 0
+    so_teaser = [i for i, e in enumerate(entries) if e.get("_so_teaser")]
+    for ri, (a, b) in enumerate(ranges):
+        e_teaser = bool(teaser) and ri == 0
+        fe = congela_fim if e_teaser else 0.0
+        if ri == len(ranges) - 1 and segura_fim > 0:
+            fe = float(segura_fim)  # segura o ultimo quadro (ex.: tela de resumo) antes do cartao final
+        evs = []
         for idx, ev in enumerate(entries):
             dur = speech_durations.get(idx)
             if not dur:
                 continue
-            if teaser and si == 0 and so_teaser and idx not in so_teaser:
+            if e_teaser and so_teaser and idx not in so_teaser:
                 continue  # o gancho usa a fala curta propria
-            if ev.get("_so_teaser") and not (teaser and si == 0):
+            if ev.get("_so_teaser") and not e_teaser:
                 continue
             t = float(ev.get("t_video_sec", 0.0))
-            if not (seg.src_start <= t < seg.src_end):
-                continue
-            ideal = seg.dst_start + (t - seg.src_start) + 0.2
-            start = max(ideal, prev_end + 0.15)
-            if teaser and si == 0 and start + dur > seg_end_dst:
+            ancora = None if e_teaser else pausas.get(idx)
+            if ancora is not None and a + 0.05 < ancora < b - 0.05:
+                evs.append((ancora, idx, ev, dur, ancora))  # quadro da frase dentro do trecho: pausa ali
+            elif a <= t < b:
+                evs.append((t, idx, ev, dur, ancora))  # frase num trecho cortado (espera): quadro parado na hora da fala
+        evs.sort(key=lambda x: x[0])
+        seg = CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], faixa=ri)
+        segs = [seg]
+        for tt, idx, ev, dur, quadro in evs:
+            seg_ev = None
+            pausa = quadro is not None and tt > seg.src_start + 0.05
+            if pausa:
+                # pausa o jogo no quadro com a frase do vizinho completa enquanto a voz dele toca
+                tt = _q(tt)
+                seg.src_end = round(tt, 3)
+                d0 = seg.dst_start + _q(seg.freeze_sec) + (seg.src_end - seg.src_start)
+                start = max(d0 + 0.05, prev_end + 0.15)
+                npc = fala_npc_frac(ev.get("fala_youtuber", ""), dur)
+                congela = _q(start - d0 + npc + 0.25)
+                if abs(_q(quadro) - tt) < 0.01:
+                    seg = CutSegment(src_start=round(tt, 3), src_end=round(b, 3), dst_start=round(d0, 3), events=[], freeze_sec=congela, faixa=ri)
+                    segs.append(seg)
+                else:
+                    q0 = _q(quadro)
+                    parado = CutSegment(src_start=round(q0, 3), src_end=round(q0 + 2.0 / FPS, 3), dst_start=round(d0, 3), events=[],
+                                        freeze_sec=congela)
+                    seg = CutSegment(src_start=round(tt, 3), src_end=round(b, 3), dst_start=round(d0 + congela + 2.0 / FPS, 3), events=[], faixa=ri)
+                    segs += [parado, seg]
+                    seg_ev = parado
+                n_pausas += 1
+                ideal = d0 + 0.05
+            else:
+                ideal = seg.dst_start + _q(seg.freeze_sec) + (tt - seg.src_start) + 0.2
+                start = max(ideal, prev_end + 0.15)
+            if e_teaser and start + dur > seg.dst_start + _q(seg.freeze_sec) + (seg.src_end - seg.src_start) + fe:
                 continue  # fala que nao cabe no gancho fica so na hora certa
             max_atraso = max(max_atraso, start - ideal)
-            seg.events.append({**ev, "_idx": idx, "_speech_dur": dur, "t_cut_start": round(start, 3), "t_cut_end": round(start + dur, 3)})
+            (seg_ev if pausa and seg_ev is not None else seg).events.append({**ev, "_idx": idx, "_speech_dur": dur, "_pausa": pausa,
+                               "t_cut_start": round(start, 3), "t_cut_end": round(start + dur, 3)})
             prev_end = start + dur
-        if teaser and si == 0:
-            prev_end = seg_end_dst
-    print(f"Plano linear: {len(ranges)} trechos, {dst:.1f}s, maior atraso de fala {max_atraso:.1f}s", flush=True)
+        segs[-1].freeze_end = round(fe, 3)
+        for sg in segs:
+            segments.append(sg)
+        dst = segs[-1].dst_start + _q(segs[-1].freeze_sec) + (segs[-1].src_end - segs[-1].src_start) + fe
+        if e_teaser:
+            prev_end = dst
+    print(f"Plano linear: {len(ranges)} trechos, {n_pausas} pausas nas falas do jogo, {dst:.1f}s, maior atraso de fala {max_atraso:.1f}s", flush=True)
     return segments, round(dst, 3)
 
 
-def fala_npc_dur(ev: dict[str, Any]) -> float:
+def remapear_tempos(tempos: list[float], antigo: list[CutSegment], novo: list[CutSegment]) -> list[float]:
+    """Leva instantes do episodio sem pausas (ex.: trocas de musica do montar.json) para o episodio com pausas."""
+    out = []
+    for t in tempos:
+        sa = next((sg for sg in antigo if sg.dst_start <= t < sg.dst_start + (sg.src_end - sg.src_start) + sg.freeze_end), antigo[-1])
+        src = min(sg_end := sa.src_end, sa.src_start + (t - sa.dst_start))
+        extra = max(0.0, sa.src_start + (t - sa.dst_start) - sg_end)  # dentro do quadro segurado no fim
+        cands = [sg for sg in novo if sg.faixa == sa.faixa and sg.src_start - 1e-3 <= src <= sg.src_end + 1e-3]
+        sn = cands[-1] if extra > 0 and cands else (cands[0] if cands else None)
+        if sn is None:
+            out.append(round(t, 3))
+            continue
+        out.append(round(sn.dst_start + _q(sn.freeze_sec) + (src - sn.src_start) + extra, 3))
+    return out
+
+
+def fala_npc_frac(fala: str, dur: float) -> float:
     """Duracao (s) do trecho citado do jogo no comeco da fala ('...' = vizinho/telefone/radio), estimada pelo texto do TTS."""
-    f = (ev.get("fala_youtuber") or "").strip()
+    f = (fala or "").strip()
     if not f.startswith("'") or f.startswith("'...'"):
         return 0.0
     fim = f.find("'", 1)
@@ -562,8 +615,64 @@ def fala_npc_dur(ev: dict[str, Any]) -> float:
         return 0.0
     tot = len(normalize_tts_ptbr(f)) or 1
     q = len(normalize_tts_ptbr(f[1:fim])) + 2
-    d = float(ev["t_cut_end"]) - float(ev["t_cut_start"])
-    return max(0.0, min(d, d * q / tot + 0.25))
+    return max(0.0, min(dur, dur * q / tot + 0.25))
+
+
+def achar_quadros_texto(gameplay_mp4: Path, entries: list[dict[str, Any]], speech_durations: dict[int, float],
+                        desde_turno: int = 0) -> dict[int, float]:
+    """Para cada fala que cita o jogo, acha na gravacao o quadro em que a frase do vizinho fica completa na caixa de texto.
+    Conta pixels brancos nas 2 linhas da caixa: sobem enquanto o jogo digita, param quando a frase acaba e caem quando
+    ela some ou e trocada. Vale a frase que esta na caixa na hora do turno (ou a ultima antes, se a caixa ja esvaziou).
+    Papel na frente da caixa (contagem enorme) nao conta: a fala veio da ficha, nao do vizinho."""
+    ff = find_ffmpeg()
+    alto = bytes(range(236, 256))
+    n = 820 * 95
+    out: dict[int, float] = {}
+    for idx, ev in enumerate(entries):
+        if not speech_durations.get(idx) or ev.get("_so_teaser") or fala_npc_frac(ev.get("fala_youtuber", ""), 1.0) <= 0:
+            continue
+        if int(ev.get("turno", 0)) < desde_turno:
+            continue  # filme do tutorial: o texto fica em outro lugar da tela
+        tv = float(ev.get("t_video_sec", 0.0))
+        ini = float(entries[idx - 1].get("t_fim_sec", tv - 3.0)) - 1.0 if idx > 0 else tv - 3.0
+        ini = max(0.0, min(ini, tv - 1.0))
+        fim = min(float(entries[idx + 1]["t_video_sec"]) if idx + 1 < len(entries) else tv + 8.0, tv + 8.0)
+        r = subprocess.run([ff, "-v", "error", "-ss", f"{ini:.2f}", "-t", f"{fim - ini:.2f}", "-i", str(gameplay_mp4), "-vf",
+                            "fps=10,crop=820:95:240:470,format=gray", "-f", "rawvideo", "-"], capture_output=True)
+        cont = []
+        for i in range(len(r.stdout) // n):
+            q = r.stdout[i * n:(i + 1) * n]
+            c = len(q) - len(q.translate(None, alto))
+            cont.append((ini + i / 10.0, c if 150 < c < 9000 else 0))
+        # blocos = uma frase cada (corta quando a contagem zera ou cai muito: frase trocada)
+        blocos, cur = [], []
+        for t, c in cont:
+            if c and cur and c >= 0.7 * cur[-1][1]:
+                cur.append((t, c))
+                continue
+            if cur:
+                blocos.append(cur)
+            cur = [(t, c)] if c else []
+        if cur:
+            blocos.append(cur)
+        blocos = [bl for bl in blocos if len(bl) >= 4]
+        alvo = next((bl for bl in blocos if bl[0][0] <= tv <= bl[-1][0]), None)
+        if alvo is None:
+            antes = [bl for bl in blocos if bl[-1][0] < tv]
+            alvo = antes[-1] if antes else None
+        if alvo is None:
+            continue
+        mx = max(c for _, c in alvo)
+        pronto = next(t for t, c in alvo if c >= mx - max(6, 0.004 * mx))
+        if pronto > alvo[-1][0] - 0.25:
+            continue  # a frase nunca ficou parada completa na tela
+        out[idx] = round(pronto + 0.1, 3)
+    print(f"Falas do jogo com quadro de texto: {len(out)}", flush=True)
+    return out
+
+
+def fala_npc_dur(ev: dict[str, Any]) -> float:
+    return fala_npc_frac(ev.get("fala_youtuber", ""), float(ev["t_cut_end"]) - float(ev["t_cut_start"]))
 
 
 def aplicar_zooms(cut_mp4: Path, events: list[dict[str, Any]], zooms: dict[int, list[float]], w: int, h: int,
@@ -575,7 +684,7 @@ def aplicar_zooms(cut_mp4: Path, events: list[dict[str, Any]], zooms: dict[int, 
         if ev.get("_so_teaser"):
             continue
         t0 = float(ev["t_cut_start"])
-        npc = fala_npc_dur(ev) if zoom_npc else 0.0
+        npc = fala_npc_dur(ev) if (zoom_npc and ev.get("_pausa")) else 0.0
         if npc >= 0.6:
             jan.append([t0, t0 + npc + 0.15, *(float(v) for v in zoom_npc)])
         t = int(ev.get("turno", -1))
@@ -703,8 +812,10 @@ def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: P
         return False
     parts = [
         f"[0:a]atrim=start={_q(sg.src_start):.4f}:end={_q(sg.src_end):.4f},asetpts=PTS-STARTPTS,"
-        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={_q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f},"
-        f"atrim=0:{_q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f}[a{i}]"
+        f"aformat=sample_rates={SR}:channel_layouts=stereo,"
+        + (f"adelay={int(round(_q(sg.freeze_sec) * 1000))}:all=1," if sg.freeze_sec > 0 else "")
+        + f"apad=whole_dur={_q(sg.freeze_sec) + _q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f},"
+        f"atrim=0:{_q(sg.freeze_sec) + _q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f}[a{i}]"
         for i, sg in enumerate(segments)
     ]
     parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I={lufs:.1f}:TP=-3[aout]")
@@ -881,7 +992,7 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
         inputs += ["-ss", f"{_q(seg.src_start):.4f}", "-t", f"{_q(seg.src_end) - _q(seg.src_start):.4f}", "-i", str(gameplay_mp4)]
         parts.append(
             f"[{i}:v]setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
-            + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
+            + (f",tpad=start_duration={_q(seg.freeze_sec):.4f}:start_mode=clone" if seg.freeze_sec > 0 else "")
             + (f",tpad=stop_duration={_q(seg.freeze_end):.4f}:stop_mode=clone" if seg.freeze_end > 0 else "")
             + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec + seg.freeze_end)
             + f"[v{i}]"
@@ -1112,7 +1223,17 @@ def run_pipeline(args: argparse.Namespace) -> int:
     if linear:
         segments, total_dur = build_linear_plan(entries, {i: d for i, d in speech_durs.items() if i in speech_wavs},
                                                 wav_duration_or_probe(gameplay_mp4), cfg.get("cortes") or [], cfg.get("teaser_trecho"),
-                                                float(cfg.get("segura_fim", 0.0)))
+                                                float(cfg.get("segura_fim", 0.0)),
+                                                achar_quadros_texto(gameplay_mp4, entries, {i: d for i, d in speech_durs.items() if i in speech_wavs},
+                                                                    desde_turno=int(cfg.get("pausa_npc_desde", 0)))
+                                                if cfg.get("pausa_npc") else None)
+        if cfg.get("pausa_npc") and cfg.get("trilha"):
+            antigo, _ = build_linear_plan(entries, {i: d for i, d in speech_durs.items() if i in speech_wavs},
+                                          wav_duration_or_probe(gameplay_mp4), cfg.get("cortes") or [], cfg.get("teaser_trecho"),
+                                          float(cfg.get("segura_fim", 0.0)))
+            novos = remapear_tempos([float(a) for a, _ in cfg["trilha"]], antigo, segments)
+            cfg["_trilha"] = [[t, mid] for t, (_, mid) in zip(novos, cfg["trilha"])]
+            print("Trilha remapeada para as pausas:", cfg["_trilha"], flush=True)
     elif turnos_sel is not None:
         segments, total_dur = build_turn_plan(entries, turnos_sel, {i: d for i, d in speech_durs.items() if i in speech_wavs}, wav_duration_or_probe(gameplay_mp4), congelar)
     else:
@@ -1199,7 +1320,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
             if "inocentes" in pl_cfg:
                 placar.append(cont["inocentes"])
         quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6)), placar])
-    (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
+    (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros,
+                                                      "trilha": cfg.get("_trilha")}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
         print(f"PREP PRONTA: {total_frames} quadros, {total_dur:.2f}s", flush=True)
         return 0
@@ -1260,7 +1382,7 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
 
     jogo = work_dir / "jogo.m4a"
     mjf = sess_dir / "montar.json"
-    trilha = (json.loads(mjf.read_text(encoding="utf-8")).get("trilha") if mjf.is_file() else None) or []
+    trilha = plano.get("trilha") or (json.loads(mjf.read_text(encoding="utf-8")).get("trilha") if mjf.is_file() else None) or []
     bed = work_dir / "trilha_intercalada.wav"
     if trilha and build_music_bed(trilha, total_dur, bed):
         mus_path, mus_vol = bed, 1.0

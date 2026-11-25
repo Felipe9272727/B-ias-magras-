@@ -10,7 +10,10 @@ P4, P5, OUT = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
 T5 = float(sys.argv[4])  # inicio da gameplay no p5 (fim do gancho + abertura)
 D = OUT.parent / "tmp_junta"
 D.mkdir(exist_ok=True)
-P4_INI, P4_FIM = 28.933, 346.83
+P4_INI = 28.933  # fim do gancho + abertura do p4
+_dur4 = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(P4)],
+                             capture_output=True, text=True, check=True).stdout)
+P4_FIM = round(_dur4 - 5.002, 3)  # o p4 termina com 5 s de cartao final (pergunta), que sai: a pergunta fica so no fim do p5
 MUS = Path("video/remotion/public/music")
 FF = "ffmpeg"
 ENC = ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-r", "30",
