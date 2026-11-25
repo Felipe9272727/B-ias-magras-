@@ -684,11 +684,15 @@ def svg_placar(placar: list[Any] | None) -> str:
     """Placar fixo na coluna da esquerda (embaixo da legenda), so SVG (sem emoji)."""
     if not placar:
         return ""
-    v, r, l, pulso, pp = placar
-    linhas = [("visitante", "VISITANTE", v, "#38bdf8"), ("removidos", "CÓPIAS FORA", r, "#ef4444"), ("liberados", "LIBERADOS", l, "#22c55e")]
-    x0, y0, w = 14.0, 586.0, 292.0
-    out = [f'<g class="placar"><rect x="{x0 + 3}" y="{y0 + 4}" width="{w}" height="120" rx="14" fill="#000" fill-opacity="0.5"/>',
-           f'<rect x="{x0}" y="{y0}" width="{w}" height="120" rx="14" fill="#070b15" fill-opacity="0.92" stroke="#334155" stroke-width="2"/>']
+    v, r, l, pulso, pp = placar[:5]
+    linhas = [("visitante", "VISITANTE", v, "#38bdf8"), ("removidos", "CÓPIAS FORA", r, "#ef4444")]
+    if len(placar) > 5:  # inocentes removidos: o publico sabe, o Opus nao
+        linhas.append(("inocentes", "INOCENTES FORA", placar[5], "#f59e0b"))
+    linhas.append(("liberados", "LIBERADOS", l, "#22c55e"))
+    hh = 18.0 + 34.0 * len(linhas)
+    x0, y0, w = 14.0, 706.0 - hh, 292.0
+    out = [f'<g class="placar"><rect x="{x0 + 3}" y="{y0 + 4}" width="{w}" height="{hh}" rx="14" fill="#000" fill-opacity="0.5"/>',
+           f'<rect x="{x0}" y="{y0}" width="{w}" height="{hh}" rx="14" fill="#070b15" fill-opacity="0.92" stroke="#334155" stroke-width="2"/>']
     for i, (chave, rot, n, cor) in enumerate(linhas):
         y = y0 + 26 + i * 34
         esc = 1.0 + (0.45 * pp if chave == pulso else 0.0)
@@ -991,7 +995,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
     pl_cfg = cfg.get("placar") or {}
     marcas = []
     fim_gancho = segments[1].dst_start if (len(segments) > 1 and cfg.get("teaser_trecho")) else 0.0
-    for chave in ("visitante", "removidos", "liberados"):
+    for chave in ("visitante", "removidos", "inocentes", "liberados"):
         turnos_pl = {int(x) for x in pl_cfg.get(chave, [])}
         for ev in all_evs:
             if int(ev.get("turno", -1)) in turnos_pl and not ev.get("_so_teaser"):
@@ -1024,7 +1028,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
                 stamp_p = min(1.0, dt / 0.18) if dt < 3.25 else max(0.0, (3.5 - dt) / 0.25)
         placar = None
         if marcas and t >= fim_gancho:
-            cont = {"visitante": 0, "removidos": 0, "liberados": 0}
+            cont = {"visitante": 0, "removidos": 0, "inocentes": 0, "liberados": 0}
             pulso, pulso_p = "", 0.0
             for tm, chave in marcas:
                 if t >= tm:
@@ -1032,6 +1036,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
                     if t - tm < 0.8:
                         pulso, pulso_p = chave, round(1.0 - (t - tm) / 0.8, 3)
             placar = [cont["visitante"], cont["removidos"], cont["liberados"], pulso, pulso_p]
+            if "inocentes" in pl_cfg:
+                placar.append(cont["inocentes"])
         quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6)), placar])
     (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
