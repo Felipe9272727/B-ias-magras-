@@ -552,29 +552,106 @@ def build_linear_plan(
     return segments, round(dst, 3)
 
 
+def fala_npc_dur(ev: dict[str, Any]) -> float:
+    """Duracao (s) do trecho citado do jogo no comeco da fala ('...' = vizinho/telefone/radio), estimada pelo texto do TTS."""
+    f = (ev.get("fala_youtuber") or "").strip()
+    if not f.startswith("'") or f.startswith("'...'"):
+        return 0.0
+    fim = f.find("'", 1)
+    if fim <= 1:
+        return 0.0
+    tot = len(normalize_tts_ptbr(f)) or 1
+    q = len(normalize_tts_ptbr(f[1:fim])) + 2
+    d = float(ev["t_cut_end"]) - float(ev["t_cut_start"])
+    return max(0.0, min(d, d * q / tot + 0.25))
+
+
 def aplicar_zooms(cut_mp4: Path, events: list[dict[str, Any]], zooms: dict[int, list[float]], w: int, h: int,
-                  dur: float = 3.2) -> None:
-    """Zoom suave (entra em 0,35 s, sai em 0,5 s) no ponto [cx, cy, z] quando a fala do turno comeca (ex.: rosto na janela)."""
-    zs, xs, ys = [], [], []
+                  dur: float = 3.2, zoom_npc: list[float] | None = None) -> None:
+    """Zoom suave em janelas [a, b] que nunca se sobrepoem: (1) no texto original do jogo enquanto o vizinho fala
+    (`zoom_npc`, coordenadas do quadro inteiro); (2) no ponto [cx, cy, z] do turno (ex.: rosto), logo depois."""
+    jan: list[list[float]] = []
     for ev in events:
-        t = int(ev.get("turno", -1))
-        if t not in zooms or ev.get("_so_teaser"):
+        if ev.get("_so_teaser"):
             continue
-        cx, cy, z = (float(v) for v in zooms[t])
-        a, b = float(ev["t_cut_start"]), float(ev["t_cut_start"]) + dur
+        t0 = float(ev["t_cut_start"])
+        npc = fala_npc_dur(ev) if zoom_npc else 0.0
+        if npc >= 0.6:
+            jan.append([t0, t0 + npc + 0.15, *(float(v) for v in zoom_npc)])
+        t = int(ev.get("turno", -1))
+        if t in zooms:
+            a0 = t0 + (npc + 0.2 if npc >= 0.6 else 0.0)
+            jan.append([a0, a0 + dur, *(float(v) for v in zooms[t])])
+    jan.sort()
+    limpo: list[list[float]] = []
+    for j in jan:
+        if limpo and j[0] < limpo[-1][1] + 0.15:
+            limpo[-1][1] = max(limpo[-1][0] + 0.8, j[0] - 0.15)
+            if j[0] < limpo[-1][1] + 0.15:
+                continue
+        limpo.append(j)
+    if not limpo:
+        return
+    zs, xs, ys = [], [], []
+    for i, (a, b, cx, cy, z) in enumerate(limpo):
         env = f"min(1,max(0,min((it-{a:.2f})/0.35,({b:.2f}-it)/0.5)))"
         zs.append(f"{z - 1:.3f}*{env}")
-        xs.append(f"{cx:.3f}*between(it,{a - 0.2:.2f},{b + 0.7:.2f})")
-        ys.append(f"{cy:.3f}*between(it,{a - 0.2:.2f},{b + 0.7:.2f})")
-    if not zs:
-        return
+        lo = a - 0.2 if i == 0 else max(a - 0.2, (limpo[i - 1][1] + a) / 2)
+        hi = b + 0.6 if i == len(limpo) - 1 else min(b + 0.6, (b + limpo[i + 1][0]) / 2)
+        xs.append(f"{cx:.3f}*between(it,{lo:.2f},{hi:.2f})")
+        ys.append(f"{cy:.3f}*between(it,{lo:.2f},{hi:.2f})")
     tmp = cut_mp4.with_name("gameplay_zoom_tmp.mp4")
     vf = (f"zoompan=z='1+{'+'.join(zs)}':x='(iw-iw/zoom)*({'+'.join(xs)})':y='(ih-ih/zoom)*({'+'.join(ys)})'"
           f":d=1:s={w}x{h}:fps={FPS}")
     subprocess.run([find_ffmpeg(), "-v", "error", "-y", "-i", str(cut_mp4), "-vf", vf, "-c:v", "libx264", "-preset", "veryfast",
                     "-crf", "18", "-pix_fmt", "yuv420p", "-an", str(tmp)], check=True)
     tmp.replace(cut_mp4)
-    print(f"Zooms aplicados: {len(zs)}", flush=True)
+    print(f"Zooms aplicados: {len(limpo)}", flush=True)
+
+
+MEMES_DIR = SCRIPT_DIR / "memes"
+
+
+def janelas_memes(events: list[dict[str, Any]], memes: dict[int, list[str]], selos: set[int]) -> list[tuple[float, float, str, str]]:
+    """(inicio, fim, meme, som) de cada meme: entra com a fala do turno e fica o tempo do selo (3,5 s) ou 2,2 s sem selo."""
+    out = []
+    for ev in events:
+        t = int(ev.get("turno", -1))
+        if ev.get("_so_teaser") or t not in memes:
+            continue
+        mid, som = (memes[t] + [""])[:2]
+        a = float(ev["t_cut_start"]) + 0.15
+        out.append((a, a + (3.5 if t in selos else 2.2), mid, som))
+    return out
+
+
+def aplicar_memes(cut_mp4: Path, janelas: list[tuple[float, float, str, str]], w: int, h: int) -> None:
+    """Meme (GIF em mp4) na coluna da esquerda, entre a webcam do robo e o placar, sem tampar o jogo."""
+    ff = find_ffmpeg()
+    area_x, area_y, area_w, area_h = 14, 258, 292, 284
+    inputs, chain, cur, n = ["-i", str(cut_mp4)], [], "0:v", 0
+    for a, b, mid, _ in janelas:
+        src = MEMES_DIR / f"{mid}.mp4"
+        if not src.is_file():
+            print(f"AVISO: meme {mid} nao encontrado", flush=True)
+            continue
+        n += 1
+        inputs += ["-stream_loop", "-1", "-i", str(src)]
+        k = n  # entrada 0 = gameplay; memes a partir da 1
+        d = b - a
+        chain.append(
+            f"[{k}:v]fps={FPS},scale={area_w - 8}:{area_h - 8}:force_original_aspect_ratio=decrease,"
+            f"pad=iw+8:ih+8:4:4:color=0x00f0ff,format=yuva420p,trim=0:{d:.2f},setpts=PTS-STARTPTS+{a:.2f}/TB,"
+            f"fade=in:st={a:.2f}:d=0.15:alpha=1,fade=out:st={b - 0.2:.2f}:d=0.2:alpha=1[m{k}];"
+            f"[{cur}][m{k}]overlay=x={area_x}+({area_w}-w)/2:y={area_y}+({area_h}-h)/2:eof_action=pass:enable='between(t,{a:.2f},{b:.2f})'[v{k}]")
+        cur = f"v{k}"
+    if not n:
+        return
+    tmp = cut_mp4.with_name("gameplay_memes_tmp.mp4")
+    subprocess.run([ff, "-v", "error", "-y", *inputs, "-filter_complex", ";".join(chain), "-map", f"[{cur}]",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-an", str(tmp)], check=True)
+    tmp.replace(cut_mp4)
+    print(f"Memes aplicados: {n}", flush=True)
 
 
 def aplicar_pips(cut_mp4: Path, gameplay_mp4: Path, events: list[dict[str, Any]], pips: list[list[float]], w: int, h: int) -> None:
@@ -617,7 +694,7 @@ def aplicar_pips(cut_mp4: Path, gameplay_mp4: Path, events: list[dict[str, Any]]
     print(f"Quadrinhos do telefone: {len(janelas)}", flush=True)
 
 
-def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: Path) -> bool:
+def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: Path, lufs: float = -24.0) -> bool:
     """Som do proprio jogo nos mesmos trechos do video (normalizado baixinho, pra ficar de fundo)."""
     ff = find_ffmpeg()
     probe = subprocess.run([ff, "-v", "error", "-i", str(gameplay_mp4), "-map", "0:a:0", "-t", "0.1", "-f", "null", "-"], capture_output=True)
@@ -630,13 +707,13 @@ def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: P
         f"atrim=0:{_q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f}[a{i}]"
         for i, sg in enumerate(segments)
     ]
-    parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I=-24:TP=-3[aout]")
+    parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I={lufs:.1f}:TP=-3[aout]")
     subprocess.run([ff, "-v", "error", "-y", "-i", str(gameplay_mp4), "-filter_complex", ";".join(parts), "-map", "[aout]",
                     "-c:a", "aac", "-b:a", "192k", str(out_m4a)], check=True)
     return True
 
 
-def write_duck_envelopes(events: list[dict[str, Any]], total_dur: float, work_dir: Path) -> None:
+def write_duck_envelopes(events: list[dict[str, Any]], total_dur: float, work_dir: Path, jogo_duck: float = 0.7) -> None:
     """Curvas de volume (100 Hz): a trilha abaixa forte e o som do jogo abaixa um pouco enquanto o narrador fala."""
     rate = 100
     n = int(math.ceil(total_dur * rate)) + 1
@@ -654,7 +731,7 @@ def write_duck_envelopes(events: list[dict[str, Any]], total_dur: float, work_di
         v = min(alvo, v + 1.0 / (0.15 * rate)) if alvo > v else max(alvo, v - 1.0 / (0.6 * rate))
         s[i] = v
     # jogo: -10 dB embaixo da fala (voz clara) e volume cheio quando o Opus cala
-    for nome, prof in (("duck_musica.wav", 0.78), ("duck_jogo.wav", 0.7)):
+    for nome, prof in (("duck_musica.wav", 0.78), ("duck_jogo.wav", jogo_duck)):
         buf = bytearray(n * 4)
         for i in range(n):
             g = int((1.0 - prof * s[i]) * 32767)
@@ -831,6 +908,7 @@ def build_voice_sfx_master(
     work_dir: Path,
     out_flac: Path,
     sem_sfx: bool = False,
+    sons_extra: list[tuple[float, str, float]] | None = None,
 ) -> list[float]:
     total_samples = max(1, int(math.ceil(total_dur * SR)))
     voz_l = [0.0] * total_samples
@@ -872,6 +950,24 @@ def build_voice_sfx_master(
                             break
                         mix_l[pos] += lv * vol
                         mix_r[pos] += rv * vol
+
+    for t_s, nome, vol in (sons_extra or []):
+        sp = find_sfx(nome)
+        if not sp:
+            print(f"AVISO: efeito {nome} nao encontrado", flush=True)
+            continue
+        tmp_s = work_dir / f"_sfx_{nome}_48k.wav"
+        if not tmp_s.is_file():
+            subprocess.run([ff, "-v", "error", "-y", "-i", str(sp), "-ar", str(SR), "-ac", "2", "-af", "loudnorm=I=-16:TP=-2",
+                            "-c:a", "pcm_s16le", str(tmp_s)], check=True)
+        st = read_wav_stereo_float(tmp_s)[: int(3.5 * SR)]
+        off = int(round(t_s * SR))
+        for i, (lv, rv) in enumerate(st):
+            pos = off + i
+            if pos >= total_samples:
+                break
+            mix_l[pos] += lv * vol
+            mix_r[pos] += rv * vol
 
     total_frames = int(math.ceil(total_dur * FPS))
     rms = compute_rms_30fps(voz_l, total_frames)
@@ -1024,23 +1120,36 @@ def run_pipeline(args: argparse.Namespace) -> int:
     cut_mp4 = work_dir / "gameplay_cortado.mp4"
     render_cut_gameplay(gameplay_mp4, segments, cut_mp4, args.width, args.height)
     zooms_cfg = {int(k): v for k, v in (cfg.get("zooms") or {}).items()}
-    if zooms_cfg:
-        aplicar_zooms(cut_mp4, [ev for sg in segments for ev in sg.events], zooms_cfg, args.width, args.height)
+    evs_all = [ev for sg in segments for ev in sg.events]
+    if zooms_cfg or cfg.get("zoom_npc"):
+        aplicar_zooms(cut_mp4, evs_all, zooms_cfg, args.width, args.height, zoom_npc=cfg.get("zoom_npc"))
     if cfg.get("pips"):
-        aplicar_pips(cut_mp4, gameplay_mp4, [ev for sg in segments for ev in sg.events], cfg["pips"], args.width, args.height)
+        aplicar_pips(cut_mp4, gameplay_mp4, evs_all, cfg["pips"], args.width, args.height)
+    memes_cfg = {int(k): (v if isinstance(v, list) else [v]) for k, v in (cfg.get("memes") or {}).items()}
+    selos_turnos = {int(ev.get("turno", -1)) for ev in evs_all if (ev.get("selo") or "").strip() and not ev.get("_so_teaser")}
+    jan_memes = janelas_memes(evs_all, memes_cfg, selos_turnos)
+    if jan_memes:
+        aplicar_memes(cut_mp4, jan_memes, args.width, args.height)
+    # efeitos sonoros do canal: o som de cada meme; selo sem meme ganha um "pop" (sem emoji, so som)
+    sons_extra = [(a, som, float(cfg.get("sfx_vol", 0.55))) for a, _, _, som in jan_memes if som]
+    com_meme = {round(a - 0.15, 2) for a, _, _, _ in jan_memes}
+    for ev in evs_all:
+        if (ev.get("selo") or "").strip() and not ev.get("_so_teaser") and round(float(ev["t_cut_start"]), 2) not in com_meme and cfg.get("sfx_selo"):
+            sons_extra.append((float(ev["t_cut_start"]), str(cfg["sfx_selo"]), float(cfg.get("sfx_vol", 0.55)) * 0.8))
 
     # 3. Faixa de voz + SFX + RMS 30fps
     voice_flac = work_dir / "voice_sfx_master.flac"
-    rms = build_voice_sfx_master(segments, speech_wavs, total_dur, work_dir, voice_flac, sem_sfx=linear)
+    rms = build_voice_sfx_master(segments, speech_wavs, total_dur, work_dir, voice_flac, sem_sfx=linear, sons_extra=sons_extra)
     total_frames = len(rms)
     if linear:
-        render_game_audio(gameplay_mp4, segments, work_dir / "jogo.m4a")
-        write_duck_envelopes([ev for sg in segments for ev in sg.events], total_dur, work_dir)
+        render_game_audio(gameplay_mp4, segments, work_dir / "jogo.m4a", lufs=float(cfg.get("jogo_lufs", -24)))
+        write_duck_envelopes([ev for sg in segments for ev in sg.events], total_dur, work_dir, jogo_duck=float(cfg.get("jogo_duck", 0.7)))
 
     # 4. Plano dos quadros da webcam (salvo em frames.json para as 16 partes)
     all_evs = [ev for seg in segments for ev in seg.events]
     quadros = []
-    blocos = {id(ev): caption_chunks(ev.get("fala_youtuber", ""), ev["t_cut_start"], ev["t_cut_end"]) for ev in all_evs}
+    sem_legenda = cfg.get("legenda") == "nenhuma"
+    blocos = {id(ev): ([] if sem_legenda else caption_chunks(ev.get("fala_youtuber", ""), ev["t_cut_start"], ev["t_cut_end"])) for ev in all_evs}
     amp_s = 0.0
     # placar fixo (aposta visivel): visitante n, copias fora, liberados; numeros vindos dos turnos do log
     pl_cfg = cfg.get("placar") or {}
