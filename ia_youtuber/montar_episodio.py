@@ -680,8 +680,29 @@ def build_music_bed(trilha: list[Any], total_dur: float, out_wav: Path) -> bool:
     return True
 
 
-def _render_overlay_frame(task: tuple[int, float, float, str, str, str, float, float, Path, str | None]) -> int:
-    fi, t, amp, emo, cap, stamp, stamp_p, cam_p, out_png, visuals_dir_str = task
+def svg_placar(placar: list[Any] | None) -> str:
+    """Placar fixo na coluna da esquerda (embaixo da legenda), so SVG (sem emoji)."""
+    if not placar:
+        return ""
+    v, r, l, pulso, pp = placar
+    linhas = [("visitante", "VISITANTE", v, "#38bdf8"), ("removidos", "CÓPIAS FORA", r, "#ef4444"), ("liberados", "LIBERADOS", l, "#22c55e")]
+    x0, y0, w = 14.0, 586.0, 292.0
+    out = [f'<g class="placar"><rect x="{x0 + 3}" y="{y0 + 4}" width="{w}" height="120" rx="14" fill="#000" fill-opacity="0.5"/>',
+           f'<rect x="{x0}" y="{y0}" width="{w}" height="120" rx="14" fill="#070b15" fill-opacity="0.92" stroke="#334155" stroke-width="2"/>']
+    for i, (chave, rot, n, cor) in enumerate(linhas):
+        y = y0 + 26 + i * 34
+        esc = 1.0 + (0.45 * pp if chave == pulso else 0.0)
+        out.append(f'<rect x="{x0 + 14}" y="{y - 13}" width="6" height="22" rx="3" fill="{cor}"/>')
+        out.append(f'<text x="{x0 + 30}" y="{y + 5}" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="19" fill="#e2e8f0" letter-spacing="1">{rot}</text>')
+        out.append(f'<g transform="translate({x0 + w - 40},{y - 2}) scale({esc:.3f})"><rect x="-24" y="-15" width="48" height="30" rx="8" fill="{cor}" fill-opacity="{0.25 + 0.6 * (pp if chave == pulso else 0):.2f}" stroke="{cor}" stroke-width="2"/>'
+                   f'<text x="0" y="8" text-anchor="middle" font-family="Roboto, DejaVu Sans, sans-serif" font-weight="900" font-size="22" fill="#ffffff">{n}</text></g>')
+    out.append("</g>")
+    return "".join(out)
+
+
+def _render_overlay_frame(task: tuple) -> int:
+    fi, t, amp, emo, cap, stamp, stamp_p, cam_p, out_png, visuals_dir_str = task[:10]
+    placar = task[10] if len(task) > 10 else None
     vis = load_visuals_v2(Path(visuals_dir_str) if visuals_dir_str else None)
     if vis is None:
         raise RuntimeError("Modulo visuals_v2.py com render_webcam_overlay_svg nao encontrado.")
@@ -697,6 +718,8 @@ def _render_overlay_frame(task: tuple[int, float, float, str, str, str, float, f
         panic_shake=panic_shake,
         transparent_bg=True,
     )
+    if placar:
+        svg = svg.replace("</svg>", svg_placar(placar) + "</svg>")
     subprocess.run(
         [find_rsvg(), "-w", "1280", "-h", "720", "-o", str(out_png)],
         input=svg.encode("utf-8"),
@@ -964,6 +987,15 @@ def run_pipeline(args: argparse.Namespace) -> int:
     quadros = []
     blocos = {id(ev): caption_chunks(ev.get("fala_youtuber", ""), ev["t_cut_start"], ev["t_cut_end"]) for ev in all_evs}
     amp_s = 0.0
+    # placar fixo (aposta visivel): visitante n, copias fora, liberados; numeros vindos dos turnos do log
+    pl_cfg = cfg.get("placar") or {}
+    marcas = []
+    fim_gancho = segments[1].dst_start if (len(segments) > 1 and cfg.get("teaser_trecho")) else 0.0
+    for chave in ("visitante", "removidos", "liberados"):
+        turnos_pl = {int(x) for x in pl_cfg.get(chave, [])}
+        for ev in all_evs:
+            if int(ev.get("turno", -1)) in turnos_pl and not ev.get("_so_teaser"):
+                marcas.append((float(ev["t_cut_start"]), chave))
     for fi in range(total_frames):
         t = fi / FPS
         active_ev = None
@@ -990,7 +1022,17 @@ def run_pipeline(args: argparse.Namespace) -> int:
             if selo and 0.0 <= dt <= 3.5:
                 stamp = selo
                 stamp_p = min(1.0, dt / 0.18) if dt < 3.25 else max(0.0, (3.5 - dt) / 0.25)
-        quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6))])
+        placar = None
+        if marcas and t >= fim_gancho:
+            cont = {"visitante": 0, "removidos": 0, "liberados": 0}
+            pulso, pulso_p = "", 0.0
+            for tm, chave in marcas:
+                if t >= tm:
+                    cont[chave] += 1
+                    if t - tm < 0.8:
+                        pulso, pulso_p = chave, round(1.0 - (t - tm) / 0.8, 3)
+            placar = [cont["visitante"], cont["removidos"], cont["liberados"], pulso, pulso_p]
+        quadros.append([fi, round(t, 4), amp, emo, cap, stamp, round(stamp_p, 3), min(1.0, max(0.0, t / 0.6)), placar])
     (work_dir / "frames.json").write_text(json.dumps({"total_dur": total_dur, "fim_seg1": (segments[1].dst_start if len(segments) > 1 else total_dur), "quadros": quadros}, ensure_ascii=False), encoding="utf-8")
     if args.etapa == "prep":
         print(f"PREP PRONTA: {total_frames} quadros, {total_dur:.2f}s", flush=True)
@@ -1005,7 +1047,8 @@ def render_parte(args: argparse.Namespace, work_dir: Path, overlay_dir: Path, vi
     a = len(quadros) * k // n
     b = len(quadros) * (k + 1) // n
     vis_dir_str = str(Path(vis.__file__).resolve().parent)
-    tasks = [(q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], overlay_dir / f"ov_{q[0]:05d}.png", vis_dir_str) for q in quadros[a:b]]
+    tasks = [(q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], overlay_dir / f"ov_{q[0]:05d}.png", vis_dir_str, q[8] if len(q) > 8 else None)
+             for q in quadros[a:b]]
     workers = min(8, os.cpu_count() or 4)
     with ProcessPoolExecutor(max_workers=workers) as ex:
         list(ex.map(_render_overlay_frame, tasks, chunksize=8))
