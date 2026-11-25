@@ -577,6 +577,46 @@ def aplicar_zooms(cut_mp4: Path, events: list[dict[str, Any]], zooms: dict[int, 
     print(f"Zooms aplicados: {len(zs)}", flush=True)
 
 
+def aplicar_pips(cut_mp4: Path, gameplay_mp4: Path, events: list[dict[str, Any]], pips: list[list[float]], w: int, h: int) -> None:
+    """Quadrinho com o rosto do visitante (quadro real da janela em `src_t`) enquanto o Opus esta no telefone,
+    do comeco da fala do turno `ini` ao fim da fala do turno `fim`: a tela do discador deixa de ficar parada."""
+    ini_t = {int(e.get("turno", -1)): float(e["t_cut_start"]) for e in events if not e.get("_so_teaser")}
+    fim_t = {int(e.get("turno", -1)): float(e["t_cut_end"]) for e in events if not e.get("_so_teaser")}
+    ff = find_ffmpeg()
+    janelas = []
+    for ini, fim, src_t in pips:
+        ini, fim = int(ini), int(fim)
+        if ini in ini_t and fim in fim_t and fim_t[fim] > ini_t[ini]:
+            janelas.append((ini_t[ini] + 0.4, fim_t[fim] + 0.3, float(src_t)))
+    if not janelas:
+        return
+    pw, ph, bd = int(w * 0.18), int(w * 0.18 * 340 / 380), 4
+    x, y = w - pw - 2 * bd - 14, h - ph - 2 * bd - 14
+    pngs = []
+    for k, (_, _, src_t) in enumerate(janelas):
+        png = cut_mp4.with_name(f"pip_{k:02d}.png")
+        subprocess.run([ff, "-v", "error", "-y", "-ss", f"{src_t:.2f}", "-i", str(gameplay_mp4), "-frames:v", "1",
+                        "-vf", f"crop=380:340:450:140,scale={pw}:{ph}:flags=lanczos,pad={pw + 2 * bd}:{ph + 2 * bd}:{bd}:{bd}:color=0xf59e0b",
+                        str(png)], check=True)
+        pngs.append(png)
+    inputs = ["-i", str(cut_mp4)]
+    for png in pngs:
+        inputs += ["-loop", "1", "-i", str(png)]
+    chain, cur = [], "0:v"
+    for k, (a, b, _) in enumerate(janelas):
+        # entra deslizando de baixo (0,25 s) e fica ate o fim da ligacao
+        yy = f"'if(lt(t,{a + 0.25:.2f}),{h}-({h}-{y})*(t-{a:.2f})/0.25,{y})'"
+        chain.append(f"[{cur}][{k + 1}:v]overlay=x={x}:y={yy}:enable='between(t,{a:.2f},{b:.2f})':shortest=1[p{k}]")
+        cur = f"p{k}"
+    tmp = cut_mp4.with_name("gameplay_pip_tmp.mp4")
+    subprocess.run([ff, "-v", "error", "-y", *inputs, "-filter_complex", ";".join(chain), "-map", f"[{cur}]",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-an", str(tmp)], check=True)
+    tmp.replace(cut_mp4)
+    for png in pngs:
+        png.unlink(missing_ok=True)
+    print(f"Quadrinhos do telefone: {len(janelas)}", flush=True)
+
+
 def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: Path) -> bool:
     """Som do proprio jogo nos mesmos trechos do video (normalizado baixinho, pra ficar de fundo)."""
     ff = find_ffmpeg()
@@ -986,6 +1026,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
     zooms_cfg = {int(k): v for k, v in (cfg.get("zooms") or {}).items()}
     if zooms_cfg:
         aplicar_zooms(cut_mp4, [ev for sg in segments for ev in sg.events], zooms_cfg, args.width, args.height)
+    if cfg.get("pips"):
+        aplicar_pips(cut_mp4, gameplay_mp4, [ev for sg in segments for ev in sg.events], cfg["pips"], args.width, args.height)
 
     # 3. Faixa de voz + SFX + RMS 30fps
     voice_flac = work_dir / "voice_sfx_master.flac"
