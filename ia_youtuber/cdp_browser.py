@@ -480,6 +480,15 @@ class BrowserCDPBackend:
         # Pausa do jogo (relay com o subagente): o tempo pausado some da gravacao
         self._paused_total = 0.0
         self._pause_start: float | None = None
+        # Modo "OBS": Chrome com janela num Xvfb e ffmpeg gravando tela (x11grab) + som (PulseAudio) juntos, 30 fps,
+        # relogio de parede nos dois -> audio e video sincronizados por construcao. As pausas sao cortadas depois.
+        self.x11 = bool(os.environ.get("TNMN_X11")) and bool(os.environ.get("DISPLAY"))
+        self._pausas: list[tuple[float, float]] = []  # (inicio, fim) em time.time()
+        self._pausa_ini_epoch: float | None = None
+        self._rec_start_epoch: float | None = None
+        self._ff_proc: subprocess.Popen[bytes] | None = None
+        self._ff_raw: Path | None = None
+        self._ff_launch_epoch: float | None = None
 
         self._browser_proc: subprocess.Popen[bytes] | None = None
         self._cdp: CDPClient | None = None
@@ -519,6 +528,20 @@ class BrowserCDPBackend:
             "try{if(%s){if(r&&r.state==='recording')r.pause();ae&&ae.audioContext.suspend();}"
             "else{ae&&ae.audioContext.resume();if(r&&r.state==='paused')r.resume();}}catch(e){}return 'ok'})()"
         ) % (("stop", "true") if pausado else ("start", "false"))
+        if self.x11:
+            # mesma marca de tempo pro corte do video e do audio: antes de congelar / depois de descongelar
+            if pausado and self._pause_start is None:
+                self._pausa_ini_epoch = time.time()
+                self._pause_start = time.monotonic()
+                self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
+            elif not pausado and self._pause_start is not None:
+                self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
+                self._paused_total += time.monotonic() - self._pause_start
+                self._pause_start = None
+                if self._pausa_ini_epoch is not None:
+                    self._pausas.append((self._pausa_ini_epoch, time.time()))
+                self._pausa_ini_epoch = None
+            return
         if pausado and self._pause_start is None:
             self._cdp.call("Runtime.evaluate", {"expression": js, "returnByValue": True})
             time.sleep(0.3)  # deixa o ultimo quadro chegar antes de cortar a gravacao
@@ -530,9 +553,11 @@ class BrowserCDPBackend:
 
     def _build_launch_cmd(self, fallback_headless: bool = False) -> list[str]:
         headless_flag = "--headless" if fallback_headless else "--headless=new"
+        janela = ["--kiosk", "--window-position=0,0", "--test-type", "--disable-infobars", "--noerrdialogs",
+                  "--hide-scrollbars", "--disable-session-crashed-bubble", "--start-fullscreen"]
         cmd = [
             self._chromium_bin,
-            headless_flag,
+            *(janela if (self.x11 and not fallback_headless) else [headless_flag]),
             "--no-sandbox",
             "--disable-dev-shm-usage",
             "--disable-setuid-sandbox",
@@ -775,6 +800,13 @@ class BrowserCDPBackend:
             self._frame_records = []
             self._recording = True
 
+        if self.x11:
+            self._iniciar_ffmpeg_x11(out_mp4)
+            self.rec_start_mono = time.monotonic()
+            self._rec_start_epoch = time.time()
+            self._medir_fps()
+            return
+
         self.rec_start_mono = time.monotonic()
 
         def _on_screencast_frame(params: dict[str, Any]) -> None:
@@ -861,8 +893,111 @@ class BrowserCDPBackend:
             _log(f"Falha ao salvar audio do jogo: {exc}")
             return None
 
+    # ------------------------------------------------------------------ modo OBS (Xvfb + ffmpeg)
+    def _iniciar_ffmpeg_x11(self, out_mp4: Path) -> None:
+        ff = _find_ffmpeg()
+        self._ff_raw = out_mp4.with_name(out_mp4.stem + "_bruto.mkv")
+        disp = os.environ.get("DISPLAY", ":99")
+        video_in = ["-thread_queue_size", "4096", "-f", "x11grab", "-draw_mouse", "0", "-framerate", str(self.fps),
+                    "-video_size", f"{self.width}x{self.height}", "-i", f"{disp}+0,0"]
+        audio_in = ["-thread_queue_size", "4096", "-f", "pulse", "-i", os.environ.get("TNMN_PULSE_SRC", "default")]
+        saida = ["-c:v", "libx264", "-preset", "ultrafast", "-crf", "18", "-pix_fmt", "yuv420p", "-g", "60",
+                 "-c:a", "aac", "-b:a", "192k", "-copyts", str(self._ff_raw)]
+        log_ff = (out_mp4.parent / "_ffmpeg_x11.log").open("ab")
+        for com_audio in (True, False):
+            cmd = [ff, "-y", "-v", "warning", *video_in, *(audio_in if com_audio else []),
+                   *(["-map", "0:v", "-map", "1:a"] if com_audio else ["-map", "0:v"]), *saida]
+            self._ff_launch_epoch = time.time()
+            self._ff_proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=log_ff)
+            time.sleep(2.5)
+            if self._ff_proc.poll() is None:
+                _log(f"Gravacao OBS (x11grab {self.width}x{self.height}@{self.fps}{' + som PulseAudio' if com_audio else ', SEM som'}) -> {self._ff_raw}")
+                return
+            _log("ffmpeg x11grab caiu com audio; tentando so video" if com_audio else "ffmpeg x11grab nao iniciou")
+        raise RuntimeError("Nao consegui gravar a tela (x11grab)")
+
+    def _medir_fps(self) -> None:
+        js = ("new Promise(res=>{let n=0;const t0=performance.now();function f(){n++;if(performance.now()-t0<2000)"
+              "requestAnimationFrame(f);else res(Math.round(n*1000/(performance.now()-t0)))}requestAnimationFrame(f)})")
+        try:
+            r = self._cdp.call("Runtime.evaluate", {"expression": js, "awaitPromise": True, "returnByValue": True}, timeout=10.0)
+            _log(f"FPS do navegador (requestAnimationFrame): {r.get('result', {}).get('value')}")
+        except Exception as exc:
+            _log(f"FPS do navegador: falhou ({exc})")
+
+    def _parar_x11(self) -> None:
+        t_stop = time.time()
+        if self._pause_start is not None and self._pausa_ini_epoch is not None:
+            t_stop = self._pausa_ini_epoch  # terminou pausado: corta no inicio da pausa
+        proc = self._ff_proc
+        if proc is not None and proc.poll() is None:
+            try:
+                proc.stdin.write(b"q")
+                proc.stdin.flush()
+            except Exception:
+                pass
+            try:
+                proc.wait(timeout=60)
+            except Exception:
+                proc.kill()
+        self._recording = False
+        raw = self._ff_raw
+        if raw is None or not raw.is_file() or self.rec_path is None:
+            _log("Aviso: gravacao bruta nao encontrada")
+            return
+        ff = _find_ffmpeg()
+        probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,start_time:format=start_time", "-of", "json", str(raw)],
+                               capture_output=True, text=True)
+        try:
+            pj = json.loads(probe.stdout or "{}")
+        except Exception:
+            pj = {}
+        streams = pj.get("streams", [])
+        f_start = float((pj.get("format") or {}).get("start_time") or 0)
+        tem_audio = any(st.get("codec_type") == "audio" for st in streams)
+        v_start = next((float(st.get("start_time") or 0) for st in streams if st.get("codec_type") == "video"), 0.0)
+        # Nos filtros o tempo comeca no inicio do arquivo. Com -copyts na gravacao esse inicio e o relogio de parede (epoch);
+        # se nao for, conta a partir do lancamento do ffmpeg.
+        base = f_start if f_start > 1e9 else (self._ff_launch_epoch or 0.0)
+        keep: list[tuple[float, float]] = []
+        cur = self._rec_start_epoch or t_stop
+        for a, b in self._pausas:
+            if a > cur:
+                keep.append((cur, a))
+            cur = max(cur, b)
+        if t_stop > cur:
+            keep.append((cur, t_stop))
+        keep = [(a - base, b - base) for a, b in keep if b - a > 0.02]
+        sel, pts, dst = [], [], 0.0
+        for a, b in keep:
+            sel.append(f"between(t,{a:.4f},{b:.4f})")
+            pts.append(f"between(T,{a:.4f},{b:.4f})*(T-{a - dst:.4f})")
+            dst += b - a
+        sel_e, pts_e = "+".join(sel) or "1", "+".join(pts) or "T"
+        fg = f"[0:v]select='{sel_e}',setpts='({pts_e})/TB',fps={self.fps}[v]"
+        if tem_audio:
+            fg += f";[0:a]aselect='{sel_e}',asetpts='({pts_e})/TB',aresample=async=1:first_pts=0[a]"
+        script = raw.with_name(raw.stem + "_filtro.txt")
+        script.write_text(fg, encoding="utf-8")
+        (raw.with_name(raw.stem + "_pausas.json")).write_text(json.dumps(
+            {"rec_start_epoch": self._rec_start_epoch, "stop_epoch": t_stop, "pausas": self._pausas, "v_start": v_start, "f_start": f_start, "base": base},
+            indent=1), encoding="utf-8")
+        cmd = [ff, "-y", "-v", "warning", "-i", str(raw), "-filter_complex", fg, "-map", "[v]",
+               *(["-map", "[a]", "-c:a", "aac", "-b:a", "192k"] if tem_audio else []),
+               "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+               str(self.rec_path)]
+        _log(f"Cortando {len(self._pausas)} pausas da gravacao ({dst:.1f}s de jogo, audio={'sim' if tem_audio else 'nao'})")
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
+        if res.returncode != 0:
+            _log(f"Erro ffmpeg no corte das pausas: {res.stderr[-600:]}")
+        else:
+            _log(f"Gravacao MP4 finalizada: {self.rec_path}")
+
     def stop_recording(self) -> None:
         if not self._recording:
+            return
+        if self.x11:
+            self._parar_x11()
             return
         t_stop = self._clock()
         audio_webm = self._salvar_audio(self.rec_path.with_name(self.rec_path.stem + "_audio.webm")) if self.rec_path else None

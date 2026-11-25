@@ -38,7 +38,8 @@ return JSON.stringify({things:T,posX:V('pos X'),stop:V('STOP GAME'),
  visitante:d.length>0,phone:vis('Phone').length,
  btn:vis('Buttons').map(t=>t.getCostumes()[t.currentCostume].name),checklist:vis('Checklist').length,chk:vis('Checklist').map(t=>t.getCostumes()[t.currentCostume].name),
  docs:vis('documents').map(t=>t.getCostumes()[t.currentCostume].name.replace(/^[A-Z] /,'')),
- closed:vis('CLOSED').length,endmenu:vis('End menu').length});})()"""
+ closed:vis('CLOSED').length,endmenu:vis('End menu').length,txt:(()=>{const te=v.runtime.targets.find(t=>t.isOriginal&&t.sprite.name==='Text Engine');
+ if(!te)return '';for(const id in te.variables){if(te.variables[id].name==='txt')return String(te.variables[id].value)}return ''})()});})()"""
 
 JS_ALVO = r"""(()=>{const v=window.vm;if(!v)return null;const r=v.renderer;
 const cv=document.querySelector('canvas');if(!cv)return null;const rc=cv.getBoundingClientRect();
@@ -108,6 +109,12 @@ class Ajudantes:
         self._vigia_on = False
         self._lock = threading.Lock()
         self._passados_ao_abrir: int | None = None
+        # falas que o jogo escreveu na caixa de dialogo desde o ultimo turno (a IA nunca perde um dialogo)
+        self.falas_jogo: list[str] = []
+        self._ultimo_txt = ""
+        self._parado_antes = False
+        self.evento_em: float | None = None  # monotonic do ultimo evento importante (fala nova, visitante chegou)
+        self.txt_mudou_em: float = 0.0
 
     # ------------------------------------------------------------------ baixo nivel
     def js(self, expr: str, timeout: float = 15.0) -> Any:
@@ -190,6 +197,17 @@ class Ajudantes:
             e = self.estado()
             if not e:
                 continue
+            agora = time.monotonic()
+            txt = str(e.get("txt") or "").strip()
+            if txt and txt != self._ultimo_txt:
+                self._ultimo_txt = txt
+                self.txt_mudou_em = agora
+                self.falas_jogo.append(txt)
+                self.evento_em = agora
+            parado = bool(e.get("visitante")) and abs(float(e.get("posX") or 0)) < 1
+            if parado and not self._parado_antes:
+                self.evento_em = agora
+            self._parado_antes = parado
             c = self._contagens(e)
             with self._lock:
                 if c["porta"] != 1:
@@ -227,9 +245,30 @@ class Ajudantes:
         ]
         ev = self.eventos[-3:]
         self.eventos.clear()
+        falas = self.falas_jogo[-6:]
+        self.falas_jogo.clear()
+        if falas:
+            linhas.append("O JOGO ESCREVEU (caixa de dialogo, em ordem, desde o seu ultimo turno): " + " | ".join(f'"{f}"' for f in falas)
+                          + "  <- leia/traduza em voz alta e reaja")
         if ev:
             linhas.append("reflexos automaticos desde o ultimo turno: " + "; ".join(ev))
         return "ESTADO DO JOGO (lido do jogo, confiavel):\n- " + "\n- ".join(linhas)
+
+    def esperar_evento(self, desde: float, minimo: float, maximo: float) -> str:
+        """Deixa o jogo correr ate `maximo` s, mas devolve antes (depois de `minimo`) se aconteceu algo novo:
+        fala nova do jogo (espera ela terminar de ser escrita) ou visitante chegando na janela."""
+        t0 = time.monotonic()
+        while True:
+            agora = time.monotonic()
+            dt = agora - t0
+            if dt >= maximo:
+                return "tempo"
+            ev = self.evento_em
+            if ev is not None and ev > desde and dt >= minimo:
+                # fala do jogo: espera parar de mudar ~1 s (letra por letra) para a IA ver a frase inteira
+                if agora - self.txt_mudou_em >= 1.0 or agora - ev >= 3.0:
+                    return "evento"
+            time.sleep(0.1)
 
     # ------------------------------------------------------------------ macros
     def executar(self, act: dict[str, Any]) -> bool:

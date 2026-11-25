@@ -58,6 +58,20 @@ jobs:
           python3 -m pip install --quiet pillow
           for b in google-chrome google-chrome-stable chromium chromium-browser; do command -v $b && break; done
 
+      - name: Tela virtual e som (gravação estilo OBS)
+        run: |
+          # Chrome com janela num Xvfb + ffmpeg gravando tela e som juntos (audio e video no mesmo relogio)
+          sudo apt-get install -y -qq xvfb pulseaudio pulseaudio-utils x11-utils >/dev/null
+          Xvfb :99 -screen 0 1280x720x24 -nolisten tcp -ac >/tmp/xvfb.log 2>&1 &
+          pulseaudio -D --exit-idle-time=-1 --disallow-exit || true
+          sleep 2
+          pactl load-module module-native-protocol-unix socket=/tmp/pulse.sock auth-anonymous=1 || true
+          pactl -s unix:/tmp/pulse.sock load-module module-null-sink sink_name=tnmn sink_properties=device.description=tnmn || true
+          pactl -s unix:/tmp/pulse.sock set-default-sink tnmn || true
+          pactl -s unix:/tmp/pulse.sock info | head -20 || true
+          xdpyinfo -display :99 | head -5 || true
+          { echo "DISPLAY=:99"; echo "TNMN_X11=1"; echo "PULSE_SERVER=unix:/tmp/pulse.sock"; echo "TNMN_PULSE_SRC=tnmn.monitor"; } >> "$GITHUB_ENV"
+
       - name: Parâmetros
         id: p
         run: |

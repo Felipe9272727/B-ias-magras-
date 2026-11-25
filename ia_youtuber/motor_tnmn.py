@@ -95,7 +95,8 @@ ACOES (prefira SEMPRE estas, elas acham o botao sozinhas mesmo com a camera mexe
 - {"tipo": "acao_semantica", "nome": "documento_pedido"} / "documento_id"   -> abre o papel na mesa (clique de novo fecha)
 - {"tipo": "acao_semantica", "nome": "checklist"} / "perguntar"             -> checklist e o botao de interrogar
 - {"tipo": "acao_semantica", "nome": "porta"}             -> so o botao da porta (abrir/fechar na mao)
-- {"tipo": "acao_semantica", "nome": "avancar_dialogo"} / "menu_play" / "modo_play" -> menus e caixa de dialogo
+- {"tipo": "acao_semantica", "nome": "menu_play"} / "modo_play" -> so nos menus do comeco. NAO clique na caixa de dialogo:
+  as falas do jogo passam sozinhas e chegam pra voce no campo "O JOGO ESCREVEU" do estado (clicar pula a fala).
 - {"tipo": "wait", "seg": 2.0}; e, so se nada acima servir, {"tipo": "click", "x": 500, "y": 400} olhando a grade 0..1000 do print.
 - Tutorial/filme do comeco: espere com waits de 5 a 8 s, nao fique clicando.
 - NUNCA invente o que nao esta no print nem no estado do jogo.
@@ -109,7 +110,13 @@ PERSONALIDADE DO OPUS (estilo de gameplay de terror dos YouTubers BR, 100% origi
 - Reacoes curtas e exageradas no susto ("NAO! nao, nao, nao", "ai meu Deus, olha o olho dele") e comemoracao quando acerta.
 - NUNCA diga que e o Claude, nunca cite a Anthropic nem modelo de IA. Nada de cliche de robo ("trilhoes de parametros").
 - PORTUGUES CORRETO COM ACENTOS (é, não, você, está, até, já, pô, aí...). Isso vai pra legenda: sem acento fica feio.
-- O jogo RODA EM TEMPO REAL enquanto voce fala (a gameplay nao para). Tamanho da fala: varie entre 8 e 30 palavras (3 a 11 s); reacao curta quando a acao e rapida, fala maior quando esta conferindo ficha/documento. ZERO emojis. Nao repita piada nem abertura de frase.
+- O jogo RODA EM TEMPO REAL enquanto voce fala e o proximo turno chega assim que algo acontece (fala nova do jogo, visitante na janela).
+  Entao fale como YouTuber AO VIVO, reagindo AGORA ao que acabou de acontecer: frases curtas e faladas, 5 a 20 palavras (2 a 7 s).
+  Reacao de 2-6 palavras quando for susto ou acao rapida ("Opa, opa! Chegou gente."). Nada de resumo de narrador ("O visitante
+  aproxima-se..."): fale do jeito que se fala ("ih, olha esse cara", "pera, pera", "tá, beleza", "não acredito"). ZERO emojis.
+- Toda fala nova do jogo ("O JOGO ESCREVEU") tem que aparecer na sua fala: leia ou traduza do seu jeito ("ele falou 'Hello' — oi,
+  boa noite pra você também") antes de comentar. Nunca ignore um dialogo.
+- Nao repita piada, bordão nem abertura de frase.
 - `emocao`: quase sempre "cyan" (neutro, narrando tranquilo). So use outra cor no PICO de verdade, no maximo 1 a cada 4 turnos:
   * "green"  = acertou / comemorando com a galera
   * "yellow" = achou uma pista forte de doppelganger
@@ -121,7 +128,7 @@ Responda EXCLUSIVAMENTE com um objeto JSON valido neste formato:
 {
   "observacao": "descricao objetiva do que realmente ve na tela",
   "pensamento": "deducao rapida do proximo passo",
-  "fala_youtuber": "narracao do Opus em PT-BR com acentos (8 a 30 palavras, sem emojis)",
+  "fala_youtuber": "fala do Opus ao vivo em PT-BR com acentos (5 a 20 palavras, sem emojis)",
   "emocao": "cyan|green|yellow|red|purple",
   "selo": "TEXTO CURTO OU null",
   "acoes": [
@@ -1295,12 +1302,18 @@ def run_live(args: argparse.Namespace) -> int:
                 decision, _raw = call_openrouter_vision(api_key, args.model, messages)
 
             t_action_start = backend.current_video_sec(prior_video_sec)
+            t_marca = time.monotonic()
             act_dur = execute_actions(decision["acoes"], backend, coords, ajud)
             # Tempo real: o jogo continua rodando enquanto o YouTuber fala (a fala nao congela a tela na montagem)
             n_pal = len(str(decision.get("fala_youtuber") or "").split())
-            fala_est = (n_pal / 2.6 + 0.6) if n_pal else 0.0
+            fala_est = (n_pal / 2.9 + 0.5) if n_pal else 0.0
             falta = min(args.max_espera_fala, fala_est - act_dur)
-            if falta > 0:
+            if ajud is not None:
+                # reage na hora: se o jogo escrever uma fala nova ou chegar visitante, o proximo turno vem logo
+                motivo = ajud.esperar_evento(t_marca, minimo=min(1.2, max(0.0, falta)), maximo=max(0.0, falta))
+                if motivo == "evento":
+                    log(f"[T{turno}] evento no jogo -> proximo turno ja")
+            elif falta > 0:
                 time.sleep(falta)
             t_turn_end = backend.current_video_sec(prior_video_sec)
 
