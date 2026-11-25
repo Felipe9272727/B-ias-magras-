@@ -217,6 +217,7 @@ class CutSegment:
     dst_start: float
     events: list[dict[str, Any]]
     freeze_sec: float = 0.0  # congela o 1o quadro (o jogo estava pausado enquanto a IA pensava/falava)
+    freeze_end: float = 0.0  # congela o ultimo quadro (gancho: segura o susto na tela enquanto o grito toca)
 
 
 def load_session_log(log_path: Path) -> list[dict[str, Any]]:
@@ -346,18 +347,25 @@ def build_linear_plan(
     if cur < video_dur:
         keep.append((cur, video_dur))
     ranges = ([(float(teaser[0]), float(teaser[1]))] if teaser else []) + keep
+    congela_fim = float(teaser[2]) if teaser and len(teaser) > 2 else 0.0
     segments: list[CutSegment] = []
     dst = 0.0
-    for a, b in ranges:
-        segments.append(CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], freeze_sec=0.0))
-        dst += b - a
+    for ri, (a, b) in enumerate(ranges):
+        fe = congela_fim if (teaser and ri == 0) else 0.0
+        segments.append(CutSegment(src_start=round(a, 3), src_end=round(b, 3), dst_start=round(dst, 3), events=[], freeze_sec=0.0, freeze_end=round(fe, 3)))
+        dst += b - a + fe
     prev_end = -1.0
     max_atraso = 0.0
     for si, seg in enumerate(segments):
-        seg_end_dst = seg.dst_start + (seg.src_end - seg.src_start)
+        seg_end_dst = seg.dst_start + (seg.src_end - seg.src_start) + seg.freeze_end
+        so_teaser = [i for i, e in enumerate(entries) if e.get("_so_teaser")]
         for idx, ev in enumerate(entries):
             dur = speech_durations.get(idx)
             if not dur:
+                continue
+            if teaser and si == 0 and so_teaser and idx not in so_teaser:
+                continue  # o gancho usa a fala curta propria
+            if ev.get("_so_teaser") and not (teaser and si == 0):
                 continue
             t = float(ev.get("t_video_sec", 0.0))
             if not (seg.src_start <= t < seg.src_end):
@@ -384,8 +392,8 @@ def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: P
         return False
     parts = [
         f"[0:a]atrim=start={sg.src_start:.3f}:end={sg.src_end:.3f},asetpts=PTS-STARTPTS,"
-        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={sg.src_end - sg.src_start:.3f},"
-        f"atrim=0:{sg.src_end - sg.src_start:.3f}[a{i}]"
+        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={sg.src_end - sg.src_start + sg.freeze_end:.3f},"
+        f"atrim=0:{sg.src_end - sg.src_start + sg.freeze_end:.3f}[a{i}]"
         for i, sg in enumerate(segments)
     ]
     parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I=-24:TP=-3[aout]")
@@ -504,7 +512,8 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
         parts.append(
             f"[{i}:v]setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
             + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
-            + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec)
+            + (f",tpad=stop_duration={seg.freeze_end:.3f}:stop_mode=clone" if seg.freeze_end > 0 else "")
+            + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec + seg.freeze_end)
             + f"[v{i}]"
         )
         concat_inputs += f"[v{i}]"
@@ -679,6 +688,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
     congelar = {int(k): float(v) for k, v in (cfg.get("congelar") or {}).items()}
     linear = cfg.get("modo") == "linear"
     mudos = {int(x) for x in (cfg.get("mudos") or [])}
+    tz_cfg = cfg.get("teaser_trecho")
+    if linear and tz_cfg and cfg.get("teaser_fala"):
+        entries.append({"turno": int(cfg.get("teaser_turno", 0)), "t_video_sec": float(tz_cfg[0]) + float(cfg.get("teaser_fala_em", 0.3)),
+                        "fala_youtuber": str(cfg["teaser_fala"]), "selo": cfg.get("teaser_selo", ""), "emocao": "red", "_so_teaser": True})
     for idx, ev in enumerate(entries):
         fala = (ev.get("fala_youtuber") or "").strip()
         if turnos_sel is not None and int(ev.get("turno", -1)) not in turnos_sel:
@@ -814,6 +827,16 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
             f"[3:a]{st},apad,atrim=0:{total_dur:.3f},volume=0.9[g0];"
             f"[5:a]aresample={SR},{st},apad,atrim=0:{total_dur:.3f}[eg];[g0][eg]amultiply[jg];"
             f"[voz][mus][jg]amix=inputs=3:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
+        )
+    elif jogo.is_file() and (work_dir / "duck_jogo.wav").is_file():
+        print("AVISO: trilha nao encontrada; mixando voz + som do jogo", flush=True)
+        mus_args = ["-i", str(jogo), "-i", str(work_dir / "duck_jogo.wav")]
+        st = f"aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo"
+        audio_fg = (
+            f"[1:a]{st}[voz];"
+            f"[2:a]{st},apad,atrim=0:{total_dur:.3f},volume=0.9[g0];"
+            f"[3:a]aresample={SR},{st},apad,atrim=0:{total_dur:.3f}[eg];[g0][eg]amultiply[jg];"
+            f"[voz][jg]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
         )
     elif mus_path is not None:
         mus_args = ["-stream_loop", "-1", "-i", str(mus_path)]
