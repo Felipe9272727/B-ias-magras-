@@ -90,6 +90,11 @@ ROBO_VOICE_SETTINGS: dict[str, dict[str, Any]] = {
 MODELOS_COM_TAGS = ("eleven_v3", "eleven_v3_conversational", "eleven_v4", "eleven_v4_turbo")
 PRONUNCIA_JSON = SCRIPT_DIR / "pronuncia_ptbr.json"
 FPS = 30
+
+
+def _q(x: float) -> float:
+    """Encaixa um tempo na grade de quadros: video e som do jogo cortam no mesmo instante (senao o som escorrega)."""
+    return round(float(x) * FPS) / FPS
 SR = 48000
 
 
@@ -577,9 +582,9 @@ def render_game_audio(gameplay_mp4: Path, segments: list[CutSegment], out_m4a: P
         print("Gameplay sem audio do jogo", flush=True)
         return False
     parts = [
-        f"[0:a]atrim=start={sg.src_start:.3f}:end={sg.src_end:.3f},asetpts=PTS-STARTPTS,"
-        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={sg.src_end - sg.src_start + sg.freeze_end:.3f},"
-        f"atrim=0:{sg.src_end - sg.src_start + sg.freeze_end:.3f}[a{i}]"
+        f"[0:a]atrim=start={_q(sg.src_start):.4f}:end={_q(sg.src_end):.4f},asetpts=PTS-STARTPTS,"
+        f"aformat=sample_rates={SR}:channel_layouts=stereo,apad=whole_dur={_q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f},"
+        f"atrim=0:{_q(sg.src_end) - _q(sg.src_start) + _q(sg.freeze_end):.4f}[a{i}]"
         for i, sg in enumerate(segments)
     ]
     parts.append("".join(f"[a{i}]" for i in range(len(segments))) + f"concat=n={len(segments)}:v=0:a=1,aformat=sample_rates={SR}:channel_layouts=stereo,loudnorm=I=-24:TP=-3[aout]")
@@ -753,11 +758,11 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
     inputs: list[str] = []
     for i, seg in enumerate(segments):
         # uma entrada por trecho (busca direta): o ffmpeg nao precisa guardar o video inteiro na memoria
-        inputs += ["-ss", f"{seg.src_start:.3f}", "-t", f"{seg.src_end - seg.src_start:.3f}", "-i", str(gameplay_mp4)]
+        inputs += ["-ss", f"{_q(seg.src_start):.4f}", "-t", f"{_q(seg.src_end) - _q(seg.src_start):.4f}", "-i", str(gameplay_mp4)]
         parts.append(
             f"[{i}:v]setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
             + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
-            + (f",tpad=stop_duration={seg.freeze_end:.3f}:stop_mode=clone" if seg.freeze_end > 0 else "")
+            + (f",tpad=stop_duration={_q(seg.freeze_end):.4f}:stop_mode=clone" if seg.freeze_end > 0 else "")
             + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec + seg.freeze_end)
             + f"[v{i}]"
         )
