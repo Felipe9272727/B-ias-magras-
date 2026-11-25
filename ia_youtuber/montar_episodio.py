@@ -497,10 +497,12 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
     ff = find_ffmpeg()
     parts: list[str] = []
     concat_inputs = ""
+    inputs: list[str] = []
     for i, seg in enumerate(segments):
+        # uma entrada por trecho (busca direta): o ffmpeg nao precisa guardar o video inteiro na memoria
+        inputs += ["-ss", f"{seg.src_start:.3f}", "-t", f"{seg.src_end - seg.src_start:.3f}", "-i", str(gameplay_mp4)]
         parts.append(
-            f"[0:v]trim=start={seg.src_start:.3f}:end={seg.src_end:.3f},"
-            f"setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
+            f"[{i}:v]setpts=PTS-STARTPTS,fps={FPS},{STAGE_CROP},scale=1920:1440:flags=lanczos"
             + (f",tpad=start_duration={seg.freeze_sec:.3f}:start_mode=clone" if seg.freeze_sec > 0 else "")
             + _drift(i, (seg.src_end - seg.src_start) + seg.freeze_sec)
             + f"[v{i}]"
@@ -511,7 +513,7 @@ def render_cut_gameplay(gameplay_mp4: Path, segments: list[CutSegment], out_mp4:
     parts.append(f"[bg][cb]overlay={width - STAGE_W}:0,setsar=1[vout]")
     subprocess.run(
         [
-            ff, "-v", "error", "-y", "-i", str(gameplay_mp4),
+            ff, "-v", "error", "-y", *inputs,
             "-filter_complex", ";".join(parts),
             "-map", "[vout]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "17", "-pix_fmt", "yuv420p",
             str(out_mp4),
