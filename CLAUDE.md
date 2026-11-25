@@ -17,6 +17,9 @@
 - Antes de entregar qualquer vídeo: Haikus avaliam cada ~30 s (prende a atenção? é divertido? tela parada?) a partir de
   quadros do vídeo + fala do trecho; consertar os trechos com nota baixa antes de mandar.
 
+- **Goal termina quando depende só do Felipe** (regra de ouro): se tudo o que dá para fazer sozinho já foi feito e o
+  que falta precisa estritamente dele (ouvir/avaliar o vídeo, escolher voz, criar conta/agente, aprovar gasto), dar o
+  goal como concluído, listar o que ficou com ele e parar — sem repetir mensagem de espera nem gastar créditos.
 - Antes de começar qualquer coisa, ler `video/MEMORIA_TECNICA.md` (lições técnicas de render, áudio, Shorts e entrega).
 
 ## Lições de retenção (o BOMBANANA teve retenção baixa) — valem para TODOS os vídeos, de qualquer jogo
