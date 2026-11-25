@@ -274,7 +274,7 @@ def normalize_tts_ptbr(text: str) -> str:
 def tts_eleven_v4(
     text: str,
     voice_id: str = DEFAULT_ROBO_VOICE_ID,
-    model_id: str = ELEVEN_MODEL_V4,
+    model_id: str | None = None,
     cache_dir: Path = DEFAULT_VOICE_CACHE,
     apis_txt: Path = DEFAULT_APIS_TXT,
     emocao: str | None = None,
@@ -282,6 +282,7 @@ def tts_eleven_v4(
     tags: bool = True,
 ) -> Path:
     cache_dir.mkdir(parents=True, exist_ok=True)
+    model_id = model_id or ELEVEN_MODEL_PADRAO
     if tags and model_id in MODELOS_COM_TAGS:
         text = adicionar_tags_emocao(text, emocao, piada)
     tts_text = normalize_tts_ptbr(text)
@@ -885,6 +886,8 @@ def run_pipeline(args: argparse.Namespace) -> int:
     cfg = json.loads(mj.read_text(encoding="utf-8")) if mj.is_file() else {}
     congelar = {int(k): float(v) for k, v in (cfg.get("congelar") or {}).items()}
     linear = cfg.get("modo") == "linear"
+    if cfg.get("modelo_voz"):
+        args.model_id = str(cfg["modelo_voz"])  # o modelo com que as vozes do cache foram geradas
     mudos = {int(x) for x in (cfg.get("mudos") or [])}
     tz_cfg = cfg.get("teaser_trecho")
     if linear and tz_cfg and cfg.get("teaser_fala"):
