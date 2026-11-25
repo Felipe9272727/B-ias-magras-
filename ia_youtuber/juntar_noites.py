@@ -58,7 +58,9 @@ partes = [
     trecho("c_p4", P4, P4_INI, P4_FIM),
     cartao("d_fim1", P4, P4_FIM - 0.2, svg("FIM DA NOITE 1", "E a noite 2... foi pior.", "3 REMOVIDOS · 1 LIBERADA · 2 MARGARETTES"), 3.5, "hitman"),
     cartao("e_noite2", P5, T5 + 1.0, svg("NOITE 2", "O telefone que enganou o Opus"), 2.5, "lobby-time"),
-    trecho("f_p5", P5, T5, None),
+    # noite 2 sem repetir a abertura da noite 1: so a explicacao do D.D.D. e direto pra primeira visitante
+    trecho("f_p5_ddd", P5, 36.3, 44.6),
+    trecho("g_p5", P5, 51.9, None),
 ]
 lista = D / "lista.txt"
 lista.write_text("".join(f"file '{p.resolve()}'\n" for p in partes))
