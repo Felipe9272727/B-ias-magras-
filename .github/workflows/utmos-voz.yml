@@ -1,0 +1,41 @@
+name: utmos-voz
+# Nota de naturalidade da voz (UTMOSv2, MOS previsto de 1 a 5) sem precisar ouvir:
+# compara a voz nova do Opus (p5, Gabriel Casual) com a voz antiga que o Felipe achou "de narrador" (p3).
+on:
+  workflow_dispatch:
+  push:
+    branches: ["claude/wizardly-bell-35bp85"]
+    paths:
+      - "ia_youtuber/utmos_lista_p5.txt"
+      - ".github/workflows/utmos-voz.yml"
+
+jobs:
+  utmos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar UTMOSv2
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q git+https://github.com/sarulab-speech/UTMOSv2.git
+      - name: Preparar audios (wav 16 kHz mono)
+        run: |
+          mkdir -p nova antiga
+          while read -r n; do [ -n "$n" ] && ffmpeg -v error -i "ia_youtuber/episodios/p5/vozes/$n" -ar 16000 -ac 1 "nova/${n%.mp3}.wav"; done < ia_youtuber/utmos_lista_p5.txt
+          for f in $(ls ia_youtuber/episodios/p3/vozes/*.mp3 | head -22); do b=$(basename "$f" .mp3); ffmpeg -v error -i "$f" -ar 16000 -ac 1 "antiga/$b.wav"; done
+          ls nova | wc -l; ls antiga | wc -l
+      - name: Nota UTMOSv2
+        run: |
+          python - <<'PY'
+          import statistics, utmosv2
+          m = utmosv2.create_model(pretrained=True, device="cpu")
+          for pasta in ("antiga", "nova"):
+              r = m.predict(input_dir=pasta, device="cpu", num_workers=0)
+              notas = [x["predicted_mos"] for x in r]
+              print(f"UTMOS {pasta}: media {statistics.mean(notas):.2f}  mediana {statistics.median(notas):.2f}  min {min(notas):.2f}  max {max(notas):.2f}  n={len(notas)}")
+          PY
