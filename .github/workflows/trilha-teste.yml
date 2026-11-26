@@ -28,8 +28,15 @@ jobs:
           ls -la ia_youtuber/episodios/p5/work_post | head -40
           ( for i in $(seq 1 70); do sleep 30; echo "--- $((i*30)) s"; ps -eo etime,args | grep -E "ffmpeg|ffprobe" | grep -v grep | cut -c1-900; done ) &
           J=ia_youtuber/episodios/p5/montar.json
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('pergunta_final',''))" $J > /tmp/perg
+          python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('placar_final',''))" $J > /tmp/placar
           timeout 1800 python3 -u ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/p5 \
             --apis-txt /dev/null --etapa final --partes 16 --music lobby-time \
-            --pergunta-final "teste" --placar-final "teste" --musica-ganho 0.45 --teaser \
-            --opening-mp4 ia_youtuber/episodios/p5/abertura.mp4 --upscale-1080p --out /tmp/ep.mp4 || echo "rc=$?"
-          ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/ep.mp4 || true
+            --pergunta-final "$(cat /tmp/perg)" --placar-final "$(cat /tmp/placar)" --musica-ganho 0.45 --teaser \
+            --opening-mp4 ia_youtuber/episodios/p5/abertura.mp4 --upscale-1080p --out episodio_p5.mp4
+          ffprobe -v error -show_entries format=duration -of csv=p=0 episodio_p5.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: episodio-p5-raiox
+          path: episodio_p5.mp4
+          retention-days: 7
