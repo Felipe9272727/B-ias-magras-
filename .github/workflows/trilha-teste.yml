@@ -1,10 +1,14 @@
 name: trilha-teste
 on:
   workflow_dispatch:
+    inputs:
+      run_id:
+        description: run do tnmn-montar com prep + partes
+        required: true
 jobs:
   teste:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -12,19 +16,20 @@ jobs:
           sparse-checkout: |
             ia_youtuber
             video/remotion/public/music
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && ffmpeg -version | head -1
-      - name: Trilha do p5 (14 musicas), jeito antigo x novo
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-roboto
+      - uses: actions/download-artifact@v4
+        with:
+          path: ia_youtuber/episodios/p5/work_post
+          merge-multiple: true
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Etapa final do p5 com raio-x
         run: |
-          cat > /tmp/t.py <<'PY'
-          import sys, time, json
-          sys.path.insert(0, "ia_youtuber")
-          import montar_episodio as m
-          from pathlib import Path
-          tr = json.loads('[[0.0,"hitman"],[6.8,"lobby-time"],[52.6,"crypto"],[89.3,"spy-glass"],[174.734,"a-really-dark-alley"],[199.401,"local-forecast-elevator"],[217.301,"investigations"],[258.601,"run-amok"],[277.568,"hitman"],[305.201,"waiting-around"],[357.268,"crypto"],[395.968,"spy-glass"],[423.601,"a-ghost-waltz"],[492.568,"end-of-the-trip"]]')
-          t = time.time()
-          m.build_music_bed(tr, 506.924, Path("/tmp/bed.wav"), juntas=(sys.argv[1] == "antigo"))
-          print(sys.argv[1], "OK", round(time.time() - t, 1), "s", flush=True)
-          PY
-          for modo in novo antigo novo antigo antigo; do
-            timeout 150 python3 /tmp/t.py $modo || echo "$modo TRAVOU/FALHOU rc=$?"
-          done
+          ls -la ia_youtuber/episodios/p5/work_post | head -40
+          ( for i in $(seq 1 70); do sleep 30; echo "--- $((i*30)) s"; ps -eo etime,args | grep -E "ffmpeg|ffprobe" | grep -v grep | cut -c1-900; done ) &
+          J=ia_youtuber/episodios/p5/montar.json
+          timeout 1800 python3 -u ia_youtuber/montar_episodio.py --sessao-dir ia_youtuber/episodios/p5 \
+            --apis-txt /dev/null --etapa final --partes 16 --music lobby-time \
+            --pergunta-final "teste" --placar-final "teste" --musica-ganho 0.45 --teaser \
+            --opening-mp4 ia_youtuber/episodios/p5/abertura.mp4 --upscale-1080p --out /tmp/ep.mp4 || echo "rc=$?"
+          ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/ep.mp4 || true
