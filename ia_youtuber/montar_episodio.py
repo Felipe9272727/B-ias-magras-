@@ -893,7 +893,53 @@ def resolve_music_spec(music_id: str) -> tuple[Path | None, float]:
     return (cand if cand.is_file() else None), 0.25
 
 
-def build_music_bed(trilha: list[Any], total_dur: float, out_wav: Path) -> bool:
+def build_music_bed(trilha: list[Any], total_dur: float, out_wav: Path, juntas: bool = False) -> bool:
+    """Trilha com varias musicas intercaladas: trilha = [[inicio_seg, id], ...] (tempo do episodio sem a abertura).
+    Cada faixa entra no seu volume sugerido, com fade de 2 s e cruzamento de 2 s com a proxima.
+    Uma musica por vez (um ffmpeg por faixa, cada uma ja no lugar), somadas de duas em duas: um filtro so com 14
+    entradas travou a etapa final do p5 no ffmpeg 6.1 do CI (2026-11-26). `juntas=True` = jeito antigo."""
+    if juntas:
+        return build_music_bed_junto(trilha, total_dur, out_wav)
+    blocos = sorted([(float(a), str(b)) for a, b in trilha if float(a) < total_dur])
+    if not blocos:
+        return False
+    ff = find_ffmpeg()
+    tmp_dir = out_wav.with_name(out_wav.stem + "_faixas")
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    acc: Path | None = None
+    k = 0
+    for i, (t0, mid) in enumerate(blocos):
+        path, vol = resolve_music_spec(mid)
+        if path is None:
+            print(f"AVISO: musica '{mid}' nao encontrada, pulando", flush=True)
+            continue
+        t1 = blocos[i + 1][0] if i + 1 < len(blocos) else total_dur
+        ini = max(0.0, t0 - (1.0 if i else 0.0))
+        dur = (t1 + (1.0 if i + 1 < len(blocos) else 0.0)) - ini
+        faixa = tmp_dir / f"f{k:02d}.wav"
+        subprocess.run([ff, "-nostdin", "-v", "error", "-y", *entrada_em_loop(path, dur), "-af",
+                        f"aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo,atrim=0:{dur:.3f},asetpts=PTS-STARTPTS,"
+                        f"volume={vol:.4f},afade=t=in:st=0:d={2.0 if i else 0.5},afade=t=out:st={max(0.0, dur - 2.0):.3f}:d=2,"
+                        f"adelay={int(ini * 1000)}|{int(ini * 1000)},apad,atrim=0:{total_dur:.3f}",
+                        "-c:a", "pcm_f32le", str(faixa)], check=True, timeout=300)
+        if acc is None:
+            acc = faixa
+        else:
+            soma = tmp_dir / f"s{k:02d}.wav"
+            subprocess.run([ff, "-nostdin", "-v", "error", "-y", "-i", str(acc), "-i", str(faixa), "-filter_complex",
+                            f"[0:a][1:a]amix=inputs=2:normalize=0:duration=longest,atrim=0:{total_dur:.3f}[out]",
+                            "-map", "[out]", "-c:a", "pcm_f32le", str(soma)], check=True, timeout=300)
+            acc = soma
+        k += 1
+    if acc is None:
+        return False
+    subprocess.run([ff, "-nostdin", "-v", "error", "-y", "-i", str(acc), "-c:a", "pcm_s16le", str(out_wav)], check=True, timeout=300)
+    shutil.rmtree(tmp_dir, ignore_errors=True)
+    print(f"Trilha intercalada: {k} musicas", flush=True)
+    return True
+
+
+def build_music_bed_junto(trilha: list[Any], total_dur: float, out_wav: Path) -> bool:
     """Trilha com varias musicas intercaladas: trilha = [[inicio_seg, id], ...] (tempo do episodio sem a abertura).
     Cada faixa entra no seu volume sugerido, com fade de 2 s e cruzamento de 2 s com a proxima."""
     blocos = sorted([(float(a), str(b)) for a, b in trilha if float(a) < total_dur])

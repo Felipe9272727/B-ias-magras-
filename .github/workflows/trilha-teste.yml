@@ -1,0 +1,30 @@
+name: trilha-teste
+on:
+  workflow_dispatch:
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            ia_youtuber
+            video/remotion/public/music
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && ffmpeg -version | head -1
+      - name: Trilha do p5 (14 musicas), jeito antigo x novo
+        run: |
+          cat > /tmp/t.py <<'PY'
+          import sys, time, json
+          sys.path.insert(0, "ia_youtuber")
+          import montar_episodio as m
+          from pathlib import Path
+          tr = json.loads('[[0.0,"hitman"],[6.8,"lobby-time"],[52.6,"crypto"],[89.3,"spy-glass"],[174.734,"a-really-dark-alley"],[199.401,"local-forecast-elevator"],[217.301,"investigations"],[258.601,"run-amok"],[277.568,"hitman"],[305.201,"waiting-around"],[357.268,"crypto"],[395.968,"spy-glass"],[423.601,"a-ghost-waltz"],[492.568,"end-of-the-trip"]]')
+          t = time.time()
+          m.build_music_bed(tr, 506.924, Path("/tmp/bed.wav"), juntas=(sys.argv[1] == "antigo"))
+          print(sys.argv[1], "OK", round(time.time() - t, 1), "s", flush=True)
+          PY
+          for modo in novo antigo novo antigo antigo; do
+            timeout 150 python3 /tmp/t.py $modo || echo "$modo TRAVOU/FALHOU rc=$?"
+          done
