@@ -1,0 +1,160 @@
+name: Benchmark Comparativo de Vozes TTS
+on:
+  push:
+    branches: ["teste-vozes-tts"]
+    paths:
+      - "video/scripts/tts_benchmark.py"
+      - ".github/workflows/tts-benchmark.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  omnivoice:
+    name: OmniVoice 0.6B (CPU)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/tts_benchmark.py
+            /video/remotion/public/bb/refs/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias OmniVoice
+        run: |
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q omnivoice soundfile numpy
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Rodar benchmark OmniVoice
+        run: python3 video/scripts/tts_benchmark.py --engine omnivoice --out out_omnivoice
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-omnivoice
+          path: out_omnivoice/*
+          if-no-files-found: warn
+          retention-days: 3
+
+  qwen3:
+    name: Qwen3-TTS 1.7B (CPU)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/tts_benchmark.py
+            /video/remotion/public/bb/refs/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias Qwen3-TTS
+        run: |
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q qwen-tts soundfile numpy
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg sox > /dev/null
+      - name: Rodar benchmark Qwen3-TTS
+        run: python3 video/scripts/tts_benchmark.py --engine qwen3 --out out_qwen3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-qwen3
+          path: out_qwen3/*
+          if-no-files-found: warn
+          retention-days: 3
+
+  chatterbox:
+    name: Chatterbox Multilingual (CPU)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/tts_benchmark.py
+            /video/remotion/public/bb/refs/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar dependencias Chatterbox
+        run: |
+          pip install -q torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install -q chatterbox-tts soundfile numpy
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Rodar benchmark Chatterbox
+        run: python3 video/scripts/tts_benchmark.py --engine chatterbox --out out_chatterbox
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-chatterbox
+          path: out_chatterbox/*
+          if-no-files-found: warn
+          retention-days: 3
+        
+  kokoro:
+    name: Kokoro 82M (CPU)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/tts_benchmark.py
+            /video/remotion/public/bb/refs/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias Kokoro
+        run: |
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q kokoro soundfile numpy
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng > /dev/null
+      - name: Rodar benchmark Kokoro
+        run: python3 video/scripts/tts_benchmark.py --engine kokoro --out out_kokoro
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-kokoro
+          path: out_kokoro/*
+          if-no-files-found: warn
+          retention-days: 3
+
+  edge:
+    name: Edge-TTS (Microsoft Neural PT-BR)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /video/scripts/tts_benchmark.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias Edge-TTS
+        run: |
+          pip install -q edge-tts
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Rodar benchmark Edge-TTS
+        run: python3 video/scripts/tts_benchmark.py --engine edge --out out_edge
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-edge
+          path: out_edge/*
+          if-no-files-found: warn
+          retention-days: 3
