@@ -464,6 +464,14 @@ def wav_duration_or_probe(path: Path) -> float:
         return 0.0
 
 
+def entrada_em_loop(path: Path, precisa_sec: float) -> list[str]:
+    """Entrada repetida o bastante para cobrir `precisa_sec`. Nunca `-stream_loop -1`: no ffmpeg 6.1 do Ubuntu a
+    entrada infinita as vezes nao fecha depois do atrim/trim e o comando trava ate o timeout do CI (p5, 2026-11-25)."""
+    d = wav_duration_or_probe(path)
+    n = 0 if d <= 0 else max(0, math.ceil((precisa_sec + 1.0) / d) - 1)
+    return (["-stream_loop", str(n)] if n else []) + ["-i", str(path)]
+
+
 def build_turn_plan(
     entries: list[dict[str, Any]],
     turnos: list[int],
@@ -745,7 +753,7 @@ def aplicar_memes(cut_mp4: Path, janelas: list[tuple[float, float, str, str]], w
             print(f"AVISO: meme {mid} nao encontrado", flush=True)
             continue
         n += 1
-        inputs += ["-stream_loop", "-1", "-i", str(src)]
+        inputs += entrada_em_loop(src, b - a)
         k = n  # entrada 0 = gameplay; memes a partir da 1
         d = b - a
         chain.append(
@@ -903,7 +911,7 @@ def build_music_bed(trilha: list[Any], total_dur: float, out_wav: Path) -> bool:
         t1 = blocos[i + 1][0] if i + 1 < len(blocos) else total_dur
         ini = max(0.0, t0 - (1.0 if i else 0.0))
         dur = (t1 + (1.0 if i + 1 < len(blocos) else 0.0)) - ini
-        ins += ["-stream_loop", "-1", "-i", str(path)]
+        ins += entrada_em_loop(path, dur)
         fg.append(f"[{k}:a]aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo,atrim=0:{dur:.3f},asetpts=PTS-STARTPTS,"
                   f"volume={vol:.4f},afade=t=in:st=0:d={2.0 if i else 0.5},afade=t=out:st={max(0.0, dur - 2.0):.3f}:d=2,"
                   f"adelay={int(ini * 1000)}|{int(ini * 1000)}[m{k}]")
@@ -1388,7 +1396,7 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
         mus_path, mus_vol = bed, 1.0
     if mus_path is not None and jogo.is_file() and (work_dir / "duck_musica.wav").is_file():
         mg = float(getattr(args, "musica_ganho", 0.45))
-        mus_args = ["-stream_loop", "-1", "-i", str(mus_path), "-i", str(jogo),
+        mus_args = [*entrada_em_loop(mus_path, total_dur), "-i", str(jogo),
                     "-i", str(work_dir / "duck_musica.wav"), "-i", str(work_dir / "duck_jogo.wav")]
         st = f"aformat=sample_fmts=fltp:sample_rates={SR}:channel_layouts=stereo"
         audio_fg = (
@@ -1410,7 +1418,7 @@ def run_partes_e_final(args: argparse.Namespace, sess_dir: Path, work_dir: Path,
             f"[voz][jg]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,alimiter=limit=0.79:level=false[aout]"
         )
     elif mus_path is not None:
-        mus_args = ["-stream_loop", "-1", "-i", str(mus_path)]
+        mus_args = entrada_em_loop(mus_path, total_dur)
         audio_fg = (
             f"[1:a]aformat=sample_rates={SR}:channel_layouts=stereo,asplit=2[voz][chave];"
             f"[2:a]aformat=sample_rates={SR}:channel_layouts=stereo,atrim=0:{total_dur:.3f},volume={mus_vol:.4f}[mus];"
@@ -1533,7 +1541,7 @@ def render_end_card(ep_mp4: Path, args: argparse.Namespace, mus_path: Path | Non
     last = work_dir / "fim_ultimo.png"
     subprocess.run([ff, "-v", "error", "-y", "-sseof", "-0.2", "-i", str(ep_mp4), "-frames:v", "1", "-update", "1", str(last)], check=True)
     w, h = (1920, 1080) if args.upscale_1080p else (args.width, args.height)
-    aud_in = ["-stream_loop", "-1", "-i", str(mus_path)] if mus_path else ["-f", "lavfi", "-i", f"anullsrc=r={SR}:cl=stereo"]
+    aud_in = entrada_em_loop(mus_path, dur) if mus_path else ["-f", "lavfi", "-i", f"anullsrc=r={SR}:cl=stereo"]
     vol = min(1.0, mus_vol * 2.2) if mus_path else 1.0
     card = work_dir / "fim_card.mp4"
     subprocess.run([
