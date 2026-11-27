@@ -1072,12 +1072,45 @@ def render_screen_capitulo(
             ia_meta=IA_META,
         )
 
+    if sid == "E4":
+        return render_e4_cartao_final(t_norm, t_sec)
+
     parts = [render_bg_war_room()]
     title = (scene.get("capitulo") or {}).get("subtitulo") or scene["titulo"]
     parts.append(
         f'<rect x="210" y="340" width="1500" height="320" rx="22" fill="#0B1322" fill-opacity="0.95" stroke="#FBBF24" stroke-width="4"/>'
         f'<text x="960" y="470" text-anchor="middle" font-family="{FONT_SANS}" font-size="60" font-weight="900" fill="#F8FAFC">{R.esc(title.upper())}</text>'
         f'<text x="960" y="560" text-anchor="middle" font-family="{FONT_MONO}" font-size="28" font-weight="700" fill="#FBBF24">{R.esc(scene["titulo"])}</text>'
+    )
+    return "".join(parts)
+
+
+def render_e4_cartao_final(t_norm: float, t_sec: float) -> str:
+    """Cartão final (~6 s): as 7 IAs entram uma a uma, a pergunta fica e sobra espaço livre
+    para os elementos da tela final do YouTube (vídeo à esquerda, inscrição à direita)."""
+    parts = [render_bg_war_room()]
+    ordem = ["Hydrogen", "GLM", "Ember", "Qwen", "DeepSeek", "Inkling", "Sonnet"]
+    for i, ia in enumerate(ordem):
+        u = clamp((t_sec - 0.15 * i) / 0.45, 0.0, 1.0)
+        if u <= 0:
+            continue
+        cx = 960.0 + (i - 3) * 150.0
+        cy = 200.0 - 40.0 * (1.0 - ease_out(u))
+        parts.append(f'<g opacity="{u:.2f}">' + render_ia_portrait(ia, cx, cy, 56.0, highlight=(ia == "Ember")) + "</g>")
+        parts.append(f'<text x="{cx:.0f}" y="{cy + 92:.0f}" text-anchor="middle" font-family="{FONT_MONO}" '
+                     f'font-size="22" font-weight="800" fill="{"#CBD5E1" if ia == "DeepSeek" else ia_info(ia)["cor"]}" opacity="{u:.2f}">{R.esc(ia.upper())}</text>')
+    a = clamp((t_sec - 1.0) / 0.5, 0.0, 1.0)
+    pulse = 1.0 + 0.02 * math.sin(t_sec * 3.0)
+    parts.append(
+        f'<g opacity="{a:.2f}" transform="translate(960,385) scale({pulse:.3f}) translate(-960,-385)">'
+        f'<text x="960" y="370" text-anchor="middle" font-family="{FONT_SANS}" font-size="64" font-weight="900" fill="#F8FAFC">QUEM VOCE QUER VER DE CHILE?</text>'
+        f'<text x="960" y="420" text-anchor="middle" font-family="{FONT_MONO}" font-size="26" font-weight="700" fill="#FBBF24">COMENTA AI · E SE INSCREVE PRA VER A PROXIMA</text></g>'
+    )
+    # moldura discreta onde o YouTube põe os elementos da tela final
+    b = clamp((t_sec - 1.6) / 0.6, 0.0, 1.0)
+    parts.append(
+        f'<g opacity="{0.55 * b:.2f}" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="14 10">'
+        f'<rect x="250" y="540" width="760" height="428" rx="18"/><circle cx="1400" cy="754" r="190"/></g>'
     )
     return "".join(parts)
 
@@ -1336,6 +1369,8 @@ def build_frame_svg(
             active_fala["dur"] / fps_safe,
             scene_id=scene["id"],
             ia_meta=IA_META,
+            # meme no canto inferior direito (mapa/dado_grande) cobria a pílula centralizada (ex. B10 5:15)
+            cx=560.0 if (has_meme_now and tela_tipo in ("mapa", "dado_grande")) else 960.0,
         )
 
     # Selos inclinados SVG posicionados em zonas seguras (sem tampar seta 165, balao ou texto)

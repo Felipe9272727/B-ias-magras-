@@ -945,6 +945,7 @@ def render_hard_words_callout(
     dur_sec: float,
     scene_id: str = "",
     ia_meta: dict[str, dict[str, str]] | None = None,
+    cx: float = 960.0,
 ) -> str:
     """Exibe pill discreta apenas durante palavras dificeis/estrangeiras (sem legenda continua)."""
     if (scene_id or "").strip().upper() == "A2":
@@ -994,14 +995,13 @@ def render_hard_words_callout(
         return ""
 
     sc = 0.92 + 0.08 * _clamp(u / 0.18, 0.0, 1.0)
-    cx = 960.0
     cy = 1012.0
     h = 66.0
-    w = float(max(220, int(len(label) * 23 + len(tag) * 12 + 86)))
+    lbl_w = _estimate_text_px(label, 33.0) * 1.12  # a estimativa ficava curta e a tag encostava no nome
+    w = float(max(220, int(32 + lbl_w + 18 + len(tag) * 11 + 28)))
     x = cx - w * 0.5
     y = cy - h * 0.5
 
-    lbl_w = _estimate_text_px(label, 33.0)
     lbl_x = x + 32.0
     tag_x = lbl_x + lbl_w + 18.0
 

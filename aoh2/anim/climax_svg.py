@@ -246,7 +246,7 @@ def render_gag_counters_hud(
 ) -> str:
     """Renderiza no maximo 2 contadores de gag fixos em JetBrains Mono na cor da IA."""
     sid = (scene_id or "").strip().upper()
-    if sid in ("A1", "A2", "A3", "B1", "B2", "B16", "C1", "E1", "E2", "E3"):
+    if sid in ("A1", "A2", "A3", "B1", "B2", "B16", "C1", "E1", "E2", "E3", "E4"):
         return ""
 
     t_sec = max(0.0, float(local_f)) / max(1.0, float(fps or 30))

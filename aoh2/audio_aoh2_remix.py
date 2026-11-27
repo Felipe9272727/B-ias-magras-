@@ -186,7 +186,8 @@ def main() -> None:
             fil.append(f"{cur}[m{b}]acrossfade=d={XFADE}:c1=tri:c2=tri[x{b}]")
             cur = f"[x{b}]"
         total = sum(sc["dur"] for sc in cenas) / fps
-        fil.append(f"{cur}afade=t=in:d=0.6,atrim=0:{total:.4f},asetpts=PTS-STARTPTS[mus]")
+        fil.append(f"{cur}afade=t=in:d=0.6,atrim=0:{total:.4f},asetpts=PTS-STARTPTS,"
+                   f"afade=t=out:st={max(0.0, total - 3.0):.3f}:d=3[mus]")
         fil.append("[mus][chave]sidechaincompress=threshold=0.02:ratio=3.5:attack=15:release=300:makeup=1[md]")
         fil.append("[voz][md]amix=inputs=2:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,"
                    "alimiter=limit=0.84:level=false[a]")

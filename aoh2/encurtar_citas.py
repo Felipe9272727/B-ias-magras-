@@ -87,6 +87,13 @@ def main() -> None:
                     x["at"] = max(at0 + novo_dur, x["at"] - delta)
         sc["dur"] -= delta
         print(f"{cid} {ia}: {modo} em {t_corte:.2f}s (estimado {est:.2f}s) -> -{delta / fps:.1f}s | {novo_txt[:70]}")
+    if not any(c["id"] == "E4" for c in tl["cenas"]):
+        tl["cenas"].append({
+            "id": "E4", "titulo": "Cartão final", "start": 0, "dur": 6 * fps, "capitulo": None,
+            "tela": {"tipo": "capitulo", "desc": "cartão final: 7 IAs, pergunta e espaço da tela final do YouTube"},
+            "musica": None, "falas": [], "selos": [], "memes": [], "sfx": [], "audio": [],
+        })
+        print("E4: cartão final de 6 s")
     cur = 0
     for c in tl["cenas"]:
         c["start"] = cur
