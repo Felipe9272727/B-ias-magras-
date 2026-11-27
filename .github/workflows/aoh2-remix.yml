@@ -1,0 +1,133 @@
+name: AoH2 v2 Remix Audio (musica mais baixa + Gofile)
+on:
+  push:
+    branches: ["aoh2-remix-v2"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  remix:
+    name: Remixar Audio (-7 dB musica) e Finalizar 1080p
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: aoh2-dados-v2
+          path: dados
+          fetch-depth: 1
+      - name: Extrair midias do aoh2-dados-v2
+        run: |
+          cat dados/aoh2_dados.tgz.* | tar -xzf -
+          rm -rf dados
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 46027103932
+          pattern: aoh2-parte-*
+          merge-multiple: true
+          path: partes
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Concatenar 16 partes + remixar audio + upscale 1080p Lanczos
+        run: |
+          set -e
+          rm -f concat.txt
+          for i in $(seq -w 0 15); do
+            f="partes/parte_${i}.mp4"
+            if [ ! -f "$f" ]; then
+              echo "ERRO: faltando $f" >&2
+              exit 1
+            fi
+            echo "file '$PWD/$f'" >> concat.txt
+          done
+          ffmpeg -v error -y -f concat -safe 0 -i concat.txt -c copy aoh2_mudo_540p.mp4
+          python3 aoh2/audio_aoh2.py --out aoh2_audio_remix.m4a
+          ffmpeg -v error -y \
+            -i aoh2_mudo_540p.mp4 \
+            -i aoh2_audio_remix.m4a \
+            -map 0:v -map 1:a \
+            -vf "scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42" \
+            -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p \
+            -c:a copy -movflags +faststart \
+            aoh2_final_1080p.mp4
+      - name: Verificar ffprobe, ebur128, silencio e subir para Gofile
+        run: |
+          mkdir -p entrega
+          python3 - <<'PY'
+          import json, subprocess, urllib.request
+          probe = json.loads(subprocess.check_output([
+              "ffprobe", "-v", "error",
+              "-show_entries", "format=duration,size",
+              "-show_entries", "stream=codec_name,width,height,r_frame_rate,sample_rate,nb_frames",
+              "-of", "json", "aoh2_final_1080p.mp4"
+          ], text=True))
+          eb = subprocess.run(
+              ["ffmpeg", "-i", "aoh2_audio_remix.m4a", "-af", "ebur128=framelog=quiet", "-f", "null", "-"],
+              capture_output=True, text=True
+          )
+          eb_summary = [l.strip() for l in eb.stderr.splitlines() if any(k in l for k in ("I:", "LRA:", "Threshold:"))][-6:]
+          sil_proc = subprocess.run(
+              ["ffmpeg", "-i", "aoh2_audio_remix.m4a", "-af", "silencedetect=noise=-45dB:d=2.5", "-f", "null", "-"],
+              capture_output=True, text=True
+          )
+          sil_lines = [ln for ln in sil_proc.stderr.splitlines() if "silence_" in ln]
+
+          servers = []
+          try:
+              res = urllib.request.urlopen("https://api.gofile.io/servers", timeout=15)
+              data = json.loads(res.read().decode())
+              servers = [s["name"] for s in data.get("data", {}).get("servers", []) if s.get("name")]
+          except Exception as exc:
+              print("Aviso api.gofile.io/servers:", exc)
+          for fb in ("store1", "store2", "store3"):
+              if fb not in servers:
+                  servers.append(fb)
+
+          gofile_resp = None
+          last_err = ""
+          for srv in servers:
+              url = f"https://{srv}.gofile.io/contents/uploadfile"
+              print("Tentando upload Gofile em:", url, flush=True)
+              p = subprocess.run(["curl", "-sS", "--max-time", "600", "-F", "file=@aoh2_final_1080p.mp4", url], capture_output=True, text=True)
+              if p.returncode == 0 and p.stdout.strip():
+                  try:
+                      j = json.loads(p.stdout)
+                      if j.get("status") == "ok" and j.get("data", {}).get("downloadPage"):
+                          gofile_resp = j
+                          break
+                      last_err = p.stdout[:400]
+                  except Exception as exc:
+                      last_err = f"{exc}: {p.stdout[:300]}"
+              else:
+                  last_err = p.stderr[:300]
+
+          out = {
+              "music_gain": 0.36,
+              "sidechain": "threshold=0.008:ratio=10:attack=20:release=550:makeup=1",
+              "ffprobe": probe,
+              "ebur128_summary": eb_summary,
+              "silence_events": sil_lines,
+              "gofile": gofile_resp,
+              "gofile_error": "" if gofile_resp else last_err,
+          }
+          with open("entrega/entrega_remix.json", "w", encoding="utf-8") as f:
+              json.dump(out, f, indent=2, ensure_ascii=False)
+          print(json.dumps(out, indent=2, ensure_ascii=False))
+          if not gofile_resp:
+              raise SystemExit(f"Falha no upload para o Gofile: {last_err}")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aoh2-entrega-v2-remix
+          path: entrega/
+          retention-days: 7
