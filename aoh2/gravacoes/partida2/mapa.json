@@ -1,0 +1,2472 @@
+{
+  "cenario": "america_sul_7ias",
+  "viewbox": [
+    1920,
+    1080
+  ],
+  "map_bounds": [
+    90,
+    95,
+    1420,
+    1030
+  ],
+  "nacoes": {
+    "brasil": {
+      "id": "brasil",
+      "nome": "Brasil",
+      "ia_id": "hydrogen",
+      "ia_apelido": "Hydrogen",
+      "cor": "#16a34a",
+      "cor_borda": "#0b4f24",
+      "cor_texto": "#ffffff",
+      "capital_id": "br_tocantins_go",
+      "bandeira_svg": "<rect width=\"60\" height=\"40\" fill=\"#009c3b\"/><polygon points=\"30,5 54,20 30,35 6,20\" fill=\"#ffdf00\"/><circle cx=\"30\" cy=\"20\" r=\"9.2\" fill=\"#002776\"/><path d=\"M21.2 18.8 Q30 15.2 38.8 21.8\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2.1\" stroke-linecap=\"round\"/><circle cx=\"27\" cy=\"23.5\" r=\"0.8\" fill=\"#ffffff\"/><circle cx=\"30\" cy=\"25\" r=\"0.9\" fill=\"#ffffff\"/><circle cx=\"33\" cy=\"23.5\" r=\"0.8\" fill=\"#ffffff\"/><circle cx=\"30\" cy=\"22\" r=\"0.7\" fill=\"#ffffff\"/>"
+    },
+    "argentina": {
+      "id": "argentina",
+      "nome": "Argentina",
+      "ia_id": "sonnet",
+      "ia_apelido": "Sonnet",
+      "cor": "#38bdf8",
+      "cor_borda": "#0369a1",
+      "cor_texto": "#111827",
+      "capital_id": "ar_buenos_aires",
+      "bandeira_svg": "<rect width=\"60\" height=\"13.34\" y=\"0\" fill=\"#74acdf\"/><rect width=\"60\" height=\"13.34\" y=\"13.33\" fill=\"#ffffff\"/><rect width=\"60\" height=\"13.34\" y=\"26.66\" fill=\"#74acdf\"/><g stroke=\"#d97706\" stroke-width=\"1.1\"><line x1=\"30\" y1=\"13.8\" x2=\"30\" y2=\"26.2\"/><line x1=\"23.8\" y1=\"20\" x2=\"36.2\" y2=\"20\"/><line x1=\"25.6\" y1=\"15.6\" x2=\"34.4\" y2=\"24.4\"/><line x1=\"34.4\" y1=\"15.6\" x2=\"25.6\" y2=\"24.4\"/></g><circle cx=\"30\" cy=\"20\" r=\"3.6\" fill=\"#f6b40e\" stroke=\"#b45309\" stroke-width=\"0.7\"/>"
+    },
+    "bolivia": {
+      "id": "bolivia",
+      "nome": "Bolívia",
+      "ia_id": "inkling",
+      "ia_apelido": "Inkling",
+      "cor": "#f97316",
+      "cor_borda": "#9a3412",
+      "cor_texto": "#ffffff",
+      "capital_id": "bo_la_paz",
+      "bandeira_svg": "<rect width=\"60\" height=\"13.34\" y=\"0\" fill=\"#d52b1e\"/><rect width=\"60\" height=\"13.34\" y=\"13.33\" fill=\"#f9e300\"/><rect width=\"60\" height=\"13.34\" y=\"26.66\" fill=\"#007934\"/><ellipse cx=\"30\" cy=\"20\" rx=\"4.2\" ry=\"3.4\" fill=\"#ffffff\" stroke=\"#b45309\" stroke-width=\"1.0\"/><circle cx=\"30\" cy=\"20\" r=\"1.7\" fill=\"#0284c7\"/>"
+    },
+    "colombia": {
+      "id": "colombia",
+      "nome": "Colômbia",
+      "ia_id": "deepseek",
+      "ia_apelido": "DeepSeek",
+      "cor": "#eab308",
+      "cor_borda": "#854d0e",
+      "cor_texto": "#111827",
+      "capital_id": "co_bogota",
+      "bandeira_svg": "<rect width=\"60\" height=\"20\" y=\"0\" fill=\"#fcd116\"/><rect width=\"60\" height=\"10\" y=\"20\" fill=\"#003893\"/><rect width=\"60\" height=\"10\" y=\"30\" fill=\"#ce1126\"/>"
+    },
+    "peru": {
+      "id": "peru",
+      "nome": "Peru",
+      "ia_id": "qwen",
+      "ia_apelido": "Qwen",
+      "cor": "#0284c7",
+      "cor_borda": "#0c4a6e",
+      "cor_texto": "#ffffff",
+      "capital_id": "pe_lima",
+      "bandeira_svg": "<rect width=\"20\" height=\"40\" x=\"0\" fill=\"#d91023\"/><rect width=\"20\" height=\"40\" x=\"20\" fill=\"#ffffff\"/><rect width=\"20\" height=\"40\" x=\"40\" fill=\"#d91023\"/><path d=\"M26 14 L34 14 L34 22 Q30 27 26 22 Z\" fill=\"#f59e0b\" stroke=\"#92400e\" stroke-width=\"0.8\"/><circle cx=\"30\" cy=\"18.5\" r=\"2.2\" fill=\"#d91023\"/>"
+    },
+    "chile": {
+      "id": "chile",
+      "nome": "Chile",
+      "ia_id": "ember",
+      "ia_apelido": "Ember",
+      "cor": "#dc2626",
+      "cor_borda": "#7f1d1d",
+      "cor_texto": "#ffffff",
+      "capital_id": "cl_santiago",
+      "bandeira_svg": "<rect width=\"60\" height=\"20\" y=\"0\" fill=\"#ffffff\"/><rect width=\"60\" height=\"20\" y=\"20\" fill=\"#d52b1e\"/><rect width=\"20\" height=\"20\" x=\"0\" y=\"0\" fill=\"#0039a6\"/><polygon points=\"10,4.5 11.4,8.6 15.7,8.6 12.2,11.1 13.5,15.2 10,12.7 6.5,15.2 7.8,11.1 4.3,8.6 8.6,8.6\" fill=\"#ffffff\"/>"
+    },
+    "venezuela": {
+      "id": "venezuela",
+      "nome": "Venezuela",
+      "ia_id": "glm",
+      "ia_apelido": "GLM",
+      "cor": "#9333ea",
+      "cor_borda": "#4c1d95",
+      "cor_texto": "#ffffff",
+      "capital_id": "ve_caracas",
+      "bandeira_svg": "<rect width=\"60\" height=\"13.34\" y=\"0\" fill=\"#ffcc00\"/><rect width=\"60\" height=\"13.34\" y=\"13.33\" fill=\"#00247d\"/><rect width=\"60\" height=\"13.34\" y=\"26.66\" fill=\"#cf142b\"/><g fill=\"#ffffff\"><circle cx=\"20.5\" cy=\"23.2\" r=\"1.15\"/><circle cx=\"23.0\" cy=\"20.4\" r=\"1.15\"/><circle cx=\"26.2\" cy=\"18.5\" r=\"1.15\"/><circle cx=\"29.9\" cy=\"17.8\" r=\"1.15\"/><circle cx=\"33.8\" cy=\"18.5\" r=\"1.15\"/><circle cx=\"37.0\" cy=\"20.4\" r=\"1.15\"/><circle cx=\"39.5\" cy=\"23.2\" r=\"1.15\"/><circle cx=\"30.0\" cy=\"22.4\" r=\"1.05\"/></g>"
+    }
+  },
+  "provincias": {
+    "co_caribe": {
+      "id": "co_caribe",
+      "nome": "Caribe Colombiano",
+      "pais_inicial": "colombia",
+      "poligono": [
+        [
+          464.7,
+          164.9
+        ],
+        [
+          497.1,
+          141.2
+        ],
+        [
+          554.4,
+          115.0
+        ],
+        [
+          541.1,
+          162.2
+        ],
+        [
+          502.9,
+          175.4
+        ]
+      ],
+      "centro": [
+        515.5,
+        150.3
+      ],
+      "vizinhos_terra": [
+        "co_andes_norte",
+        "ve_zulia"
+      ],
+      "vizinhos_mar": [
+        "co_andes_norte",
+        "ve_caracas",
+        "ve_zulia"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 5845,
+      "economia_base": 593,
+      "capital": false
+    },
+    "co_andes_norte": {
+      "id": "co_andes_norte",
+      "nome": "Antioquia",
+      "pais_inicial": "colombia",
+      "poligono": [
+        [
+          464.7,
+          164.9
+        ],
+        [
+          502.9,
+          175.4
+        ],
+        [
+          541.1,
+          162.2
+        ],
+        [
+          547.0,
+          188.5
+        ],
+        [
+          501.5,
+          214.7
+        ],
+        [
+          472.1,
+          226.5
+        ],
+        [
+          463.2,
+          192.4
+        ]
+      ],
+      "centro": [
+        499.7,
+        190.9
+      ],
+      "vizinhos_terra": [
+        "co_bogota",
+        "co_caribe",
+        "co_pacifico",
+        "ve_zulia"
+      ],
+      "vizinhos_mar": [
+        "co_caribe",
+        "co_pacifico"
+      ],
+      "costeira": true,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 7144,
+      "economia_base": 753,
+      "capital": false
+    },
+    "co_bogota": {
+      "id": "co_bogota",
+      "nome": "Bogotá",
+      "pais_inicial": "colombia",
+      "poligono": [
+        [
+          501.5,
+          214.7
+        ],
+        [
+          547.0,
+          188.5
+        ],
+        [
+          611.7,
+          197.7
+        ],
+        [
+          616.1,
+          248.9
+        ],
+        [
+          508.8,
+          254.1
+        ]
+      ],
+      "centro": [
+        560.3,
+        223.5
+      ],
+      "vizinhos_terra": [
+        "co_amazonia",
+        "co_andes_norte",
+        "co_pacifico",
+        "ve_amazonas",
+        "ve_llanos"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 9418,
+      "economia_base": 984,
+      "capital": true
+    },
+    "co_pacifico": {
+      "id": "co_pacifico",
+      "nome": "Pacífico e Quito",
+      "pais_inicial": "colombia",
+      "poligono": [
+        [
+          472.1,
+          226.5
+        ],
+        [
+          501.5,
+          214.7
+        ],
+        [
+          508.8,
+          254.1
+        ],
+        [
+          488.2,
+          319.7
+        ],
+        [
+          429.4,
+          310.5
+        ],
+        [
+          433.8,
+          264.6
+        ]
+      ],
+      "centro": [
+        471.2,
+        271.9
+      ],
+      "vizinhos_terra": [
+        "co_amazonia",
+        "co_andes_norte",
+        "co_bogota",
+        "pe_norte"
+      ],
+      "vizinhos_mar": [
+        "co_andes_norte",
+        "pe_norte"
+      ],
+      "costeira": true,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 6657,
+      "economia_base": 666,
+      "capital": false
+    },
+    "co_amazonia": {
+      "id": "co_amazonia",
+      "nome": "Amazônia Colombiana",
+      "pais_inicial": "colombia",
+      "poligono": [
+        [
+          508.8,
+          254.1
+        ],
+        [
+          616.1,
+          248.9
+        ],
+        [
+          623.5,
+          262.0
+        ],
+        [
+          580.8,
+          332.8
+        ],
+        [
+          488.2,
+          319.7
+        ]
+      ],
+      "centro": [
+        554.5,
+        288.0
+      ],
+      "vizinhos_terra": [
+        "br_amazonas",
+        "co_bogota",
+        "co_pacifico",
+        "pe_loreto",
+        "ve_amazonas"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 2436,
+      "economia_base": 304,
+      "capital": false
+    },
+    "ve_zulia": {
+      "id": "ve_zulia",
+      "nome": "Zulia e Maracaibo",
+      "pais_inicial": "venezuela",
+      "poligono": [
+        [
+          554.4,
+          115.0
+        ],
+        [
+          555.8,
+          138.6
+        ],
+        [
+          582.3,
+          122.9
+        ],
+        [
+          591.1,
+          164.9
+        ],
+        [
+          547.0,
+          188.5
+        ],
+        [
+          541.1,
+          162.2
+        ]
+      ],
+      "centro": [
+        564.8,
+        155.0
+      ],
+      "vizinhos_terra": [
+        "co_andes_norte",
+        "co_caribe",
+        "ve_caracas",
+        "ve_llanos"
+      ],
+      "vizinhos_mar": [
+        "co_caribe",
+        "ve_caracas"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 7143,
+      "economia_base": 784,
+      "capital": false
+    },
+    "ve_caracas": {
+      "id": "ve_caracas",
+      "nome": "Caracas",
+      "pais_inicial": "venezuela",
+      "poligono": [
+        [
+          582.3,
+          122.9
+        ],
+        [
+          624.9,
+          138.6
+        ],
+        [
+          696.9,
+          137.3
+        ],
+        [
+          674.9,
+          170.1
+        ],
+        [
+          591.1,
+          164.9
+        ]
+      ],
+      "centro": [
+        635.2,
+        150.4
+      ],
+      "vizinhos_terra": [
+        "ve_guayana",
+        "ve_llanos",
+        "ve_zulia"
+      ],
+      "vizinhos_mar": [
+        "co_caribe",
+        "ve_guayana",
+        "ve_zulia"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 10612,
+      "economia_base": 973,
+      "capital": true
+    },
+    "ve_llanos": {
+      "id": "ve_llanos",
+      "nome": "Llanos",
+      "pais_inicial": "venezuela",
+      "poligono": [
+        [
+          547.0,
+          188.5
+        ],
+        [
+          591.1,
+          164.9
+        ],
+        [
+          674.9,
+          170.1
+        ],
+        [
+          664.6,
+          206.9
+        ],
+        [
+          611.7,
+          197.7
+        ]
+      ],
+      "centro": [
+        621.0,
+        183.7
+      ],
+      "vizinhos_terra": [
+        "co_bogota",
+        "ve_amazonas",
+        "ve_caracas",
+        "ve_guayana",
+        "ve_zulia"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 5306,
+      "economia_base": 533,
+      "capital": false
+    },
+    "ve_guayana": {
+      "id": "ve_guayana",
+      "nome": "Guayana e Essequibo",
+      "pais_inicial": "venezuela",
+      "poligono": [
+        [
+          696.9,
+          137.3
+        ],
+        [
+          752.8,
+          188.5
+        ],
+        [
+          770.4,
+          199.0
+        ],
+        [
+          733.7,
+          254.1
+        ],
+        [
+          679.3,
+          258.0
+        ],
+        [
+          664.6,
+          206.9
+        ],
+        [
+          674.9,
+          170.1
+        ]
+      ],
+      "centro": [
+        710.1,
+        205.3
+      ],
+      "vizinhos_terra": [
+        "br_roraima_amapa",
+        "ve_amazonas",
+        "ve_caracas",
+        "ve_llanos"
+      ],
+      "vizinhos_mar": [
+        "br_roraima_amapa",
+        "ve_caracas"
+      ],
+      "costeira": true,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 4490,
+      "economia_base": 612,
+      "capital": false
+    },
+    "ve_amazonas": {
+      "id": "ve_amazonas",
+      "nome": "Amazonas Venezuelano",
+      "pais_inicial": "venezuela",
+      "poligono": [
+        [
+          611.7,
+          197.7
+        ],
+        [
+          664.6,
+          206.9
+        ],
+        [
+          679.3,
+          258.0
+        ],
+        [
+          623.5,
+          262.0
+        ],
+        [
+          616.1,
+          248.9
+        ]
+      ],
+      "centro": [
+        642.5,
+        231.9
+      ],
+      "vizinhos_terra": [
+        "br_amazonas",
+        "co_amazonia",
+        "co_bogota",
+        "ve_guayana",
+        "ve_llanos"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 2449,
+      "economia_base": 298,
+      "capital": false
+    },
+    "pe_norte": {
+      "id": "pe_norte",
+      "nome": "Norte do Peru",
+      "pais_inicial": "peru",
+      "poligono": [
+        [
+          429.4,
+          310.5
+        ],
+        [
+          488.2,
+          319.7
+        ],
+        [
+          491.2,
+          398.5
+        ],
+        [
+          445.6,
+          384.0
+        ],
+        [
+          413.3,
+          339.4
+        ]
+      ],
+      "centro": [
+        457.8,
+        350.3
+      ],
+      "vizinhos_terra": [
+        "co_pacifico",
+        "pe_lima",
+        "pe_loreto"
+      ],
+      "vizinhos_mar": [
+        "co_pacifico",
+        "pe_lima"
+      ],
+      "costeira": true,
+      "terreno": "deserto",
+      "bonus_defesa": 0.1,
+      "populacao_base": 6200,
+      "economia_base": 615,
+      "capital": false
+    },
+    "pe_loreto": {
+      "id": "pe_loreto",
+      "nome": "Loreto",
+      "pais_inicial": "peru",
+      "poligono": [
+        [
+          488.2,
+          319.7
+        ],
+        [
+          580.8,
+          332.8
+        ],
+        [
+          572.0,
+          419.5
+        ],
+        [
+          491.2,
+          398.5
+        ]
+      ],
+      "centro": [
+        534.0,
+        366.9
+      ],
+      "vizinhos_terra": [
+        "br_amazonas",
+        "co_amazonia",
+        "pe_cusco",
+        "pe_norte"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 3282,
+      "economia_base": 379,
+      "capital": false
+    },
+    "pe_lima": {
+      "id": "pe_lima",
+      "nome": "Lima",
+      "pais_inicial": "peru",
+      "poligono": [
+        [
+          445.6,
+          384.0
+        ],
+        [
+          491.2,
+          398.5
+        ],
+        [
+          520.6,
+          458.8
+        ],
+        [
+          486.8,
+          464.1
+        ],
+        [
+          473.5,
+          435.2
+        ]
+      ],
+      "centro": [
+        485.4,
+        425.9
+      ],
+      "vizinhos_terra": [
+        "pe_arequipa",
+        "pe_cusco",
+        "pe_norte"
+      ],
+      "vizinhos_mar": [
+        "pe_arequipa",
+        "pe_norte"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 11306,
+      "economia_base": 1120,
+      "capital": true
+    },
+    "pe_cusco": {
+      "id": "pe_cusco",
+      "nome": "Cusco e Andes",
+      "pais_inicial": "peru",
+      "poligono": [
+        [
+          491.2,
+          398.5
+        ],
+        [
+          572.0,
+          419.5
+        ],
+        [
+          591.1,
+          448.3
+        ],
+        [
+          589.6,
+          485.1
+        ],
+        [
+          520.6,
+          458.8
+        ]
+      ],
+      "centro": [
+        547.3,
+        440.6
+      ],
+      "vizinhos_terra": [
+        "bo_la_paz",
+        "bo_pando_beni",
+        "pe_arequipa",
+        "pe_lima",
+        "pe_loreto"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 5288,
+      "economia_base": 552,
+      "capital": false
+    },
+    "pe_arequipa": {
+      "id": "pe_arequipa",
+      "nome": "Arequipa",
+      "pais_inicial": "peru",
+      "poligono": [
+        [
+          486.8,
+          464.1
+        ],
+        [
+          520.6,
+          458.8
+        ],
+        [
+          589.6,
+          485.1
+        ],
+        [
+          586.7,
+          508.7
+        ],
+        [
+          573.5,
+          520.5
+        ],
+        [
+          550.0,
+          498.2
+        ]
+      ],
+      "centro": [
+        549.0,
+        484.9
+      ],
+      "vizinhos_terra": [
+        "bo_la_paz",
+        "cl_atacama",
+        "pe_cusco",
+        "pe_lima"
+      ],
+      "vizinhos_mar": [
+        "cl_atacama",
+        "pe_lima"
+      ],
+      "costeira": true,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 4924,
+      "economia_base": 584,
+      "capital": false
+    },
+    "br_roraima_amapa": {
+      "id": "br_roraima_amapa",
+      "nome": "Roraima e Amapá",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          679.3,
+          258.0
+        ],
+        [
+          733.7,
+          254.1
+        ],
+        [
+          770.4,
+          199.0
+        ],
+        [
+          796.9,
+          200.3
+        ],
+        [
+          839.5,
+          213.4
+        ],
+        [
+          873.3,
+          254.1
+        ],
+        [
+          896.8,
+          288.2
+        ],
+        [
+          777.8,
+          293.5
+        ],
+        [
+          704.3,
+          293.5
+        ]
+      ],
+      "centro": [
+        792.6,
+        256.1
+      ],
+      "vizinhos_terra": [
+        "br_amazonas",
+        "br_para",
+        "ve_guayana"
+      ],
+      "vizinhos_mar": [
+        "br_para",
+        "ve_guayana"
+      ],
+      "costeira": true,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 1050,
+      "economia_base": 120,
+      "capital": false
+    },
+    "br_amazonas": {
+      "id": "br_amazonas",
+      "nome": "Amazonas",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          623.5,
+          262.0
+        ],
+        [
+          679.3,
+          258.0
+        ],
+        [
+          704.3,
+          293.5
+        ],
+        [
+          777.8,
+          293.5
+        ],
+        [
+          752.8,
+          398.5
+        ],
+        [
+          719.0,
+          448.3
+        ],
+        [
+          572.0,
+          419.5
+        ],
+        [
+          580.8,
+          332.8
+        ]
+      ],
+      "centro": [
+        670.5,
+        355.1
+      ],
+      "vizinhos_terra": [
+        "bo_pando_beni",
+        "br_centro_oeste",
+        "br_para",
+        "br_roraima_amapa",
+        "co_amazonia",
+        "pe_loreto",
+        "ve_amazonas"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 1800,
+      "economia_base": 198,
+      "capital": false
+    },
+    "br_para": {
+      "id": "br_para",
+      "nome": "Pará",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          777.8,
+          293.5
+        ],
+        [
+          896.8,
+          288.2
+        ],
+        [
+          924.8,
+          293.5
+        ],
+        [
+          908.6,
+          349.9
+        ],
+        [
+          879.2,
+          403.7
+        ],
+        [
+          752.8,
+          398.5
+        ]
+      ],
+      "centro": [
+        837.2,
+        344.8
+      ],
+      "vizinhos_terra": [
+        "br_amazonas",
+        "br_centro_oeste",
+        "br_maranhao_pi",
+        "br_roraima_amapa",
+        "br_tocantins_go"
+      ],
+      "vizinhos_mar": [
+        "br_maranhao_pi",
+        "br_roraima_amapa"
+      ],
+      "costeira": true,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 2100,
+      "economia_base": 211,
+      "capital": false
+    },
+    "br_maranhao_pi": {
+      "id": "br_maranhao_pi",
+      "nome": "Maranhão e Piauí",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          924.8,
+          293.5
+        ],
+        [
+          957.1,
+          310.5
+        ],
+        [
+          1001.2,
+          315.8
+        ],
+        [
+          1002.7,
+          393.2
+        ],
+        [
+          935.0,
+          415.5
+        ],
+        [
+          908.6,
+          349.9
+        ]
+      ],
+      "centro": [
+        957.0,
+        355.3
+      ],
+      "vizinhos_terra": [
+        "br_bahia",
+        "br_nordeste",
+        "br_para",
+        "br_tocantins_go"
+      ],
+      "vizinhos_mar": [
+        "br_nordeste",
+        "br_para"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 2300,
+      "economia_base": 193,
+      "capital": false
+    },
+    "br_nordeste": {
+      "id": "br_nordeste",
+      "nome": "Nordeste",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          1001.2,
+          315.8
+        ],
+        [
+          1042.3,
+          326.3
+        ],
+        [
+          1090.8,
+          353.8
+        ],
+        [
+          1096.7,
+          384.0
+        ],
+        [
+          1082.0,
+          406.3
+        ],
+        [
+          1061.5,
+          427.3
+        ],
+        [
+          1002.7,
+          393.2
+        ]
+      ],
+      "centro": [
+        1044.9,
+        370.8
+      ],
+      "vizinhos_terra": [
+        "br_bahia",
+        "br_maranhao_pi"
+      ],
+      "vizinhos_mar": [
+        "br_bahia",
+        "br_maranhao_pi"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 3600,
+      "economia_base": 312,
+      "capital": false
+    },
+    "br_bahia": {
+      "id": "br_bahia",
+      "nome": "Bahia",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          935.0,
+          415.5
+        ],
+        [
+          1002.7,
+          393.2
+        ],
+        [
+          1061.5,
+          427.3
+        ],
+        [
+          1042.3,
+          448.3
+        ],
+        [
+          1035.0,
+          481.1
+        ],
+        [
+          1026.2,
+          516.6
+        ],
+        [
+          932.1,
+          479.8
+        ]
+      ],
+      "centro": [
+        991.6,
+        450.7
+      ],
+      "vizinhos_terra": [
+        "br_maranhao_pi",
+        "br_minas",
+        "br_nordeste",
+        "br_tocantins_go"
+      ],
+      "vizinhos_mar": [
+        "br_minas",
+        "br_nordeste",
+        "br_rio"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 3200,
+      "economia_base": 294,
+      "capital": false
+    },
+    "br_tocantins_go": {
+      "id": "br_tocantins_go",
+      "nome": "Brasília e Goiás",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          879.2,
+          403.7
+        ],
+        [
+          908.6,
+          349.9
+        ],
+        [
+          935.0,
+          415.5
+        ],
+        [
+          932.1,
+          479.8
+        ],
+        [
+          899.8,
+          524.4
+        ],
+        [
+          858.6,
+          529.7
+        ]
+      ],
+      "centro": [
+        899.6,
+        450.7
+      ],
+      "vizinhos_terra": [
+        "br_bahia",
+        "br_centro_oeste",
+        "br_maranhao_pi",
+        "br_minas",
+        "br_para",
+        "br_sao_paulo"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 2700,
+      "economia_base": 331,
+      "capital": true
+    },
+    "br_centro_oeste": {
+      "id": "br_centro_oeste",
+      "nome": "Centro-Oeste",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          752.8,
+          398.5
+        ],
+        [
+          879.2,
+          403.7
+        ],
+        [
+          858.6,
+          529.7
+        ],
+        [
+          817.5,
+          574.3
+        ],
+        [
+          805.7,
+          592.7
+        ],
+        [
+          785.1,
+          580.9
+        ],
+        [
+          761.6,
+          569.1
+        ],
+        [
+          752.8,
+          540.2
+        ],
+        [
+          719.0,
+          448.3
+        ]
+      ],
+      "centro": [
+        800.6,
+        480.1
+      ],
+      "vizinhos_terra": [
+        "bo_santa_cruz",
+        "br_amazonas",
+        "br_para",
+        "br_sao_paulo",
+        "br_sul",
+        "br_tocantins_go",
+        "cs_assuncao",
+        "cs_chaco_py",
+        "cs_leste_py"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 2150,
+      "economia_base": 266,
+      "capital": false
+    },
+    "br_minas": {
+      "id": "br_minas",
+      "nome": "Minas Gerais",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          932.1,
+          479.8
+        ],
+        [
+          1026.2,
+          516.6
+        ],
+        [
+          1015.9,
+          544.1
+        ],
+        [
+          1008.5,
+          550.7
+        ],
+        [
+          946.8,
+          563.8
+        ],
+        [
+          899.8,
+          524.4
+        ]
+      ],
+      "centro": [
+        961.5,
+        524.4
+      ],
+      "vizinhos_terra": [
+        "br_bahia",
+        "br_rio",
+        "br_sao_paulo",
+        "br_tocantins_go"
+      ],
+      "vizinhos_mar": [
+        "br_bahia",
+        "br_rio"
+      ],
+      "costeira": true,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 3800,
+      "economia_base": 363,
+      "capital": false
+    },
+    "br_rio": {
+      "id": "br_rio",
+      "nome": "Rio de Janeiro",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          946.8,
+          563.8
+        ],
+        [
+          1008.5,
+          550.7
+        ],
+        [
+          990.9,
+          578.2
+        ],
+        [
+          968.9,
+          579.6
+        ],
+        [
+          949.7,
+          583.5
+        ]
+      ],
+      "centro": [
+        975.1,
+        567.9
+      ],
+      "vizinhos_terra": [
+        "br_minas",
+        "br_sao_paulo"
+      ],
+      "vizinhos_mar": [
+        "br_bahia",
+        "br_minas",
+        "br_sao_paulo",
+        "br_sul"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 3450,
+      "economia_base": 377,
+      "capital": false
+    },
+    "br_sao_paulo": {
+      "id": "br_sao_paulo",
+      "nome": "São Paulo",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          858.6,
+          529.7
+        ],
+        [
+          899.8,
+          524.4
+        ],
+        [
+          946.8,
+          563.8
+        ],
+        [
+          949.7,
+          583.5
+        ],
+        [
+          927.7,
+          592.7
+        ],
+        [
+          902.7,
+          608.4
+        ],
+        [
+          817.5,
+          574.3
+        ]
+      ],
+      "centro": [
+        887.9,
+        565.8
+      ],
+      "vizinhos_terra": [
+        "br_centro_oeste",
+        "br_minas",
+        "br_rio",
+        "br_sul",
+        "br_tocantins_go"
+      ],
+      "vizinhos_mar": [
+        "br_rio",
+        "br_sul"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 4900,
+      "economia_base": 450,
+      "capital": false
+    },
+    "br_sul": {
+      "id": "br_sul",
+      "nome": "Região Sul",
+      "pais_inicial": "brasil",
+      "poligono": [
+        [
+          817.5,
+          574.3
+        ],
+        [
+          902.7,
+          608.4
+        ],
+        [
+          893.9,
+          645.2
+        ],
+        [
+          842.5,
+          700.3
+        ],
+        [
+          823.3,
+          721.3
+        ],
+        [
+          792.5,
+          697.7
+        ],
+        [
+          761.6,
+          674.0
+        ],
+        [
+          805.7,
+          613.7
+        ],
+        [
+          805.7,
+          592.7
+        ]
+      ],
+      "centro": [
+        833.5,
+        645.5
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "br_centro_oeste",
+        "br_sao_paulo",
+        "cs_leste_py",
+        "cs_litoral_uy",
+        "cs_montevideu"
+      ],
+      "vizinhos_mar": [
+        "br_rio",
+        "br_sao_paulo",
+        "cs_montevideu"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 3950,
+      "economia_base": 386,
+      "capital": false
+    },
+    "bo_pando_beni": {
+      "id": "bo_pando_beni",
+      "nome": "Pando e Beni",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          572.0,
+          419.5
+        ],
+        [
+          719.0,
+          448.3
+        ],
+        [
+          655.8,
+          490.3
+        ],
+        [
+          591.1,
+          448.3
+        ]
+      ],
+      "centro": [
+        643.9,
+        452.7
+      ],
+      "vizinhos_terra": [
+        "bo_la_paz",
+        "bo_santa_cruz",
+        "br_amazonas",
+        "pe_cusco"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 2781,
+      "economia_base": 301,
+      "capital": false
+    },
+    "bo_la_paz": {
+      "id": "bo_la_paz",
+      "nome": "La Paz e Altiplano",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          591.1,
+          448.3
+        ],
+        [
+          655.8,
+          490.3
+        ],
+        [
+          620.5,
+          571.7
+        ],
+        [
+          586.7,
+          508.7
+        ],
+        [
+          589.6,
+          485.1
+        ]
+      ],
+      "centro": [
+        616.8,
+        505.2
+      ],
+      "vizinhos_terra": [
+        "bo_chaco_sucre",
+        "bo_pando_beni",
+        "cl_atacama",
+        "pe_arequipa",
+        "pe_cusco"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 7126,
+      "economia_base": 641,
+      "capital": true
+    },
+    "bo_santa_cruz": {
+      "id": "bo_santa_cruz",
+      "nome": "Santa Cruz",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          719.0,
+          448.3
+        ],
+        [
+          752.8,
+          540.2
+        ],
+        [
+          694.0,
+          537.6
+        ],
+        [
+          655.8,
+          490.3
+        ]
+      ],
+      "centro": [
+        706.9,
+        501.0
+      ],
+      "vizinhos_terra": [
+        "bo_chaco_sucre",
+        "bo_pando_beni",
+        "br_centro_oeste",
+        "cs_chaco_py"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 6083,
+      "economia_base": 615,
+      "capital": false
+    },
+    "bo_chaco_sucre": {
+      "id": "bo_chaco_sucre",
+      "nome": "Sucre e Chaco",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          655.8,
+          490.3
+        ],
+        [
+          694.0,
+          537.6
+        ],
+        [
+          688.1,
+          569.1
+        ],
+        [
+          620.5,
+          571.7
+        ]
+      ],
+      "centro": [
+        660.1,
+        541.3
+      ],
+      "vizinhos_terra": [
+        "ar_noroeste",
+        "bo_la_paz",
+        "bo_santa_cruz",
+        "cs_chaco_py"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 3997,
+      "economia_base": 419,
+      "capital": false
+    },
+    "cs_chaco_py": {
+      "id": "cs_chaco_py",
+      "nome": "Chaco Paraguaio",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          688.1,
+          569.1
+        ],
+        [
+          694.0,
+          537.6
+        ],
+        [
+          752.8,
+          540.2
+        ],
+        [
+          761.6,
+          569.1
+        ],
+        [
+          755.7,
+          611.1
+        ],
+        [
+          719.0,
+          595.3
+        ]
+      ],
+      "centro": [
+        728.2,
+        568.6
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "ar_noroeste",
+        "bo_chaco_sucre",
+        "bo_santa_cruz",
+        "br_centro_oeste",
+        "cs_assuncao"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "deserto",
+      "bonus_defesa": 0.1,
+      "populacao_base": 2433,
+      "economia_base": 301,
+      "capital": false
+    },
+    "cs_assuncao": {
+      "id": "cs_assuncao",
+      "nome": "Assunção",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          761.6,
+          569.1
+        ],
+        [
+          785.1,
+          580.9
+        ],
+        [
+          773.4,
+          634.7
+        ],
+        [
+          755.7,
+          611.1
+        ]
+      ],
+      "centro": [
+        769.6,
+        598.8
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "br_centro_oeste",
+        "cs_chaco_py",
+        "cs_leste_py"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 5909,
+      "economia_base": 576,
+      "capital": false
+    },
+    "cs_leste_py": {
+      "id": "cs_leste_py",
+      "nome": "Alto Paraná",
+      "pais_inicial": "bolivia",
+      "poligono": [
+        [
+          785.1,
+          580.9
+        ],
+        [
+          805.7,
+          592.7
+        ],
+        [
+          805.7,
+          613.7
+        ],
+        [
+          773.4,
+          634.7
+        ]
+      ],
+      "centro": [
+        790.5,
+        606.6
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "br_centro_oeste",
+        "br_sul",
+        "cs_assuncao"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 4171,
+      "economia_base": 497,
+      "capital": false
+    },
+    "cs_litoral_uy": {
+      "id": "cs_litoral_uy",
+      "nome": "Litoral Uruguaio",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          761.6,
+          674.0
+        ],
+        [
+          792.5,
+          697.7
+        ],
+        [
+          773.4,
+          733.1
+        ],
+        [
+          757.2,
+          729.2
+        ],
+        [
+          752.8,
+          708.2
+        ]
+      ],
+      "centro": [
+        769.8,
+        705.3
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "br_sul",
+        "cs_montevideu"
+      ],
+      "vizinhos_mar": [
+        "ar_buenos_aires",
+        "cs_montevideu"
+      ],
+      "costeira": true,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 2088,
+      "economia_base": 279,
+      "capital": false
+    },
+    "cs_montevideu": {
+      "id": "cs_montevideu",
+      "nome": "Montevidéu",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          792.5,
+          697.7
+        ],
+        [
+          823.3,
+          721.3
+        ],
+        [
+          801.3,
+          737.0
+        ],
+        [
+          782.2,
+          735.7
+        ],
+        [
+          773.4,
+          733.1
+        ]
+      ],
+      "centro": [
+        796.9,
+        721.0
+      ],
+      "vizinhos_terra": [
+        "br_sul",
+        "cs_litoral_uy"
+      ],
+      "vizinhos_mar": [
+        "ar_buenos_aires",
+        "br_sul",
+        "cs_litoral_uy"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 3777,
+      "economia_base": 437,
+      "capital": false
+    },
+    "cl_atacama": {
+      "id": "cl_atacama",
+      "nome": "Atacama",
+      "pais_inicial": "chile",
+      "poligono": [
+        [
+          573.5,
+          520.5
+        ],
+        [
+          586.7,
+          508.7
+        ],
+        [
+          620.5,
+          571.7
+        ],
+        [
+          599.9,
+          634.7
+        ],
+        [
+          561.7,
+          636.0
+        ],
+        [
+          570.5,
+          587.4
+        ]
+      ],
+      "centro": [
+        589.4,
+        580.0
+      ],
+      "vizinhos_terra": [
+        "ar_noroeste",
+        "bo_la_paz",
+        "cl_coquimbo",
+        "pe_arequipa"
+      ],
+      "vizinhos_mar": [
+        "cl_coquimbo",
+        "pe_arequipa"
+      ],
+      "costeira": true,
+      "terreno": "deserto",
+      "bonus_defesa": 0.1,
+      "populacao_base": 4740,
+      "economia_base": 711,
+      "capital": false
+    },
+    "cl_coquimbo": {
+      "id": "cl_coquimbo",
+      "nome": "Coquimbo",
+      "pais_inicial": "chile",
+      "poligono": [
+        [
+          561.7,
+          636.0
+        ],
+        [
+          599.9,
+          634.7
+        ],
+        [
+          579.4,
+          697.7
+        ],
+        [
+          547.0,
+          699.0
+        ],
+        [
+          552.9,
+          670.1
+        ]
+      ],
+      "centro": [
+        572.0,
+        666.0
+      ],
+      "vizinhos_terra": [
+        "ar_mendoza",
+        "cl_atacama",
+        "cl_santiago"
+      ],
+      "vizinhos_mar": [
+        "cl_atacama",
+        "cl_santiago"
+      ],
+      "costeira": true,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 4534,
+      "economia_base": 516,
+      "capital": false
+    },
+    "cl_santiago": {
+      "id": "cl_santiago",
+      "nome": "Santiago",
+      "pais_inicial": "chile",
+      "poligono": [
+        [
+          547.0,
+          699.0
+        ],
+        [
+          579.4,
+          697.7
+        ],
+        [
+          564.7,
+          765.9
+        ],
+        [
+          527.9,
+          765.9
+        ],
+        [
+          544.1,
+          718.7
+        ]
+      ],
+      "centro": [
+        555.2,
+        733.1
+      ],
+      "vizinhos_terra": [
+        "ar_mendoza",
+        "cl_araucania",
+        "cl_coquimbo"
+      ],
+      "vizinhos_mar": [
+        "cl_araucania",
+        "cl_coquimbo"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 12571,
+      "economia_base": 1060,
+      "capital": true
+    },
+    "cl_araucania": {
+      "id": "cl_araucania",
+      "nome": "Araucanía e Lagos",
+      "pais_inicial": "chile",
+      "poligono": [
+        [
+          527.9,
+          765.9
+        ],
+        [
+          564.7,
+          765.9
+        ],
+        [
+          552.9,
+          874.8
+        ],
+        [
+          502.9,
+          881.4
+        ],
+        [
+          516.2,
+          835.5
+        ]
+      ],
+      "centro": [
+        537.4,
+        824.5
+      ],
+      "vizinhos_terra": [
+        "ar_patagonia_norte",
+        "cl_magallanes",
+        "cl_santiago"
+      ],
+      "vizinhos_mar": [
+        "cl_magallanes",
+        "cl_santiago"
+      ],
+      "costeira": true,
+      "terreno": "floresta",
+      "bonus_defesa": 0.15,
+      "populacao_base": 5976,
+      "economia_base": 572,
+      "capital": false
+    },
+    "cl_magallanes": {
+      "id": "cl_magallanes",
+      "nome": "Magallanes",
+      "pais_inicial": "chile",
+      "poligono": [
+        [
+          502.9,
+          881.4
+        ],
+        [
+          552.9,
+          874.8
+        ],
+        [
+          558.8,
+          949.6
+        ],
+        [
+          586.7,
+          968.0
+        ],
+        [
+          616.1,
+          1010.0
+        ],
+        [
+          557.3,
+          996.9
+        ],
+        [
+          508.8,
+          966.7
+        ]
+      ],
+      "centro": [
+        544.3,
+        943.3
+      ],
+      "vizinhos_terra": [
+        "ar_patagonia_sul",
+        "cl_araucania"
+      ],
+      "vizinhos_mar": [
+        "ar_patagonia_sul",
+        "cl_araucania"
+      ],
+      "costeira": true,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 2679,
+      "economia_base": 391,
+      "capital": false
+    },
+    "ar_noroeste": {
+      "id": "ar_noroeste",
+      "nome": "Noroeste Argentino",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          620.5,
+          571.7
+        ],
+        [
+          688.1,
+          569.1
+        ],
+        [
+          719.0,
+          595.3
+        ],
+        [
+          694.0,
+          660.9
+        ],
+        [
+          641.1,
+          663.5
+        ],
+        [
+          599.9,
+          634.7
+        ]
+      ],
+      "centro": [
+        659.4,
+        615.2
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "ar_cordoba",
+        "ar_mendoza",
+        "bo_chaco_sucre",
+        "cl_atacama",
+        "cs_chaco_py"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 3380,
+      "economia_base": 302,
+      "capital": false
+    },
+    "ar_chaco_meso": {
+      "id": "ar_chaco_meso",
+      "nome": "Chaco e Mesopotâmia",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          719.0,
+          595.3
+        ],
+        [
+          755.7,
+          611.1
+        ],
+        [
+          773.4,
+          634.7
+        ],
+        [
+          805.7,
+          613.7
+        ],
+        [
+          761.6,
+          674.0
+        ],
+        [
+          752.8,
+          708.2
+        ],
+        [
+          757.2,
+          729.2
+        ],
+        [
+          708.7,
+          716.0
+        ],
+        [
+          694.0,
+          660.9
+        ]
+      ],
+      "centro": [
+        735.9,
+        660.3
+      ],
+      "vizinhos_terra": [
+        "ar_buenos_aires",
+        "ar_cordoba",
+        "ar_noroeste",
+        "br_sul",
+        "cs_assuncao",
+        "cs_chaco_py",
+        "cs_leste_py",
+        "cs_litoral_uy"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 4672,
+      "economia_base": 392,
+      "capital": false
+    },
+    "ar_cordoba": {
+      "id": "ar_cordoba",
+      "nome": "Córdoba",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          641.1,
+          663.5
+        ],
+        [
+          694.0,
+          660.9
+        ],
+        [
+          708.7,
+          716.0
+        ],
+        [
+          676.4,
+          760.7
+        ],
+        [
+          626.4,
+          760.7
+        ]
+      ],
+      "centro": [
+        666.1,
+        711.3
+      ],
+      "vizinhos_terra": [
+        "ar_buenos_aires",
+        "ar_chaco_meso",
+        "ar_mendoza",
+        "ar_noroeste",
+        "ar_patagonia_norte"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "planicie",
+      "bonus_defesa": 0.0,
+      "populacao_base": 4473,
+      "economia_base": 422,
+      "capital": false
+    },
+    "ar_mendoza": {
+      "id": "ar_mendoza",
+      "nome": "Mendoza e Cuyo",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          599.9,
+          634.7
+        ],
+        [
+          641.1,
+          663.5
+        ],
+        [
+          626.4,
+          760.7
+        ],
+        [
+          564.7,
+          765.9
+        ],
+        [
+          579.4,
+          697.7
+        ]
+      ],
+      "centro": [
+        605.2,
+        707.9
+      ],
+      "vizinhos_terra": [
+        "ar_cordoba",
+        "ar_noroeste",
+        "ar_patagonia_norte",
+        "cl_coquimbo",
+        "cl_santiago"
+      ],
+      "vizinhos_mar": [],
+      "costeira": false,
+      "terreno": "montanha",
+      "bonus_defesa": 0.3,
+      "populacao_base": 3082,
+      "economia_base": 347,
+      "capital": false
+    },
+    "ar_buenos_aires": {
+      "id": "ar_buenos_aires",
+      "nome": "Buenos Aires",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          708.7,
+          716.0
+        ],
+        [
+          757.2,
+          729.2
+        ],
+        [
+          751.3,
+          733.1
+        ],
+        [
+          763.1,
+          776.4
+        ],
+        [
+          692.5,
+          789.5
+        ],
+        [
+          676.4,
+          760.7
+        ]
+      ],
+      "centro": [
+        720.2,
+        754.9
+      ],
+      "vizinhos_terra": [
+        "ar_chaco_meso",
+        "ar_cordoba",
+        "ar_patagonia_norte"
+      ],
+      "vizinhos_mar": [
+        "ar_patagonia_norte",
+        "cs_litoral_uy",
+        "cs_montevideu"
+      ],
+      "costeira": true,
+      "terreno": "urbano",
+      "bonus_defesa": 0.2,
+      "populacao_base": 8151,
+      "economia_base": 663,
+      "capital": true
+    },
+    "ar_patagonia_norte": {
+      "id": "ar_patagonia_norte",
+      "nome": "Patagônia Norte",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          564.7,
+          765.9
+        ],
+        [
+          626.4,
+          760.7
+        ],
+        [
+          676.4,
+          760.7
+        ],
+        [
+          692.5,
+          789.5
+        ],
+        [
+          672.0,
+          835.5
+        ],
+        [
+          617.6,
+          880.1
+        ],
+        [
+          552.9,
+          874.8
+        ]
+      ],
+      "centro": [
+        616.7,
+        815.5
+      ],
+      "vizinhos_terra": [
+        "ar_buenos_aires",
+        "ar_cordoba",
+        "ar_mendoza",
+        "ar_patagonia_sul",
+        "cl_araucania"
+      ],
+      "vizinhos_mar": [
+        "ar_buenos_aires",
+        "ar_patagonia_sul"
+      ],
+      "costeira": true,
+      "terreno": "deserto",
+      "bonus_defesa": 0.1,
+      "populacao_base": 2386,
+      "economia_base": 324,
+      "capital": false
+    },
+    "ar_patagonia_sul": {
+      "id": "ar_patagonia_sul",
+      "nome": "Patagônia Sul",
+      "pais_inicial": "argentina",
+      "poligono": [
+        [
+          552.9,
+          874.8
+        ],
+        [
+          617.6,
+          880.1
+        ],
+        [
+          639.6,
+          905.0
+        ],
+        [
+          605.8,
+          954.9
+        ],
+        [
+          638.2,
+          996.9
+        ],
+        [
+          616.1,
+          1010.0
+        ],
+        [
+          586.7,
+          968.0
+        ],
+        [
+          558.8,
+          949.6
+        ]
+      ],
+      "centro": [
+        594.5,
+        928.4
+      ],
+      "vizinhos_terra": [
+        "ar_patagonia_norte",
+        "cl_magallanes"
+      ],
+      "vizinhos_mar": [
+        "ar_patagonia_norte",
+        "cl_magallanes"
+      ],
+      "costeira": true,
+      "terreno": "deserto",
+      "bonus_defesa": 0.1,
+      "populacao_base": 1491,
+      "economia_base": 234,
+      "capital": false
+    }
+  }
+}

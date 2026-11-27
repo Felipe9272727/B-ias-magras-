@@ -1,0 +1,172 @@
+name: AoH2 v2 Render Completo (16 partes + mix + gofile)
+on:
+  push:
+    branches: ["aoh2-render-v2"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    name: Parte ${{ matrix.p }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        p: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: aoh2-dados-v2
+          path: dados
+          fetch-depth: 1
+      - name: Extrair midias do aoh2-dados-v2
+        run: |
+          cat dados/aoh2_dados.tgz.* | tar -xzf -
+          rm -rf dados
+      - name: Instalar dependencias
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq librsvg2-bin ffmpeg fonts-dejavu-core fonts-liberation > /dev/null
+          pip install -q pillow
+      - name: Renderizar fatia ${{ matrix.p }}/16 (540p)
+        run: |
+          PART_PAD=$(printf "%02d" ${{ matrix.p }})
+          OUT_MP4="parte_${PART_PAD}.mp4"
+          python3 aoh2/compositor_aoh2.py --parte ${{ matrix.p }} --total-partes 16 --width 960 --height 540 --fps 30 --workers 4 --out "$OUT_MP4"
+          python3 -c "
+          import json, subprocess, sys
+          info = json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-count_frames', '-show_entries', 'stream=nb_read_frames,width,height,r_frame_rate', '-of', 'json', sys.argv[1]]))
+          nb = int(info['streams'][0].get('nb_read_frames', 0))
+          print('Parte', sys.argv[1], 'frames=', nb, info['streams'][0])
+          assert nb > 0, 'Video sem quadros'
+          " "$OUT_MP4"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aoh2-parte-${{ matrix.p }}
+          path: parte_*.mp4
+          retention-days: 2
+
+  finalizar:
+    name: Concatenar, Mixar, 1080p Lanczos e Gofile
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: aoh2-dados-v2
+          path: dados
+          fetch-depth: 1
+      - name: Extrair midias do aoh2-dados-v2
+        run: |
+          cat dados/aoh2_dados.tgz.* | tar -xzf -
+          rm -rf dados
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: aoh2-parte-*
+          merge-multiple: true
+          path: partes
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Concatenar 16 partes + audio -14 LUFS + upscale 1080p Lanczos
+        run: |
+          set -e
+          rm -f concat.txt
+          for i in $(seq -w 0 15); do
+            f="partes/parte_${i}.mp4"
+            if [ ! -f "$f" ]; then
+              echo "ERRO: faltando $f" >&2
+              exit 1
+            fi
+            echo "file '$PWD/$f'" >> concat.txt
+          done
+          ffmpeg -v error -y -f concat -safe 0 -i concat.txt -c copy aoh2_mudo_540p.mp4
+          python3 aoh2/audio_aoh2_remix.py --out aoh2_audio_final.m4a
+          ffmpeg -v error -y \
+            -i aoh2_mudo_540p.mp4 \
+            -i aoh2_audio_final.m4a \
+            -map 0:v -map 1:a \
+            -vf "scale=1920:1080:flags=lanczos,eq=contrast=1.06:saturation=1.18:gamma=0.98,unsharp=5:5:0.5,vignette=angle=0.42" \
+            -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p \
+            -c:a copy -movflags +faststart \
+            aoh2_final_1080p.mp4
+      - name: Verificar ffprobe, silencio, stills e subir para Gofile
+        run: |
+          mkdir -p entrega/check_stills
+          for ts in 00:09 01:10 04:08 08:39 09:55 17:00 18:20 19:36 19:55 20:10; do
+            tag="${ts//:/m}s"
+            ffmpeg -v error -y -ss "$ts" -i aoh2_final_1080p.mp4 -frames:v 1 "entrega/check_stills/still_${tag}.png" || true
+          done
+          python3 - <<'PY'
+          import json, subprocess, urllib.request
+          probe = json.loads(subprocess.check_output([
+              "ffprobe", "-v", "error",
+              "-show_entries", "format=duration,size",
+              "-show_entries", "stream=codec_name,width,height,r_frame_rate,sample_rate,nb_frames",
+              "-of", "json", "aoh2_final_1080p.mp4"
+          ], text=True))
+          sil_proc = subprocess.run(
+              ["ffmpeg", "-i", "aoh2_audio_final.m4a", "-af", "silencedetect=noise=-45dB:d=2.5", "-f", "null", "-"],
+              capture_output=True, text=True
+          )
+          sil_lines = [ln for ln in sil_proc.stderr.splitlines() if "silence_" in ln]
+
+          servers = []
+          try:
+              res = urllib.request.urlopen("https://api.gofile.io/servers", timeout=15)
+              data = json.loads(res.read().decode())
+              servers = [s["name"] for s in data.get("data", {}).get("servers", []) if s.get("name")]
+          except Exception as exc:
+              print("Aviso api.gofile.io/servers:", exc)
+          for fb in ("store1", "store2", "store3"):
+              if fb not in servers:
+                  servers.append(fb)
+
+          gofile_resp = None
+          last_err = ""
+          for srv in servers:
+              url = f"https://{srv}.gofile.io/contents/uploadfile"
+              print("Tentando upload Gofile em:", url, flush=True)
+              p = subprocess.run(["curl", "-sS", "--max-time", "600", "-F", "file=@aoh2_final_1080p.mp4", url], capture_output=True, text=True)
+              if p.returncode == 0 and p.stdout.strip():
+                  try:
+                      j = json.loads(p.stdout)
+                      if j.get("status") == "ok" and j.get("data", {}).get("downloadPage"):
+                          gofile_resp = j
+                          break
+                      last_err = p.stdout[:400]
+                  except Exception as exc:
+                      last_err = f"{exc}: {p.stdout[:300]}"
+              else:
+                  last_err = p.stderr[:300]
+
+          out = {
+              "ffprobe": probe,
+              "silence_events": sil_lines,
+              "gofile": gofile_resp,
+              "gofile_error": "" if gofile_resp else last_err,
+          }
+          with open("entrega/entrega_info.json", "w", encoding="utf-8") as f:
+              json.dump(out, f, indent=2, ensure_ascii=False)
+          print(json.dumps(out, indent=2, ensure_ascii=False))
+          if not gofile_resp:
+              raise SystemExit(f"Falha no upload para o Gofile: {last_err}")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aoh2-entrega-v2
+          path: entrega/
+          retention-days: 7

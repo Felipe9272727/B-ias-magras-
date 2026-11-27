@@ -1,0 +1,793 @@
+{
+  "A1": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "DESEMBARQUE",
+    "rotulo_tatico": "TRAVESSIA DO PRATA · T25",
+    "alvos_taticos": [
+      {"pid": "ar_buenos_aires", "label": "ALVO · CAPITAL"}
+    ],
+    "rotas_soldados": [
+      {"de": "cs_montevideu", "para": "ar_buenos_aires", "qtd": 165, "ia": "sonnet", "naval": true}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["Rio da Prata", "Buenos Aires"]
+  },
+  "A2": {
+    "partida": 1,
+    "turno": 0,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "7 IAS · AMERICA DO SUL",
+    "alvos_taticos": [],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["Ember", "Sonnet", "Hydrogen", "GLM"]
+  },
+  "A3": {
+    "partida": 1,
+    "turno": 1,
+    "timelapse_de": null,
+    "manobra_tatica": "BLITZ",
+    "rotulo_tatico": "REGRAS · TURNO 1 REAL",
+    "alvos_taticos": [
+      {"pid": "br_roraima_amapa", "label": "-1.772"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_guayana", "para": "br_roraima_amapa", "qtd": 4000, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["TRAICAO", "PONTOS"]
+  },
+  "B1": {
+    "partida": 1,
+    "turno": 1,
+    "timelapse_de": null,
+    "manobra_tatica": "BLITZ",
+    "rotulo_tatico": "BLITZ NO NORTE · 2 FRENTES",
+    "alvos_taticos": [
+      {"pid": "br_roraima_amapa", "label": "-1.772"},
+      {"pid": "br_amazonas", "label": "-1.751"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_caracas", "para": "ve_guayana", "qtd": 3500, "ia": "ember", "naval": false},
+      {"de": "ve_guayana", "para": "br_roraima_amapa", "qtd": 4000, "ia": "ember", "naval": false},
+      {"de": "ve_amazonas", "para": "br_amazonas", "qtd": 1800, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["Brasil enfraquecido", "Guayana e Amazonas"]
+  },
+  "B2": {
+    "partida": 1,
+    "turno": 2,
+    "timelapse_de": null,
+    "manobra_tatica": "FLANQUEAMENTO",
+    "rotulo_tatico": "OPORTUNISMO NA AMAZONIA",
+    "alvos_taticos": [
+      {"pid": "br_amazonas", "label": "ALVO · AMAZONAS"}
+    ],
+    "rotas_soldados": [
+      {"de": "pe_loreto", "para": "br_amazonas", "qtd": 800, "ia": "inkling", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["sem quebrar o pacto", "Amazonas"]
+  },
+  "B3": {
+    "partida": 1,
+    "turno": 6,
+    "timelapse_de": 2,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "TRAICAO COLOMBIANA · ZULIA",
+    "alvos_taticos": [
+      {"pid": "ve_zulia", "label": "-4.121"},
+      {"pid": "ve_llanos", "label": "-2.740"}
+    ],
+    "rotas_soldados": [
+      {"de": "co_andes_norte", "para": "ve_zulia", "qtd": 3490, "ia": "qwen", "naval": false},
+      {"de": "co_bogota", "para": "ve_llanos", "qtd": 4222, "ia": "qwen", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Colômbia", "para_pais": "Venezuela", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["presa fácil", "atacar o PNA"]
+  },
+  "B4": {
+    "partida": 1,
+    "turno": 7,
+    "timelapse_de": null,
+    "manobra_tatica": "CONTRA_ATAQUE",
+    "rotulo_tatico": "TROCA DE CAPITAIS · T7-T10",
+    "alvos_taticos": [
+      {"pid": "co_bogota", "label": "BOGOTA T7"},
+      {"pid": "ve_caracas", "label": "CARACAS T10"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_amazonas", "para": "co_bogota", "qtd": 850, "ia": "ember", "naval": false},
+      {"de": "ve_zulia", "para": "ve_caracas", "qtd": 2000, "ia": "qwen", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["3 guerras", "Bogota e Roraima"]
+  },
+  "B5": {
+    "partida": 1,
+    "turno": 10,
+    "timelapse_de": 7,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "BLITZ NO SUL · DE SURPRESA",
+    "alvos_taticos": [
+      {"pid": "ar_patagonia_norte", "label": "-2.377"},
+      {"pid": "ar_patagonia_sul", "label": "-1.328"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_araucania", "para": "ar_patagonia_norte", "qtd": 3200, "ia": "glm", "naval": false},
+      {"de": "cl_magallanes", "para": "ar_patagonia_sul", "qtd": 1281, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["quebrar o pacto", "de surpresa"]
+  },
+  "B6": {
+    "partida": 1,
+    "turno": 13,
+    "timelapse_de": 10,
+    "manobra_tatica": "CERCO",
+    "rotulo_tatico": "CERCO A ANTIOQUIA · 437",
+    "alvos_taticos": [
+      {"pid": "co_andes_norte", "label": "437 TROPAS"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["437 tropas", "sobreviver"]
+  },
+  "B7": {
+    "partida": 1,
+    "turno": 13,
+    "timelapse_de": null,
+    "manobra_tatica": "CERCO",
+    "rotulo_tatico": "ELIMINACAO DA VENEZUELA",
+    "alvos_taticos": [
+      {"pid": "co_andes_norte", "label": "ELIMINADA · -1.401"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_guayana", "para": "ve_amazonas", "qtd": 2500, "ia": "sonnet", "naval": false},
+      {"de": "ve_amazonas", "para": "co_bogota", "qtd": 2500, "ia": "sonnet", "naval": false},
+      {"de": "co_bogota", "para": "co_andes_norte", "qtd": 1100, "ia": "sonnet", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["apago a Venezuela", "ultimo capitulo"]
+  },
+  "B8": {
+    "partida": 1,
+    "turno": 13,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "FACADA NAS COSTAS · 3 ALVOS",
+    "alvos_taticos": [
+      {"pid": "br_amazonas", "label": "0 BAIXAS"},
+      {"pid": "br_centro_oeste", "label": "-1.014"},
+      {"pid": "br_sul", "label": "-1.240"}
+    ],
+    "rotas_soldados": [
+      {"de": "bo_pando_beni", "para": "br_amazonas", "qtd": 1400, "ia": "hydrogen", "naval": false},
+      {"de": "bo_santa_cruz", "para": "br_centro_oeste", "qtd": 2000, "ia": "hydrogen", "naval": false},
+      {"de": "cs_leste_py", "para": "br_sul", "qtd": 1400, "ia": "hydrogen", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Bolívia", "para_pais": "Brasil", "tipo": "PACTO"},
+    "fortaleza_pid": "bo_la_paz",
+    "impacto_shake": false,
+    "palavras_destaque": ["Quebrar o PNA", "fronteira vazia"]
+  },
+  "B9": {
+    "partida": 1,
+    "turno": 14,
+    "timelapse_de": null,
+    "manobra_tatica": "CONTRA_ATAQUE",
+    "rotulo_tatico": "RETOMADA DO CENTRO-OESTE",
+    "alvos_taticos": [
+      {"pid": "br_centro_oeste", "label": "-2.913"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_guayana", "para": "br_roraima_amapa", "qtd": 2500, "ia": "sonnet", "naval": false},
+      {"de": "br_roraima_amapa", "para": "br_para", "qtd": 2500, "ia": "sonnet", "naval": false},
+      {"de": "br_para", "para": "br_tocantins_go", "qtd": 1564, "ia": "sonnet", "naval": false},
+      {"de": "br_tocantins_go", "para": "br_centro_oeste", "qtd": 1985, "ia": "sonnet", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["apunhalou o Brasil", "voltando para casa"]
+  },
+  "B10": {
+    "partida": 1,
+    "turno": 16,
+    "timelapse_de": 14,
+    "manobra_tatica": "BLITZ",
+    "rotulo_tatico": "MAIOR BATALHA · -5.380",
+    "alvos_taticos": [
+      {"pid": "cs_chaco_py", "label": "-5.380 · 9.000 TROPAS"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_chaco_meso", "para": "cs_chaco_py", "qtd": 9000, "ia": "deepseek", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["nove mil", "Chaco Paraguaio"]
+  },
+  "B11": {
+    "partida": 1,
+    "turno": 18,
+    "timelapse_de": 16,
+    "manobra_tatica": "PINCA",
+    "rotulo_tatico": "ULTIMATO CHILENO · PINCA",
+    "alvos_taticos": [
+      {"pid": "ar_mendoza", "label": "MENDOZA"},
+      {"pid": "ar_buenos_aires", "label": "BUENOS AIRES"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_coquimbo", "para": "ar_mendoza", "qtd": 2500, "ia": "glm", "naval": false},
+      {"de": "ar_cordoba", "para": "ar_buenos_aires", "qtd": 1800, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["desmoronando", "Mendoza e Buenos Aires"]
+  },
+  "B12": {
+    "partida": 1,
+    "turno": 23,
+    "timelapse_de": 18,
+    "manobra_tatica": "DESEMBARQUE",
+    "rotulo_tatico": "QUEDA DO PRATA · T18 -> T23",
+    "alvos_taticos": [
+      {"pid": "ar_buenos_aires", "label": "CAPITAL · -2.726"},
+      {"pid": "cs_montevideu", "label": "-4.417"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_buenos_aires", "para": "cs_montevideu", "qtd": 5500, "ia": "glm", "naval": true},
+      {"de": "ar_buenos_aires", "para": "cs_litoral_uy", "qtd": 800, "ia": "glm", "naval": true}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["maos chilenas", "Prata"]
+  },
+  "B13": {
+    "partida": 1,
+    "turno": 25,
+    "timelapse_de": 23,
+    "manobra_tatica": "ECONOMIA",
+    "rotulo_tatico": "FALENCIA · OURO -98",
+    "alvos_taticos": [
+      {"pid": "cs_chaco_py", "label": "1 PROVINCIA · -98 OURO"},
+      {"pid": "ar_chaco_meso", "label": "ALVO SAQUE · 511"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": {"de_pais": "Argentina", "para_pais": "Bolívia", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["falido", "saquear"]
+  },
+  "B14": {
+    "partida": 1,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "FORTALEZA",
+    "rotulo_tatico": "SAO PAULO SEGUROU 2X",
+    "alvos_taticos": [
+      {"pid": "br_sao_paulo", "label": "SEGUROU 2X"}
+    ],
+    "rotas_soldados": [
+      {"de": "br_centro_oeste", "para": "br_sao_paulo", "qtd": 1200, "ia": "hydrogen", "naval": false},
+      {"de": "br_sul", "para": "br_sao_paulo", "qtd": 108, "ia": "hydrogen", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["quebrou os dentes", "capital intacta"]
+  },
+  "B15": {
+    "partida": 1,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "FLANQUEAMENTO",
+    "rotulo_tatico": "CHILE COBRA · LEALDADE",
+    "alvos_taticos": [
+      {"pid": "ar_noroeste", "label": "-1.768"},
+      {"pid": "ar_chaco_meso", "label": "-1.199"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_atacama", "para": "ar_noroeste", "qtd": 2000, "ia": "glm", "naval": false},
+      {"de": "ar_cordoba", "para": "ar_chaco_meso", "qtd": 1500, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Bolívia", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["lealdade", "unica alianca"]
+  },
+  "B16": {
+    "partida": 1,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "CAMPEAO DA IDA · GLM",
+    "alvos_taticos": [],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["GLM", "14.867"]
+  },
+  "C1": {
+    "partida": 2,
+    "turno": 0,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "REVANCHE · PAISES TROCADOS",
+    "alvos_taticos": [],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["Ember", "CHILE"]
+  },
+  "D1": {
+    "partida": 2,
+    "turno": 1,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "TRAICAO NO TURNO 1 · CHACO",
+    "alvos_taticos": [
+      {"pid": "cs_chaco_py", "label": "TRAICAO · -2.704"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_buenos_aires", "para": "ar_chaco_meso", "qtd": 3000, "ia": "sonnet", "naval": false},
+      {"de": "ar_chaco_meso", "para": "cs_chaco_py", "qtd": 2600, "ia": "sonnet", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["Chaco Paraguaio", "primeiro turno"]
+  },
+  "D2": {
+    "partida": 2,
+    "turno": 1,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "ACORDO RASGADO · 1 DE 5",
+    "alvos_taticos": [
+      {"pid": "cl_santiago", "label": "PACTO RASGADO 1/5"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_santiago", "para": "cl_coquimbo", "qtd": 2000, "ia": "ember", "naval": false},
+      {"de": "cl_santiago", "para": "cl_araucania", "qtd": 1500, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["superioridade local", "pacto de nao agressao"]
+  },
+  "D3": {
+    "partida": 2,
+    "turno": 1,
+    "timelapse_de": null,
+    "manobra_tatica": "ECONOMIA",
+    "rotulo_tatico": "BRASIL · TURISMO ECOLOGICO",
+    "alvos_taticos": [
+      {"pid": "br_sul", "label": "3.073"},
+      {"pid": "br_centro_oeste", "label": "2.583"}
+    ],
+    "rotas_soldados": [
+      {"de": "br_sao_paulo", "para": "br_sul", "qtd": 1200, "ia": "hydrogen", "naval": false},
+      {"de": "br_tocantins_go", "para": "br_centro_oeste", "qtd": 1200, "ia": "hydrogen", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["cafe e infraestrutura", "turismo ecologico"]
+  },
+  "D4": {
+    "partida": 2,
+    "turno": 6,
+    "timelapse_de": 1,
+    "manobra_tatica": "FORTALEZA",
+    "rotulo_tatico": "FORTALEZA EM RORAIMA · T6",
+    "alvos_taticos": [
+      {"pid": "br_roraima_amapa", "label": "FORTALEZA"},
+      {"pid": "ve_guayana", "label": "7.800 TROPAS"}
+    ],
+    "rotas_soldados": [
+      {"de": "br_amazonas", "para": "br_roraima_amapa", "qtd": 1000, "ia": "hydrogen", "naval": false},
+      {"de": "ve_llanos", "para": "ve_guayana", "qtd": 500, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": "br_roraima_amapa",
+    "impacto_shake": false,
+    "palavras_destaque": ["quase 8 mil tropas", "erguer fortaleza em Roraima"]
+  },
+  "D5": {
+    "partida": 2,
+    "turno": 8,
+    "timelapse_de": 6,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "1A PAZ RASGADA · 2 DE 5",
+    "alvos_taticos": [
+      {"pid": "ar_patagonia_sul", "label": "-969 · 2/5"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_magallanes", "para": "ar_patagonia_sul", "qtd": 900, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PAZ"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["Aceito a paz", "atacar Patagonia Sul"]
+  },
+  "D6": {
+    "partida": 2,
+    "turno": 9,
+    "timelapse_de": null,
+    "manobra_tatica": "FLANQUEAMENTO",
+    "rotulo_tatico": "AREQUIPA VAZIA · 0 BAIXAS",
+    "alvos_taticos": [
+      {"pid": "pe_arequipa", "label": "0 BAIXAS"}
+    ],
+    "rotas_soldados": [
+      {"de": "bo_la_paz", "para": "pe_arequipa", "qtd": 1200, "ia": "inkling", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["La Paz e Pando", "prioridade de Lima"]
+  },
+  "D7": {
+    "partida": 2,
+    "turno": 9,
+    "timelapse_de": null,
+    "manobra_tatica": "CONTRA_ATAQUE",
+    "rotulo_tatico": "MENDOZA · NOVELA CORDILHEIRA",
+    "alvos_taticos": [
+      {"pid": "ar_mendoza", "label": "MENDOZA · 5 DONOS"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_cordoba", "para": "ar_mendoza", "qtd": 1000, "ia": "sonnet", "naval": false},
+      {"de": "cl_santiago", "para": "ar_mendoza", "qtd": 500, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["novela da cordilheira", "Minas Gerais"]
+  },
+  "D8": {
+    "partida": 2,
+    "turno": 14,
+    "timelapse_de": 9,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "2A PAZ RASGADA · 3 DE 5",
+    "alvos_taticos": [
+      {"pid": "ar_noroeste", "label": "-1.537"},
+      {"pid": "ar_mendoza", "label": "-1.608"},
+      {"pid": "ar_patagonia_norte", "label": "-2.077"}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_atacama", "para": "ar_noroeste", "qtd": 1300, "ia": "ember", "naval": false},
+      {"de": "cl_santiago", "para": "ar_mendoza", "qtd": 1300, "ia": "ember", "naval": false},
+      {"de": "cl_araucania", "para": "ar_patagonia_norte", "qtd": 1300, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PAZ"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["cumprirá a paz", "declarar guerra"]
+  },
+  "D9": {
+    "partida": 2,
+    "turno": 15,
+    "timelapse_de": null,
+    "manobra_tatica": "CONTRA_ATAQUE",
+    "rotulo_tatico": "5.222 BAIXAS · RECUSADO",
+    "alvos_taticos": [
+      {"pid": "ar_noroeste", "label": "SEGUROU"},
+      {"pid": "ar_mendoza", "label": "SEGUROU"},
+      {"pid": "ar_patagonia_sul", "label": "RETOMADA"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_patagonia_norte", "para": "ar_patagonia_sul", "qtd": 420, "ia": "sonnet", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["cinco mil homens", "Recusado"]
+  },
+  "D10": {
+    "partida": 2,
+    "turno": 17,
+    "timelapse_de": 15,
+    "manobra_tatica": "FLANQUEAMENTO",
+    "rotulo_tatico": "BOLIVIA INVADE O NOROESTE",
+    "alvos_taticos": [
+      {"pid": "ar_noroeste", "label": "INVADIDA · -478"}
+    ],
+    "rotas_soldados": [
+      {"de": "bo_chaco_sucre", "para": "ar_noroeste", "qtd": 300, "ia": "inkling", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["respeitando tratados", "fragilidade"]
+  },
+  "D11": {
+    "partida": 2,
+    "turno": 19,
+    "timelapse_de": 17,
+    "manobra_tatica": "ECONOMIA",
+    "rotulo_tatico": "BRASIL ENCOSTA EM 20 MIL",
+    "alvos_taticos": [
+      {"pid": "cs_assuncao", "label": "20K TROPAS"},
+      {"pid": "ar_buenos_aires", "label": "SEGUROU"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_mendoza", "para": "ar_cordoba", "qtd": 700, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["dividimos o territorio", "20 mil soldados"]
+  },
+  "D12": {
+    "partida": 2,
+    "turno": 20,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "4A PAZ RASGADA · 4 DE 5",
+    "alvos_taticos": [
+      {"pid": "ar_cordoba", "label": "CORDOBA"},
+      {"pid": "ar_patagonia_norte", "label": "PATAGONIA N."}
+    ],
+    "rotas_soldados": [
+      {"de": "cl_araucania", "para": "ar_patagonia_norte", "qtd": 500, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PAZ"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["aceitou paz mas segue fraca", "quarta paz rasgada"]
+  },
+  "D13": {
+    "partida": 2,
+    "turno": 21,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "TRAICAO · BOGOTA CAI T21",
+    "alvos_taticos": [
+      {"pid": "co_bogota", "label": "870 DEF · QUEDA CAPITAL"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_llanos", "para": "co_bogota", "qtd": 7000, "ia": "glm", "naval": false},
+      {"de": "ve_amazonas", "para": "co_bogota", "qtd": 3600, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Venezuela", "para_pais": "Colômbia", "tipo": "PACTO"},
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["870 defensores", "trair a alianca"]
+  },
+  "D14": {
+    "partida": 2,
+    "turno": 22,
+    "timelapse_de": null,
+    "manobra_tatica": "BLITZ",
+    "rotulo_tatico": "ANTIOQUIA CAI · -5.410",
+    "alvos_taticos": [
+      {"pid": "co_andes_norte", "label": "2A CAPITAL · -5.410"}
+    ],
+    "rotas_soldados": [
+      {"de": "co_bogota", "para": "co_andes_norte", "qtd": 7000, "ia": "glm", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["revetar", "bayonetas"]
+  },
+  "D15": {
+    "partida": 2,
+    "turno": 23,
+    "timelapse_de": null,
+    "manobra_tatica": "TRAICAO_PACTO",
+    "rotulo_tatico": "5A PAZ RASGADA · 5 DE 5",
+    "alvos_taticos": [
+      {"pid": "ar_buenos_aires", "label": "782 TROPAS · 5/5"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_noroeste", "para": "cs_chaco_py", "qtd": 350, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": {"de_pais": "Chile", "para_pais": "Argentina", "tipo": "PAZ"},
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["romper a paz", "782 tropas"]
+  },
+  "D16": {
+    "partida": 2,
+    "turno": 23,
+    "timelapse_de": null,
+    "manobra_tatica": "CONTRA_ATAQUE",
+    "rotulo_tatico": "CARIBE -5.843 · BOGOTA VOLTA",
+    "alvos_taticos": [
+      {"pid": "co_caribe", "label": "-5.843 · MAIOR BATALHA"},
+      {"pid": "co_bogota", "label": "RETOMADA · -5.384"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_zulia", "para": "co_caribe", "qtd": 4000, "ia": "glm", "naval": false},
+      {"de": "co_andes_norte", "para": "co_caribe", "qtd": 3000, "ia": "glm", "naval": false},
+      {"de": "co_amazonia", "para": "co_bogota", "qtd": 8000, "ia": "deepseek", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["A queda de Bogotá", "recuperará sua capital"]
+  },
+  "D17": {
+    "partida": 2,
+    "turno": 24,
+    "timelapse_de": null,
+    "manobra_tatica": "CERCO",
+    "rotulo_tatico": "8 ONDAS · CAIU NA 9A",
+    "alvos_taticos": [
+      {"pid": "ar_buenos_aires", "label": "QUEDA DE CAPITAL · 9A ONDA"}
+    ],
+    "rotas_soldados": [
+      {"de": "ar_cordoba", "para": "ar_buenos_aires", "qtd": 900, "ia": "ember", "naval": false},
+      {"de": "ar_patagonia_norte", "para": "ar_buenos_aires", "qtd": 400, "ia": "ember", "naval": false},
+      {"de": "ar_chaco_meso", "para": "ar_buenos_aires", "qtd": 200, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["Cinco pazes assinadas", "todas as ondas"]
+  },
+  "D18": {
+    "partida": 2,
+    "turno": 24,
+    "timelapse_de": null,
+    "manobra_tatica": "ECONOMIA",
+    "rotulo_tatico": "24.269 TROPAS · CAMAROTE",
+    "alvos_taticos": [
+      {"pid": "cs_assuncao", "label": "9.052 TROPAS"},
+      {"pid": "br_tocantins_go", "label": "LIDER 16.812 PTS"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["figurinha repetida", "rindo a toa"]
+  },
+  "D19": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "DESEMBARQUE",
+    "rotulo_tatico": "41 SOLDADOS · TUDO OU NADA",
+    "alvos_taticos": [
+      {"pid": "cs_montevideu", "label": "41 TROPAS"},
+      {"pid": "ar_buenos_aires", "label": "86 DEFENSORES"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["41 tropas", "tudo ou nada"]
+  },
+  "D20": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "DESEMBARQUE",
+    "rotulo_tatico": "ELIMINADO NO TURNO 25",
+    "alvos_taticos": [
+      {"pid": "ar_buenos_aires", "label": "REPELIDO · -267"},
+      {"pid": "cs_montevideu", "label": "ELIMINADO · -161"}
+    ],
+    "rotas_soldados": [
+      {"de": "cs_montevideu", "para": "ar_buenos_aires", "qtd": 165, "ia": "sonnet", "naval": true},
+      {"de": "cs_litoral_uy", "para": "cs_montevideu", "qtd": 143, "ia": "ember", "naval": false},
+      {"de": "ar_buenos_aires", "para": "cs_montevideu", "qtd": 86, "ia": "ember", "naval": true}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["Montevideu", "ultimo ato"]
+  },
+  "D21": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "UNICA ALIANCA CUMPRIDA",
+    "alvos_taticos": [
+      {"pid": "cs_montevideu", "label": "ADEUS"},
+      {"pid": "br_tocantins_go", "label": "LEALDADE"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["cumpriu a palavra", "ninguem neste continente"]
+  },
+  "D22": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": "ECONOMIA",
+    "rotulo_tatico": "25.093 TROPAS · 0 TRAICOES",
+    "alvos_taticos": [
+      {"pid": "br_tocantins_go", "label": "CAMPEAO · 17.181 PTS"},
+      {"pid": "cs_assuncao", "label": "9.876 TROPAS"}
+    ],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": "br_roraima_amapa",
+    "impacto_shake": false,
+    "palavras_destaque": ["vinte e cinco mil", "nenhuma traicao"]
+  },
+  "E1": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "15 PROVINCIAS · 3O LUGAR",
+    "alvos_taticos": [],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": true,
+    "palavras_destaque": ["15", "17.181"]
+  },
+  "E2": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "PREMIOS DA TEMPORADA",
+    "alvos_taticos": [],
+    "rotas_soldados": [],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["GLM", "HYDROGEN", "EMBER"]
+  },
+  "E3": {
+    "partida": 2,
+    "turno": 25,
+    "timelapse_de": null,
+    "manobra_tatica": null,
+    "rotulo_tatico": "MUDOU A IA · MESMO MAPA",
+    "alvos_taticos": [
+      {"pid": "co_bogota", "label": "VENEZUELA -> BOGOTA"},
+      {"pid": "cs_montevideu", "label": "CHILE -> MONTEVIDEU"}
+    ],
+    "rotas_soldados": [
+      {"de": "ve_amazonas", "para": "co_bogota", "qtd": 850, "ia": "ember", "naval": false},
+      {"de": "ve_llanos", "para": "co_bogota", "qtd": 7000, "ia": "glm", "naval": false},
+      {"de": "ar_buenos_aires", "para": "cs_montevideu", "qtd": 5500, "ia": "glm", "naval": true},
+      {"de": "cs_litoral_uy", "para": "cs_montevideu", "qtd": 143, "ia": "ember", "naval": false}
+    ],
+    "contrato_rasgado": null,
+    "fortaleza_pid": null,
+    "impacto_shake": false,
+    "palavras_destaque": ["Bogota", "Montevideu"]
+  }
+}
