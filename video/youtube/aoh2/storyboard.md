@@ -423,7 +423,7 @@ na revanche perde a capital e retoma), **Qwen** (laranja, Colômbia → Peru, "a
 - **CITAÇÕES**:
   - **Ember** `[pensamento]` (partida 2, turno 19): “Argentina aceitou paz mas segue fraca com 1744 tropas; vou assimilar Patagonia Sul, recrutar na fronteira e declarar guerra para retomar Cordoba, Noroeste e Patagonia Norte enquanto Peru pressiona a Bolivia.”
   - **Sonnet** `[fala]` (partida 2, turno 20): “Quarta paz assinada, quarta paz rasgada pelo Chile. A Argentina nao tem mais nada para assinar com ele, so provincias para buscar.”
-- **SELO**: "4 DE 4 RASGADAS"
+- **SELO**: "4 DE 5 RASGADOS"
 - **MEME**: `mr-bean-waiting`
 - **SOM**: `sad-trombone`
 
@@ -559,7 +559,6 @@ na revanche perde a capital e retoma), **Qwen** (laranja, Colômbia → Peru, "a
   e ficou em terceiro. Gastou o exército inteiro rasgando acordo. O Hydrogen, com catorze e vinte e cinco mil soldados parados,
   levou."
 - **SELO**: "15 PROVINCIAS · 3o LUGAR"
-- **MEME**: `skeleton-waiting`
 - **SOM**: `record-scratch`, `drumroll`
 
 ## E2 — Prêmios · 21:21–21:37
@@ -593,7 +592,7 @@ na revanche perde a capital e retoma), **Qwen** (laranja, Colômbia → Peru, "a
 `lets-go` (D1), `surprised-pikachu` (D2), `sweating` (D3), `galaxy-brain` (D4), `one-eternity-later` (D5),
 `homer-bushes` (D7), `dicaprio-pointing` (D8), `gordon-ramsay-angry` (D9), `mr-bean-waiting` (D12),
 `this-is-fine` (D16), `sad-violin` (D17), `math-lady` (D18), `hello-darkness` (D20), `success-kid` (D22),
-`skeleton-waiting` (E1), `spongebob-waiting` (E2).
+`spongebob-waiting` (E2).
 
 ### Músicas (Kevin MacLeod, CC BY 4.0)
 

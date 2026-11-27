@@ -1210,7 +1210,13 @@ def render_screen_pensamento(
     fps: int = 30,
 ) -> str:
     citas = [f for f in scene.get("falas", []) if f["kind"] == "cita"]
-    c = active_fala if (active_fala and active_fala["kind"] == "cita") else (citas[0] if citas else None)
+    if active_fala and active_fala["kind"] == "cita":
+        c = active_fala
+    else:
+        # Sem citação tocando: mantém a última que já começou (antes voltava para a primeira e
+        # mostrava o pensamento de novo depois da fala, ex. B3 Qwen)
+        iniciadas = [f for f in citas if f["at"] <= local_f]
+        c = iniciadas[-1] if iniciadas else (citas[0] if citas else None)
     coreo = _resolve_scene_coreo(scene, coreo_map)
     partida = int(coreo.get("partida") or (c or {}).get("partida") or 1)
     m = matches[partida]
@@ -1294,6 +1300,20 @@ def build_frame_svg(
             scene, local_f, matches, coreo_map=coreo_map, fps=fps
         )
 
+    # Câmera viva nas telas de texto (pensamento / dois balões): zoom lento 1.00 -> 1.06 com deriva
+    # lateral e um respiro curto quando entra cada citação, para nunca ficar parado 30-45 s.
+    if tela_tipo in ("pensamento", "dois_baloes"):
+        tn = clamp(local_f / max(1, scene["dur"]), 0.0, 1.0)
+        z = 1.0 + 0.06 * tn
+        for f in scene.get("falas", []):
+            if f["kind"] == "cita" and 0 <= local_f - f["at"] < 12:
+                z += 0.015 * (1.0 - (local_f - f["at"]) / 12.0)
+        dx = -16.0 * math.sin(tn * math.pi)  # sempre menor que a margem criada pelo zoom
+        dy = -10.0 * tn
+        cx, cy = SVG_W / 2.0, SVG_H / 2.0
+        body = (f'<g transform="translate({cx + dx:.1f},{cy + dy:.1f}) scale({z:.4f}) translate({-cx:.1f},{-cy:.1f})">'
+                + body + "</g>")
+
     # Contadores de gag fixos (canto superior direito em JetBrains Mono)
     has_meme_now = any(m["at"] <= local_f < m["at"] + m["dur"] for m in scene.get("memes", []))
     body += render_gag_counters_hud(
@@ -1320,8 +1340,8 @@ def build_frame_svg(
 
     # Selos inclinados SVG posicionados em zonas seguras (sem tampar seta 165, balao ou texto)
     for s_idx, selo in enumerate(scene.get("selos", [])):
-        if scene["id"] == "C1":
-            continue  # C1 ja exibe titulo animado A REVANCHE: PAISES TROCADOS na roleta
+        if scene["id"] in ("C1", "E1", "E3"):
+            continue  # C1/E1/E3 ja têm o título na própria tela (o selo repetia e cobria o subtítulo)
         if selo["at"] <= local_f <= selo["at"] + selo["dur"]:
             prog = (local_f - selo["at"]) / max(1, selo["dur"])
             max_w: float | None = None
@@ -1342,8 +1362,9 @@ def build_frame_svg(
                 max_w = 510.0
             elif tela_tipo == "pensamento":
                 # Base do pergaminho a esquerda, longe do mini-mapa (x>=1268) e acima do meme
-                sx, sy, ang = 760.0, 874.0 - s_idx * 84.0, -3.5
-                max_w = 760.0
+                # Deslocado para a direita do meme (canto inferior esquerdo, x<=~460)
+                sx, sy, ang = 860.0, 874.0 - s_idx * 84.0, -3.5
+                max_w = 640.0
             elif tela_tipo == "dado_grande":
                 # Topo acima do numero gigante (y>=210) e longe do balao inferior (B6 4:08 / B13 7:11)
                 sx, sy, ang = 960.0, 146.0 + s_idx * 78.0, -3.0

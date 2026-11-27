@@ -305,6 +305,11 @@ def render_gag_counters_hud(
         bx = 24.0
         bw = 436.0
         y0 = 18.0
+    elif tela_tipo == "pensamento":
+        # Abaixo do painel "CHAVES DO PLANO"/mini-mapa (no topo cobria o título do painel)
+        bx = 1452.0
+        bw = 442.0
+        y0 = 1080.0 - len(items) * 44.0 - (len(items) - 1) * 8.0 - 10.0
     else:
         bx = 1452.0
         bw = 442.0
